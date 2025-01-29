@@ -54,6 +54,14 @@ provided issue-templates for the repository for the sake of consistency.
   * Make a feature request issue about adding a new issue-templates, implement the
     the template and create a PR.
 
+## Creating branches
+Branches should be named in the following format: `type/short-description` where type is one of the following:
+* `feature` - for new features
+* `bugfix` - for bug fixes
+* `invalidfix` - for refactoring, optimization, naming, etc.
+
+**ALWAYS** Create branches from issues to make sure that what is being done is actually coupled to a task that needs to be done.
+
 ## Commits
 Write your commit message in the imperative: "Fix bug" and not "Fixed
 bug" or "Fixes bug." This convention matches up with commit messages
