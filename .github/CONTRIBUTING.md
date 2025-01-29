@@ -71,6 +71,9 @@ critical to the project and needs to be deployed as soon as possible. This is ca
 ## Pull-requests
 Create a PR and fill in all the fields wrapped in brackets ([like this]) in the PR-template. To learn more about branch protection rules read [here](https://github.com/willayy/modularml/settings/rules/3452750).
 
+## Releases
+Releases are done by the repo admin weekly on Fridays before 23:59 UTC+1.
+
 ## Version names
 Version names in this project follows the rules of semantic versioning which in summary is:
 
