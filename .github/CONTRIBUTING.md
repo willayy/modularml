@@ -69,7 +69,7 @@ should be prefixed with `HOTFIX: ` and should be used for commits that are
 critical to the project and needs to be deployed as soon as possible. This is can be done on prod branches by the repo admin.
 
 ## Pull-requests
-Create a PR and fill in all the fields wrapped in brackets ([like this]) in the PR-template.
+Create a PR and fill in all the fields wrapped in brackets ([like this]) in the PR-template. To learn more about branch protection rules read [here](https://github.com/willayy/modularml/settings/rules/3452750).
 
 ## Version names
 Version names in this project follows the rules of semantic versioning which in summary is:
