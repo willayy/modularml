@@ -32,13 +32,14 @@ modularml uses Doxygen for documentation. You can read more about how to use Dox
 ## Testing
 modularml uses ctest please refer to [CMake](#build-system) for more information.
 
+# Coverage report generation
+modularml uses [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) for coverage report generation. You can read more about how to use gcov [here](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html).
+
 ## ML model weight standard
 modularml uses the [ONNX](https://onnx.ai/) format for storing ML model weights. You can read more about the ONNX format [here](https://onnx.ai/onnx/intro/).
 
 ## Version control and remote repository storage
 modularml uses [Git](https://git-scm.com/) as the version control system and [GitHub](https://docs.github.com/en) as the remote repository storage.
-
-# Workflow
 
 ## Creating issues
 When creating an issues you should always strive to use the
