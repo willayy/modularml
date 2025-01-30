@@ -31,6 +31,15 @@
 *.out
 *.app
 
+# Cmake
+/build
+/CMakeFiles
+/CMakeCache.txt
+/*.cmake
+
+# Doxygen output
+/docs/*
+
 # MacOs
 .DS_Store
 
