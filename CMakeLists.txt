@@ -98,7 +98,7 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
 
     add_custom_target(${TEST_NAME}_coverage_binary 
         ALL
-        COMMAND gcc -ftest-coverage -fprofile-arcs -o ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_coverage_binary ${TEST_SOURCE}
+        COMMAND g++ -ftest-coverage -fprofile-arcs -o ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_coverage_binary ${TEST_SOURCE}
         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_coverage_binary # Run the test to generate coverage data
     )
 
