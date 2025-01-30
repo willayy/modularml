@@ -42,20 +42,23 @@ add_executable(
 
 # Add all warning flags if build type is Debug, this could be considered pseudo linting.
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
     target_compile_options(${PROJECT_NAME} PRIVATE 
-    -Wall 
-    -Wextra 
-    -pedantic 
-    -Werror
-    -WNSObject-attribute
-    -Waddress
-    -Walloc-zero
-    -Walloca
-    -Wattributes
-    -Warray-bounds
-    -Wdeprecated
-    -Wif-not-aligned
-    -Wmissing-attributes)
+        -Wall 
+        -Wextra 
+        -pedantic 
+        -Werror
+        -WNSObject-attribute
+        -Waddress
+        -Walloc-zero
+        -Walloca
+        -Wattributes
+        -Warray-bounds
+        -Wdeprecated
+        -Wif-not-aligned
+        -Wmissing-attributes
+    )
+    
 endif()
 
 # ------------------- Testing ------------------------------ #
