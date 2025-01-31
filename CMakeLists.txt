@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(ModularML)
 
-include(CTest)
-
 set(PROJECT_NAME "modularml")
 
 # ------------------- Compiler/Standards ------------------- #
