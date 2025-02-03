@@ -14,6 +14,10 @@ build:
 	@echo "Building the project..."
 	@$(CMAKE) --build $(BUILD_DIR)
 
+# Will install dependencies
+install:
+	@echo "Not set up currently..."
+
 
 run: build
 	@echo "Running main program...\n"
