@@ -32,7 +32,7 @@ modularml uses Doxygen for documentation. You can read more about how to use Dox
 ## Testing
 modularml uses ctest please refer to [CMake](#build-system) for more information.
 
-# Coverage report generation
+## Coverage report generation
 modularml uses [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) for coverage report generation. You can read more about how to use gcov [here](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html).
 
 ## ML model weight standard
