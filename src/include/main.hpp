@@ -1,6 +1,6 @@
-#ifndef main_h
-    #define main_h
+#ifndef main_hpp
+#define main_hpp
 
-    int fun1();
+int fun1();
 
 #endif
