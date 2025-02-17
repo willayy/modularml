@@ -18,6 +18,17 @@ if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     message(WARNING "WARNING: This project recommends GCC as the compiler.")
 endif()
 
+# ------------------- Libs --------------------------------- #
+include(FetchContent)
+
+FetchContent_Declare(
+    nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.3  # Use the latest version available
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 # ------------------- Binary ------------------------------- #
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -37,6 +48,8 @@ add_executable(
     ${SOURCES} 
     ${HEADERS}
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 # Add all warning flags if build type is Debug, this could be considered pseudo linting.
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
