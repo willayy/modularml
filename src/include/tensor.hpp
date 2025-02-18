@@ -51,25 +51,24 @@ public:
   }
 
   /// @brief Abstract destructor for Tensor class.
-  virtual ~Tensor();
+  virtual ~Tensor() = 0;
 
   // Operator overloads are required to be overridden in derived classes.
-  virtual Tensor<T> operator+(const Tensor<T> &other); // NOSONAR 
+  virtual Tensor<T> operator+(const Tensor<T> &other) = 0;
 
-  virtual Tensor<T> operator-(const Tensor<T> &other); // NOSONAR
+  virtual Tensor<T> operator-(const Tensor<T> &other) = 0;
 
-  virtual Tensor<T> operator*(const Tensor<T> &other); // NOSONAR
+  virtual Tensor<T> operator*(const Tensor<T> &other) = 0;
 
-  virtual Tensor<T> operator/(const T &other); // NOSONAR
+  virtual Tensor<T> operator/(const T &other) = 0;
 
-  virtual Tensor<T> operator*(const T &other); // NOSONAR
+  virtual Tensor<T> operator*(const T &other) = 0;
 
-  virtual bool operator==(const Tensor<T> &other); // NOSONAR
+  virtual bool operator==(const Tensor<T> &other) = 0;
 
-  virtual T &operator[](std::vector<int> indices); // NOSONAR
+  virtual T &operator[](std::vector<int> indices) = 0; // For assignment
 
-  virtual const T &operator[](std::vector<int> indices) const; // NOSONAR
-
+  virtual const T &operator[](std::vector<int> indices) const = 0; // For access
 private:
   /// @brief Underlying shape data structure for the tensor.
   std::vector<int> shape;
