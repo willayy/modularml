@@ -4,9 +4,19 @@
 #include <string>
 #include <vector>
 
-/// @brief Abstract base class for a tensor object.
-/// @tparam T the type of the data contained in the tensor. E.g. int, float,
-/// double etc.
+/*!
+    @brief Abstract base class for an object representing a Tensor.
+    @details A tensor is a multi-dimensional array of data.
+    This class is a base class for all Tensor implementations within the
+    ModularML library. ModularML support is intened to be used with arithmetic
+    operators:
+    - Addition (+), Tensor-Tensor only
+    - Subtraction (-), Tensor-Tensor only
+    - Multiplication (*), Tensor-Tensor and Tensor-Scalar
+    - Division (/), Tensor-Scalar only
+    @tparam T the type of the data contained in the tensor. E.g. int, float,
+    double etc.
+*/
 template <typename T> class Tensor {
 public:
   /// @brief Construct a new Tensor object.
@@ -40,27 +50,25 @@ public:
     return shape_str;
   }
 
-  /// @brief Get value at some index.
-  /// @param indices a tensor index, e.g. [0, 1, 2]
-  /// @return a value of type T
-  virtual T get(std::vector<int> indices) = 0;
-
-  /// @brief Set value at some index.
-  /// @param indices a tensor index, e.g. [0, 1, 2]
-  /// @param value a value to set of type T, e.g. 3.14 for float or 42 for int
-  virtual void set(std::vector<int> indices, T value) = 0;
-
   /// @brief Abstract destructor for Tensor class.
   virtual ~Tensor();
 
   // Operator overloads are required to be overridden in derived classes.
-  virtual Tensor<T> operator+(const Tensor<T> &other); // NOSONAR
+  virtual Tensor<T> operator+(const Tensor<T> &other); // NOSONAR 
 
   virtual Tensor<T> operator-(const Tensor<T> &other); // NOSONAR
 
   virtual Tensor<T> operator*(const Tensor<T> &other); // NOSONAR
 
+  virtual Tensor<T> operator/(const T &other); // NOSONAR
+
+  virtual Tensor<T> operator*(const T &other); // NOSONAR
+
   virtual bool operator==(const Tensor<T> &other); // NOSONAR
+
+  virtual T &operator[](std::vector<int> indices); // NOSONAR
+
+  virtual const T &operator[](std::vector<int> indices) const; // NOSONAR
 
 private:
   /// @brief Underlying shape data structure for the tensor.
