@@ -1,7 +1,7 @@
 #ifndef A_TENSOR_FUNC_HPP
 #define A_TENSOR_FUNC_HPP
 
-#include "tensor.hpp"
+#include "a_tensor.hpp"
 
 /**
  * @class TensorFunction
