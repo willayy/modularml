@@ -19,9 +19,9 @@ install:
 	@echo "Not set up currently..."
 
 
-run: build
+run:
 	@echo "Running main program...\n"
-	@$(cd ./build/bin && ./modularml)
+	@cd ./build/bin && ./modularml
 
 
 clean:
