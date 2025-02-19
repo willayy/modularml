@@ -1,5 +1,5 @@
-#ifndef main_hpp
-#define main_hpp
+#ifndef MAIN_HPP
+#define MAIN_HPP
 
 int fun1();
 
