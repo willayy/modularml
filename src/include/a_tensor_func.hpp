@@ -1,5 +1,4 @@
-#ifndef A_TENSOR_FUNC_HPP
-#define A_TENSOR_FUNC_HPP
+#pragma once
 
 #include "a_tensor.hpp"
 
@@ -13,33 +12,31 @@
 
 /// @brief Abstract TensorFunction class/type.
 /// @tparam T the type of the data contained in the tensor. E.g. int, float,
-template <typename T>
-class TensorFunction {
+template <typename T> class TensorFunction {
 public:
-    /// @brief Default constructor for TensorFunction.
-    explicit TensorFunction() = default;
+  /// @brief Default constructor for TensorFunction.
+  explicit TensorFunction() = default;
 
-    /// @brief Virtual destructor for TensorFunction.
-    /// @details Ensures derived class destructors are called properly.
-    virtual ~TensorFunction() = default;
+  /// @brief Virtual destructor for TensorFunction.
+  /// @details Ensures derived class destructors are called properly.
+  virtual ~TensorFunction() = default;
 
-    // To be implemented by derived classes:
+  // To be implemented by derived classes:
 
-    /// @brief Apply func to the tensor.
-    /// @param t the tensor to apply the function to.   
-    /// @return the tensor after applying the function. 
-    virtual Tensor<T> func(const Tensor<T>& t) const = 0;
+  /// @brief Apply func to the tensor.
+  /// @param t the tensor to apply the function to.
+  /// @return the tensor after applying the function.
+  virtual Tensor<T> func(const Tensor<T> &t) const = 0;
 
-    /// @brief Apply the derivative of the function to the tensor.
-    /// @param t the tensor to apply the function to.
-    /// @return the tensor after applying the derivative of the function.
-    virtual Tensor<T> derivative(const Tensor<T>& t) const = 0;
+  /// @brief Apply the derivative of the function to the tensor.
+  /// @param t the tensor to apply the function to.
+  /// @return the tensor after applying the derivative of the function.
+  virtual Tensor<T> derivative(const Tensor<T> &t) const = 0;
 
-    /// @brief Apply the primitive of the function to the tensor.
-    /// @details The indefinite integral of the function applied element-wise to the tensor
-    /// @param t the tensor to apply the function to.
-    /// @return the tensor after applying the primitive of the function.
-    virtual Tensor<T> primitive(const Tensor<T>& t) const = 0;
+  /// @brief Apply the primitive of the function to the tensor.
+  /// @details The indefinite integral of the function applied element-wise to
+  /// the tensor
+  /// @param t the tensor to apply the function to.
+  /// @return the tensor after applying the primitive of the function.
+  virtual Tensor<T> primitive(const Tensor<T> &t) const = 0;
 };
-
-#endif
