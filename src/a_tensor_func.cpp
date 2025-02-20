@@ -10,19 +10,19 @@
 class ExampleTensorFunction : public TensorFunction<float> {
 public:
     // Implement the function
-    virtual Tensor<float> func(const Tensor<float>& t) const override {
+    virtual Tensor<float>& func(Tensor<float>& t) const override {
         // Implement the function here
         return t;
     }
 
     // Implement the derivative
-    virtual Tensor<float> derivative(const Tensor<float>& t) const override {
+    virtual Tensor<float>& derivative(Tensor<float>& t) const override {
         // Implement the derivative here
         return t;
     }
 
     // Implement the primitive
-    virtual Tensor<float> primitive(const Tensor<float>& t) const override {
+    virtual Tensor<float>& primitive(Tensor<float>& t) const override {
         // Implement the primitive here
         return t;
     }
