@@ -42,6 +42,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src/include)
 # Glob all source files
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
+# Dependency directory
+set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+
 # Add executable
 add_executable(
     ${PROJECT_NAME}
@@ -144,6 +147,9 @@ set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
 # Make doxygen extract all comments
 set(DOXYGEN_EXTRACT_ALL YES)
 
+# Exlclude libraries from doxygen
+set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
+
 # Use convenience function to add doxygen docs
 doxygen_add_docs(
     ${PROJECT_NAME}_docs
@@ -151,4 +157,3 @@ doxygen_add_docs(
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Generate Doxygen documentation"
 )
-
