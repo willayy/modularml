@@ -1,5 +1,4 @@
 #include "a_tensor_func.hpp"
-#include <memory>
 
 /**
  * @class ExampleTensorFunction
@@ -30,6 +29,6 @@ public:
 };
 
 // Factory function for creating an instance, not 100% sure if we want to keep this
-std::unique_ptr<TensorFunction<float>> create_example_tensor_function() {
-    return std::make_unique<ExampleTensorFunction>();
+TensorFunction<float>* create_example_tensor_function() {
+    return new ExampleTensorFunction();
 }
