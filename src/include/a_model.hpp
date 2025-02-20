@@ -20,6 +20,7 @@ class Model {
 protected:
 
     /// @brief Dynamic array of Layers
+    /// @details Structure to be defined for each derived model
     std::vector<Layer> layers;
 
 public:
@@ -35,5 +36,9 @@ public:
     /// @param t Input data
     /// @return Predicted data
     virtual Tensor<T> infer(const Tensor<T>& t) const = 0;
+
+    /// @brief Print overview of model
+    /// @details Visualize the model in the command line. Structure might vary depending on model
+    virtual void print() const = 0;
 
 };
