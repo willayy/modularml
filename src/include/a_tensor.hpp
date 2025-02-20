@@ -30,14 +30,14 @@ public:
 
   /// @brief Get the shape of the tensor.
   /// @return a vector of integers representing the shape.
-  const std::vector<int> &get_shape() {
+  const std::vector<int> &getShape() {
     // implemented here because its a template class
     return this.shape;
   }
 
   /// @brief Get the shape as a string. E.g. [2, 3, 4].
   /// @return a string representation of the shape.
-  std::string get_shape_str() {
+  std::string getShapeStr() {
     std::string shape_str = "[";
     for (int i = 0; i < this.shape.size(); i++) {
       // implemented here because its a template class
