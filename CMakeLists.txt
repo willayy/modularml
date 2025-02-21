@@ -29,6 +29,17 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(nlohmann_json)
 
+# Fetches onnx
+FetchContent_Declare(
+    onnx
+    GIT_REPOSITORY https://github.com/onnx/onnx.git
+    GIT_TAG main # or a stable release like v1.15.0
+)
+FetchContent_MakeAvailable(onnx)
+
+# ------------------- Onnx ------------------------------- #
+set(ONNX_PROTO ${onnx_SOURCE_DIR}/onnx/onnx.proto)
+
 # ------------------- Binary ------------------------------- #
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
