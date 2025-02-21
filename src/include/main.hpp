@@ -1,6 +1,3 @@
-#ifndef main_hpp
-#define main_hpp
+#pragma once
 
 int fun1();
-
-#endif
