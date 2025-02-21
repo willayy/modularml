@@ -1,5 +1,4 @@
-#ifndef TENSOR_HPP
-#define TENSOR_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -73,5 +72,3 @@ private:
   /// @brief Underlying shape data structure for the tensor.
   std::vector<int> shape;
 };
-
-#endif // TENSOR_HPP
