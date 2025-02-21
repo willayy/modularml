@@ -22,7 +22,7 @@ public:
 
     /// @brief Virtual destructor for TensorFunction.
     /// @details Ensures derived class destructors are called properly.
-    ~TensorFunction() = default;
+    virtual ~TensorFunction() = default;
 
     // To be implemented by derived classes:
 
