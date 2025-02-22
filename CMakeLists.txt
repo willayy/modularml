@@ -116,7 +116,12 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
         COMMAND ${TEST_NAME}
     )
 
-ENDFOREACH()
+    # Run the tests after building
+    add_custom_command(
+        TARGET ${TEST_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_BINARY_DIR}/bin/${TEST_NAME}
+    )
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
