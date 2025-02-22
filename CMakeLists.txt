@@ -144,6 +144,8 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
 
 ENDFOREACH()
 
+# ------------------- Coverage (gcovr) ---------------------- #
+
 # Create coverage target
 add_custom_target(coverage_report
     ALL
