@@ -107,6 +107,9 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
         ${TEST_SOURCE}
     )
 
+    target_compile_options(${TEST_NAME} PRIVATE -fprofile-arcs -ftest-coverage -fPIC -O0)
+    target_link_options(${TEST_NAME} PRIVATE -fprofile-arcs -ftest-coverage -fPIC -O0)
+
     # Add the test to CTest
     add_test(
         NAME ${TEST_NAME}
