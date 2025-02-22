@@ -57,7 +57,7 @@ def onnx_to_json(path: str):
                             "name": initializer.name,
                             "shape": [dim for dim in initializer.dims],
                             "data_type": onnx.TensorProto.DataType.Name(initializer.data_type),
-                            "values": convert_initializer(initializer)  # Store raw values (you might want to handle this differently)
+                            "values": convert_initializer(initializer)
                         }
                         for inp in node.input if inp in initializers_dict
                         for initializer in [initializers_dict[inp]]
