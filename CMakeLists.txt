@@ -73,7 +73,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         -Wextra 
         -pedantic 
         -Werror
-        -WNSObject-attribute
+        -Wnon-virtual-dtor
         -Waddress
         -Walloc-zero
         -Walloca
