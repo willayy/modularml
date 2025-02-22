@@ -130,8 +130,8 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/CMakeFiles/${TEST_NAME}.dir/tests ${CMAKE_BINARY_DIR}/coverage_data/
     )
 
-# Create binaries with coverage flags
-FOREACH(TEST_SOURCE ${TEST_SOURCES})
+    # Link the test executable with the main project executable
+    target_link_libraries(${TEST_NAME} PUBLIC ${PROJECT_NAME})
 
     # Get the name of the test
     get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
