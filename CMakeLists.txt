@@ -123,7 +123,12 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
         COMMAND ${CMAKE_BINARY_DIR}/bin/${TEST_NAME}
     )
 
-# ------------------- Coverage (gcovr) ---------------------- #
+    # Copy the coverage files to the binary directory
+    add_custom_command(
+        TARGET ${TEST_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/CMakeFiles/${TEST_NAME}.dir/tests ${CMAKE_BINARY_DIR}/coverage_data/
+    )
 
 # Create binaries with coverage flags
 FOREACH(TEST_SOURCE ${TEST_SOURCES})
