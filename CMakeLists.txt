@@ -149,7 +149,7 @@ ENDFOREACH()
 # Create coverage target
 add_custom_target(coverage_report
     ALL
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND gcovr -r ${CMAKE_BINARY_DIR}/coverage_data --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
     COMMENT "Generating coverage report"
 )
 
