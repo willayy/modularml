@@ -94,7 +94,7 @@ enable_testing()
 set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
 
 # Get all test source files
-file(GLOB TEST_SOURCES "${CMAKE_SOURCE_DIR}/tests/*.cpp")
+file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
 
 # Create all tests
 FOREACH(TEST_SOURCE ${TEST_SOURCES})
