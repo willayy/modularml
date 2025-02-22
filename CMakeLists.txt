@@ -63,7 +63,7 @@ add_library(
     ${HEADERS}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 
 # Add all warning flags if build type is Debug, this could be considered pseudo linting.
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
