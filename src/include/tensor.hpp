@@ -30,8 +30,7 @@ class Tensor {
       @param data Unique pointer to the data structure used to store the tensor data.
       @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
   */
-  Tensor(u_p<DataStructure<T>> data, u_p<ArithmeticModule<T>> am)
-      : data(std::move(data)), am(std::move(am)) {}
+  Tensor(DataStructure<T> *data, ArithmeticModule<T> *am) : data(data), am(am) {}
 
   /*!
       @brief Destructor for Tensor class.
@@ -127,9 +126,9 @@ class Tensor {
 
  private:
   /// @brief Underlying data structure for the tensor.
-  u_p<DataStructure<T>> data;
+  DataStructure<T> *data;
 
   /// @brief Underlying arithmetic module for the tensor.
-  u_p<ArithmeticModule<T>> am;
+  ArithmeticModule<T> *am;
 };
 ;
