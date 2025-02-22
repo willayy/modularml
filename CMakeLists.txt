@@ -133,15 +133,6 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
     # Link the test executable with the main project executable
     target_link_libraries(${TEST_NAME} PUBLIC ${PROJECT_NAME})
 
-    # Get the name of the test
-    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
-
-    add_custom_target(${TEST_NAME}_coverage_binary 
-        ALL
-        COMMAND g++ -ftest-coverage -fprofile-arcs -o ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_coverage_binary ${TEST_SOURCE}
-        COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_coverage_binary # Run the test to generate coverage data
-    )
-
 ENDFOREACH()
 
 # ------------------- Coverage (gcovr) ---------------------- #
@@ -153,7 +144,6 @@ add_custom_target(coverage_report
     COMMENT "Generating coverage report"
 )
 
-# coverage_report depends on all the coverage binaries
 FOREACH(TEST_SOURCE ${TEST_SOURCES})
     # Get the name of the test
     get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
