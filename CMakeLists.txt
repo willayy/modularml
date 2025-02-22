@@ -34,6 +34,7 @@ set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
 
+# Binary output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # glob all header files
