@@ -47,7 +47,7 @@ set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
 # include the headers
-include_directories(${CMAKE_SOURCE_DIR}/src/include)
+include_directories(${INCLUDE_DIR})
 
 # Glob all source files
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
