@@ -1,9 +1,7 @@
 #pragma once
 
+#include <memory>
 #include <numeric>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 #include "a_arithmetic_module.hpp"
 #include "a_data_structure.hpp"
@@ -29,10 +27,11 @@ class Tensor {
  public:
   /*!
       @brief Constructor for Tensor class.
-      @param data Pointer to the data structure used to store the tensor data.
-      @param am Pointer to the arithmetic module used to perform operations on the tensor data.
+      @param data Unique pointer to the data structure used to store the tensor data.
+      @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
   */
-  Tensor(DataStructure<T> *data, ArithmeticModule<T> *am) : data(data), am(am) {}
+  Tensor(u_p<DataStructure<T>> data, u_p<ArithmeticModule<T>> am)
+      : data(std::move(data)), am(std::move(am)) {}
 
   /*!
       @brief Destructor for Tensor class.
@@ -128,8 +127,9 @@ class Tensor {
 
  private:
   /// @brief Underlying data structure for the tensor.
-  DataStructure<T> *data;
+  u_p<DataStructure<T>> data;
 
   /// @brief Underlying arithmetic module for the tensor.
-  ArithmeticModule<T> *am;
+  u_p<ArithmeticModule<T>> am;
 };
+;
