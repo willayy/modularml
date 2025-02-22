@@ -56,9 +56,10 @@ file(GLOB SOURCES ${SRC_DIR}/*.cpp)
 file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
 
 # Add executable
-add_executable(
+add_library(
     ${PROJECT_NAME}
-    ${SOURCES} 
+    STATIC
+    ${SOURCES}
     ${HEADERS}
 )
 
