@@ -155,11 +155,11 @@ add_custom_target(coverage_report
 
 # coverage_report depends on all the coverage binaries
 FOREACH(TEST_SOURCE ${TEST_SOURCES})
-
+    # Get the name of the test
     get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
 
-    add_dependencies(coverage_report ${TEST_NAME}_coverage_binary)
-
+    # Add dependencies to the coverage report
+    add_dependencies(coverage_report ${TEST_NAME})
 ENDFOREACH()
 
 # ------------------- Doxygen ------------------------------- #
