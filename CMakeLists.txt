@@ -37,8 +37,14 @@ set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 # Binary output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# glob all header files
-file(GLOB HEADERS "${CMAKE_SOURCE_DIR}src/include/*.h")
+# Library output directory
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# The header file directory
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
+
+# The source code directory
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
 # include the headers
 include_directories(${CMAKE_SOURCE_DIR}/src/include)
