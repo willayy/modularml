@@ -50,7 +50,7 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB SOURCES ${SRC_DIR}/*.cpp)
 
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
