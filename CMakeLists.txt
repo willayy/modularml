@@ -52,8 +52,8 @@ include_directories(${INCLUDE_DIR})
 # Glob all source files
 file(GLOB SOURCES ${SRC_DIR}/*.cpp)
 
-# Dependency directory
-set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+# Glob all header files
+file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
 
 # Add executable
 add_executable(
