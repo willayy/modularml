@@ -91,6 +91,8 @@ endif()
 # Enable testing with CTest
 enable_testing()
 
+set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
+
 # Get all test source files
 file(GLOB TEST_SOURCES "${CMAKE_SOURCE_DIR}/tests/*.cpp")
 
