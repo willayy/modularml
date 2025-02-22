@@ -14,8 +14,8 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
-if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    message(WARNING "WARNING: This project recommends GCC as the compiler.")
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+    message(WARNING "WARNING: This project recommends GCC or Clang as the compiler.")
 endif()
 
 # ------------------- Libs --------------------------------- #
