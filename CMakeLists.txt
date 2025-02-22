@@ -29,6 +29,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(nlohmann_json)
 
+# Dependency directory
+set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+
 # ------------------- Binary ------------------------------- #
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
