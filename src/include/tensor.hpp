@@ -30,7 +30,7 @@ class Tensor {
       @param data Unique pointer to the data structure used to store the tensor data.
       @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
   */
-  Tensor(DataStructure<T> *data, ArithmeticModule<T> *am) : data(data), am(am) {}
+  Tensor(DataStructure<T> *data, const ArithmeticModule<T> *am) : data(data), am(am) {}
 
   /*!
       @brief Destructor for Tensor class.
