@@ -1,5 +1,4 @@
-#ifndef A_TENSOR_FUNC_HPP
-#define A_TENSOR_FUNC_HPP
+#pragma once
 
 #include "a_tensor.hpp"
 
@@ -41,5 +40,3 @@ public:
     /// @return the tensor after applying the primitive of the function.
     virtual Tensor<T> primitive(const Tensor<T>& t) const = 0;
 };
-
-#endif
