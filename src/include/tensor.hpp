@@ -147,6 +147,6 @@ class Tensor {
   DataStructure<T> *data;
 
   /// @brief Underlying arithmetic module for the tensor.
-  ArithmeticModule<T> *am;
+  const ArithmeticModule<T> *am;
 };
 ;
