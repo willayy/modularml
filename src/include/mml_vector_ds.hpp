@@ -1,5 +1,6 @@
 #pragma once
 #include <numeric>
+#include <stdexcept>
 
 #include "a_data_structure.hpp"
 #include "globals.hpp"
@@ -32,20 +33,11 @@ class Vector_mml : public DataStructure<T> {
     return this->shape;
   }
 
-  bool equals(const DataStructure<T>& other) const override {
-    if (bool same_shape = this->get_shape() == other.get_shape(); !same_shape) {
-      return false;
-    }
-    const int size = static_cast<int>(this->get_size());
-    for (int i = 0; i < size; i++) {
-      if (this->data[i] != other.get({i})) {
-      return false;
-      }
-    }
-    return true;
+  const vec<T>& get_raw_data() const override {
+    return this->data;
   }
 
-  int get_size() const override {
+  int get_data_size() const override {
     return this->data.size();
   }
 
@@ -53,12 +45,20 @@ class Vector_mml : public DataStructure<T> {
     return "[" + std::to_string(this->data.size()) + "]";
   }
 
-  T get(const vec<int>& indices) const override {
-    return this->data[index_with_offset(indices)];
+  const T& get_elem(vec<int> indices) const override {
+    if (!valid_index(indices)) {
+      throw std::out_of_range("Invalid index");
+    } else {
+      return this->data[index_with_offset(indices)];
+    }
   }
 
-  void set(const vec<int>& indices, T value) override {
-    this->data[index_with_offset(indices)] = value;
+  T& get_mutable_elem(vec<int> indices) override {
+    if (!valid_index(indices)) {
+      throw std::out_of_range("Invalid index");
+    } else {
+      return this->data[index_with_offset(indices)];
+    }
   }
 
  private:
