@@ -1,9 +1,6 @@
-#include <nlohmann/json.hpp>
+#pragma once
 
-#ifndef Data_hpp
-#define Data_hpp
+#include <nlohmann/json.hpp>
 
 // Simple alias for nlohmann::json type
 using Data = nlohmann::json;
-
-#endif
