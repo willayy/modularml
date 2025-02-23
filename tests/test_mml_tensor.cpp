@@ -3,7 +3,7 @@
 #include <random>
 #include <vector>
 #include <numeric>
-#include <modularml.hpp>
+#include <modularml>
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \
@@ -51,7 +51,7 @@ int main() {
 
   // Test adding two tensors
   Tensor<float> tt = t1 + t0;
-  assert_msg("Tensor addition test", tt == t1);
+  assert_msg("Tensor addition test", tt == t1)
 
   // Test subtracting two tensors
   tt = t1 - t0;

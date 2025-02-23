@@ -55,7 +55,7 @@ file(GLOB SOURCES ${SRC_DIR}/*.cpp)
 # Glob all header files
 file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
 
-# Add executable
+# Add library
 add_library(
     ${PROJECT_NAME}
     STATIC
@@ -85,6 +85,15 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     )
     
 endif()
+
+# ------------------- Coverage (gcovr) ---------------------- #
+
+# Create coverage target
+add_custom_target(coverage_report
+    ALL
+    COMMAND gcovr -r ${CMAKE_BINARY_DIR}/coverage_data --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMENT "Generating coverage report"
+)
 
 # ------------------- Testing ------------------------------ #
 
@@ -133,21 +142,6 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
     # Link the test executable with the main project executable
     target_link_libraries(${TEST_NAME} PUBLIC ${PROJECT_NAME})
 
-ENDFOREACH()
-
-# ------------------- Coverage (gcovr) ---------------------- #
-
-# Create coverage target
-add_custom_target(coverage_report
-    ALL
-    COMMAND gcovr -r ${CMAKE_BINARY_DIR}/coverage_data --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
-    COMMENT "Generating coverage report"
-)
-
-FOREACH(TEST_SOURCE ${TEST_SOURCES})
-    # Get the name of the test
-    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
-
     # Add dependencies to the coverage report
     add_dependencies(coverage_report ${TEST_NAME})
 ENDFOREACH()
@@ -165,7 +159,7 @@ set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
 # Make doxygen extract all comments
 set(DOXYGEN_EXTRACT_ALL YES)
 
-# Exlclude libraries from doxygen
+# Exclude libraries from doxygen
 set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 
 # Use convenience function to add doxygen docs
