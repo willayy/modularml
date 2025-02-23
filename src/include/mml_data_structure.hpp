@@ -36,6 +36,8 @@ class MML_DataStructure : public DataStructure<T>
 
     void set(const vec<int> &indices, T value) override;
 
+    void set(const int index, T value) override;
+
 
   private:
     std::vector<int> shape;
