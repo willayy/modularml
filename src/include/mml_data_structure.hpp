@@ -40,5 +40,11 @@ class MML_DataStructure : public DataStructure<T>
   private:
     std::vector<int> shape;
     std::vector<T> data;
+
+    /**
+     * @brief Given the indices and the shape of the data structure calculates the offset that the indices represent.
+     * @param indices A vector of integers that each represent a direction in a diemension.
+     */
+    int calc_offset(const vec<int> &indices) const;
     
 }; 
