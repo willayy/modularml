@@ -1,4 +1,5 @@
-#include "globals.h"
+#pragma once
+
 #include "a_data_structure.hpp"
 
 template <typename T>
