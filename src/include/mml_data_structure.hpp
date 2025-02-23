@@ -24,7 +24,7 @@ class MML_DataStructure : public DataStructure<T>
     
     void set_zero() override;
 
-    const vec<int> &get_shape() const override;
+    const vec<int> get_shape() const override;
 
     const string get_shape_str() const override;
     
