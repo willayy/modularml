@@ -46,6 +46,16 @@ void MML_DataStructure<T>::set(const vec<int>& indices, T value)
 }
 
 template <typename T>
+void MML_DataStructure<T>::set(const int index, T value)
+{
+    if (indices.size() == 0) throw std::invalid_argument("Invalid indices");
+    if (indices.size() != this->shape.size()) throw std::invalid_argument("The diemensions of the indices does not match with the data structure");
+
+    this->data[index] = value;
+}
+
+
+template <typename T>
 void MML_DataStructure<T>::set_data(const vec<T> new_data)
 {
     if (this->get_size() != data.size()) throw std::invalid_argument("The size of the data provided mismatch with the size of the data structure");
