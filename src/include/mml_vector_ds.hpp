@@ -66,11 +66,30 @@ class Vector_mml : public DataStructure<T> {
   vec<int> shape;
   vec<int> offsets;
 
-  int index_with_offset(vec<int> indices) const {
-    int index = 0;
-    const int size = static_cast<int>(this->get_size());
+  /// @brief Check if the indices are valid. size of indices should be equal to the size of the shape. all elements of indices should be less than the corresponding element of the shape and greater than or equal to 0.
+  /// @param indices The indices to check.
+  /// @return True if the indices are valid, false otherwise.
+  bool valid_index(const vec<int>& indices) const {
+    if (indices.size() != this->shape.size()) {
+      return false;
+    }
+    const int size = static_cast<int>(shape.size());
     for (int i = 0; i < size; i++) {
-      index += indices[i] * this->offsets[i];
+      if (!(indices[i] < this->shape[i] && indices[i] >= 0)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// @brief Calculates the index of an element in the flat vector containing the data.
+  /// @param indices The indices to get the index for.
+  /// @return The index.
+  int index_with_offset(vec<int> indices) const {
+    auto index = 0;
+    const auto size = static_cast<int>(shape.size());
+    for (int i = 0; i < size; i++) {
+      index += (indices[i]) * this->offsets[i];
     }
     return index;
   }
@@ -78,9 +97,10 @@ class Vector_mml : public DataStructure<T> {
   /// @brief Row-major offsets for the data structure.
   /// @return a vector of integers representing the offsets.
   vec<int> compute_offsets() const {
-    auto computed_offsets = vec<int>(this->shape.size(), 1);
-    for (int i = this->shape.size() - 2; i >= 0; i--) {
-      computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1];
+    const int size = static_cast<int>(shape.size());
+    auto computed_offsets = vec<int>(size, 1);
+    for (int i = size - 2; i >= 0; i--) {
+      computed_offsets[i] = computed_offsets[i + 1] * this->shape[i];
     }
     return computed_offsets;
   }
