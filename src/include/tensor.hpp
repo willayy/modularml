@@ -62,8 +62,8 @@ class Tensor {
       @return The result of adding the two tensors.
   */
   Tensor<T> operator+(const Tensor<T> &other) const {
-    this->am->add(this->data, other.data);
-    return *this;
+    DataStructure<T> *ds = am->add(this->data, other.data);
+    return Tensor<T>(ds, am);
   }
 
   /*!
@@ -72,8 +72,8 @@ class Tensor {
       @return The result of subtracting the other tensor from this tensor.
   */
   Tensor<T> operator-(const Tensor<T> &other) const {
-    this->am->subtract(this->data, other.data);
-    return *this;
+    DataStructure<T> *ds = am->subtract(this->data, other.data);
+    return Tensor<T>(ds, am);
   }
 
   /*!
@@ -82,8 +82,8 @@ class Tensor {
       @return The result of multiplying the two tensors.
   */
   Tensor<T> operator*(const Tensor<T> &other) const {
-    this->am->multiply(this->data, other.data);
-    return *this;
+    DataStructure<T> *ds = am->multiply(this->data, other.data);
+    return Tensor<T>(ds, am);
   }
 
   /*!
@@ -92,8 +92,8 @@ class Tensor {
       @return The result of multiplying the tensor by the scalar.
   */
   Tensor<T> operator*(const T &scalar) const {
-    this->am->multiply(this->data, scalar);
-    return *this;
+    DataStructure<T> *ds = am->multiply(this->data, scalar);
+    return Tensor<T>(ds, am);
   }
 
   /*!
@@ -102,8 +102,8 @@ class Tensor {
       @return The result of dividing the tensor by the scalar.
   */
   Tensor<T> operator/(const T &scalar) const {
-    this->am->divide(this->data, scalar);
-    return *this;
+    DataStructure<T> *ds = am->divide(this->data, scalar);
+    return Tensor<T>(ds, am);
   }
 
   /*!
@@ -112,7 +112,7 @@ class Tensor {
       @return True if the tensors are equal, false otherwise.
   */
   bool operator==(const Tensor<T> &other) const {
-    return this->am->equal(this->data, other.data);
+    return this->am->equals(this->data, other.data);
   }
 
   /*!
@@ -121,7 +121,25 @@ class Tensor {
       @return True if the tensors are not equal, false otherwise.
   */
   bool operator!=(const Tensor<T> &other) const {
-    return !this->am->equal(this->data, other.data);
+    return !this->am->equals(this->data, other.data);
+  }
+
+  /*!
+      @brief Get an element from the tensor.
+      @param indices A vector of integers representing the indices of the element.
+      @return The element at the given indices.
+  */
+  const T &operator[](vec<int> indices) const {
+    return this.data->get_elem(indices);
+  }
+
+  /*!
+      @brief Set an element in the tensor.
+      @param indices A vector of integers representing the indices of the element.
+      @return The tensor with the element get_mutable_elem.
+  */
+  T &operator[](vec<int> indices) {
+    return this->data->get_mutable_elem(indices);
   }
 
  private:
