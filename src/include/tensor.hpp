@@ -36,7 +36,7 @@ class Tensor {
   /*!
       @brief Move constructor.
   */
-  Tensor(Tensor &&other) noexcept 
+  Tensor(Tensor &&other) noexcept
       : data(std::move(other.data)), am(std::move(other.am)) {}
 
   /*!
@@ -56,15 +56,15 @@ class Tensor {
       @brief Get the shape of the tensor.
       @return A vector of integers representing the shape.
   */
-  vec<int> get_shape() {
+  Vec<int> get_shape() {
     return this->data->get_shape();
   }
 
   /*!
-      @brief Get the shape as a string.
-      @return A string representation of the shape. E.g. [2, 3, 4].
+      @brief Get the shape as a String.
+      @return A String representation of the shape. E.g. [2, 3, 4].
   */
-  std::string get_shape_str() const {
+  String get_shape_str() const {
     return this->data->get_shape_str();
   }
 
@@ -171,7 +171,7 @@ class Tensor {
       @param indices A vector of integers representing the indices of the element.
       @return The element at the given indices.
   */
-  const T &operator[](vec<int> indices) const {
+  const T &operator[](Vec<int> indices) const {
     return this->data->get_elem(indices);
   }
 
@@ -180,7 +180,7 @@ class Tensor {
       @param indices A vector of integers representing the indices of the element.
       @return The tensor with the element get_mutable_elem.
   */
-  T &operator[](vec<int> indices) {
+  T &operator[](Vec<int> indices) {
     return this->data->get_mutable_elem(indices);
   }
 

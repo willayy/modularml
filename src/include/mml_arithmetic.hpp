@@ -21,7 +21,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
   std::unique_ptr<DataStructure<float>> add(const std::unique_ptr<DataStructure<float>> a, const std::unique_ptr<DataStructure<float>> b) const override {
     const auto& a_raw = a->get_raw_data();
     const auto& b_raw = b->get_raw_data();
-    auto res_raw = vec<float>(a->get_data_size(), 0);
+    auto res_raw = Vec<float>(a->get_data_size(), 0);
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] + b_raw[i];
     }
@@ -31,7 +31,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
   std::unique_ptr<DataStructure<float>> subtract(const std::unique_ptr<DataStructure<float>> a, const std::unique_ptr<DataStructure<float>> b) const override {
     const auto& a_raw = a->get_raw_data();
     const auto& b_raw = b->get_raw_data();
-    auto res_raw = vec<float>(a->get_data_size(), 0);
+    auto res_raw = Vec<float>(a->get_data_size(), 0);
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] - b_raw[i];
     }
@@ -45,7 +45,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
 
   std::unique_ptr<DataStructure<float>> multiply(const std::unique_ptr<DataStructure<float>> a, const float b) const override {
     const auto& a_raw = a->get_raw_data();
-    auto res_raw = vec<float>(a->get_data_size(), 0);
+    auto res_raw = Vec<float>(a->get_data_size(), 0);
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] * b;
     }
@@ -54,7 +54,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
 
   std::unique_ptr<DataStructure<float>> divide(const std::unique_ptr<DataStructure<float>> a, const float b) const override {
     const auto& a_raw = a->get_raw_data();
-    auto res_raw = vec<float>(a->get_data_size(), 0);
+    auto res_raw = Vec<float>(a->get_data_size(), 0);
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] / b;
     }

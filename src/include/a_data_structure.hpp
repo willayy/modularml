@@ -15,28 +15,28 @@ class DataStructure {
   DataStructure() = default;
 
   /// @brief Copy constructor for DataStructure class.
-  DataStructure(const DataStructure &other) = default;
+  DataStructure(const DataStructure& other) = default;
 
   /// @brief Move constructor for DataStructure class.
-  DataStructure(DataStructure &&other) noexcept = default;
+  DataStructure(DataStructure&& other) noexcept = default;
 
   /// @brief Abstract destructor for DataStructure class.
   virtual ~DataStructure() = default;
 
   /// @brief Set the data of the data structure.
   /// @param data a vector of data to get_mutable_elem in the data structure.
-  virtual void set_data(const vec<T> data) = 0;
+  virtual void set_data(const Vec<T> data) = 0;
 
   /// @brief Set all elements in the data structure to zero.
   virtual void set_zero() = 0;
 
   /// @brief Get the shape of the data structure.
   /// @return a vector of integers representing the shape.
-  virtual const vec<int>& get_shape() const = 0;
+  virtual const Vec<int>& get_shape() const = 0;
 
   /// @brief Get the shape as a string. E.g. [2, 3, 4].
   /// @return a string representation of the shape.
-  virtual string get_shape_str() const = 0;
+  virtual String get_shape_str() const = 0;
 
   /// @brief Gets the amount of elements in the data structure.
   /// @return the size of the data structure as an integer.
@@ -44,16 +44,16 @@ class DataStructure {
 
   /// @brief Get the raw data of the data structure flattened in row-major order.
   /// @return a vector of the raw data.
-  const virtual vec<T>& get_raw_data() const = 0;
+  const virtual Vec<T>& get_raw_data() const = 0;
 
   /// @brief Get an element from the data structure.
   /// @param indices a vector of integers representing the indices of the data structure.
   /// @return a value from the data structure.
-  virtual const T& get_elem(vec<int> indices) const = 0;
+  virtual const T& get_elem(Vec<int> indices) const = 0;
 
   /// @brief Set an element in the data structure.
   /// @param indices a vector of integers representing the indices of the data structure.
-  virtual T& get_mutable_elem(vec<int> indices) = 0;
+  virtual T& get_mutable_elem(Vec<int> indices) = 0;
 
   virtual std::unique_ptr<DataStructure<T>> clone() const = 0;
 };

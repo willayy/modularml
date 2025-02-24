@@ -3,7 +3,8 @@
 #include <vector>
 
 #include "a_layer.hpp"
-#include "a_tensor.hpp"
+#include "tensor.hpp"
+#include "globals.hpp"
 
 /**
  * @class Model
@@ -19,7 +20,7 @@ class Model {
  protected:
   /// @brief Dynamic array of Layers
   /// @details Structure to be defined for each derived model
-  std::vector<Layer> layers;
+  Vec<Layer<T>> layers;
 
   /// @brief Default constructor for Model.
   explicit Model() = default;

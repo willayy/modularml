@@ -1,9 +1,9 @@
 #include <cassert>
 #include <iostream>
+#include <modularml>
+#include <numeric>
 #include <random>
 #include <vector>
-#include <numeric>
-#include <modularml>
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \
@@ -12,20 +12,20 @@
   assert(condition);                                        \
   std::cout << name << ": " << (condition ? "Passed" : "Failed") << std::endl;
 
-vec<float> random_vec_f(int size, float low, float max, int seed = 0) {
+Vec<float> random_vec_f(int size, float low, float max, int seed = 0) {
   std::mt19937 gen(seed);
   std::uniform_real_distribution<float> dist(low, max);
-  vec<float> v(size);
+  Vec<float> v(size);
   for (int i = 0; i < size; i++) {
     v[i] = dist(gen);
   }
   return v;
 }
 
-vec<int> random_vec_i(int size, int low, int max, int seed = 0) {
+Vec<int> random_vec_i(int size, int low, int max, int seed = 0) {
   std::mt19937 gen(seed);
   std::uniform_int_distribution dist(low, max);
-  vec<int> v(size);
+  Vec<int> v(size);
   for (int i = 0; i < size; i++) {
     v[i] = dist(gen);
   }
@@ -42,47 +42,48 @@ int main() {
   // Test equality operator
   assert_msg("Tensor equality test", t0 == t00)
 
-  // Test inequality operator
-  assert_msg("Tensor inequality test", t0 != t1)
+      // Test inequality operator
+      assert_msg("Tensor inequality test", t0 != t1)
 
-  // Test correct shape
-  const auto expected_shape = vec<int>{3, 3};
+      // Test correct shape
+      const auto expected_shape = Vec<int>{3, 3};
   assert_msg("Tensor shape test", t0.get_shape() == expected_shape)
 
-  // Test adding two tensors
-  Tensor<float> tt = t1 + t0;
+      // Test adding two tensors
+      Tensor<float>
+          tt = t1 + t0;
   assert_msg("Tensor addition test", tt == t1)
 
-  // Test subtracting two tensors
-  tt = t1 - t0;
+      // Test subtracting two tensors
+      tt = t1 - t0;
   assert_msg("Tensor subtraction test", tt == t1)
 
-  // Test more subtraction
-  tt = t1 - t2;
+      // Test more subtraction
+      tt = t1 - t2;
   assert_msg("Tensor subtraction test 2", tt == t0)
 
-  // Test element wise multiplication
-  tt = t2 * 2;
+      // Test element wise multiplication
+      tt = t2 * 2;
   assert_msg("Tensor element wise multiplication test", tt == t3)
 
-  // Test element wise division
-  tt = t3 / 2;
+      // Test element wise division
+      tt = t3 / 2;
   assert_msg("Tensor element wise division test", tt == t2)
 
-  // Test getting an element
-  t1[{0, 0}] = 1.0;
+      // Test getting an element
+      t1[{0, 0}] = 1.0;
   assert_msg("Tensor get/set element test 1", (t1[{0, 0}] == 1))
-  t1[{0, 0}] = 10.0;
+      t1[{0, 0}] = 10.0;
   assert_msg("Tensor get/set element test 2", (t1[{0, 0}] == 10))
-  t1[{2, 2}] = 10.0;
+      t1[{2, 2}] = 10.0;
   assert_msg("Tensor get/set element test 3", (t1[{2, 2}] == 10))
-  t1[{1, 2}] = 10.0;
+      t1[{1, 2}] = 10.0;
   assert_msg("Tensor get/set element test 4", (t1[{1, 2}] == 10))
 
-  // property testing
-  auto tensor_prop1 = [](Tensor<float> t) {
-    assert(t == (t * 2) / 2);
-  };
+      // property testing
+      auto tensor_prop1 = [](Tensor<float> t) {
+        assert(t == (t * 2) / 2);
+      };
 
   auto tensor_prop2 = [](Tensor<float> t) {
     assert(t == (t + t) / 2);
@@ -98,7 +99,7 @@ int main() {
     for (int i = 0; i < (n - 1); i++) {
       tp = tp + t;
     }
-    assert(tp == t * (n-1));
+    assert(tp == t * (n - 1));
   };
 
   auto tensor_prop5 = [](Tensor<float> t, int n) {
@@ -112,9 +113,9 @@ int main() {
     std::mt19937 gen(i);
     std::uniform_int_distribution dist(0, 99);
     int rand_int = dist(gen);
-    vec<int> shape = random_vec_i(5, 1, 10, i);
+    Vec<int> shape = random_vec_i(5, 1, 10, i);
     int data_size = accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
-    vec<float> data = random_vec_f(data_size, 1, 10, i);
+    Vec<float> data = random_vec_f(data_size, 1, 10, i);
     Tensor<float> t = tensor_mll(shape, data);
     tensor_prop1(t);
     tensor_prop2(t);
