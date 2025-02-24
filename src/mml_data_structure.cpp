@@ -13,8 +13,7 @@ MML_DataStructure<T>::MML_DataStructure(const vec<int>& shape) {
 }
 
 template <typename T>
-MML_DataStructure<T>::MML_DataStructure(const vec<int>& shape,
-                                        const vec<T> data) {
+MML_DataStructure<T>::MML_DataStructure(const vec<int>& shape, const vec<T> data) {
   if (shape.size() <= 0) throw std::invalid_argument("Shape isn't valid");
 
   int data_size = 1;
