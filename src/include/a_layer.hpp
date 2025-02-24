@@ -13,10 +13,11 @@
  */
 template <typename T>
 class Layer {
-public:
+protected:
     /// @brief Default constructor.
     explicit Layer() = default;
 
+public:
     /// @brief Virtual destructor ensures proper cleanup in derived classes.
     virtual ~Layer() = default;
 
@@ -24,9 +25,9 @@ public:
     /// @return A Tensor<T> object representing the layer's parameters.
     virtual Tensor<T> tensor() const = 0;
 
-    /// @brief Returns the activation function of the layer.
+    /// @brief Returns the activation function of the layer. 
     /// @return A TensorFunction<T> representing the layer's activation.
-    virtual TensorFunction<T> activation() const = 0;
+    virtual std::unique_ptr<TensorFunction<T>>activation() const = 0;
 
     /// @brief Computes the forward pass through the layer.
     /// @param input The input tensor.
