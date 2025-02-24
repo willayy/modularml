@@ -45,3 +45,9 @@
 
 # Visual Studio Code
 .vscode
+
+# onnx files
+*.onnx
+
+# json files
+*.json
