@@ -3,8 +3,6 @@
 
 #include "a_tensor_func.hpp" // Needed for activation functions
 #include "tensor.hpp"        // Needed for Tensor<T>
-#include "a_tensor.hpp"      // Direct dependency
-#include "a_tensor_func.hpp" // Needed for activation functions
 
 
 /**

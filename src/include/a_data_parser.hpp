@@ -1,6 +1,6 @@
 #pragma once
 
-#include "data.hpp"
+#include "globals.hpp"
 #include "a_model.hpp"
 
 /**
