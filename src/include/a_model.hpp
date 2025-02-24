@@ -6,6 +6,7 @@
 #include "tensor.hpp"
 #include "globals.hpp"
 
+
 /**
  * @class Model
  * @brief Abstract Model class/type.
