@@ -4,7 +4,7 @@
 #include "mml_data_structure.hpp"
 
 template <typename T>
-class MML_DataStructure_AM : public ArithmeticModule<T, MML_DataStructure<T>> {
+class MML_DataStructure_AM : public ArithmeticModule<T> {
    public:
     MML_DataStructure<T>* add(MML_DataStructure<T>* a, MML_DataStructure<T>* b) const override;
 

@@ -9,7 +9,7 @@ MML_DataStructure<T>::MML_DataStructure(const vec<int>& shape) {
     // Calculate the size using the diemensions provided
     int data_size = 1;
     for (int i : shape) data_size *= i;
-    this->data = vec<T>(data_size);
+    this->data = vec<T>(data_size, 0);
 }
 
 template <typename T>
@@ -43,9 +43,7 @@ void MML_DataStructure<T>::set(const vec<int>& indices, T value) {
 
 template <typename T>
 void MML_DataStructure<T>::set(const int index, T value) {
-    if (indices.size() == 0) throw std::invalid_argument("Invalid indices");
-    if (indices.size() != this->shape.size()) throw std::invalid_argument("The diemensions of the indices does not match with the data structure");
-
+    if (index < 0 || index >= this->get_size()) throw std::out_of_range("Index is out of range");
     this->data[index] = value;
 }
 
