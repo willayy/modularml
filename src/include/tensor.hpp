@@ -30,8 +30,19 @@ class Tensor {
       @param data Shared pointer to the data structure used to store the tensor data.
       @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
   */
-  Tensor(std::shared_ptr<DataStructure<T>> data, std::unique_ptr<ArithmeticModule<T>> am)
-      : data(data), am(std::move(am)) {}
+  Tensor(std::unique_ptr<DataStructure<T>> data, std::unique_ptr<ArithmeticModule<T>> am)
+      : data(std::move(data)), am(std::move(am)) {}
+
+  /*!
+      @brief Move constructor.
+  */
+  Tensor(Tensor &&other) noexcept
+      : data(std::move(other.data)), am(std::move(other.am)) {}
+
+  /*!
+      @brief Deleted copy constructor.
+  */
+  Tensor(const Tensor &other) = delete;
 
   /*!
       @brief Destructor for Tensor class.
@@ -62,9 +73,11 @@ class Tensor {
       @return The result of adding the two tensors.
   */
   Tensor<T> operator+(const Tensor<T> &other) const {
-    std::shared_ptr<DataStructure<T>> ds = this->am->add(this->data, other.data);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
+    std::unique_ptr<DataStructure<T>> ds = this->am->add(std::move(this_ds_copy), std::move(other_ds_copy));
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
-    return Tensor<T>(ds, std::move(am_copy));
+    return Tensor<T>(std::move(ds), std::move(am_copy));
   }
 
   /*!
@@ -73,9 +86,11 @@ class Tensor {
       @return The result of subtracting the other tensor from this tensor.
   */
   Tensor<T> operator-(const Tensor<T> &other) const {
-    std::shared_ptr<DataStructure<T>> ds = this->am->subtract(this->data, other.data);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
+    std::unique_ptr<DataStructure<T>> ds = this->am->subtract(std::move(this_ds_copy), std::move(other_ds_copy));
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
-    return Tensor<T>(ds, std::move(am_copy));
+    return Tensor<T>(std::move(ds), std::move(am_copy));
   }
 
   /*!
@@ -84,9 +99,11 @@ class Tensor {
       @return The result of multiplying the two tensors.
   */
   Tensor<T> operator*(const Tensor<T> &other) const {
-    std::shared_ptr<DataStructure<T>> ds = this->am->multiply(this->data, other.data);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
+    std::unique_ptr<DataStructure<T>> ds = this->am->multiply(std::move(this_ds_copy), std::move(other_ds_copy));
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
-    return Tensor<T>(ds, std::move(am_copy));
+    return Tensor<T>(std::move(ds), std::move(am_copy));
   }
 
   /*!
@@ -95,9 +112,10 @@ class Tensor {
       @return The result of multiplying the tensor by the scalar.
   */
   Tensor<T> operator*(const T &scalar) const {
-    std::shared_ptr<DataStructure<T>> ds = this->am->multiply(this->data, scalar);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> ds = this->am->multiply(this_ds_copy, scalar);
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
-    return Tensor<T>(ds, std::move(am_copy));
+    return Tensor<T>(std::move(ds), std::move(am_copy));
   }
 
   /*!
@@ -106,9 +124,10 @@ class Tensor {
       @return The result of dividing the tensor by the scalar.
   */
   Tensor<T> operator/(const T &scalar) const {
-    std::shared_ptr<DataStructure<T>> ds = am->divide(this->data, scalar);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> ds = this->am->divide(this_ds_copy, scalar);
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
-    return Tensor<T>(ds, std::move(am_copy));
+    return Tensor<T>(std::move(ds), std::move(am_copy));
   }
 
   /*!
@@ -117,7 +136,9 @@ class Tensor {
       @return True if the tensors are equal, false otherwise.
   */
   bool operator==(const Tensor<T> &other) const {
-    return this->am->equals(this->data, other.data);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
+    return this->am->equals(this_ds_copy, other_ds_copy);
   }
 
   /*!
@@ -126,7 +147,9 @@ class Tensor {
       @return True if the tensors are not equal, false otherwise.
   */
   bool operator!=(const Tensor<T> &other) const {
-    return !this->am->equals(this->data, other.data);
+    std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
+    std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
+    return !this->am->equals(this_ds_copy, other_ds_copy);
   }
 
   /*!
@@ -149,7 +172,7 @@ class Tensor {
 
  private:
   /// @brief Underlying data structure for the tensor.
-  std::shared_ptr<DataStructure<T>> data;
+  std::unique_ptr<DataStructure<T>> data;
 
   /// @brief Underlying arithmetic module for the tensor.
   std::unique_ptr<ArithmeticModule<T>> am;
