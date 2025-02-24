@@ -125,13 +125,6 @@ FOREACH(TEST_SOURCE ${TEST_SOURCES})
         COMMAND ${TEST_NAME}
     )
 
-    # Run the tests after building
-    add_custom_command(
-        TARGET ${TEST_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_BINARY_DIR}/bin/${TEST_NAME}
-    )
-
     # Copy the coverage files to the binary directory
     add_custom_command(
         TARGET ${TEST_NAME}
