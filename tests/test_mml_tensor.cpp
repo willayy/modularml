@@ -81,16 +81,16 @@ int main() {
 
   // property testing
   auto tensor_prop1 = [](Tensor<float> t) {
-    assert_msg("Tensor property 1", t == (t * 2) / 2)
+    assert(t == (t * 2) / 2);
   };
 
   auto tensor_prop2 = [](Tensor<float> t) {
-    assert_msg("Tensor property 2", t == (t + t) / 2)
+    assert(t == (t + t) / 2);
   };
 
   auto tensor_prop3 = [](Tensor<float> t) {
     const auto t_temp = tensor_mll(t.get_shape());
-    assert_msg("Tensor property 3", t_temp == (t - t))
+    assert(t_temp == (t - t));
   };
 
   auto tensor_prop4 = [](Tensor<float> t, int n) {
@@ -98,14 +98,17 @@ int main() {
     for (int i = 0; i < (n - 1); i++) {
       tp = tp + t;
     }
-    assert_msg("Tensor property 4", tp == t * (n-1))
+    assert(tp == t * (n-1));
   };
 
   auto tensor_prop5 = [](Tensor<float> t, int n) {
-    assert_msg("Tensor property 5", t == t * n / n)
+    assert(t == t * n / n);
   };
 
-  for (int i = 0; i < 100; i++) {
+  std::cout << "Running property tests..." << std::endl;
+  const auto pt_amount = 100;
+
+  for (int i = 0; i < pt_amount; i++) {
     std::mt19937 gen(i);
     std::uniform_int_distribution dist(0, 99);
     int rand_int = dist(gen);
@@ -119,6 +122,8 @@ int main() {
     tensor_prop4(t, rand_int);
     tensor_prop5(t, rand_int);
   }
+
+  std::cout << "All " << pt_amount << " randomized property tests passed" << std::endl;
 
   std::cout << "All tests completed!" << std::endl;
 
