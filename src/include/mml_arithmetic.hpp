@@ -26,7 +26,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] - b_raw[i];
     }
-    return std::make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return std::make_shared<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -40,7 +40,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] * b;
     }
-    return std::make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return std::make_shared<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
   std::shared_ptr<DataStructure<float>> divide(const std::shared_ptr<DataStructure<float>> a, const float b) const override {
@@ -49,7 +49,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] / b;
     }
-    return std::make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return std::make_shared<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
   bool equals(const std::shared_ptr<DataStructure<float>> a, const std::shared_ptr<DataStructure<float>> b) const override {
