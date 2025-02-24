@@ -16,9 +16,11 @@
 /// @tparam T the type of the data contained in the tensor. E.g. int, float,
 template <typename T>
 class TensorFunction {
-public:
-    /// @brief Default constructor for TensorFunction.
+    protected:
+    /// @brief Construct a new TensorFunction object.
     explicit TensorFunction() = default;
+   
+    public:
 
     /// @brief Virtual destructor for TensorFunction.
     /// @details Ensures derived class destructors are called properly.
