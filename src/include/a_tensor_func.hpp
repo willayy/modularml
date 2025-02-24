@@ -1,6 +1,8 @@
 #pragma once
 
-#include "a_tensor.hpp"
+#include "tensor.hpp"
+
+#define ASSERT_ALLOWED_TYPES(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
 /**
  * @class TensorFunction
