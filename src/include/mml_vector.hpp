@@ -19,6 +19,20 @@ class Vector_mml : public DataStructure<T> {
     this->offsets = compute_offsets();
   }
 
+  // Override move constructor
+  Vector_mml(Vector_mml &&other) noexcept {
+    this->data = other.data;
+    this->shape = other.shape;
+    this->offsets = other.offsets;
+  }
+
+  // Override copy constructor
+  Vector_mml(const Vector_mml &other) {
+    this->data = other.data;
+    this->shape = other.shape;
+    this->offsets = other.offsets;
+  }
+
   ~Vector_mml() override = default;
 
   void set_data(const vec<T> new_data) override {

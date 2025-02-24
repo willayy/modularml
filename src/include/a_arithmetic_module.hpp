@@ -16,6 +16,12 @@ class ArithmeticModule {
   /// @brief Default constructor for ArithmeticModule class.
   ArithmeticModule() = default;
 
+  /// @brief Copy constructor for ArithmeticModule class.
+  ArithmeticModule(const ArithmeticModule &other) = default;
+
+  /// @brief Move constructor for ArithmeticModule class.
+  ArithmeticModule(ArithmeticModule &&other) noexcept = default;
+
   /// @brief Abstract destructor for ArithmeticModule class.
   virtual ~ArithmeticModule() = default;
 

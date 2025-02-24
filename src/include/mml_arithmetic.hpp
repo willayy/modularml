@@ -9,6 +9,15 @@ class Arithmetic_mml : public ArithmeticModule<float> {
  public:
   ~Arithmetic_mml() override = default;
 
+  // Override default constructor
+  Arithmetic_mml() = default;
+
+  // Override move constructor
+  Arithmetic_mml(Arithmetic_mml&&) noexcept = default;
+
+  // Override copy constructor
+  Arithmetic_mml(const Arithmetic_mml&) = default;
+
   std::unique_ptr<DataStructure<float>> add(const std::unique_ptr<DataStructure<float>> a, const std::unique_ptr<DataStructure<float>> b) const override {
     const auto& a_raw = a->get_raw_data();
     const auto& b_raw = b->get_raw_data();

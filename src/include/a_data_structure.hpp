@@ -14,6 +14,12 @@ class DataStructure {
   /// @brief Default constructor for DataStructure class.
   DataStructure() = default;
 
+  /// @brief Copy constructor for DataStructure class.
+  DataStructure(const DataStructure &other) = default;
+
+  /// @brief Move constructor for DataStructure class.
+  DataStructure(DataStructure &&other) noexcept = default;
+
   /// @brief Abstract destructor for DataStructure class.
   virtual ~DataStructure() = default;
 

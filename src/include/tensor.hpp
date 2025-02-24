@@ -36,13 +36,16 @@ class Tensor {
   /*!
       @brief Move constructor.
   */
-  Tensor(Tensor &&other) noexcept
+  Tensor(Tensor &&other) noexcept 
       : data(std::move(other.data)), am(std::move(other.am)) {}
 
   /*!
-      @brief Deleted copy constructor.
+      @brief Copy constructor.
   */
-  Tensor(const Tensor &other) = delete;
+  Tensor(const Tensor &other) {
+    this->data = std::make_unique<DataStructure<T>>(*other.data);
+    this->am = std::make_unique<ArithmeticModule<T>>(*other.am);
+  }
 
   /*!
       @brief Destructor for Tensor class.
@@ -113,7 +116,7 @@ class Tensor {
   */
   Tensor<T> operator*(const T &scalar) const {
     std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
-    std::unique_ptr<DataStructure<T>> ds = this->am->multiply(this_ds_copy, scalar);
+    std::unique_ptr<DataStructure<T>> ds = this->am->multiply(std::move(this_ds_copy), std::move(scalar));
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
     return Tensor<T>(std::move(ds), std::move(am_copy));
   }
@@ -125,7 +128,7 @@ class Tensor {
   */
   Tensor<T> operator/(const T &scalar) const {
     std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
-    std::unique_ptr<DataStructure<T>> ds = this->am->divide(this_ds_copy, scalar);
+    std::unique_ptr<DataStructure<T>> ds = this->am->divide(std::move(this_ds_copy), std::move(scalar));
     std::unique_ptr<ArithmeticModule<T>> am_copy = std::make_unique<ArithmeticModule<T>>(*this->am);
     return Tensor<T>(std::move(ds), std::move(am_copy));
   }
@@ -138,7 +141,7 @@ class Tensor {
   bool operator==(const Tensor<T> &other) const {
     std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
     std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
-    return this->am->equals(this_ds_copy, other_ds_copy);
+    return this->am->equals(std::move(this_ds_copy), std::move(other_ds_copy));
   }
 
   /*!
@@ -149,7 +152,18 @@ class Tensor {
   bool operator!=(const Tensor<T> &other) const {
     std::unique_ptr<DataStructure<T>> this_ds_copy = std::make_unique<DataStructure<T>>(*this->data);
     std::unique_ptr<DataStructure<T>> other_ds_copy = std::make_unique<DataStructure<T>>(*other.data);
-    return !this->am->equals(this_ds_copy, other_ds_copy);
+    return !this->am->equals(std::move(this_ds_copy), std::move(other_ds_copy));
+  }
+
+  /*!
+      @brief Move assignment operator.
+  */
+  Tensor &operator=(Tensor &&other) noexcept {
+    if (this != &other) {
+      data = std::move(other.data);
+      am = std::move(other.am);
+    }
+    return *this;
   }
 
   /*!
