@@ -32,7 +32,7 @@ class Model {
   /// @brief Make an inference.
   /// @param t Input data
   /// @return Predicted data
-  virtual std::unique_ptr<Tensor<T>> infer(const Tensor<T> &t) const = 0;
+  virtual Tensor<T> infer(const Tensor<T> &t) const = 0;
 
   /// @brief Print overview of model
   /// @details Visualize the model in the command line. Structure might vary
