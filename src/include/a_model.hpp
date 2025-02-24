@@ -1,9 +1,9 @@
 #pragma once
 
-#include "a_tensor.hpp"
-#include "a_layer.hpp"
 #include <vector>
 
+#include "a_layer.hpp"
+#include "a_tensor.hpp"
 
 /**
  * @class Model
@@ -16,29 +16,26 @@
 
 template <typename T>
 class Model {
+ protected:
+  /// @brief Dynamic array of Layers
+  /// @details Structure to be defined for each derived model
+  std::vector<Layer> layers;
 
-protected:
+  /// @brief Default constructor for Model.
+  explicit Model() = default;
 
-    /// @brief Dynamic array of Layers
-    /// @details Structure to be defined for each derived model
-    std::vector<Layer> layers;
+ public:
+  /// @brief Virtual destructor for Model.
+  /// @details Ensures derived class destructors are called properly.
+  virtual ~Model() = default;
 
-public:
-    /// @brief Default constructor for Model.
-    explicit Model() = default;
+  /// @brief Make an inference.
+  /// @param t Input data
+  /// @return Predicted data
+  virtual Tensor<T> infer(const Tensor<T> &t) const = 0;
 
-    /// @brief Virtual destructor for Model.
-    /// @details Ensures derived class destructors are called properly.
-    virtual ~Model() = default;
-
-
-    /// @brief Make an inference.
-    /// @param t Input data
-    /// @return Predicted data
-    virtual Tensor<T> infer(const Tensor<T>& t) const = 0;
-
-    /// @brief Print overview of model
-    /// @details Visualize the model in the command line. Structure might vary depending on model
-    virtual void print() const = 0;
-
+  /// @brief Print overview of model
+  /// @details Visualize the model in the command line. Structure might vary
+  /// depending on model
+  virtual void print() const = 0;
 };
