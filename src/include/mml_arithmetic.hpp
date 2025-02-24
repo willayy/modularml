@@ -1,7 +1,7 @@
 #pragma once
 #include "a_arithmetic_module.hpp"
 #include "a_data_structure.hpp"
-#include "mml_vector_ds.hpp"
+#include "mml_vector.hpp"
 
 class Arithmetic_mml : public ArithmeticModule<float> {
  public:

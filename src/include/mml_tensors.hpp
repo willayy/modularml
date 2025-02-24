@@ -2,7 +2,7 @@
 
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_vector_ds.hpp"
+#include "mml_vector.hpp"
 #include "tensor.hpp"
 
 Tensor<float> tensor_mll(vec<int> shape);
