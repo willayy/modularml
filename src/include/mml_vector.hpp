@@ -1,6 +1,7 @@
 #pragma once
 #include <numeric>
 #include <stdexcept>
+#include <memory>
 
 #include "a_data_structure.hpp"
 #include "globals.hpp"
@@ -8,8 +9,8 @@
 template <typename T>
 class Vector_mml : public DataStructure<T> {
  public:
-  Vector_mml(vec<int> const& shape, vec<T> data) : DataStructure<T>(), shape(shape) {
-    this->data = data;
+
+  Vector_mml(vec<int> const& shape, vec<T> data) : DataStructure<T>(), data(data), shape(shape) {
     this->offsets = compute_offsets();
   }
 
@@ -20,18 +21,12 @@ class Vector_mml : public DataStructure<T> {
   }
 
   // Override move constructor
-  Vector_mml(Vector_mml &&other) noexcept {
-    this->data = other.data;
-    this->shape = other.shape;
-    this->offsets = other.offsets;
-  }
+  Vector_mml(Vector_mml&& other) noexcept
+      : data(std::move(other.data)), shape(std::move(other.shape)), offsets(std::move(other.offsets)) {}
 
   // Override copy constructor
-  Vector_mml(const Vector_mml &other) {
-    this->data = other.data;
-    this->shape = other.shape;
-    this->offsets = other.offsets;
-  }
+  Vector_mml(const Vector_mml& other)
+      : data(other.data), shape(other.shape), offsets(other.offsets) {}
 
   ~Vector_mml() override = default;
 
@@ -55,7 +50,7 @@ class Vector_mml : public DataStructure<T> {
     return this->data.size();
   }
 
-  string get_shape_str() const override {
+  std::string get_shape_str() const override {
     return "[" + std::to_string(this->data.size()) + "]";
   }
 
@@ -73,6 +68,10 @@ class Vector_mml : public DataStructure<T> {
     } else {
       return this->data[index_with_offset(indices)];
     }
+  }
+
+  std::unique_ptr<DataStructure<T>> clone() const override {
+    return std::make_unique<Vector_mml<T>>(*this);
   }
 
  private:

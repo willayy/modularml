@@ -60,4 +60,7 @@ class ArithmeticModule {
   /// @param b The second data structure.
   /// @return True if the data structures are equal, false otherwise.
   virtual bool equals(const std::unique_ptr<DataStructure<T>> a, const std::unique_ptr<DataStructure<T>> b) const = 0;
+
+  virtual std::unique_ptr<ArithmeticModule<T>> clone() const = 0;
+
 };

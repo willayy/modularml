@@ -54,4 +54,6 @@ class DataStructure {
   /// @brief Set an element in the data structure.
   /// @param indices a vector of integers representing the indices of the data structure.
   virtual T& get_mutable_elem(vec<int> indices) = 0;
+
+  virtual std::unique_ptr<DataStructure<T>> clone() const = 0;
 };

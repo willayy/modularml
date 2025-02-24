@@ -75,6 +75,10 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     return true;
   }
 
+  std::unique_ptr<ArithmeticModule<float>> clone() const override {
+    return std::make_unique<Arithmetic_mml>(*this);
+  }
+
  private:
   bool f_eq(float a, float b) const {
     return std::abs(a - b) < 1e-2f;
