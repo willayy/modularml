@@ -28,7 +28,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
      * @brief Apply the derivative of the TanH function to the tensor.
  
      * @param t The tensor to which the function will be applied.
-     * @return A new tensor with the derovative of tanH applied to each element.
+     * @return A new tensor with the derivative of tanH applied to each element.
     */
     Tensor<float> derivative(const Tensor<float>& t) const{
         auto tensor = t;
