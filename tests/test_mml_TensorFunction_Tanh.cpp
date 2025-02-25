@@ -34,8 +34,14 @@ int main() {
   // here:
   mml_TensorFunction_Tanh tanh_func;
 
+  /**
+   * @brief Tensor to test and compare the operations on.
+   */
   Tensor<float> t1 = tensor_mll({3, 3}, {-1, 0, 1, -2, 2, -3, 3, 4, -4});
 
+  /**
+   * @brief Expected Tensor after the tanH function is applied to each element.
+   */
   Tensor<float> expected_func = tensor_mll(
       {3, 3},
       {static_cast<float>(std::tanh(-1)), static_cast<float>(std::tanh(0)),
@@ -44,6 +50,10 @@ int main() {
        static_cast<float>(std::tanh(3)), static_cast<float>(std::tanh(4)),
        static_cast<float>(std::tanh(-4))});
 
+  /**
+   * @brief Expected Tensor after the derivative of the tanH function is applied
+   * to each element.
+   */
   Tensor<float> expected_derivative = tensor_mll(
       {3, 3}, {
                   static_cast<float>(1 - std::tanh(-1) * std::tanh(-1)),
@@ -57,6 +67,10 @@ int main() {
                   static_cast<float>(1 - std::tanh(-4) * std::tanh(-4)),
               });
 
+  /**
+   * @brief Expected Tensor after the primitive of the tanH function is applied
+   * to each element.
+   */
   Tensor<float> expected_primitive =
       tensor_mll({3, 3}, {static_cast<float>(std::log(std::cosh(-1))),
                           static_cast<float>(std::log(std::cosh(0))),
