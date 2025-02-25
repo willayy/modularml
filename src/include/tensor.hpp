@@ -18,7 +18,7 @@
     modules.
     @tparam T the type of the data contained in the tensor. E.g. int, float,
     double etc.
-    @tparam D the data structure used to store the data. E.g. std::vectortor,
+    @tparam D the data structure used to store the data. E.g. std::vector,
    std::array, or a custom data structure.
 */
 template <typename T>
@@ -53,7 +53,7 @@ class Tensor {
 
   /*!
       @brief Get the shape of the tensor.
-      @return A vectortor of integers representing the shape.
+      @return A vector of integers representing the shape.
   */
   vector<int> get_shape() {
     return this->data->get_shape();
@@ -167,7 +167,7 @@ class Tensor {
 
   /*!
       @brief Get an element from the tensor.
-      @param indices A vectortor of integers representing the indices of the element.
+      @param indices A vector of integers representing the indices of the element.
       @return The element at the given indices.
   */
   const T &operator[](vector<int> indices) const {
@@ -176,7 +176,7 @@ class Tensor {
 
   /*!
       @brief Set an element in the tensor.
-      @param indices A vectortor of integers representing the indices of the element.
+      @param indices A vector of integers representing the indices of the element.
       @return The tensor with the element get_mutable_elem.
   */
   T &operator[](vector<int> indices) {

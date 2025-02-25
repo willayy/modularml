@@ -7,27 +7,27 @@
 #include "globals.hpp"
 
 template <typename T>
-class vectortor_mml : public DataStructure<T> {
+class Vector_mml : public DataStructure<T> {
  public:
-  vectortor_mml(vector<int> const& shape, vector<T> data) : DataStructure<T>(), data(data), shape(shape) {
+  Vector_mml(vector<int> const& shape, vector<T> data) : DataStructure<T>(), data(data), shape(shape) {
     this->offsets = compute_offsets();
   }
 
-  explicit vectortor_mml(vector<int> const& shape) : DataStructure<T>(), shape(shape) {
+  explicit Vector_mml(vector<int> const& shape) : DataStructure<T>(), shape(shape) {
     const int size = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
     this->data = vector<T>(size, 0);
     this->offsets = compute_offsets();
   }
 
   // Override move constructor
-  vectortor_mml(vectortor_mml&& other) noexcept
+  Vector_mml(Vector_mml&& other) noexcept
       : data(move(other.data)), shape(move(other.shape)), offsets(move(other.offsets)) {}
 
   // Override copy constructor
-  vectortor_mml(const vectortor_mml& other)
+  Vector_mml(const Vector_mml& other)
       : data(other.data), shape(other.shape), offsets(other.offsets) {}
 
-  ~vectortor_mml() override = default;
+  ~Vector_mml() override = default;
 
   void set_data(const vector<T> new_data) override {
     this->data = new_data;
@@ -70,7 +70,7 @@ class vectortor_mml : public DataStructure<T> {
   }
 
   unique_ptr<DataStructure<T>> clone() const override {
-    return make_unique<vectortor_mml<T>>(*this);
+    return make_unique<Vector_mml<T>>(*this);
   }
 
  private:
@@ -94,7 +94,7 @@ class vectortor_mml : public DataStructure<T> {
     return true;
   }
 
-  /// @brief Calculates the index of an element in the flat vectortor containing the data.
+  /// @brief Calculates the index of an element in the flat vector containing the data.
   /// @param indices The indices to get the index for.
   /// @return The index.
   int index_with_offset(vector<int> indices) const {
@@ -107,7 +107,7 @@ class vectortor_mml : public DataStructure<T> {
   }
 
   /// @brief Row-major offsets for the data structure.
-  /// @return a vectortor of integers representing the offsets.
+  /// @return a vector of integers representing the offsets.
   vector<int> compute_offsets() const {
     const int size = static_cast<int>(shape.size());
     auto computed_offsets = vector<int>(size, 1);

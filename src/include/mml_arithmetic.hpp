@@ -25,7 +25,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] + b_raw[i];
     }
-    return make_unique<vectortor_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
   unique_ptr<DataStructure<float>> subtract(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
@@ -35,7 +35,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] - b_raw[i];
     }
-    return make_unique<vectortor_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -49,7 +49,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] * b;
     }
-    return make_unique<vectortor_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
   unique_ptr<DataStructure<float>> divide(const unique_ptr<DataStructure<float>> a, const float b) const override {
@@ -58,7 +58,7 @@ class Arithmetic_mml : public ArithmeticModule<float> {
     for (int i = 0; i < a->get_data_size(); i++) {
       res_raw[i] = a_raw[i] / b;
     }
-    return make_unique<vectortor_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
   }
 
   bool equals(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
