@@ -55,5 +55,5 @@ class DataStructure {
   /// @param indices a vector of integers representing the indices of the data structure.
   virtual T& get_mutable_elem(Vec<int> indices) = 0;
 
-  virtual std::unique_ptr<DataStructure<T>> clone() const = 0;
+  virtual UPtr<DataStructure<T>> clone() const = 0;
 };

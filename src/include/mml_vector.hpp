@@ -21,7 +21,7 @@ class Vector_mml : public DataStructure<T> {
 
   // Override move constructor
   Vector_mml(Vector_mml&& other) noexcept
-      : data(std::move(other.data)), shape(std::move(other.shape)), offsets(std::move(other.offsets)) {}
+      : data(move_Ptr(other.data)), shape(move_Ptr(other.shape)), offsets(move_Ptr(other.offsets)) {}
 
   // Override copy constructor
   Vector_mml(const Vector_mml& other)
@@ -69,8 +69,8 @@ class Vector_mml : public DataStructure<T> {
     }
   }
 
-  std::unique_ptr<DataStructure<T>> clone() const override {
-    return std::make_unique<Vector_mml<T>>(*this);
+  UPtr<DataStructure<T>> clone() const override {
+    return make_UPtr<Vector_mml<T>>(*this);
   }
 
  private:
