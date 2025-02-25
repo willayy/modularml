@@ -5,11 +5,9 @@
 #include <string>
 #include <vector>
 
-// Aliases for common types
-using Data = nlohmann::json;
-
+using nlohmann::json;
 using std::make_unique;
 using std::move;
+using std::string;
 using std::unique_ptr;
 using std::vector;
-using std::string;
