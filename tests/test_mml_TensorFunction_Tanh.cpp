@@ -2,7 +2,6 @@
 #include <iostream>
 #include <modularml>
 #include <numeric>
-#include <random>
 #include <vector>
 
 #include "mml_TensorFunction_TanH.hpp"
@@ -13,16 +12,6 @@
   }                                                         \
   assert(condition);                                        \
   std::cout << name << ": " << (condition ? "Passed" : "Failed") << std::endl;
-
-Vec<float> random_vec_f(int size, float low, float max, int seed = 0) {
-  std::mt19937 gen(seed);
-  std::uniform_real_distribution<float> dist(low, max);
-  Vec<float> v(size);
-  for (int i = 0; i < size; i++) {
-    v[i] = dist(gen);
-  }
-  return v;
-}
 
 /**
  * @file test_mml_TensorFunction_Tanh.cpp
