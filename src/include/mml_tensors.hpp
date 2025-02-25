@@ -5,6 +5,6 @@
 #include "mml_vector.hpp"
 #include "tensor.hpp"
 
-Tensor<float> tensor_mll(Vec<int> shape);
+Tensor<float> tensor_mll(vector<int> shape);
 
-Tensor<float> tensor_mll(const Vec<int> shape, const Vec<float> data);
+Tensor<float> tensor_mll(const vector<int> shape, const vector<float> data);

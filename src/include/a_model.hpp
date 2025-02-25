@@ -1,11 +1,8 @@
 #pragma once
 
-#include <vector>
-
 #include "a_layer.hpp"
-#include "tensor.hpp"
 #include "globals.hpp"
-
+#include "tensor.hpp"
 
 /**
  * @class Model
@@ -21,7 +18,7 @@ class Model {
  protected:
   /// @brief Dynamic array of Layers
   /// @details Structure to be defined for each derived model
-  Vec<Layer<T>> layers;
+  vector<Layer<T>> layers;
 
   /// @brief Default constructor for Model.
   explicit Model() = default;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <numeric>
 
 #include "a_arithmetic_module.hpp"
@@ -19,7 +18,7 @@
     modules.
     @tparam T the type of the data contained in the tensor. E.g. int, float,
     double etc.
-    @tparam D the data structure used to store the data. E.g. std::vector,
+    @tparam D the data structure used to store the data. E.g. std::vectortor,
    std::array, or a custom data structure.
 */
 template <typename T>
@@ -30,14 +29,14 @@ class Tensor {
       @param data Shared pointer to the data structure used to store the tensor data.
       @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
   */
-  Tensor(UPtr<DataStructure<T>> data, UPtr<ArithmeticModule<T>> am)
-      : data(move_Ptr(data)), am(move_Ptr(am)) {}
+  Tensor(unique_ptr<DataStructure<T>> data, unique_ptr<ArithmeticModule<T>> am)
+      : data(move(data)), am(move(am)) {}
 
   /*!
       @brief Move constructor.
   */
   Tensor(Tensor &&other) noexcept
-      : data(move_Ptr(other.data)), am(move_Ptr(other.am)) {}
+      : data(move(other.data)), am(move(other.am)) {}
 
   /*!
       @brief Copy constructor.
@@ -54,17 +53,17 @@ class Tensor {
 
   /*!
       @brief Get the shape of the tensor.
-      @return A vector of integers representing the shape.
+      @return A vectortor of integers representing the shape.
   */
-  Vec<int> get_shape() {
+  vector<int> get_shape() {
     return this->data->get_shape();
   }
 
   /*!
-      @brief Get the shape as a String.
-      @return A String representation of the shape. E.g. [2, 3, 4].
+      @brief Get the shape as a string.
+      @return A string representation of the shape. E.g. [2, 3, 4].
   */
-  String get_shape_str() const {
+  string get_shape_str() const {
     return this->data->get_shape_str();
   }
 
@@ -76,11 +75,11 @@ class Tensor {
       @return The result of adding the two tensors.
   */
   Tensor<T> operator+(const Tensor<T> &other) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> other_ds_copy = other.data->clone();
-    UPtr<DataStructure<T>> ds = this->am->add(move_Ptr(this_ds_copy), move_Ptr(other_ds_copy));
-    UPtr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move_Ptr(ds), move_Ptr(am_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
+    unique_ptr<DataStructure<T>> ds = this->am->add(move(this_ds_copy), move(other_ds_copy));
+    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
+    return Tensor<T>(move(ds), move(am_copy));
   }
 
   /*!
@@ -89,11 +88,11 @@ class Tensor {
       @return The result of subtracting the other tensor from this tensor.
   */
   Tensor<T> operator-(const Tensor<T> &other) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> other_ds_copy = other.data->clone();
-    UPtr<DataStructure<T>> ds = this->am->subtract(move_Ptr(this_ds_copy), move_Ptr(other_ds_copy));
-    UPtr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move_Ptr(ds), move_Ptr(am_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
+    unique_ptr<DataStructure<T>> ds = this->am->subtract(move(this_ds_copy), move(other_ds_copy));
+    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
+    return Tensor<T>(move(ds), move(am_copy));
   }
 
   /*!
@@ -102,11 +101,11 @@ class Tensor {
       @return The result of multiplying the two tensors.
   */
   Tensor<T> operator*(const Tensor<T> &other) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> other_ds_copy = other.data->clone();
-    UPtr<DataStructure<T>> ds = this->am->multiply(move_Ptr(this_ds_copy), move_Ptr(other_ds_copy));
-    UPtr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move_Ptr(ds), move_Ptr(am_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
+    unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(other_ds_copy));
+    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
+    return Tensor<T>(move(ds), move(am_copy));
   }
 
   /*!
@@ -115,10 +114,10 @@ class Tensor {
       @return The result of multiplying the tensor by the scalar.
   */
   Tensor<T> operator*(const T &scalar) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> ds = this->am->multiply(move_Ptr(this_ds_copy), move_Ptr(scalar));
-    UPtr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move_Ptr(ds), move_Ptr(am_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(scalar));
+    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
+    return Tensor<T>(move(ds), move(am_copy));
   }
 
   /*!
@@ -127,10 +126,10 @@ class Tensor {
       @return The result of dividing the tensor by the scalar.
   */
   Tensor<T> operator/(const T &scalar) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> ds = this->am->divide(move_Ptr(this_ds_copy), move_Ptr(scalar));
-    UPtr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move_Ptr(ds), move_Ptr(am_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> ds = this->am->divide(move(this_ds_copy), move(scalar));
+    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
+    return Tensor<T>(move(ds), move(am_copy));
   }
 
   /*!
@@ -139,9 +138,9 @@ class Tensor {
       @return True if the tensors are equal, false otherwise.
   */
   bool operator==(const Tensor<T> &other) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> other_ds_copy = other.data->clone();
-    return this->am->equals(move_Ptr(this_ds_copy), move_Ptr(other_ds_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
+    return this->am->equals(move(this_ds_copy), move(other_ds_copy));
   }
 
   /*!
@@ -150,9 +149,9 @@ class Tensor {
       @return True if the tensors are not equal, false otherwise.
   */
   bool operator!=(const Tensor<T> &other) const {
-    UPtr<DataStructure<T>> this_ds_copy = this->data->clone();
-    UPtr<DataStructure<T>> other_ds_copy = other.data->clone();
-    return !this->am->equals(move_Ptr(this_ds_copy), move_Ptr(other_ds_copy));
+    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
+    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
+    return !this->am->equals(move(this_ds_copy), move(other_ds_copy));
   }
 
   /*!
@@ -160,34 +159,34 @@ class Tensor {
   */
   Tensor &operator=(Tensor &&other) noexcept {
     if (this != &other) {
-      data = move_Ptr(other.data);
-      am = move_Ptr(other.am);
+      data = move(other.data);
+      am = move(other.am);
     }
     return *this;
   }
 
   /*!
       @brief Get an element from the tensor.
-      @param indices A vector of integers representing the indices of the element.
+      @param indices A vectortor of integers representing the indices of the element.
       @return The element at the given indices.
   */
-  const T &operator[](Vec<int> indices) const {
+  const T &operator[](vector<int> indices) const {
     return this->data->get_elem(indices);
   }
 
   /*!
       @brief Set an element in the tensor.
-      @param indices A vector of integers representing the indices of the element.
+      @param indices A vectortor of integers representing the indices of the element.
       @return The tensor with the element get_mutable_elem.
   */
-  T &operator[](Vec<int> indices) {
+  T &operator[](vector<int> indices) {
     return this->data->get_mutable_elem(indices);
   }
 
  private:
   /// @brief Underlying data structure for the tensor.
-  UPtr<DataStructure<T>> data;
+  unique_ptr<DataStructure<T>> data;
 
   /// @brief Underlying arithmetic module for the tensor.
-  UPtr<ArithmeticModule<T>> am;
+  unique_ptr<ArithmeticModule<T>> am;
 };

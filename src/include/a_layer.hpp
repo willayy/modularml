@@ -27,7 +27,7 @@ class Layer {
 
   /// @brief Returns the activation function of the layer.
   /// @return A TensorFunction<T> representing the layer's activation.
-  virtual UPtr<TensorFunction<T>> activation() const = 0;
+  virtual unique_ptr<TensorFunction<T>> activation() const = 0;
 
   /// @brief Computes the forward pass through the layer.
   /// @param input The input tensor.

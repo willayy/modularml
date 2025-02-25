@@ -15,7 +15,7 @@ class DataParser {
    *
    * @param data JSON data of a Model.
    */
-  virtual UPtr<Model<T>> parse(const Data& data) const = 0;
+  virtual unique_ptr<Model<T>> parse(const Data& data) const = 0;
 
   /// @brief Virtual destructor for cleanup.
   virtual ~DataParser() = default;
