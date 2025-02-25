@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+
 #include <numeric>
 #include <stdexcept>
 
@@ -9,19 +9,19 @@
 template <typename T>
 class Vector_mml : public DataStructure<T> {
  public:
-  Vector_mml(Vec<int> const& shape, Vec<T> data) : DataStructure<T>(), data(data), shape(shape) {
+  Vector_mml(vector<int> const& shape, vector<T> data) : DataStructure<T>(), data(data), shape(shape) {
     this->offsets = compute_offsets();
   }
 
-  explicit Vector_mml(Vec<int> const& shape) : DataStructure<T>(), shape(shape) {
+  explicit Vector_mml(vector<int> const& shape) : DataStructure<T>(), shape(shape) {
     const int size = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
-    this->data = Vec<T>(size, 0);
+    this->data = vector<T>(size, 0);
     this->offsets = compute_offsets();
   }
 
   // Override move constructor
   Vector_mml(Vector_mml&& other) noexcept
-      : data(std::move(other.data)), shape(std::move(other.shape)), offsets(std::move(other.offsets)) {}
+      : data(move(other.data)), shape(move(other.shape)), offsets(move(other.offsets)) {}
 
   // Override copy constructor
   Vector_mml(const Vector_mml& other)
@@ -29,19 +29,19 @@ class Vector_mml : public DataStructure<T> {
 
   ~Vector_mml() override = default;
 
-  void set_data(const Vec<T> new_data) override {
+  void set_data(const vector<T> new_data) override {
     this->data = new_data;
   }
 
   void set_zero() override {
-    this->data = Vec<T>(this->data.size(), 0);
+    this->data = vector<T>(this->data.size(), 0);
   }
 
-  const Vec<int>& get_shape() const override {
+  const vector<int>& get_shape() const override {
     return this->shape;
   }
 
-  const Vec<T>& get_raw_data() const override {
+  const vector<T>& get_raw_data() const override {
     return this->data;
   }
 
@@ -49,11 +49,11 @@ class Vector_mml : public DataStructure<T> {
     return this->data.size();
   }
 
-  String get_shape_str() const override {
+  string get_shape_str() const override {
     return "[" + std::to_string(this->data.size()) + "]";
   }
 
-  const T& get_elem(Vec<int> indices) const override {
+  const T& get_elem(vector<int> indices) const override {
     if (!valid_index(indices)) {
       throw std::out_of_range("Invalid index");
     } else {
@@ -61,7 +61,7 @@ class Vector_mml : public DataStructure<T> {
     }
   }
 
-  T& get_mutable_elem(Vec<int> indices) override {
+  T& get_mutable_elem(vector<int> indices) override {
     if (!valid_index(indices)) {
       throw std::out_of_range("Invalid index");
     } else {
@@ -69,19 +69,19 @@ class Vector_mml : public DataStructure<T> {
     }
   }
 
-  std::unique_ptr<DataStructure<T>> clone() const override {
-    return std::make_unique<Vector_mml<T>>(*this);
+  unique_ptr<DataStructure<T>> clone() const override {
+    return make_unique<Vector_mml<T>>(*this);
   }
 
  private:
-  Vec<T> data;
-  Vec<int> shape;
-  Vec<int> offsets;
+  vector<T> data;
+  vector<int> shape;
+  vector<int> offsets;
 
   /// @brief Check if the indices are valid. size of indices should be equal to the size of the shape. all elements of indices should be less than the corresponding element of the shape and greater than or equal to 0.
   /// @param indices The indices to check.
   /// @return True if the indices are valid, false otherwise.
-  bool valid_index(const Vec<int>& indices) const {
+  bool valid_index(const vector<int>& indices) const {
     if (indices.size() != this->shape.size()) {
       return false;
     }
@@ -97,7 +97,7 @@ class Vector_mml : public DataStructure<T> {
   /// @brief Calculates the index of an element in the flat vector containing the data.
   /// @param indices The indices to get the index for.
   /// @return The index.
-  int index_with_offset(Vec<int> indices) const {
+  int index_with_offset(vector<int> indices) const {
     auto index = 0;
     const auto size = static_cast<int>(shape.size());
     for (int i = 0; i < size; i++) {
@@ -108,9 +108,9 @@ class Vector_mml : public DataStructure<T> {
 
   /// @brief Row-major offsets for the data structure.
   /// @return a vector of integers representing the offsets.
-  Vec<int> compute_offsets() const {
+  vector<int> compute_offsets() const {
     const int size = static_cast<int>(shape.size());
-    auto computed_offsets = Vec<int>(size, 1);
+    auto computed_offsets = vector<int>(size, 1);
     for (int i = size - 2; i >= 0; i--) {
       computed_offsets[i] = computed_offsets[i + 1] * this->shape[i];
     }

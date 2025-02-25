@@ -1,9 +1,7 @@
 #pragma once
 
-
-#include "a_tensor_func.hpp" // Needed for activation functions
-#include "tensor.hpp"        // Needed for Tensor<T>
-
+#include "a_tensor_func.hpp"  // Needed for activation functions
+#include "tensor.hpp"         // Needed for Tensor<T>
 
 /**
  * @class Layer
@@ -15,24 +13,24 @@
  */
 template <typename T>
 class Layer {
-protected:
-    /// @brief Default constructor.
-    explicit Layer() = default;
+ protected:
+  /// @brief Default constructor.
+  explicit Layer() = default;
 
-public:
-    /// @brief Virtual destructor ensures proper cleanup in derived classes.
-    virtual ~Layer() = default;
+ public:
+  /// @brief Virtual destructor ensures proper cleanup in derived classes.
+  virtual ~Layer() = default;
 
-    /// @brief Returns the tensor representation of the layer.
-    /// @return A Tensor<T> object representing the layer's parameters.
-    virtual Tensor<T> tensor() const = 0;
+  /// @brief Returns the tensor representation of the layer.
+  /// @return A Tensor<T> object representing the layer's parameters.
+  virtual Tensor<T> tensor() const = 0;
 
-    /// @brief Returns the activation function of the layer. 
-    /// @return A TensorFunction<T> representing the layer's activation.
-    virtual std::unique_ptr<TensorFunction<T>>activation() const = 0;
+  /// @brief Returns the activation function of the layer.
+  /// @return A TensorFunction<T> representing the layer's activation.
+  virtual unique_ptr<TensorFunction<T>> activation() const = 0;
 
-    /// @brief Computes the forward pass through the layer.
-    /// @param input The input tensor.
-    /// @return The output tensor after applying the layer's transformation.
-    virtual Tensor<T> forward(const Tensor<T>& input) const = 0;
+  /// @brief Computes the forward pass through the layer.
+  /// @param input The input tensor.
+  /// @return The output tensor after applying the layer's transformation.
+  virtual Tensor<T> forward(const Tensor<T>& input) const = 0;
 };

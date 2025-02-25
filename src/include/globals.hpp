@@ -1,10 +1,13 @@
 #pragma once
+
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 
-template <typename T>
-using Vec = std::vector<T>;
-using String = std::string;
-using Data = nlohmann::json;
+using nlohmann::json;
+using std::make_unique;
+using std::move;
+using std::string;
+using std::unique_ptr;
+using std::vector;
