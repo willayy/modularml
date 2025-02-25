@@ -3,8 +3,8 @@
 #include <modularml>
 #include <numeric>
 #include <vector>
+#include <modularml>
 
-#include "mml_TensorFunction_TanH.hpp"
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \
@@ -82,9 +82,12 @@ int main() {
                           static_cast<float>(std::log(std::cosh(4))),
                           static_cast<float>(std::log(std::cosh(-4)))});
 
+  // Test applying tanH
   assert_msg("TanhFunction func test", tanh_func.func(t1) == expected_func);
+  // Test applying the derivative of tanH
   assert_msg("TanhFunction derivative test",
              tanh_func.derivative(t1) == expected_derivative);
+  // Test applying the primitive of tanH
   assert_msg("TanhFunction primitive test",
              tanh_func.primitive(t1) == expected_primitive);
 

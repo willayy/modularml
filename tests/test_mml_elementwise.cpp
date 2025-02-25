@@ -2,7 +2,7 @@
 #include <iostream>
 #include <modularml>
 #include <vector>
-#include "mml_elementwise.hpp"
+#include <modularml>
 
 #define assert_msg(name, condition)                         \
     if (!(condition)) {                                       \

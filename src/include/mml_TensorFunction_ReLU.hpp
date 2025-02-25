@@ -1,9 +1,8 @@
 #pragma once
 
 #include <cmath>
+#include <modularml>
 
-#include "a_tensor_func.hpp"
-#include "mml_elementwise.hpp"
 
 /**
  * @class mml_TensorFunction_ReLU.hpp

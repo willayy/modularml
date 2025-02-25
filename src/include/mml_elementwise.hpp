@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tensor.hpp"
+#include <modularml>
 
 /**
  * @brief Applies a given function element-wise to a tensor.
