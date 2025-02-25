@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cmath>
 #include <modularml>
 
 
@@ -17,10 +16,10 @@ class mml_TensorFunction_ReLU : public TensorFunction<float> {
    * @return A new tensor with the ReLU function applied to each element.
   */
   Tensor<float> func(const Tensor<float>& t) const {
-    // Right now this code is just a placeholder
     auto tensor = t;
-
-    return tensor;
+    return elementwise_apply(tensor, [](float x) {
+      return (x > 0) ? x : 0.0f;
+    });
   }
 
   /**
