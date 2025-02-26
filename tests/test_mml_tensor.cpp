@@ -37,61 +37,60 @@ int main() {
   Tensor<float> t1 = tensor_mll({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   Tensor<float> t2 = tensor_mll({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   Tensor<float> t3 = tensor_mll({3, 3}, {2, 4, 6, 8, 10, 12, 14, 16, 18});
+  Tensor<float> t4 = tensor_mll({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+  Tensor<float> t5 = tensor_mll({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+  Tensor<float> t6 = tensor_mll({3, 3}, {30, 36, 42, 66, 81, 96, 102, 126, 150});
 
   // Test equality operator
   assert_msg("Tensor equality test", t0 == t00)
 
-      // Test inequality operator
-      assert_msg("Tensor inequality test", t0 != t1)
+  // Test inequality operator
+  assert_msg("Tensor inequality test", t0 != t1)
 
-      // Test correct shape
-      const auto expected_shape = vector<int>{3, 3};
+  // Test correct shape
+  const auto expected_shape = vector<int>{3, 3};
   assert_msg("Tensor shape test", t0.get_shape() == expected_shape)
 
-      // Test adding two tensors
-      Tensor<float>
-          tt = t1 + t0;
+  // Test adding two tensors
+  Tensor<float> tt = t1 + t0;
   assert_msg("Tensor addition test", tt == t1)
 
-      // Test subtracting two tensors
-      tt = t1 - t0;
+  // Test subtracting two tensors
+  tt = t1 - t0;
   assert_msg("Tensor subtraction test", tt == t1)
 
-      // Test more subtraction
-      tt = t1 - t2;
+  // Test more subtraction
+  tt = t1 - t2;
   assert_msg("Tensor subtraction test 2", tt == t0)
 
-      // Test element wise multiplication
-      tt = t2 * 2;
+  // Test element wise multiplication
+  tt = t2 * 2;
   assert_msg("Tensor element wise multiplication test", tt == t3)
 
-      // Test element wise division
-      tt = t3 / 2;
+  // Test element wise division
+  tt = t3 / 2;
   assert_msg("Tensor element wise division test", tt == t2)
 
-      // Test getting an element
-      t1[{0, 0}] = 1.0;
+  // test matrix multiplication
+  tt = t4 * t5;
+  assert_msg("Tensor matrix multiplication test", tt == t6)
+
+  // Test getting an element
+  t1[{0, 0}] = 1.0;
   assert_msg("Tensor get/set element test 1", (t1[{0, 0}] == 1))
-      t1[{0, 0}] = 10.0;
+  t1[{0, 0}] = 10.0;
   assert_msg("Tensor get/set element test 2", (t1[{0, 0}] == 10))
-      t1[{2, 2}] = 10.0;
+  t1[{2, 2}] = 10.0;
   assert_msg("Tensor get/set element test 3", (t1[{2, 2}] == 10))
-      t1[{1, 2}] = 10.0;
+  t1[{1, 2}] = 10.0;
   assert_msg("Tensor get/set element test 4", (t1[{1, 2}] == 10))
 
-      // property testing
-      auto tensor_prop1 = [](Tensor<float> t) {
-        assert(t == (t * 2) / 2);
-      };
+  // property testing
+  auto tensor_prop1 = [](Tensor<float> t) { assert(t == (t * 2) / 2); };
 
-  auto tensor_prop2 = [](Tensor<float> t) {
-    assert(t == (t + t) / 2);
-  };
+  auto tensor_prop2 = [](Tensor<float> t) { assert(t == (t + t) / 2); };
 
-  auto tensor_prop3 = [](Tensor<float> t) {
-    const auto t_temp = tensor_mll(t.get_shape());
-    assert(t_temp == (t - t));
-  };
+  auto tensor_prop3 = [](Tensor<float> t) { assert(tensor_mll(t.get_shape()) == (t - t)); };
 
   auto tensor_prop4 = [](Tensor<float> t, int n) {
     Tensor<float> tp = tensor_mll(t.get_shape());
@@ -101,9 +100,7 @@ int main() {
     assert(tp == t * (n - 1));
   };
 
-  auto tensor_prop5 = [](Tensor<float> t, int n) {
-    assert(t == t * n / n);
-  };
+  auto tensor_prop5 = [](Tensor<float> t, int n) { assert(t == t * n / n); };
 
   std::cout << "Running property tests..." << std::endl;
   const auto pt_amount = 100;
