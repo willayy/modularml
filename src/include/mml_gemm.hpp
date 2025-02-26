@@ -135,6 +135,11 @@ class Gemm_mml : public GemmModule<float> {
     return;
   }
 
+  unique_ptr<GemmModule<float>> clone() const override {
+    return make_unique<Gemm_mml>(*this);
+  }
+
+  #pragma GCC diagnostic ignored "-Wunused-parameter"
   void gemm_blocked(int TA, int TB, int M, int N, int K, float ALPHA,
                     unique_ptr<DataStructure<float>> A, int lda,
                     unique_ptr<DataStructure<float>> B, int ldb,
@@ -166,4 +171,5 @@ class Gemm_mml : public GemmModule<float> {
                       unique_ptr<DataStructure<float>> C, int ldc) override {
     std::logic_error("Intel MKL GEMM not yet supported.");
   }
+
 };
