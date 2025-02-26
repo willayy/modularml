@@ -7,7 +7,7 @@
 
 #define ASSERT_ALLOWED_TYPES(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
-/// @brief A module for performing arithmetic operations on data structures.
+/// @brief A module for performing simple arithmetic operations on data structures.
 /// @tparam T the data type (numeric).
 /// @tparam D the data structure type (DataStructure).
 template <typename T>
@@ -36,12 +36,6 @@ class ArithmeticModule {
   /// @param b The data structure to subtract.
   /// @return The result of subtracting the second data structure from the first.
   virtual unique_ptr<DataStructure<T>> subtract(const unique_ptr<DataStructure<T>> a, const unique_ptr<DataStructure<T>> b) const = 0;
-
-  /// @brief Multiply two data structures.
-  /// @param a The first data structure.
-  /// @param b The second data structure.
-  /// @return The result of multiplying the two data structures.
-  virtual unique_ptr<DataStructure<T>> multiply(const unique_ptr<DataStructure<T>> a, const unique_ptr<DataStructure<T>> b) const = 0;
 
   /// @brief Multiply a data structure by a scalar.
   /// @param a The data structure.
