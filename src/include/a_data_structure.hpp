@@ -6,11 +6,12 @@
 
 #define ASSERT_ALLOWED_TYPES(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
-/// @brief A class creating an interface for one dimensional data structures.
+/// @brief A wrapper class creating an interface for one dimensional data structures.
 /// @tparam T the type of the data structure.
 template <typename T>
 class DataStructure {
  public:
+
   /// @brief Default constructor for DataStructure class.
   DataStructure() = default;
 
@@ -64,5 +65,4 @@ class DataStructure {
   T& operator[](int index) {
     return get_mutable_elem(index);
   }
-
 };
