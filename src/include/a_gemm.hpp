@@ -235,4 +235,7 @@ class GemmModule {
                               unique_ptr<DataStructure<T>> B, int ldb,
                               T BETA,
                               unique_ptr<DataStructure<T>> C, int ldc) = 0;
+
+  
+  virtual unique_ptr<GemmModule<float>> clone() const = 0;
 };
