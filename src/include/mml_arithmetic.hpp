@@ -7,8 +7,7 @@
 
 class Arithmetic_mml : public ArithmeticModule<float> {
  public:
-  ~Arithmetic_mml() override = default;
-
+  
   // Override default constructor
   Arithmetic_mml() = default;
 
@@ -17,6 +16,9 @@ class Arithmetic_mml : public ArithmeticModule<float> {
 
   // Override copy constructor
   Arithmetic_mml(const Arithmetic_mml&) = default;
+
+  // Override destructor
+  ~Arithmetic_mml() override = default;
 
   unique_ptr<DataStructure<float>> add(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
     const int size = a->get_size();
@@ -34,11 +36,6 @@ class Arithmetic_mml : public ArithmeticModule<float> {
       res_raw[i] = a->get_elem(i) - b->get_elem(i);
     }
     return make_unique<Vector_mml<float>>(res_raw);
-  }
-
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-  unique_ptr<DataStructure<float>> multiply(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
-    return nullptr;  // TODO: Implement this
   }
 
   unique_ptr<DataStructure<float>> multiply(const unique_ptr<DataStructure<float>> a, const float b) const override {
