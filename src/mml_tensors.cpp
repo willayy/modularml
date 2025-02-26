@@ -1,6 +1,7 @@
 #include "mml_tensors.hpp"
 
 #include <numeric>
+#include "mml_gemm.hpp"
 
 /// @brief Initializes a new tensor with the given shape and all elements set to zero.
 /// @param shape The shape of the tensor.
@@ -9,7 +10,8 @@ Tensor<float> tensor_mll(const vector<int> shape) {  // NOSONAR - function signa
   auto size = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
   auto ds = make_unique<Vector_mml<float>>(size);
   auto am = make_unique<Arithmetic_mml>();
-  return Tensor<float>(move(ds), move(am), shape);
+  auto gm = make_unique<Gemm_mml>();
+  return Tensor<float>(move(ds), move(am), move(gm), shape);
 }
 
 /// @brief Initializes a new tensor with the given shape and data.
@@ -19,7 +21,8 @@ Tensor<float> tensor_mll(const vector<int> shape) {  // NOSONAR - function signa
 Tensor<float> tensor_mll(const vector<int> shape, const vector<float>& data) {  // NOSONAR - function signature is correct
   auto ds = make_unique<Vector_mml<float>>(data);
   auto am = make_unique<Arithmetic_mml>();
-  return Tensor<float>(move(ds), move(am), shape);
+  auto gm = make_unique<Gemm_mml>();
+  return Tensor<float>(move(ds), move(am), move(gm), shape);
 }
 
 /// @brief Initializes a new tensor with the given shape and data.
@@ -29,5 +32,6 @@ Tensor<float> tensor_mll(const vector<int> shape, const vector<float>& data) {  
 Tensor<float> tensor_mll(const vector<int> shape, const vector<float> data) {  // NOSONAR - function signature is correct
   auto ds = make_unique<Vector_mml<float>>(data);
   auto am = make_unique<Arithmetic_mml>();
-  return Tensor<float>(move(ds), move(am), shape);
+  auto gm = make_unique<Gemm_mml>();
+  return Tensor<float>(move(ds), move(am), move(gm), shape);
 }
