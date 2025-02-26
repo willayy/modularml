@@ -9,19 +9,22 @@
 template <typename T>
 class Vector_mml : public DataStructure<T> {
  public:
-  explicit Vector_mml(vector<T> data) : DataStructure<T>(), data(data) {
-    this->data = vector<T>(data);
-  }
-
+  
+  // Override constructor
   explicit Vector_mml(int size) : DataStructure<T>() {
     this->data = vector<T>(size, 0);
   }
 
+  // Override constructor
+  explicit Vector_mml(const vector<T> data) : DataStructure<T>() {
+    this->data = data;
+  }
+
   // Override move constructor
-  Vector_mml(Vector_mml&& other) noexcept : data(move(other.data)) {}
+  Vector_mml(Vector_mml&& other) noexcept : DataStructure<T>(other), data(move(other.data)) {}
 
   // Override copy constructor
-  Vector_mml(const Vector_mml& other) : data(other.data) {}
+  Vector_mml(const Vector_mml& other) : DataStructure<T>(other), data(vector<T>(other.data)) {}
 
   ~Vector_mml() override = default;
 
@@ -68,7 +71,7 @@ class Vector_mml : public DataStructure<T> {
   /// @param indices The indices to check.
   /// @return True if the indices are valid, false otherwise.
   bool valid_index(const int index) const {
-    if (const int size = this->data.size(); 0  > index || index >= size) {
+    if (const int size = this->data.size(); 0 > index || index >= size) {
       return false;
     }
     return true;
