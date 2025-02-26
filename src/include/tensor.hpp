@@ -26,11 +26,12 @@ class Tensor {
  public:
   /*!
       @brief Constructor for Tensor class.
+      @param am Shared pointer to the arithmetic module used to perform operations on the tensor data.
       @param data Shared pointer to the data structure used to store the tensor data.
-      @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
+      @param shape The shape of the tensor.
   */
-  Tensor(unique_ptr<DataStructure<T>> data, unique_ptr<ArithmeticModule<T>> am)
-      : data(move(data)), am(move(am)) {}
+  Tensor(unique_ptr<DataStructure<T>> data, unique_ptr<ArithmeticModule<T>> am, vector<int> shape)
+      : data(move(data)), am(move(am)), shape(move(shape)), offsets(compute_offsets()) {}
 
   /*!
       @brief Move constructor.
@@ -55,8 +56,8 @@ class Tensor {
       @brief Get the shape of the tensor.
       @return A vector of integers representing the shape.
   */
-  vector<int> get_shape() {
-    return this->data->get_shape();
+  const vector<int> get_shape() const {
+    return this->shape;
   }
 
   /*!
@@ -64,7 +65,15 @@ class Tensor {
       @return A string representation of the shape. E.g. [2, 3, 4].
   */
   string get_shape_str() const {
-    return this->data->get_shape_str();
+    string shape_str = "[";
+    for (int i = 0; i < static_cast<int>(this->shape.size()); i++) {
+      shape_str += std::to_string(this->shape[i]);
+      if (i != static_cast<int>(this->shape.size()) - 1) {
+        shape_str += ", ";
+      }
+    }
+    shape_str += "]";
+    return shape_str;
   }
 
   // ARITHMETIC OPERATIONS
@@ -79,7 +88,8 @@ class Tensor {
     unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
     unique_ptr<DataStructure<T>> ds = this->am->add(move(this_ds_copy), move(other_ds_copy));
     unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    auto shape_copy = this->shape;
+    return Tensor<T>(move(ds), move(am_copy), shape_copy);
   }
 
   /*!
@@ -92,7 +102,8 @@ class Tensor {
     unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
     unique_ptr<DataStructure<T>> ds = this->am->subtract(move(this_ds_copy), move(other_ds_copy));
     unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    auto shape_copy = this->shape;
+    return Tensor<T>(move(ds), move(am_copy), shape_copy);
   }
 
   /*!
@@ -105,7 +116,8 @@ class Tensor {
     unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
     unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(other_ds_copy));
     unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    auto shape_copy = this->shape;
+    return Tensor<T>(move(ds), move(am_copy), shape_copy);
   }
 
   /*!
@@ -117,7 +129,8 @@ class Tensor {
     unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
     unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(scalar));
     unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    auto shape_copy = this->shape;
+    return Tensor<T>(move(ds), move(am_copy), shape_copy);
   }
 
   /*!
@@ -129,7 +142,8 @@ class Tensor {
     unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
     unique_ptr<DataStructure<T>> ds = this->am->divide(move(this_ds_copy), move(scalar));
     unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    auto shape_copy = this->shape;
+    return Tensor<T>(move(ds), move(am_copy), shape_copy);
   }
 
   /*!
@@ -171,7 +185,11 @@ class Tensor {
       @return The element at the given indices.
   */
   const T &operator[](vector<int> indices) const {
-    return this->data->get_elem(indices);
+    if (!valid_indices(indices)) {
+      throw std::out_of_range("Invalid Tensor indices");
+    } else {
+      return this->data->get_elem(index_with_offset(indices));
+    }
   }
 
   /*!
@@ -180,7 +198,11 @@ class Tensor {
       @return The tensor with the element get_mutable_elem.
   */
   T &operator[](vector<int> indices) {
-    return this->data->get_mutable_elem(indices);
+    if (!valid_indices(indices)) {
+      throw std::out_of_range("Invalid Tensor indices");
+    } else {
+      return this->data->get_mutable_elem(index_with_offset(indices));
+    }
   }
 
  private:
@@ -189,4 +211,48 @@ class Tensor {
 
   /// @brief Underlying arithmetic module for the tensor.
   unique_ptr<ArithmeticModule<T>> am;
+
+  /// @brief The shape of the tensor.
+  vector<int> shape;
+
+  /// @brief The row-major offsets for the tensor.
+  vector<int> offsets;
+
+  /// @brief Check if the indices are valid.
+  /// @param indices The indices to check.
+  /// @return True if the indices are valid, false otherwise.
+  bool valid_indices(const vector<int> &indices) const {
+    if (indices.size() != this->shape.size()) {
+      return false;
+    }
+    for (int i = 0; i < static_cast<int>(indices.size()); i++) {
+      if (indices[i] < 0 || indices[i] >= this->shape[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// @brief Calculates the index of an element in the flat vector containing the data.
+  /// @param indices The indices to get the index for.
+  /// @return The index.
+  int index_with_offset(vector<int> indices) const {
+    auto index = 0;
+    const auto size = static_cast<int>(shape.size());
+    for (int i = 0; i < size; i++) {
+      index += (indices[i]) * this->offsets[i];
+    }
+    return index;
+  }
+
+  /// @brief Row-major offsets for the data structure.
+  /// @return a vector of integers representing the offsets.
+  vector<int> compute_offsets() const {
+    const int size = static_cast<int>(shape.size());
+    auto computed_offsets = vector<int>(size, 1);
+    for (int i = size - 2; i >= 0; i--) {
+      computed_offsets[i] = computed_offsets[i + 1] * this->shape[i];
+    }
+    return computed_offsets;
+  }
 };
