@@ -68,8 +68,7 @@ class Vector_mml : public DataStructure<T> {
   /// @param indices The indices to check.
   /// @return True if the indices are valid, false otherwise.
   bool valid_index(const int index) const {
-    const int size = this->data.size();
-    if (index > 0 || index < size) {
+    if (const int size = this->data.size(); 0  > index || index >= size) {
       return false;
     }
     return true;
