@@ -19,23 +19,21 @@ class Arithmetic_mml : public ArithmeticModule<float> {
   Arithmetic_mml(const Arithmetic_mml&) = default;
 
   unique_ptr<DataStructure<float>> add(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
-    const auto& a_raw = a->get_raw_data();
-    const auto& b_raw = b->get_raw_data();
-    auto res_raw = vector<float>(a->get_data_size(), 0);
-    for (int i = 0; i < a->get_data_size(); i++) {
-      res_raw[i] = a_raw[i] + b_raw[i];
+    const int size = a->get_size();
+    auto res_raw = vector<float>(size, 0);
+    for (int i = 0; i < size; i++) {
+      res_raw[i] = a->get_elem(i) + b->get_elem(i);
     }
-    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(res_raw);
   }
 
   unique_ptr<DataStructure<float>> subtract(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
-    const auto& a_raw = a->get_raw_data();
-    const auto& b_raw = b->get_raw_data();
-    auto res_raw = vector<float>(a->get_data_size(), 0);
-    for (int i = 0; i < a->get_data_size(); i++) {
-      res_raw[i] = a_raw[i] - b_raw[i];
+    const int size = a->get_size();
+    auto res_raw = vector<float>(size, 0);
+    for (int i = 0; i < size; i++) {
+      res_raw[i] = a->get_elem(i) - b->get_elem(i);
     }
-    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(res_raw);
   }
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -44,31 +42,30 @@ class Arithmetic_mml : public ArithmeticModule<float> {
   }
 
   unique_ptr<DataStructure<float>> multiply(const unique_ptr<DataStructure<float>> a, const float b) const override {
-    const auto& a_raw = a->get_raw_data();
-    auto res_raw = vector<float>(a->get_data_size(), 0);
-    for (int i = 0; i < a->get_data_size(); i++) {
-      res_raw[i] = a_raw[i] * b;
+    const int size = a->get_size();
+    auto res_raw = vector<float>(size, 0);
+    for (int i = 0; i < size; i++) {
+      res_raw[i] = a->get_elem(i) * b;
     }
-    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(res_raw);
   }
 
   unique_ptr<DataStructure<float>> divide(const unique_ptr<DataStructure<float>> a, const float b) const override {
-    const auto& a_raw = a->get_raw_data();
-    auto res_raw = vector<float>(a->get_data_size(), 0);
-    for (int i = 0; i < a->get_data_size(); i++) {
-      res_raw[i] = a_raw[i] / b;
+    const int size = a->get_size();
+    auto res_raw = vector<float>(size, 0);
+    for (int i = 0; i < size; i++) {
+      res_raw[i] = a->get_elem(i) / b;
     }
-    return make_unique<Vector_mml<float>>(a->get_shape(), res_raw);
+    return make_unique<Vector_mml<float>>(res_raw);
   }
 
   bool equals(const unique_ptr<DataStructure<float>> a, const unique_ptr<DataStructure<float>> b) const override {
-    if (bool same_shape = a->get_shape() == b->get_shape(); !same_shape) {
+    if (bool same_shape = a->get_size() == b->get_size(); !same_shape) {
       return false;
     }
-    const auto& a_data = a->get_raw_data();
-    const auto& b_data = b->get_raw_data();
-    for (int i = 0; i < a->get_data_size(); i++) {
-      if (!f_eq(a_data[i], b_data[i])) {
+    const int size = a->get_size();
+    for (int i = 0; i < size; i++) {
+      if (!f_eq(a->get_elem(i), b->get_elem(i))) {
         return false;
       }
     }
