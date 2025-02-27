@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <modularml>
-#include "mml_elementwise.hpp"
 
 /**
  * @class mml_TensorFunction_Tanh
