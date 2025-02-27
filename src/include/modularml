@@ -19,3 +19,4 @@
 #include "mml_tensors.hpp"
 #include "mml_vector.hpp"
 #include "tensor.hpp"
+#include "mml_matmul.hpp"

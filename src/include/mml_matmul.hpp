@@ -32,7 +32,7 @@ class MatMul : public Layer<T> {
      * @param input The input tensor to be multiplied.
      * @return A unique pointer to the result tensor.
      */
-    std::unique_ptr<Tensor<T>> forward(const Tensor<T>& input) const override;
+    Tensor<T> forward(const Tensor<T>& input) const override;
 
     /**
      * @brief Returns the weight tensor used in the layer.
