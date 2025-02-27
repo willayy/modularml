@@ -1,7 +1,9 @@
 #pragma once
 
-#include "a_data_structure.hpp"
 #include "globals.hpp"
+#include "tensor.hpp"
+
+#define ASSERT_ALLOWED_TYPES_GM(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
 /// @brief Abstract class for classes that contain standard GEMM functions.
 /// @tparam T the type of the data that the GEMM functions will operate on.
@@ -42,10 +44,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                  unique_ptr<DataStructure<T>> A, int lda,
-                                  unique_ptr<DataStructure<T>> B, int ldb,
+                                  shared_ptr<Tensor<T>> A, int lda,
+                                  shared_ptr<Tensor<T>> B, int ldb,
                                   T BETA,
-                                  unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                                  shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Basic CPU implementation of GEMM, with the outer product approach.
@@ -69,10 +71,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                  unique_ptr<DataStructure<T>> A, int lda,
-                                  unique_ptr<DataStructure<T>> B, int ldb,
+                                  shared_ptr<Tensor<T>> A, int lda,
+                                  shared_ptr<Tensor<T>> B, int ldb,
                                   T BETA,
-                                  unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                                  shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Basic CPU implementation of GEMM, with the row-wise product approach.
@@ -96,10 +98,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_row_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                     unique_ptr<DataStructure<T>> A, int lda,
-                                     unique_ptr<DataStructure<T>> B, int ldb,
+                                     shared_ptr<Tensor<T>> A, int lda,
+                                     shared_ptr<Tensor<T>> B, int ldb,
                                      T BETA,
-                                     unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                                     shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Basic CPU implementation of GEMM, with the col-wise product approach.
@@ -123,10 +125,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_col_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                     unique_ptr<DataStructure<T>> A, int lda,
-                                     unique_ptr<DataStructure<T>> B, int ldb,
+                                     shared_ptr<Tensor<T>> A, int lda,
+                                     shared_ptr<Tensor<T>> B, int ldb,
                                      T BETA,
-                                     unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                                     shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Blocked CPU implementation of GEMM.
@@ -150,10 +152,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
-                            unique_ptr<DataStructure<T>> A, int lda,
-                            unique_ptr<DataStructure<T>> B, int ldb,
+                            shared_ptr<Tensor<T>> A, int lda,
+                            shared_ptr<Tensor<T>> B, int ldb,
                             T BETA,
-                            unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                            shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Vectorized implementation of GEMM using SIMD thanks to AVX
@@ -177,10 +179,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                        unique_ptr<DataStructure<T>> A, int lda,
-                        unique_ptr<DataStructure<T>> B, int ldb,
+                        shared_ptr<Tensor<T>> A, int lda,
+                        shared_ptr<Tensor<T>> B, int ldb,
                         T BETA,
-                        unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                        shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief Vectorized implementation of GEMM using SIMD thanks to AVX512
@@ -204,10 +206,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                           unique_ptr<DataStructure<T>> A, int lda,
-                           unique_ptr<DataStructure<T>> B, int ldb,
+                           shared_ptr<Tensor<T>> A, int lda,
+                           shared_ptr<Tensor<T>> B, int ldb,
                            T BETA,
-                           unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                           shared_ptr<Tensor<T>> C, int ldc) = 0;
 
   /**
    * @brief GEMM using Intel's Math Kernel Library
@@ -231,11 +233,10 @@ class GemmModule {
    * @param ldc Specifies the first dimension of matrix C.
    */
   virtual void gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
-                              unique_ptr<DataStructure<T>> A, int lda,
-                              unique_ptr<DataStructure<T>> B, int ldb,
+                              shared_ptr<Tensor<T>> A, int lda,
+                              shared_ptr<Tensor<T>> B, int ldb,
                               T BETA,
-                              unique_ptr<DataStructure<T>> C, int ldc) = 0;
+                              shared_ptr<Tensor<T>> C, int ldc) = 0;
 
-  
-  virtual unique_ptr<GemmModule<float>> clone() const = 0;
+  virtual shared_ptr<GemmModule<float>> clone() const = 0;
 };
