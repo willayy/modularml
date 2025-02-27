@@ -10,8 +10,31 @@
   assert(condition);                                        \
   std::cout << name << ": " << (condition ? "Passed" : "Failed") << std::endl;
 
+
+/**
+ * @brief Computes the square of a given number.
+ *
+ * This function takes a single floating-point number as input and returns its square.
+ * It is used to test elementwise operations in the modularml library.
+ *
+ * @param x The number to be squared.
+ * @return The square of the input number.
+ */
 float square(float x) { return x * x; }
 
+/**
+ * @file test_mml_elementwise.cpp
+ * @brief Tests for the mml_elementwise class and its functions.
+ */
+
+/**
+ * @brief Main function to test the mml_elementwise class.
+ * 
+ * This function creates two tensors and applies an elementwise operation
+ * to one of them. It then checks if the result matches the expected tensor.
+ * 
+ * @return int Returns 0 upon successful completion of all tests.
+ */
 int main() {
   mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
 
