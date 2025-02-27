@@ -2,12 +2,16 @@
 
 #include <cmath>
 #include <modularml>
+#include "mml_elementwise.hpp"
 
 /**
  * @class mml_TensorFunction_Tanh
  * @brief A class that implements a tensor function for the tanH function.
  */
 class mml_TensorFunction_Tanh : public TensorFunction<float> {
+ private:
+  mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
+
  public:
   /**
    * @brief Apply the tanH function to the given tensor.
@@ -17,7 +21,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
   */
   Tensor<float> func(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(tensor, [](float x) { return std::tanh(x); });
+    return elementwise.apply(tensor, [](float x) { return std::tanh(x); });
   }
 
   /**
@@ -28,7 +32,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
   */
   Tensor<float> derivative(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(tensor, [](float x) {
+    return elementwise.apply(tensor, [](float x) {
       float tanh_x = std::tanh(x);  // Compute the derivative of tanh(x)
       return 1.0f - tanh_x * tanh_x;
     });
@@ -42,7 +46,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
   */
   Tensor<float> primitive(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(tensor, [](float x) {
+    return elementwise.apply(tensor, [](float x) {
       return std::log(std::cosh(x));  // Compute the integral of tanh(x)
     });
   }

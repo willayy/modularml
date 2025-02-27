@@ -2,12 +2,14 @@
 
 #include <modularml>
 
-
 /**
  * @class mml_TensorFunction_ReLU.hpp
  * @brief A class that implements a tensor function for the tanH function.
  */
 class mml_TensorFunction_ReLU : public TensorFunction<float> {
+ private:
+  mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
+
  public:
   /**
    * @brief Apply the ReLU function to the given tensor.
@@ -17,9 +19,7 @@ class mml_TensorFunction_ReLU : public TensorFunction<float> {
   */
   Tensor<float> func(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(tensor, [](float x) {
-      return (x > 0) ? x : 0.0f;
-    });
+    return elementwise.apply(tensor, [](float x) { return (x > 0) ? x : 0.0f; });
   }
 
   /**
@@ -30,7 +30,7 @@ class mml_TensorFunction_ReLU : public TensorFunction<float> {
   */
   Tensor<float> derivative(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(tensor, [](float x) {
+    return elementwise.apply(tensor, [](float x) {
       return (x > 0) ? 1.0f : 0.0f;  // Defaults to 0, like TensorFlow does
     });
   }
@@ -43,7 +43,6 @@ class mml_TensorFunction_ReLU : public TensorFunction<float> {
   */
   Tensor<float> primitive(const Tensor<float>& t) const {
     auto tensor = t;
-    return elementwise_apply(
-        tensor, [](float x) { return (x > 0) ? (x * x) / 2.0f : 0.0f; });
+    return elementwise.apply(tensor, [](float x) { return (x > 0) ? (x * x) / 2.0f : 0.0f; });
   }
 };
