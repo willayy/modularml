@@ -1,3 +1,5 @@
+
+
 import onnx
 import argparse
 import os
@@ -30,7 +32,6 @@ def convert_initializer(initializer):
     dtype = dtype_map.get(initializer.data_type, np.float32)  # Default to float32
     return np.frombuffer(initializer.raw_data, dtype=dtype).tolist()
 
-
 """ Creates a JSON representation of the model stored in ONNX format """
 def onnx_to_json(path: str):
     if is_onnx(path):
@@ -45,34 +46,44 @@ def onnx_to_json(path: str):
                 "ir_version": model.ir_version,
                 "opset_version": model.opset_import[0].version
             },
-            "nodes": [
-                {
-                    "name": node.name,
-                    "op_type": node.op_type,
-                    "inputs": [{"name": i} for i in node.input],
-                    "outputs": [{"name": i} for i in node.output],
-                    "attributes": {attr.name: onnx.helper.get_attribute_value(attr) for attr in node.attribute},
-                    "initializers": [
-                        {
-                            "name": initializer.name,
-                            "shape": [dim for dim in initializer.dims],
-                            "data_type": onnx.TensorProto.DataType.Name(initializer.data_type),
-                            "values": convert_initializer(initializer)
-                        }
-                        for inp in node.input if inp in initializers_dict
-                        for initializer in [initializers_dict[inp]]
-                    ]
-                } for node in graph.node
-            ]
+            "nodes": []
         }
+
+        num_nodes = len(graph.node)
+        for index, node in enumerate(graph.node):
+            if (index + 1 == num_nodes):
+                print(f"\rProcessing nodes: {index + 1}/{num_nodes}", flush=True) # Shows the progress of the script
+            else:
+                print(f"\rProcessing nodes: {index + 1}/{num_nodes}", end="", flush=True) # Shows the progress of the script
+
+            node_json = {
+                "name": node.name,
+                "op_type": node.op_type,
+                "inputs": [{"name": i} for i in node.input],
+                "outputs": [{"name": i} for i in node.output],
+                "attributes": {attr.name: onnx.helper.get_attribute_value(attr) for attr in node.attribute},
+                "initializers": [
+                    {
+                        "name": initializer.name,
+                        "shape": [dim for dim in initializer.dims],
+                        "data_type": onnx.TensorProto.DataType.Name(initializer.data_type),
+                        "values": convert_initializer(initializer)
+                    }
+                    for inp in node.input if inp in initializers_dict
+                    for initializer in [initializers_dict[inp]]
+                ]
+            }
+            model_json["nodes"].append(node_json)
+
 
         with open("./model.json", "w") as f:
             json.dump(model_json, f, indent=4)
 
+
 # Script that reads a onnx file and converts it into a json format.
 def main():
     args = parser.parse_args()
-    onnx_to_json(args.path)
+    onnx_to_json_v2(args.path)
 
 if __name__ == "__main__":
     main()
