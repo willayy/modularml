@@ -9,7 +9,6 @@
 template <typename T>
 class Vector_mml : public DataStructure<T> {
  public:
-  
   // Override constructor
   explicit Vector_mml(int size) : DataStructure<T>() {
     this->data = vector<T>(size, 0);
@@ -60,8 +59,8 @@ class Vector_mml : public DataStructure<T> {
     }
   }
 
-  unique_ptr<DataStructure<T>> clone() const override {
-    return make_unique<Vector_mml<T>>(*this);
+  shared_ptr<DataStructure<T>> clone() const override {
+    return make_shared<Vector_mml<T>>(*this);
   }
 
  private:
