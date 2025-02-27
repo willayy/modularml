@@ -48,6 +48,21 @@ for each. Below is an overview of the primary node types and the information the
      - transA: Whether to transpose input matrix A
      - transB: Whether to transpose input matrix B
 
+7. MatMul (Matrix Multiplication)
+   - Inputs: Two matrices A and B
+   - Outputs: Matrix product (A × B)
+   - Attributes: None (MatMul performs standard matrix multiplication)
+   - Notes: 
+     - This is often followed by BiasAdd to form a fully connected layer.
+     - Often there are weights stored as an attribute making the node have a single input
+
+     8. BiasAdd
+   - Inputs: Input tensor, Bias tensor
+   - Outputs: Input tensor with bias added element-wise
+   - Attributes: None (BiasAdd is a simple addition operation)
+   - Notes: 
+     - In some ONNX models, Gemm replaces MatMul + BiasAdd for efficiency.
+
 ============================
 
 Notes:
