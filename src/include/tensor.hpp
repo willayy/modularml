@@ -28,6 +28,15 @@ class Tensor {
   @brief Constructor for Tensor class.
   @param data Unique pointer to the data structure used to store the tensor data.
   @param shape The shape of the tensor.*/
+  Tensor(shared_ptr<DataStructure<T>> data, initializer_list<int> shape)
+      : data(move(data)),
+        shape(vector<int>(shape)),
+        offsets(compute_offsets()) {}
+
+  /*!
+  @brief Constructor for Tensor class.
+  @param data Unique pointer to the data structure used to store the tensor data.
+  @param shape The shape of the tensor.*/
   Tensor(shared_ptr<DataStructure<T>> data, vector<int> shape)
       : data(move(data)),
         shape(move(shape)),
@@ -107,7 +116,7 @@ class Tensor {
   @return The moved tensor.*/
   Tensor &operator=(Tensor &&other) noexcept {
     if (this != &other) {
-      data = move(other.data);
+      *this = move(other);
     }
     return *this;
   }
@@ -159,6 +168,16 @@ class Tensor {
       throw logic_error("Invalid shape for reshape operation.");
     }
     this->shape = new_shape;
+    this->offsets = compute_offsets();
+  }
+
+  /// @brief Reshape the tensor.
+  /// @param new_shape The new shape of the tensor.
+  void reshape(initializer_list<int> new_shape) {
+    if (!valid_shape(new_shape)) {
+      throw logic_error("Invalid shape for reshape operation.");
+    }
+    this->shape = vector<int>(new_shape);
     this->offsets = compute_offsets();
   }
 
@@ -224,6 +243,6 @@ class Tensor {
   }
 
   bool valid_shape(const vector<int> &new_shape) const {
-    return new_shape.empty() && accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
+    return accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
   }
 };

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <numeric>
-#include <stdexcept>
-
 #include "a_data_structure.hpp"
 #include "globals.hpp"
 

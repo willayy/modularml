@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 #include "globals.hpp"
 
 #define ASSERT_ALLOWED_TYPE_D(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
