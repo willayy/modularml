@@ -4,14 +4,13 @@
 
 #include "globals.hpp"
 
-#define ASSERT_ALLOWED_TYPES(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
+#define ASSERT_ALLOWED_TYPE_D(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
 /// @brief A wrapper class creating an interface for one dimensional data structures.
 /// @tparam T the type of the data structure.
 template <typename T>
 class DataStructure {
  public:
-
   /// @brief Default constructor for DataStructure class.
   DataStructure() = default;
 
@@ -50,7 +49,7 @@ class DataStructure {
 
   /// @brief Clone the data structure.
   /// @return a unique pointer to a new data structure with the same data.
-  virtual unique_ptr<DataStructure<T>> clone() const = 0;
+  virtual shared_ptr<DataStructure<T>> clone() const = 0;
 
   /// @brief Array subscript operator for getting an element from the data structure.
   /// @param index an integer representing the index of the data structure.
