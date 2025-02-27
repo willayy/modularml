@@ -1,7 +1,6 @@
 #include <cassert>
 #include <iostream>
 #include <modularml>
-#include <vector>
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \
@@ -42,8 +41,8 @@ int main() {
   Tensor<float> t2 = tensor_mll({3, 3}, {1, 4, 9, 16, 25, 36, 49, 64, 81});
 
   // Test elementwise_apply function
-  elementwise.apply(t1, square);
-  assert_msg("Elementwise apply test", t1 == t2);
+  auto t3 = elementwise.apply(t1, square);
+  assert_msg("Elementwise apply test", t3 == t2);
 
   std::cout << "All tests completed!" << std::endl;
 

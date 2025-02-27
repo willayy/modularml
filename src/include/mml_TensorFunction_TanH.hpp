@@ -19,8 +19,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
    * @return A new tensor with the tanH function applied to each element.
   */
   Tensor<float> func(const Tensor<float>& t) const {
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) { return std::tanh(x); });
+    return elementwise.apply(t, [](float x) { return std::tanh(x); });
   }
 
   /**
@@ -30,8 +29,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
    * @return A new tensor with the derivative of tanH applied to each element.
   */
   Tensor<float> derivative(const Tensor<float>& t) const {
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) {
+    return elementwise.apply(t, [](float x) {
       float tanh_x = std::tanh(x);  // Compute the derivative of tanh(x)
       return 1.0f - tanh_x * tanh_x;
     });
@@ -44,8 +42,7 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
    * @return A new tensor with the primitive of tanH applied to each element.
   */
   Tensor<float> primitive(const Tensor<float>& t) const {
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) {
+    return elementwise.apply(t, [](float x) {
       return std::log(std::cosh(x));  // Compute the integral of tanh(x)
     });
   }

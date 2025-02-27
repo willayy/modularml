@@ -15,8 +15,7 @@ class mml_TensorFunction_Swish : public TensorFunction<float> {
   * @return A new tensor with the Swish function applied to each element.
  */
   Tensor<float> func(const Tensor<float>& t) const {
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) {
+    return elementwise.apply(t, [](float x) {
       return x / (1.0f + std::exp(-x));  // Compute the Swish function
     });
   }
@@ -28,8 +27,7 @@ class mml_TensorFunction_Swish : public TensorFunction<float> {
    * @return A new tensor with the derivative of Swish applied to each element.
   */
   Tensor<float> derivative(const Tensor<float>& t) const {
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) {
+    return elementwise.apply(t, [](float x) {
       float sigmoid_x = 1.0f / (1.0f + std::exp(-x));  // Compute the derivative of the Swish function
       return sigmoid_x + x * sigmoid_x * (1.0f - sigmoid_x);
     });
@@ -44,8 +42,7 @@ class mml_TensorFunction_Swish : public TensorFunction<float> {
   Tensor<float> primitive(const Tensor<float>& t) const {
     // This has to be an approximation as there is no known closed-form solution
     // Uses integral approximaation
-    auto tensor = t;
-    return elementwise.apply(tensor, [](float x) {
+    return elementwise.apply(t, [](float x) {
       float sigmoid_x = 1.0f / (1.0f + std::exp(-x));        // Compute σ(x)
       return x * sigmoid_x + std::log(1.0f + std::exp(-x));  // Compute integral of Swish
     });
