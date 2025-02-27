@@ -6,6 +6,7 @@
 #include "a_layer.hpp"
 #include "a_model.hpp"
 #include "a_tensor_func.hpp"
+#include "a_elementwise.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
 #include "mml_tensors.hpp"
