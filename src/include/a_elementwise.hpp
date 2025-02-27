@@ -27,5 +27,5 @@ class Elementwise {
    * tensor.
    * @return A reference to the modified tensor.
    */
-  virtual Tensor<T>& apply(Tensor<T>& t, T (*f)(T)) = 0;
+  virtual Tensor<T> apply(const Tensor<T>& t, T (*f)(T)) = 0;
 };

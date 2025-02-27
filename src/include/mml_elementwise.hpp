@@ -29,12 +29,13 @@ class mml_elementwise : public Elementwise<T> {
    * @param f A pointer to the function that will be applied to each element of the tensor.
    * @return A reference to the modified tensor after applying the function.
    */
-  Tensor<T>& apply(Tensor<T>& t, T (*f)(T)) override {
-    for (int i = 0; i < t.get_shape()[0]; i++) {
-      for (int j = 0; j < t.get_shape()[1]; j++) {
-        t[{i, j}] = f(t[{i, j}]);
+  Tensor<T> apply(const Tensor<T>& t, T (*f)(T)) override {
+    auto tensor = t;
+    for (int i = 0; i < tensor.get_shape()[0]; i++) {
+      for (int j = 0; j < tensor.get_shape()[1]; j++) {
+        tensor[{i, j}] = f(tensor[{i, j}]);
       }
     }
-    return t;
+    return tensor;
   }
 };
