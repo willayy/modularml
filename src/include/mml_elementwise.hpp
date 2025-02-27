@@ -2,24 +2,39 @@
 
 #include <modularml>
 
+#define ASSERT_ALLOWED_TYPES(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
+
 /**
- * @brief Applies a given function element-wise to a tensor.
+ * @brief Concrete implementation of Elementwise for applying functions
+ *   element-wise.
  *
- * This function iterates over each element in the given tensor and applies
- * the provided function to each element, modifying the tensor in place.
+ * This class provides an implementation of the abstract method from the
+ * Elementwise interface, applying a given function element-wise to a tensor.
+ * It can be used with tensors of any type.
  *
- * @param t The tensor to which the function will be applied.
- * @param f A pointer to the function that will be applied to each element of
- * the tensor. The function should take a float as input and return a float.
- * @return A reference to the modified tensor.
+ * @tparam T The type of the tensor elements.
  */
-Tensor<float>& elementwise_apply(Tensor<float>& t, float (*f)(float)) {
+template <typename T>
+class mml_elementwise : public Elementwise<T> {
+ public:
   // This function can be made way more efficent by the use of multi-threading
   // I intend on making that an improvement in the future
-  for (int i = 0; i < t.get_shape()[0]; i++) {
-    for (int j = 0; j < t.get_shape()[1]; j++) {
-      t[{i, j}] = f(t[{i, j}]);
+  /**
+   * @brief Applies a given function element-wise to a tensor.
+   *
+   * This function iterates over each element of the input tensor and applies the provided function to it.
+   *
+   * @tparam T The data type of the elements in the tensor.
+   * @param t The input tensor to which the function will be applied.
+   * @param f A pointer to the function that will be applied to each element of the tensor.
+   * @return A reference to the modified tensor after applying the function.
+   */
+  Tensor<T>& apply(Tensor<T>& t, T (*f)(T)) override {
+    for (int i = 0; i < t.get_shape()[0]; i++) {
+      for (int j = 0; j < t.get_shape()[1]; j++) {
+        t[{i, j}] = f(t[{i, j}]);
+      }
     }
+    return t;
   }
-  return t;
-}
+};
