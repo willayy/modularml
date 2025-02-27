@@ -7,7 +7,10 @@
 
 using nlohmann::json;
 using std::make_unique;
+using std::make_shared;
 using std::move;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+using std::initializer_list;
+using std::shared_ptr;
