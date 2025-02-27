@@ -15,7 +15,7 @@
  * @tparam T The data type of the tensor elements (e.g., float, double).
  */
 template <typename T>
-class MatMul : public Layer {
+class MatMul : public Layer<T> {
    public:
     /**
      * @brief Constructs a MatMul layer with the given weight tensor.
