@@ -3,7 +3,6 @@
 #include <modularml>
 #include <numeric>
 #include <random>
-#include <vector>
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \
@@ -12,20 +11,20 @@
   assert(condition);                                        \
   std::cout << name << ": " << (condition ? "Passed" : "Failed") << std::endl;
 
-Vec<float> random_vec_f(int size, float low, float max, int seed = 0) {
+vector<float> random_vector_f(int size, float low, float max, int seed = 0) {
   std::mt19937 gen(seed);
   std::uniform_real_distribution<float> dist(low, max);
-  Vec<float> v(size);
+  vector<float> v(size);
   for (int i = 0; i < size; i++) {
     v[i] = dist(gen);
   }
   return v;
 }
 
-Vec<int> random_vec_i(int size, int low, int max, int seed = 0) {
+vector<int> random_vector_i(int size, int low, int max, int seed = 0) {
   std::mt19937 gen(seed);
   std::uniform_int_distribution dist(low, max);
-  Vec<int> v(size);
+  vector<int> v(size);
   for (int i = 0; i < size; i++) {
     v[i] = dist(gen);
   }
@@ -46,7 +45,7 @@ int main() {
       assert_msg("Tensor inequality test", t0 != t1)
 
       // Test correct shape
-      const auto expected_shape = Vec<int>{3, 3};
+      const auto expected_shape = vector<int>{3, 3};
   assert_msg("Tensor shape test", t0.get_shape() == expected_shape)
 
       // Test adding two tensors
@@ -113,9 +112,9 @@ int main() {
     std::mt19937 gen(i);
     std::uniform_int_distribution dist(0, 99);
     int rand_int = dist(gen);
-    Vec<int> shape = random_vec_i(5, 1, 10, i);
+    vector<int> shape = random_vector_i(5, 1, 10, i);
     int data_size = accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
-    Vec<float> data = random_vec_f(data_size, 1, 10, i);
+    vector<float> data = random_vector_f(data_size, 1, 10, i);
     Tensor<float> t = tensor_mll(shape, data);
     tensor_prop1(t);
     tensor_prop2(t);
