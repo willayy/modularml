@@ -18,6 +18,11 @@ if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "
     message(WARNING "WARNING: This project recommends GCC or Clang as the compiler.")
 endif()
 
+# Check if system is UNIX
+if(NOT (UNIX))
+    message(WARNING "WARNING: This project is intended for Linux or MacOS.")
+endif()
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -108,9 +113,9 @@ add_executable(
 )
 
 # Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 --coverage)
+target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
 # Linker flags
-target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 --coverage)
+target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 # Link gtest
@@ -124,24 +129,16 @@ gtest_discover_tests(${PROJECT_NAME}_tests)
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
-# Run all tests command
-add_custom_target(run_tests
-    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-)
-
-# Add dependencies to the coverage report
-add_dependencies(run_tests ${PROJECT_NAME}_tests)
-
 # Create coverage target
 add_custom_target(coverage_report
     ALL
-    COMMAND gcovr ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests --root ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
+    COMMAND gcovr --gcov-executable gcov-14 ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
     COMMENT "Generating coverage report"
 )
 
 # Add dependencies to the coverage report
-add_dependencies(coverage_report run_tests)
-
+add_dependencies(coverage_report ${PROJECT_NAME}_tests)
 
 # ------------------- Doxygen ------------------------------- #
 
