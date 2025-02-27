@@ -18,7 +18,6 @@ class mml_TensorFunction_Tanh : public TensorFunction<float> {
   Tensor<float> func(const Tensor<float>& t) const {
     auto tensor = t;
     return elementwise_apply(tensor, [](float x) { return std::tanh(x); });
-    return tensor;
   }
 
   /**
