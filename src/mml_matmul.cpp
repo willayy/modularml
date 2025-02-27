@@ -1,5 +1,8 @@
 #include "mml_matmul.hpp"
 
+template class MatMul<float>;
+template class MatMul<double>;
+
 /**
  * @brief Constructs a MatMul layer with the given weight tensor.
  *
@@ -20,10 +23,8 @@ MatMul<T>::MatMul(const Tensor<T>& weight) : weight(weight) {}
  * @return A unique pointer to the resulting tensor.
  */
 template <typename T>
-std::unique_ptr<Tensor<T>> MatMul<T>::forward(const Tensor<T>& input) const {
-    auto result = input * this->weight;
-    std::unique_ptr<Tensor<T>> result_ptr = std::make_unique<Tensor<T>>(result);
-    return result_ptr;
+Tensor<T> MatMul<T>::forward(const Tensor<T>& input) const {
+    return input * weight;
 }
 
 /**
@@ -31,7 +32,7 @@ std::unique_ptr<Tensor<T>> MatMul<T>::forward(const Tensor<T>& input) const {
  */
 template <typename T>
 Tensor<T> MatMul<T>::tensor() const {
-    return Tensor<T>();
+    return weight;
 }
 
 /**
