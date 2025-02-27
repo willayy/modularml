@@ -45,7 +45,7 @@ class Vector_mml : public DataStructure<T> {
 
   const T& get_elem(int index) const override {
     if (!valid_index(index)) {
-      throw std::out_of_range("Invalid Vector_mml index");
+      throw out_of_range("Invalid Vector_mml index");
     } else {
       return this->data[index];
     }
@@ -53,7 +53,7 @@ class Vector_mml : public DataStructure<T> {
 
   T& get_mutable_elem(int index) override {
     if (!valid_index(index)) {
-      throw std::out_of_range("Invalid Vector_mml index");
+      throw out_of_range("Invalid Vector_mml index");
     } else {
       return this->data[index];
     }

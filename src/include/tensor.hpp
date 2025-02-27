@@ -118,7 +118,7 @@ class Tensor {
   @return The element at the given indices.*/
   const T &operator[](initializer_list<int> indices) const {
     if (!valid_indices(indices)) {
-      throw std::out_of_range("Invalid Tensor indices");
+      throw out_of_range("Invalid Tensor indices");
     } else {
       return this->data->get_elem(index_with_offset(indices));
     }
@@ -130,7 +130,7 @@ class Tensor {
   @return The tensor with the element get_mutable_elem.*/
   T &operator[](initializer_list<int> indices) {
     if (!valid_indices(indices)) {
-      throw std::out_of_range("Invalid Tensor indices");
+      throw out_of_range("Invalid Tensor indices");
     } else {
       return this->data->get_mutable_elem(index_with_offset(indices));
     }
@@ -156,7 +156,7 @@ class Tensor {
   /// @param new_shape The new shape of the tensor.
   void reshape(vector<int> &new_shape) {
     if (!valid_shape(new_shape)) {
-      throw std::logic_error("Invalid shape for reshape operation.");
+      throw logic_error("Invalid shape for reshape operation.");
     }
     this->shape = new_shape;
     this->offsets = compute_offsets();
@@ -224,6 +224,6 @@ class Tensor {
   }
 
   bool valid_shape(const vector<int> &new_shape) const {
-    return new_shape.empty() && std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>()) == this->data->get_size();
+    return new_shape.empty() && accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
   }
 };

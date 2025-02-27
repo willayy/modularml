@@ -41,7 +41,7 @@ class Gemm_mml : public GemmModule<T> {
         }
       }
     } else {
-      std::logic_error("Transposition not yet supported in GEMM inner product.");
+      logic_error("Transposition not yet supported in GEMM inner product.");
     }
     return;
   }
@@ -73,7 +73,7 @@ class Gemm_mml : public GemmModule<T> {
         }
       }
     } else {
-      std::logic_error("Transposition not yet supported in GEMM outer product.");
+      logic_error("Transposition not yet supported in GEMM outer product.");
     }
     return;
   }
@@ -101,7 +101,7 @@ class Gemm_mml : public GemmModule<T> {
         }
       }
     } else {
-      std::logic_error("Transposition not yet supported in GEMM row-wise product.");
+      logic_error("Transposition not yet supported in GEMM row-wise product.");
     }
     return;
   }
@@ -130,7 +130,7 @@ class Gemm_mml : public GemmModule<T> {
         }
       }
     } else {
-      std::logic_error("Transposition not yet supported in GEMM col-wise product.");
+      logic_error("Transposition not yet supported in GEMM col-wise product.");
     }
     return;
   }
@@ -145,7 +145,7 @@ class Gemm_mml : public GemmModule<T> {
                     shared_ptr<Tensor<T>> B, int ldb,
                     T BETA,
                     shared_ptr<Tensor<T>> C, int ldc) override {
-    std::logic_error("Blocked GEMM not yet supported.");
+    logic_error("Blocked GEMM not yet supported.");
   }
 
   void gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
@@ -153,7 +153,7 @@ class Gemm_mml : public GemmModule<T> {
                 shared_ptr<Tensor<T>> B, int ldb,
                 T BETA,
                 shared_ptr<Tensor<T>> C, int ldc) override {
-    std::logic_error("AVX GEMM not yet supported.");
+    logic_error("AVX GEMM not yet supported.");
   }
 
   void gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
@@ -161,7 +161,7 @@ class Gemm_mml : public GemmModule<T> {
                    shared_ptr<Tensor<T>> B, int ldb,
                    T BETA,
                    shared_ptr<Tensor<T>> C, int ldc) override {
-    std::logic_error("AVX-512 GEMM not yet supported.");
+    logic_error("AVX-512 GEMM not yet supported.");
   }
 
   void gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
@@ -169,6 +169,6 @@ class Gemm_mml : public GemmModule<T> {
                       shared_ptr<Tensor<T>> B, int ldb,
                       T BETA,
                       shared_ptr<Tensor<T>> C, int ldc) override {
-    std::logic_error("Intel MKL GEMM not yet supported.");
+    logic_error("Intel MKL GEMM not yet supported.");
   }
 };
