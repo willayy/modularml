@@ -1,4 +1,3 @@
-
 #include <cassert>
 #include <modularml>
 
@@ -50,5 +49,8 @@ void test_col_wise_product_1() {
 
 int main() {
   test_inner_product_1();
+  test_outer_produt_1();
+  test_row_wise_product_1();
+  test_col_wise_product_1();
   return 0;
 }
