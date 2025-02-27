@@ -1,8 +1,6 @@
 #include <cassert>
 #include <iostream>
 #include <modularml>
-#include <numeric>
-#include <vector>
 
 #define assert_msg(name, condition)                         \
   if (!(condition)) {                                       \

@@ -15,3 +15,4 @@
 #include "mml_elementwise.hpp"
 #include "mml_TensorFunction_ReLU.hpp"
 #include "mml_TensorFunction_TanH.hpp"
+#include "mml_TensorFunction_Swish.hpp"
