@@ -65,19 +65,19 @@ int main() {
   /**
    * @brief Expected Tensor after the Swish function is applied to each element.
    */
-  Tensor<float> expected_func = tensor_mll({3, 3}, {-0.26894142f, 0.0f, 0.73105858f, -0.88079708f, 1.76159416f, -2.90514825f, 2.90514825f, 3.91486764f, -3.91486764f});
+  Tensor<float> expected_func = tensor_mll({3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f, -0.1423f, 2.8577f, 3.9281f, -0.0719f});
 
   /**
    * @brief Expected Tensor after the derivative of the Swish function is applied
    * to each element.
    */
-  Tensor<float> expected_derivative = tensor_mll({3, 3}, {0.26894142f, 0.5f, 0.73105858f, 0.10499359f, 1.10499359f, 0.04517666f, 1.04517666f, 1.01815172f, 0.01815172f});
+  Tensor<float> expected_derivative = tensor_mll({3, 3}, {0.0723f, 0.5000f, 0.9277f, -0.0908f, 1.0908f, -0.0881f, 1.0881f, 1.0527f, -0.0527f});
 
   /**
    * @brief Expected Tensor after the approximation of the primitive of the Swish function is applied
    * to each element.
    */
-  Tensor<float> expected_primitive = tensor_mll({3, 3}, {-0.31326168f, 0.0f, 0.5f, -1.12692801f, 2.12692801f, -4.12692801f, 4.12692801f, 8.12692801f, -8.12692801f});
+  Tensor<float> expected_primitive = tensor_mll({3, 3}, {1.0443f, 0.6931f, 1.0443f, 1.8885f, 1.8885f, 2.9063f, 2.9063f, 3.9462f, 3.9462f});
 
   // Test applying Swish
   auto func_result = Swish_func.func(t1);
@@ -87,9 +87,9 @@ int main() {
   // Checks if the results are within 99% of the expected values
   assert_msg("SwishFunction func test", tensors_are_close(func_result, expected_func));
   // Test applying the derivative of Swish
-  assert_msg("SwishFunction derivative test", tensors_are_close(derivative_result, expected_func));
+  assert_msg("SwishFunction derivative test", tensors_are_close(derivative_result, expected_derivative));
   // Test applying the approximation of the primitive of Swish
-  assert_msg("SwishFunction primitive test", tensors_are_close(primitive_result, expected_func));
+  assert_msg("SwishFunction primitive test", tensors_are_close(primitive_result, expected_primitive));
 
   std::cout << "All SwishFunction tests passed!" << std::endl;
   return 0;
