@@ -26,7 +26,7 @@ class Tensor {
  public:
   /*!
   @brief Constructor for Tensor class.
-  @param data Unique pointer to the data structure used to store the tensor data.
+  @param data Shared pointer to the data structure used to store the tensor data.
   @param shape The shape of the tensor.*/
   Tensor(shared_ptr<DataStructure<T>> data, initializer_list<int> shape)
       : data(move(data)),
@@ -35,7 +35,7 @@ class Tensor {
 
   /*!
   @brief Constructor for Tensor class.
-  @param data Unique pointer to the data structure used to store the tensor data.
+  @param data Shared pointer to the data structure used to store the tensor data.
   @param shape The shape of the tensor.*/
   Tensor(shared_ptr<DataStructure<T>> data, vector<int> shape)
       : data(move(data)),

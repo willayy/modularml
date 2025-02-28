@@ -46,6 +46,6 @@ class ArithmeticModule {
   virtual bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const = 0;
 
   /// @brief Clone the arithmetic module.
-  /// @return a unique pointer to a new arithmetic module.
+  /// @return a shared pointer to a new arithmetic module.
   virtual shared_ptr<ArithmeticModule<T>> clone() const = 0;
 };

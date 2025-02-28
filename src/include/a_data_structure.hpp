@@ -46,7 +46,7 @@ class DataStructure {
   virtual T& get_mutable_elem(int index) = 0;
 
   /// @brief Clone the data structure.
-  /// @return a unique pointer to a new data structure with the same data.
+  /// @return a shared pointer to a new data structure with the same data.
   virtual shared_ptr<DataStructure<T>> clone() const = 0;
 
   /// @brief Array subscript operator for getting an element from the data structure.
