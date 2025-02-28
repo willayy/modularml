@@ -4,8 +4,8 @@
 #include "tensor.hpp"
 
 /**
- * @class mml_TensorFunction_ReLU.hpp
- * @brief A class that implements a tensor function for the tanH function.
+ * @class ReLU_mml
+ * @brief A class that implements a tensor function for the ReLU function.
  */
 class ReLU_mml : public TensorFunction<float> {
  private:
