@@ -24,7 +24,7 @@ class Vector_mml : public DataStructure<T> {
 
   ~Vector_mml() override = default;
 
-  void set_data(const vector<T> new_data) override {
+  void set_data(const vector<T>& new_data) override {
     this->data = new_data;
   }
 

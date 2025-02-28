@@ -23,7 +23,7 @@ class DataStructure {
 
   /// @brief Set the data of the data structure using a vector of data.
   /// @param data a vector of data.
-  virtual void set_data(const vector<T> data) = 0;
+  virtual void set_data(const vector<T>& data) = 0;
 
   /// @brief Set all elements in the data structure to zero.
   virtual void set_zero() = 0;
