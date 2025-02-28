@@ -1,28 +1,32 @@
 #pragma once
 
 #include <cmath>
+#include <type_traits>
+
 #include "mml_elementwise.hpp"
 #include "tensor.hpp"
 
 /**
  * @class Swish_mml
  * @brief A class that implements a tensor function for the Swish function.
+ * @param T The data type of the tensor elements (must be an arithmetic type).
  */
 template <typename T>
 class Swish_mml : public TensorFunction<T> {
  private:
-  mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
+  mutable mml_elementwise<T> elementwise;  // Determines what version of elementwise to use
 
  public:
+  static_assert(std::is_arithmetic<T>::value, "ReLU_mml requires an arithmetic type (float, double, int, etc.).");
   /**
   * @brief Apply the Swish function to the given tensor.
 
   * @param t The tensor to which the function will be applied.
   * @return A new tensor with the Swish function applied to each element.
  */
-  Tensor<float> func(const Tensor<float>& t) const {
-    return elementwise.apply(t, [](float x) {
-      return x / (1.0f + std::exp(-x));  // Compute the Swish function
+  Tensor<T> func(const Tensor<T>& t) const {
+    return elementwise.apply(t, [](T x) {
+      return x / (T(1) + std::exp(-x));  // Compute the Swish function
     });
   }
 
@@ -32,10 +36,10 @@ class Swish_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the derivative of Swish applied to each element.
   */
-  Tensor<float> derivative(const Tensor<float>& t) const {
-    return elementwise.apply(t, [](float x) {
-      float sigmoid_x = 1.0f / (1.0f + std::exp(-x));  // Compute the derivative of the Swish function
-      return sigmoid_x + x * sigmoid_x * (1.0f - sigmoid_x);
+  Tensor<T> derivative(const Tensor<T>& t) const {
+    return elementwise.apply(t, [](T x) {
+      T sigmoid_x = T(1) / (T(1) + std::exp(-x));  // Compute the derivative of the Swish function
+      return sigmoid_x + x * sigmoid_x * (T(1) - sigmoid_x);
     });
   }
 
@@ -45,12 +49,10 @@ class Swish_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the approximate primitive of Swish applied to each element.
   */
-  Tensor<float> primitive(const Tensor<float>& t) const {
-    // This has to be an approximation as there is no known closed-form solution
-    // Uses integral approximaation
-    return elementwise.apply(t, [](float x) {
-      float sigmoid_x = 1.0f / (1.0f + std::exp(-x));        // Compute σ(x)
-      return x * sigmoid_x + std::log(1.0f + std::exp(-x));  // Compute integral of Swish
+  Tensor<T> primitive(const Tensor<T>& t) const {
+    return elementwise.apply(t, [](T x) {
+      T sigmoid_x = T(1) / (T(1) + std::exp(-x));            // Compute σ(x)
+      return x * sigmoid_x + std::log(T(1) + std::exp(-x));  // Compute integral of Swish
     });
   }
 };
