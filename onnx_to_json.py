@@ -149,16 +149,17 @@ def onnx_to_json(path: str):
                     "initializers": []
                 }
 
-
+                # Each node has inputs, we use the name of the input to find the initializer field which stores values for weights and biases
                 for i in node.input:
                     if i in initializers_dict:
                         initializer = initializers_dict[i]
-                        data = convert_initializer(initializer)
+                        data = convert_initializer(initializer) # Convert initializer to raw bytes
                         offset = weight_file.tell()
                         size = data.nbytes
 
                         weight_file.write(data.tobytes())
 
+                        # Structure of each initializer
                         node_json["initializers"].append({
                             "name": initializer.name,
                             "shape": list(initializer.dims),
