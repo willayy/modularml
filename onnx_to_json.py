@@ -56,7 +56,7 @@ for each. Below is an overview of the primary node types and the information the
      - This is often followed by BiasAdd to form a fully connected layer.
      - Often there are weights stored as an attribute making the node have a single input
 
-     8. BiasAdd
+8. BiasAdd
    - Inputs: Input tensor, Bias tensor
    - Outputs: Input tensor with bias added element-wise
    - Attributes: None (BiasAdd is a simple addition operation)
@@ -81,6 +81,8 @@ import numpy as np
 parser = argparse.ArgumentParser(description="Process a file")
 parser.add_argument("path", type=str, help="Path to a file")
 
+model_weight_file_name = "model_weights.bin"
+
 """ Checks if the path provided leads to a onnx file """
 def is_onnx(path: str):
     if os.path.isfile(path) and path.lower().endswith(".onnx"):
@@ -102,7 +104,7 @@ def convert_initializer(initializer):
     }
 
     dtype = dtype_map.get(initializer.data_type, np.float32)  # Default to float32
-    return np.frombuffer(initializer.raw_data, dtype=dtype).tolist()
+    return np.frombuffer(initializer.raw_data, dtype=dtype).reshape(initializer.dims)
 
 
 """ Creates a JSON representation of the model stored in ONNX format """
@@ -119,34 +121,53 @@ def onnx_to_json(path: str):
                 "ir_version": model.ir_version,
                 "opset_version": model.opset_import[0].version
             },
-            "nodes": []
+            "nodes": [],
+            "weights_file": model_weight_file_name # Path to the binary file
         }
 
-        num_nodes = len(graph.node)
-        for index, node in enumerate(graph.node):
-            if (index + 1 == num_nodes):
-                print(f"\rProcessing nodes: {index + 1}/{num_nodes}", flush=True) # Shows the progress of the script
-            else:
-                print(f"\rProcessing nodes: {index + 1}/{num_nodes}", end="", flush=True) # Shows the progress of the script
+        weight_file_path = f"./{model_weight_file_name}"
 
-            node_json = {
-                "name": node.name,
-                "op_type": node.op_type,
-                "inputs": [{"name": i} for i in node.input],
-                "outputs": [{"name": i} for i in node.output],
-                "attributes": {attr.name: onnx.helper.get_attribute_value(attr) for attr in node.attribute},
-                "initializers": [
-                    {
-                        "name": initializer.name,
-                        "shape": [dim for dim in initializer.dims],
-                        "data_type": onnx.TensorProto.DataType.Name(initializer.data_type),
-                        "values": convert_initializer(initializer)
-                    }
-                    for inp in node.input if inp in initializers_dict
-                    for initializer in [initializers_dict[inp]]
-                ]
-            }
-            model_json["nodes"].append(node_json)
+        # Open the weight binary
+        with open(weight_file_path, "wb") as weight_file:
+
+            num_nodes = len(graph.node)
+
+            # Iterate over all nodes in the onnx file, the index is used to keep track of progress
+            for index, node in enumerate(graph.node):
+                if (index + 1 == num_nodes):
+                    print(f"\rProcessing nodes: {index + 1}/{num_nodes}", flush=True) # Shows the progress of the script
+                else:
+                    print(f"\rProcessing nodes: {index + 1}/{num_nodes}", end="", flush=True) # Shows the progress of the script
+
+                # Structure of each node dict
+                node_json = {
+                    "name": node.name,
+                    "op_type": node.op_type,
+                    "inputs": [{"name": i} for i in node.input],
+                    "outputs": [{"name": i} for i in node.output],
+                    "attributes": {attr.name: onnx.helper.get_attribute_value(attr) for attr in node.attribute},
+                    "initializers": []
+                }
+
+
+                for i in node.input:
+                    if i in initializers_dict:
+                        initializer = initializers_dict[i]
+                        data = convert_initializer(initializer)
+                        offset = weight_file.tell()
+                        size = data.nbytes
+
+                        weight_file.write(data.tobytes())
+
+                        node_json["initializers"].append({
+                            "name": initializer.name,
+                            "shape": list(initializer.dims),
+                            "data_type": onnx.TensorProto.DataType.Name(initializer.data_type),
+                            "offset": offset,
+                            "size": size
+                        })
+                        
+                model_json["nodes"].append(node_json)
 
 
         with open("./model.json", "w") as f:
