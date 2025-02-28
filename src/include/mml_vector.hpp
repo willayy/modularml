@@ -12,7 +12,7 @@ class Vector_mml : public DataStructure<T> {
   }
 
   // Override constructor
-  explicit Vector_mml(const vector<T> data) : DataStructure<T>() {
+  explicit Vector_mml(const vector<T>& data) : DataStructure<T>() {
     this->data = data;
   }
 
