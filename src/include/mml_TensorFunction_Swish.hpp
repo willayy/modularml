@@ -4,7 +4,7 @@
 #include "mml_elementwise.hpp"
 #include "tensor.hpp"
 
-class mml_TensorFunction_Swish : public TensorFunction<float> {
+class Swish_mml : public TensorFunction<float> {
  private:
   mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
 

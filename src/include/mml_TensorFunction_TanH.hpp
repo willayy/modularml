@@ -8,7 +8,7 @@
  * @class mml_TensorFunction_Tanh
  * @brief A class that implements a tensor function for the tanH function.
  */
-class mml_TensorFunction_Tanh : public TensorFunction<float> {
+class tanH_mml : public TensorFunction<float> {
  private:
   mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
 

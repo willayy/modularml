@@ -23,7 +23,7 @@
  */
 TEST(test_mml_TensorFunction_Swish, test_SwishFunction) {
   // Define the Swish function class to test
-  mml_TensorFunction_Swish Swish_func;
+  Swish_mml Swish_func;
 
   /**
    * @brief Tensor to test and compare the operations on.
