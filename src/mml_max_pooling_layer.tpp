@@ -22,9 +22,19 @@ Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
   if (shape.size() != 4) {
     throw invalid_argument("Invalid tensor shape");
   } else {
+    int pad_h, pad_w = 0;
+    if (padding == "same") {
+      pad_h = std::max(0, (filter[0] - 1) / 2);
+      pad_w = std::max(0, (filter[1] - 1) / 2);
+    }
+
+    // Adjust the input dimensions for padding
+    int padded_height = shape[1] + 2 * pad_h;
+    int padded_width = shape[2] + 2 * pad_w;
+
     /// Initialize output tensor with correct dimensions
-    shape[1] = std::floor((shape[1] - filter[0]) / stride[0]) + 1;
-    shape[2] = std::floor((shape[2] - filter[1]) / stride[1]) + 1;
+    shape[1] = std::floor((padded_height - filter[0]) / stride[0]) + 1;
+    shape[2] = std::floor((padded_width - filter[1]) / stride[1]) + 1;
     shared_ptr<Tensor<T>> tensor = tensor_mml(shape);
 
     /// First for loop. For each element in the batch
@@ -32,18 +42,21 @@ Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
       /// Second for loop. For each channel
       for (int j = 0; j < shape[3]; j++) {
         /// Third for loop. Each row in the matrix
-        for (int k = 0; k + filter[0] <= shape[1]; k += stride[0]) {
+        for (int k = 0; k + filter[0] <= padded_height; k += stride[0]) {
           /// Fourth for loop. Each column
-          for (int l = 0; l + filter[1] <= shape[2]; l += stride[1]) {
+          for (int l = 0; l + filter[1] <= padded_width; l += stride[1]) {
             T max_value = t[i][k][l][j];
             for (int m = k; m < k + filter[0]; m++) {
               for (int n = l; n < l + filter[1]; n++) {
-                if (max_value < t[i][m][n][j]) {
-                  max_value = t[i][m][n][j];
+                if (m >= pad_h && m < shape[1] + pad_h && n >= pad_w && n < shape[2] + pad_w) {
+                  max_value = std::max(max_value, t[i][m - pad_h][n - pad_w][j]);
                 }
               }
             }
-            tensor[i][k][l][j] = max_value;
+            // Mapping to the correct output tensor position
+            int out_k = k / stride[0];
+            int out_l = l / stride[1];
+            tensor[i][out_k][out_l][j] = max_value;
           }
         }
       }

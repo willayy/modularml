@@ -1,11 +1,12 @@
 #pragma once
 
 #include "a_layer.hpp"
+#include "string.h"
 
 template <typename T>
 class MaxPoolingLayer : public Layer {
  public:
-  MaxPoolingLayer(vector<int> p, vector<int> s) : filter(p), stride(s) {};
+  MaxPoolingLayer(vector<int> p, vector<int> s, string p = "valid") : filter(p), stride(s), padding(p) {};
 
   Tensor<T> tensor() const override {};
 
@@ -16,4 +17,5 @@ class MaxPoolingLayer : public Layer {
  private:
   vector<int> filter;
   vector<int> stride;
+  string padding;
 };
