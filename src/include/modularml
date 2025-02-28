@@ -1,6 +1,7 @@
 #pragma once
 
 #include "a_arithmetic_module.hpp"
+#include "a_gemm.hpp"
 #include "a_data_parser.hpp"
 #include "a_data_structure.hpp"
 #include "a_layer.hpp"
@@ -8,6 +9,7 @@
 #include "a_tensor_func.hpp"
 #include "a_elementwise.hpp"
 #include "globals.hpp"
+#include "mml_gemm.hpp"
 #include "mml_arithmetic.hpp"
 #include "mml_tensors.hpp"
 #include "mml_vector.hpp"
