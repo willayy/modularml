@@ -7,7 +7,7 @@
  * @class mml_TensorFunction_ReLU.hpp
  * @brief A class that implements a tensor function for the tanH function.
  */
-class mml_TensorFunction_ReLU : public TensorFunction<float> {
+class ReLU_mml : public TensorFunction<float> {
  private:
   mutable mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
 

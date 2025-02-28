@@ -21,7 +21,7 @@
 TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
   // replace any implementation of a TensorFunction class for a tanH function
   // here:
-  mml_TensorFunction_Tanh tanh_func;
+  tanH_mml tanh_func;
 
   /**
    * @brief Tensor to test and compare the operations on.

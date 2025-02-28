@@ -21,7 +21,7 @@
  */
 TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction) {
   // Define the ReLU function class to test
-  mml_TensorFunction_ReLU ReLU_func;
+  ReLU_mml ReLU_func;
   /**
    * @brief Tensor to test and compare the operations on.
    */
