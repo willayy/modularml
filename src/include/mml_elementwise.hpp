@@ -27,7 +27,7 @@ class mml_elementwise : public Elementwise<T> {
    * @tparam T The data type of the elements in the tensor.
    * @param t The input tensor to which the function will be applied.
    * @param f A pointer to the function that will be applied to each element of the tensor.
-   * @return A reference to the modified tensor after applying the function.
+   * @return A modified tensor after applying the function.
    */
   Tensor<T> apply(const Tensor<T>& t, T (*f)(T)) override {
     auto tensor = t;

@@ -25,7 +25,7 @@ class Elementwise {
    * @param t The tensor to which the function will be applied.
    * @param f A pointer to the function to be applied to each element of the
    * tensor.
-   * @return A reference to the modified tensor.
+   * @return A new modified tensor.
    */
   virtual Tensor<T> apply(const Tensor<T>& t, T (*f)(T)) = 0;
 };
