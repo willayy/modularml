@@ -77,6 +77,7 @@ import argparse
 import os
 import json
 import numpy as np
+from onnx import numpy_helper
 
 parser = argparse.ArgumentParser(description="Process a file")
 parser.add_argument("path", type=str, help="Path to a file")
@@ -90,21 +91,9 @@ def is_onnx(path: str):
     else:
         return False
 
+""" Converts a TensorProto object into a numpy array """
 def convert_initializer(initializer):
-    dtype_map = {
-        onnx.TensorProto.FLOAT: np.float32,
-        onnx.TensorProto.INT32: np.int32,
-        onnx.TensorProto.INT64: np.int64,
-        onnx.TensorProto.UINT8: np.uint8,
-        onnx.TensorProto.INT8: np.int8,
-        onnx.TensorProto.UINT16: np.uint16,
-        onnx.TensorProto.INT16: np.int16,
-        onnx.TensorProto.FLOAT16: np.float16,
-        onnx.TensorProto.DOUBLE: np.float64
-    }
-
-    dtype = dtype_map.get(initializer.data_type, np.float32)  # Default to float32
-    return np.frombuffer(initializer.raw_data, dtype=dtype).reshape(initializer.dims)
+    return numpy_helper.to_array(initializer)
 
 
 """ Creates a JSON representation of the model stored in ONNX format """
