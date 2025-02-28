@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include <modularml>
+#include "mml_elementwise.hpp"
+#include "tensor.hpp"
 
 /**
  * @class mml_TensorFunction_Tanh

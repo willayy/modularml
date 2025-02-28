@@ -45,8 +45,8 @@ class Tensor {
   /// @brief Move constructor.
   Tensor(Tensor &&other) noexcept
       : data(move(other.data)),
-        shape(vector<T>(other.shape)),
-        offsets(vector<T>(other.offsets)) {}
+        shape(vector<int>(other.shape)),
+        offsets(vector<int>(other.offsets)) {}
 
   /// @brief Copy constructor.
   Tensor(const Tensor &other)
@@ -243,6 +243,6 @@ class Tensor {
   }
 
   bool valid_shape(const vector<int> &new_shape) const {
-    return accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
+    return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<int>()) == this->data->get_size();
   }
 };

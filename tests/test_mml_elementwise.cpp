@@ -1,14 +1,7 @@
-#include <cassert>
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <modularml>
-
-#define assert_msg(name, condition)                         \
-  if (!(condition)) {                                       \
-    std::cerr << "Assertion failed: " << name << std::endl; \
-  }                                                         \
-  assert(condition);                                        \
-  std::cout << name << ": " << (condition ? "Passed" : "Failed") << std::endl;
-
 
 /**
  * @brief Computes the square of a given number.
@@ -28,23 +21,19 @@ float square(float x) { return x * x; }
 
 /**
  * @brief Main function to test the mml_elementwise class.
- * 
+ *
  * This function creates two tensors and applies an elementwise operation
  * to one of them. It then checks if the result matches the expected tensor.
- * 
+ *
  * @return int Returns 0 upon successful completion of all tests.
  */
-int main() {
+TEST(test_mml_elementwise, test_elementwise_apply) {
   mml_elementwise<float> elementwise;  // Determines what version of elementwise to use
 
-  Tensor<float> t1 = tensor_mll({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  Tensor<float> t2 = tensor_mll({3, 3}, {1, 4, 9, 16, 25, 36, 49, 64, 81});
+  Tensor<float> t1 = tensor_mml<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  Tensor<float> t2 = tensor_mml<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
 
   // Test elementwise_apply function
   auto t3 = elementwise.apply(t1, square);
-  assert_msg("Elementwise apply test", t3 == t2);
-
-  std::cout << "All tests completed!" << std::endl;
-
-  return 0;
+  ASSERT_EQ(t3, t2);
 }
