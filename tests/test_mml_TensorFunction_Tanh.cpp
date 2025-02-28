@@ -33,11 +33,9 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
    */
   Tensor<float> expected_func = tensor_mml<float>(
       {3, 3},
-      {static_cast<float>(std::tanh(-1)), static_cast<float>(std::tanh(0)),
-       static_cast<float>(std::tanh(1)), static_cast<float>(std::tanh(-2)),
-       static_cast<float>(std::tanh(2)), static_cast<float>(std::tanh(-3)),
-       static_cast<float>(std::tanh(3)), static_cast<float>(std::tanh(4)),
-       static_cast<float>(std::tanh(-4))});
+      {std::tanh(-1.0f), std::tanh(0.0f), std::tanh(1.0f), std::tanh(-2.0f),
+       std::tanh(2.0f), std::tanh(-3.0f), std::tanh(3.0f), std::tanh(4.0f),
+       std::tanh(-4.0f)});
 
   /**
    * @brief Expected Tensor after the derivative of the tanH function is applied
@@ -45,15 +43,15 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
    */
   Tensor<float> expected_derivative = tensor_mml<float>(
       {3, 3}, {
-                  static_cast<float>(1 - std::tanh(-1) * std::tanh(-1)),
-                  static_cast<float>(1 - std::tanh(0) * std::tanh(0)),
-                  static_cast<float>(1 - std::tanh(1) * std::tanh(1)),
-                  static_cast<float>(1 - std::tanh(-2) * std::tanh(-2)),
-                  static_cast<float>(1 - std::tanh(2) * std::tanh(2)),
-                  static_cast<float>(1 - std::tanh(-3) * std::tanh(-3)),
-                  static_cast<float>(1 - std::tanh(3) * std::tanh(3)),
-                  static_cast<float>(1 - std::tanh(4) * std::tanh(4)),
-                  static_cast<float>(1 - std::tanh(-4) * std::tanh(-4)),
+                  1.0f - std::tanh(-1.0f) * std::tanh(-1.0f),
+                  1.0f - std::tanh(0.0f) * std::tanh(0.0f),
+                  1.0f - std::tanh(1.0f) * std::tanh(1.0f),
+                  1.0f - std::tanh(-2.0f) * std::tanh(-2.0f),
+                  1.0f - std::tanh(2.0f) * std::tanh(2.0f),
+                  1.0f - std::tanh(-3.0f) * std::tanh(-3.0f),
+                  1.0f - std::tanh(3.0f) * std::tanh(3.0f),
+                  1.0f - std::tanh(4.0f) * std::tanh(4.0f),
+                  1.0f - std::tanh(-4.0f) * std::tanh(-4.0f),
               });
 
   /**
@@ -61,15 +59,15 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
    * to each element.
    */
   Tensor<float> expected_primitive =
-      tensor_mml<float>({3, 3}, {static_cast<float>(std::log(std::cosh(-1))),
-                                 static_cast<float>(std::log(std::cosh(0))),
-                                 static_cast<float>(std::log(std::cosh(1))),
-                                 static_cast<float>(std::log(std::cosh(-2))),
-                                 static_cast<float>(std::log(std::cosh(2))),
-                                 static_cast<float>(std::log(std::cosh(-3))),
-                                 static_cast<float>(std::log(std::cosh(3))),
-                                 static_cast<float>(std::log(std::cosh(4))),
-                                 static_cast<float>(std::log(std::cosh(-4)))});
+      tensor_mml<float>({3, 3}, {std::log(std::cosh(-1.0f)),
+                                 std::log(std::cosh(0.0f)),
+                                 std::log(std::cosh(1.0f)),
+                                 std::log(std::cosh(-2.0f)),
+                                 std::log(std::cosh(2.0f)),
+                                 std::log(std::cosh(-3.0f)),
+                                 std::log(std::cosh(3.0f)),
+                                 std::log(std::cosh(4.0f)),
+                                 std::log(std::cosh(-4.0f))});
 
   auto func_result = tanh_func.func(t1);
   auto derivative_result = tanh_func.derivative(t1);
