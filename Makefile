@@ -43,3 +43,8 @@ run:
 clean:
 	@echo "Cleaning up...\n"
 	@rm -rf $(BUILD_DIR)
+
+test:
+    @echo "Running tests...\n"
+    @$(CMAKE) --build $(BUILD_DIR) --target test
+    @cd $(BUILD_DIR)/bin && ctest --output-on-failure modularml_tests
