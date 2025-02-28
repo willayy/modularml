@@ -5,8 +5,8 @@
 #include "tensor.hpp"
 
 /**
- * @class mml_TensorFunction_Tanh
- * @brief A class that implements a tensor function for the tanH function.
+ * @class tanH_mml
+ * @brief A class that implements a tensor function for the tanh function.
  */
 class tanH_mml : public TensorFunction<float> {
  private:
