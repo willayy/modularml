@@ -17,7 +17,7 @@ class Vector_mml : public DataStructure<T> {
   }
 
   // Override move constructor
-  Vector_mml(Vector_mml&& other) noexcept : DataStructure<T>(other), data(move(other.data)) {}
+  Vector_mml(Vector_mml&& other) noexcept : DataStructure<T>(move(other)), data(move(other.data)) {}
 
   // Override copy constructor
   Vector_mml(const Vector_mml& other) : DataStructure<T>(other), data(vector<T>(other.data)) {}
