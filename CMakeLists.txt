@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.30)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
@@ -26,8 +26,14 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/nlohmann/json.git
     GIT_TAG v3.11.3  # Use the latest version available
 )
-
 FetchContent_MakeAvailable(nlohmann_json)
+
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.11.0
+)
+FetchContent_MakeAvailable(googletest)
 
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
@@ -86,18 +92,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     
 endif()
 
-# ------------------- Coverage (gcovr) ---------------------- #
-
-# Create coverage target
-add_custom_target(coverage_report
-    ALL
-    COMMAND gcovr -r ${CMAKE_BINARY_DIR}/coverage_data --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
-    COMMENT "Generating coverage report"
-)
-
 # ------------------- Testing ------------------------------ #
 
-# Enable testing with CTest
 enable_testing()
 
 set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
@@ -105,39 +101,47 @@ set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
 # Get all test source files
 file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
 
-# Create all tests
-FOREACH(TEST_SOURCE ${TEST_SOURCES})
-    # Get the name of the test
-    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
+# Add the test executable
+add_executable(
+    ${PROJECT_NAME}_tests
+    ${TEST_SOURCES}
+)
 
-    # Add the test executable
-    add_executable(
-        ${TEST_NAME}
-        ${TEST_SOURCE}
-    )
+# Compiler flags
+target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 --coverage)
+# Linker flags
+target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 --coverage)
+# Link the test executable with the main project executable
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
+# Link gtest
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
+# Link coverage
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 
-    target_compile_options(${TEST_NAME} PRIVATE -fprofile-arcs -ftest-coverage -fPIC -O0)
-    target_link_options(${TEST_NAME} PRIVATE -fprofile-arcs -ftest-coverage -fPIC -O0)
+# Add the test to gtest
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}_tests)
 
-    # Add the test to CTest
-    add_test(
-        NAME ${TEST_NAME}
-        COMMAND ${TEST_NAME}
-    )
+# ------------------- Coverage (gcovr) ---------------------- #
 
-    # Copy the coverage files to the binary directory
-    add_custom_command(
-        TARGET ${TEST_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/CMakeFiles/${TEST_NAME}.dir/tests ${CMAKE_BINARY_DIR}/coverage_data/
-    )
+# Run all tests command
+add_custom_target(run_tests
+    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
+)
 
-    # Link the test executable with the main project executable
-    target_link_libraries(${TEST_NAME} PUBLIC ${PROJECT_NAME})
+# Add dependencies to the coverage report
+add_dependencies(run_tests ${PROJECT_NAME}_tests)
 
-    # Add dependencies to the coverage report
-    add_dependencies(coverage_report ${TEST_NAME})
-ENDFOREACH()
+# Create coverage target
+add_custom_target(coverage_report
+    ALL
+    COMMAND gcovr ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests --root ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMENT "Generating coverage report"
+)
+
+# Add dependencies to the coverage report
+add_dependencies(coverage_report run_tests)
+
 
 # ------------------- Doxygen ------------------------------- #
 

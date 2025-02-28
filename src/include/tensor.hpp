@@ -1,12 +1,12 @@
 #pragma once
 
 #include <numeric>
+#include <stdexcept>
 
-#include "a_arithmetic_module.hpp"
 #include "a_data_structure.hpp"
 #include "globals.hpp"
 
-#define ASSERT_ALLOWED_TYPE(T) static_assert(std::is_arithmetic_v<T>, "T must be an arithmetic type.");
+#define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
 
 /*!
     @brief Class representing a Tensor.
@@ -25,168 +25,224 @@ template <typename T>
 class Tensor {
  public:
   /*!
-      @brief Constructor for Tensor class.
-      @param data Shared pointer to the data structure used to store the tensor data.
-      @param am Unique pointer to the arithmetic module used to perform operations on the tensor data.
-  */
-  Tensor(unique_ptr<DataStructure<T>> data, unique_ptr<ArithmeticModule<T>> am)
-      : data(move(data)), am(move(am)) {}
+  @brief Constructor for Tensor class.
+  @param data Unique pointer to the data structure used to store the tensor data.
+  @param shape The shape of the tensor.*/
+  Tensor(shared_ptr<DataStructure<T>> data, initializer_list<int> shape)
+      : data(move(data)),
+        shape(vector<int>(shape)),
+        offsets(compute_offsets()) {}
 
   /*!
-      @brief Move constructor.
-  */
+  @brief Constructor for Tensor class.
+  @param data Unique pointer to the data structure used to store the tensor data.
+  @param shape The shape of the tensor.*/
+  Tensor(shared_ptr<DataStructure<T>> data, vector<int> shape)
+      : data(move(data)),
+        shape(move(shape)),
+        offsets(compute_offsets()) {}
+
+  /// @brief Move constructor.
   Tensor(Tensor &&other) noexcept
-      : data(move(other.data)), am(move(other.am)) {}
+      : data(move(other.data)),
+        shape(vector<T>(other.shape)),
+        offsets(vector<T>(other.offsets)) {}
 
-  /*!
-      @brief Copy constructor.
-  */
-  Tensor(const Tensor &other) {
-    this->data = other.data->clone();
-    this->am = other.am->clone();
-  }
+  /// @brief Copy constructor.
+  Tensor(const Tensor &other)
+      : data(other.data->clone()),
+        shape(vector<int>(other.shape)),
+        offsets(vector<int>(other.offsets)) {}
 
-  /*!
-      @brief Destructor for Tensor class.
-  */
+  /// @brief Destructor for Tensor class.
   ~Tensor() = default;
 
   /*!
-      @brief Get the shape of the tensor.
-      @return A vector of integers representing the shape.
-  */
-  vector<int> get_shape() {
-    return this->data->get_shape();
+  @brief Get the shape of the tensor.
+  @return A vector of integers representing the shape.*/
+  const vector<int> &get_shape() const {
+    return this->shape;
+  }
+
+  /// @brief Get the the total number of elements in the tensor.
+  /// @return The total number of elements in the tensor.
+  int get_size() const {
+    return this->data->get_size();
   }
 
   /*!
-      @brief Get the shape as a string.
-      @return A string representation of the shape. E.g. [2, 3, 4].
-  */
+  @brief Get the shape as a string.
+  @return A string representation of the shape. E.g. [2, 3, 4].*/
   string get_shape_str() const {
-    return this->data->get_shape_str();
-  }
-
-  // ARITHMETIC OPERATIONS
-
-  /*!
-      @brief Add another tensor to this tensor.
-      @param other The tensor to add.
-      @return The result of adding the two tensors.
-  */
-  Tensor<T> operator+(const Tensor<T> &other) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
-    unique_ptr<DataStructure<T>> ds = this->am->add(move(this_ds_copy), move(other_ds_copy));
-    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+    string shape_str = "[";
+    for (int i = 0; i < static_cast<int>(this->shape.size()); i++) {
+      shape_str += std::to_string(this->shape[i]);
+      if (i != static_cast<int>(this->shape.size()) - 1) {
+        shape_str += ", ";
+      }
+    }
+    shape_str += "]";
+    return shape_str;
   }
 
   /*!
-      @brief Subtract another tensor from this tensor.
-      @param other The tensor to subtract.
-      @return The result of subtracting the other tensor from this tensor.
-  */
-  Tensor<T> operator-(const Tensor<T> &other) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
-    unique_ptr<DataStructure<T>> ds = this->am->subtract(move(this_ds_copy), move(other_ds_copy));
-    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+  @brief Check if this tensor is equal to another tensor.
+  @param other The tensor to compare with.
+  @return True if the tensors are equal, false otherwise.*/
+  bool operator==(const Tensor<T> &other) const {  // NOSONAR - function signature is correct
+    if (this->shape != other.shape) {
+      return false;
+    }
+    const auto size = this->data->get_size();
+    for (int i = 0; i < size; i++) {
+      if ((*this)[i] != other[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /*!
-      @brief Multiply this tensor by another tensor.
-      @param other The tensor to multiply by.
-      @return The result of multiplying the two tensors.
-  */
-  Tensor<T> operator*(const Tensor<T> &other) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
-    unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(other_ds_copy));
-    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
+  @brief Check if this tensor is not equal to another tensor.
+  @param other The tensor to compare with.
+  @return True if the tensors are not equal, false otherwise.*/
+  bool operator!=(const Tensor<T> &other) const {  // NOSONAR - function signature is correct
+    return !(*this == other);
   }
 
   /*!
-      @brief Multiply this tensor by a scalar.
-      @param scalar The scalar value to multiply by.
-      @return The result of multiplying the tensor by the scalar.
-  */
-  Tensor<T> operator*(const T &scalar) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> ds = this->am->multiply(move(this_ds_copy), move(scalar));
-    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
-  }
-
-  /*!
-      @brief Divide this tensor by a scalar.
-      @param scalar The scalar value to divide by.
-      @return The result of dividing the tensor by the scalar.
-  */
-  Tensor<T> operator/(const T &scalar) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> ds = this->am->divide(move(this_ds_copy), move(scalar));
-    unique_ptr<ArithmeticModule<T>> am_copy = this->am->clone();
-    return Tensor<T>(move(ds), move(am_copy));
-  }
-
-  /*!
-      @brief Check if this tensor is equal to another tensor.
-      @param other The tensor to compare with.
-      @return True if the tensors are equal, false otherwise.
-  */
-  bool operator==(const Tensor<T> &other) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
-    return this->am->equals(move(this_ds_copy), move(other_ds_copy));
-  }
-
-  /*!
-      @brief Check if this tensor is not equal to another tensor.
-      @param other The tensor to compare with.
-      @return True if the tensors are not equal, false otherwise.
-  */
-  bool operator!=(const Tensor<T> &other) const {
-    unique_ptr<DataStructure<T>> this_ds_copy = this->data->clone();
-    unique_ptr<DataStructure<T>> other_ds_copy = other.data->clone();
-    return !this->am->equals(move(this_ds_copy), move(other_ds_copy));
-  }
-
-  /*!
-      @brief Move assignment operator.
-  */
+  @brief Move assignment operator.
+  @param other The tensor to move.
+  @return The moved tensor.*/
   Tensor &operator=(Tensor &&other) noexcept {
     if (this != &other) {
-      data = move(other.data);
-      am = move(other.am);
+      *this = move(other);
     }
     return *this;
   }
 
   /*!
-      @brief Get an element from the tensor.
-      @param indices A vector of integers representing the indices of the element.
-      @return The element at the given indices.
-  */
-  const T &operator[](vector<int> indices) const {
-    return this->data->get_elem(indices);
+  @brief Get an element from the tensor using multi-dimensional indices.
+  @param indices A vector of integers representing the indices of the element.
+  @return The element at the given indices.*/
+  const T &operator[](initializer_list<int> indices) const {
+    if (!valid_indices(indices)) {
+      throw out_of_range("Invalid Tensor indices");
+    } else {
+      return this->data->get_elem(index_with_offset(indices));
+    }
   }
 
   /*!
-      @brief Set an element in the tensor.
-      @param indices A vector of integers representing the indices of the element.
-      @return The tensor with the element get_mutable_elem.
-  */
-  T &operator[](vector<int> indices) {
-    return this->data->get_mutable_elem(indices);
+  @brief Set an element in the tensor using multi-dimensional indices.
+  @param indices A vector of integers representing the indices of the element.
+  @return The tensor with the element get_mutable_elem.*/
+  T &operator[](initializer_list<int> indices) {
+    if (!valid_indices(indices)) {
+      throw out_of_range("Invalid Tensor indices");
+    } else {
+      return this->data->get_mutable_elem(index_with_offset(indices));
+    }
+  }
+
+  /*!
+  @brief Get an element from the tensor using singel-dimensional index.
+  @param index A single integer representing the index of the element.
+  @return The element at the given indices.*/
+  const T &operator[](int index) const {
+    return this->data->get_elem(index);
+  }
+
+  /*!
+  @brief Set an element in the tensor using single-dimensional index.
+  @param index A single integer representing the index of the element.
+  @return The tensor with the element get_mutable_elem.*/
+  T &operator[](int index) {
+    return this->data->get_mutable_elem(index);
+  }
+
+  /// @brief Reshape the tensor.
+  /// @param new_shape The new shape of the tensor.
+  void reshape(vector<int> &new_shape) {
+    if (!valid_shape(new_shape)) {
+      throw logic_error("Invalid shape for reshape operation.");
+    }
+    this->shape = new_shape;
+    this->offsets = compute_offsets();
+  }
+
+  /// @brief Reshape the tensor.
+  /// @param new_shape The new shape of the tensor.
+  void reshape(initializer_list<int> new_shape) {
+    if (!valid_shape(new_shape)) {
+      throw logic_error("Invalid shape for reshape operation.");
+    }
+    this->shape = vector<int>(new_shape);
+    this->offsets = compute_offsets();
   }
 
  private:
   /// @brief Underlying data structure for the tensor.
-  unique_ptr<DataStructure<T>> data;
+  shared_ptr<DataStructure<T>> data;
 
-  /// @brief Underlying arithmetic module for the tensor.
-  unique_ptr<ArithmeticModule<T>> am;
+  /// @brief The shape of the tensor.
+  vector<int> shape;
+
+  /// @brief The row-major offsets for the tensor.
+  vector<int> offsets;
+
+  /// @brief Check if the indices are valid.
+  /// @param indices The indices to check.
+  /// @return True if the indices are valid, false otherwise.
+  bool valid_indices(const vector<int> &indices) const {
+    if (indices.size() != this->shape.size()) {
+      return false;
+    }
+    for (int i = 0; i < static_cast<int>(indices.size()); i++) {
+      if (indices[i] < 0 || indices[i] >= this->shape[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// @brief Calculates the index of an element in the flat vector containing the data.
+  /// @param indices The indices to get the index for.
+  /// @return The index.
+  int index_with_offset(vector<int> indices) const {
+    auto index = 0;
+    const auto size = static_cast<int>(shape.size());
+    for (int i = 0; i < size; i++) {
+      index += (indices[i]) * this->offsets[i];
+    }
+    return index;
+  }
+
+  /// @brief Row-major offsets for the data structure.
+  /// @return a vector of integers representing the offsets.
+  vector<int> compute_offsets() const {
+    const int size = static_cast<int>(shape.size());
+    auto computed_offsets = vector<int>(size, 1);
+    for (int i = size - 2; i >= 0; i--) {
+      computed_offsets[i] = computed_offsets[i + 1] * this->shape[i];
+    }
+    return computed_offsets;
+  }
+
+  /// @brief Check if the tensor is a matrix.
+  /// @return True if the tensor is a matrix (has rank 2), false otherwise.
+  bool is_matrix() const {
+    return this->shape.size() == 2;
+  }
+
+  /// @brief Check if the tensor-matrix matches another matrix. Assumes the tensor is a matrix.
+  /// @param other The other matrix to compare with.
+  /// @return True if the tensor-matrix matches the other matrix, false otherwise.
+  bool matrix_match(const Tensor<T> &other) const {
+    return this->shape[1] == other.shape[0];
+  }
+
+  bool valid_shape(const vector<int> &new_shape) const {
+    return accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
+  }
 };
