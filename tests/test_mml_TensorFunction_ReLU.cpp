@@ -21,7 +21,7 @@
  */
 TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction) {
   // Define the ReLU function class to test
-  ReLU_mml ReLU_func;
+  ReLU_mml<float> ReLU_func;
   /**
    * @brief Tensor to test and compare the operations on.
    */
@@ -54,3 +54,42 @@ TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction) {
   // Test applying the primitive of ReLU
   ASSERT_EQ(ReLU_func.primitive(t1), expected_primitive);
 }
+
+TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction_int) {
+    // Define the ReLU function class to test
+    ReLU_mml<int> ReLU_func;
+  
+    /**
+     * @brief Tensor to test and compare the operations on.
+     */
+    Tensor<int> t1 = tensor_mml<int>({3, 3}, {-1, 0, 1, -2, 2, -3, 3, 4, -4});
+  
+    /**
+     * @brief Expected Tensor after the ReLU function is applied to each element.
+     */
+    Tensor<int> expected_func = tensor_mml<int>(
+        {3, 3}, {0, 0, 1, 0, 2, 0, 3, 4, 0});
+  
+    /**
+     * @brief Expected Tensor after the derivative of the ReLU function is applied
+     * to each element.
+     */
+    Tensor<int> expected_derivative = tensor_mml<int>(
+        {3, 3}, {0, 0, 1, 0, 1, 0, 1, 1, 0});
+  
+    /**
+     * @brief Expected Tensor after the primitive of the ReLU function is applied
+     * to each element.
+     *
+     * NOTE: Since `primitive(x) = (x * x) / 2`, integer division rounds down.
+     */
+    Tensor<int> expected_primitive = tensor_mml<int>(
+        {3, 3}, {0, 0, 0, 0, 2, 0, 4, 8, 0});  // Integer division rounds down
+  
+    // Test applying ReLU
+    ASSERT_EQ(ReLU_func.func(t1), expected_func);
+    // Test applying the derivative of ReLU
+    ASSERT_EQ(ReLU_func.derivative(t1), expected_derivative);
+    // Test applying the primitive of ReLU
+    ASSERT_EQ(ReLU_func.primitive(t1), expected_primitive);
+  }
