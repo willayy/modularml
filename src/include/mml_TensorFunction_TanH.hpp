@@ -16,7 +16,7 @@ class tanH_mml : public TensorFunction<T> {
   mutable mml_elementwise<T> elementwise;  // Determines what version of elementwise to use
 
  public:
-  static_assert(std::is_arithmetic<T>::value, "tanH_mml requires an arithmetic type (float, double, int, etc.).");
+  static_assert(std::is_floating_point<T>::value, "tanH_mml requires a floating-point type (float, double, etc.).");
 
   /**
    * @brief Apply the tanh function to the given tensor.

@@ -17,7 +17,7 @@ class Swish_mml : public TensorFunction<T> {
   mutable mml_elementwise<T> elementwise;  // Determines what version of elementwise to use
 
  public:
-  static_assert(std::is_arithmetic<T>::value, "ReLU_mml requires an arithmetic type (float, double, int, etc.).");
+  static_assert(std::is_floating_point<T>::value, "Swish_mml requires a floating-point type (float, double, etc.).");
   /**
   * @brief Apply the Swish function to the given tensor.
 
