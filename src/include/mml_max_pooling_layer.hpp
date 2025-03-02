@@ -1,21 +1,10 @@
 #pragma once
 
-#include "a_layer.hpp"
-#include "string.h"
+#include "mml_pooling_layer.hpp"
 
 template <typename T>
-class MaxPoolingLayer : public Layer {
- public:
-  MaxPoolingLayer(vector<int> p, vector<int> s, string p = "valid") : filter(p), stride(s), padding(p) {};
-
-  Tensor<T> tensor() const override;
-
-  std::unique_ptr<TensorFunction<T>> activation() const override;
-
-  Tensor<T> forward(const Tensor<T>& input) const override;
-
+class MaxPoolingLayer : public PoolingLayer {
  private:
-  vector<int> filter;
-  vector<int> stride;
-  string padding;
+  T pooling(const Tensor<T>& t, vector<int> shape, int element,
+            int channel, int in_row_start, int in_col_start) const override;
 };
