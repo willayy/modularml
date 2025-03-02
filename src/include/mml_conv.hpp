@@ -36,21 +36,18 @@ class Conv : public Layer<T> {
         int in_width = input.get_shape().at(2);     // Width of tensor
         int in_height = input.get_shape().at(3);    // Height of tensor
 
-        int out_channels = weight.get_shape(0);
-        int kernel_height = weight.get_shape(2);
-        int kernel_width = weight.get_shape(3);
+        int out_channels = weight.get_shape().at(0);
+        int kernel_height = weight.get_shape().at(2);
+        int kernel_width = weight.get_shape().at(3);
 
         // Prepare the output tensor, final size depends on the kernel size, padding and dilation
         int out_height = (in_height + padding.at(0) + padding.at(1) - dilations * (kernel_height - 1) - 1) / stride[0] + 1;
         int out_width = (in_width + padding.at(2) + padding.at(3) - dilations * (kernel_width - 1) - 1) / stride[1] + 1;
 
-        // Prepare the image_to_column matrix, (tensor still tho hehe)
-        Tensor<T> im2col_matrix = tensor_mml<T>({kernel_height * kernel_width * in_channels, out_height * out_width});
+        Tensor<T> im2col_matrix = this->image_to_column(input, kernel_height, kernel_width, stride[0], stride[1], padding[0], padding[1]);
+        
 
-        image_to_column(input, im2col_matrix, kernel_height, kernel_width, stride[0], stride[1], padding[0], padding[1]);
-
-
-        return nullptr;
+        return im2col_matrix; // Temporary
     };
 
     /**
@@ -74,6 +71,78 @@ class Conv : public Layer<T> {
     std::unique_ptr<TensorFunction<T>> activation() const override {
         return nullptr;
     }
+
+    Tensor<T> get_weight() const {
+        return weight;
+    }
+
+    
+    Tensor<T> get_bias() const {
+        return bias;
+    }
+
+    int get_dilations() const {
+        return dilations;
+    }
+
+    int get_group() const {
+        return group;
+    }
+
+    vector<int> get_padding() const {
+        return padding;
+    }
+
+    vector<int> get_stride() const {
+        return stride;
+    }
+
+    Tensor<T> image_to_column(const Tensor<T>& input,
+                              int kernel_height, int kernel_width,
+                              int stride_height, int stride_width,
+                              int padding_height, int padding_width) const {
+        int batches = input.get_shape().at(0);
+        int in_channels = input.get_shape().at(1);  // Number of channels per feature
+        int in_width = input.get_shape().at(2);     // Width of input tensor
+        int in_height = input.get_shape().at(3);    // Height of input tensor
+ 
+        int output_height = (in_height + 2 * padding_height - kernel_height) / stride_height + 1;
+        int output_width = (in_width + 2 * padding_width - kernel_width) / stride_width + 1;
+        
+        int output_size = batches * in_channels * kernel_height * kernel_width * output_height * output_width;
+ 
+        Tensor<T> output = tensor_mml<T>({output_width, output_height, in_channels * kernel_height * kernel_width});
+ 
+        int col_index = 0;
+        for (int b = 0; b < batches; ++b)
+        for (int c = 0; c < in_channels; ++c) {
+            for (int kh = 0; kh < kernel_height; ++kh) {
+                for (int kw = 0; kw < kernel_width; ++kw) {
+                    for (int h = 0; h < output_height; ++h) {
+                        for (int w = 0; w < output_width; ++w) {
+                            
+                            int in_h = h * stride_height + kh - padding_height;
+                            int in_w = w * stride_width + kw - padding_width;
+                            
+                            if (in_h >= 0 && in_h < in_height && in_w >= 0 && in_w < in_width) {
+                                std::cout << "value being assigned: " << input[(b * in_channels * in_height * in_width) + 
+                                    (c * in_height * in_width) + 
+                                    (in_h * in_width) + in_w] << std::endl;
+                                output[col_index++] = input[(b * in_channels * in_height * in_width) + 
+                                    (c * in_height * in_width) + 
+                                    (in_h * in_width) + in_w];
+                            } else {
+                                std::cout << "out of bounds" << std::endl;
+                                output[col_index++] = 0; // Zero padding if out of bounds
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        std::cout << "last value" << output[output.get_size() - 1] << std::endl;
+        return output;
+    } 
 
    private:
     /// The weight tensor used in the matrix multiplication.
@@ -110,43 +179,4 @@ class Conv : public Layer<T> {
     vector<int> stride;
 
     // To utilize GEMM we use im2col operation to convert the input 4D, into a 2D matrix
-    Tensor<T> image_to_column(const Tensor<T>& input,
-                              int kernel_height, int kernel_width,
-                              int stride_height, int stride_width,
-                              int padding_height, int padding_width) {
-        int batches = input.get_shape().at(0);
-        int in_channels = input.get_shape().at(1);  // Number of channels per feature
-        int in_width = input.get_shape().at(2);     // Width of input tensor
-        int in_height = input.get_shape().at(3);    // Height of input tensor
-
-        int output_height = (in_height + 2 * padding_height - kernel_height) / stride_height + 1;
-        int output_width = (in_width + 2 * padding_width - kernel_width) / stride_width + 1;
-        
-        int output_size = batches * in_channels * kernel_height * kernel_width * output_height * output_width;
-
-        Tensor<T> output = tensor_mml<T>({output_width, output_height, in_channels * kernel_height * kernel_width});
-
-        int col_index = 0;
-        for (int b = 0; b < batches; ++b)
-        for (int c = 0; c < in_channels; ++c) {
-            for (int kh = 0; kh < kernel_height; ++kh) {
-                for (int kw = 0; kw < kernel_width; ++kw) {
-                    for (int h = 0; h < output_height; ++h) {
-                        for (int w = 0; w < output_width; ++w) {
-                            int in_h = h * stride_height + kh - padding_height;
-                            int in_w = w * stride_width + kw - padding_width;
-                            if (in_h >= 0 && in_h < in_height && in_w >= 0 && in_w < in_width) {
-                                output[col_index++] = input[(b * in_channels * in_height * in_width) + 
-                                    (c * in_height * in_width) + 
-                                    (in_h * in_width) + in_w];
-                            } else {
-                                output[col_index++] = 0; // Zero padding if out of bounds
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return output;
-    } 
 };
