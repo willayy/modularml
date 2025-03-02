@@ -5,7 +5,7 @@
 TEST(test_MatMul, test_constructor) {
     Tensor<float> weights = tensor_mml<float>({2, 2}, {0.1, 0.2, 0.3, 0.4});
     MatMul<float> matmul = MatMul<float>(weights);
-    
+
     EXPECT_EQ(matmul.get_weights().get_shape(), vector<int>({2, 2}));
 }
 
@@ -16,7 +16,7 @@ TEST(test_MatMul, test_forward_2d) {
     MatMul<float> matmul(weight);
 
     Tensor<float> result = matmul.forward(input);
-    
+
     EXPECT_FLOAT_EQ(result[0], 19.0f);
     EXPECT_FLOAT_EQ(result[1], 22.0f);
     EXPECT_FLOAT_EQ(result[2], 43.0f);
@@ -31,7 +31,7 @@ TEST(test_MatMul, test_forward_2d_different_dimensions) {
     MatMul<float> matmul(weight);
 
     Tensor<float> result = matmul.forward(input);
-    
+
     // Test that the shape of result is 2x3
     EXPECT_EQ(result.get_shape().at(0), 2);
     EXPECT_EQ(result.get_shape().at(1), 3);
@@ -44,7 +44,7 @@ TEST(test_MatMul, test_forward_2d_different_dimensions) {
     EXPECT_FLOAT_EQ(result[5], 210.0f);
 }
 
-
+// This is commented out as tensor multiplication is not generalized to 3d as of yet
 /* TEST(test_MatMul, test_forward_3d) {
     Tensor<float> input = tensor_mml<float>({2, 2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 1.0f, 2.0f, 3.0f, 4.0f, 1.0f, 2.0f, 3.0f, 4.0f});
     Tensor<float> weight = tensor_mml<float>({2, 2, 3}, {5.0f, 6.0f, 7.0f, 8.0f, 5.0f, 6.0f, 7.0f, 8.0f, 5.0f, 6.0f, 7.0f, 8.0f});
@@ -52,13 +52,13 @@ TEST(test_MatMul, test_forward_2d_different_dimensions) {
     MatMul<float> matmul(weight);
 
     Tensor<float> result = matmul.forward(input);
-    
+
     // First slice
     EXPECT_FLOAT_EQ(result[0], 19.0f);
     EXPECT_FLOAT_EQ(result[1], 22.0f);
     EXPECT_FLOAT_EQ(result[2], 43.0f);
     EXPECT_FLOAT_EQ(result[3], 50.0f);
-    
+
     // Second slice
     EXPECT_FLOAT_EQ(result[4], 19.0f);
     EXPECT_FLOAT_EQ(result[5], 22.0f);

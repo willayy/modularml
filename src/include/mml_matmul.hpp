@@ -24,7 +24,7 @@ class MatMul : public Layer<T> {
      *
      * @param weight The weight tensor used in the matrix multiplication.
      */
-    MatMul(const Tensor<T>& weight) : weight(weight) {};
+    MatMul(const Tensor<T>& weight) : weight(weight){};
 
     /**
      * @brief Performs the forward pass of the MatMul layer.
@@ -45,11 +45,10 @@ class MatMul : public Layer<T> {
             0, 0,
             input.get_shape().at(0), weight.get_shape().at(1), weight.get_shape().at(0),
             1.0f,
-            make_shared<Tensor<T>>(input), input.get_shape().at(1), 
+            make_shared<Tensor<T>>(input), input.get_shape().at(1),
             make_shared<Tensor<T>>(weight), weight.get_shape().at(1),
             0.0f,
-            result_ptr, result_ptr->get_shape().at(1)
-        );
+            result_ptr, result_ptr->get_shape().at(1));
 
         return *result_ptr;
     };
@@ -78,7 +77,7 @@ class MatMul : public Layer<T> {
 
     /**
      * @brief Returns the MatMul instance's weight tensor
-     * 
+     *
      * @return A Tensor object
      */
     Tensor<T> get_weights() const {
