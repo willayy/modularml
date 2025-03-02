@@ -3,27 +3,28 @@
 #include "a_layer.hpp"
 #include "globals.hpp"
 
-
 template <typename T>
 class Conv : public Layer<T> {
    public:
-    
+    Conv(
+        const Tensor<T>& weight,
+        const Tensor<T>& bias,
+        const Tensor<T>& dilations,
+        const int group,
+        const Tensor<T>& kernel_shape,
+        const vector<int>& padding,
+        const vector<int>& stride) : weight(weight),
+                                     bias(bias),
+                                     dilations(dilations),
+                                     group(group),
+                                     kernel_shape(kernel_shape),
+                                     padding(padding),
+                                     stride(stride) {}
 
-    Conv(const Tensor<T>& weight, 
-         const Tensor<T>& bias, 
-         const Tensor<T>& dilations,
-         const int group,
-         const Tensor<T>& kernel_shape,
-         const Tensor<T>& padding, 
-         const Tensor<T>& stride);
-
-    
     Tensor<T> forward(const Tensor<T>& input) const override;
 
-    
     Tensor<T> tensor() const override;
 
-    
     std::unique_ptr<TensorFunction<T>> activation() const override;
 
    private:
@@ -32,6 +33,6 @@ class Conv : public Layer<T> {
     Tensor<T> dilations;
     int group;
     Tensor<T> kernel_shape;
-    Tensor<T> padding;
-    Tensor<T> stride;
+    vector<int> padding;
+    vector<T> stride;
 };
