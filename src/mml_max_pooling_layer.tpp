@@ -18,49 +18,57 @@ std::unique_ptr<TensorFunction<T>> MaxPoolingLayer<T>::activation() const {
 
 template <typename T>
 Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
-  vector<T> shape = t.get_shape();
+  vector<int> shape = t.get_shape();
   if (shape.size() != 4) {
     throw invalid_argument("Invalid tensor shape");
   } else {
-    int pad_h, pad_w = 0;
+    int pad_h = 0;
+    int pad_w = 0;
     if (padding == "same") {
       pad_h = std::max(0, (filter[0] - 1) / 2);
       pad_w = std::max(0, (filter[1] - 1) / 2);
     }
 
-    // Adjust the input dimensions for padding
+    // Calculate output dimensions
     int padded_height = shape[1] + 2 * pad_h;
     int padded_width = shape[2] + 2 * pad_w;
+    int output_height = std::floor((padded_height - filter[0]) / stride[0]) + 1;
+    int output_width = std::floor((padded_width - filter[1]) / stride[1]) + 1;
 
     /// Initialize output tensor with correct dimensions
-    shape[1] = std::floor((padded_height - filter[0]) / stride[0]) + 1;
-    shape[2] = std::floor((padded_width - filter[1]) / stride[1]) + 1;
-    shared_ptr<Tensor<T>> tensor = tensor_mml(shape);
+    vector<int> output_shape = {shape[0], output_height, output_width, shape[3]};
+    Tensor<T> output_tensor = *(tensor_mml(output_shape));
 
     /// First for loop. For each element in the batch
-    for (int i = 0; i < shape[0]; i++) {
+    for (int element = 0; element < shape[0]; element++) {
       /// Second for loop. For each channel
-      for (int j = 0; j < shape[3]; j++) {
-        /// Third for loop. Each row in the matrix
-        for (int k = 0; k + filter[0] <= padded_height; k += stride[0]) {
-          /// Fourth for loop. Each column
-          for (int l = 0; l + filter[1] <= padded_width; l += stride[1]) {
-            T max_value = t[i][k][l][j];
-            for (int m = k; m < k + filter[0]; m++) {
-              for (int n = l; n < l + filter[1]; n++) {
-                if (m >= pad_h && m < shape[1] + pad_h && n >= pad_w && n < shape[2] + pad_w) {
-                  max_value = std::max(max_value, t[i][m - pad_h][n - pad_w][j]);
+      for (int channel = 0; channel < shape[3]; channel++) {
+        /// Third for loop. Each row in the output matrix
+        for (int out_row = 0; out_row < output_height; out_row++) {
+          /// Fourth for loop. Each output column
+          for (int out_col = 0; out_col < output_width; out_col++) {
+            // Calculate input region start (with stride)
+            int in_row_start = out_row * stride[0] - pad_h;
+            int in_col_start = out_col * stride[1] - pad_w;
+            /// Initialize lowest value for type T
+            T max_value = std::numeric_limits<T>::lowest();
+            for (int m = 0; m < filter[0]; m++) {
+              for (int n = 0; n < filter[1]; n++) {
+                int curr_row = in_row_start + m;
+                int curr_col = in_col_start + n;
+                // Check if position is within bounds of the original input
+                if (curr_row >= 0 && curr_row < shape[1] && curr_col >= 0 && curr_col < shape[2]) {
+                  max_value = std::max(max_value, t[element][curr_row][curr_col][channel]);
                 }
               }
             }
-            // Mapping to the correct output tensor position
-            int out_k = k / stride[0];
-            int out_l = l / stride[1];
-            tensor[i][out_k][out_l][j] = max_value;
+
+            // Store result in output tensor
+            output_tensor[element][out_row][out_col][channel] = max_value;
           }
         }
       }
     }
-    return tensor;
+    return output_tensor;
   }
-};
+}
