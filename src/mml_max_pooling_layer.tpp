@@ -32,8 +32,8 @@ Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
     // Calculate output dimensions
     int padded_height = shape[1] + 2 * pad_h;
     int padded_width = shape[2] + 2 * pad_w;
-    int output_height = std::floor((padded_height - filter[0]) / stride[0]) + 1;
-    int output_width = std::floor((padded_width - filter[1]) / stride[1]) + 1;
+    int output_height = (padded_height - filter[0]) / stride[0] + 1;
+    int output_width = (padded_width - filter[1]) / stride[1] + 1;
 
     /// Initialize output tensor with correct dimensions
     vector<int> output_shape = {shape[0], output_height, output_width, shape[3]};
