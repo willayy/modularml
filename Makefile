@@ -39,6 +39,9 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
+test:
+	@echo "Running tests...\n"
+	@cd ./build && ctest
 
 clean:
 	@echo "Cleaning up...\n"
