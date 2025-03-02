@@ -37,7 +37,7 @@ Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
 
     /// Initialize output tensor with correct dimensions
     vector<int> output_shape = {shape[0], output_height, output_width, shape[3]};
-    Tensor<T> output_tensor = *(tensor_mml(output_shape));
+    shared_ptr<Tensor<T>> output_tensor = tensor_mml(output_shape);
 
     /// First for loop. For each element in the batch
     for (int element = 0; element < shape[0]; element++) {
@@ -64,11 +64,11 @@ Tensor<T> MaxPoolingLayer<T>::forward(const Tensor<T>& t) const {
             }
 
             // Store result in output tensor
-            output_tensor[element][out_row][out_col][channel] = max_value;
+            (*output_tensor)[element][out_row][out_col][channel] = max_value;
           }
         }
       }
     }
-    return output_tensor;
+    return *output_tensor;
   }
 }
