@@ -1,0 +1,20 @@
+name: Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs_on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: make install
+
+    - name: Configure and Build
+      run: make all
+
+    - name: Run tests
+      run: make run_tests

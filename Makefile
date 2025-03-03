@@ -39,6 +39,18 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
+run_tests:
+	@echo "Running tests...\n"
+	@cd ./build && ctest --output-on-failure
+
+coverage:
+	@echo "Generating coverage...\n"
+
+
+docs:
+	@echo "Generating Doxygen documentation..."
+	@$(CMAKE) --build $(BUILD_DIR) --target docs
+
 
 clean:
 	@echo "Cleaning up...\n"
