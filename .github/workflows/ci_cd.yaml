@@ -18,3 +18,12 @@ jobs:
 
     - name: Run tests
       run: make run_tests
+
+    - name: Generate coverage report
+      run: make coverage
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: build
