@@ -125,15 +125,16 @@ target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 
 # Add the test to gtest
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_tests)
+gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
+find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
+
 # Create coverage target
 add_custom_target(coverage_report
-    ALL
     COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-    COMMAND gcovr --gcov-executable gcov-14 ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
     COMMENT "Generating coverage report"
 )
 
@@ -157,9 +158,8 @@ set(DOXYGEN_EXTRACT_ALL YES)
 set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 
 # Use convenience function to add doxygen docs
-doxygen_add_docs(
-    ${PROJECT_NAME}_docs
-    ALL 
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Generate Doxygen documentation"
-)
+add_custom_target(docs
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
+    COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
+    COMMENT "Generating Doxygen documentation"
+)   
