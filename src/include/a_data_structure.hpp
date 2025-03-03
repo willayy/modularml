@@ -1,5 +1,6 @@
 #pragma once
 
+#include "array_mml.hpp"
 #include "globals.hpp"
 
 #define ASSERT_ALLOWED_TYPE_D(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
@@ -21,9 +22,9 @@ class DataStructure {
   /// @brief Abstract destructor for DataStructure class.
   virtual ~DataStructure() = default;
 
-  /// @brief Set the data of the data structure using a vector of data.
-  /// @param data a vector of data.
-  virtual void set_data(const vector<T>& data) = 0;
+  /// @brief Set the data of the data structure using a array_mml of data.
+  /// @param data a array_mml of data.
+  virtual void set_data(const array_mml<T>& data) = 0;
 
   /// @brief Set all elements in the data structure to zero.
   virtual void set_zero() = 0;
@@ -32,9 +33,9 @@ class DataStructure {
   /// @return the size of the data structure as an integer.
   virtual int get_size() const = 0;
 
-  /// @brief Get the raw data of the data structure as a vector.
-  /// @return a vector data.
-  const virtual vector<T>& get_raw_data() const = 0;
+  /// @brief Get a copy of the data structure as a array_mml.
+  /// @return a array_mml data.
+  virtual array_mml<T> get_data() const = 0;
 
   /// @brief Get an element from the data structure.
   /// @param index an integer representing the index of the data structure.
