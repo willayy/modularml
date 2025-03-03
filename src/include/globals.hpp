@@ -20,3 +20,6 @@ using std::shared_ptr;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+using std::tanh;
+using std::cosh;
+using std::log;
