@@ -25,7 +25,7 @@ class tanH_mml : public TensorFunction<T> {
    * @return A new tensor with the tanh function applied to each element.
    */
   Tensor<T> func(const Tensor<T>& t) const {
-    return elementwise.apply(t, [](T x) { return std::tanh(x); });
+    return elementwise.apply(t, [](T x) { return tanh(x); });
   }
 
   /**
@@ -36,7 +36,7 @@ class tanH_mml : public TensorFunction<T> {
    */
   Tensor<T> derivative(const Tensor<T>& t) const {
     return elementwise.apply(t, [](T x) {
-      T tanh_x = std::tanh(x);  // Compute tanh(x)
+      T tanh_x = tanh(x);  // Compute tanh(x)
       return T(1) - tanh_x * tanh_x;
     });
   }
@@ -49,7 +49,7 @@ class tanH_mml : public TensorFunction<T> {
    */
   Tensor<T> primitive(const Tensor<T>& t) const {
     return elementwise.apply(t, [](T x) {
-      return std::log(std::cosh(x));  // Compute the integral of tanh(x)
+      return log(cosh(x));  // Compute the integral of tanh(x)
     });
   }
 };
