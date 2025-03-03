@@ -5,6 +5,7 @@
 
 #include "a_data_structure.hpp"
 #include "globals.hpp"
+#include "mml_vector.hpp"
 
 #define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
 
@@ -41,6 +42,16 @@ class Tensor {
       : data(move(data)),
         shape(move(shape)),
         offsets(compute_offsets()) {}
+
+  /*!
+  @brief Constructor for creating a tensor with a given shape and all elements initialized to zero.
+  @param shape The shape of the tensor.
+  */
+ Tensor(const std::vector<int>& shape) 
+ : data(std::make_shared<Vector_mml<T>>(std::accumulate(shape.begin(), 
+  shape.end(), 1, std::multiplies<int>()))),
+   shape(shape),
+   offsets(compute_offsets()) {}
 
   /// @brief Move constructor.
   Tensor(Tensor &&other) noexcept
@@ -180,6 +191,21 @@ class Tensor {
     this->shape = vector<int>(new_shape);
     this->offsets = compute_offsets();
   }
+  // New method: Get the maximum element in the tensor
+  T max_element() const {
+    T max_val = std::numeric_limits<T>::lowest();
+    for (int i = 0; i < get_size(); i++) {
+        max_val = std::max(max_val, (*this)[i]);
+    }
+    return max_val;
+  }
+
+  // New method: Apply a function to all elements in the tensor
+  void apply_function(const std::function<T(T)>& func) {
+    for (int i = 0; i < get_size(); i++) {
+        (*this)[i] = func((*this)[i]);
+    }
+  }
 
  private:
   /// @brief Underlying data structure for the tensor.
@@ -220,14 +246,17 @@ class Tensor {
 
   /// @brief Row-major offsets for the data structure.
   /// @return a vector of integers representing the offsets.
-  vector<int> compute_offsets() const {
-    const int size = static_cast<int>(shape.size());
-    auto computed_offsets = vector<int>(size, 1);
+vector<int> compute_offsets() const {
+    int size = static_cast<int>(shape.size());
+    vector<int> computed_offsets(size, 1);
+
+    // Row-major order: Offset[i] = Offset[i+1] * shape[i+1]
     for (int i = size - 2; i >= 0; i--) {
-      computed_offsets[i] = computed_offsets[i + 1] * this->shape[i];
+        computed_offsets[i] = computed_offsets[i + 1] * this->shape[i + 1]; //fixed to correctly calculate offsets
     }
+
     return computed_offsets;
-  }
+}
 
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
