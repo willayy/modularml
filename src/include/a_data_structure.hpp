@@ -23,7 +23,7 @@ class DataStructure {
 
   /// @brief Set the data of the data structure using a vector of data.
   /// @param data a vector of data.
-  virtual void set_data(const vector<T> data) = 0;
+  virtual void set_data(const vector<T>& data) = 0;
 
   /// @brief Set all elements in the data structure to zero.
   virtual void set_zero() = 0;
@@ -46,7 +46,7 @@ class DataStructure {
   virtual T& get_mutable_elem(int index) = 0;
 
   /// @brief Clone the data structure.
-  /// @return a unique pointer to a new data structure with the same data.
+  /// @return a shared pointer to a new data structure with the same data.
   virtual shared_ptr<DataStructure<T>> clone() const = 0;
 
   /// @brief Array subscript operator for getting an element from the data structure.

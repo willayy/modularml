@@ -26,7 +26,7 @@ class Tensor {
  public:
   /*!
   @brief Constructor for Tensor class.
-  @param data Unique pointer to the data structure used to store the tensor data.
+  @param data Shared pointer to the data structure used to store the tensor data.
   @param shape The shape of the tensor.*/
   Tensor(shared_ptr<DataStructure<T>> data, initializer_list<int> shape)
       : data(move(data)),
@@ -35,7 +35,7 @@ class Tensor {
 
   /*!
   @brief Constructor for Tensor class.
-  @param data Unique pointer to the data structure used to store the tensor data.
+  @param data Shared pointer to the data structure used to store the tensor data.
   @param shape The shape of the tensor.*/
   Tensor(shared_ptr<DataStructure<T>> data, vector<int> shape)
       : data(move(data)),
@@ -45,8 +45,8 @@ class Tensor {
   /// @brief Move constructor.
   Tensor(Tensor &&other) noexcept
       : data(move(other.data)),
-        shape(vector<T>(other.shape)),
-        offsets(vector<T>(other.offsets)) {}
+        shape(vector<int>(other.shape)),
+        offsets(vector<int>(other.offsets)) {}
 
   /// @brief Copy constructor.
   Tensor(const Tensor &other)
@@ -243,6 +243,6 @@ class Tensor {
   }
 
   bool valid_shape(const vector<int> &new_shape) const {
-    return accumulate(shape.begin(), shape.end(), 1, multiplies<int>()) == this->data->get_size();
+    return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<int>()) == this->data->get_size();
   }
 };

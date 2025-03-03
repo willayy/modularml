@@ -12,19 +12,19 @@ class Vector_mml : public DataStructure<T> {
   }
 
   // Override constructor
-  explicit Vector_mml(const vector<T> data) : DataStructure<T>() {
+  explicit Vector_mml(const vector<T>& data) : DataStructure<T>() {
     this->data = data;
   }
 
   // Override move constructor
-  Vector_mml(Vector_mml&& other) noexcept : DataStructure<T>(other), data(move(other.data)) {}
+  Vector_mml(Vector_mml&& other) noexcept : DataStructure<T>(move(other)), data(move(other.data)) {}
 
   // Override copy constructor
   Vector_mml(const Vector_mml& other) : DataStructure<T>(other), data(vector<T>(other.data)) {}
 
   ~Vector_mml() override = default;
 
-  void set_data(const vector<T> new_data) override {
+  void set_data(const vector<T>& new_data) override {
     this->data = new_data;
   }
 
