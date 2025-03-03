@@ -33,33 +33,33 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
   /**
    * @brief Expected Tensor after the tanH function is applied to each element.
    */
-  Tensor<float> expected_func = tensor_mml<float>({3, 3}, {std::tanh(-1.0f), std::tanh(0.0f), std::tanh(1.0f),
-                                                           std::tanh(-2.0f), std::tanh(2.0f), std::tanh(-3.0f),
-                                                           std::tanh(3.0f), std::tanh(4.0f), std::tanh(-4.0f)});
+  Tensor<float> expected_func = tensor_mml<float>({3, 3}, {tanh(-1.0f), tanh(0.0f), tanh(1.0f),
+                                                           tanh(-2.0f), tanh(2.0f), tanh(-3.0f),
+                                                           tanh(3.0f), tanh(4.0f), tanh(-4.0f)});
 
   /**
    * @brief Expected Tensor after the derivative of the tanH function is applied
    * to each element.
    */
   Tensor<float> expected_derivative = tensor_mml<float>({3, 3}, {
-                                                                    1.0f - std::tanh(-1.0f) * std::tanh(-1.0f),
-                                                                    1.0f - std::tanh(0.0f) * std::tanh(0.0f),
-                                                                    1.0f - std::tanh(1.0f) * std::tanh(1.0f),
-                                                                    1.0f - std::tanh(-2.0f) * std::tanh(-2.0f),
-                                                                    1.0f - std::tanh(2.0f) * std::tanh(2.0f),
-                                                                    1.0f - std::tanh(-3.0f) * std::tanh(-3.0f),
-                                                                    1.0f - std::tanh(3.0f) * std::tanh(3.0f),
-                                                                    1.0f - std::tanh(4.0f) * std::tanh(4.0f),
-                                                                    1.0f - std::tanh(-4.0f) * std::tanh(-4.0f),
+                                                                    1.0f - tanh(-1.0f) * tanh(-1.0f),
+                                                                    1.0f - tanh(0.0f) * tanh(0.0f),
+                                                                    1.0f - tanh(1.0f) * tanh(1.0f),
+                                                                    1.0f - tanh(-2.0f) * tanh(-2.0f),
+                                                                    1.0f - tanh(2.0f) * tanh(2.0f),
+                                                                    1.0f - tanh(-3.0f) * tanh(-3.0f),
+                                                                    1.0f - tanh(3.0f) * tanh(3.0f),
+                                                                    1.0f - tanh(4.0f) * tanh(4.0f),
+                                                                    1.0f - tanh(-4.0f) * tanh(-4.0f),
                                                                 });
 
   /**
    * @brief Expected Tensor after the primitive of the tanH function is applied
    * to each element.
    */
-  Tensor<float> expected_primitive = tensor_mml<float>({3, 3}, {std::log(std::cosh(-1.0f)), std::log(std::cosh(0.0f)), std::log(std::cosh(1.0f)),
-                                                                std::log(std::cosh(-2.0f)), std::log(std::cosh(2.0f)), std::log(std::cosh(-3.0f)),
-                                                                std::log(std::cosh(3.0f)), std::log(std::cosh(4.0f)), std::log(std::cosh(-4.0f))});
+  Tensor<float> expected_primitive = tensor_mml<float>({3, 3}, {log(cosh(-1.0f)), log(cosh(0.0f)), log(cosh(1.0f)),
+                                                                log(cosh(-2.0f)), log(cosh(2.0f)), log(cosh(-3.0f)),
+                                                                log(cosh(3.0f)), log(cosh(4.0f)), log(cosh(-4.0f))});
 
   auto func_result = tanh_func.func(t1);
   auto derivative_result = tanh_func.derivative(t1);
@@ -87,25 +87,25 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction_double) {
   /**
    * @brief Expected Tensor after the tanH function is applied to each element.
    */
-  Tensor<double> expected_func = tensor_mml<double>({3, 3}, {std::tanh(-1.0), std::tanh(0.0), std::tanh(1.0),
-                                                             std::tanh(-2.0), std::tanh(2.0), std::tanh(-3.0),
-                                                             std::tanh(3.0), std::tanh(4.0), std::tanh(-4.0)});
+  Tensor<double> expected_func = tensor_mml<double>({3, 3}, {tanh(-1.0), tanh(0.0), tanh(1.0),
+                                                             tanh(-2.0), tanh(2.0), tanh(-3.0),
+                                                             tanh(3.0), tanh(4.0), tanh(-4.0)});
 
   /**
    * @brief Expected Tensor after the derivative of the tanH function is applied
    * to each element.
    */
-  Tensor<double> expected_derivative = tensor_mml<double>({3, 3}, {1.0 - std::tanh(-1.0) * std::tanh(-1.0), 1.0 - std::tanh(0.0) * std::tanh(0.0), 1.0 - std::tanh(1.0) * std::tanh(1.0),
-                                                                   1.0 - std::tanh(-2.0) * std::tanh(-2.0), 1.0 - std::tanh(2.0) * std::tanh(2.0), 1.0 - std::tanh(-3.0) * std::tanh(-3.0),
-                                                                   1.0 - std::tanh(3.0) * std::tanh(3.0), 1.0 - std::tanh(4.0) * std::tanh(4.0), 1.0 - std::tanh(-4.0) * std::tanh(-4.0)});
+  Tensor<double> expected_derivative = tensor_mml<double>({3, 3}, {1.0 - tanh(-1.0) * tanh(-1.0), 1.0 - tanh(0.0) * tanh(0.0), 1.0 - tanh(1.0) * tanh(1.0),
+                                                                   1.0 - tanh(-2.0) * tanh(-2.0), 1.0 - tanh(2.0) * tanh(2.0), 1.0 - tanh(-3.0) * tanh(-3.0),
+                                                                   1.0 - tanh(3.0) * tanh(3.0), 1.0 - tanh(4.0) * tanh(4.0), 1.0 - tanh(-4.0) * tanh(-4.0)});
 
   /**
    * @brief Expected Tensor after the primitive of the tanH function is applied
    * to each element.
    */
-  Tensor<double> expected_primitive = tensor_mml<double>({3, 3}, {std::log(std::cosh(-1.0)), std::log(std::cosh(0.0)), std::log(std::cosh(1.0)),
-                                                                  std::log(std::cosh(-2.0)), std::log(std::cosh(2.0)), std::log(std::cosh(-3.0)),
-                                                                  std::log(std::cosh(3.0)), std::log(std::cosh(4.0)), std::log(std::cosh(-4.0))});
+  Tensor<double> expected_primitive = tensor_mml<double>({3, 3}, {log(cosh(-1.0)), log(cosh(0.0)), log(cosh(1.0)),
+                                                                  log(cosh(-2.0)), log(cosh(2.0)), log(cosh(-3.0)),
+                                                                  log(cosh(3.0)), log(cosh(4.0)), log(cosh(-4.0))});
 
   auto func_result = tanh_func.func(t1);
   auto derivative_result = tanh_func.derivative(t1);
