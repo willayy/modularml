@@ -3,7 +3,7 @@
 #include "mml_pooling_layer.hpp"
 
 template <typename T>
-class MaxPoolingLayer : public PoolingLayer {
+class MaxPoolingLayer : public PoolingLayer<T> {
  public:
   MaxPoolingLayer(vector<int> f, vector<int> s, string p = "valid")
       : PoolingLayer<T>(f, s, p) {}

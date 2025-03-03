@@ -4,7 +4,7 @@
 #include "string.h"
 
 template <typename T>
-class PoolingLayer : public Layer {
+class PoolingLayer : public Layer<T> {
  public:
   PoolingLayer(vector<int> f, vector<int> s, string p = "valid") : filter(f), stride(s), padding(p) {};
 

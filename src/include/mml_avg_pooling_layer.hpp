@@ -3,7 +3,7 @@
 #include "mml_pooling_layer.hpp"
 
 template <typename T>
-class AvgPoolingLayer : public PoolingLayer {
+class AvgPoolingLayer : public PoolingLayer<T> {
  public:
   AvgPoolingLayer(vector<int> f, vector<int> s, string p = "valid")
       : PoolingLayer<T>(f, s, p) {}
