@@ -6,7 +6,7 @@
 template <typename T>
 class PoolingLayer : public Layer {
  public:
-  PoolingLayer(vector<int> p, vector<int> s, string p = "valid") : filter(p), stride(s), padding(p) {};
+  PoolingLayer(vector<int> f, vector<int> s, string p = "valid") : filter(f), stride(s), padding(p) {};
 
   Tensor<T> tensor() const override;
 
