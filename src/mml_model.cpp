@@ -1,13 +1,13 @@
 #include "include/mml_model.hpp"
 
-GeneralDataTypes Model_mml::infer(GeneralDataTypes& tensor) {
+vector<GeneralDataTypes> Model_mml::infer(const vector<GeneralDataTypes>& inputs) {
     if (nodes.empty()) {
         throw runtime_error("ComputeGraph has no nodes.");
     }
 
     // Set input tensor to the first node (believe it will always be the first node, but parser can enforce this)
     Node& firstNode = *nodes.front();
-    firstNode.setInput(tensor);
+    firstNode.setInputs(inputs);
 
     // Track executed nodes
     unordered_set<Node*> executed;
@@ -40,7 +40,7 @@ GeneralDataTypes Model_mml::infer(GeneralDataTypes& tensor) {
  
     // Get output from the last node
     if (const Node& lastNode = *nodes.back(); lastNode.areOutputsFilled()) {
-        return lastNode.getOutput();
+        return lastNode.getOutputs();
     }
  
     throw runtime_error("No valid output found in the compute graph.");

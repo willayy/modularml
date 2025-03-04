@@ -26,16 +26,16 @@ public:
      * 
      * @param initialNodes A vector of unique pointers to Node objects to initialize the model with.
      */
-    explicit Model_mml(std::vector<std::unique_ptr<Node>>&& initialNodes)
-        : nodes(std::move(initialNodes)) {}
+    explicit Model_mml(vector<unique_ptr<Node>>&& initialNodes)
+        : nodes(move(initialNodes)) {}
 
     /**
      * @brief Adds a node to the model graph.
      * 
      * @param node A unique pointer to a Node object to be added to the graph.
      */
-    void addNode(std::unique_ptr<Node> node) {
-        nodes.push_back(std::move(node));
+    void addNode(unique_ptr<Node> node) {
+        nodes.push_back(move(node));
     }
 
     /**
@@ -44,16 +44,9 @@ public:
      * @param tensor A reference to the input data for inference.
      * @return GeneralDataTypes The result of the inference.
      */
-    GeneralDataTypes infer(GeneralDataTypes& tensor) override;
-
-    /**
-     * @brief Destructor for Model_mml.
-     * 
-     * Cleans up resources used by the model.
-     */
-    ~Model_mml() override = default;
+    vector<GeneralDataTypes> infer(const vector<GeneralDataTypes>& inputs) override;
 
 private:
     // Nodes in the graph
-    std::vector<std::unique_ptr<Node>> nodes;
+    vector<unique_ptr<Node>> nodes;
 };

@@ -20,7 +20,7 @@ public:
      * @param tensor The input data for the model.
      * @return The result of the model inference.
      */
-    virtual GeneralDataTypes infer(GeneralDataTypes& tensor) = 0;
+    virtual vector<GeneralDataTypes> infer(const vector<GeneralDataTypes>& inputs) = 0;
 
     /**
      * @brief Virtual destructor for the Model class.
