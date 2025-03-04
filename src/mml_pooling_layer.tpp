@@ -8,7 +8,7 @@
 
 template <typename T>
 Tensor<T> PoolingLayer<T>::tensor() const {
-  return pooling_size;
+  return tensor_mml<T>({1, 1});
 };
 
 template <typename T>
@@ -20,7 +20,7 @@ template <typename T>
 Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
   vector<int> shape = t.get_shape();
   if (shape.size() != 4) {
-    throw invalid_argument("Invalid tensor shape");
+    throw std::invalid_argument("Invalid tensor shape");
   } else {
     int pad_h = 0;
     int pad_w = 0;
@@ -36,8 +36,7 @@ Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
     int output_width = (padded_width - filter[1]) / stride[1] + 1;
 
     /// Initialize output tensor with correct dimensions
-    vector<int> output_shape = {shape[0], output_height, output_width, shape[3]};
-    shared_ptr<Tensor<T>> output_tensor = tensor_mml(output_shape);
+    shared_ptr<Tensor<T>> output_tensor = tensor_mml_p<T>({shape[0], output_height, output_width, shape[3]});
 
     /// First for loop. For each element in the batch
     for (int element = 0; element < shape[0]; element++) {
@@ -54,7 +53,7 @@ Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
             T value = pooling(t, shape, element, channel, in_row_start, in_col_start);
 
             // Store result in output tensor
-            (*output_tensor)[element][out_row][out_col][channel] = value;
+            (*output_tensor)[{element, out_row, out_col, channel}] = value;
           }
         }
       }
