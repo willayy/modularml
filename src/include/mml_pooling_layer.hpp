@@ -1,7 +1,11 @@
 #pragma once
 
+#include <cmath>
+#include <stdexcept>
+
 #include "a_layer.hpp"
 #include "string.h"
+
 
 template <typename T>
 class PoolingLayer : public Layer<T> {
@@ -22,3 +26,5 @@ class PoolingLayer : public Layer<T> {
   vector<int> stride;
   string padding;
 };
+
+#include "../mml_pooling_layer.tpp"

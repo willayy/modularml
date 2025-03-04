@@ -12,3 +12,4 @@ class MaxPoolingLayer : public PoolingLayer<T> {
   T pooling(const Tensor<T>& t, vector<int> shape, int element,
             int channel, int in_row_start, int in_col_start) const override;
 };
+#include "../mml_max_pooling_layer.tpp"
