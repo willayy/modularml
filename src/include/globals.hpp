@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <variant>
+#include <unordered_set>
 
 using nlohmann::json;
 using std::accumulate;
@@ -24,4 +25,6 @@ using std::vector;
 using std::tanh;
 using std::cosh;
 using std::log;
-using std::variant
+using std::variant;
+using std::unordered_set;
+using std::runtime_error
