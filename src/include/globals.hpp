@@ -8,6 +8,7 @@
 #include <vector>
 #include <variant>
 #include <unordered_set>
+#include <optional>
 
 using nlohmann::json;
 using std::accumulate;
@@ -27,4 +28,6 @@ using std::cosh;
 using std::log;
 using std::variant;
 using std::unordered_set;
-using std::runtime_error
+using std::runtime_error;
+using std::optional;
+using std::visit;

@@ -3,8 +3,20 @@
 #include "tensor.hpp"
 #include "globals.hpp"
 
-// More data types can be added as needed
-using GeneralDataTypes = variant<Tensor<int>, Tensor<float>, Tensor<double>>;
+// Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don't know.
+using GeneralDataTypes = variant<
+    Tensor<bool>,
+    Tensor<double>,
+    Tensor<float>,
+    Tensor<int16_t>,
+    Tensor<int32_t>,
+    Tensor<int64_t>,
+    Tensor<int8_t>,
+    Tensor<uint16_t>,
+    Tensor<uint32_t>,
+    Tensor<uint64_t>,
+    Tensor<uint8_t>
+>;
 
 /**
  * @class Node
@@ -39,12 +51,11 @@ public:
      * @brief Set the input(s) for the node.
      *
      * This pure virtual function must be overridden by derived classes to 
-     * set the input(s) for the node. Currently, it supports a singular input 
-     * as the graph runs with a singular input.
+     * set the input(s) for the node.
      * 
      * @param tensor The input data to be set.
      */
-    virtual void setInput(const GeneralDataTypes& tensor) = 0;
+    virtual void setInputs(const vector<GeneralDataTypes>& inputs) = 0;
 
     /**
      * @brief Check if the output(s) are filled.
@@ -64,7 +75,7 @@ public:
      * 
      * @return The output data.
      */
-    virtual GeneralDataTypes getOutput() const = 0;
+    virtual vector<GeneralDataTypes> getOutputs() const = 0;
 
     /**
      * @brief Virtual destructor for the Node class.
