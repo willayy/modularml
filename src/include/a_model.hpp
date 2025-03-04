@@ -1,40 +1,31 @@
 #pragma once
 
-#include "a_layer.hpp"
-#include "globals.hpp"
 #include "tensor.hpp"
+#include "globals.hpp"
 
 /**
  * @class Model
- * @brief Abstract Model class/type.
+ * @brief Abstract base class for machine learning models.
  *
- * This class provides an interface for models
+ * This class defines the interface for machine learning models, 
+ * providing a method for inference and a virtual destructor.
  */
-
-/// @brief Abstract Model class/type.
-
-template <typename T>
 class Model {
- protected:
-  /// @brief Dynamic array of Layers
-  /// @details Structure to be defined for each derived model
-  vector<Layer<T>> layers;
+public:
+    /**
+     * @brief Run the model with a single given input tensor.
+     *
+     * This is a pure virtual function that must be implemented by derived classes.
+     *
+     * @param tensor The input data for the model.
+     * @return The result of the model inference.
+     */
+    virtual GeneralDataTypes infer(GeneralDataTypes& tensor) = 0;
 
-  /// @brief Default constructor for Model.
-  explicit Model() = default;
-
- public:
-  /// @brief Virtual destructor for Model.
-  /// @details Ensures derived class destructors are called properly.
-  virtual ~Model() = default;
-
-  /// @brief Make an inference.
-  /// @param t Input data
-  /// @return Predicted data
-  virtual Tensor<T> infer(const Tensor<T> &t) const = 0;
-
-  /// @brief Print overview of model
-  /// @details Visualize the model in the command line. Structure might vary
-  /// depending on model
-  virtual void print() const = 0;
+    /**
+     * @brief Virtual destructor for the Model class.
+     *
+     * Ensures proper cleanup of derived class objects.
+     */
+    virtual ~Model() = default;
 };
