@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <variant>
 
 using nlohmann::json;
 using std::accumulate;
@@ -23,3 +24,4 @@ using std::vector;
 using std::tanh;
 using std::cosh;
 using std::log;
+using std::variant
