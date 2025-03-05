@@ -6,9 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <variant>
-#include <unordered_set>
-#include <optional>
+#include <iostream>
 
 using nlohmann::json;
 using std::accumulate;
@@ -23,3 +21,7 @@ using std::shared_ptr;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+using std::tanh;
+using std::cosh;
+using std::log;
+using std::ostream;
