@@ -3,7 +3,7 @@
 #include <modularml>
 
 /**
- * @file test_mml_TensorFunction_ReLU.cpp
+ * @file test_mml_ReLU.cpp
  * @brief Unit tests for the ReLUFunction class.
  *
  * This file contains test cases that validate the correctness of the
@@ -19,7 +19,7 @@
  * Each test outputs a success/failure message using `assert_msg` and ensures
  * correct behavior of the ReLUFunction implementation.
  */
-TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction) {
+TEST(test_mml_ReLU, test_ReLUFunction) {
   // Define the ReLU function class to test
   ReLU_mml<float> ReLU_func;
   /**
@@ -60,7 +60,7 @@ TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction) {
   ASSERT_EQ(ReLU_func.primitive(t1), expected_primitive);
 }
 
-TEST(test_mml_TensorFunction_ReLU, test_ReLUFunction_int) {
+TEST(test_mml_ReLU, test_ReLUFunction_int) {
   // Define the ReLU function class to test
   ReLU_mml<int> ReLU_func;
 

@@ -3,7 +3,7 @@
 #include <modularml>
 
 /**
- * @file test_mml_TensorFunction_Tanh.cpp
+ * @file test_mml_Tanh.cpp
  * @brief Unit tests for the TanhFunction class.
  *
  * This file contains test cases that validate the correctness of the
@@ -18,7 +18,7 @@
  * Each test outputs a success/failure message using `assert_msg` and ensures
  * correct behavior of the TanhFunction implementation.
  */
-TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
+TEST(test_mml_Tanh, test_TanhFunction) {
   // replace any implementation of a TensorFunction class for a tanH function
   // here:
   tanH_mml<float> tanh_func;
@@ -73,7 +73,7 @@ TEST(test_mml_TensorFunction_Tanh, test_TanhFunction) {
   ASSERT_TRUE(tensors_are_close(primitive_result, expected_primitive));
 }
 
-TEST(test_mml_TensorFunction_Tanh, test_TanhFunction_double) {
+TEST(test_mml_Tanh, test_TanhFunction_double) {
   // Define the tanH function class to test
   tanH_mml<double> tanh_func;
 

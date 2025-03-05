@@ -3,7 +3,7 @@
 #include <modularml>
 
 /**
- * @file test_mml_TensorFunction_Swish.cpp
+ * @file test_mml_Swish.cpp
  * @brief Unit tests for the SwishFunction class.
  *
  * This file contains test cases that validate the correctness of the
@@ -21,7 +21,7 @@
  * Each test outputs a success/failure message using `assert_msg` and ensures
  * correct behavior of the ReLUFunction implementation.
  */
-TEST(test_mml_TensorFunction_Swish, test_SwishFunction) {
+TEST(test_mml_Swish, test_SwishFunction) {
   // Define the Swish function class to test
   Swish_mml<float> Swish_func;
 
@@ -68,7 +68,7 @@ TEST(test_mml_TensorFunction_Swish, test_SwishFunction) {
   ASSERT_TRUE(tensors_are_close(primitive_result, expected_primitive));
 }
 
-TEST(test_mml_TensorFunction_Swish, test_SwishFunction_double) {
+TEST(test_mml_Swish, test_SwishFunction_double) {
   // Define the Swish function class to test
   Swish_mml<double> Swish_func;
 
