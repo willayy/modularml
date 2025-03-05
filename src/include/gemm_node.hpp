@@ -5,12 +5,12 @@
 
 // Type constraints: no bfloat16 or float16 for now (not native to c++ 17).
 using DataTypes = variant<
-    Tensor<float>,
-    Tensor<double>,
-    Tensor<int32_t>,
-    Tensor<int64_t>,
-    Tensor<uint32_t>,
-    Tensor<uint64_t>
+    Tensor_mml<float>,
+    Tensor_mml<double>,
+    Tensor_mml<int32_t>,
+    Tensor_mml<int64_t>,
+    Tensor_mml<uint32_t>,
+    Tensor_mml<uint64_t>
 >;
 
 /**
@@ -36,15 +36,15 @@ public:
      */
     GemmNode(shared_ptr<DataTypes> A,
              shared_ptr<DataTypes> B,
-             optional<shared_ptr<DataTypes>> C,
+             optional<shared_ptr<DataTypes>> C = std::nullopt,
              shared_ptr<DataTypes> Y,
-             float alpha,
-             float beta,
-             int transA,
-             int transB)
+             float alpha = 1.0f,
+             float beta = 1.0f,
+             int transA = 0,
+             int transB = 0)
       : A(A), B(B), C(C), Y(Y),
         alpha(alpha), beta(beta), transA(transA), transB(transB) {}
-
+        
     /**
      * @brief Perform the forward pass computation using GEMM inner product.
      *

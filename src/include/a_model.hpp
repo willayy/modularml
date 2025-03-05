@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tensor.hpp"
+#include "a_node.hpp"
 #include "globals.hpp"
 
 /**
