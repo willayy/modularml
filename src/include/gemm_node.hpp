@@ -36,15 +36,15 @@ public:
      */
     GemmNode(shared_ptr<DataTypes> A,
              shared_ptr<DataTypes> B,
-             optional<shared_ptr<DataTypes>> C = std::nullopt,
              shared_ptr<DataTypes> Y,
+             optional<shared_ptr<DataTypes>> C = std::nullopt,
              float alpha = 1.0f,
              float beta = 1.0f,
              int transA = 0,
              int transB = 0)
       : A(A), B(B), C(C), Y(Y),
         alpha(alpha), beta(beta), transA(transA), transB(transB) {}
-        
+
     /**
      * @brief Perform the forward pass computation using GEMM inner product.
      *
@@ -69,28 +69,45 @@ public:
      * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
      */
     void setInputs(const vector<GeneralDataTypes>& inputs) override {
-        if (inputs.size() < 2) {
-            throw std::runtime_error("GemmNode expects at least two inputs: A and B.");
-        }
+        if (inputs.size() < 2)
+            throw runtime_error("GemmNode expects at least two inputs: A and B.");
     
-        // Set input A from index 0.
-        A = make_shared<DataTypes>(
-            visit([](const auto& t) -> DataTypes { return t; }, inputs[0])
-        );
+        // Deduce type from the first input.
+        visit([this, &inputs](const auto& tensorA) {
+            using T = typename remove_reference_t<decltype(tensorA)>::value_type;
     
-        // Set input B from index 1.
-        B = make_shared<DataTypes>(
-            visit([](const auto& t) -> DataTypes { return t; }, inputs[1])
-        );
-    
-        // If a third input is provided, set input C from index 2.
-        if (inputs.size() > 2) {
-            C = make_shared<DataTypes>(
-                visit([](const auto& t) -> DataTypes { return t; }, inputs[2])
-            );
-        } else {
-            C.reset();  // or set to an empty optional if you prefer
-        }
+            // Restrict T to allowed types.
+            if constexpr (!(std::is_same_v<T, float>   ||
+                            std::is_same_v<T, double>  ||
+                            std::is_same_v<T, int32_t> ||
+                            std::is_same_v<T, int64_t> ||
+                            std::is_same_v<T, uint32_t>||
+                            std::is_same_v<T, uint64_t>))
+            {
+                throw runtime_error("GemmNode input type not supported.");
+            } else {
+                try {
+                    auto valueA = std::get<Tensor_mml<T>>(inputs[0]);
+                    auto valueB = std::get<Tensor_mml<T>>(inputs[1]);
+
+                    A->template emplace<Tensor_mml<T>>(valueA);
+                    B->template emplace<Tensor_mml<T>>(valueB);
+                    
+                    if (inputs.size() > 2) {
+                        auto valueC = std::get<Tensor_mml<T>>(inputs[2]);
+                        if (!C.has_value() || !C.value()) {
+                            C = make_shared<DataTypes>(valueC);
+                        } else {
+                            C.value()->template emplace<Tensor_mml<T>>(valueC);
+                        }
+                    } else {
+                        C.reset();
+                    }
+                } catch (const std::bad_variant_access&) {
+                    throw runtime_error("Data type mismatch: All inputs must have the same type as A.");
+                }
+            }
+        }, inputs[0]);
     }
 
     /**
