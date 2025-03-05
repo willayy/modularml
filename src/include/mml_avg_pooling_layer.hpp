@@ -9,7 +9,7 @@ class AvgPoolingLayer : public PoolingLayer<T> {
       : PoolingLayer<T>(f, s, p) {}
 
  private:
-  T pooling(const Tensor<T>& t, vector<int> shape, int element,
+  T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
             int channel, int in_row_start, int in_col_start) const override;
 };
 

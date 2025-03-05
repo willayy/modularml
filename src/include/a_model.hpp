@@ -1,8 +1,8 @@
 #pragma once
 
 #include "a_layer.hpp"
+#include "a_tensor.hpp"
 #include "globals.hpp"
-#include "tensor.hpp"
 
 /**
  * @class Model
@@ -31,7 +31,7 @@ class Model {
   /// @brief Make an inference.
   /// @param t Input data
   /// @return Predicted data
-  virtual Tensor<T> infer(const Tensor<T> &t) const = 0;
+  virtual shared_ptr<Tensor<T>> infer(const shared_ptr<Tensor<T>> t) const = 0;
 
   /// @brief Print overview of model
   /// @details Visualize the model in the command line. Structure might vary

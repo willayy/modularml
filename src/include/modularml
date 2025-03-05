@@ -16,5 +16,6 @@
 #include "mml_avg_pooling_layer.hpp"
 #include "mml_elementwise.hpp"
 #include "mml_gemm.hpp"
+#include "mml_max_pooling_layer.hpp"
 #include "mml_tensor.hpp"
 #include "tensor_utility.hpp"

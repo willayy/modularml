@@ -2,8 +2,9 @@
 
 #include <cmath>
 #include <type_traits>
+
+#include "a_tensor.hpp"
 #include "mml_elementwise.hpp"
-#include "tensor.hpp"
 
 /**
  * @class tanH_mml
@@ -24,7 +25,7 @@ class tanH_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the tanh function applied to each element.
    */
-  Tensor<T> func(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> func(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) { return tanh(x); });
   }
 
@@ -34,7 +35,7 @@ class tanH_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the derivative of tanh applied to each element.
    */
-  Tensor<T> derivative(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> derivative(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       T tanh_x = tanh(x);  // Compute tanh(x)
       return T(1) - tanh_x * tanh_x;
@@ -47,7 +48,7 @@ class tanH_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the primitive of tanh applied to each element.
    */
-  Tensor<T> primitive(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> primitive(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       return log(cosh(x));  // Compute the integral of tanh(x)
     });

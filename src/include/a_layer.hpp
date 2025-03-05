@@ -1,7 +1,7 @@
 #pragma once
 
+#include "a_tensor.hpp"       // Needed for Tensor<T>
 #include "a_tensor_func.hpp"  // Needed for activation functions
-#include "tensor.hpp"         // Needed for Tensor<T>
 
 /**
  * @class Layer
@@ -23,7 +23,7 @@ class Layer {
 
   /// @brief Returns the tensor representation of the layer.
   /// @return A Tensor<T> object representing the layer's parameters.
-  virtual Tensor<T> tensor() const = 0;
+  virtual shared_ptr<Tensor<T>> tensor() const = 0;
 
   /// @brief Returns the activation function of the layer.
   /// @return A TensorFunction<T> representing the layer's activation.
@@ -32,5 +32,5 @@ class Layer {
   /// @brief Computes the forward pass through the layer.
   /// @param input The input tensor.
   /// @return The output tensor after applying the layer's transformation.
-  virtual Tensor<T> forward(const Tensor<T>& input) const = 0;
+  virtual shared_ptr<Tensor<T>> forward(const shared_ptr<Tensor<T>> input) const = 0;
 };

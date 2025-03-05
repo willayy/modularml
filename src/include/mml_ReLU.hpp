@@ -2,8 +2,9 @@
 
 #include <type_traits>
 
+#include "a_tensor.hpp"
+#include "globals.hpp"
 #include "mml_elementwise.hpp"
-#include "tensor.hpp"
 
 /**
  * @class ReLU_mml
@@ -24,7 +25,7 @@ class ReLU_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the ReLU function applied to each element.
    */
-  Tensor<T> func(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> func(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) { return (x > T(0)) ? x : T(0); });
   }
 
@@ -34,7 +35,7 @@ class ReLU_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the derivative of ReLU applied to each element.
    */
-  Tensor<T> derivative(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> derivative(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       return (x > T(0)) ? T(1) : T(0);  // Defaults to 0, like TensorFlow does
     });
@@ -46,7 +47,7 @@ class ReLU_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the primitive of ReLU applied to each element.
    */
-  Tensor<T> primitive(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> primitive(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) { return (x > T(0)) ? (x * x) / T(2) : T(0); });
   }
 };

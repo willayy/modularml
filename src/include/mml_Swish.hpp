@@ -3,8 +3,9 @@
 #include <cmath>
 #include <type_traits>
 
+#include "a_tensor.hpp"
+#include "globals.hpp"
 #include "mml_elementwise.hpp"
-#include "tensor.hpp"
 
 /**
  * @class Swish_mml
@@ -24,7 +25,7 @@ class Swish_mml : public TensorFunction<T> {
   * @param t The tensor to which the function will be applied.
   * @return A new tensor with the Swish function applied to each element.
  */
-  Tensor<T> func(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> func(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       return x / (T(1) + std::exp(-x));  // Compute the Swish function
     });
@@ -36,7 +37,7 @@ class Swish_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the derivative of Swish applied to each element.
   */
-  Tensor<T> derivative(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> derivative(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       T sigmoid_x = T(1) / (T(1) + std::exp(-x));  // Compute the derivative of the Swish function
       return sigmoid_x + x * sigmoid_x * (T(1) - sigmoid_x);
@@ -49,7 +50,7 @@ class Swish_mml : public TensorFunction<T> {
    * @param t The tensor to which the function will be applied.
    * @return A new tensor with the approximate primitive of Swish applied to each element.
   */
-  Tensor<T> primitive(const Tensor<T>& t) const {
+  shared_ptr<Tensor<T>> primitive(const shared_ptr<Tensor<T>> t) const {
     return elementwise.apply(t, [](T x) {
       T sigmoid_x = T(1) / (T(1) + std::exp(-x));            // Compute σ(x)
       return x * sigmoid_x + std::log(T(1) + std::exp(-x));  // Compute integral of Swish

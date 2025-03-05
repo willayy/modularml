@@ -3,12 +3,15 @@
 #include <cmath>
 #include <stdexcept>
 
+#include "a_tensor.hpp"
+#include "array_mml.hpp"
+#include "globals.hpp"
 #include "include/mml_pooling_layer.hpp"
-#include "include/mml_tensors.hpp"
+#include "mml_tensor.hpp"
 
 template <typename T>
-Tensor<T> PoolingLayer<T>::tensor() const {
-  return tensor_mml<T>({1, 1});
+shared_ptr<Tensor<T>> PoolingLayer<T>::tensor() const {
+  return tensor_mml_p<T>({1, 1});
 };
 
 template <typename T>
@@ -17,8 +20,8 @@ std::unique_ptr<TensorFunction<T>> PoolingLayer<T>::activation() const {
 };
 
 template <typename T>
-Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
-  vector<int> shape = t.get_shape();
+shared_ptr<Tensor<T>> PoolingLayer<T>::forward(const shared_ptr<Tensor<T>> t) const {
+  array_mml<int> shape = t->get_shape();
   if (shape.size() != 4) {
     throw std::invalid_argument("Invalid tensor shape");
   } else {
@@ -64,6 +67,6 @@ Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
       }
     }
     /// TODO discuss return type
-    return *output_tensor;
+    return output_tensor;
   }
 }
