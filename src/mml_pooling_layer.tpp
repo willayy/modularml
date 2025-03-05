@@ -53,7 +53,12 @@ Tensor<T> PoolingLayer<T>::forward(const Tensor<T>& t) const {
             T value = pooling(t, shape, element, channel, in_row_start, in_col_start);
 
             // Store result in output tensor
-            (*output_tensor)[{element, out_row, out_col, channel}] = value;
+            if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 || element >= shape[0] || out_row >= output_height || out_col >= output_width || channel >= shape[3]) {
+              throw std::out_of_range("FUCK");
+            } else {
+              std::cerr << "element: " << element << " row: " << out_row << " col: " << out_col << " channel: " << channel << "\n";
+              (*output_tensor)[{element, out_row, out_col, channel}] = value;
+            }
           }
         }
       }

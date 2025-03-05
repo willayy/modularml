@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.28)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
@@ -129,16 +129,23 @@ gtest_discover_tests(${PROJECT_NAME}_tests)
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
-# Create coverage target
-add_custom_target(coverage_report
-    ALL
-    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-    COMMAND gcovr --gcov-executable gcov-14 ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
-    COMMENT "Generating coverage report"
-)
+# Option to enable/disable coverage generation
+option(ENABLE_COVERAGE "Enable coverage generation" ON)
 
-# Add dependencies to the coverage report
-add_dependencies(coverage_report ${PROJECT_NAME}_tests)
+if(ENABLE_COVERAGE)
+    # Create coverage target
+    add_custom_target(coverage_report
+        ALL
+        COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
+        COMMAND gcovr --gcov-executable gcov-14 ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+        COMMENT "Generating coverage report"
+    )
+
+    # Add dependencies to the coverage report
+    add_dependencies(coverage_report ${PROJECT_NAME}_tests)
+else()
+    message(STATUS "Coverage generation is disabled.")
+endif()
 
 # ------------------- Doxygen ------------------------------- #
 
