@@ -135,10 +135,6 @@ class Gemm_mml : public GemmModule<T> {
     return;
   }
 
-  shared_ptr<GemmModule<T>> clone() const override {
-    return make_shared<Gemm_mml>(*this);
-  }
-
 #pragma GCC diagnostic ignored "-Wunused-parameter"
   void gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                     shared_ptr<Tensor<T>> A, int lda,

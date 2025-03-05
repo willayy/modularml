@@ -1,7 +1,7 @@
 #pragma once
 
+#include "a_tensor.hpp"
 #include "globals.hpp"
-#include "tensor.hpp"
 
 #define ASSERT_ALLOWED_TYPES_AR(T) static_assert(std::is_arithmetic_v<T>, "ArithmeticModule type must be arithmetic.")
 
