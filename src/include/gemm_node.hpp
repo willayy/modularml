@@ -66,7 +66,7 @@ public:
     /**
      * @brief Set the input(s) for the node.
      * 
-     * @param tensor The input data to be set.
+     * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
      */
     void setInputs(const vector<GeneralDataTypes>& inputs) override {
         if (inputs.size() < 2) {

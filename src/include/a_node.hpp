@@ -53,9 +53,9 @@ public:
      * This pure virtual function must be overridden by derived classes to 
      * set the input(s) for the node.
      * 
-     * @param tensor The input data to be set.
+     * @param inputs The input data to be set.
      */
-    virtual void setInputs(const vector<GeneralDataTypes>& inputs) = 0;
+    virtual void setInputs(const vector<GeneralDataTypes>& inputs) = 0; // This function could have better type safety somehow maybe.
 
     /**
      * @brief Check if the output(s) are filled.
