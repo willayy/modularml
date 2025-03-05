@@ -1,21 +1,21 @@
 #pragma once
 
-#include "tensor.hpp"
+#include "mml_tensor.hpp"
 #include "globals.hpp"
 
 // Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don't know.
 using GeneralDataTypes = variant<
-    Tensor<bool>,
-    Tensor<double>,
-    Tensor<float>,
-    Tensor<int16_t>,
-    Tensor<int32_t>,
-    Tensor<int64_t>,
-    Tensor<int8_t>,
-    Tensor<uint16_t>,
-    Tensor<uint32_t>,
-    Tensor<uint64_t>,
-    Tensor<uint8_t>
+    Tensor_mml<bool>,
+    Tensor_mml<double>,
+    Tensor_mml<float>,
+    Tensor_mml<int16_t>,
+    Tensor_mml<int32_t>,
+    Tensor_mml<int64_t>,
+    Tensor_mml<int8_t>,
+    Tensor_mml<uint16_t>,
+    Tensor_mml<uint32_t>,
+    Tensor_mml<uint64_t>,
+    Tensor_mml<uint8_t>
 >;
 
 /**

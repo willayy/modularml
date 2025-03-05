@@ -19,6 +19,9 @@
 template <typename T>
 class Tensor {
  public:
+  /// @brief The type of the data in the tensor.
+  using value_type = T;
+
   /*!
   @brief Constructor for Tensor class.
   @param shape The shape of the tensor.*/
