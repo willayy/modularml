@@ -17,7 +17,7 @@ public:
      *
      * This is a pure virtual function that must be implemented by derived classes.
      *
-     * @param tensor The input data for the model.
+     * @param inputs The input data for the model.
      * @return The result of the model inference.
      */
     virtual vector<GeneralDataTypes> infer(const vector<GeneralDataTypes>& inputs) = 0;
