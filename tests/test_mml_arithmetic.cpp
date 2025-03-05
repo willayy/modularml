@@ -58,3 +58,19 @@ TEST(test_mml_arithmetic, test_mul_2) {
   am->subtract(a, b, c);
   ASSERT_EQ((*c), (*d));
 }
+
+float square(float x) { return x * x; }
+TEST(test_mml_arithmetic, test_elementwise) {
+  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+  am->elementwise(a, square, b);
+  ASSERT_EQ(*b, *c);
+}
+
+TEST(test_mml_arithmetic, test_elementwise_in_place) {
+  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+  am->elementwise_in_place(a, square);
+  ASSERT_EQ(*a, *b);
+}
