@@ -1,8 +1,8 @@
 #pragma once
 
+#include "a_tensor.hpp"
 #include "a_arithmetic_module.hpp"
 #include "a_data_parser.hpp"
-#include "a_data_structure.hpp"
 #include "a_elementwise.hpp"
 #include "a_gemm.hpp"
 #include "a_layer.hpp"
@@ -12,10 +12,8 @@
 #include "mml_ReLU.hpp"
 #include "mml_Swish.hpp"
 #include "mml_TanH.hpp"
+#include "mml_tensor.hpp"
 #include "mml_arithmetic.hpp"
 #include "mml_elementwise.hpp"
 #include "mml_gemm.hpp"
-#include "mml_tensors_are_close.hpp"
-#include "mml_tensors.hpp"
-#include "mml_vector.hpp"
-#include "tensor.hpp"
+#include "tensor_utility.hpp"
