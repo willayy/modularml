@@ -9,6 +9,7 @@
 #include <variant>
 #include <unordered_set>
 #include <optional>
+#include <iostream>
 
 using nlohmann::json;
 using std::accumulate;
@@ -31,3 +32,4 @@ using std::unordered_set;
 using std::runtime_error;
 using std::optional;
 using std::visit;
+using std::ostream;
