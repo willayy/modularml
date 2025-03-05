@@ -11,7 +11,7 @@
  * @param x The number to be squared.
  * @return The square of the input number.
  */
-float square(float x) { return x * x; }
+float oldsquare(float x) { return x * x; }
 
 /**
  * @file test_mml_elementwise.cpp
@@ -33,6 +33,6 @@ TEST(test_mml_elementwise, test_elementwise_apply) {
   Tensor<float> t2 = tensor_mml<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
 
   // Test elementwise_apply function
-  auto t3 = elementwise.apply(t1, square);
+  auto t3 = elementwise.apply(t1, oldsquare);
   ASSERT_EQ(t3, t2);
 }
