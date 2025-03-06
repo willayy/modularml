@@ -54,6 +54,8 @@ jobs:
               echo "The bracketed text is:"
               echo "$pr_body" | grep -E '\[.*\]'
               echo ""
+              echo "Which matches the regex '\[.*\]'."
+              echo ""
               echo "PR description contains bracketed text. Failing the workflow."
               echo ""
               exit 1
@@ -66,9 +68,11 @@ jobs:
         - name: Check that PR has correctly formatted title.
           run: |
             pr_title=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
-            if [ ! "$(echo "$pr_title" | grep -E '^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$')" ]; then
+            if [ ! "$(echo "$pr_title" | grep -E '^(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug): (.{6,})$')" ]; then
               echo ""
               echo "The PR title is: $pr_title"
+              echo ""
+              echo "Which does not match the format: (Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug): (.{6,})"
               echo ""
               echo "PR title is not correctly formatted. Failing the workflow."
               echo ""
