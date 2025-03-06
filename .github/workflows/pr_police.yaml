@@ -54,7 +54,7 @@ jobs:
             pr_title=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
             if [ ! "$(echo "$pr_title" | grep -E '^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$')" ]; then
               echo "The PR title is: $pr_title"
-              ehco "The erroneous part of the title is:"
+              echo "The erroneous part of the title is:"
               echo "$pr_title" | grep -E '^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$'
               echo "PR title is not correctly formatted. Failing the workflow."
               exit 1
