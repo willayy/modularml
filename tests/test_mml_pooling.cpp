@@ -61,3 +61,14 @@ TEST(test_mml_pooling, test_avg_pooling_with_padding_2) {
 
   ASSERT_EQ((*result), (*output));
 }
+
+TEST(test_mml_pooling, test_max_pooling_with_padding_3) {
+  const MaxPoolingLayer<float> max_pool_padding_stride(std::vector<int>{2, 3}, std::vector<int>{1, 2}, "same");
+
+  const shared_ptr<Tensor<float>> input = tensor_mml_p<float>({1, 4, 5, 1}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+  const shared_ptr<Tensor<float>> output = tensor_mml_p<float>({1, 4, 3, 1}, {7, 9, 10, 12, 14, 15, 17, 19, 20, 17, 19, 20});
+
+  shared_ptr<Tensor<float>> result = max_pool_padding_stride.forward(input);
+
+  ASSERT_EQ((*result), (*output));
+}

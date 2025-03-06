@@ -38,7 +38,8 @@ shared_ptr<Tensor<T>> PoolingLayer<T>::forward(const shared_ptr<Tensor<T>> t) co
     int output_height = (padded_height - filter[0]) / stride[0] + 1;
     int output_width = (padded_width - filter[1]) / stride[1] + 1;
 
-    std::cerr << "Padded height: " << padded_height << " Padded width: " << padded_width << "\n";
+    // Remove comment for debug
+    //  std::cerr << "Padded height: " << padded_height << " Padded width: " << padded_width << "\n";
 
     /// Initialize output tensor with correct dimensions
     shared_ptr<Tensor<T>> output_tensor = tensor_mml_p<T>({shape[0], output_height, output_width, shape[3]});
@@ -67,8 +68,8 @@ shared_ptr<Tensor<T>> PoolingLayer<T>::forward(const shared_ptr<Tensor<T>> t) co
         }
       }
     }
-    /// TODO discuss return type
-    std::cerr << "Resulting tensor: " << (*output_tensor).to_string() << "\n";
+    /// Remove comment for debug
+    // std::cerr << "Resulting tensor: " << (*output_tensor).to_string() << "\n";
 
     return output_tensor;
   }
