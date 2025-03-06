@@ -1,0 +1,116 @@
+
+name: Issue Police
+
+on:
+  issues:
+    types: [opened, edited, reopened, labeled]
+
+jobs:
+    issue_police:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Check that issue is added to a project.
+          run: |
+            if [ $(jq '.issue.project_card' "$GITHUB_EVENT_PATH") == null ]; then
+              echo ""
+              echo "No project card found. Failing the workflow."
+              echo ""
+              exit 1
+            else
+              echo ""
+              echo "Project card found."
+              echo ""
+            fi
+
+        - name: Check that issue has priority set.
+          run: |
+            if [ $(jq '.issue.project_card.priority' "$GITHUB_EVENT_PATH") == null ]; then
+              echo ""
+              echo "No priority column found. Failing the workflow."
+              echo ""
+              exit 1
+            else
+              echo ""
+              echo "Priority column found."
+              echo ""
+            fi
+
+        - name: Check that issue has a size set.
+          run: |
+            if [ $(jq '.issue.project_card.size' "$GITHUB_EVENT_PATH") == null ]; then
+              echo ""
+              echo "No size column found. Failing the workflow."
+              echo ""
+              exit 1
+            else
+              echo ""
+              echo "Size column found."
+              echo ""
+            fi
+
+        - name: Check that issue has estimate set.
+          run: |
+            if [ $(jq '.issue.project_card.estimate' "$GITHUB_EVENT_PATH") == null ]; then
+              echo ""
+              echo "No estimate column found. Failing the workflow."
+              echo ""
+              exit 1
+            else
+              echo ""
+              echo "Estimate column found."
+              echo ""
+            fi
+
+        - name: Check taht issue has status set.
+          run: |
+            if [ $(jq '.issue.project_card.status' "$GITHUB_EVENT_PATH") == null ]; then
+              echo ""
+              echo "No status column found. Failing the workflow."
+              echo ""
+              exit 1
+            else
+              echo ""
+              echo "Status column found."
+              echo ""
+            fi
+
+        - name: Check that issue has a label.
+          run: |
+            if [ $(jq '.issue.labels | length' "$GITHUB_EVENT_PATH") -eq 0 ]; then
+                echo ""
+                echo "No label found. Failing the workflow."
+                echo ""
+                exit 1
+            else
+                echo ""
+                label=$(jq -r '.issue.labels[0].name' "$GITHUB_EVENT_PATH")
+                echo "Label found: $label"
+                echo ""
+            fi
+
+        - name: Check that issue does not include any bracketed text.
+          run: |
+            issue_body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
+            if [ "$(echo "$issue_body" | grep -E '\[.*\]')" ]; then
+                echo ""
+                echo "The issue body is: $issue_body"
+                echo ""
+                echo "The bracketed text is:"
+                echo "$issue_body" | grep -E '\[.*\]'
+                echo ""
+                echo "Which matches the regex '\[.*\]'."
+                echo ""
+                echo "Issue description contains bracketed text. Failing the workflow."
+                echo ""
+                exit 1
+            else
+                echo ""
+                echo "Issue description does not contain bracketed text."
+                echo ""
+            fi
+
+        
