@@ -1,7 +1,7 @@
 #pragma once
 
+#include "a_tensor.hpp"
 #include "globals.hpp"
-#include "tensor.hpp"
 
 #define ASSERT_ALLOWED_TYPES_GM(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
@@ -237,6 +237,4 @@ class GemmModule {
                               shared_ptr<Tensor<T>> B, int ldb,
                               T BETA,
                               shared_ptr<Tensor<T>> C, int ldc) = 0;
-
-  virtual shared_ptr<GemmModule<float>> clone() const = 0;
 };

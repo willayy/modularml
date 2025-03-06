@@ -1,8 +1,8 @@
 #pragma once
 
 #include "a_arithmetic_module.hpp"
+#include "a_tensor.hpp"
 #include "globals.hpp"
-#include "tensor.hpp"
 
 template <typename T>
 class Arithmetic_mml : public ArithmeticModule<T> {
