@@ -56,7 +56,9 @@ class ReLUNode : public Node {
       if constexpr (!(std::is_same_v<T, float> ||
                       std::is_same_v<T, double> ||
                       std::is_same_v<T, int32_t> ||
-                      std::is_same_v<T, int64_t>)) {
+                      std::is_same_v<T, int64_t> ||
+                      std::is_same_v<T, uint32_t> ||
+                      std::is_same_v<T, uint64_t>)) {
         throw runtime_error("ReLUNode input type not supported. Make sure that the input is not unsigned.");
       } else {
         try {
