@@ -10,6 +10,15 @@
 #include "mml_tensor.hpp"
 
 template <typename T>
+PoolingLayer<T>::PoolingLayer(vector<int> f, vector<int> s, string p)
+    : filter(f), stride(s) {
+  if (p != "valid" && p != "same") {
+    throw std::invalid_argument("Invalid padding value! Only 'valid' and 'same' are allowed.");
+  }
+  padding = p;
+};
+
+template <typename T>
 shared_ptr<Tensor<T>> PoolingLayer<T>::tensor() const {
   return tensor_mml_p<T>({1, 1});
 };
