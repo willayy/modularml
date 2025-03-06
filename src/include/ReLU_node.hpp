@@ -3,20 +3,14 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-
-// Type constraints: no bfloat16 or float16 for now (not native to c++ 17).
-using DataTypes = variant<
-    Tensor_mml<float>,
-    Tensor_mml<double>,
-    Tensor_mml<int32_t>,
-    Tensor_mml<int64_t>>;
+#include "common_types.hpp"
 
 /**
  * @class ReLUNode
- * @brief A class representing a GEMM node in a computational graph.
+ * @brief A class representing a ReLUNode node in a computational graph.
  *
- * This class inherits from the Node class and represents a General Matrix Multiply (GEMM) node
- * in a computational graph. It performs the forward pass computation using the GEMM inner product.
+ * This class inherits from the Node class and represents the rectified linear function (ReLU) node
+ * in a computational graph. It performs the forward pass computation appling ReLU elementwise.
  */
 class ReLUNode : public Node {
  public:
@@ -104,5 +98,5 @@ class ReLUNode : public Node {
   shared_ptr<DataTypes> X;  // Input tensor X.
 
   // Output
-  shared_ptr<DataTypes> Y;  // Output tensor.
+  shared_ptr<DataTypes> Y;  // Output tensor Y.
 };
