@@ -9,6 +9,7 @@
 #include "a_tensor.hpp"
 
 #include "gemm_node.hpp"
+#include "ReLU_node.hpp"
 
 #include "globals.hpp"
 
