@@ -1,7 +1,7 @@
 ---
 name: Invalid
 about: Something isn't quite right...
-title: 'Invalid: <Insert name/desc here>'
+title: 'Invalid: [Insert name/desc here]'
 labels: invalid
 assignees: ''
 
