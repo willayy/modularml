@@ -4,7 +4,7 @@ on:
   create:
 
 jobs:
-    issue_police:
+    branch_police:
         runs-on: ubuntu-latest
 
         steps:
