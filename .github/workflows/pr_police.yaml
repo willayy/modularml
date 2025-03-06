@@ -1,0 +1,45 @@
+
+name: Issue & Pr Police
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+    issue_pr_police:
+        runs-on: ubuntu-latest
+    
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+  
+        - name: Check that PR has an assignee.
+          run: |
+            if [ $(jq '.pull_request.assignees | length' "$GITHUB_EVENT_PATH") -eq 0 ]; then
+              echo "No assignee found. Failing the workflow."
+              exit 1
+            else
+              echo "PR has an assignee."
+            fi
+
+        - name: Check that PR has a label that matches the issue label.
+          run: |
+            issue_label=$(jq -r '.pull_request.labels[0].name' "$GITHUB_EVENT_PATH")
+            pr_label=$(jq -r '.pull_request.labels[0].name' "$GITHUB_EVENT_PATH")
+            if [ "$issue_label" != "$pr_label" ]; then
+              echo "PR label does not match the issue label. Failing the workflow."
+              exit 1
+            else
+              echo "PR label matches the issue label."
+            fi
+
+        - name: Check that PR has correctly formatted title.
+          run: |
+            pr_title=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
+            if [[ ! "$pr_title" =~ ^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$ ]]; then
+              echo "PR title is not correctly formatted. Failing the workflow."
+              exit 1
+            else
+              echo "PR title is correctly formatted."
+            fi
+
