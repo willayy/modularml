@@ -51,7 +51,7 @@ class Tensor {
         size(other.size) {}
 
   /// @brief Destructor for Tensor class.
-  ~Tensor() = default;
+  virtual ~Tensor() = default;
 
   /*!
   @brief Get the shape of the tensor.
@@ -69,7 +69,7 @@ class Tensor {
   /// @brief Fills the tensor with a given value.
   /// @param value The value to fill the tensor with.
   void fill(T value) {
-    for (int i = 0; i < this->size; i++) {
+    for (uint64_t i = 0; i < this->size; i++) {
       (*this)[i] = value;
     }
   }
