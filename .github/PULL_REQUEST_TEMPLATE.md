@@ -4,4 +4,4 @@
 [Briefly explain the changes made in this PR]
 
 ### Issue
-Fixes/Implements #[Issue number]
+Closes #[Issue number]
