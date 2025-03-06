@@ -13,7 +13,6 @@
 #include "globals.hpp"
 
 #include "mml_arithmetic.hpp"
-#include "mml_elementwise.hpp"
 #include "mml_gemm.hpp"
 #include "mml_model.hpp"
 #include "mml_tensor.hpp"
