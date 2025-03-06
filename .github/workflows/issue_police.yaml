@@ -13,6 +13,45 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v3
 
+        - name: Check that issue has a correct title.
+          run: |
+            issue_title=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")
+            if [ "$(echo "$issue_title" | grep -E '^(Feature request:|Invalid:|Bug report:)')" ]; then
+                echo ""
+                echo "The issue title is: $issue_title"
+                echo ""
+                echo "The title does not match the regex: '^(Feature request:|Invalid:|Bug report:)'."
+                echo ""
+                echo "Issue title does not match required format. Failing the workflow."
+                echo ""
+                exit 1
+            else
+                echo ""
+                echo "Issue title starts with a capital letter."
+                echo ""
+            fi
+
+        - name: Check that issue title does not contain bracked text.
+          run: |
+            issue_title=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")
+            if [ "$(echo "$issue_title" | grep -E '\[.*\]')" ]; then
+                echo ""
+                echo "The issue title is: $issue_title"
+                echo ""
+                echo "The bracketed text is:"
+                echo "$issue_title" | grep -E '\[.*\]'
+                echo ""
+                echo "Which matches the regex '\[.*\]'."
+                echo ""
+                echo "Issue title contains bracketed text. Failing the workflow."
+                echo ""
+                exit 1
+            else
+                echo ""
+                echo "Issue title does not contain bracketed text."
+                echo ""
+            fi
+
         - name: Check that issue is added to a project.
           run: |
             if [ $(jq '.issue.project_card' "$GITHUB_EVENT_PATH") == null ]; then
