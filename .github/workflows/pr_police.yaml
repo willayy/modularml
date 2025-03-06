@@ -1,12 +1,12 @@
 
-name: Issue & Pr Police
+name: Pr Police
 
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-    issue_pr_police:
+    pr_police:
         runs-on: ubuntu-latest
     
         steps:
