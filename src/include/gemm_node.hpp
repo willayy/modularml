@@ -2,8 +2,8 @@
 
 #include "a_node.hpp"
 #include "globals.hpp"
-#include "mml_tensor.hpp"
-#include "mml_gemm.hpp"
+#include "common_types.hpp"
+
 
 /**
  * @class GemmNode
