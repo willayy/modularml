@@ -70,9 +70,6 @@ jobs:
               echo ""
               echo "The PR title is: $pr_title"
               echo ""
-              echo "The erroneous part of the title is:"
-              echo "$pr_title" | grep -E '^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$'
-              echo ""
               echo "PR title is not correctly formatted. Failing the workflow."
               echo ""
               exit 1
