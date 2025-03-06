@@ -72,7 +72,7 @@ jobs:
               echo ""
               echo "The PR title is: $pr_title"
               echo ""
-              echo "Which does not match the format: (Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug): (.{6,})"
+              echo "Which does not match the regex: (Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug): (.{6,})"
               echo ""
               echo "PR title is not correctly formatted. Failing the workflow."
               echo ""
