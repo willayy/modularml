@@ -34,7 +34,7 @@ class ReLUNode : public Node {
   /**
    * @brief Perform the forward pass computation using ReLU activation function.
    *
-   * This function performs the forward pass computation using the General Matrix Multiply (GEMM) inner product.
+   * This function performs the forward pass computation using ReLU.
    */
   void forward() override;
 
@@ -67,7 +67,7 @@ class ReLUNode : public Node {
                       std::is_same_v<T, int64_t> ||
                       std::is_same_v<T, uint32_t> ||
                       std::is_same_v<T, uint64_t>)) {
-        throw runtime_error("ReLUNode input type not supported. Make sure that the input is not unsigned.");
+        throw runtime_error("ReLUNode input type not supported.");
       } else {
         try {
           auto valueX = std::get<Tensor_mml<T>>(inputs[0]);
