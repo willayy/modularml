@@ -40,7 +40,7 @@ jobs:
           run: |
             pr_body=$(jq -r '.pull_request.body' "$GITHUB_EVENT_PATH")
             if [ "$(echo "$pr_body" | grep -E '\[.*\]')" ]; then
-              ehco "The PR body is: $pr_body"
+              echo "The PR body is: $pr_body"
               echo "The bracketed text is:"
               echo "$pr_body" | grep -E '\[.*\]'
               echo "PR description contains bracketed text. Failing the workflow."
