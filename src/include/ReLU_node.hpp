@@ -1,7 +1,6 @@
 #pragma once
 
 #include "a_node.hpp"
-#include "common_types.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
 
@@ -14,6 +13,15 @@
  */
 class ReLUNode : public Node {
  public:
+  // Type constraints: no bfloat16 or float16 for now (not native to c++ 17).
+  using DataTypes = variant<
+      Tensor_mml<float>,
+      Tensor_mml<double>,
+      Tensor_mml<int32_t>,
+      Tensor_mml<int64_t>,
+      Tensor_mml<uint32_t>,
+      Tensor_mml<uint64_t>>;
+
   /**
    * @brief Constructor for ReLUNode.
    *
