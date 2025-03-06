@@ -48,8 +48,8 @@ class ArithmeticModule {
   /// @brief Apply an element-wise operation to two tensor structures.
   /// @param a The tensor structure.
   /// @param f The function to apply element-wise.
-  /// @param b The tensor structure to store the result.
-  virtual void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> b) const = 0;
+  /// @param c The tensor structure to store the result.
+  virtual void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const = 0;
 
   /// @brief Apply an element-wise operation to a tensor structure in place.
   /// @param a The tensor structure.

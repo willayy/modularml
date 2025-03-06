@@ -54,12 +54,12 @@ class Arithmetic_mml : public ArithmeticModule<T> {
     }
   }
 
-  void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> b) const override {
+  void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override {
     const auto rows = a->get_shape()[0];
     const auto cols = a->get_shape()[1];
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-        (*b)[{i, j}] = f((*a)[{i, j}]);
+        (*c)[{i, j}] = f((*a)[{i, j}]);
       }
     }
   }
