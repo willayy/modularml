@@ -3,15 +3,7 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 
-// Type constraints: no bfloat16 or float16 for now (not native to c++ 17).
-using DataTypes = variant<
-    Tensor_mml<float>,
-    Tensor_mml<double>,
-    Tensor_mml<int32_t>,
-    Tensor_mml<int64_t>,
-    Tensor_mml<uint32_t>,
-    Tensor_mml<uint64_t>
->;
+
 
 /**
  * @class GemmNode
@@ -21,6 +13,17 @@ using DataTypes = variant<
  * in a computational graph. It performs the forward pass computation using the GEMM inner product.
  */
 class GemmNode : public Node {
+private: 
+    // Type constraints: no bfloat16 or float16 for now (not native to c++ 17).
+    using DataTypes = variant<
+        Tensor_mml<float>,
+        Tensor_mml<double>,
+        Tensor_mml<int32_t>,
+        Tensor_mml<int64_t>,
+        Tensor_mml<uint32_t>,
+        Tensor_mml<uint64_t>
+    >;
+
 public:
     /**
      * @brief Constructor for GemmNode.
