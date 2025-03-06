@@ -1,9 +1,9 @@
 #pragma once
 
 #include "a_node.hpp"
+#include "common_types.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "common_types.hpp"
 
 /**
  * @class ReLUNode
