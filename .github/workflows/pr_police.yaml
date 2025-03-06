@@ -12,10 +12,6 @@ jobs:
         steps:
         - name: Checkout repository
           uses: actions/checkout@v3
-
-        - name: Print GITHUB_EVENT_PATH contents.
-          run: |
-            cat "$GITHUB_EVENT_PATH"
   
         - name: Check that PR has an assignee.
           run: |
@@ -37,10 +33,20 @@ jobs:
               echo "PR label matches the issue label."
             fi
 
+        - name: Check that the description contains no bracketed text (e.g. [Feature ...]).
+          run: |
+            pr_body=$(jq -r '.pull_request.body' "$GITHUB_EVENT_PATH")
+            if [ "$(echo "$pr_body" | grep -E '\[.*\]')" ]; then
+              echo "PR description contains bracketed text. Failing the workflow."
+              exit 1
+            else
+              echo "PR description does not contain bracketed text."
+            fi
+
         - name: Check that PR has correctly formatted title.
           run: |
             pr_title=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
-            if [[ ! "$pr_title" =~ ^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$ ]]; then
+            if [ ! "$(echo "$pr_title" | grep -E '^\[(Add|Fix|Update|Remove) (Feature|Issue|Invalid|Bug):[^\]]+\]$')" ]; then
               echo "PR title is not correctly formatted. Failing the workflow."
               exit 1
             else
