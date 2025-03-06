@@ -1,6 +1,6 @@
 #include "include/mml_model.hpp"
 
-vector<GeneralDataTypes> Model_mml::infer(const vector<GeneralDataTypes>& inputs) {
+array_mml<GeneralDataTypes> Model_mml::infer(const array_mml<GeneralDataTypes>& inputs) {
     if (nodes.empty()) {
         throw runtime_error("ComputeGraph has no nodes.");
     }

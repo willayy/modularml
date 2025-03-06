@@ -81,6 +81,14 @@ class Tensor_mml : public Tensor<T> {
     return this->data[index];
   }
 
+  void update_from(const Tensor_mml<T>& other) {
+    if (this->get_shape() != other.get_shape()) {
+        throw std::runtime_error("Shape mismatch in update_from");
+    }
+    // Assuming `data` is accessible (or provide a setter/getter)
+    std::copy(other.get_data().begin(), other.get_data().end(), this->data.begin());
+  }
+
  private:
   array_mml<T> data;
 };

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "mml_tensor.hpp"
+#include "a_tensor.hpp"
 #include "globals.hpp"
 
 // Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don't know.
 using GeneralDataTypes = variant<
-    Tensor_mml<bool>,
-    Tensor_mml<double>,
-    Tensor_mml<float>,
-    Tensor_mml<int16_t>,
-    Tensor_mml<int32_t>,
-    Tensor_mml<int64_t>,
-    Tensor_mml<int8_t>,
-    Tensor_mml<uint16_t>,
-    Tensor_mml<uint32_t>,
-    Tensor_mml<uint64_t>,
-    Tensor_mml<uint8_t>
+    std::shared_ptr<Tensor<bool>>,
+    std::shared_ptr<Tensor<double>>,
+    std::shared_ptr<Tensor<float>>,
+    std::shared_ptr<Tensor<int16_t>>,
+    std::shared_ptr<Tensor<int32_t>>,
+    std::shared_ptr<Tensor<int64_t>>,
+    std::shared_ptr<Tensor<int8_t>>,
+    std::shared_ptr<Tensor<uint16_t>>,
+    std::shared_ptr<Tensor<uint32_t>>,
+    std::shared_ptr<Tensor<uint64_t>>,
+    std::shared_ptr<Tensor<uint8_t>>
 >;
 
 /**
@@ -55,7 +55,7 @@ public:
      * 
      * @param inputs The input data to be set.
      */
-    virtual void setInputs(const vector<GeneralDataTypes>& inputs) = 0; // This function could have better type safety somehow maybe.
+    virtual void setInputs(const array_mml<GeneralDataTypes>& inputs) = 0; // This function could have better type safety somehow maybe.
 
     /**
      * @brief Check if the output(s) are filled.
@@ -75,7 +75,7 @@ public:
      * 
      * @return The output data.
      */
-    virtual vector<GeneralDataTypes> getOutputs() const = 0;
+    virtual array_mml<GeneralDataTypes> getOutputs() const = 0;
 
     /**
      * @brief Virtual destructor for the Node class.
