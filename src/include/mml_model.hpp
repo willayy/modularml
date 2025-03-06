@@ -44,7 +44,7 @@ public:
      * @param tensor A reference to the input data for inference.
      * @return GeneralDataTypes The result of the inference.
      */
-    vector<GeneralDataTypes> infer(const vector<GeneralDataTypes>& inputs) override;
+    array_mml<GeneralDataTypes> infer(const array_mml<GeneralDataTypes>& inputs) override;
 
 private:
     // Nodes in the graph
