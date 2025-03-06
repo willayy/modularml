@@ -50,7 +50,7 @@ class SwishNode : public Node {
    */
   void setInputs(const vector<GeneralDataTypes>& inputs) override {
     if (inputs.size() < 1)
-      throw runtime_error("SwishNode expects at least one input: A.");
+      throw runtime_error("SwishNode expects at least one input: X.");
 
     // Deduce type from the first input.
     visit([this, &inputs](const auto& tensorA) {
