@@ -7,7 +7,6 @@
  * @class DataParser
  * @brief Abstract class for parsing JSON data of a model into a Model Object.
  */
-template <typename T>
 class DataParser {
  public:
   /**
@@ -15,7 +14,7 @@ class DataParser {
    *
    * @param data JSON data of a Model.
    */
-  virtual unique_ptr<Model<T>> parse(const json& data) const = 0;
+  virtual unique_ptr<Model> parse(const json& data) const = 0;
 
   /// @brief Virtual destructor for cleanup.
   virtual ~DataParser() = default;
