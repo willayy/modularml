@@ -9,15 +9,17 @@
 #include "include/mml_pooling_node.hpp"
 #include "mml_tensor.hpp"
 
-PoolingLayer<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s, string p)
+PoolingLayer<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s,
+                                             string p)
     : filter(f), stride(s) {
   if (p != "valid" && p != "same") {
-    throw std::invalid_argument("Invalid padding value! Only 'valid' and 'same' are allowed.");
+    throw std::invalid_argument(
+        "Invalid padding value! Only 'valid' and 'same' are allowed.");
   }
   padding = p;
 };
-
-shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(const shared_ptr<Tensor<GeneralDataTypes>> t) const {
+shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(
+    const shared_ptr<Tensor<GeneralDataTypes>> t) const {
   array_mml<int> shape = t->get_shape();
   if (shape.size() != 4) {
     throw std::invalid_argument("Invalid tensor shape");
@@ -36,10 +38,13 @@ shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(con
     int output_width = (padded_width - filter[1]) / stride[1] + 1;
 
     // Remove comment for debug
-    //  std::cerr << "Padded height: " << padded_height << " Padded width: " << padded_width << "\n";
+    //  std::cerr << "Padded height: " << padded_height << " Padded width: " <<
+    //  padded_width << "\n";
 
     /// Initialize output tensor with correct dimensions
-    shared_ptr<Tensor<GeneralDataTypes>> output_tensor = tensor_mml_p<GeneralDataTypes>({shape[0], output_height, output_width, shape[3]});
+    shared_ptr<Tensor<GeneralDataTypes>> output_tensor =
+        tensor_mml_p<GeneralDataTypes>(
+            {shape[0], output_height, output_width, shape[3]});
 
     /// First for loop. For each element in the batch
     for (int element = 0; element < shape[0]; element++) {
@@ -50,13 +55,18 @@ shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(con
           /// Fourth for loop. Each output column
           for (int out_col = 0; out_col < output_width; out_col++) {
             // Calculate input region start (with stride)
-            int in_row_start = out_row * stride[0] - static_cast<int>(std::floor(pad_h));
-            int in_col_start = out_col * stride[1] - static_cast<int>(std::floor(pad_w));
+            int in_row_start =
+                out_row * stride[0] - static_cast<int>(std::floor(pad_h));
+            int in_col_start =
+                out_col * stride[1] - static_cast<int>(std::floor(pad_w));
             /// Initialize lowest value for type T
-            T value = pooling(t, shape, element, channel, in_row_start, in_col_start);
+            T value =
+                pooling(t, shape, element, channel, in_row_start, in_col_start);
 
             // Store result in output tensor
-            if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 || element >= shape[0] || out_row >= output_height || out_col >= output_width || channel >= shape[3]) {
+            if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
+                element >= shape[0] || out_row >= output_height ||
+                out_col >= output_width || channel >= shape[3]) {
               throw std::out_of_range("Output tensor indices out of range");
             } else {
               (*output_tensor)[{element, out_row, out_col, channel}] = value;
@@ -66,7 +76,8 @@ shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(con
       }
     }
     /// Remove comment for debug
-    // std::cerr << "Resulting tensor: " << (*output_tensor).to_string() << "\n";
+    // std::cerr << "Resulting tensor: " << (*output_tensor).to_string() <<
+    // "\n";
 
     return output_tensor;
   }
