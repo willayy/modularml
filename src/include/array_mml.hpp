@@ -59,8 +59,8 @@ class array_mml {
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  T& operator[](int index) {
-    if (index < 0 || index >= this->d_size) {
+  T& operator[](uint64_t index) {
+    if (index >= this->d_size) {
       throw out_of_range("Invalid array_mml index");
     } else {
       return this->data[index];
@@ -70,8 +70,8 @@ class array_mml {
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  const T& operator[](int index) const {
-    if (index < 0 || index >= this->d_size) {
+  const T& operator[](uint64_t index) const {
+    if (index >= this->d_size) {
       throw out_of_range("Invalid array_mml index");
     } else {
       return this->data[index];
@@ -115,19 +115,19 @@ class array_mml {
     string str = "[";
     // if longer than 50 print first 10 then ... then last 10
     if (this->size() > 50) {
-      for (int i = 0; i < 10; i++) {
+      for (uint64_t i = 0; i < 10; i++) {
         str += std::to_string(this->data[i]);
         str += ", ";
       }
       str += "..., ";
-      for (int i = this->size() - 10; i < this->size(); i++) {
+      for (uint64_t i = this->size() - 10; i < this->size(); i++) {
         str += std::to_string(this->data[i]);
         if (i != this->size() - 1) {
           str += ", ";
         }
       }
     } else {
-      for (int i = 0; i < this->size(); i++) {
+      for (uint64_t i = 0; i < this->size(); i++) {
         str += std::to_string(this->data[i]);
         if (i != this->size() - 1) {
           str += ", ";

@@ -58,3 +58,38 @@ TEST(test_mml_arithmetic, test_mul_2) {
   am->subtract(a, b, c);
   ASSERT_EQ((*c), (*d));
 }
+
+float square(float x) { return x * x; }
+TEST(test_mml_arithmetic, test_elementwise) {
+  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+  am->elementwise(a, square, b);
+  ASSERT_EQ(*b, *c);
+}
+
+TEST(test_mml_arithmetic, test_elementwise_in_place) {
+  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+  am->elementwise_in_place(a, square);
+  ASSERT_EQ(*a, *b);
+}
+
+TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 2, 3, 2}, 
+    {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  
+     7.0f,  8.0f,  9.0f, 10.0f, 11.0f, 12.0f,  
+
+    13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,  
+    19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f});
+
+  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 2, 3, 2}, 
+    {1.0f,   4.0f,   9.0f,  16.0f,  25.0f,  36.0f,  
+     49.0f,  64.0f,  81.0f, 100.0f, 121.0f, 144.0f,  
+
+    169.0f, 196.0f, 225.0f, 256.0f, 289.0f, 324.0f,  
+    361.0f, 400.0f, 441.0f, 484.0f, 529.0f, 576.0f});
+
+  am->elementwise_in_place(a, square);
+  ASSERT_EQ(*a, *b);
+}
