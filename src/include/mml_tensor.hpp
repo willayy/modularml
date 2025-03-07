@@ -62,14 +62,12 @@ class Tensor_mml : public Tensor<T> {
   }
 
   /// @brief Assignment operator.
-  ConcreteTensor& operator=(const AbstractTensor& other) override {
+  Tensor_mml& operator=(const Tensor<T>& other) override {
     // Make sure the other tensor is of the same type because data is of type ConcreteTensor
-    const ConcreteTensor<T>& otherTensor = static_cast<const ConcreteTensor<T>&>(other);
+    const Tensor_mml<T>& otherTensor = static_cast<const Tensor_mml<T>&>(other);
 
     // Copy base members
-    this->shape = otherTensor.shape;
-    this->offsets = otherTensor.offsets;
-    this->size = otherTensor.size;
+    this->reshape(otherTensor.get_shape());
 
     // Copy the data array
     this->data = otherTensor.data;
