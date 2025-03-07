@@ -3,7 +3,7 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "a_layer.hpp"
+#include "a_node.hpp"
 #include "string.h"
 
 /**
@@ -14,8 +14,7 @@
  * while retaining the essential features within the defined pooling window or filter.
  * @tparam T The datatype of elements in the input tensor (e.g., float, double).
  */
-template <typename T>
-class PoolingLayer : public Layer<T> {
+class PoolingNode_mml : public Node {
  public:
   /**
    * @brief Base constructor for PoolingLayer.
@@ -26,16 +25,12 @@ class PoolingLayer : public Layer<T> {
    */
   PoolingLayer(vector<int> f, vector<int> s, string p = "valid");
 
-  shared_ptr<Tensor<T>> tensor() const override;
-
-  std::unique_ptr<TensorFunction<T>> activation() const override;
-
   /**
    * @brief Forward function that propogates the input tensor through the pooling operation.
    * @param input A shared pointer to the input tensor.
    * @return Returns a shared pointer to a new tensor with reduced spatial dimensions.
    */
-  shared_ptr<Tensor<T>> forward(const shared_ptr<Tensor<T>> input) const override;
+  shared_ptr<Tensor<GeneralDataTypes>> forward(const shared_ptr<Tensor<GeneralDataTypes>> input) const override;
 
   /**
    * @brief Performs the specific pooling operation of the derived class, e.g. calculate the Maximum or average values within the pooling window.
@@ -47,7 +42,7 @@ class PoolingLayer : public Layer<T> {
    * @param in_col_start Index of the first column in the window that is being processed.
    * @returns Returns a value of type T that will be placed at the current index of the output tensor.
    */
-  virtual T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
+  virtual T pooling(const shared_ptr<Tensor<GeneralDataTypes>> t, array_mml<int> shape, int element,
                     int channel, int in_row_start, int in_col_start) const = 0;
 
  protected:
@@ -60,4 +55,4 @@ class PoolingLayer : public Layer<T> {
   string padding;
 };
 
-#include "../mml_pooling_layer.tpp"
+#include "../mml_pooling_node.tpp"

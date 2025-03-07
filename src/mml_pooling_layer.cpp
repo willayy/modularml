@@ -6,11 +6,10 @@
 #include "a_tensor.hpp"
 #include "array_mml.hpp"
 #include "globals.hpp"
-#include "include/mml_pooling_layer.hpp"
+#include "include/mml_pooling_node.hpp"
 #include "mml_tensor.hpp"
 
-template <typename T>
-PoolingLayer<T>::PoolingLayer(vector<int> f, vector<int> s, string p)
+PoolingLayer<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s, string p)
     : filter(f), stride(s) {
   if (p != "valid" && p != "same") {
     throw std::invalid_argument("Invalid padding value! Only 'valid' and 'same' are allowed.");
@@ -18,18 +17,7 @@ PoolingLayer<T>::PoolingLayer(vector<int> f, vector<int> s, string p)
   padding = p;
 };
 
-template <typename T>
-shared_ptr<Tensor<T>> PoolingLayer<T>::tensor() const {
-  return tensor_mml_p<T>({1, 1});
-};
-
-template <typename T>
-std::unique_ptr<TensorFunction<T>> PoolingLayer<T>::activation() const {
-  return nullptr;
-};
-
-template <typename T>
-shared_ptr<Tensor<T>> PoolingLayer<T>::forward(const shared_ptr<Tensor<T>> t) const {
+shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(const shared_ptr<Tensor<GeneralDataTypes>> t) const {
   array_mml<int> shape = t->get_shape();
   if (shape.size() != 4) {
     throw std::invalid_argument("Invalid tensor shape");
@@ -51,7 +39,7 @@ shared_ptr<Tensor<T>> PoolingLayer<T>::forward(const shared_ptr<Tensor<T>> t) co
     //  std::cerr << "Padded height: " << padded_height << " Padded width: " << padded_width << "\n";
 
     /// Initialize output tensor with correct dimensions
-    shared_ptr<Tensor<T>> output_tensor = tensor_mml_p<T>({shape[0], output_height, output_width, shape[3]});
+    shared_ptr<Tensor<GeneralDataTypes>> output_tensor = tensor_mml_p<GeneralDataTypes>({shape[0], output_height, output_width, shape[3]});
 
     /// First for loop. For each element in the batch
     for (int element = 0; element < shape[0]; element++) {

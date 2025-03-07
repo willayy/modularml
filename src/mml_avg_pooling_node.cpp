@@ -1,12 +1,10 @@
-#pragma once
+#include "include/mml_avg_pooling_node.hpp"
 
 #include "array_mml.hpp"
-#include "include/mml_avg_pooling_layer.hpp"
 
-template <typename T>
-T AvgPoolingLayer<T>::pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
-                              int channel, int in_row_start, int in_col_start) const {
-  T value = 0;
+GeneralDataTypes AvgPoolingLayer<T>::pooling(const shared_ptr<Tensor<GeneralDataTypes>> t, array_mml<int> shape, int element,
+                                             int channel, int in_row_start, int in_col_start) const {
+  GeneralDataTypes value = 0;
   for (int m = 0; m < this->filter[0]; m++) {
     for (int n = 0; n < this->filter[1]; n++) {
       int curr_row = in_row_start + m;
