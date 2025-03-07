@@ -61,7 +61,20 @@ class Tensor_mml : public Tensor<T> {
     return this->data;
   }
 
-  Tensor_mml& operator=(const Tensor_mml& other) = default;
+  /// @brief Assignment operator.
+  ConcreteTensor& operator=(const AbstractTensor& other) override {
+    // Make sure the other tensor is of the same type because data is of type ConcreteTensor
+    const ConcreteTensor<T>& otherTensor = static_cast<const ConcreteTensor<T>&>(other);
+
+    // Copy base members
+    this->shape = otherTensor.shape;
+    this->offsets = otherTensor.offsets;
+    this->size = otherTensor.size;
+
+    // Copy the data array
+    this->data = otherTensor.data;
+    return *this;
+  }
 
   string to_string() const override {
     string base = Tensor<T>::to_string();
@@ -79,14 +92,6 @@ class Tensor_mml : public Tensor<T> {
 
   T& operator[](int index) override {
     return this->data[index];
-  }
-
-  void update_from(const Tensor_mml<T>& other) {
-    if (this->get_shape() != other.get_shape()) {
-        throw std::runtime_error("Shape mismatch in update_from");
-    }
-    // Assuming `data` is accessible (or provide a setter/getter)
-    std::copy(other.get_data().begin(), other.get_data().end(), this->data.begin());
   }
 
  private:

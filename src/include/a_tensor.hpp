@@ -182,6 +182,10 @@ class Tensor {
     return *this;
   }
 
+  /*!
+  @brief Virtual assignment operator */
+  virtual AbstractTensor& operator=(const AbstractTensor& other) = 0;
+
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
   bool is_matrix() const {
