@@ -79,9 +79,9 @@ public:
         int ldc = N;
 
         // Handling optional C tensor not implemented directly in gemm_inner_product. 
-        // Will have to be done here instead by creating suboptimal concrete tensor.
+        // Will have to be done here instead by constructing suboptimal concrete tensor.
         // Gemm_inner_product could be modified to handle optional C tensor and take output Y.
-        shared_ptr<Tensor_mml<T>> C_ptr;
+        shared_ptr<Tensor_mml<T>> C_ptr;g
         if (C.has_value() && C.value()) {
             C_ptr = std::dynamic_pointer_cast<Tensor_mml<T>>(C.value());
             if (!C_ptr)
@@ -99,12 +99,7 @@ public:
                                 static_cast<T>(beta),
                                 C_ptr, ldc);
 
-        if (!Y)
-            throw runtime_error("Output tensor Y is not allocated.");
-
-        auto y_mml = std::static_pointer_cast<Tensor_mml<T>>(Y);
-        auto c_mml = std::static_pointer_cast<Tensor_mml<T>>(C_ptr);
-        y_mml->update_from(*c_mml);
+        *Y = *C_ptr;
     };
     
     /**
@@ -124,40 +119,20 @@ public:
      * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
      */
     void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-        if (inputs.size() < 2)
-            throw runtime_error("GemmNode expects at leastF two inputs: A and B.");
+        if (inputs.size() > 0) {
+            auto valueA = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
+            *A = valueA;
+        }
+            
 
-        auto valueA = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-        auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
-    
-        // Update A in place using update_from
-        auto a_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(A);
-        auto valueA_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueA);
-        if (!a_mml || !valueA_mml)
-            throw std::runtime_error("Failed to cast A or input A to Tensor_mml<T>.");
-        a_mml->update_from(*valueA_mml);
-    
-        // Update B in place using update_from
-        auto b_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(B);
-        auto valueB_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueB);
-        if (!b_mml || !valueB_mml)
-            throw std::runtime_error("Failed to cast B or input B to Tensor_mml<T>.");
-        b_mml->update_from(*valueB_mml);
-    
-        // Handle optional C.
-        if (inputs.size() > 2) {
+        if (inputs.size() > 1) {
+            auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
+            *B = valueB;
+        }
+
+        if (inputs.size() > 2 && C.has_value()) {
             auto valueC = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
-            if (!C.has_value() || !C.value()) {
-                C = valueC;
-            } else {
-                auto c_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(C.value());
-                auto valueC_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueC);
-                if (!c_mml || !valueC_mml)
-                    throw std::runtime_error("Failed to cast C or input C to Tensor_mml<T>.");
-                c_mml->update_from(*valueC_mml);
-            }
-        } else {
-            C.reset();
+            *C = valueC;
         }
     }
 
