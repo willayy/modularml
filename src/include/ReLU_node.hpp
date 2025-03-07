@@ -48,7 +48,7 @@ class ReLUNode : public Node {
 
     Arithmetic_mml<T> arithmetic;
     arithmetic.elementwise_in_place(X, [](T x) { return x > 0 ? x : 0; });
-    Y->update_from(*X);
+    *Y = *X;
   }
 
   /**
@@ -65,15 +65,14 @@ class ReLUNode : public Node {
    */
   void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
     if (inputs.size() < 1)
-      throw std::runtime_error("ReLUNode expects at least one input: X.");
+      throw std::runtime_error("TanHNode expects at least one input: X.");
 
     auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
 
-    auto x_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(X);
     auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
-    if (!x_mml || !valueX_mml)
+    if (!X || !valueX_mml)
       throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-    x_mml->update_from(*valueX_mml);
+    *X = *Y;
   }
 
   /**
