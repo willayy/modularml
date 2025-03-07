@@ -125,7 +125,7 @@ public:
      */
     void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
         if (inputs.size() < 2)
-            throw runtime_error("GemmNode expects at least two inputs: A and B.");
+            throw runtime_error("GemmNode expects at leastF two inputs: A and B.");
 
         auto valueA = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
         auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
