@@ -61,7 +61,7 @@ class Tensor {
         size(other.size) {}
 
   /// @brief Destructor for Tensor class.
-  ~Tensor() = default;
+  virtual ~Tensor() = default;
 
   /*!
   @brief Get the shape of the tensor.
