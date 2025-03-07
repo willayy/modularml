@@ -14,8 +14,8 @@ TEST(test_node, test_ReLU_float) {
   reluNode.forward();
 
   // Retrieve the tensor from the shared pointer Y
-  auto& result = get<Tensor_mml<float>>(*Y);
-  ASSERT_EQ(result, *b);
+  auto& result = *Y;
+  ASSERT_TRUE(result == *b);
 }
 
 TEST(test_node, test_ReLU_int32) {
@@ -31,8 +31,7 @@ TEST(test_node, test_ReLU_int32) {
   reluNode.forward();
 
   // Retrieve the tensor from the shared pointer Y
-  auto& result = get<Tensor_mml<int32_t>>(*Y);
-  ASSERT_EQ(result, *b);
+  ASSERT_EQ(*Y, *b);
 }
 
 TEST(test_node, test_TanH_float) {
@@ -48,8 +47,7 @@ TEST(test_node, test_TanH_float) {
   tanhNode.forward();
 
   // Retrieve the tensor from the shared pointer Y
-  auto& result = get<Tensor_mml<float>>(*Y);
-  ASSERT_EQ(result, *b);
+  ASSERT_EQ(*Y, *b);
 }
 
 TEST(test_node, test_Swish_float) {
@@ -64,8 +62,6 @@ TEST(test_node, test_Swish_float) {
   SwishNode<float> swishNode(X, Y);
   swishNode.forward();
 
-  // Retrieve the tensor from the shared pointer Y
-  auto& result = get<Tensor_mml<float>>(*Y);
-  ASSERT_TRUE(tensors_are_close(result, *b));
+  ASSERT_TRUE(tensors_are_close(*Y, *b));
 }
 

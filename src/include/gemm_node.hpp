@@ -81,7 +81,7 @@ public:
         // Handling optional C tensor not implemented directly in gemm_inner_product. 
         // Will have to be done here instead by constructing suboptimal concrete tensor.
         // Gemm_inner_product could be modified to handle optional C tensor and take output Y.
-        shared_ptr<Tensor_mml<T>> C_ptr;g
+        shared_ptr<Tensor_mml<T>> C_ptr;
         if (C.has_value() && C.value()) {
             C_ptr = std::dynamic_pointer_cast<Tensor_mml<T>>(C.value());
             if (!C_ptr)
@@ -121,18 +121,18 @@ public:
     void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
         if (inputs.size() > 0) {
             auto valueA = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-            *A = valueA;
+            *A = *valueA;
         }
             
 
         if (inputs.size() > 1) {
             auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
-            *B = valueB;
+            *B = *valueB;
         }
 
         if (inputs.size() > 2 && C.has_value()) {
             auto valueC = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
-            *C = valueC;
+            *C.value() = *valueC;
         }
     }
 
