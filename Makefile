@@ -43,3 +43,7 @@ run:
 clean:
 	@echo "Cleaning up...\n"
 	@rm -rf $(BUILD_DIR)
+
+test:
+	@echo "Running tests...\n"
+	@cd ./build && ctest --output-on-failures
