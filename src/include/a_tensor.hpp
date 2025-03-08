@@ -6,13 +6,13 @@
 #define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
 
 /*!
-    @brief Abstract class representing a Tensor.
-    @details A tensor is a multi-dimensional ordered set of data.
-    This class is an interface for all implemnations of a tensor
-    data structure in ModularML.
-    @tparam T the type of the data contained in the tensor. E.g. int, float,
-    double etc.
-*/
+ * @brief Abstract class representing a Tensor.
+ * @details A tensor is a multi-dimensional ordered set of data.
+ * This class is an interface for all implemnations of a tensor
+ * data structure in ModularML.
+ * @tparam T the type of the data contained in the tensor. E.g. int, float,
+ * double etc.
+ */
 template <typename T>
 class Tensor {
  public:

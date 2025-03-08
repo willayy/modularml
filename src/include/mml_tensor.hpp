@@ -4,8 +4,13 @@
 #include "array_mml.hpp"
 #include "globals.hpp"
 
-/// @brief
-/// @tparam T
+/*!
+ * @brief A Tensor<T> implementation using an underlying
+ * fixed size 1D array with row-major offsets for
+ * multi-dimensional indexing.
+ * @tparam T The type of the data contained in the tensor.
+ * Allows for arithmetic types.
+ */
 template <typename T>
 class Tensor_mml : public Tensor<T> {
  public:
@@ -53,7 +58,7 @@ class Tensor_mml : public Tensor<T> {
   ~Tensor_mml() = default;
 
   /// @brief Move constructor for Tensor_mml class.
-
+  /// @param other The tensor to move.
   Tensor_mml(Tensor_mml&& other) noexcept : Tensor<T>(other) {
     this->shape = move(other.shape);
     this->offsets = move(other.offsets);
@@ -62,6 +67,7 @@ class Tensor_mml : public Tensor<T> {
   }
 
   /// @brief Copy constructor for Tensor_mml class.
+  /// @param other The tensor to copy.
   Tensor_mml(const Tensor_mml& other) : Tensor<T>(other) {
     this->shape = array_mml<int>(other.shape);
     this->offsets = array_mml<int>(other.offsets);
@@ -69,7 +75,7 @@ class Tensor_mml : public Tensor<T> {
     this->size = other.size;
   }
 
-  /// @brief Get the data of the tensor.
+  /// @brief Get the raw 1D data of the tensor.
   /// @return The data of the tensor.
   const array_mml<T>& get_data() const {
     return this->data;
