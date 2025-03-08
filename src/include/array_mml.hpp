@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <vector>
 
-using namespace std;
+#include "globals.hpp"
 
 /// @brief Array class mimicking the std::array class but without the size being a template parameter.
 /// @tparam T the type of the array.
@@ -15,7 +15,7 @@ class array_mml {
  public:
 
   /// @brief Default constructor for array_mml class.
-  array_mml() : data(nullptr), d_size(0) {}
+  array_mml() : data(make_unique<T[]>(0)), d_size(0) {}
 
   /// @brief Constructor for array_mml class.
   /// @param size The size of the array.
@@ -45,7 +45,9 @@ class array_mml {
   }
 
   /// @brief Move constructor for array_mml class.
-  array_mml(array_mml&& other) noexcept = default;
+  array_mml(array_mml&& other) noexcept : data(move(other.data)), d_size(other.d_size) {
+    other.d_size = 0;
+  }
 
   /// @brief Destructor for array_mml class.
   ~array_mml() = default;
