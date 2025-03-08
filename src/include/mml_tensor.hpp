@@ -188,7 +188,7 @@ class Tensor_mml : public Tensor<T> {
     return this->shape;
   }
 
-  const array_mml<int>& get_offsets() const override {
+  const array_mml<int>& get_offsets() const {
     return this->offsets;
   }
 

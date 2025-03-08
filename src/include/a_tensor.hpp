@@ -6,13 +6,10 @@
 #define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
 
 /*!
-    @brief Class representing a Tensor.
-    @details A tensor is a multi-dimensional array of data.
-    This class represents a tensor within the ModularML library. All modularML Tensors are expected to be
-    represnted by a underlying 1-D data structure that is row-major. This means that the data is stored in a
-    contiguous block of memory with the last dimension changing the fastest. This class provides the basic
-    functionality for a tensor including getting and setting elements, reshaping the tensor and checking if
-    two tensors are equal.
+    @brief Abstract class representing a Tensor.
+    @details A tensor is a multi-dimensional ordered set of data.
+    This class is an interface for all implemnations of a tensor
+    data structure in ModularML.
     @tparam T the type of the data contained in the tensor. E.g. int, float,
     double etc.
 */
@@ -36,9 +33,15 @@ class Tensor {
   /// @brief Destructor for Tensor class.
   virtual ~Tensor() = default;
 
-  /*!
-  @brief Get the shape of the tensor.
-  @return A vector of integers representing the shape.*/
+  /// @brief Get the shape as a string.
+  /// @return A string representation of the shape. E.g. [2, 3, 4].
+  friend ostream &operator<<(ostream &os, const Tensor<T> &tensor) {
+    os << tensor.to_string();
+    return os;
+  }
+
+  /// @brief Get the shape of the tensor.
+  /// @return A vector of integers representing the shape.
   virtual const array_mml<int> &get_shape() const = 0;
 
   /// @brief Get the the total number of elements in the tensor.
@@ -53,54 +56,37 @@ class Tensor {
   /// @return A string representation of the tensor.
   virtual string to_string() const = 0;
 
-  /*!
-  @brief Get the shape as a string.
-  @return A string representation of the shape. E.g. [2, 3, 4].*/
-  friend ostream &operator<<(ostream &os, const Tensor<T> &tensor) {
-    os << tensor.to_string();
-    return os;
-  }
-
-  /// @brief Get the row-major offsets for the tensor.
-  /// @return An array of integers representing the row-major offsets.
-  virtual const array_mml<int> &get_offsets() const = 0;
-
-  /*!
-  @brief Check if this tensor is not equal to another tensor.
-  @param other The tensor to compare with.
-  @return True if the tensors are not equal, false otherwise.*/
+  /// @brief Check if this tensor is not equal to another tensor.
+  /// @param other The tensor to compare with.
+  /// @return True if the tensors are not equal, false otherwise.
   virtual bool operator!=(const Tensor<T> &other) const = 0;
 
-  /*!
-  @brief Get an element from the tensor using multi-dimensional indices.
-  @param indices A vector of integers representing the indices of the element.
-  @return The element at the given indices.*/
+  /// @brief Get an element from the tensor using multi-dimensional indices.
+  /// @param indices A vector of integers representing the indices of the element.
+  /// @return An element at the given indices.
   virtual const T &operator[](initializer_list<int> indices) const = 0;
 
-  /*!
-  @brief Set an element in the tensor using multi-dimensional indices.
-  @param indices A vector of integers representing the indices of the element.
-  @return The tensor with the element get_mutable_elem.*/
+  /// @brief Set an element in the tensor using multi-dimensional indices.
+  /// @param indices A vector of integers representing the indices of the element.
+  /// @return An element at the given indices.
   virtual T &operator[](initializer_list<int> indices) = 0;
 
-  /*!
-  @brief Get an element from the tensor using multi-dimensional indices.
-  @param indices A vector of integers representing the indices of the element.
-  @return The element at the given indices.*/
+  ///@brief Get an element from the tensor using multi-dimensional indices.
+  ///@param indices A vector of integers representing the indices of the element.
+  ///@return An element at the given indices.
   virtual const T &operator[](array_mml<int> &indices) const = 0;
 
-  /*!
-  @brief Set an element in the tensor using multi-dimensional indices.
-  @param indices A vector of integers representing the indices of the element.
-  @return The tensor with the element get_mutable_elem.*/
+  ///@brief Set an element in the tensor using multi-dimensional indices.
+  ///@param indices A vector of integers representing the indices of the element.
+  ///@return An element at the given indices.
   virtual T &operator[](array_mml<int> &indices) = 0;
 
   /// @brief Reshape the tensor.
-  /// @param new_shape The new shape of the tensor.
+  /// @param new_shape The new shape of the tensor expressed as a list of integers.
   virtual void reshape(const array_mml<int> &new_shape) = 0;
 
   /// @brief Reshape the tensor.
-  /// @param new_shape The new shape of the tensor.
+  /// @param new_shape The new shape of the tensor expressed as a list of integers.
   virtual void reshape(initializer_list<int> new_shape) = 0;
 
   /// @brief Check if the tensor is a matrix.
@@ -112,10 +98,9 @@ class Tensor {
   /// @return True if the tensor-matrix matches the other matrix, false otherwise.
   virtual bool matrix_match(const Tensor<T> &other) const = 0;
 
-  /*!
-  @brief Check if this tensor is equal to another tensor.
-  @param other The tensor to compare with.
-  @return True if the tensors are equal, false otherwise.*/
+  ///@brief Check if this tensor is equal to another tensor.
+  ///@param other The tensor to compare with.
+  ///@return True if the tensors are equal, false otherwise.*/
   virtual bool operator==(const Tensor<T> &other) const = 0;
 
   ///@brief Move-Assignment operator.
@@ -128,19 +113,17 @@ class Tensor {
   /// @return The copied tensor.
   virtual Tensor &operator=(const Tensor &other) = 0;
   
-  /*!
-  @brief Get an element from the tensor using singel-dimensional index.
-  @param index A single integer representing the index of the element.
-  @return The element at the given indices.*/
+  ///@brief Get an element from the tensor using singel-dimensional index.
+  ///@param index A single integer representing the index of the element.
+  ///@return The element at the given indices.*/
   virtual const T &operator[](int index) const = 0;
 
-  /*!
-  @brief Set an element in the tensor using single-dimensional index.
-  @param index A single integer representing the index of the element.
-  @return The tensor with the element get_mutable_elem.*/
+  ///@brief Set an element in the tensor using single-dimensional index.
+  ///@param index A single integer representing the index of the element.
+  ///@return The tensor with the element get_mutable_elem.*/
   virtual T &operator[](int index) = 0;
 
-  /// @brief Explicit call to copy the tensor.
+  /// @brief Method way to get a copy of the tensor.
   /// @return A shared pointer to the copied tensor.
   virtual shared_ptr<Tensor<T>> copy() const = 0;
   
