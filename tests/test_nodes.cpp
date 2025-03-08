@@ -14,8 +14,7 @@ TEST(test_node, test_ReLU_float) {
   reluNode.forward();
 
   // Retrieve the tensor from the shared pointer Y
-  auto& result = *Y;
-  ASSERT_TRUE(result == *b);
+  ASSERT_EQ(*Y, *b);
 }
 
 TEST(test_node, test_ReLU_int32) {

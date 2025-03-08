@@ -75,10 +75,7 @@ TEST(test_mml_gemm, test_gemm_properties) {
     tc->fill(0);
     gm_i->gemm_col_wise_product(0, 0, shape[0], shape[1], shape[1], alpha, t1, shape[0], t2, shape[0], beta, tc, shape[0]);
     auto r4 = (*tc).copy();
-    std::cout << (*r1) << std::endl;
-    std::cout << (*r2) << std::endl;
-    std::cout << (*r3) << std::endl;
-    std::cout << (*r4) << std::endl;
+
     auto prop = ((*r1) == (*r2)) && ((*r2) == (*r3)) && ((*r3) == (*r4));
     ASSERT_TRUE(prop);
   }
