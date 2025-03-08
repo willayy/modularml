@@ -34,6 +34,57 @@ TEST(test_mml_tensor, test_move_constructor_1) {
   ASSERT_EQ(expected_data, actual_data);
 }
 
+// Test the copy assignment operator
+TEST(test_mml_tensor, test_copy_assignment_1) {
+  Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
+  Tensor_mml<int> t2 = Tensor_mml<int>({2, 2});
+  t2 = t1;
+  ASSERT_EQ(t1, t2);
+}
+
+// Test the move assignment operator
+TEST(test_mml_tensor, test_move_assignment_1) {
+  Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
+  Tensor_mml<int> t2 = Tensor_mml<int>({2, 2});
+  t2 = move(t1);
+  auto expected_shape = array_mml<int>({3, 3});
+  auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto actual_shape = t2.get_shape();
+  auto actual_data = t2.get_data();
+  ASSERT_EQ(expected_shape, actual_shape);
+  ASSERT_EQ(expected_data, actual_data);
+}
+
+// Test the move assignment using abstract class
+TEST(test_mml_tensor, test_move_assignment_2) {
+  shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+  shared_ptr<Tensor<int>> t2 = make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+  *t2 = move(*t1);
+  auto expected_shape = array_mml<int>({3, 3});
+  auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto actual_shape = t2->get_shape();
+  ASSERT_EQ(expected_shape, actual_shape);
+
+  // Cast to Tensor_mml to access the data
+  auto actual_data = dynamic_pointer_cast<Tensor_mml<int>>(t2)->get_data();
+  ASSERT_EQ(expected_data, actual_data);
+}
+
+// Test the copy assignment using abstract class
+TEST(test_mml_tensor, test_copy_assignment_2) {
+  shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+  shared_ptr<Tensor<int>> t2 = make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+  *t2 = *t1;
+  auto expected_shape = array_mml<int>({3, 3});
+  auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto actual_shape = t2->get_shape();
+  ASSERT_EQ(expected_shape, actual_shape);
+
+  // Cast to Tensor_mml to access the data
+  auto actual_data = dynamic_pointer_cast<Tensor_mml<int>>(t2)->get_data();
+  ASSERT_EQ(expected_data, actual_data);
+}
+
 // Generate an arbitrary tensor and check if all elements can be accessed using indices
 TEST(test_mml_tensor, test_index_1) {
   for (int i = 0; i < 100; i++) {
