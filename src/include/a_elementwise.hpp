@@ -27,5 +27,5 @@ class Elementwise {
    * tensor.
    * @return A new modified tensor.
    */
-  virtual Tensor<T> apply(const Tensor<T>& t, T (*f)(T)) = 0;
+  virtual shared_ptr<Tensor<T>> apply(const shared_ptr<Tensor<T>> t, T (*f)(T)) = 0;
 };
