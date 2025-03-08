@@ -18,7 +18,7 @@ class Tensor_mml : public Tensor<T> {
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
-  explicit Tensor_mml(array_mml<int>& shape) : Tensor<T>(shape) {
+  explicit Tensor_mml(const array_mml<int>& shape) : Tensor<T>(shape) {
     this->data = array_mml<T>(this->get_size());
     this->data.fill(T(0));
   }
@@ -46,31 +46,49 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Copy constructor for Tensor_mml class.
   Tensor_mml(const Tensor_mml& other) : Tensor<T>(other), data(array_mml<T>(other.data)) {}
 
-  /// @brief Move assignment operator.
-  /// @param other The tensor to move.
-  /// @return The moved tensor.
-  Tensor_mml& operator=(Tensor_mml&& other) noexcept {
-    Tensor<T>::operator=(move(other));
-    this->data = move(other.data);
-    return *this;
-  }
-
   /// @brief Get the data of the tensor.
   /// @return The data of the tensor.
   const array_mml<T>& get_data() const {
     return this->data;
   }
 
-  /// @brief Assignment operator.
-  Tensor_mml& operator=(const Tensor<T>& other) override {
-    // Make sure the other tensor is of the same type because data is of type ConcreteTensor
-    const Tensor_mml<T>& otherTensor = static_cast<const Tensor_mml<T>&>(other);
+  /// @brief Copy-Assignment operator for Tensor_mml class.
+  /// @param other The tensor to assign.
+  /// @return The copied tensor.
+  Tensor_mml& operator=(const Tensor_mml& other) {
+    if (this != &other) {
+      Tensor<T>::operator=(other);
+      this->data = array_mml<T>(other.data);
+    }
+    return *this;
+  }
 
-    // Copy base members
-    this->reshape(otherTensor.get_shape());
+  /// @brief Move-Assignment operator for Tensor_mml class.
+  /// @param other The tensor to assign.
+  /// @return The moved tensor.
+  Tensor_mml& operator=(Tensor_mml&& other) noexcept {
+    if (this != &other) {
+      Tensor<T>::operator=(move(other));
+      this->data = move(other.data);
+    }
+    return *this;
+  }
 
-    // Copy the data array
-    this->data = otherTensor.data;
+  Tensor<T>& operator=(const Tensor<T>& other) override {
+    if (this != &other) {
+      auto other_cast = dynamic_cast<const Tensor_mml<T>&>(other);
+      this->data = array_mml<T>(other_cast.data);
+      Tensor<T>::operator=(other);
+    }
+    return *this;
+  }
+
+  Tensor<T>& operator=(Tensor<T>&& other) noexcept override {
+    if (this != &other) {
+      auto other_cast = dynamic_cast<Tensor_mml<T>&>(other);
+      this->data = move(other_cast.data);
+      Tensor<T>::operator=(move(other));
+    }
     return *this;
   }
 
@@ -113,7 +131,7 @@ Tensor<T> tensor_mml(const initializer_list<int> shape) {  // NOSONAR - function
 /// @param data A reference to the data to be set in the tensor.
 /// @return A new tensor with the given shape and data.
 template <typename T>
-[[deprecated("Use Tensor_mml constructor instead.")]]
+//[[deprecated("Use Tensor_mml constructor instead.")]]
 Tensor_mml<T> tensor_mml(const initializer_list<int> shape, const initializer_list<T> data) {  // NOSONAR - function signature is correct
   auto t = Tensor_mml<T>(shape, data);
   return t;
@@ -123,7 +141,7 @@ Tensor_mml<T> tensor_mml(const initializer_list<int> shape, const initializer_li
 /// @param shape The shape of the tensor.
 /// @return A new shared tensor pointer with the given shape and all elements set to zero.
 template <typename T>
-[[deprecated("Use Tensor_mml constructor instead.")]]
+//[[deprecated("Use Tensor_mml constructor instead.")]]
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape) {  // NOSONAR - function signature is correct
   auto t = make_shared<Tensor_mml<T>>(shape);
   return t;
@@ -134,7 +152,7 @@ shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape) {  // NOSO
 /// @param data A reference to the data to be set in the tensor.
 /// @return A new shared tensor pointer with the given shape and data.
 template <typename T>
-[[deprecated("Use Tensor_mml constructor instead.")]]
+//[[deprecated("Use Tensor_mml constructor instead.")]]
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape, const initializer_list<T> data) {  // NOSONAR - function signature is correct
   auto t = make_shared<Tensor_mml<T>>(shape, data);
   return t;
