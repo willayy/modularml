@@ -22,29 +22,29 @@ class Tensor {
   /// @brief The type of the data in the tensor.
   using value_type = T;
 
-  /*!
-  @brief Constructor for Tensor class.
-  @param shape The shape of the tensor.*/
+  ///@brief Constructor for Tensor class.
+  ///@param shape The shape of the tensor.
   explicit Tensor(initializer_list<int> shape)
       : shape(shape),
         offsets(compute_offsets()),
         size(compute_size()) {}
 
-  /*!
-  @brief Constructor for Tensor class.
-  @param shape The shape of the tensor.*/
-  explicit Tensor(array_mml<int> shape)
-      : shape(move(shape)),
+  ///@brief Constructor for Tensor class.
+  ///@param shape The shape of the tensor.
+  explicit Tensor(array_mml<int> const &shape)
+      : shape(array_mml<int>(shape)),
         offsets(compute_offsets()),
         size(compute_size()) {}
 
   /// @brief Move constructor.
+  /// @param other The tensor to move.
   Tensor(Tensor &&other) noexcept
-      : shape(array_mml<int>(other.shape)),
-        offsets(array_mml<int>(other.offsets)),
+      : shape(move(other.shape)),
+        offsets(move(other.offsets)),
         size(other.size) {}
 
   /// @brief Copy constructor.
+  /// @param other The tensor to copy.
   Tensor(const Tensor &other)
       : shape(array_mml<int>(other.shape)),
         offsets(array_mml<int>(other.offsets)),
@@ -78,7 +78,7 @@ class Tensor {
   /// @return A string representation of the tensor.
   virtual string to_string() const {
     string shp = this->shape.to_string();
-    string adr = std::to_string((uintptr_t) this);
+    string adr = std::to_string((uintptr_t)this);
     string result = "Tensor: " + adr + " Shape: " + shp;
     return result;
   }
@@ -172,21 +172,6 @@ class Tensor {
     this->reshape(new_shape_vec);
   }
 
-  /*!
-  @brief Move assignment operator.
-  @param other The tensor to move.
-  @return The moved tensor.*/
-  Tensor &operator=(Tensor &&other) noexcept {
-    if (this != &other) {
-      *this = move(other);
-    }
-    return *this;
-  }
-
-  /*!
-  @brief Virtual assignment operator */
-  virtual Tensor& operator=(const Tensor& other) = 0;
-
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
   bool is_matrix() const {
@@ -221,6 +206,30 @@ class Tensor {
     return true;
   }
 
+  ///@brief Move-Assignment operator.
+  ///@param other The tensor to assign.
+  ///@return The moved tensor.
+  virtual Tensor &operator=(Tensor &&other) noexcept {
+    if (this != &other) {
+      this->shape = move(other.shape);
+      this->offsets = move(other.offsets);
+      this->size = other.size;
+    }
+    return *this;
+  }
+
+  /// @brief (Deep) Copy-Assigment operator.
+  /// @param other The tensor to assign.
+  /// @return The copied tensor.
+ virtual Tensor &operator=(const Tensor &other) {
+    if (this != &other) {
+      this->shape = array_mml<int>(other.shape);
+      this->offsets = array_mml<int>(other.offsets);
+      this->size = other.size;
+    }
+    return *this;
+  }
+  
   /*!
   @brief Get an element from the tensor using singel-dimensional index.
   @param index A single integer representing the index of the element.
