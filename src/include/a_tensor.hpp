@@ -69,7 +69,7 @@ class Tensor {
   /// @brief Fills the tensor with a given value.
   /// @param value The value to fill the tensor with.
   void fill(T value) {
-    for (int i = 0; i < this->size; i++) {
+    for (uint64_t i = 0; i < this->size; i++) {
       (*this)[i] = value;
     }
   }
@@ -155,12 +155,13 @@ class Tensor {
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor.
-  void reshape(array_mml<int> &new_shape) {
+  void reshape(const array_mml<int> &new_shape) {
     if (!valid_shape(new_shape)) {
       throw invalid_argument("Invalid Tensor shape");
     } else {
       this->shape = new_shape;
       this->offsets = compute_offsets();
+      this->size = compute_size();
     }
   }
 
@@ -181,6 +182,10 @@ class Tensor {
     }
     return *this;
   }
+
+  /*!
+  @brief Virtual assignment operator */
+  virtual Tensor& operator=(const Tensor& other) = 0;
 
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
