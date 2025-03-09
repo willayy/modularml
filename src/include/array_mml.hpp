@@ -96,6 +96,15 @@ class array_mml {
     return *this;
   }
 
+  array_mml subarray(uint64_t start, uint64_t end) const {
+    if (start >= this->d_size || end > this->d_size || start > end) {
+      throw out_of_range("Invalid array_mml index");
+    }
+    array_mml new_array(end - start);
+    copy(this->data.get() + start, this->data.get() + end, new_array.data.get());
+    return new_array;
+  }
+
   /// @brief Equality operator.
   /// @param other The array to compare with.
   /// @return True if the arrays are equal, false otherwise.

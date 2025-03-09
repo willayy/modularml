@@ -197,3 +197,11 @@ TEST(test_mml_tensor, test_reshape_2) {
     } 
   }
 }
+
+TEST(test_mml_tensor, test_to_string) {
+  const auto t1 = Tensor_mml<int>({3, 3});
+  const string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<uint64_t>(&t1));
+  string expected = "Tensor_mml<i> " + ptr_str + ", Shape: [3, 3], Size: 9, Data: [0, 0, 0, 0, 0, 0, 0, 0, 0]";
+  string actual = t1.to_string();
+  ASSERT_EQ(expected, actual);
+}

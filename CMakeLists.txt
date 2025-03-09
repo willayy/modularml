@@ -61,7 +61,7 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB SOURCES ${SRC_DIR}/*.cpp)
+file(GLOB SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
 
 # Glob all header files
 file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
