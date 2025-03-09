@@ -9,8 +9,13 @@
 #include "mml_pooling_node.hpp"
 #include "mml_tensor.hpp"
 
+<<<<<<< HEAD:src/mml_pooling_node.cpp
 PoolingNode_mml<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s,
                                                 string p)
+=======
+PoolingLayer<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s,
+                                             string p)
+>>>>>>> 6d155b8e7f404dff873eb5bffba0e954d65eb3fa:src/mml_pooling_layer.cpp
     : filter(f), stride(s) {
   if (p != "valid" && p != "same") {
     throw std::invalid_argument(
@@ -18,7 +23,10 @@ PoolingNode_mml<GeneralDataTypes>::PoolingLayer(vector<int> f, vector<int> s,
   }
   padding = p;
 };
+<<<<<<< HEAD:src/mml_pooling_node.cpp
 
+=======
+>>>>>>> 6d155b8e7f404dff873eb5bffba0e954d65eb3fa:src/mml_pooling_layer.cpp
 shared_ptr<Tensor<GeneralDataTypes>> PoolingLayer<GeneralDataTypes>::forward(
     const shared_ptr<Tensor<GeneralDataTypes>> t) const {
   array_mml<int> shape = t->get_shape();
