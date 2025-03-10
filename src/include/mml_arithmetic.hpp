@@ -54,7 +54,7 @@ class Arithmetic_mml : public ArithmeticModule<T> {
     }
   }
 
-  void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override {
+  void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override {
     const auto shape = a->get_shape();
     const auto num_dimensions = shape.size();
 

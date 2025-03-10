@@ -20,6 +20,7 @@ using std::equal;
 using std::initializer_list;
 using std::invalid_argument;
 using std::log;
+using std::exp;
 using std::logic_error;
 using std::make_shared;
 using std::make_unique;
