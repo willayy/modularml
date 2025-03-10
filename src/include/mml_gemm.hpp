@@ -22,149 +22,50 @@ class Gemm_mml : public GemmModule<T> {
                           shared_ptr<Tensor<T>> A, int lda,
                           shared_ptr<Tensor<T>> B, int ldb,
                           T BETA,
-                          shared_ptr<Tensor<T>> C, int ldc) override {
-    if (!TA && !TB) {
-      int i, j, k;
-      int i_col, k_col, i_col_out;
-      T acc;
-
-      for (i = 0; i < M; i++) {
-        i_col = i * lda;
-        i_col_out = i * ldc;
-        for (j = 0; j < N; j++) {
-          acc = ((T)BETA) * (*C)[i_col_out + j];
-          for (k = 0; k < K; k++) {
-            k_col = k * ldb;
-            acc += ((T)ALPHA) * (*A)[i_col + k] * (*B)[k_col + j];
-          }
-          (*C)[i_col_out + j] = acc;
-        }
-      }
-    } else {
-      logic_error("Transposition not yet supported in GEMM inner product.");
-    }
-    return;
-  }
+                          shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
                           shared_ptr<Tensor<T>> A, int lda,
                           shared_ptr<Tensor<T>> B, int ldb,
                           T BETA,
-                          shared_ptr<Tensor<T>> C, int ldc) override {
-    if (!TA && !TB) {
-      int i, j, k;
-      int i_col, k_col, i_col_out;
-
-      for (i = 0; i < M; i++) {
-        i_col_out = i * ldc;
-        for (j = 0; j < N; j++) {
-          (*C)[i_col_out + j] = ((T)BETA) * (*C)[i_col_out + j];
-        }
-      }
-
-      for (k = 0; k < K; k++) {
-        k_col = k * ldb;
-        for (i = 0; i < M; i++) {
-          i_col = i * lda;
-          i_col_out = i * ldc;
-          for (j = 0; j < N; j++) {
-            (*C)[i_col_out + j] += ((T)ALPHA) * (*A)[i_col + k] * (*B)[k_col + j];
-          }
-        }
-      }
-    } else {
-      logic_error("Transposition not yet supported in GEMM outer product.");
-    }
-    return;
-  }
+                          shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_row_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> A, int lda,
                              shared_ptr<Tensor<T>> B, int ldb,
                              T BETA,
-                             shared_ptr<Tensor<T>> C, int ldc) override {
-    if (!TA && !TB) {
-      int i, j, k;
-      int i_col, k_col, i_col_out;
-
-      for (i = 0; i < M; i++) {
-        i_col = i * lda;
-        i_col_out = i * ldc;
-        for (j = 0; j < N; j++) {
-          (*C)[i_col_out + j] = ((T)BETA) * (*C)[i_col_out + j];
-        }
-        for (k = 0; k < K; k++) {
-          k_col = k * ldb;
-          for (j = 0; j < N; j++) {
-            (*C)[i_col_out + j] += ((T)ALPHA) * (*A)[i_col + k] * (*B)[k_col + j];
-          }
-        }
-      }
-    } else {
-      logic_error("Transposition not yet supported in GEMM row-wise product.");
-    }
-    return;
-  }
+                             shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_col_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> A, int lda,
                              shared_ptr<Tensor<T>> B, int ldb,
                              T BETA,
-                             shared_ptr<Tensor<T>> C, int ldc) override {
-    if (!TA && !TB) {
-      int i, j, k;
-      int i_col, k_col, i_col_out;
+                             shared_ptr<Tensor<T>> C, int ldc) override;
 
-      for (j = 0; j < N; j++) {
-        for (i = 0; i < M; i++) {
-          i_col_out = i * ldc;
-          (*C)[i_col_out + j] = ((T)BETA) * (*C)[i_col_out + j];
-        }
-        for (k = 0; k < K; k++) {
-          k_col = k * ldb;
-          for (i = 0; i < M; i++) {
-            i_col = i * lda;
-            i_col_out = i * ldc;
-            (*C)[i_col_out + j] += ((T)ALPHA) * (*A)[i_col + k] * (*B)[k_col + j];
-          }
-        }
-      }
-    } else {
-      logic_error("Transposition not yet supported in GEMM col-wise product.");
-    }
-    return;
-  }
-
-#pragma GCC diagnostic ignored "-Wunused-parameter"
   void gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                     shared_ptr<Tensor<T>> A, int lda,
                     shared_ptr<Tensor<T>> B, int ldb,
                     T BETA,
-                    shared_ptr<Tensor<T>> C, int ldc) override {
-    logic_error("Blocked GEMM not yet supported.");
-  }
+                    shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                 shared_ptr<Tensor<T>> A, int lda,
                 shared_ptr<Tensor<T>> B, int ldb,
                 T BETA,
-                shared_ptr<Tensor<T>> C, int ldc) override {
-    logic_error("AVX GEMM not yet supported.");
-  }
+                shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                    shared_ptr<Tensor<T>> A, int lda,
                    shared_ptr<Tensor<T>> B, int ldb,
                    T BETA,
-                   shared_ptr<Tensor<T>> C, int ldc) override {
-    logic_error("AVX-512 GEMM not yet supported.");
-  }
+                   shared_ptr<Tensor<T>> C, int ldc) override;
 
   void gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
                       shared_ptr<Tensor<T>> A, int lda,
                       shared_ptr<Tensor<T>> B, int ldb,
                       T BETA,
-                      shared_ptr<Tensor<T>> C, int ldc) override {
-    logic_error("Intel MKL GEMM not yet supported.");
-  }
+                      shared_ptr<Tensor<T>> C, int ldc) override;
 };
+
+// Include the implementation of the templated class
+#include "../mml_gemm.tpp"
