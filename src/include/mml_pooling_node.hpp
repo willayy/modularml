@@ -7,18 +7,23 @@
 #include "string.h"
 
 /**
- * @class PoolingLayer
- * @brief Base class for pooling layers (e.g., MaxPooling, AveragePooling).
- * @details The PoolingLayer class is the base class for pooling operations such
- * as max pooling and average pooling. It performs a pooling operation on the
- * input tensor, reducing its spatial dimensions (height and width) while
+ * @class PoolingNode_mml
+ * @brief Base class for pooling nodes (e.g., MaxPooling, AveragePooling).
+ * @details The PoolingNode_mml class is the base class for pooling operations
+ * such as max pooling and average pooling. It performs a pooling operation on
+ * the input tensor, reducing its spatial dimensions (height and width) while
  * retaining the essential features within the defined pooling window or filter.
  * @tparam T The datatype of elements in the input tensor (e.g., float, double).
  */
-class PoolingNode_mml : public Node {
+template <typename T> class PoolingNode_mml : public Node {
+  static_assert(
+      std::is_same_v<T, float> || std::is_same_v<T, double> ||
+          std::is_same_v<T, int32_t> || std::is_same_v<T, int64_t>,
+      "PoolingNode_mml supports only float, double, int32_t, int64_t");
+
 public:
   /**
-   * @brief Base constructor for PoolingLayer.
+   * @brief Base constructor for PoolingNode.
    * @param f A 2x2 vector of integers representing the filter or pooling window
    * of the layer.
    * @param s A 2x2 vector of integers representing the stride of the layer.
@@ -26,7 +31,8 @@ public:
    * It has a default value of "valid" (no padding) and can also accept "same"
    * (padding to preserve the input dimensions).
    */
-  PoolingNode_mml(vector<int> f, vector<int> s, string p = "valid");
+  PoolingNode_mml(vector<int> f, vector<int> s, shared_ptr<Tensor<T>> in,
+                  shared_ptr<Tensor<T>> out, string p = "valid");
 
   /**
    * @brief Forward function that propogates the input tensor through the
@@ -35,8 +41,15 @@ public:
    * @return Returns a shared pointer to a new tensor with reduced spatial
    * dimensions.
    */
-  shared_ptr<Tensor<GeneralDataTypes>>
-  forward(const shared_ptr<Tensor<GeneralDataTypes>> input) const override;
+  void forward() override;
+
+  bool areInputsFilled() const override;
+
+  void setInputs(const array_mml<GeneralDataTypes> &inputs) override;
+
+  bool areOutputsFilled() const override;
+
+  array_mml<GeneralDataTypes> getOutputs() const override;
 
   /**
    * @brief Performs the specific pooling operation of the derived class, e.g.
@@ -54,12 +67,20 @@ public:
    * @returns Returns a value of type T that will be placed at the current index
    * of the output tensor.
    */
-  virtual GeneralDataTypes pooling(const shared_ptr<Tensor<GeneralDataTypes>> t,
-                                   array_mml<int> shape, int element,
-                                   int channel, int in_row_start,
-                                   int in_col_start) const = 0;
+  virtual T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape,
+                    int element, int channel, int in_row_start,
+                    int in_col_start) const = 0;
 
 protected:
+  //--------Inputs----------
+
+  ///@brief Input tensor
+  shared_ptr<Tensor<T>> input;
+
+  ///@brief Output tensor
+  shared_ptr<Tensor<T>> output;
+
+  //--------Attributes------
   ///@brief A 2x2 vector of integers representing the filter/pooling window.
   vector<int> filter;
   ///@brief A 2x2 vector of integers representing the stride of the window.
@@ -69,3 +90,4 @@ protected:
   /// input dimensions).
   string padding;
 };
+#include "../mml_pooling_node.tpp"

@@ -1,0 +1,1263 @@
+        -:    0:Source:/home/sande/modularml/tests/test_mml_arithmetic.cpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#include <gtest/gtest.h>
+        -:    2:
+        -:    3:#include <modularml>
+        -:    4:
+        -:    5:const shared_ptr<ArithmeticModule<float>> am = make_shared<Arithmetic_mml<float>>();
+        -:    6:
+        -:    7:// Test add
+        4:    8:TEST(test_mml_arithmetic, test_add_1) {
+        1:    9:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:   10:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 3}, {4, 5, 6, 7, 8, 9});
+        1:   11:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   12:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {5, 7, 9, 11, 13, 15});
+        1:   13:  am->add(a, b, c);
+       1*:   14:  ASSERT_EQ((*c), (*d));
+        1:   15:}
+------------------
+test_mml_arithmetic_test_add_1_Test::test_mml_arithmetic_test_add_1_Test():
+function test_mml_arithmetic_test_add_1_Test::test_mml_arithmetic_test_add_1_Test() called 1 returned 100% blocks executed 100%
+        1:    8:TEST(test_mml_arithmetic, test_add_1) {
+        1:    8-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_add_1_Test::~test_mml_arithmetic_test_add_1_Test():
+function test_mml_arithmetic_test_add_1_Test::~test_mml_arithmetic_test_add_1_Test() called 1 returned 100% blocks executed 100%
+        1:    8:TEST(test_mml_arithmetic, test_add_1) {
+        1:    8-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_add_1_Test::~test_mml_arithmetic_test_add_1_Test():
+function test_mml_arithmetic_test_add_1_Test::~test_mml_arithmetic_test_add_1_Test() called 1 returned 100% blocks executed 100%
+        1:    8:TEST(test_mml_arithmetic, test_add_1) {
+        1:    8-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_add_1_Test::TestBody():
+function test_mml_arithmetic_test_add_1_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:    8:TEST(test_mml_arithmetic, test_add_1) {
+        1:    9:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:    9-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:    9-block 50
+    $$$$$:    9-block 51
+        1:   10:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 3}, {4, 5, 6, 7, 8, 9});
+        1:   10-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   10-block 52
+    $$$$$:   10-block 53
+        1:   11:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   11-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   11-block 54
+        1:   12:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {5, 7, 9, 11, 13, 15});
+        1:   12-block 5
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   12-block 55
+    $$$$$:   12-block 56
+        1:   13:  am->add(a, b, c);
+        1:   13-block 6
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   13-block 11
+call    7 returned 1
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   13-block 57
+call   10 never executed
+    $$$$$:   13-block 59
+    $$$$$:   13-block 60
+call   11 never executed
+    $$$$$:   13-block 62
+    $$$$$:   13-block 63
+call   12 never executed
+    $$$$$:   13-block 65
+       1*:   14:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   14-block 17
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   14-block 19
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   14-block 20
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   14-block 22
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   14-block 23
+call   18 never executed
+call   19 never executed
+        1:   14-block 26
+        1:   14-block 27
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   14-block 29
+    $$$$$:   14-block 66
+call   23 never executed
+    $$$$$:   14-block 68
+    $$$$$:   14-block 69
+call   24 never executed
+    $$$$$:   14-block 71
+    $$$$$:   14-block 72
+call   25 never executed
+        1:   15:}
+        1:   15-block 30
+        1:   15-block 32
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   15-block 34
+        1:   15-block 36
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   15-block 38
+        1:   15-block 40
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+        1:   15-block 42
+        1:   15-block 44
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0
+    $$$$$:   15-block 75
+call   12 never executed
+    $$$$$:   15-block 77
+call   13 never executed
+    $$$$$:   15-block 79
+call   14 never executed
+    $$$$$:   15-block 81
+call   15 never executed
+------------------
+        -:   16:
+        4:   17:TEST(test_mml_arithmetic, test_add_2) {
+        1:   18:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   19:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   20:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   21:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {2, 4, 6, 8, 10, 12, 14, 16, 18});
+        1:   22:  am->add(a, b, c);
+       1*:   23:  ASSERT_EQ((*c), (*d));
+        1:   24:}
+------------------
+test_mml_arithmetic_test_add_2_Test::test_mml_arithmetic_test_add_2_Test():
+function test_mml_arithmetic_test_add_2_Test::test_mml_arithmetic_test_add_2_Test() called 1 returned 100% blocks executed 100%
+        1:   17:TEST(test_mml_arithmetic, test_add_2) {
+        1:   17-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_add_2_Test::~test_mml_arithmetic_test_add_2_Test():
+function test_mml_arithmetic_test_add_2_Test::~test_mml_arithmetic_test_add_2_Test() called 1 returned 100% blocks executed 100%
+        1:   17:TEST(test_mml_arithmetic, test_add_2) {
+        1:   17-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_add_2_Test::~test_mml_arithmetic_test_add_2_Test():
+function test_mml_arithmetic_test_add_2_Test::~test_mml_arithmetic_test_add_2_Test() called 1 returned 100% blocks executed 100%
+        1:   17:TEST(test_mml_arithmetic, test_add_2) {
+        1:   17-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_add_2_Test::TestBody():
+function test_mml_arithmetic_test_add_2_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   17:TEST(test_mml_arithmetic, test_add_2) {
+        1:   18:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   18-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   18-block 50
+    $$$$$:   18-block 51
+        1:   19:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   19-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   19-block 52
+    $$$$$:   19-block 53
+        1:   20:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   20-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   20-block 54
+        1:   21:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {2, 4, 6, 8, 10, 12, 14, 16, 18});
+        1:   21-block 5
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   21-block 55
+    $$$$$:   21-block 56
+        1:   22:  am->add(a, b, c);
+        1:   22-block 6
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   22-block 11
+call    7 returned 1
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   22-block 57
+call   10 never executed
+    $$$$$:   22-block 59
+    $$$$$:   22-block 60
+call   11 never executed
+    $$$$$:   22-block 62
+    $$$$$:   22-block 63
+call   12 never executed
+    $$$$$:   22-block 65
+       1*:   23:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   23-block 17
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   23-block 19
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   23-block 20
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   23-block 22
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   23-block 23
+call   18 never executed
+call   19 never executed
+        1:   23-block 26
+        1:   23-block 27
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   23-block 29
+    $$$$$:   23-block 66
+call   23 never executed
+    $$$$$:   23-block 68
+    $$$$$:   23-block 69
+call   24 never executed
+    $$$$$:   23-block 71
+    $$$$$:   23-block 72
+call   25 never executed
+        1:   24:}
+        1:   24-block 30
+        1:   24-block 32
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   24-block 34
+        1:   24-block 36
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   24-block 38
+        1:   24-block 40
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+        1:   24-block 42
+        1:   24-block 44
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0
+    $$$$$:   24-block 75
+call   12 never executed
+    $$$$$:   24-block 77
+call   13 never executed
+    $$$$$:   24-block 79
+call   14 never executed
+    $$$$$:   24-block 81
+call   15 never executed
+------------------
+        -:   25:
+        4:   26:TEST(test_mml_arithmetic, test_div_1) {
+        1:   27:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:   28:  const float b = 2;
+        1:   29:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   30:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {2, 4, 6, 8, 10, 12});
+        1:   31:  am->multiply(a, b, c);
+       1*:   32:  ASSERT_EQ((*c), (*d));
+        1:   33:}
+------------------
+test_mml_arithmetic_test_div_1_Test::test_mml_arithmetic_test_div_1_Test():
+function test_mml_arithmetic_test_div_1_Test::test_mml_arithmetic_test_div_1_Test() called 1 returned 100% blocks executed 100%
+        1:   26:TEST(test_mml_arithmetic, test_div_1) {
+        1:   26-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_div_1_Test::~test_mml_arithmetic_test_div_1_Test():
+function test_mml_arithmetic_test_div_1_Test::~test_mml_arithmetic_test_div_1_Test() called 1 returned 100% blocks executed 100%
+        1:   26:TEST(test_mml_arithmetic, test_div_1) {
+        1:   26-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_div_1_Test::~test_mml_arithmetic_test_div_1_Test():
+function test_mml_arithmetic_test_div_1_Test::~test_mml_arithmetic_test_div_1_Test() called 1 returned 100% blocks executed 100%
+        1:   26:TEST(test_mml_arithmetic, test_div_1) {
+        1:   26-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_div_1_Test::TestBody():
+function test_mml_arithmetic_test_div_1_Test::TestBody() called 1 returned 100% blocks executed 46%
+        1:   26:TEST(test_mml_arithmetic, test_div_1) {
+        1:   27:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:   27-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   27-block 43
+    $$$$$:   27-block 44
+        1:   28:  const float b = 2;
+        1:   29:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   29-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   29-block 45
+        1:   30:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {2, 4, 6, 8, 10, 12});
+        1:   30-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   30-block 46
+    $$$$$:   30-block 47
+        1:   31:  am->multiply(a, b, c);
+        1:   31-block 5
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   31-block 9
+call    6 returned 1
+call    7 returned 1
+    $$$$$:   31-block 48
+call    8 never executed
+    $$$$$:   31-block 50
+    $$$$$:   31-block 51
+call    9 never executed
+    $$$$$:   31-block 53
+       1*:   32:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   32-block 14
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   32-block 16
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   32-block 17
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   32-block 19
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   32-block 20
+call   18 never executed
+call   19 never executed
+        1:   32-block 23
+        1:   32-block 24
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   32-block 26
+    $$$$$:   32-block 54
+call   23 never executed
+    $$$$$:   32-block 56
+    $$$$$:   32-block 57
+call   24 never executed
+    $$$$$:   32-block 59
+    $$$$$:   32-block 60
+call   25 never executed
+        1:   33:}
+        1:   33-block 27
+        1:   33-block 29
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   33-block 31
+        1:   33-block 33
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   33-block 35
+        1:   33-block 37
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+    $$$$$:   33-block 63
+call    9 never executed
+    $$$$$:   33-block 65
+call   10 never executed
+    $$$$$:   33-block 67
+call   11 never executed
+------------------
+        -:   34:
+        4:   35:TEST(test_mml_arithmetic, test_div_2) {
+        1:   36:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   37:  const float b = 0.5;
+        1:   38:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   39:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5});
+        1:   40:  am->multiply(a, b, c);
+       1*:   41:  ASSERT_EQ((*c), (*d));
+        1:   42:}
+------------------
+test_mml_arithmetic_test_div_2_Test::test_mml_arithmetic_test_div_2_Test():
+function test_mml_arithmetic_test_div_2_Test::test_mml_arithmetic_test_div_2_Test() called 1 returned 100% blocks executed 100%
+        1:   35:TEST(test_mml_arithmetic, test_div_2) {
+        1:   35-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_div_2_Test::~test_mml_arithmetic_test_div_2_Test():
+function test_mml_arithmetic_test_div_2_Test::~test_mml_arithmetic_test_div_2_Test() called 1 returned 100% blocks executed 100%
+        1:   35:TEST(test_mml_arithmetic, test_div_2) {
+        1:   35-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_div_2_Test::~test_mml_arithmetic_test_div_2_Test():
+function test_mml_arithmetic_test_div_2_Test::~test_mml_arithmetic_test_div_2_Test() called 1 returned 100% blocks executed 100%
+        1:   35:TEST(test_mml_arithmetic, test_div_2) {
+        1:   35-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_div_2_Test::TestBody():
+function test_mml_arithmetic_test_div_2_Test::TestBody() called 1 returned 100% blocks executed 46%
+        1:   35:TEST(test_mml_arithmetic, test_div_2) {
+        1:   36:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   36-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   36-block 43
+    $$$$$:   36-block 44
+        1:   37:  const float b = 0.5;
+        1:   38:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   38-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   38-block 45
+        1:   39:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5});
+        1:   39-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   39-block 46
+    $$$$$:   39-block 47
+        1:   40:  am->multiply(a, b, c);
+        1:   40-block 5
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   40-block 9
+call    6 returned 1
+call    7 returned 1
+    $$$$$:   40-block 48
+call    8 never executed
+    $$$$$:   40-block 50
+    $$$$$:   40-block 51
+call    9 never executed
+    $$$$$:   40-block 53
+       1*:   41:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   41-block 14
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   41-block 16
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   41-block 17
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   41-block 19
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   41-block 20
+call   18 never executed
+call   19 never executed
+        1:   41-block 23
+        1:   41-block 24
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   41-block 26
+    $$$$$:   41-block 54
+call   23 never executed
+    $$$$$:   41-block 56
+    $$$$$:   41-block 57
+call   24 never executed
+    $$$$$:   41-block 59
+    $$$$$:   41-block 60
+call   25 never executed
+        1:   42:}
+        1:   42-block 27
+        1:   42-block 29
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   42-block 31
+        1:   42-block 33
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   42-block 35
+        1:   42-block 37
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+    $$$$$:   42-block 63
+call    9 never executed
+    $$$$$:   42-block 65
+call   10 never executed
+    $$$$$:   42-block 67
+call   11 never executed
+------------------
+        -:   43:
+        4:   44:TEST(test_mml_arithmetic, test_mul_1) {
+        1:   45:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:   46:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 3}, {4, 5, 6, 7, 8, 9});
+        1:   47:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   48:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {-3, -3, -3, -3, -3, -3});
+        1:   49:  am->subtract(a, b, c);
+       1*:   50:  ASSERT_EQ((*c), (*d));
+        1:   51:}
+------------------
+test_mml_arithmetic_test_mul_1_Test::test_mml_arithmetic_test_mul_1_Test():
+function test_mml_arithmetic_test_mul_1_Test::test_mml_arithmetic_test_mul_1_Test() called 1 returned 100% blocks executed 100%
+        1:   44:TEST(test_mml_arithmetic, test_mul_1) {
+        1:   44-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_mul_1_Test::~test_mml_arithmetic_test_mul_1_Test():
+function test_mml_arithmetic_test_mul_1_Test::~test_mml_arithmetic_test_mul_1_Test() called 1 returned 100% blocks executed 100%
+        1:   44:TEST(test_mml_arithmetic, test_mul_1) {
+        1:   44-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_mul_1_Test::~test_mml_arithmetic_test_mul_1_Test():
+function test_mml_arithmetic_test_mul_1_Test::~test_mml_arithmetic_test_mul_1_Test() called 1 returned 100% blocks executed 100%
+        1:   44:TEST(test_mml_arithmetic, test_mul_1) {
+        1:   44-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_mul_1_Test::TestBody():
+function test_mml_arithmetic_test_mul_1_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   44:TEST(test_mml_arithmetic, test_mul_1) {
+        1:   45:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1, 2, 3, 4, 5, 6});
+        1:   45-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   45-block 50
+    $$$$$:   45-block 51
+        1:   46:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 3}, {4, 5, 6, 7, 8, 9});
+        1:   46-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   46-block 52
+    $$$$$:   46-block 53
+        1:   47:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({2, 3});
+        1:   47-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   47-block 54
+        1:   48:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({2, 3}, {-3, -3, -3, -3, -3, -3});
+        1:   48-block 5
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   48-block 55
+    $$$$$:   48-block 56
+        1:   49:  am->subtract(a, b, c);
+        1:   49-block 6
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   49-block 11
+call    7 returned 1
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   49-block 57
+call   10 never executed
+    $$$$$:   49-block 59
+    $$$$$:   49-block 60
+call   11 never executed
+    $$$$$:   49-block 62
+    $$$$$:   49-block 63
+call   12 never executed
+    $$$$$:   49-block 65
+       1*:   50:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   50-block 17
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   50-block 19
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   50-block 20
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   50-block 22
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   50-block 23
+call   18 never executed
+call   19 never executed
+        1:   50-block 26
+        1:   50-block 27
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   50-block 29
+    $$$$$:   50-block 66
+call   23 never executed
+    $$$$$:   50-block 68
+    $$$$$:   50-block 69
+call   24 never executed
+    $$$$$:   50-block 71
+    $$$$$:   50-block 72
+call   25 never executed
+        1:   51:}
+        1:   51-block 30
+        1:   51-block 32
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   51-block 34
+        1:   51-block 36
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   51-block 38
+        1:   51-block 40
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+        1:   51-block 42
+        1:   51-block 44
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0
+    $$$$$:   51-block 75
+call   12 never executed
+    $$$$$:   51-block 77
+call   13 never executed
+    $$$$$:   51-block 79
+call   14 never executed
+    $$$$$:   51-block 81
+call   15 never executed
+------------------
+        -:   52:
+        4:   53:TEST(test_mml_arithmetic, test_mul_2) {
+        1:   54:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   55:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   56:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   57:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
+        1:   58:  am->subtract(a, b, c);
+       1*:   59:  ASSERT_EQ((*c), (*d));
+        1:   60:}
+------------------
+test_mml_arithmetic_test_mul_2_Test::test_mml_arithmetic_test_mul_2_Test():
+function test_mml_arithmetic_test_mul_2_Test::test_mml_arithmetic_test_mul_2_Test() called 1 returned 100% blocks executed 100%
+        1:   53:TEST(test_mml_arithmetic, test_mul_2) {
+        1:   53-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_mul_2_Test::~test_mml_arithmetic_test_mul_2_Test():
+function test_mml_arithmetic_test_mul_2_Test::~test_mml_arithmetic_test_mul_2_Test() called 1 returned 100% blocks executed 100%
+        1:   53:TEST(test_mml_arithmetic, test_mul_2) {
+        1:   53-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_mul_2_Test::~test_mml_arithmetic_test_mul_2_Test():
+function test_mml_arithmetic_test_mul_2_Test::~test_mml_arithmetic_test_mul_2_Test() called 1 returned 100% blocks executed 100%
+        1:   53:TEST(test_mml_arithmetic, test_mul_2) {
+        1:   53-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_mul_2_Test::TestBody():
+function test_mml_arithmetic_test_mul_2_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   53:TEST(test_mml_arithmetic, test_mul_2) {
+        1:   54:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   54-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   54-block 50
+    $$$$$:   54-block 51
+        1:   55:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        1:   55-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   55-block 52
+    $$$$$:   55-block 53
+        1:   56:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3});
+        1:   56-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   56-block 54
+        1:   57:  const shared_ptr<Tensor<float>> d = tensor_mml_p<float>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
+        1:   57-block 5
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   57-block 55
+    $$$$$:   57-block 56
+        1:   58:  am->subtract(a, b, c);
+        1:   58-block 6
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   58-block 11
+call    7 returned 1
+call    8 returned 1
+call    9 returned 1
+    $$$$$:   58-block 57
+call   10 never executed
+    $$$$$:   58-block 59
+    $$$$$:   58-block 60
+call   11 never executed
+    $$$$$:   58-block 62
+    $$$$$:   58-block 63
+call   12 never executed
+    $$$$$:   58-block 65
+       1*:   59:  ASSERT_EQ((*c), (*d));
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   59-block 17
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   59-block 19
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   59-block 20
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   59-block 22
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   59-block 23
+call   18 never executed
+call   19 never executed
+        1:   59-block 26
+        1:   59-block 27
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   59-block 29
+    $$$$$:   59-block 66
+call   23 never executed
+    $$$$$:   59-block 68
+    $$$$$:   59-block 69
+call   24 never executed
+    $$$$$:   59-block 71
+    $$$$$:   59-block 72
+call   25 never executed
+        1:   60:}
+        1:   60-block 30
+        1:   60-block 32
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   60-block 34
+        1:   60-block 36
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   60-block 38
+        1:   60-block 40
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+        1:   60-block 42
+        1:   60-block 44
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0
+    $$$$$:   60-block 75
+call   12 never executed
+    $$$$$:   60-block 77
+call   13 never executed
+    $$$$$:   60-block 79
+call   14 never executed
+    $$$$$:   60-block 81
+call   15 never executed
+------------------
+        -:   61:
+function square(float) called 42 returned 100% blocks executed 100%
+       42:   62:float square(float x) { return x * x; }
+       42:   62-block 2
+        4:   63:TEST(test_mml_arithmetic, test_elementwise) {
+        1:   64:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   65:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   66:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+        1:   67:  am->elementwise(a, square, b);
+       1*:   68:  ASSERT_EQ(*b, *c);
+        1:   69:}
+------------------
+test_mml_arithmetic_test_elementwise_Test::test_mml_arithmetic_test_elementwise_Test():
+function test_mml_arithmetic_test_elementwise_Test::test_mml_arithmetic_test_elementwise_Test() called 1 returned 100% blocks executed 100%
+        1:   63:TEST(test_mml_arithmetic, test_elementwise) {
+        1:   63-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_Test::~test_mml_arithmetic_test_elementwise_Test():
+function test_mml_arithmetic_test_elementwise_Test::~test_mml_arithmetic_test_elementwise_Test() called 1 returned 100% blocks executed 100%
+        1:   63:TEST(test_mml_arithmetic, test_elementwise) {
+        1:   63-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_Test::~test_mml_arithmetic_test_elementwise_Test():
+function test_mml_arithmetic_test_elementwise_Test::~test_mml_arithmetic_test_elementwise_Test() called 1 returned 100% blocks executed 100%
+        1:   63:TEST(test_mml_arithmetic, test_elementwise) {
+        1:   63-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_Test::TestBody():
+function test_mml_arithmetic_test_elementwise_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   63:TEST(test_mml_arithmetic, test_elementwise) {
+        1:   64:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   64-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   64-block 43
+    $$$$$:   64-block 44
+        1:   65:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   65-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   65-block 45
+    $$$$$:   65-block 46
+        1:   66:  const shared_ptr<Tensor<float>> c = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+        1:   66-block 4
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   66-block 47
+    $$$$$:   66-block 48
+        1:   67:  am->elementwise(a, square, b);
+        1:   67-block 5
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+        1:   67-block 9
+call    6 returned 1
+call    7 returned 1
+    $$$$$:   67-block 49
+call    8 never executed
+    $$$$$:   67-block 51
+    $$$$$:   67-block 52
+call    9 never executed
+    $$$$$:   67-block 54
+       1*:   68:  ASSERT_EQ(*b, *c);
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   68-block 14
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   68-block 16
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   68-block 17
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   68-block 19
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   68-block 20
+call   18 never executed
+call   19 never executed
+        1:   68-block 23
+        1:   68-block 24
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   68-block 26
+    $$$$$:   68-block 55
+call   23 never executed
+    $$$$$:   68-block 57
+    $$$$$:   68-block 58
+call   24 never executed
+    $$$$$:   68-block 60
+    $$$$$:   68-block 61
+call   25 never executed
+        1:   69:}
+        1:   69-block 27
+        1:   69-block 29
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   69-block 31
+        1:   69-block 33
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+        1:   69-block 35
+        1:   69-block 37
+call    6 returned 1
+branch  7 taken 1 (fallthrough)
+branch  8 taken 0
+    $$$$$:   69-block 64
+call    9 never executed
+    $$$$$:   69-block 66
+call   10 never executed
+    $$$$$:   69-block 68
+call   11 never executed
+------------------
+        -:   70:
+        4:   71:TEST(test_mml_arithmetic, test_elementwise_in_place) {
+        1:   72:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   73:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+        1:   74:  am->elementwise_in_place(a, square);
+       1*:   75:  ASSERT_EQ(*a, *b);
+        1:   76:}
+------------------
+test_mml_arithmetic_test_elementwise_in_place_Test::test_mml_arithmetic_test_elementwise_in_place_Test():
+function test_mml_arithmetic_test_elementwise_in_place_Test::test_mml_arithmetic_test_elementwise_in_place_Test() called 1 returned 100% blocks executed 100%
+        1:   71:TEST(test_mml_arithmetic, test_elementwise_in_place) {
+        1:   71-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_Test::~test_mml_arithmetic_test_elementwise_in_place_Test():
+function test_mml_arithmetic_test_elementwise_in_place_Test::~test_mml_arithmetic_test_elementwise_in_place_Test() called 1 returned 100% blocks executed 100%
+        1:   71:TEST(test_mml_arithmetic, test_elementwise_in_place) {
+        1:   71-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_Test::~test_mml_arithmetic_test_elementwise_in_place_Test():
+function test_mml_arithmetic_test_elementwise_in_place_Test::~test_mml_arithmetic_test_elementwise_in_place_Test() called 1 returned 100% blocks executed 100%
+        1:   71:TEST(test_mml_arithmetic, test_elementwise_in_place) {
+        1:   71-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_Test::TestBody():
+function test_mml_arithmetic_test_elementwise_in_place_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   71:TEST(test_mml_arithmetic, test_elementwise_in_place) {
+        1:   72:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
+        1:   72-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   72-block 36
+    $$$$$:   72-block 37
+        1:   73:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({3, 3}, {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f, 49.0f, 64.0f, 81.0f});
+        1:   73-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   73-block 38
+    $$$$$:   73-block 39
+        1:   74:  am->elementwise_in_place(a, square);
+        1:   74-block 4
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   74-block 7
+call    5 returned 1
+    $$$$$:   74-block 40
+call    6 never executed
+    $$$$$:   74-block 42
+       1*:   75:  ASSERT_EQ(*a, *b);
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   75-block 11
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   75-block 13
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   75-block 14
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   75-block 16
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   75-block 17
+call   18 never executed
+call   19 never executed
+        1:   75-block 20
+        1:   75-block 21
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   75-block 23
+    $$$$$:   75-block 43
+call   23 never executed
+    $$$$$:   75-block 45
+    $$$$$:   75-block 46
+call   24 never executed
+    $$$$$:   75-block 48
+    $$$$$:   75-block 49
+call   25 never executed
+        1:   76:}
+        1:   76-block 24
+        1:   76-block 26
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   76-block 28
+        1:   76-block 30
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+    $$$$$:   76-block 52
+call    6 never executed
+    $$$$$:   76-block 54
+call    7 never executed
+------------------
+        -:   77:
+        4:   78:TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+        -:   79:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 2, 3, 2}, 
+        -:   80:    {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  
+        -:   81:     7.0f,  8.0f,  9.0f, 10.0f, 11.0f, 12.0f,  
+        -:   82:
+        -:   83:    13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,  
+        1:   84:    19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f});
+        -:   85:
+        -:   86:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 2, 3, 2}, 
+        -:   87:    {1.0f,   4.0f,   9.0f,  16.0f,  25.0f,  36.0f,  
+        -:   88:     49.0f,  64.0f,  81.0f, 100.0f, 121.0f, 144.0f,  
+        -:   89:
+        -:   90:    169.0f, 196.0f, 225.0f, 256.0f, 289.0f, 324.0f,  
+        1:   91:    361.0f, 400.0f, 441.0f, 484.0f, 529.0f, 576.0f});
+        -:   92:
+        1:   93:  am->elementwise_in_place(a, square);
+       1*:   94:  ASSERT_EQ(*a, *b);
+        1:   95:}
+------------------
+test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test():
+function test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test() called 1 returned 100% blocks executed 100%
+        1:   78:TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+        1:   78-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::~test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test():
+function test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::~test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test() called 1 returned 100% blocks executed 100%
+        1:   78:TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+        1:   78-block 2
+call    0 returned 1
+call    1 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::~test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test():
+function test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::~test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test() called 1 returned 100% blocks executed 100%
+        1:   78:TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+        1:   78-block 2
+call    0 returned 1
+------------------
+test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::TestBody():
+function test_mml_arithmetic_test_elementwise_in_place_many_dimensions_4D_Test::TestBody() called 1 returned 100% blocks executed 45%
+        1:   78:TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
+        -:   79:  const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 2, 3, 2}, 
+        -:   80:    {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  
+        -:   81:     7.0f,  8.0f,  9.0f, 10.0f, 11.0f, 12.0f,  
+        -:   82:
+        -:   83:    13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,  
+        1:   84:    19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f});
+        1:   84-block 2
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   84-block 36
+    $$$$$:   84-block 37
+        -:   85:
+        -:   86:  const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 2, 3, 2}, 
+        -:   87:    {1.0f,   4.0f,   9.0f,  16.0f,  25.0f,  36.0f,  
+        -:   88:     49.0f,  64.0f,  81.0f, 100.0f, 121.0f, 144.0f,  
+        -:   89:
+        -:   90:    169.0f, 196.0f, 225.0f, 256.0f, 289.0f, 324.0f,  
+        1:   91:    361.0f, 400.0f, 441.0f, 484.0f, 529.0f, 576.0f});
+        1:   91-block 3
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   91-block 38
+    $$$$$:   91-block 39
+        -:   92:
+        1:   93:  am->elementwise_in_place(a, square);
+        1:   93-block 4
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   93-block 7
+call    5 returned 1
+    $$$$$:   93-block 40
+call    6 never executed
+    $$$$$:   93-block 42
+       1*:   94:  ASSERT_EQ(*a, *b);
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   94-block 11
+call    5 returned 1
+branch  6 taken 0 (fallthrough)
+branch  7 taken 1
+    %%%%%:   94-block 13
+call    8 never executed
+branch  9 never executed (fallthrough)
+branch 10 never executed (throw)
+    %%%%%:   94-block 14
+call   11 never executed
+call   12 never executed
+branch 13 never executed (fallthrough)
+branch 14 never executed (throw)
+    %%%%%:   94-block 16
+call   15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed (throw)
+    %%%%%:   94-block 17
+call   18 never executed
+call   19 never executed
+        1:   94-block 20
+        1:   94-block 21
+call   20 returned 1
+branch 21 taken 1 (fallthrough)
+branch 22 taken 0
+        1:   94-block 23
+    $$$$$:   94-block 43
+call   23 never executed
+    $$$$$:   94-block 45
+    $$$$$:   94-block 46
+call   24 never executed
+    $$$$$:   94-block 48
+    $$$$$:   94-block 49
+call   25 never executed
+        1:   95:}
+        1:   95-block 24
+        1:   95-block 26
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+        1:   95-block 28
+        1:   95-block 30
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0
+    $$$$$:   95-block 52
+call    6 never executed
+    $$$$$:   95-block 54
+call    7 never executed
+------------------

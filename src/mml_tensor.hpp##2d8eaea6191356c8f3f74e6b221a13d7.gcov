@@ -1,0 +1,272 @@
+        -:    0:Source:/home/sande/modularml/src/include/mml_tensor.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include "a_tensor.hpp"
+        -:    4:#include "array_mml.hpp"
+        -:    5:#include "globals.hpp"
+        -:    6:
+        -:    7:/// @brief
+        -:    8:/// @tparam T
+        -:    9:template <typename T>
+        -:   10:class Tensor_mml : public Tensor<T> {
+        -:   11: public:
+        -:   12:  /// @brief Constructor for Tensor_mml class.
+        -:   13:  /// @param shape The shape of the tensor.
+function Tensor_mml<float>::Tensor_mml(std::initializer_list<int>) called 21 returned 100% blocks executed 64%
+       21:   14:  explicit Tensor_mml(initializer_list<int> shape) : Tensor<T>(shape) {
+       21:   14-block 2
+call    0 returned 21
+call    1 returned 21
+       21:   15:    this->data = array_mml<T>(this->get_size());
+call    0 returned 21
+call    1 returned 21
+branch  2 taken 21 (fallthrough)
+branch  3 taken 0 (throw)
+       21:   15-block 6
+call    4 returned 21
+call    5 returned 21
+    $$$$$:   15-block 10
+       21:   16:    this->data.fill(T(0));
+call    0 returned 21
+branch  1 taken 21 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:   16-block 11
+       21:   17:  }
+       21:   17-block 9
+    $$$$$:   17-block 12
+call    0 never executed
+    $$$$$:   17-block 14
+call    1 never executed
+        -:   18:
+        -:   19:  /// @brief Constructor for Tensor_mml class.
+        -:   20:  /// @param shape The shape of the tensor.
+        -:   21:  explicit Tensor_mml(array_mml<int>& shape) : Tensor<T>(shape) {
+        -:   22:    this->data = array_mml<T>(this->get_size());
+        -:   23:    this->data.fill(T(0));
+        -:   24:  }
+        -:   25:
+        -:   26:  /// @brief Constructor for Tensor_mml class.
+        -:   27:  /// @param shape The shape of the tensor.
+        -:   28:  /// @param data The data to set in the tensor.
+function Tensor_mml<float>::Tensor_mml(std::initializer_list<int>, std::initializer_list<float>) called 41 returned 100% blocks executed 64%
+       41:   29:  explicit Tensor_mml(initializer_list<int> shape, initializer_list<T> data) : Tensor<T>(shape) {
+       41:   29-block 2
+call    0 returned 41
+call    1 returned 41
+       41:   30:    this->data = array_mml<T>(data);
+call    0 returned 41
+branch  1 taken 41 (fallthrough)
+branch  2 taken 0 (throw)
+       41:   30-block 5
+call    3 returned 41
+call    4 returned 41
+    $$$$$:   30-block 8
+       41:   31:  }
+    $$$$$:   31-block 9
+call    0 never executed
+    $$$$$:   31-block 11
+call    1 never executed
+        -:   32:
+        -:   33:  /// @brief Constructor for Tensor_mml class.
+        -:   34:  /// @param shape The shape of the tensor.
+        -:   35:  /// @param data The data to set in the tensor.
+        -:   36:  explicit Tensor_mml(array_mml<int>& shape, array_mml<T>& data) : Tensor<T>(shape) {
+        -:   37:    this->data = array_mml<T>(data);
+        -:   38:  }
+        -:   39:
+        -:   40:  /// @brief Destructor for Tensor_mml class.
+      68*:   41:  ~Tensor_mml() = default;
+------------------
+Tensor_mml<float>::~Tensor_mml():
+function Tensor_mml<float>::~Tensor_mml() called 0 returned 0% blocks executed 0%
+    #####:   41:  ~Tensor_mml() = default;
+    %%%%%:   41-block 2
+call    0 never executed
+call    1 never executed
+------------------
+Tensor_mml<float>::~Tensor_mml():
+function Tensor_mml<float>::~Tensor_mml() called 68 returned 100% blocks executed 100%
+       68:   41:  ~Tensor_mml() = default;
+       68:   41-block 2
+call    0 returned 68
+call    1 returned 68
+------------------
+        -:   42:
+        -:   43:  /// @brief Move constructor for Tensor_mml class.
+        -:   44:  Tensor_mml(Tensor_mml&& other) noexcept : Tensor<T>(move(other)), data(move(other.data)) {}
+        -:   45:
+        -:   46:  /// @brief Copy constructor for Tensor_mml class.
+function Tensor_mml<float>::Tensor_mml(Tensor_mml<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   47:  Tensor_mml(const Tensor_mml& other) : Tensor<T>(other), data(array_mml<T>(other.data)) {}
+    %%%%%:   47-block 2
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:   47-block 4
+    $$$$$:   47-block 5
+call    4 never executed
+        -:   48:
+        -:   49:  /// @brief Move assignment operator.
+        -:   50:  /// @param other The tensor to move.
+        -:   51:  /// @return The moved tensor.
+        -:   52:  Tensor_mml& operator=(Tensor_mml&& other) noexcept {
+        -:   53:    Tensor<T>::operator=(move(other));
+        -:   54:    this->data = move(other.data);
+        -:   55:    return *this;
+        -:   56:  }
+        -:   57:
+        -:   58:  /// @brief Get the data of the tensor.
+        -:   59:  /// @return The data of the tensor.
+        -:   60:  const array_mml<T>& get_data() const {
+        -:   61:    return this->data;
+        -:   62:  }
+        -:   63:
+        -:   64:  /// @brief Assignment operator.
+function Tensor_mml<float>::operator=(Tensor<float> const&) called 3 returned 100% blocks executed 100%
+        3:   65:  Tensor_mml& operator=(const Tensor<T>& other) override {
+        -:   66:    // Make sure the other tensor is of the same type because data is of type ConcreteTensor
+        3:   67:    const Tensor_mml<T>& otherTensor = static_cast<const Tensor_mml<T>&>(other);
+        -:   68:
+        -:   69:    // Copy base members
+        3:   70:    this->reshape(otherTensor.get_shape());
+        3:   70-block 2
+call    0 returned 3
+call    1 returned 3
+        -:   71:
+        -:   72:    // Copy the data array
+        3:   73:    this->data = otherTensor.data;
+call    0 returned 3
+        3:   74:    return *this;
+        -:   75:  }
+        -:   76:
+function Tensor_mml<float>::to_string[abi:cxx11]() const called 0 returned 0% blocks executed 0%
+    #####:   77:  string to_string() const override {
+    #####:   78:    string base = Tensor<T>::to_string();
+    %%%%%:   78-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:   79:    return base + " Data: " + this->data.to_string();
+    %%%%%:   79-block 3
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   79-block 4
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    %%%%%:   79-block 5
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+    %%%%%:   79-block 6
+call    9 never executed
+call   10 never executed
+    $$$$$:   79-block 11
+call   11 never executed
+    $$$$$:   79-block 13
+    $$$$$:   79-block 14
+call   12 never executed
+    $$$$$:   79-block 16
+        -:   80:    return this->data.to_string();
+    #####:   81:  }
+call    0 never executed
+    $$$$$:   81-block 17
+call    1 never executed
+        -:   82:
+function Tensor_mml<float>::copy() const called 0 returned 0% blocks executed 0%
+    #####:   83:  shared_ptr<Tensor<T>> copy() const override {
+    #####:   84:    return make_shared<Tensor_mml<T>>(*this);
+    %%%%%:   84-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   84-block 3
+call    3 never executed
+call    4 never executed
+    %%%%%:   84-block 6
+        -:   85:  }
+        -:   86:
+function Tensor_mml<float>::operator[](int) const called 282 returned 100% blocks executed 100%
+      282:   87:  const T& operator[](int index) const override {
+      282:   88:    return this->data[index];
+      282:   88-block 2
+call    0 returned 282
+        -:   89:  }
+        -:   90:
+function Tensor_mml<float>::operator[](int) called 458 returned 100% blocks executed 100%
+      458:   91:  T& operator[](int index) override {
+      458:   92:    return this->data[index];
+      458:   92-block 2
+call    0 returned 458
+        -:   93:  }
+        -:   94:
+        -:   95: private:
+        -:   96:  array_mml<T> data;
+        -:   97:};
+        -:   98:
+        -:   99:// Convience initializers
+        -:  100:
+        -:  101:/// @brief Initializes a new tensor with the given shape and all elements set to zero.
+        -:  102:/// @param shape The shape of the tensor.
+        -:  103:/// @return A new tensor with the given shape and all elements set to zero.
+        -:  104:template <typename T>
+        -:  105:[[deprecated("Use Tensor_mml constructor instead.")]]
+        -:  106:Tensor<T> tensor_mml(const initializer_list<int> shape) {  // NOSONAR - function signature is correct
+        -:  107:  auto t = make_shared<Tensor_mml<T>>(shape);
+        -:  108:  return t;
+        -:  109:}
+        -:  110:
+        -:  111:/// @brief Initializes a new tensor with the given shape and data.
+        -:  112:/// @param shape The shape of the tensor.
+        -:  113:/// @param data A reference to the data to be set in the tensor.
+        -:  114:/// @return A new tensor with the given shape and data.
+        -:  115:template <typename T>
+        -:  116:[[deprecated("Use Tensor_mml constructor instead.")]]
+        -:  117:Tensor_mml<T> tensor_mml(const initializer_list<int> shape, const initializer_list<T> data) {  // NOSONAR - function signature is correct
+        -:  118:  auto t = Tensor_mml<T>(shape, data);
+        -:  119:  return t;
+        -:  120:}
+        -:  121:
+        -:  122:/// @brief Initializes a new tensor with the given shape and all elements set to zero.
+        -:  123:/// @param shape The shape of the tensor.
+        -:  124:/// @return A new shared tensor pointer with the given shape and all elements set to zero.
+        -:  125:template <typename T>
+        -:  126:[[deprecated("Use Tensor_mml constructor instead.")]]
+function std::shared_ptr<Tensor<float> > tensor_mml_p<float>(std::initializer_list<int>) called 18 returned 100% blocks executed 100%
+       18:  127:shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape) {  // NOSONAR - function signature is correct
+       18:  128:  auto t = make_shared<Tensor_mml<T>>(shape);
+       18:  128-block 2
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+       36:  129:  return t;
+       18:  129-block 3
+call    0 returned 18
+       18:  129-block 6
+       18:  130:}
+call    0 returned 18
+        -:  131:
+        -:  132:/// @brief Initializes a new tensor with the given shape and data.
+        -:  133:/// @param shape The shape of the tensor.
+        -:  134:/// @param data A reference to the data to be set in the tensor.
+        -:  135:/// @return A new shared tensor pointer with the given shape and data.
+        -:  136:template <typename T>
+        -:  137:[[deprecated("Use Tensor_mml constructor instead.")]]
+function std::shared_ptr<Tensor<float> > tensor_mml_p<float>(std::initializer_list<int>, std::initializer_list<float>) called 38 returned 100% blocks executed 100%
+       38:  138:shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape, const initializer_list<T> data) {  // NOSONAR - function signature is correct
+       38:  139:  auto t = make_shared<Tensor_mml<T>>(shape, data);
+       38:  139-block 2
+call    0 returned 38
+branch  1 taken 38 (fallthrough)
+branch  2 taken 0 (throw)
+       76:  140:  return t;
+       38:  140-block 3
+call    0 returned 38
+       38:  140-block 6
+       38:  141:}
+call    0 returned 38

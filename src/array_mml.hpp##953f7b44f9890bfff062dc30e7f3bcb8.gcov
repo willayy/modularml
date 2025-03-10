@@ -1,0 +1,813 @@
+        -:    0:Source:/home/sande/modularml/src/include/array_mml.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include <algorithm>
+        -:    4:#include <initializer_list>
+        -:    5:#include <memory>
+        -:    6:#include <stdexcept>
+        -:    7:#include <vector>
+        -:    8:
+        -:    9:using namespace std;
+        -:   10:
+        -:   11:/// @brief Array class mimicking the std::array class but without the size being a template parameter.
+        -:   12:/// @tparam T the type of the array.
+        -:   13:template <typename T>
+        -:   14:class array_mml {
+        -:   15: public:
+        -:   16:
+        -:   17:  /// @brief Default constructor for array_mml class.
+function array_mml<float>::array_mml() called 62 returned 100% blocks executed 100%
+       62:   18:  array_mml() : data(nullptr), d_size(0) {}
+       62:   18-block 2
+call    0 returned 62
+        -:   19:
+        -:   20:  /// @brief Constructor for array_mml class.
+        -:   21:  /// @param size The size of the array.
+       98:   22:  explicit array_mml(uint64_t size) : data(make_unique<T[]>(size)), d_size(size) {}
+------------------
+array_mml<int>::array_mml(unsigned long):
+function array_mml<int>::array_mml(unsigned long) called 77 returned 100% blocks executed 100%
+       77:   22:  explicit array_mml(uint64_t size) : data(make_unique<T[]>(size)), d_size(size) {}
+       77:   22-block 2
+call    0 returned 77
+------------------
+array_mml<float>::array_mml(unsigned long):
+function array_mml<float>::array_mml(unsigned long) called 21 returned 100% blocks executed 100%
+       21:   22:  explicit array_mml(uint64_t size) : data(make_unique<T[]>(size)), d_size(size) {}
+       21:   22-block 2
+call    0 returned 21
+------------------
+        -:   23:
+        -:   24:  /// @brief Constructor for array_mml class.
+        -:   25:  /// @param data The data to set in the array.
+      454:   26:  explicit array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
+      454:   27:    copy(data.begin(), data.end(), this->data.get());
+      454:   28:  }
+------------------
+array_mml<int>::array_mml(std::initializer_list<int>):
+function array_mml<int>::array_mml(std::initializer_list<int>) called 413 returned 100% blocks executed 90%
+      413:   26:  explicit array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
+      413:   26-block 2
+call    0 returned 413
+call    1 returned 413
+call    2 returned 413
+      413:   27:    copy(data.begin(), data.end(), this->data.get());
+call    0 returned 413
+call    1 returned 413
+call    2 returned 413
+call    3 returned 413
+branch  4 taken 413 (fallthrough)
+branch  5 taken 0 (throw)
+      413:   28:  }
+      413:   28-block 9
+    $$$$$:   28-block 10
+call    0 never executed
+------------------
+array_mml<float>::array_mml(std::initializer_list<float>):
+function array_mml<float>::array_mml(std::initializer_list<float>) called 41 returned 100% blocks executed 90%
+       41:   26:  explicit array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
+       41:   26-block 2
+call    0 returned 41
+call    1 returned 41
+call    2 returned 41
+       41:   27:    copy(data.begin(), data.end(), this->data.get());
+call    0 returned 41
+call    1 returned 41
+call    2 returned 41
+call    3 returned 41
+branch  4 taken 41 (fallthrough)
+branch  5 taken 0 (throw)
+       41:   28:  }
+       41:   28-block 9
+    $$$$$:   28-block 10
+call    0 never executed
+------------------
+        -:   29:
+        -:   30:  /// @brief Constructor for array_mml class.
+        -:   31:  /// @param data The data to set in the array.
+        -:   32:  explicit array_mml(vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
+        -:   33:    copy(data.begin(), data.end(), this->data.get());
+        -:   34:  }
+        -:   35:
+        -:   36:  /// @brief Copy constructor for array_mml class.
+        -:   37:  /// @param data The data to copy.
+        -:   38:  explicit array_mml(const vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
+        -:   39:    copy(data.begin(), data.end(), this->data.get());
+        -:   40:  }
+        -:   41:
+        -:   42:  /// @brief Copy constructor for array_mml class.
+     221*:   43:  array_mml(const array_mml& other) : data(make_unique<T[]>(other.d_size)), d_size(other.d_size) {
+     221*:   44:    copy(other.data.get(), other.data.get() + other.d_size, this->data.get());
+     221*:   45:  }
+------------------
+array_mml<float>::array_mml(array_mml<float> const&):
+function array_mml<float>::array_mml(array_mml<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   43:  array_mml(const array_mml& other) : data(make_unique<T[]>(other.d_size)), d_size(other.d_size) {
+    %%%%%:   43-block 2
+call    0 never executed
+    #####:   44:    copy(other.data.get(), other.data.get() + other.d_size, this->data.get());
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    #####:   45:  }
+    %%%%%:   45-block 7
+    $$$$$:   45-block 8
+call    0 never executed
+------------------
+array_mml<int>::array_mml(array_mml<int> const&):
+function array_mml<int>::array_mml(array_mml<int> const&) called 221 returned 100% blocks executed 88%
+      221:   43:  array_mml(const array_mml& other) : data(make_unique<T[]>(other.d_size)), d_size(other.d_size) {
+      221:   43-block 2
+call    0 returned 221
+      221:   44:    copy(other.data.get(), other.data.get() + other.d_size, this->data.get());
+call    0 returned 221
+call    1 returned 221
+call    2 returned 221
+call    3 returned 221
+branch  4 taken 221 (fallthrough)
+branch  5 taken 0 (throw)
+      221:   45:  }
+      221:   45-block 7
+    $$$$$:   45-block 8
+call    0 never executed
+------------------
+        -:   46:
+        -:   47:  /// @brief Move constructor for array_mml class.
+        -:   48:  array_mml(array_mml&& other) noexcept = default;
+        -:   49:
+        -:   50:  /// @brief Destructor for array_mml class.
+      846:   51:  ~array_mml() = default;
+------------------
+array_mml<float>::~array_mml():
+function array_mml<float>::~array_mml() called 130 returned 100% blocks executed 100%
+      130:   51:  ~array_mml() = default;
+      130:   51-block 2
+call    0 returned 130
+------------------
+array_mml<int>::~array_mml():
+function array_mml<int>::~array_mml() called 716 returned 100% blocks executed 100%
+      716:   51:  ~array_mml() = default;
+      716:   51-block 2
+call    0 returned 716
+------------------
+        -:   52:
+        -:   53:  /// @brief Get the size of the array, the number of elements in the array.
+        -:   54:  /// @return The size of the array.
+    2498*:   55:  uint64_t size() const {
+    2498*:   56:    return this->d_size;
+        -:   57:  }
+------------------
+array_mml<float>::size() const:
+function array_mml<float>::size() const called 0 returned 0% blocks executed 0%
+    #####:   55:  uint64_t size() const {
+    #####:   56:    return this->d_size;
+    %%%%%:   56-block 2
+        -:   57:  }
+------------------
+array_mml<int>::size() const:
+function array_mml<int>::size() const called 2498 returned 100% blocks executed 100%
+     2498:   55:  uint64_t size() const {
+     2498:   56:    return this->d_size;
+     2498:   56-block 2
+        -:   57:  }
+------------------
+        -:   58:
+        -:   59:  /// @brief Get an element from the array using a single-dimensional index.
+        -:   60:  /// @param index The index of the element to get.
+        -:   61:  /// @return The element at the given index.
+     2835:   62:  T& operator[](uint64_t index) {
+     2835:   63:    if (index >= this->d_size) {
+    #####:   64:      throw out_of_range("Invalid array_mml index");
+        -:   65:    } else {
+     2835:   66:      return this->data[index];
+        -:   67:    }
+        -:   68:  }
+------------------
+array_mml<float>::operator[](unsigned long):
+function array_mml<float>::operator[](unsigned long) called 458 returned 100% blocks executed 50%
+      458:   62:  T& operator[](uint64_t index) {
+      458:   63:    if (index >= this->d_size) {
+      458:   63-block 2
+branch  0 taken 0 (fallthrough)
+branch  1 taken 458
+    #####:   64:      throw out_of_range("Invalid array_mml index");
+    %%%%%:   64-block 3
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:   64-block 5
+call    4 never executed
+    $$$$$:   64-block 8
+call    5 never executed
+        -:   65:    } else {
+      458:   66:      return this->data[index];
+      458:   66-block 6
+call    0 returned 458
+        -:   67:    }
+        -:   68:  }
+------------------
+array_mml<int>::operator[](unsigned long):
+function array_mml<int>::operator[](unsigned long) called 2377 returned 100% blocks executed 50%
+     2377:   62:  T& operator[](uint64_t index) {
+     2377:   63:    if (index >= this->d_size) {
+     2377:   63-block 2
+branch  0 taken 0 (fallthrough)
+branch  1 taken 2377
+    #####:   64:      throw out_of_range("Invalid array_mml index");
+    %%%%%:   64-block 3
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:   64-block 5
+call    4 never executed
+    $$$$$:   64-block 8
+call    5 never executed
+        -:   65:    } else {
+     2377:   66:      return this->data[index];
+     2377:   66-block 6
+call    0 returned 2377
+        -:   67:    }
+        -:   68:  }
+------------------
+        -:   69:
+        -:   70:  /// @brief Get an element from the array using a single-dimensional index.
+        -:   71:  /// @param index The index of the element to get.
+        -:   72:  /// @return The element at the given index.
+     4935:   73:  const T& operator[](uint64_t index) const {
+     4935:   74:    if (index >= this->d_size) {
+    #####:   75:      throw out_of_range("Invalid array_mml index");
+        -:   76:    } else {
+     4935:   77:      return this->data[index];
+        -:   78:    }
+        -:   79:  }
+------------------
+array_mml<float>::operator[](unsigned long) const:
+function array_mml<float>::operator[](unsigned long) const called 282 returned 100% blocks executed 50%
+      282:   73:  const T& operator[](uint64_t index) const {
+      282:   74:    if (index >= this->d_size) {
+      282:   74-block 2
+branch  0 taken 0 (fallthrough)
+branch  1 taken 282
+    #####:   75:      throw out_of_range("Invalid array_mml index");
+    %%%%%:   75-block 3
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:   75-block 5
+call    4 never executed
+    $$$$$:   75-block 8
+call    5 never executed
+        -:   76:    } else {
+      282:   77:      return this->data[index];
+      282:   77-block 6
+call    0 returned 282
+        -:   78:    }
+        -:   79:  }
+------------------
+array_mml<int>::operator[](unsigned long) const:
+function array_mml<int>::operator[](unsigned long) const called 4653 returned 100% blocks executed 50%
+     4653:   73:  const T& operator[](uint64_t index) const {
+     4653:   74:    if (index >= this->d_size) {
+     4653:   74-block 2
+branch  0 taken 0 (fallthrough)
+branch  1 taken 4653
+    #####:   75:      throw out_of_range("Invalid array_mml index");
+    %%%%%:   75-block 3
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:   75-block 5
+call    4 never executed
+    $$$$$:   75-block 8
+call    5 never executed
+        -:   76:    } else {
+     4653:   77:      return this->data[index];
+     4653:   77-block 6
+call    0 returned 4653
+        -:   78:    }
+        -:   79:  }
+------------------
+        -:   80:
+        -:   81:  /// @brief Move assignment operator.
+        -:   82:  /// @param other The array to move.
+        -:   83:  /// @return The moved array.
+       69:   84:  array_mml& operator=(array_mml&& other) noexcept = default;
+------------------
+array_mml<int>::operator=(array_mml<int>&&):
+function array_mml<int>::operator=(array_mml<int>&&) called 7 returned 100% blocks executed 100%
+        7:   84:  array_mml& operator=(array_mml&& other) noexcept = default;
+        7:   84-block 2
+call    0 returned 7
+------------------
+array_mml<float>::operator=(array_mml<float>&&):
+function array_mml<float>::operator=(array_mml<float>&&) called 62 returned 100% blocks executed 100%
+       62:   84:  array_mml& operator=(array_mml&& other) noexcept = default;
+       62:   84-block 2
+call    0 returned 62
+------------------
+        -:   85:
+        -:   86:  /// @brief Copy assignment operator.
+        -:   87:  /// @param other The array to copy.
+        -:   88:  /// @return The copied array.
+        8:   89:  array_mml& operator=(const array_mml& other) {
+        8:   90:    if (this != &other) {
+        8:   91:      copy(other.begin(), other.end(), this->data.get());
+        8:   92:      this->d_size = other.d_size;
+        -:   93:    }
+        8:   94:    return *this;
+        -:   95:  }
+------------------
+array_mml<int>::operator=(array_mml<int> const&):
+function array_mml<int>::operator=(array_mml<int> const&) called 5 returned 100% blocks executed 100%
+        5:   89:  array_mml& operator=(const array_mml& other) {
+        5:   90:    if (this != &other) {
+        5:   90-block 2
+branch  0 taken 5 (fallthrough)
+branch  1 taken 0
+        5:   91:      copy(other.begin(), other.end(), this->data.get());
+        5:   91-block 3
+call    0 returned 5
+call    1 returned 5
+call    2 returned 5
+call    3 returned 5
+        5:   92:      this->d_size = other.d_size;
+        -:   93:    }
+        5:   94:    return *this;
+        5:   94-block 8
+        -:   95:  }
+------------------
+array_mml<float>::operator=(array_mml<float> const&):
+function array_mml<float>::operator=(array_mml<float> const&) called 3 returned 100% blocks executed 100%
+        3:   89:  array_mml& operator=(const array_mml& other) {
+        3:   90:    if (this != &other) {
+        3:   90-block 2
+branch  0 taken 3 (fallthrough)
+branch  1 taken 0
+        3:   91:      copy(other.begin(), other.end(), this->data.get());
+        3:   91-block 3
+call    0 returned 3
+call    1 returned 3
+call    2 returned 3
+call    3 returned 3
+        3:   92:      this->d_size = other.d_size;
+        -:   93:    }
+        3:   94:    return *this;
+        3:   94-block 8
+        -:   95:  }
+------------------
+        -:   96:
+        -:   97:  /// @brief Equality operator.
+        -:   98:  /// @param other The array to compare with.
+        -:   99:  /// @return True if the arrays are equal, false otherwise.
+function array_mml<int>::operator==(array_mml<int> const&) const called 19 returned 100% blocks executed 88%
+       19:  100:  bool operator==(const array_mml& other) const {
+       19:  101:    if (this->d_size != other.d_size) {
+       19:  101-block 2
+branch  0 taken 0 (fallthrough)
+branch  1 taken 19
+    #####:  102:      return false;
+    %%%%%:  102-block 3
+        -:  103:    }
+       19:  104:    return equal(this->begin(), this->end(), other.begin());
+       19:  104-block 4
+call    0 returned 19
+call    1 returned 19
+call    2 returned 19
+call    3 returned 19
+        -:  105:  }
+        -:  106:
+        -:  107:  /// @brief Inequality operator.
+        -:  108:  /// @param other The array to compare with.
+        -:  109:  /// @return True if the arrays are not equal, false otherwise.
+function array_mml<int>::operator!=(array_mml<int> const&) const called 19 returned 100% blocks executed 100%
+       19:  110:  bool operator!=(const array_mml& other) const {
+       19:  111:    return !(*this == other);
+       19:  111-block 2
+call    0 returned 19
+        -:  112:  }
+        -:  113:
+    #####:  114:  string to_string() const {
+    #####:  115:    string str = "[";
+        -:  116:    // if longer than 50 print first 10 then ... then last 10
+    #####:  117:    if (this->size() > 50) {
+    #####:  118:      for (uint64_t i = 0; i < 10; i++) {
+    #####:  119:        str += std::to_string(this->data[i]);
+    #####:  120:        str += ", ";
+        -:  121:      }
+    #####:  122:      str += "..., ";
+    #####:  123:      for (uint64_t i = this->size() - 10; i < this->size(); i++) {
+    #####:  124:        str += std::to_string(this->data[i]);
+    #####:  125:        if (i != this->size() - 1) {
+    #####:  126:          str += ", ";
+        -:  127:        }
+        -:  128:      }
+        -:  129:    } else {
+    #####:  130:      for (uint64_t i = 0; i < this->size(); i++) {
+    #####:  131:        str += std::to_string(this->data[i]);
+    #####:  132:        if (i != this->size() - 1) {
+    #####:  133:          str += ", ";
+        -:  134:        }
+        -:  135:      }
+        -:  136:    }
+    #####:  137:    str += "]";
+    #####:  138:    return str;
+    =====:  139:  }
+------------------
+array_mml<float>::to_string[abi:cxx11]() const:
+function array_mml<float>::to_string[abi:cxx11]() const called 0 returned 0% blocks executed 0%
+    #####:  114:  string to_string() const {
+    %%%%%:  114-block 2
+    #####:  115:    string str = "[";
+    %%%%%:  115-block 4
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    $$$$$:  115-block 45
+call    3 never executed
+        -:  116:    // if longer than 50 print first 10 then ... then last 10
+    #####:  117:    if (this->size() > 50) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  118:      for (uint64_t i = 0; i < 10; i++) {
+    %%%%%:  118-block 8
+    %%%%%:  118-block 14
+    %%%%%:  118-block 15
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:  119:        str += std::to_string(this->data[i]);
+    %%%%%:  119-block 9
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:  119-block 11
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+    %%%%%:  119-block 12
+call    7 never executed
+    $$$$$:  119-block 46
+call    8 never executed
+    $$$$$:  119-block 48
+    #####:  120:        str += ", ";
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  121:      }
+    #####:  122:      str += "..., ";
+    %%%%%:  122-block 16
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:  123:      for (uint64_t i = this->size() - 10; i < this->size(); i++) {
+    %%%%%:  123-block 17
+call    0 never executed
+    %%%%%:  123-block 26
+    %%%%%:  123-block 27
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:  124:        str += std::to_string(this->data[i]);
+    %%%%%:  124-block 19
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:  124-block 21
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+    %%%%%:  124-block 22
+call    7 never executed
+    $$$$$:  124-block 49
+call    8 never executed
+    $$$$$:  124-block 51
+    #####:  125:        if (i != this->size() - 1) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  126:          str += ", ";
+    %%%%%:  126-block 25
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  127:        }
+        -:  128:      }
+        -:  129:    } else {
+    #####:  130:      for (uint64_t i = 0; i < this->size(); i++) {
+    %%%%%:  130-block 29
+    %%%%%:  130-block 37
+    %%%%%:  130-block 38
+call    0 never executed
+branch  1 never executed
+branch  2 never executed (fallthrough)
+    #####:  131:        str += std::to_string(this->data[i]);
+    %%%%%:  131-block 30
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:  131-block 32
+call    4 never executed
+branch  5 never executed (fallthrough)
+branch  6 never executed (throw)
+    %%%%%:  131-block 33
+call    7 never executed
+    $$$$$:  131-block 52
+call    8 never executed
+    $$$$$:  131-block 54
+    #####:  132:        if (i != this->size() - 1) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  133:          str += ", ";
+    %%%%%:  133-block 36
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  134:        }
+        -:  135:      }
+        -:  136:    }
+    #####:  137:    str += "]";
+    %%%%%:  137-block 40
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:  138:    return str;
+    %%%%%:  138-block 41
+    %%%%%:  138-block 42
+    =====:  139:  }
+    $$$$$:  139-block 55
+call    0 never executed
+------------------
+array_mml<int>::to_string[abi:cxx11]() const:
+function array_mml<int>::to_string[abi:cxx11]() const called 0 returned 0% blocks executed 0%
+    #####:  114:  string to_string() const {
+    %%%%%:  114-block 2
+    #####:  115:    string str = "[";
+    %%%%%:  115-block 4
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    $$$$$:  115-block 45
+call    3 never executed
+        -:  116:    // if longer than 50 print first 10 then ... then last 10
+    #####:  117:    if (this->size() > 50) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  118:      for (uint64_t i = 0; i < 10; i++) {
+    %%%%%:  118-block 8
+    %%%%%:  118-block 14
+    %%%%%:  118-block 15
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:  119:        str += std::to_string(this->data[i]);
+    %%%%%:  119-block 9
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+    %%%%%:  119-block 12
+call    5 never executed
+    $$$$$:  119-block 46
+call    6 never executed
+    $$$$$:  119-block 48
+    #####:  120:        str += ", ";
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  121:      }
+    #####:  122:      str += "..., ";
+    %%%%%:  122-block 16
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:  123:      for (uint64_t i = this->size() - 10; i < this->size(); i++) {
+    %%%%%:  123-block 17
+call    0 never executed
+    %%%%%:  123-block 26
+    %%%%%:  123-block 27
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:  124:        str += std::to_string(this->data[i]);
+    %%%%%:  124-block 19
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+    %%%%%:  124-block 22
+call    5 never executed
+    $$$$$:  124-block 49
+call    6 never executed
+    $$$$$:  124-block 51
+    #####:  125:        if (i != this->size() - 1) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  126:          str += ", ";
+    %%%%%:  126-block 25
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  127:        }
+        -:  128:      }
+        -:  129:    } else {
+    #####:  130:      for (uint64_t i = 0; i < this->size(); i++) {
+    %%%%%:  130-block 29
+    %%%%%:  130-block 37
+    %%%%%:  130-block 38
+call    0 never executed
+branch  1 never executed
+branch  2 never executed (fallthrough)
+    #####:  131:        str += std::to_string(this->data[i]);
+    %%%%%:  131-block 30
+call    0 never executed
+call    1 never executed
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed (throw)
+    %%%%%:  131-block 33
+call    5 never executed
+    $$$$$:  131-block 52
+call    6 never executed
+    $$$$$:  131-block 54
+    #####:  132:        if (i != this->size() - 1) {
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    #####:  133:          str += ", ";
+    %%%%%:  133-block 36
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+        -:  134:        }
+        -:  135:      }
+        -:  136:    }
+    #####:  137:    str += "]";
+    %%%%%:  137-block 40
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:  138:    return str;
+    %%%%%:  138-block 41
+    %%%%%:  138-block 42
+    =====:  139:  }
+    $$$$$:  139-block 55
+call    0 never executed
+------------------
+        -:  140:
+        -:  141:  friend ostream& operator<<(ostream& os, const array_mml<T>& arr) {
+        -:  142:    os << arr.to_string();
+        -:  143:    return os;
+        -:  144:  }
+        -:  145:
+        -:  146:  /// @brief Get an iterator to the beginning of the array.
+        -:  147:  /// @return An iterator to the beginning of the array.
+       91:  148:  T* begin() {
+       91:  149:    return this->data.get();
+        -:  150:  }
+------------------
+array_mml<int>::begin():
+function array_mml<int>::begin() called 70 returned 100% blocks executed 100%
+       70:  148:  T* begin() {
+       70:  149:    return this->data.get();
+       70:  149-block 2
+call    0 returned 70
+        -:  150:  }
+------------------
+array_mml<float>::begin():
+function array_mml<float>::begin() called 21 returned 100% blocks executed 100%
+       21:  148:  T* begin() {
+       21:  149:    return this->data.get();
+       21:  149-block 2
+call    0 returned 21
+        -:  150:  }
+------------------
+        -:  151:
+        -:  152:  /// @brief Get a const iterator to the beginning of the array.
+        -:  153:  /// @return A const iterator to the beginning of the array.
+      119:  154:  const T* begin() const {
+      119:  155:    return this->data.get();
+        -:  156:  }
+------------------
+array_mml<float>::begin() const:
+function array_mml<float>::begin() const called 3 returned 100% blocks executed 100%
+        3:  154:  const T* begin() const {
+        3:  155:    return this->data.get();
+        3:  155-block 2
+call    0 returned 3
+        -:  156:  }
+------------------
+array_mml<int>::begin() const:
+function array_mml<int>::begin() const called 116 returned 100% blocks executed 100%
+      116:  154:  const T* begin() const {
+      116:  155:    return this->data.get();
+      116:  155-block 2
+call    0 returned 116
+        -:  156:  }
+------------------
+        -:  157:
+        -:  158:  /// @brief Get an iterator to the end of the array.
+        -:  159:  /// @return An iterator to the end of the array.
+       91:  160:  T* end() {
+       91:  161:    return this->data.get() + this->d_size;
+        -:  162:  }
+------------------
+array_mml<int>::end():
+function array_mml<int>::end() called 70 returned 100% blocks executed 100%
+       70:  160:  T* end() {
+       70:  161:    return this->data.get() + this->d_size;
+       70:  161-block 2
+call    0 returned 70
+        -:  162:  }
+------------------
+array_mml<float>::end():
+function array_mml<float>::end() called 21 returned 100% blocks executed 100%
+       21:  160:  T* end() {
+       21:  161:    return this->data.get() + this->d_size;
+       21:  161-block 2
+call    0 returned 21
+        -:  162:  }
+------------------
+        -:  163:
+        -:  164:  /// @brief Get a const iterator to the end of the array.
+        -:  165:  /// @return A const iterator to the end of the array.
+      100:  166:  const T* end() const {
+      100:  167:    return this->data.get() + this->d_size;
+        -:  168:  }
+------------------
+array_mml<float>::end() const:
+function array_mml<float>::end() const called 3 returned 100% blocks executed 100%
+        3:  166:  const T* end() const {
+        3:  167:    return this->data.get() + this->d_size;
+        3:  167-block 2
+call    0 returned 3
+        -:  168:  }
+------------------
+array_mml<int>::end() const:
+function array_mml<int>::end() const called 97 returned 100% blocks executed 100%
+       97:  166:  const T* end() const {
+       97:  167:    return this->data.get() + this->d_size;
+       97:  167-block 2
+call    0 returned 97
+        -:  168:  }
+------------------
+        -:  169:
+        -:  170:  /// @brief Get a pointer to the underlying data.
+        -:  171:  /// @return A pointer to the underlying data.
+        -:  172:  T* get() {
+        -:  173:    return this->data.get();
+        -:  174:  }
+        -:  175:
+        -:  176:  /// @brief Get a const pointer to the underlying data.
+        -:  177:  /// @return A const pointer to the underlying data.
+        -:  178:  const T* get() const {
+        -:  179:    return this->data.get();
+        -:  180:  }
+        -:  181:
+        -:  182:  /// @brief Fill the array with a given value.
+        -:  183:  /// @param value The value to fill the array with.
+       91:  184:  void fill(const T& value) {
+       91:  185:    std::fill(this->begin(), this->end(), value);
+       91:  186:  }
+------------------
+array_mml<int>::fill(int const&):
+function array_mml<int>::fill(int const&) called 70 returned 100% blocks executed 100%
+       70:  184:  void fill(const T& value) {
+       70:  185:    std::fill(this->begin(), this->end(), value);
+       70:  185-block 2
+call    0 returned 70
+call    1 returned 70
+call    2 returned 70
+       70:  186:  }
+------------------
+array_mml<float>::fill(float const&):
+function array_mml<float>::fill(float const&) called 21 returned 100% blocks executed 100%
+       21:  184:  void fill(const T& value) {
+       21:  185:    std::fill(this->begin(), this->end(), value);
+       21:  185-block 2
+call    0 returned 21
+call    1 returned 21
+call    2 returned 21
+       21:  186:  }
+------------------
+        -:  187:
+        -:  188: private:
+        -:  189:  unique_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
+        -:  190:  uint64_t d_size;
+        -:  191:};

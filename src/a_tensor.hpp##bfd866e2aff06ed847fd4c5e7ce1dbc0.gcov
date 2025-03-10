@@ -1,0 +1,548 @@
+        -:    0:Source:/home/sande/modularml/src/include/a_tensor.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include "array_mml.hpp"
+        -:    4:#include "globals.hpp"
+        -:    5:
+        -:    6:#define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
+        -:    7:
+        -:    8:/*!
+        -:    9:    @brief Class representing a Tensor.
+        -:   10:    @details A tensor is a multi-dimensional array of data.
+        -:   11:    This class represents a tensor within the ModularML library. All modularML Tensors are expected to be
+        -:   12:    represnted by a underlying 1-D data structure that is row-major. This means that the data is stored in a
+        -:   13:    contiguous block of memory with the last dimension changing the fastest. This class provides the basic
+        -:   14:    functionality for a tensor including getting and setting elements, reshaping the tensor and checking if
+        -:   15:    two tensors are equal.
+        -:   16:    @tparam T the type of the data contained in the tensor. E.g. int, float,
+        -:   17:    double etc.
+        -:   18:*/
+        -:   19:template <typename T>
+        -:   20:class Tensor {
+        -:   21: public:
+        -:   22:  /// @brief The type of the data in the tensor.
+        -:   23:  using value_type = T;
+        -:   24:
+        -:   25:  /*!
+        -:   26:  @brief Constructor for Tensor class.
+        -:   27:  @param shape The shape of the tensor.*/
+function Tensor<float>::Tensor(std::initializer_list<int>) called 62 returned 100% blocks executed 62%
+       62:   28:  explicit Tensor(initializer_list<int> shape)
+       62:   29:      : shape(shape),
+       62:   30:        offsets(compute_offsets()),
+call    0 returned 62
+branch  1 taken 62 (fallthrough)
+branch  2 taken 0 (throw)
+      124:   31:        size(compute_size()) {}
+       62:   31-block 2
+call    0 returned 62
+       62:   31-block 4
+call    1 returned 62
+branch  2 taken 62 (fallthrough)
+branch  3 taken 0 (throw)
+       62:   31-block 5
+    $$$$$:   31-block 6
+call    4 never executed
+    $$$$$:   31-block 8
+call    5 never executed
+        -:   32:
+        -:   33:  /*!
+        -:   34:  @brief Constructor for Tensor class.
+        -:   35:  @param shape The shape of the tensor.*/
+        -:   36:  explicit Tensor(array_mml<int> shape)
+        -:   37:      : shape(move(shape)),
+        -:   38:        offsets(compute_offsets()),
+        -:   39:        size(compute_size()) {}
+        -:   40:
+        -:   41:  /// @brief Move constructor.
+        -:   42:  Tensor(Tensor &&other) noexcept
+        -:   43:      : shape(array_mml<int>(other.shape)),
+        -:   44:        offsets(array_mml<int>(other.offsets)),
+        -:   45:        size(other.size) {}
+        -:   46:
+        -:   47:  /// @brief Copy constructor.
+function Tensor<float>::Tensor(Tensor<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   48:  Tensor(const Tensor &other)
+    #####:   49:      : shape(array_mml<int>(other.shape)),
+    #####:   50:        offsets(array_mml<int>(other.offsets)),
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:   51:        size(other.size) {}
+    %%%%%:   51-block 2
+call    0 never executed
+    %%%%%:   51-block 4
+    $$$$$:   51-block 5
+call    1 never executed
+        -:   52:
+        -:   53:  /// @brief Destructor for Tensor class.
+      68*:   54:  virtual ~Tensor() = default;
+------------------
+Tensor<float>::~Tensor():
+function Tensor<float>::~Tensor() called 0 returned 0% blocks executed 0%
+    #####:   54:  virtual ~Tensor() = default;
+    %%%%%:   54-block 2
+call    0 never executed
+call    1 never executed
+------------------
+Tensor<float>::~Tensor():
+function Tensor<float>::~Tensor() called 68 returned 100% blocks executed 100%
+       68:   54:  virtual ~Tensor() = default;
+       68:   54-block 2
+call    0 returned 68
+call    1 returned 68
+------------------
+        -:   55:
+        -:   56:  /*!
+        -:   57:  @brief Get the shape of the tensor.
+        -:   58:  @return A vector of integers representing the shape.*/
+function Tensor<float>::get_shape() const called 51 returned 100% blocks executed 100%
+       51:   59:  const array_mml<int> &get_shape() const {
+       51:   60:    return this->shape;
+       51:   60-block 2
+        -:   61:  }
+        -:   62:
+        -:   63:  /// @brief Get the the total number of elements in the tensor.
+        -:   64:  /// @return The total number of elements in the tensor.
+function Tensor<float>::get_size() const called 207 returned 100% blocks executed 100%
+      207:   65:  int get_size() const {
+      207:   66:    return this->size;
+      207:   66-block 2
+        -:   67:  }
+        -:   68:
+        -:   69:  /// @brief Fills the tensor with a given value.
+        -:   70:  /// @param value The value to fill the tensor with.
+        -:   71:  void fill(T value) {
+        -:   72:    for (uint64_t i = 0; i < this->size; i++) {
+        -:   73:      (*this)[i] = value;
+        -:   74:    }
+        -:   75:  }
+        -:   76:
+        -:   77:  /// @brief Display the tensor.
+        -:   78:  /// @return A string representation of the tensor.
+function Tensor<float>::to_string[abi:cxx11]() const called 0 returned 0% blocks executed 0%
+    #####:   79:  virtual string to_string() const {
+    #####:   80:    string shp = this->shape.to_string();
+    %%%%%:   80-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:   81:    string adr = std::to_string((uintptr_t) this);
+    %%%%%:   81-block 3
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    #####:   82:    string result = "Tensor: " + adr + " Shape: " + shp;
+    %%%%%:   82-block 4
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   82-block 5
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    %%%%%:   82-block 6
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+    %%%%%:   82-block 7
+call    9 never executed
+call   10 never executed
+    $$$$$:   82-block 14
+call   11 never executed
+    $$$$$:   82-block 16
+call   12 never executed
+    $$$$$:   82-block 18
+    $$$$$:   82-block 19
+    #####:   83:    return result;
+    %%%%%:   83-block 13
+    #####:   84:  }
+    %%%%%:   84-block 10
+call    0 never executed
+call    1 never executed
+    $$$$$:   84-block 20
+call    2 never executed
+    $$$$$:   84-block 22
+call    3 never executed
+        -:   85:
+        -:   86:  /*!
+        -:   87:  @brief Get the shape as a string.
+        -:   88:  @return A string representation of the shape. E.g. [2, 3, 4].*/
+function operator<<(std::ostream&, Tensor<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   89:  friend ostream &operator<<(ostream &os, const Tensor<T> &tensor) {
+    #####:   90:    os << tensor.to_string();
+    %%%%%:   90-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   90-block 3
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    %%%%%:   90-block 4
+call    6 never executed
+    $$$$$:   90-block 7
+call    7 never executed
+    #####:   91:    return os;
+    %%%%%:   91-block 6
+        -:   92:  }
+        -:   93:
+        -:   94:  /// @brief Get the row-major offsets for the tensor.
+        -:   95:  /// @return An array of integers representing the row-major offsets.
+        -:   96:  const array_mml<int> &get_offsets() const {
+        -:   97:    return this->offsets;
+        -:   98:  }
+        -:   99:
+        -:  100:  /*!
+        -:  101:  @brief Check if this tensor is not equal to another tensor.
+        -:  102:  @param other The tensor to compare with.
+        -:  103:  @return True if the tensors are not equal, false otherwise.*/
+        -:  104:  bool operator!=(const Tensor<T> &other) const {  // NOSONAR - This is how the function is defined.
+        -:  105:    return !(*this == other);
+        -:  106:  }
+        -:  107:
+        -:  108:  /*!
+        -:  109:  @brief Get an element from the tensor using multi-dimensional indices.
+        -:  110:  @param indices A vector of integers representing the indices of the element.
+        -:  111:  @return The element at the given indices.*/
+        -:  112:  const T &operator[](initializer_list<int> indices) const {
+        -:  113:    if (!valid_indices(array_mml<int>(indices))) {
+        -:  114:      throw invalid_argument("Invalid Tensor indices");
+        -:  115:    }
+        -:  116:    const int index = index_with_offset(array_mml<int>(indices));
+        -:  117:    return (*this)[index];
+        -:  118:  }
+        -:  119:
+        -:  120:  /*!
+        -:  121:  @brief Set an element in the tensor using multi-dimensional indices.
+        -:  122:  @param indices A vector of integers representing the indices of the element.
+        -:  123:  @return The tensor with the element get_mutable_elem.*/
+        -:  124:  T &operator[](initializer_list<int> indices) {
+        -:  125:    if (!valid_indices(array_mml<int>(indices))) {
+        -:  126:      throw invalid_argument("Invalid Tensor indices");
+        -:  127:    }
+        -:  128:    const int index = index_with_offset(array_mml<int>(indices));
+        -:  129:    return (*this)[index];
+        -:  130:  }
+        -:  131:
+        -:  132:  /*!
+        -:  133:  @brief Get an element from the tensor using multi-dimensional indices.
+        -:  134:  @param indices A vector of integers representing the indices of the element.
+        -:  135:  @return The element at the given indices.*/
+        -:  136:  const T &operator[](array_mml<int> &indices) const {
+        -:  137:    if (!valid_indices(indices)) {
+        -:  138:      throw invalid_argument("Invalid Tensor indices");
+        -:  139:    }
+        -:  140:    const int index = index_with_offset(indices);
+        -:  141:    return (*this)[index];
+        -:  142:  }
+        -:  143:
+        -:  144:  /*!
+        -:  145:  @brief Set an element in the tensor using multi-dimensional indices.
+        -:  146:  @param indices A vector of integers representing the indices of the element.
+        -:  147:  @return The tensor with the element get_mutable_elem.*/
+function Tensor<float>::operator[](array_mml<int>&) called 138 returned 100% blocks executed 56%
+      138:  148:  T &operator[](array_mml<int> &indices) {
+      138:  149:    if (!valid_indices(indices)) {
+      138:  149-block 2
+call    0 returned 138
+branch  1 taken 0 (fallthrough)
+branch  2 taken 138
+    #####:  150:      throw invalid_argument("Invalid Tensor indices");
+    %%%%%:  150-block 4
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:  150-block 6
+call    4 never executed
+    $$$$$:  150-block 13
+call    5 never executed
+        -:  151:    }
+      138:  152:    const int index = index_with_offset(indices);
+      138:  152-block 7
+call    0 returned 138
+branch  1 taken 138 (fallthrough)
+branch  2 taken 0 (throw)
+      138:  152-block 8
+call    3 returned 138
+branch  4 taken 138 (fallthrough)
+branch  5 taken 0 (throw)
+      138:  152-block 9
+call    6 returned 138
+    $$$$$:  152-block 15
+call    7 never executed
+      138:  153:    return (*this)[index];
+call    0 returned 138
+      138:  153-block 12
+        -:  154:  }
+        -:  155:
+        -:  156:  /// @brief Reshape the tensor.
+        -:  157:  /// @param new_shape The new shape of the tensor.
+function Tensor<float>::reshape(array_mml<int> const&) called 3 returned 100% blocks executed 64%
+        3:  158:  void reshape(const array_mml<int> &new_shape) {
+        3:  159:    if (!valid_shape(new_shape)) {
+        3:  159-block 2
+call    0 returned 3
+branch  1 taken 0 (fallthrough)
+branch  2 taken 3
+    #####:  160:      throw invalid_argument("Invalid Tensor shape");
+    %%%%%:  160-block 4
+call    0 never executed
+call    1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed (throw)
+    %%%%%:  160-block 6
+call    4 never executed
+    $$$$$:  160-block 13
+call    5 never executed
+        -:  161:    } else {
+        3:  162:      this->shape = new_shape;
+        3:  162-block 7
+call    0 returned 3
+        3:  163:      this->offsets = compute_offsets();
+call    0 returned 3
+branch  1 taken 3 (fallthrough)
+branch  2 taken 0 (throw)
+        3:  163-block 9
+call    3 returned 3
+call    4 returned 3
+        3:  164:      this->size = compute_size();
+call    0 returned 3
+        -:  165:    }
+        3:  166:  }
+        -:  167:
+        -:  168:  /// @brief Reshape the tensor.
+        -:  169:  /// @param new_shape The new shape of the tensor.
+        -:  170:  void reshape(initializer_list<int> new_shape) {
+        -:  171:    auto new_shape_vec = array_mml<int>(new_shape);
+        -:  172:    this->reshape(new_shape_vec);
+        -:  173:  }
+        -:  174:
+        -:  175:  /*!
+        -:  176:  @brief Move assignment operator.
+        -:  177:  @param other The tensor to move.
+        -:  178:  @return The moved tensor.*/
+        -:  179:  Tensor &operator=(Tensor &&other) noexcept {
+        -:  180:    if (this != &other) {
+        -:  181:      *this = move(other);
+        -:  182:    }
+        -:  183:    return *this;
+        -:  184:  }
+        -:  185:
+        -:  186:  /*!
+        -:  187:  @brief Virtual assignment operator */
+        -:  188:  virtual Tensor& operator=(const Tensor& other) = 0;
+        -:  189:
+        -:  190:  /// @brief Check if the tensor is a matrix.
+        -:  191:  /// @return True if the tensor is a matrix (has rank 2), false otherwise.
+        -:  192:  bool is_matrix() const {
+        -:  193:    return this->shape.size() == 2;
+        -:  194:  }
+        -:  195:
+        -:  196:  /// @brief Check if the tensor-matrix matches another matrix. Assumes the tensor is a matrix.
+        -:  197:  /// @param other The other matrix to compare with.
+        -:  198:  /// @return True if the tensor-matrix matches the other matrix, false otherwise.
+        -:  199:  bool matrix_match(const Tensor<T> &other) const {
+        -:  200:    if (!other.is_matrix()) {
+        -:  201:      return false;
+        -:  202:    }
+        -:  203:    return this->shape[1] == other.shape[0];
+        -:  204:  }
+        -:  205:
+        -:  206:  /*!
+        -:  207:  @brief Check if this tensor is equal to another tensor.
+        -:  208:  @param other The tensor to compare with.
+        -:  209:  @return True if the tensors are equal, false otherwise.*/
+function Tensor<float>::operator==(Tensor<float> const&) const called 17 returned 100% blocks executed 87%
+       17:  210:  bool operator==(const Tensor<T> &other) const {  // NOSONAR - This is how the function is defined.
+       17:  211:    if (this->get_shape() != other.get_shape()) {
+       17:  211-block 2
+call    0 returned 17
+call    1 returned 17
+call    2 returned 17
+branch  3 taken 0 (fallthrough)
+branch  4 taken 17
+    #####:  212:      return false;
+    %%%%%:  212-block 6
+        -:  213:    }
+        -:  214:
+      158:  215:    for (int i = 0; i < this->get_size(); i++) {
+       17:  215-block 7
+      141:  215-block 12
+      158:  215-block 13
+call    0 returned 158
+branch  1 taken 141
+branch  2 taken 17 (fallthrough)
+      141:  216:      if ((*this)[i] != other[i]) {
+      141:  216-block 8
+call    0 returned 141
+call    1 returned 141
+branch  2 taken 0 (fallthrough)
+branch  3 taken 141
+    #####:  217:        return false;
+    %%%%%:  217-block 11
+        -:  218:      }
+        -:  219:    }
+        -:  220:
+       17:  221:    return true;
+       17:  221-block 15
+        -:  222:  }
+        -:  223:
+        -:  224:  /*!
+        -:  225:  @brief Get an element from the tensor using singel-dimensional index.
+        -:  226:  @param index A single integer representing the index of the element.
+        -:  227:  @return The element at the given indices.*/
+        -:  228:  virtual const T &operator[](int index) const = 0;
+        -:  229:
+        -:  230:  /*!
+        -:  231:  @brief Set an element in the tensor using single-dimensional index.
+        -:  232:  @param index A single integer representing the index of the element.
+        -:  233:  @return The tensor with the element get_mutable_elem.*/
+        -:  234:  virtual T &operator[](int index) = 0;
+        -:  235:
+        -:  236:  /// @brief Explicit call to copy the tensor.
+        -:  237:  /// @return A shared pointer to the copied tensor.
+        -:  238:  virtual shared_ptr<Tensor<T>> copy() const = 0;
+        -:  239:
+        -:  240: private:
+        -:  241:  /// @brief The shape of the tensor.
+        -:  242:  array_mml<int> shape;
+        -:  243:
+        -:  244:  /// @brief The row-major offsets for the tensor.
+        -:  245:  array_mml<int> offsets;
+        -:  246:
+        -:  247:  /// @brief the size of the tensor.
+        -:  248:  uint64_t size;
+        -:  249:
+        -:  250:  /// @brief Row-major offsets for the data structure.
+        -:  251:  /// @return a vector of integers representing the offsets.
+function Tensor<float>::compute_offsets() const called 65 returned 100% blocks executed 86%
+       65:  252:  array_mml<int> compute_offsets() const {
+       65:  253:    const int shape_size = static_cast<int>(shape.size());
+       65:  253-block 2
+call    0 returned 65
+       65:  254:    auto computed_offsets = array_mml<int>(shape_size);
+call    0 returned 65
+       65:  255:    computed_offsets.fill(1);
+call    0 returned 65
+branch  1 taken 65 (fallthrough)
+branch  2 taken 0 (throw)
+    $$$$$:  255-block 13
+      182:  256:    for (int i = shape_size - 2; i >= 0; i--) {
+       65:  256-block 5
+      182:  256-block 10
+branch  0 taken 117
+branch  1 taken 65 (fallthrough)
+      117:  257:      computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1];
+      117:  257-block 6
+call    0 returned 117
+branch  1 taken 117 (fallthrough)
+branch  2 taken 0 (throw)
+      117:  257-block 7
+call    3 returned 117
+branch  4 taken 117 (fallthrough)
+branch  5 taken 0 (throw)
+      117:  257-block 8
+call    6 returned 117
+branch  7 taken 117 (fallthrough)
+branch  8 taken 0 (throw)
+      117:  257-block 9
+        -:  258:    }
+       65:  259:    return computed_offsets;
+       65:  259-block 11
+       65:  259-block 12
+    =====:  260:  }
+    $$$$$:  260-block 14
+call    0 never executed
+        -:  261:
+        -:  262:  /// @brief Calculate the size of the tensor from the shape.
+        -:  263:  /// @return The size of the tensor.
+function Tensor<float>::compute_size() const called 65 returned 100% blocks executed 100%
+       65:  264:  uint64_t compute_size() const {
+       65:  265:    return accumulate(this->shape.begin(), this->shape.end(), 1, multiplies<int>());
+       65:  265-block 2
+call    0 returned 65
+call    1 returned 65
+call    2 returned 65
+        -:  266:  }
+        -:  267:
+function Tensor<float>::valid_shape(array_mml<int> const&) const called 3 returned 100% blocks executed 100%
+        3:  268:  bool valid_shape(const array_mml<int> &new_shape) const {
+        3:  269:    return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<int>()) == this->get_size();
+        3:  269-block 2
+call    0 returned 3
+call    1 returned 3
+call    2 returned 3
+call    3 returned 3
+        -:  270:  }
+        -:  271:
+        -:  272:  /// @brief Check if the indices are valid.
+        -:  273:  /// @param indices The indices to check.
+        -:  274:  /// @return True if the indices are valid, false otherwise.
+function Tensor<float>::valid_indices(array_mml<int> const&) const called 311 returned 100% blocks executed 84%
+      311:  275:  bool valid_indices(const array_mml<int> &indices) const {
+      311:  276:    if (indices.size() != this->shape.size()) {
+      311:  276-block 2
+call    0 returned 311
+call    1 returned 311
+branch  2 taken 0 (fallthrough)
+branch  3 taken 311
+    #####:  277:      return false;
+    %%%%%:  277-block 5
+        -:  278:    }
+     1375:  279:    for (int i = 0; i < static_cast<int>(indices.size()); i++) {
+      311:  279-block 6
+     1064:  279-block 16
+     1375:  279-block 17
+call    0 returned 1375
+branch  1 taken 1064
+branch  2 taken 311 (fallthrough)
+    1064*:  280:      if (indices[i] < 0 || indices[i] >= this->shape[i]) {
+     1064:  280-block 7
+call    0 returned 1064
+branch  1 taken 1064 (fallthrough)
+branch  2 taken 0
+     1064:  280-block 9
+call    3 returned 1064
+call    4 returned 1064
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1064
+    %%%%%:  280-block 12
+     1064:  280-block 13
+     1064:  280-block 14
+branch  7 taken 0 (fallthrough)
+branch  8 taken 1064
+    #####:  281:        return false;
+    %%%%%:  281-block 15
+        -:  282:      }
+        -:  283:    }
+      311:  284:    return true;
+      311:  284-block 19
+        -:  285:  }
+        -:  286:
+        -:  287:  /// @brief Calculates the 1_D index from the multi-dimensional indices.
+        -:  288:  /// @param indices The indices to get the index for.
+        -:  289:  /// @return The index.
+function Tensor<float>::index_with_offset(array_mml<int>) const called 311 returned 100% blocks executed 100%
+      311:  290:  int index_with_offset(array_mml<int> indices) const {
+      311:  291:    auto index = 0;
+      311:  292:    const auto shape_size = static_cast<int>(shape.size());
+      311:  292-block 2
+call    0 returned 311
+     1375:  293:    for (int i = 0; i < shape_size; i++) {
+     1375:  293-block 7
+branch  0 taken 1064
+branch  1 taken 311 (fallthrough)
+     1064:  294:      index += (indices[i]) * this->offsets[i];
+     1064:  294-block 4
+call    0 returned 1064
+call    1 returned 1064
+        -:  295:    }
+      311:  296:    return index;
+      311:  296-block 8
+        -:  297:  }
+        -:  298:};

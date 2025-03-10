@@ -1,0 +1,359 @@
+        -:    0:Source:/home/sande/modularml/src/include/mml_arithmetic.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include "a_arithmetic_module.hpp"
+        -:    4:#include "a_tensor.hpp"
+        -:    5:#include "globals.hpp"
+        -:    6:
+        -:    7:template <typename T>
+        -:    8:class Arithmetic_mml : public ArithmeticModule<T> {
+        -:    9: public:
+        -:   10:  // Override default constructor
+function Arithmetic_mml<float>::Arithmetic_mml() called 2 returned 100% blocks executed 100%
+        2:   11:  Arithmetic_mml() = default;
+        2:   11-block 2
+call    0 returned 2
+        -:   12:
+        -:   13:  // Override move constructor
+        -:   14:  Arithmetic_mml(Arithmetic_mml&&) noexcept = default;
+        -:   15:
+        -:   16:  // Override copy constructor
+function Arithmetic_mml<float>::Arithmetic_mml(Arithmetic_mml<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   17:  Arithmetic_mml(const Arithmetic_mml&) = default;
+    %%%%%:   17-block 2
+call    0 never executed
+        -:   18:
+        -:   19:  // Override destructor
+       5*:   20:  ~Arithmetic_mml() override = default;
+------------------
+Arithmetic_mml<float>::~Arithmetic_mml():
+function Arithmetic_mml<float>::~Arithmetic_mml() called 0 returned 0% blocks executed 0%
+    #####:   20:  ~Arithmetic_mml() override = default;
+    %%%%%:   20-block 2
+call    0 never executed
+call    1 never executed
+------------------
+Arithmetic_mml<float>::~Arithmetic_mml():
+function Arithmetic_mml<float>::~Arithmetic_mml() called 5 returned 100% blocks executed 100%
+        5:   20:  ~Arithmetic_mml() override = default;
+        5:   20-block 2
+call    0 returned 5
+------------------
+        -:   21:
+function Arithmetic_mml<float>::add(std::shared_ptr<Tensor<float> >, std::shared_ptr<Tensor<float> >, std::shared_ptr<Tensor<float> >) const called 2 returned 100% blocks executed 100%
+        2:   22:  void add(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const override {
+        2:   23:    const auto size = a->get_size();
+        2:   23-block 2
+call    0 returned 2
+call    1 returned 2
+       17:   24:    for (int i = 0; i < size; i++) {
+       17:   24-block 12
+branch  0 taken 15
+branch  1 taken 2 (fallthrough)
+       15:   25:      (*c)[i] = (*a)[i] + (*b)[i];
+       15:   25-block 5
+call    0 returned 15
+call    1 returned 15
+call    2 returned 15
+call    3 returned 15
+call    4 returned 15
+call    5 returned 15
+        -:   26:    }
+        2:   27:  }
+        -:   28:
+function Arithmetic_mml<float>::subtract(std::shared_ptr<Tensor<float> >, std::shared_ptr<Tensor<float> >, std::shared_ptr<Tensor<float> >) const called 2 returned 100% blocks executed 100%
+        2:   29:  void subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const override {
+        2:   30:    const auto size = a->get_size();
+        2:   30-block 2
+call    0 returned 2
+call    1 returned 2
+       17:   31:    for (int i = 0; i < size; i++) {
+       17:   31-block 12
+branch  0 taken 15
+branch  1 taken 2 (fallthrough)
+       15:   32:      (*c)[i] = (*a)[i] - (*b)[i];
+       15:   32-block 5
+call    0 returned 15
+call    1 returned 15
+call    2 returned 15
+call    3 returned 15
+call    4 returned 15
+call    5 returned 15
+        -:   33:    }
+        2:   34:  }
+        -:   35:
+function Arithmetic_mml<float>::multiply(std::shared_ptr<Tensor<float> >, float, std::shared_ptr<Tensor<float> >) const called 2 returned 100% blocks executed 100%
+        2:   36:  void multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const override {
+        2:   37:    const auto size = a->get_size();
+        2:   37-block 2
+call    0 returned 2
+call    1 returned 2
+       17:   38:    for (int i = 0; i < size; i++) {
+       17:   38-block 10
+branch  0 taken 15
+branch  1 taken 2 (fallthrough)
+       15:   39:      (*c)[i] = (*a)[i] * b;
+       15:   39-block 5
+call    0 returned 15
+call    1 returned 15
+call    2 returned 15
+call    3 returned 15
+        -:   40:    }
+        2:   41:  }
+        -:   42:
+function Arithmetic_mml<float>::equals(std::shared_ptr<Tensor<float> >, std::shared_ptr<Tensor<float> >) const called 0 returned 0% blocks executed 0%
+    #####:   43:  bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const override {
+    #####:   44:    if (a->get_size() != b->get_size() || a->get_shape() != b->get_shape()) {
+    %%%%%:   44-block 2
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed
+    %%%%%:   44-block 7
+call    6 never executed
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+branch 11 never executed (fallthrough)
+branch 12 never executed
+    %%%%%:   44-block 13
+    %%%%%:   44-block 14
+    %%%%%:   44-block 15
+branch 13 never executed (fallthrough)
+branch 14 never executed
+    #####:   45:      return false;
+    %%%%%:   45-block 16
+        -:   46:    } else {
+    #####:   47:      const auto size = a->get_size();
+    %%%%%:   47-block 17
+call    0 never executed
+call    1 never executed
+    #####:   48:      for (int i = 0; i < size; i++) {
+    %%%%%:   48-block 26
+    %%%%%:   48-block 27
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:   49:        if ((*a)[i] == (*b)[i]) {
+    %%%%%:   49-block 20
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed
+    #####:   50:          return false;
+    %%%%%:   50-block 25
+        -:   51:        }
+        -:   52:      }
+    #####:   53:      return true;
+    %%%%%:   53-block 28
+        -:   54:    }
+        -:   55:  }
+        -:   56:
+function Arithmetic_mml<float>::elementwise(std::shared_ptr<Tensor<float> >, float (*)(float), std::shared_ptr<Tensor<float> >) const called 1 returned 100% blocks executed 89%
+        1:   57:  void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override {
+        1:   58:    const auto shape = a->get_shape();
+        1:   58-block 2
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0 (throw)
+        1:   59:    const auto num_dimensions = shape.size();
+        1:   59-block 5
+call    0 returned 1
+        -:   60:
+        1:   61:    array_mml<int> indices(num_dimensions);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        3:   62:    for (uint64_t i = 0; i < num_dimensions; ++i) {
+        1:   62-block 7
+        3:   62-block 10
+branch  0 taken 2
+branch  1 taken 1 (fallthrough)
+        2:   63:      indices[i] = 0;
+        2:   63-block 8
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:   63-block 9
+        -:   64:    }
+        1:   65:    const auto total_elements = a->get_size();
+        1:   65-block 11
+call    0 returned 1
+call    1 returned 1
+        -:   66:
+       10:   67:    for (int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+        9:   67-block 27
+       10:   67-block 28
+branch  0 taken 9
+branch  1 taken 1 (fallthrough)
+        -:   68:      // Apply function `f` from `a` to `c`
+        9:   69:      (*c)[indices] = f((*a)[indices]);
+        9:   69-block 14
+call    0 returned 9
+call    1 returned 9
+branch  2 taken 9 (fallthrough)
+branch  3 taken 0 (throw)
+        9:   69-block 16
+call    4 returned 9
+branch  5 taken 9 (fallthrough)
+branch  6 taken 0 (throw)
+        9:   69-block 17
+call    7 returned 9
+call    8 returned 9
+branch  9 taken 9 (fallthrough)
+branch 10 taken 0 (throw)
+        -:   70:
+        -:   71:      // Increment indices like a multi-dimensional counter
+       13:   72:      for (int d = num_dimensions - 1; d >= 0; --d) {
+        9:   72-block 19
+       13:   72-block 26
+branch  0 taken 12
+branch  1 taken 1 (fallthrough)
+       12:   73:        if (++indices[d] < shape[d]) {
+       12:   73-block 20
+call    0 returned 12
+branch  1 taken 12 (fallthrough)
+branch  2 taken 0 (throw)
+       12:   73-block 21
+call    3 returned 12
+branch  4 taken 12 (fallthrough)
+branch  5 taken 0 (throw)
+       12:   73-block 22
+branch  6 taken 8 (fallthrough)
+branch  7 taken 4
+        8:   74:          break;  // No carry needed, continue iteration
+        8:   74-block 23
+        -:   75:        }
+        4:   76:        indices[d] = 0;  // Carry over to the next dimension
+        4:   76-block 24
+call    0 returned 4
+branch  1 taken 4 (fallthrough)
+branch  2 taken 0 (throw)
+        4:   76-block 25
+        -:   77:      }
+        -:   78:    }
+        1:   79:  }
+        1:   79-block 29
+call    0 returned 1
+call    1 returned 1
+    $$$$$:   79-block 32
+call    2 never executed
+    $$$$$:   79-block 34
+call    3 never executed
+        -:   80:
+function Arithmetic_mml<float>::elementwise_in_place(std::shared_ptr<Tensor<float> >, float (*)(float)) const called 5 returned 100% blocks executed 89%
+        5:   81:  void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const override {
+        5:   82:    const auto shape = a->get_shape();
+        5:   82-block 2
+call    0 returned 5
+call    1 returned 5
+call    2 returned 5
+branch  3 taken 5 (fallthrough)
+branch  4 taken 0 (throw)
+        5:   83:    const auto num_dimensions = shape.size();
+        5:   83-block 5
+call    0 returned 5
+        -:   84:
+        5:   85:    array_mml<int> indices(num_dimensions);
+call    0 returned 5
+branch  1 taken 5 (fallthrough)
+branch  2 taken 0 (throw)
+       17:   86:    for (uint64_t i = 0; i < num_dimensions; ++i) {
+        5:   86-block 7
+       17:   86-block 10
+branch  0 taken 12
+branch  1 taken 5 (fallthrough)
+       12:   87:      indices[i] = 0;
+       12:   87-block 8
+call    0 returned 12
+branch  1 taken 12 (fallthrough)
+branch  2 taken 0 (throw)
+       12:   87-block 9
+        -:   88:    }
+        -:   89:
+        5:   90:    const auto total_elements = a->get_size();
+        5:   90-block 11
+call    0 returned 5
+call    1 returned 5
+        -:   91:
+       65:   92:    for (int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+       60:   92-block 27
+       65:   92-block 28
+branch  0 taken 60
+branch  1 taken 5 (fallthrough)
+        -:   93:      // Apply the function `f` to the current element
+       60:   94:      (*a)[indices] = f((*a)[indices]);
+       60:   94-block 14
+call    0 returned 60
+call    1 returned 60
+branch  2 taken 60 (fallthrough)
+branch  3 taken 0 (throw)
+       60:   94-block 16
+call    4 returned 60
+branch  5 taken 60 (fallthrough)
+branch  6 taken 0 (throw)
+       60:   94-block 17
+call    7 returned 60
+call    8 returned 60
+branch  9 taken 60 (fallthrough)
+branch 10 taken 0 (throw)
+        -:   95:
+        -:   96:      // Increment indices like a multi-dimensional counter
+       95:   97:      for (int d = num_dimensions - 1; d >= 0; --d) {
+       60:   97-block 19
+       95:   97-block 26
+branch  0 taken 90
+branch  1 taken 5 (fallthrough)
+       90:   98:        if (++indices[d] < shape[d]) {
+       90:   98-block 20
+call    0 returned 90
+branch  1 taken 90 (fallthrough)
+branch  2 taken 0 (throw)
+       90:   98-block 21
+call    3 returned 90
+branch  4 taken 90 (fallthrough)
+branch  5 taken 0 (throw)
+       90:   98-block 22
+branch  6 taken 55 (fallthrough)
+branch  7 taken 35
+       55:   99:          break;  // No carry needed, move to the next iteration
+       55:   99-block 23
+        -:  100:        }
+       35:  101:        indices[d] = 0;  // Carry over to the next dimension
+       35:  101-block 24
+call    0 returned 35
+branch  1 taken 35 (fallthrough)
+branch  2 taken 0 (throw)
+       35:  101-block 25
+        -:  102:      }
+        -:  103:    }
+        5:  104:  }
+        5:  104-block 29
+call    0 returned 5
+call    1 returned 5
+    $$$$$:  104-block 32
+call    2 never executed
+    $$$$$:  104-block 34
+call    3 never executed
+function Arithmetic_mml<float>::clone() const called 0 returned 0% blocks executed 0%
+    #####:  105:  shared_ptr<ArithmeticModule<T>> clone() const override {
+    #####:  106:    return make_shared<Arithmetic_mml>(*this);
+    %%%%%:  106-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:  106-block 3
+call    3 never executed
+call    4 never executed
+    %%%%%:  106-block 6
+        -:  107:  }
+        -:  108:};

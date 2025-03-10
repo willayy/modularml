@@ -1,0 +1,141 @@
+        -:    0:Source:/home/sande/modularml/build/_deps/nlohmann_json-src/include/nlohmann/detail/string_escape.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1://     __ _____ _____ _____
+        -:    2://  __|  |   __|     |   | |  JSON for Modern C++
+        -:    3:// |  |  |__   |  |  | | | |  version 3.11.3
+        -:    4:// |_____|_____|_____|_|___|  https://github.com/nlohmann/json
+        -:    5://
+        -:    6:// SPDX-FileCopyrightText: 2013-2023 Niels Lohmann <https://nlohmann.me>
+        -:    7:// SPDX-License-Identifier: MIT
+        -:    8:
+        -:    9:#pragma once
+        -:   10:
+        -:   11:#include <nlohmann/detail/abi_macros.hpp>
+        -:   12:
+        -:   13:NLOHMANN_JSON_NAMESPACE_BEGIN
+        -:   14:namespace detail
+        -:   15:{
+        -:   16:
+        -:   17:/*!
+        -:   18:@brief replace all occurrences of a substring by another string
+        -:   19:
+        -:   20:@param[in,out] s  the string to manipulate; changed so that all
+        -:   21:               occurrences of @a f are replaced with @a t
+        -:   22:@param[in]     f  the substring to replace with @a t
+        -:   23:@param[in]     t  the string to replace @a f
+        -:   24:
+        -:   25:@pre The search string @a f must not be empty. **This precondition is
+        -:   26:enforced with an assertion.**
+        -:   27:
+        -:   28:@since version 2.0.0
+        -:   29:*/
+        -:   30:template<typename StringType>
+function void nlohmann::json_abi_v3_11_3::detail::replace_substring<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) called 0 returned 0% blocks executed 0%
+    #####:   31:inline void replace_substring(StringType& s, const StringType& f,
+        -:   32:                              const StringType& t)
+        -:   33:{
+    #####:   34:    JSON_ASSERT(!f.empty());
+    %%%%%:   34-block 2
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    %%%%%:   34-block 4
+call    3 never executed
+    #####:   35:    for (auto pos = s.find(f);                // find first occurrence of f
+    %%%%%:   35-block 5
+call    0 never executed
+    #####:   36:            pos != StringType::npos;          // make sure f was found
+    %%%%%:   36-block 10
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:   37:            s.replace(pos, f.size(), t),      // replace with t, and
+    %%%%%:   37-block 6
+call    0 never executed
+call    1 never executed
+    #####:   38:            pos = s.find(f, pos + t.size()))  // find next occurrence of f
+call    0 never executed
+call    1 never executed
+        -:   39:    {}
+    #####:   40:}
+        -:   41:
+        -:   42:/*!
+        -:   43: * @brief string escaping as described in RFC 6901 (Sect. 4)
+        -:   44: * @param[in] s string to escape
+        -:   45: * @return    escaped string
+        -:   46: *
+        -:   47: * Note the order of escaping "~" to "~0" and "/" to "~1" is important.
+        -:   48: */
+        -:   49:template<typename StringType>
+        -:   50:inline StringType escape(StringType s)
+        -:   51:{
+        -:   52:    replace_substring(s, StringType{"~"}, StringType{"~0"});
+        -:   53:    replace_substring(s, StringType{"/"}, StringType{"~1"});
+        -:   54:    return s;
+        -:   55:}
+        -:   56:
+        -:   57:/*!
+        -:   58: * @brief string unescaping as described in RFC 6901 (Sect. 4)
+        -:   59: * @param[in] s string to unescape
+        -:   60: * @return    unescaped string
+        -:   61: *
+        -:   62: * Note the order of escaping "~1" to "/" and "~0" to "~" is important.
+        -:   63: */
+        -:   64:template<typename StringType>
+function void nlohmann::json_abi_v3_11_3::detail::unescape<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) called 0 returned 0% blocks executed 0%
+    #####:   65:static void unescape(StringType& s)
+    %%%%%:   65-block 2
+        -:   66:{
+    #####:   67:    replace_substring(s, StringType{"~1"}, StringType{"/"});
+    %%%%%:   67-block 4
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   67-block 7
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    %%%%%:   67-block 8
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+    %%%%%:   67-block 9
+call    9 never executed
+call   10 never executed
+    $$$$$:   67-block 25
+call   11 never executed
+    $$$$$:   67-block 29
+    $$$$$:   67-block 30
+    $$$$$:   67-block 31
+call   12 never executed
+    $$$$$:   67-block 35
+    $$$$$:   67-block 36
+call   13 never executed
+    #####:   68:    replace_substring(s, StringType{"~0"}, StringType{"~"});
+    %%%%%:   68-block 15
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed (throw)
+    %%%%%:   68-block 18
+call    3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed (throw)
+    %%%%%:   68-block 19
+call    6 never executed
+branch  7 never executed (fallthrough)
+branch  8 never executed (throw)
+    %%%%%:   68-block 20
+call    9 never executed
+call   10 never executed
+    $$$$$:   68-block 37
+call   11 never executed
+    $$$$$:   68-block 41
+    $$$$$:   68-block 42
+    $$$$$:   68-block 43
+call   12 never executed
+    $$$$$:   68-block 47
+    #####:   69:}
+        -:   70:
+        -:   71:}  // namespace detail
+        -:   72:NLOHMANN_JSON_NAMESPACE_END

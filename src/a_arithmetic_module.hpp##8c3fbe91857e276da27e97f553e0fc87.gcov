@@ -1,0 +1,80 @@
+        -:    0:Source:/home/sande/modularml/src/include/a_arithmetic_module.hpp
+        -:    0:Graph:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcno
+        -:    0:Data:../build/CMakeFiles/modularml_tests.dir/tests/test_mml_arithmetic.cpp.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include "a_tensor.hpp"
+        -:    4:#include "globals.hpp"
+        -:    5:
+        -:    6:#define ASSERT_ALLOWED_TYPES_AR(T) static_assert(std::is_arithmetic_v<T>, "ArithmeticModule type must be arithmetic.")
+        -:    7:
+        -:    8:/// @brief A module for performing simple arithmetic operations on tensor structures.
+        -:    9:/// @tparam T the data type (numeric).
+        -:   10:template <typename T>
+        -:   11:class ArithmeticModule {
+        -:   12: public:
+        -:   13:  /// @brief Default constructor for ArithmeticModule class.
+function ArithmeticModule<float>::ArithmeticModule() called 2 returned 100% blocks executed 100%
+        2:   14:  ArithmeticModule() = default;
+        -:   15:
+        -:   16:  /// @brief Copy constructor for ArithmeticModule class.
+function ArithmeticModule<float>::ArithmeticModule(ArithmeticModule<float> const&) called 0 returned 0% blocks executed 0%
+    #####:   17:  ArithmeticModule(const ArithmeticModule &other) = default;
+        -:   18:
+        -:   19:  /// @brief Move constructor for ArithmeticModule class.
+        -:   20:  ArithmeticModule(ArithmeticModule &&other) noexcept = default;
+        -:   21:
+        -:   22:  /// @brief Abstract destructor for ArithmeticModule class.
+       5*:   23:  virtual ~ArithmeticModule() = default;
+------------------
+ArithmeticModule<float>::~ArithmeticModule():
+function ArithmeticModule<float>::~ArithmeticModule() called 0 returned 0% blocks executed 0%
+    #####:   23:  virtual ~ArithmeticModule() = default;
+    %%%%%:   23-block 2
+call    0 never executed
+call    1 never executed
+------------------
+ArithmeticModule<float>::~ArithmeticModule():
+function ArithmeticModule<float>::~ArithmeticModule() called 5 returned 100% blocks executed 100%
+        5:   23:  virtual ~ArithmeticModule() = default;
+------------------
+        -:   24:
+        -:   25:  /// @brief Add two tensor structures.
+        -:   26:  /// @param a The first tensor.
+        -:   27:  /// @param b The second tensor structure.
+        -:   28:  /// @param c The tensor structure to store the result.
+        -:   29:  virtual void add(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const = 0;
+        -:   30:
+        -:   31:  /// @brief Subtract one tensor structure from another.
+        -:   32:  /// @param a The tensor structure to subtract from.
+        -:   33:  /// @param b The tensor structure to subtract.
+        -:   34:  /// @param c The tensor structure to store the result.
+        -:   35:  virtual void subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const = 0;
+        -:   36:
+        -:   37:  /// @brief Multiply a tensor structure by a scalar.
+        -:   38:  /// @param a The tensor structure.
+        -:   39:  /// @param b The scalar value.
+        -:   40:  /// @param c The tensor structure to store the result.
+        -:   41:  virtual void multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const = 0;
+        -:   42:
+        -:   43:  /// @brief Check if two tensor structures are equal.
+        -:   44:  /// @param a The first tensor structure.
+        -:   45:  /// @param b The second tensor structure.
+        -:   46:  virtual bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const = 0;
+        -:   47:
+        -:   48:  /// @brief Apply an element-wise operation to two tensor structures.
+        -:   49:  /// @param a The tensor structure.
+        -:   50:  /// @param f The function to apply element-wise.
+        -:   51:  /// @param c The tensor structure to store the result.
+        -:   52:  virtual void elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const = 0;
+        -:   53:
+        -:   54:  /// @brief Apply an element-wise operation to a tensor structure in place.
+        -:   55:  /// @param a The tensor structure.
+        -:   56:  /// @param f The function to apply element-wise.
+        -:   57:  virtual void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const = 0;
+        -:   58:
+        -:   59:  /// @brief Clone the arithmetic module.
+        -:   60:  /// @return a shared pointer to a new arithmetic module.
+        -:   61:  virtual shared_ptr<ArithmeticModule<T>> clone() const = 0;
+        -:   62:};
