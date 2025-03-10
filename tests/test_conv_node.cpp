@@ -102,5 +102,55 @@ TEST(ConvNodeTest, TestImageToColumn) {
     conv.im2col(X, im2col_output);
 
     // Check the contents of im2col_output to ensure correctness
-    std::cout << "Halooooooooooooooooooooo" << std::endl;
+    
+    EXPECT_EQ(im2col_output->get_shape()[0], 4);
+}
+
+
+TEST(ConvNodeTest, TestForward) {
+
+    // Define the input tensor shape and values
+    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<float> X_values({
+        1.0f, 2.0f, 3.0f,
+        4.0f, 5.0f, 6.0f,
+        7.0f, 8.0f, 9.0f
+    });
+
+    // Define the weight tensor shape and values (for testing im2col only, this might not be used)
+    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<float> W_values({
+        1.0f, 0.0f, 
+        0.0f, -1.0f
+    });
+
+    // Create input and weight tensors
+    shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
+    shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
+
+    // Output tensor shape (after applying Conv)
+    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<float> Y_values({
+        0.0f, 0.0f, 
+        0.0f, 0.0f
+    });
+    
+    auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
+
+    // Setup other ConvNode parameters
+    std::vector<int> dilations = {1, 1};
+    std::vector<int> padding = {0, 0, 0, 0};
+    std::vector<int> kernel_shape = {2, 2};
+    std::vector<int> stride = {1, 1};
+
+    auto B = std::nullopt;
+
+    // Create ConvNode object
+    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 1);
+
+    conv.forward();
+
+    // Check the contents of im2col_output to ensure correctness
+    
+    EXPECT_EQ(1, 2);
 }

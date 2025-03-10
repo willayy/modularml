@@ -68,8 +68,8 @@ public:
         int in_height = input_copy->get_shape()[2];
         int in_width = input_copy->get_shape()[3];
 
-        int kernel_height = W->get_shape()[0];
-        int kernel_width = W->get_shape()[1];
+        int kernel_height = W->get_shape()[2];
+        int kernel_width = W->get_shape()[3];
         
         int stride_h = stride[0]; // height stride
         int stride_w = stride[1];
@@ -81,6 +81,31 @@ public:
         
         im2col(input_copy, im2col_output);
         
+        // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
+        int out_channels = W->get_shape()[0];
+
+        int flattened_size = in_channels * kernel_height * kernel_width;
+
+        array_mml<int> shapeW({out_channels, flattened_size});
+        auto flattened_weights = make_shared<Tensor_mml<T>>(shapeW);
+        
+        std::cout << "im2col output:" << im2col_output->get_shape() << std::endl;
+        std::cout << "flattened weights: " << flattened_weights->get_shape() << std::endl;
+        
+        array_mml<int> result_shape({flattened_weights->get_shape()[0], im2col_output->get_shape()[1]});
+        auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
+
+        shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
+        gemm->gemm_inner_product(
+            0, 0,
+            flattened_weights->get_shape()[0], im2col_output->get_shape()[1], im2col_output->get_shape()[1],
+            1.0f,
+            flattened_weights, flattened_weights->get_shape()[1],
+            im2col_output, im2col_output->get_shape()[1],
+            0.0f,
+            result_ptr, result_ptr->get_shape()[1]);
+        
+        std::cout << "shape: " << result_ptr->get_shape() << std::endl;
         return;
     };
 
@@ -91,14 +116,15 @@ public:
         int in_height = input->get_shape()[2];
         int in_width = input->get_shape()[3];
 
-        int kernel_height = W->get_shape()[0];
-        int kernel_width = W->get_shape()[1];
+        int kernel_height = W->get_shape()[2];
+        int kernel_width = W->get_shape()[3];
 
         int stride_h = stride[0]; // height stride
         int stride_w = stride[1]; // width stride
 
-        int padding_h = padding[0]; // padding on top and bottom
-        int padding_w = padding[1]; // padding on left and right
+        // TODO alter to work for 4 spatial directions
+        int padding_h = padding[0]; 
+        int padding_w = padding[1]; 
 
         // Calculate the output height and width based on input size, kernel size, padding, and stride
         int out_height = (in_height - kernel_height + 2 * padding_h) / stride_h + 1;
@@ -108,38 +134,31 @@ public:
         for (int n = 0; n < batch_size; ++n) {
             for (int h = 0; h < out_height; ++h) {
                 for (int w = 0; w < out_width; ++w) {
-                    
-                    // Get the corresponding patch in the input tensor
+                    int col_index = h * out_width + w; // Column index in im2col matrix
+
                     for (int c = 0; c < in_channels; ++c) {
                         for (int kh = 0; kh < kernel_height; ++kh) {
                             for (int kw = 0; kw < kernel_width; ++kw) {
-
-                                // Calculate the starting position of the patch in the input tensor
                                 int input_h = h * stride_h - padding_h + kh;
                                 int input_w = w * stride_w - padding_w + kw;
 
-                                // Check if within bounds
-                                if (input_h >= 0 && input_h < in_height && input_w >= 0 && input_w < in_width) {
-                                    // Place the value into the corresponding position in the output matrix
-                                    int output_index = (n * out_height * out_width + h * out_width + w) * (in_channels * kernel_height * kernel_width) +
-                                                    (c * kernel_height * kernel_width + kh * kernel_width + kw);
-                                    int input_index = n * (in_channels * in_height * in_width) + c * (in_height * in_width) + input_h * in_width + input_w;
+                                int row_index = c * kernel_height * kernel_width + kh * kernel_width + kw;
 
+                                // Compute linear index in output
+                                int output_index = row_index * (out_height * out_width) + col_index;
+
+                                if (input_h >= 0 && input_h < in_height && input_w >= 0 && input_w < in_width) {
+                                    int input_index = n * (in_channels * in_height * in_width) + c * (in_height * in_width) + input_h * in_width + input_w;
                                     (*output)[output_index] = (*input)[input_index];
                                 } else {
-                                    // If the patch goes out of bounds (due to padding), set it to 0
-                                    int output_index = (n * out_height * out_width + h * out_width + w) * (in_channels * kernel_height * kernel_width) +
-                                                    (c * kernel_height * kernel_width + kh * kernel_width + kw);
-                                    (*output)[output_index] = 0;
+                                    (*output)[output_index] = 0; // Padding
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-        std::cout << "im2col output shape: " << output->get_shape()[0] << " x " << output->get_shape()[1] << std::endl;
-        std::cout << std::endl;
+        }        
     }
     
     /**
