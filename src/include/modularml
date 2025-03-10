@@ -3,6 +3,7 @@
 #include "ReLU_node.hpp"
 #include "TanH_node.hpp"
 #include "Swish_node.hpp"
+#include "SoftMax_node.hpp"
 #include "a_arithmetic_module.hpp"
 #include "a_data_parser.hpp"
 #include "a_elementwise.hpp"
