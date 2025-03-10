@@ -5,9 +5,9 @@
 #include <variant>
 
 #include "a_node.hpp"
+#include "a_tensor.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "a_tensor.hpp"
 
 /**
  * @class TanHNode
@@ -22,7 +22,7 @@ class TanHNode : public Node {
   static_assert(
       std::is_same_v<T, float> ||
           std::is_same_v<T, double>,
-      "TanHNode supports only float, double, int32_t, int64_t");
+      "TanHNode supports only float, double");
 
  public:
   // Type constraints: no bfloat16 or float16 for now (not native to C++17).
@@ -53,7 +53,8 @@ class TanHNode : public Node {
 
     Arithmetic_mml<T> arithmetic;
     arithmetic.elementwise_in_place(X, [](T x) { return std::tanh(x); });
-    *Y = *X;;
+    *Y = *X;
+    ;
   }
 
   /**
