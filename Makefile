@@ -39,7 +39,7 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
-test:
+test: all
 	@echo "Running tests...\n"
 	@cd ./build && ctest --output-on-failure
 
