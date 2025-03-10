@@ -34,7 +34,7 @@ class TanHNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  TanHNode(std::shared_ptr<AbstractTensor> X,
+  TanHNode(std::shared_ptr<const AbstractTensor> X,
            std::shared_ptr<AbstractTensor> Y)
       : X(X), Y(Y) {}
 
@@ -52,9 +52,7 @@ class TanHNode : public Node {
       throw std::runtime_error("Output tensor Y is not allocated.");
 
     Arithmetic_mml<T> arithmetic;
-    arithmetic.elementwise_in_place(X, [](T x) { return std::tanh(x); });
-    *Y = *X;
-    ;
+    arithmetic.elementwise(X, [](T x) { return std::tanh(x); }, Y);
   }
 
   /**
@@ -75,10 +73,10 @@ class TanHNode : public Node {
 
     auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
 
-    auto valueX_mml = std::dynamic_pointer_cast<Tensor<T>>(valueX);
-    if (!X || !valueX_mml)
+    if (!X || !valueX)
       throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-    *X = *Y;
+    
+    X = std::const_pointer_cast<AbstractTensor>(valueX);
   }
 
   /**
@@ -102,7 +100,7 @@ class TanHNode : public Node {
 
  private:
   // Input
-  std::shared_ptr<AbstractTensor> X;  // Input tensor X.
+  std::shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
   std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
