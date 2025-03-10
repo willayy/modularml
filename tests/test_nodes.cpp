@@ -63,4 +63,16 @@ TEST(test_node, test_Swish_float) {
 
   ASSERT_TRUE(tensors_are_close(*Y, *b));
 }
+TEST(test_node, test_Dropout_float) {
+  /**
+   * @brief If dropout is not in training mode, the output should be the same as the input.
+   */
+  auto data = tensor_mml_p<float>({3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f, -0.1423f, 2.8577f, 3.9281f, -0.0719f});
+  auto refrence = data;
+  auto output = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
 
+  DropoutNode<float> DropoutNode(data,output);
+  DropoutNode.forward();
+
+  ASSERT_EQ(*output, *refrence);
+}
