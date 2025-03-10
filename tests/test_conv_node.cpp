@@ -150,7 +150,10 @@ TEST(ConvNodeTest, TestForward) {
 
     conv.forward();
 
-    // Check the contents of im2col_output to ensure correctness
-    
-    EXPECT_EQ(1, 2);
+    // The output is reshaped during the call to forward so we want to make sure that the size is correct
+    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 2, 2}));
+    for (int i = 0; i<Y->get_size(); i++) {
+        EXPECT_FLOAT_EQ(Y->get_data()[i], -4); // All values in the result should be -4
+    }
+    //EXPECT_EQ(1, 2);
 }

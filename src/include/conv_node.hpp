@@ -83,30 +83,59 @@ public:
         
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
         int out_channels = W->get_shape()[0];
-
         int flattened_size = in_channels * kernel_height * kernel_width;
-
         array_mml<int> shapeW({out_channels, flattened_size});
         auto flattened_weights = make_shared<Tensor_mml<T>>(shapeW);
-        
+
+        auto W_tensor = dynamic_pointer_cast<Tensor_mml<T>>(W);
+
+        // TODO Extract into private method
+        // Write the values from the weight tensor (W) to the flattened tensor
+        for (int oc = 0; oc < out_channels; ++oc) {
+            for (int ic = 0; ic < in_channels; ++ic) {
+                for (int kh = 0; kh < kernel_height; ++kh) {
+                    for (int kw = 0; kw < kernel_width; ++kw) {
+                        int flat_index = ic * kernel_height * kernel_width + kh * kernel_width + kw;
+                        (*flattened_weights)[oc * flattened_size + flat_index] =
+                            W_tensor->get_data()[oc * in_channels * kernel_height * kernel_width + 
+                                        ic * kernel_height * kernel_width + 
+                                        kh * kernel_width + kw];
+                    }
+                }
+            }
+        }
+/* 
         std::cout << "im2col output:" << im2col_output->get_shape() << std::endl;
+        for (int i=0; i<im2col_output->get_size(); i++) {
+            std::cout << "im2col at index " << i << ": " << im2col_output->get_data()[i] << std::endl;
+        }
         std::cout << "flattened weights: " << flattened_weights->get_shape() << std::endl;
-        
+        for (int i=0; i<flattened_weights->get_size(); i++) {
+            std::cout << "flattened at index " << i << ": " << flattened_weights->get_data()[i] << std::endl;
+        } */
         array_mml<int> result_shape({flattened_weights->get_shape()[0], im2col_output->get_shape()[1]});
         auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
 
         shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
         gemm->gemm_inner_product(
             0, 0,
-            flattened_weights->get_shape()[0], im2col_output->get_shape()[1], im2col_output->get_shape()[1],
+            flattened_weights->get_shape()[0], im2col_output->get_shape()[1], flattened_weights->get_shape()[1],
             1.0f,
             flattened_weights, flattened_weights->get_shape()[1],
             im2col_output, im2col_output->get_shape()[1],
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
         
-        std::cout << "shape: " << result_ptr->get_shape() << std::endl;
-        return;
+        std::cout << "after gemm shape: " << result_ptr->get_shape() << std::endl;
+        for (int i=0; i<result_ptr->get_size(); i++) {
+            std::cout << "result at index " << i << ": " << result_ptr->get_data()[i] << std::endl;
+        }
+        result_ptr->reshape({batch_size, out_channels, out_height, out_width});
+
+        std::cout << "result after reshape: " << result_ptr->get_shape() << std::endl;
+        
+        *Y = *result_ptr;
+        
     };
 
     void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
