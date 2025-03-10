@@ -10,10 +10,10 @@
 #include "mml_tensor.hpp"
 
 template <typename T>
-PoolingNode_mml<T>::PoolingNode_mml(vector<int> f, vector<int> s,
+PoolingNode_mml<T>::PoolingNode_mml(vector<int> k, vector<int> s,
                                     shared_ptr<Tensor<T>> in,
                                     shared_ptr<Tensor<T>> out, string p)
-    : filter(f), stride(s), input(in), output(out) {
+    : kernel_shape(k), strides(s), input(in), output(out) {
   if (p != "valid" && p != "same") {
     throw std::invalid_argument(
         "Invalid padding value! Only 'valid' and 'same' are allowed.");
@@ -53,15 +53,15 @@ template <typename T> void PoolingNode_mml<T>::forward() {
     float pad_h = 0;
     float pad_w = 0;
     if (padding == "same") {
-      pad_h = static_cast<float>(filter[0] - 1) / 2;
-      pad_w = static_cast<float>(filter[1] - 1) / 2;
+      pad_h = static_cast<float>(kernel_shape[0] - 1) / 2;
+      pad_w = static_cast<float>(kernel_shape[1] - 1) / 2;
     }
 
     // Calculate output dimensions
     int padded_height = shape[1] + static_cast<int>(2 * pad_h);
     int padded_width = shape[2] + static_cast<int>(2 * pad_w);
-    int output_height = (padded_height - filter[0]) / stride[0] + 1;
-    int output_width = (padded_width - filter[1]) / stride[1] + 1;
+    int output_height = (padded_height - kernel_shape[0]) / strides[0] + 1;
+    int output_width = (padded_width - kernel_shape[1]) / strides[1] + 1;
 
     // Remove comment for debug
     //  std::cerr << "Padded height: " << padded_height << " Padded width: " <<
@@ -80,9 +80,9 @@ template <typename T> void PoolingNode_mml<T>::forward() {
           for (int out_col = 0; out_col < output_width; out_col++) {
             // Calculate input region start (with stride)
             int in_row_start =
-                out_row * stride[0] - static_cast<int>(std::floor(pad_h));
+                out_row * strides[0] - static_cast<int>(std::floor(pad_h));
             int in_col_start =
-                out_col * stride[1] - static_cast<int>(std::floor(pad_w));
+                out_col * strides[1] - static_cast<int>(std::floor(pad_w));
             /// Initialize lowest value for type T
             T value = pooling(input, shape, element, channel, in_row_start,
                               in_col_start);

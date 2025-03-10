@@ -17,9 +17,9 @@
  */
 template <typename T> class MaxPoolingNode_mml : public PoolingNode_mml<T> {
 public:
-  MaxPoolingNode_mml(vector<int> f, vector<int> s, shared_ptr<Tensor<T>> in,
+  MaxPoolingNode_mml(vector<int> k, vector<int> s, shared_ptr<Tensor<T>> in,
                      shared_ptr<Tensor<T>> out, string p = "valid")
-      : PoolingNode_mml<T>(f, s, in, out, p) {}
+      : PoolingNode_mml<T>(k, s, in, out, p) {}
 
 private:
   T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
