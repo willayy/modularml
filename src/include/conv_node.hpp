@@ -73,56 +73,37 @@ public:
         // Create a copy of the input
         auto input_copy = X->copy();
 
-        int batch_size = input_copy->get_shape()[0];
-        int in_channels = input_copy->get_shape()[1];
-        int in_height = input_copy->get_shape()[2];
-        int in_width = input_copy->get_shape()[3];
-
-        int kernel_height = W->get_shape()[2];
-        int kernel_width = W->get_shape()[3];
-        
-        int stride_h = stride[0];
-        int stride_w = stride[1];
-        
-        int out_height = (in_height - kernel_height + 2 * padding[0]) / stride_h + 1;
-        int out_width = (in_width - kernel_width + 2 * padding[1]) / stride_w + 1;
-        
-        auto im2col_output = make_shared<Tensor_mml<T>>(std::initializer_list<int>{batch_size * out_height * out_width, in_channels * kernel_height * kernel_width});
+        auto im2col_output_shape = array_mml<int>({
+            get_batch_size() * get_out_height() * get_out_width(), 
+            get_in_channels() * get_kernel_height() * get_kernel_width()
+        });
+        auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
         
         im2col(input_copy, im2col_output);
         
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
-        int out_channels = W->get_shape()[0];
-        int flattened_size = in_channels * kernel_height * kernel_width;
-        array_mml<int> shapeW({out_channels, flattened_size});
+        int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
+        array_mml<int> shapeW({get_out_channels(), flattened_size});
         auto flattened_weights = make_shared<Tensor_mml<T>>(shapeW);
 
         auto W_tensor = dynamic_pointer_cast<Tensor_mml<T>>(W);
 
         // TODO Extract into private method
         // Write the values from the weight tensor (W) to the flattened tensor
-        for (int oc = 0; oc < out_channels; ++oc) {
-            for (int ic = 0; ic < in_channels; ++ic) {
-                for (int kh = 0; kh < kernel_height; ++kh) {
-                    for (int kw = 0; kw < kernel_width; ++kw) {
-                        int flat_index = ic * kernel_height * kernel_width + kh * kernel_width + kw;
+        for (int oc = 0; oc < get_out_channels(); ++oc) {
+            for (int ic = 0; ic < get_in_channels(); ++ic) {
+                for (int kh = 0; kh < get_kernel_height(); ++kh) {
+                    for (int kw = 0; kw < get_kernel_width(); ++kw) {
+                        int flat_index = ic * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
                         (*flattened_weights)[oc * flattened_size + flat_index] =
-                            W_tensor->get_data()[oc * in_channels * kernel_height * kernel_width + 
-                                        ic * kernel_height * kernel_width + 
-                                        kh * kernel_width + kw];
+                            W_tensor->get_data()[oc * get_in_channels() * get_kernel_height() * get_kernel_width() + 
+                                        ic * get_kernel_height() * get_kernel_width() + 
+                                        kh * get_kernel_width() + kw];
                     }
                 }
             }
         }
-/* 
-        std::cout << "im2col output:" << im2col_output->get_shape() << std::endl;
-        for (int i=0; i<im2col_output->get_size(); i++) {
-            std::cout << "im2col at index " << i << ": " << im2col_output->get_data()[i] << std::endl;
-        }
-        std::cout << "flattened weights: " << flattened_weights->get_shape() << std::endl;
-        for (int i=0; i<flattened_weights->get_size(); i++) {
-            std::cout << "flattened at index " << i << ": " << flattened_weights->get_data()[i] << std::endl;
-        } */
+
         array_mml<int> result_shape({flattened_weights->get_shape()[0], im2col_output->get_shape()[1]});
         auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
 
@@ -142,16 +123,16 @@ public:
         }
 
         // TODO Make it possible to pass the bias into the gemm call instead
-        if (B.has_value()) {
+        /* if (B.has_value()) {
             auto bias = *B;
             for (int oc = 0; oc < out_channels; ++oc) {
                 for (int i = 0; i < out_height * out_width; ++i) {
                     result_ptr->get_data()[oc * out_height * out_width + i] += bias->get_data()[oc];
                 }
             }
-        }
+        } */
 
-        result_ptr->reshape({batch_size, out_channels, out_height, out_width});
+        result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
 
         std::cout << "result after reshape: " << result_ptr->get_shape() << std::endl;
         
@@ -160,45 +141,26 @@ public:
     };
 
     void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
-        // Get input and output dimensions
-        int batch_size = input->get_shape()[0];
-        int in_channels = input->get_shape()[1];
-        int in_height = input->get_shape()[2];
-        int in_width = input->get_shape()[3];
-
-        int kernel_height = W->get_shape()[2];
-        int kernel_width = W->get_shape()[3];
-
-        int stride_h = stride[0]; // height stride
-        int stride_w = stride[1]; // width stride
-
-        // TODO alter to work for 4 spatial directions
-        int padding_h = padding[0]; 
-        int padding_w = padding[1]; 
-
-        // Calculate the output height and width based on input size, kernel size, padding, and stride
-        int out_height = (in_height - kernel_height + 2 * padding_h) / stride_h + 1;
-        int out_width = (in_width - kernel_width + 2 * padding_w) / stride_w + 1;
-
+        
         // Iterate over each image in the batch
-        for (int n = 0; n < batch_size; ++n) {
-            for (int h = 0; h < out_height; ++h) {
-                for (int w = 0; w < out_width; ++w) {
-                    int col_index = h * out_width + w; // Column index in im2col matrix
+        for (int n = 0; n < get_batch_size(); ++n) {
+            for (int h = 0; h < get_out_height(); ++h) {
+                for (int w = 0; w < get_out_width(); ++w) {
+                    int col_index = h * get_out_width() + w; // Column index in im2col matrix
 
-                    for (int c = 0; c < in_channels; ++c) {
-                        for (int kh = 0; kh < kernel_height; ++kh) {
-                            for (int kw = 0; kw < kernel_width; ++kw) {
-                                int input_h = h * stride_h - padding_h + kh;
-                                int input_w = w * stride_w - padding_w + kw;
+                    for (int c = 0; c < get_in_channels(); ++c) {
+                        for (int kh = 0; kh < get_kernel_height(); ++kh) {
+                            for (int kw = 0; kw < get_kernel_width(); ++kw) {
+                                int input_h = h * get_stride_h() - get_padding_h() + kh;
+                                int input_w = w * get_stride_w() - get_padding_w() + kw;
 
-                                int row_index = c * kernel_height * kernel_width + kh * kernel_width + kw;
+                                int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
 
                                 // Compute linear index in output
-                                int output_index = row_index * (out_height * out_width) + col_index;
+                                int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
 
-                                if (input_h >= 0 && input_h < in_height && input_w >= 0 && input_w < in_width) {
-                                    int input_index = n * (in_channels * in_height * in_width) + c * (in_height * in_width) + input_h * in_width + input_w;
+                                if (input_h >= 0 && input_h < get_in_height() && input_w >= 0 && input_w < get_in_width()) {
+                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) + c * (get_in_height() * get_in_width()) + input_h * get_in_width() + input_w;
                                     (*output)[output_index] = (*input)[input_index];
                                 } else {
                                     (*output)[output_index] = 0; // Padding
@@ -280,10 +242,10 @@ private:
     int group;
 
     // Getters for input tensor dimensions
-    int get_batch_size() const { return input->get_shape()[0]; }
-    int get_in_channels() const { return input->get_shape()[1]; }
-    int get_in_height() const { return input->get_shape()[2]; }
-    int get_in_width() const { return input->get_shape()[3]; }
+    int get_batch_size() const { return X->get_shape()[0]; }
+    int get_in_channels() const { return X->get_shape()[1]; }
+    int get_in_height() const { return X->get_shape()[2]; }
+    int get_in_width() const { return X->get_shape()[3]; }
 
     // Weight tensor getters
     int get_kernel_height() const { return W->get_shape()[2]; }
@@ -294,6 +256,19 @@ private:
     int get_stride_w() const { return stride[1]; }
     int get_padding_h() const { return padding[0]; }
     int get_padding_w() const { return padding[1]; }
+
+    // Other getters
+    int get_out_height() {
+        return (get_in_height() - get_kernel_height() + 2 * get_padding_h()) / get_stride_h() + 1;
+    }
+
+    int get_out_width() {
+        return (get_in_width() - get_kernel_width() + 2 * get_padding_w()) / get_stride_w() + 1;
+    }
+    
+    int get_out_channels() {
+        return W->get_shape()[0];
+    }
 
 
     void validate_inputs() {
