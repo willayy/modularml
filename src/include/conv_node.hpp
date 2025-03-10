@@ -4,6 +4,7 @@
 #include "globals.hpp"
 #include "mml_tensor.hpp"
 #include "mml_gemm.hpp"
+#include <string>
 
 /**
  * @class ConvNode
@@ -49,16 +50,25 @@ public:
 
     /**
      * @brief Perform the forward pass convolution computation.
-     *
-     * TODO.
+     * 
+     * This method performs the forward pass of the convolution operation. It computes the convolution 
+     * between the input tensor and the weights (filters), and stores the result in the output tensor.
+     * The process is as follows:
+     * - Validating input dimensions and checking if inputs are set.
+     * - Reshaping the input tensor using im2col (image to column) to transform the convolution into a matrix multiplication.
+     * - Flattening the weight tensor.
+     * - Performing the matrix multiplication using GEMM (General Matrix Multiply) to compute the convolution result.
+     * - Reshaping the result tensor to the appropriate output dimensions.
+     * 
+     * The output of the convolution is stored in the `Y` tensor.
+     * 
+     * @throws runtime_error If the input tensor is not correctly shaped or not filled.
+     * @throws invalid_argument If any of the padding, stride, or kernel parameters are incorrectly specified.
+     * 
+     * @see Tensor_mml, im2col, GEMM
      */
     void forward() override {
-        if (!areInputsFilled())
-            throw runtime_error("ConvNode inputs are not fully set.");
-
-        auto x_shape = X->get_shape();
-        if (x_shape.size() != 4)
-            throw runtime_error("Input tensor must have 4 dimensions: (Batches x Channels x Height x Width)");
+        validate_inputs();
 
         // Create a copy of the input
         auto input_copy = X->copy();
@@ -71,7 +81,7 @@ public:
         int kernel_height = W->get_shape()[2];
         int kernel_width = W->get_shape()[3];
         
-        int stride_h = stride[0]; // height stride
+        int stride_h = stride[0];
         int stride_w = stride[1];
         
         int out_height = (in_height - kernel_height + 2 * padding[0]) / stride_h + 1;
@@ -130,6 +140,17 @@ public:
         for (int i=0; i<result_ptr->get_size(); i++) {
             std::cout << "result at index " << i << ": " << result_ptr->get_data()[i] << std::endl;
         }
+
+        // TODO Make it possible to pass the bias into the gemm call instead
+        if (B.has_value()) {
+            auto bias = *B;
+            for (int oc = 0; oc < out_channels; ++oc) {
+                for (int i = 0; i < out_height * out_width; ++i) {
+                    result_ptr->get_data()[oc * out_height * out_width + i] += bias->get_data()[oc];
+                }
+            }
+        }
+
         result_ptr->reshape({batch_size, out_channels, out_height, out_width});
 
         std::cout << "result after reshape: " << result_ptr->get_shape() << std::endl;
@@ -257,4 +278,51 @@ private:
     vector<int> kernel_shape;
     vector<int> stride;
     int group;
+
+    // Getters for input tensor dimensions
+    int get_batch_size() const { return input->get_shape()[0]; }
+    int get_in_channels() const { return input->get_shape()[1]; }
+    int get_in_height() const { return input->get_shape()[2]; }
+    int get_in_width() const { return input->get_shape()[3]; }
+
+    // Weight tensor getters
+    int get_kernel_height() const { return W->get_shape()[2]; }
+    int get_kernel_width() const { return W->get_shape()[3]; }
+
+    // Getters for the other parameters
+    int get_stride_h() const { return stride[0]; }
+    int get_stride_w() const { return stride[1]; }
+    int get_padding_h() const { return padding[0]; }
+    int get_padding_w() const { return padding[1]; }
+
+
+    void validate_inputs() {
+        if (!areInputsFilled())
+            throw runtime_error("ConvNode inputs are not fully set.");
+
+        auto x_shape = X->get_shape();
+        if (x_shape.size() != 4)
+            throw runtime_error("Input tensor must have 4 dimensions: (Features x Channels x Height x Width)");
+
+        if (dilations.size() != 2) {
+            throw invalid_argument("Invalid dilations size. Expected a vector of size 2, but got: " + 
+                                    std::to_string(dilations.size()) + ".");
+        }
+
+        if (padding.size() != 4) {
+            throw invalid_argument("Invalid padding vector size. Expected a vector of size 4, but got: " + 
+                                    std::to_string(padding.size()) + ".");
+        }
+
+        if (kernel_shape.size() != 2) {
+            throw invalid_argument("Invalid kernel_shape vector size. Expected a vector of size 2, but got: " + 
+                                    std::to_string(kernel_shape.size()) + ".");
+        }
+
+        if (stride.size() != 2) {
+            throw invalid_argument("Invalid stride vector size. Expected a vector of size 2, but got: " + 
+                                    std::to_string(stride.size()) + ".");
+        }
+    }
+    
 };
