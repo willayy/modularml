@@ -26,10 +26,10 @@ TEST(ConvNodeTest, TestConstructor) {
         0.0f, 0.0f});
     auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
 
-    std::vector<int> dilations = {1, 1};
-    std::vector<int> padding = {0, 0, 0, 0};
-    std::vector<int> kernel_shape = {2, 2};
-    std::vector<int> stride = {1, 1};
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
 
     auto B = std::nullopt;
 
@@ -71,10 +71,10 @@ TEST(ConvNodeTest, TestImageToColumn) {
     auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
 
     // Setup other ConvNode parameters
-    std::vector<int> dilations = {1, 1};
-    std::vector<int> padding = {0, 0, 0, 0};
-    std::vector<int> kernel_shape = {2, 2};
-    std::vector<int> stride = {1, 1};
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
 
     auto B = std::nullopt;
 
@@ -138,10 +138,10 @@ TEST(ConvNodeTest, TestForward) {
     auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
 
     // Setup other ConvNode parameters
-    std::vector<int> dilations = {1, 1};
-    std::vector<int> padding = {0, 0, 0, 0};
-    std::vector<int> kernel_shape = {2, 2};
-    std::vector<int> stride = {1, 1};
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
 
     auto B = std::nullopt;
 

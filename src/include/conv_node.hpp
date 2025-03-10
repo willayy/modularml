@@ -39,10 +39,10 @@ public:
     ConvNode(shared_ptr<AbstractTensor> X,
              shared_ptr<AbstractTensor> W,
              shared_ptr<AbstractTensor> Y,
-             vector<int> dilations,
-             vector<int> padding,
-             vector<int> kernel_shape,
-             vector<int> stride,
+             array_mml<int> dilations,
+             array_mml<int> padding,
+             array_mml<int> kernel_shape,
+             array_mml<int> stride,
              optional<shared_ptr<AbstractTensor>> B = std::nullopt,
              int group = 1)
       : X(X), W(W), B(B), Y(Y),
@@ -235,10 +235,10 @@ private:
     shared_ptr<AbstractTensor> Y; // Output tensor.
 
     // Attributes
-    vector<int> dilations;
-    vector<int> padding;
-    vector<int> kernel_shape;
-    vector<int> stride;
+    array_mml<int> dilations;
+    array_mml<int> padding;
+    array_mml<int> kernel_shape;
+    array_mml<int> stride;
     int group;
 
     // Getters for input tensor dimensions
