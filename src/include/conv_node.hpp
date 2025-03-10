@@ -86,8 +86,6 @@ public:
         array_mml<int> shapeW({get_out_channels(), flattened_size});
         auto flattened_weights = make_shared<Tensor_mml<T>>(shapeW);
 
-        auto W_tensor = dynamic_pointer_cast<Tensor_mml<T>>(W);
-
         // TODO Extract into private method
         // Write the values from the weight tensor (W) to the flattened tensor
         for (int oc = 0; oc < get_out_channels(); ++oc) {
@@ -96,7 +94,7 @@ public:
                     for (int kw = 0; kw < get_kernel_width(); ++kw) {
                         int flat_index = ic * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
                         (*flattened_weights)[oc * flattened_size + flat_index] =
-                            W_tensor->get_data()[oc * get_in_channels() * get_kernel_height() * get_kernel_width() + 
+                            (*W)[oc * get_in_channels() * get_kernel_height() * get_kernel_width() + 
                                         ic * get_kernel_height() * get_kernel_width() + 
                                         kh * get_kernel_width() + kw];
                     }
