@@ -33,8 +33,8 @@ class SwishNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  SwishNode(std::shared_ptr<const AbstractTensor> X,
-            std::shared_ptr<AbstractTensor> Y)
+  SwishNode(shared_ptr<const AbstractTensor> X,
+            shared_ptr<AbstractTensor> Y)
       : X(X), Y(Y) {}
 
   /**
@@ -42,17 +42,17 @@ class SwishNode : public Node {
    */
   void forward() override {
     if (!areInputsFilled())
-      throw std::runtime_error("SwishNode inputs are not fully set.");
+      throw runtime_error("SwishNode inputs are not fully set.");
 
     if (!X)
-      throw std::runtime_error("Failed to cast X to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast X to Tensor_mml<T>.");
 
     if (!Y)
-      throw std::runtime_error("Output tensor Y is not allocated.");
+      throw runtime_error("Output tensor Y is not allocated.");
 
     Arithmetic_mml<T> arithmetic;
     arithmetic.elementwise(X, [](T x) {
-      T sigmoid_x = static_cast<T>(1) / (static_cast<T>(1) + std::exp(-x));
+      T sigmoid_x = static_cast<T>(1) / (static_cast<T>(1) + exp(-x));
       return x * sigmoid_x;
     }, Y);
   }
@@ -71,12 +71,12 @@ class SwishNode : public Node {
    */
   void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
     if (inputs.size() < 1)
-      throw std::runtime_error("TanHNode expects at least one input: X.");
+      throw runtime_error("TanHNode expects at least one input: X.");
 
-    auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
+    auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
 
     if (!X || !valueX)
-      throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
     
     X = std::const_pointer_cast<AbstractTensor>(valueX);
   }
@@ -102,8 +102,8 @@ class SwishNode : public Node {
 
  private:
   // Input
-  std::shared_ptr<const AbstractTensor> X;  // Input tensor X.
+  shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
-  std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
