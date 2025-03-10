@@ -7,7 +7,7 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_tensor.hpp"
+#include "a_tensor.hpp"
 
 /**
  * @class TanHNode
@@ -74,7 +74,7 @@ class TanHNode : public Node {
 
     auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
 
-    auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
+    auto valueX_mml = std::dynamic_pointer_cast<Tensor<T>>(valueX);
     if (!X || !valueX_mml)
       throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
     *X = *Y;
