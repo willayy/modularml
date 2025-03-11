@@ -51,51 +51,69 @@ class reshapeNode : public Node {
    */
   void forward() override {
     if (!areInputsFilled())
-      throw runtime_error("Reshape inputs are not fully set.");
+        throw runtime_error("Reshape inputs are not fully set.");
 
     if (!data)
-      throw runtime_error("Failed to cast data to Tensor<T>.");
+        throw runtime_error("Failed to cast data to Tensor<T>.");
 
     if (!shape)
-      throw runtime_error("Failed to cast shape to Tensor<int64_t>.");
+        throw runtime_error("Failed to cast shape to Tensor<int64_t>.");
 
     if (!reshaped)
-      throw runtime_error("Output tensor reshaped is not allocated.");
+        throw runtime_error("Output tensor reshaped is not allocated.");
 
     int shape_size = shape->get_size();
     int data_size = data->get_size();
     array_mml<int> new_shape(shape_size);
 
-    // Check if the total number of elements matches between the data tensor and the new shape.
-    int total_elements = 1;
+    // Extract shape values from shape tensor
+    int inferred_dim_index = -1;
+    int computed_elements = 1;
+
     for (int i = 0; i < shape_size; ++i) {
-      total_elements *= new_shape[i];
+        int dim = (*shape)[i];
+
+        // If dim == -1, mark it for inference
+        if (dim == -1) {
+            if (inferred_dim_index != -1) {
+                throw runtime_error("Invalid reshape: multiple -1 values in shape tensor.");
+            }
+            inferred_dim_index = i;
+            new_shape[i] = -1; // Placeholder
+        }
+        else if (dim == 0 && allowzero == 1) {
+            // If allowzero is set, copy the original input shape at this index
+            new_shape[i] = data->get_shape()[i];
+            computed_elements *= new_shape[i];
+        }
+        else {
+            new_shape[i] = dim;
+            computed_elements *= dim;
+        }
     }
 
-    if (total_elements != data_size) {
-      throw runtime_error("The total number of elements in the new shape does not match the number of elements in the data tensor.");
+    // Infer missing dimension if -1 is present
+    if (inferred_dim_index != -1) {
+        if (data_size % computed_elements != 0) {
+            throw runtime_error("Invalid reshape: inferred dimension does not match total elements.");
+        }
+        new_shape[inferred_dim_index] = data_size / computed_elements;
+        computed_elements *= new_shape[inferred_dim_index]; // Update total
     }
 
-    // Iterate over each dimension in the shape tensor.
-    for (int i = 0; i < shape_size; ++i) {
-      int dim = (*shape)[i];
-      // If the dimension is zero and allowzero is set to 1, use the corresponding dimension from the input tensor.
-      if (dim == 0 && allowzero == 1) {
-        new_shape[i] = data->get_shape()[i];
-      } else {
-        // Otherwise, use the dimension specified in the shape tensor.
-        new_shape[i] = static_cast<int>(dim);
-      }
+    // Final validation of reshape
+    if (computed_elements != data_size) {
+        throw runtime_error("The total number of elements in the new shape does not match the number of elements in the data tensor.");
     }
 
-    // Reshape the output tensor to the new shape.
+    // Apply reshape
     reshaped->reshape(new_shape);
 
-    // Copy the data from the input tensor to the reshaped output tensor.
+    // Copy the data from the input tensor to the reshaped output tensor
     for (int i = 0; i < data_size; ++i) {
-      (*reshaped)[i] = (*data)[i];
+        (*reshaped)[i] = (*data)[i];
     }
-  }
+}
 
   /**
    * @brief Check if the input(s) are filled.
