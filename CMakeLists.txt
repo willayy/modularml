@@ -135,7 +135,6 @@ find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
 add_custom_target(coverage_report
     COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
     COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
-    COMMENT "Generating coverage report"
 )
 
 # Add dependencies to the coverage report
