@@ -67,5 +67,4 @@ class Gemm_mml : public GemmModule<T> {
                       shared_ptr<Tensor<T>> C, int ldc) override;
 };
 
-// Include the implementation of the templated class
 #include "../mml_gemm.tpp"

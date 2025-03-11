@@ -6,7 +6,7 @@
 #define ASSERT_ALLOWED_TYPES_ONNX_GM(T) static_assert(std::is_arithmetic_v<T>, "Data structure type must be an arithmetic type.")
 
 /// @brief Abstract class for classes that contain standard GEMM functions using the ONNX GEMM format.
-/// @details The differnnce between the ONNX GEMM and standard GEMM.
+/// @details The difference between the ONNX GEMM and standard GEMM.
 /// GEMM: C := alpha * op( A ) * op( B ) + beta * C
 /// ONNX GEMM: Y := alpha * A * B + beta * C (optional)
 /// @tparam T the type of the data that the GEMM functions will operate on.
@@ -30,20 +30,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @author William Norland
+   * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
+   * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
    * @param alpha Float alpha.
    * @param beta Float beta.
    * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
    * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
-   * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
-   * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_inner_product(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_inner_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                                   float alpha = 1.0, float beta = 1.0,
                                                    int transA = 0, int transB = 0,
-                                                   shared_ptr<Tensor<T>> A,
-                                                   shared_ptr<Tensor<T>> B,
                                                    optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -51,19 +49,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA
-   * @param transB
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_outer_product(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_outer_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                                   float alpha = 1.0, float beta = 1.0,
                                                    int transA = 0, int transB = 0,
-                                                   shared_ptr<Tensor<T>> A,
-                                                   shared_ptr<Tensor<T>> B,
                                                    optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -71,19 +68,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_row_wise_product(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_row_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                                      float alpha = 1.0, float beta = 1.0,
                                                       int transA = 0, int transB = 0,
-                                                      shared_ptr<Tensor<T>> A,
-                                                      shared_ptr<Tensor<T>> B,
                                                       optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -91,19 +87,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_col_wise_product(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_col_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                                      float alpha = 1.0, float beta = 1.0,
                                                       int transA = 0, int transB = 0,
-                                                      shared_ptr<Tensor<T>> A,
-                                                      shared_ptr<Tensor<T>> B,
                                                       optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -111,19 +106,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_blocked(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_blocked(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                             float alpha = 1.0, float beta = 1.0,
                                              int transA = 0, int transB = 0,
-                                             shared_ptr<Tensor<T>> A,
-                                             shared_ptr<Tensor<T>> B,
                                              optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -131,19 +125,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_avx(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_avx(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                         float alpha = 1.0, float beta = 1.0,
                                          int transA = 0, int transB = 0,
-                                         shared_ptr<Tensor<T>> A,
-                                         shared_ptr<Tensor<T>> B,
                                          optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -151,19 +144,18 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_avx512(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_avx512(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                            float alpha = 1.0, float beta = 1.0,
                                             int transA = 0, int transB = 0,
-                                            shared_ptr<Tensor<T>> A,
-                                            shared_ptr<Tensor<T>> B,
                                             optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 
   /**
@@ -171,18 +163,17 @@ class OnnxGemmModule {
    * Performs operation Y := alpha * A * B + beta * C (optional)
    * More detailed info in
    * https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param alpha Float alpha.
-   * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed
    * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero.
    * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or (N, K) if transB is non-zero.
+   * @param alpha Float alpha.
+   * @param beta Float beta.
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
-  virtual shared_ptr<Tensor<T>> gemm_intel_MKL(float alpha = 1.0, float beta = 1.0,
+  virtual shared_ptr<Tensor<T>> gemm_intel_MKL(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                               float alpha = 1.0, float beta = 1.0,
                                                int transA = 0, int transB = 0,
-                                               shared_ptr<Tensor<T>> A,
-                                               shared_ptr<Tensor<T>> B,
                                                optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
 };

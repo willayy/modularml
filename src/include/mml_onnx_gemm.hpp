@@ -1,52 +1,53 @@
 #pragma once
 
+#include "a_gemm.hpp"
 #include "a_tensor.hpp"
 #include "globals.hpp"
+#include "mml_gemm.hpp"
+#include "mml_tensor.hpp"
 
 template <typename T>
 class OnnxGemm_mml : public OnnxGemmModule<T> {
  public:
-    OnnxGemmModule() = default;
+  OnnxGemm_mml() = default;
 
-    OnnxGemmModule(const OnnxGemmModule& other) = default;
+  OnnxGemm_mml(const OnnxGemm_mml& other) = default;
 
-    OnnxGemmModule(OnnxGemmModule&& other) noexcept = default;
+  OnnxGemm_mml(OnnxGemm_mml&& other) noexcept = default;
 
-    virtual ~OnnxGemmModule() = default;
+  virtual ~OnnxGemm_mml() = default;
 
-    shared_ptr<Tensor<T>> gemm_inner_product(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                    shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                    optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_inner_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                           float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                           optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_outer_product(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                        shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                        optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_outer_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                           float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                           optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_row_wise_product(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                        shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                        optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_row_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                              float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                              optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_col_wise_product(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                        shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                        optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_col_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                              float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                              optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_blocked(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_blocked(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                     float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                     optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_avx(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_avx(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                 float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                 optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_avx512(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                optional<shared_ptr<Tensor<T>>> C = nullopt) override;
+  shared_ptr<Tensor<T>> gemm_avx512(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                    float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                    optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 
-    shared_ptr<Tensor<T>> gemm_intel_MKL(float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
-                                                shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                                                optional<shared_ptr<Tensor<T>>> C = nullopt) override;
-
+  shared_ptr<Tensor<T>> gemm_intel_MKL(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+                                       float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+                                       optional<shared_ptr<Tensor<T>>> C = nullopt) override;
 };
 
-// Include the implementation of the templated class
 #include "../mml_onnx_gemm.tpp"

@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include <modularml>
-#include <iostream>
 
 const shared_ptr<GemmModule<float>> gm_f = make_shared<Gemm_mml<float>>();
 const shared_ptr<GemmModule<int>> gm_i = make_shared<Gemm_mml<int>>();
