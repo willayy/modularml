@@ -64,3 +64,60 @@ TEST(test_node, test_Swish_float) {
   ASSERT_TRUE(tensors_are_close(*Y, *b));
 }
 
+TEST(test_node, test_reshape_float) {
+  /**
+   * @brief Expected Tensor after the Reshape function is applied to the data tensor.
+   */
+  auto b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+
+  auto data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+  auto shape = tensor_mml_p<int64_t>({2}, {2, 3});
+  auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+
+  reshapeNode<float> reshapeNode(data, shape, reshaped);
+  reshapeNode.forward();
+
+  ASSERT_EQ(*reshaped, *b);
+
+  // Test where the setInputs method is used with a high-dimensional reshape
+  data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
+
+  // Complex reshape: Change (3,2) → (2,1,3,1) for multi-dimensional testing
+  shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
+
+  /**
+   * @brief Expected Tensor after the Reshape function is applied to the data tensor.
+   */
+  b = tensor_mml_p<float>({2, 1, 3, 1}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
+
+  array_mml<GeneralDataTypes> inputs({data, shape});
+  reshapeNode.setInputs(inputs);
+
+  reshapeNode.forward();
+
+  // Check if the reshaped tensor matches expected output
+  ASSERT_EQ(*reshaped, *b);
+
+  /**
+   * @brief Expected Tensor after the Reshape function is applied to the data tensor.
+   * This tests the automatic inference of one dimension using `-1`.
+   */
+  // Expected output tensor after reshape (same values, different shape)
+  b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+
+  // Input tensor (3,2)
+  data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+
+  // Shape tensor with `-1`, meaning the missing dimension should be inferred
+  shape = tensor_mml_p<int64_t>({2}, {-1, 3});  // ONNX rule: `-1` is automatically computed
+
+  // Reshaped output tensor (expected to become {2,3})
+
+  inputs = array_mml<GeneralDataTypes>({data, shape});
+  reshapeNode.setInputs(inputs);
+
+  reshapeNode.forward();
+
+  // Ensure that the reshaped tensor matches the expected output
+  ASSERT_EQ(*reshaped, *b);
+}
