@@ -131,6 +131,13 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
 
+message(STATUS "gcovr found at: ${GCOVR_EXECUTABLE}")
+
+# If on MacOS, gcovr --gcov-executable gcov-14
+if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr)
+    set(GCOVR_EXECUTABLE ${GCOVR_EXECUTABLE} --gcov-executable gcov-14)
+endif()
+
 # Create coverage target
 add_custom_target(coverage_report
     COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
