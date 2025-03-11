@@ -64,7 +64,7 @@ class ReLUNode : public Node {
    */
   void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
     if (inputs.size() < 1)
-      throw runtime_error("TanHNode expects at least one input: X.");
+      throw runtime_error("ReLUNode expects at least one input: X.");
 
     auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
 
