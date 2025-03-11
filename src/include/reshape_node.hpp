@@ -49,52 +49,52 @@ class reshapeNode : public Node {
    */
   void forward() override {
     if (!areInputsFilled())
-      throw std::runtime_error("Reshape inputs are not fully set.");
+      throw runtime_error("Reshape inputs are not fully set.");
 
     if (!data)
-      throw std::runtime_error("Failed to cast data to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast data to Tensor<T>.");
 
     if (!shape)
-      throw std::runtime_error("Failed to cast shape to Tensor_mml<int64_t>.");
+      throw runtime_error("Failed to cast shape to Tensor<int64_t>.");
 
     if (!reshaped)
-      throw std::runtime_error("Output tensor reshaped is not allocated.");
+      throw runtime_error("Output tensor reshaped is not allocated.");
 
     Arithmetic_mml<T> arithmetic;
-    arithmetic.elementwise_in_place(X, [](T x) { return x > 0 ? x : 0; });
-    *Y = *X;
   }
 
   /**
    * @brief Check if the input(s) are filled.
    */
-bool areInputsFilled() const override {
+  bool areInputsFilled() const override {
     return data && data->get_size() > 0 && shape && shape->get_size() > 0;
-}
+  }
 
   /**
    * @brief Set the input(s) for the node.
    *
-   * @param inputs The input data to be set, where X is inputs[0].
+   * @param inputs The input data to be set, where inputs[0] is the data tensor and inputs[1] is the shape tensor.
    */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-    if (inputs.size() < 1)
-      throw std::runtime_error("TanHNode expects at least one input: X.");
+  void setInputs(const array_mml<const GeneralDataTypes>& inputs) override {
+    if (inputs.size() < 2)
+      throw runtime_error("reshapeNode expects two inputs: data and shape.");
 
-    auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
+    auto valueData = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
+    auto valueShape = std::get<shared_ptr<Tensor<int64_t>>>(inputs[1]);
 
-    auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
-    if (!X || !valueX_mml)
-      throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-    *X = *Y;
+    if (!valueData || !valueShape)
+      throw runtime_error("Failed to cast inputs to the expected tensor types.");
+
+    data = valueData;
+    shape = valueShape;
   }
 
   /**
    * @brief Check if the output(s) are filled.
    */
   bool areOutputsFilled() const override {
-    if (!Y) return false;
-    return Y->get_size() > 0;
+    if (!reshaped) return false;
+    return reshaped->get_size() > 0;
   }
 
   /**
@@ -103,14 +103,15 @@ bool areInputsFilled() const override {
    * @return The output data.
    */
   array_mml<GeneralDataTypes> getOutputs() const override {
-    return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y))};
+    return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(reshaped))};
   }
 
  private:
   // tensors
   shared_ptr<const AbstractTensor> data;  // Input tensor data.
-  shared_ptr<const int64_t> shape;       // Input tensor shape.
+  shared_ptr<const int64_t> shape;        // Input tensor shape.
   shared_ptr<AbstractTensor> reshaped;    // Output tensor reshaped.
+
   // attributes
   int allowzero;
 };
