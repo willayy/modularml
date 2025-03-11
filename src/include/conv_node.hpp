@@ -26,6 +26,7 @@ public:
     /**
      * @brief Constructor for ConvNode.
      *
+     * @tparam T The data type of the tensor elements.
      * @param X Shared pointer to the tensor X (data input).
      * @param W Shared pointer to the tensor W (weights).
      * @param B Optional shared pointer to the output tensor (bias).
@@ -83,8 +84,8 @@ public:
         
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
-        array_mml<int> shapeW({get_out_channels(), flattened_size});
-        auto flattened_weights = make_shared<Tensor_mml<T>>(shapeW);
+        array_mml<int> w_shape({get_out_channels(), flattened_size});
+        auto flattened_weights = make_shared<Tensor_mml<T>>(w_shape);
 
         // TODO Extract into private method
         // Write the values from the weight tensor (W) to the flattened tensor
@@ -119,7 +120,7 @@ public:
         for (int i=0; i<result_ptr->get_size(); i++) {
             std::cout << "result at index " << i << ": " << result_ptr->get_data()[i] << std::endl;
         }
-
+    
         // TODO Make it possible to pass the bias into the gemm call instead
         /* if (B.has_value()) {
             auto bias = *B;
@@ -138,6 +139,19 @@ public:
         
     };
 
+    /**
+     * @brief Performs the im2col transformation on the input tensor.
+     *
+     * The im2col (image to column) operation transforms an input tensor into a matrix format
+     * suitable for efficient matrix multiplication.
+     *
+     * @tparam T The data type of the tensor elements.
+     * @param input A shared pointer to the input tensor.
+     * @param output A shared pointer to the output tensor, where the transformed data will be stored.
+     *
+     * The function extracts patches from the input tensor and arranges them into columns,
+     * preparing the data for efficient computation.
+     */
     void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
         
         // Iterate over each image in the batch
@@ -189,19 +203,18 @@ public:
      */
     void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
         if (inputs.size() > 0) {
-            auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-            *X = *valueX;
+            auto x_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
+            *X = *x_value;
         }
-            
 
         if (inputs.size() > 1) {
-            auto valueW = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
-            *W = *valueW;
+            auto w_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
+            *W = *w_value;
         }
 
         if (inputs.size() > 2 && B.has_value()) {
-            auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
-            *B.value() = *valueB;
+            auto b_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
+            *B.value() = *b_value;
         }
     }
 
@@ -255,20 +268,22 @@ private:
     int get_padding_h() const { return padding[0]; }
     int get_padding_w() const { return padding[1]; }
 
-    // Other getters
+    // Returns the output height after the convolution
     int get_out_height() {
         return (get_in_height() - get_kernel_height() + 2 * get_padding_h()) / get_stride_h() + 1;
     }
 
+    // Returns the output width after the convolution
     int get_out_width() {
         return (get_in_width() - get_kernel_width() + 2 * get_padding_w()) / get_stride_w() + 1;
     }
     
+    // Returns the number of output channel
     int get_out_channels() {
         return W->get_shape()[0];
     }
 
-
+    // Checks the inputs to the convolution node and checks that parameters are correct
     void validate_inputs() {
         if (!areInputsFilled())
             throw runtime_error("ConvNode inputs are not fully set.");
@@ -297,5 +312,4 @@ private:
                                     std::to_string(stride.size()) + ".");
         }
     }
-    
 };

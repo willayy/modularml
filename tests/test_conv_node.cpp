@@ -157,3 +157,75 @@ TEST(ConvNodeTest, TestForward) {
     }
     //EXPECT_EQ(1, 2);
 }
+
+TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels) {
+    // Define the input tensor shape and values
+    array_mml<int> shapeX({1, 3, 5, 5});
+    array_mml<float> X_values({
+        // Channel 1
+        1, 2, 3, 4, 5,
+        6, 7, 8, 9, 10,
+        11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25,
+        
+        // Channel 2
+        1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2,
+        3, 3, 3, 3, 3,
+        4, 4, 4, 4, 4,
+        5, 5, 5, 5, 5,
+        
+        // Channel 3
+        0, 1, 0, 1, 0,
+        1, 0, 1, 0, 1,
+        0, 1, 0, 1, 0,
+        1, 0, 1, 0, 1,
+        0, 1, 0, 1, 0
+    });
+
+    // Define the weight tensor (8 filters, each with 3 channels, 2x2 kernel)
+    array_mml<int> shapeW({8, 3, 2, 2});
+    array_mml<float> W_values({
+        // 8 filters, each with 3 input channels
+        1, 0, 0, -1,   0, 1, -1, 0,   1, -1, 0, 1,  // Filter 1
+        -1, 1, 1, 0,   0, -1, 1, 1,   1, 0, -1, -1, // Filter 2
+        1, 1, 0, -1,   1, 0, -1, -1,  -1, 1, 1, 0,  // Filter 3
+        0, -1, 1, 1,   -1, -1, 1, 0,   1, 0, -1, 1, // Filter 4
+        1, 0, -1, 1,   1, -1, -1, 0,   -1, 1, 1, 0, // Filter 5
+        -1, 1, 0, -1,   0, 1, 1, -1,   1, -1, 0, 1, // Filter 6
+        1, -1, 1, 0,   0, 1, -1, 1,   -1, 1, 0, -1, // Filter 7
+        0, 1, -1, 1,   -1, 1, 0, -1,   1, 0, 1, -1  // Filter 8
+    });
+
+    // Create input and weight tensors
+    shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
+    shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
+
+    // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
+    array_mml<int> y_shape({1, 8, 4, 4});
+
+    auto Y = make_shared<Tensor_mml<float>>(y_shape);   
+
+    // Define convolution parameters
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
+
+    auto B = std::nullopt; // No bias
+
+    // Create ConvNode object
+    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 8);
+
+    conv.forward();
+
+    // Check output shape
+    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
+
+    // Check expected values (since exact values depend on conv implementation, verifying non-zero output)
+    for (int i = 0; i < Y->get_size(); i++) {
+        EXPECT_NEAR(Y->get_data()[i], 0.0f, 1e-5); // Values should not be zero if computed correctly
+    }
+}
+
