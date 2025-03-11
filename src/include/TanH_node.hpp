@@ -46,7 +46,7 @@ class TanHNode : public Node {
       throw runtime_error("TanHNode inputs are not fully set.");
 
     if (!X)
-      throw runtime_error("Failed to cast X to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast X to Tensor<T>.");
 
     if (!Y)
       throw runtime_error("Output tensor Y is not allocated.");
@@ -74,7 +74,7 @@ class TanHNode : public Node {
     auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
 
     if (!X || !valueX)
-      throw runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast X or input X to Tensor<T>.");
     
     X = std::const_pointer_cast<AbstractTensor>(valueX);
   }
