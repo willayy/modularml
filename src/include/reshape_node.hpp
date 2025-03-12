@@ -9,7 +9,7 @@
  * @brief A class representing a reshape node in a computational graph.
  *
  * This class inherits from the Node class and represents the reshape node
- * in a computational graph. It performs resahape after being given an
+ * in a computational graph. It performs reshape after being given an
  * input tensor and a shape tensor.
  */
 template <typename T>
@@ -27,7 +27,7 @@ class reshapeNode : public Node {
   using AbstractTensor = Tensor<T>;
 
   /**
-   * @brief Constructor for ReLUNode.
+   * @brief Constructor for reshapeNode.
    *
    * @param data Shared pointer to the tensor data.
    * @param shape Shared pointer to the shape tensor (int64_t).
