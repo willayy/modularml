@@ -125,10 +125,7 @@ def onnx_to_json(path: str):
 
             # Iterate over all nodes in the onnx file, the index is used to keep track of progress
             for index, node in enumerate(graph.node):
-                if (index + 1 == num_nodes):
-                    print(f"\rProcessing nodes: {index + 1}/{num_nodes}", flush=True) # Shows the progress of the script
-                else:
-                    print(f"\rProcessing nodes: {index + 1}/{num_nodes}", end="", flush=True) # Shows the progress of the script
+                print(f"\rProcessing nodes: {index + 1}/{num_nodes} ({(index + 1) / num_nodes * 100:.2f}%)", end="\r", flush=True)
 
                 # Structure of each node dict
                 node_json = {
