@@ -3,10 +3,11 @@
 #include "array_mml.hpp"
 
 template <typename T>
-T AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
-                                 array_mml<int> shape, int element, int channel,
-                                 int in_row_start, int in_col_start,
-                                 vector<int> effective_kernel_shape) const {
+void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
+                                    array_mml<int> shape, int element,
+                                    int channel, int in_row_start,
+                                    int in_col_start,
+                                    vector<int> effective_kernel_shape) const {
 
   // Initialize output tensor with correct dimensions
   output = tensor_mml_p<T>(

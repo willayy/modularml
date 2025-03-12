@@ -98,45 +98,5 @@ template <typename T> void PoolingNode_mml<T>::forward() {
     }
   }
 
-  // Initialize output tensor with correct dimensions
-  output = tensor_mml_p<T>(
-      {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
-  output_indices = tensor_mml_p<T>(
-      {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
-
-  // Perform pooling operation
-  for (int element = 0; element < input_shape[0]; element++) {
-    for (int channel = 0; channel < input_shape[1]; channel++) {
-      for (int out_row = 0; out_row < output_shape[2]; out_row++) {
-        for (int out_col = 0; out_col < output_shape[3]; out_col++) {
-          int in_row_start = out_row * strides[0];
-          int in_col_start = out_col * strides[1];
-
-          // Adjust the starting indices after padding type
-          if (auto_pad == "SAME_UPPER") {
-            in_row_start -= static_cast<int>(std::floor(pad_h));
-            in_col_start -= static_cast<int>(std::floor(pad_w));
-          } else if (auto_pad == "SAME_LOWER") {
-            in_row_start -= static_cast<int>(std::ceil(pad_h));
-            in_col_start -= static_cast<int>(std::ceil(pad_w));
-          }
-
-          T value = pooling(input, input_shape, element, channel, in_row_start,
-                            in_col_start);
-          tuple<T, int> result = pooling(input, input_shape, element, channel,
-                                         in_row_start, in_col_start);
-
-          if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
-              element >= input_shape[0] || out_row >= output_shape[2] ||
-              out_col >= output_shape[3] || channel >= input_shape[1]) {
-            throw std::out_of_range("Output tensor indices out of range");
-          } else {
-            (*output)[{element, channel, out_row, out_col}] = get<0>(result);
-            (*output_indices)[{element, channel, out_row, out_col}] =
-                get<1>(result);
-          }
-        }
-      }
-    }
-  }
+  pooling();
 }
