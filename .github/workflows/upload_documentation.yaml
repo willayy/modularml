@@ -28,7 +28,7 @@ jobs:
     - name: Convert HTML to Markdown (Optional)
       run: |
         pip install html2text
-        html2text docs/html/index.html > docs/README.md
+        html2text build/docs/html/index.html > docs/README.md
 
     - name: Clone GitHub Wiki
       run: |
