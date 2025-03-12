@@ -350,9 +350,53 @@ TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels_SciPyComparison) {
     // Check output shape
     EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
 
+    // Expected values (8 extracted feature maps each 4x4)
+    // These were calculated using SciPy convolve2d function with the same parameters as above
+    vector<float> expected_values({
+        6.0, 9.0, 6.0, 9.0,
+        9.0, 6.0, 9.0, 6.0,
+        6.0, 9.0, 6.0, 9.0,
+        9.0, 6.0, 9.0, 6.0,
+
+        0.0, 2.0, 2.0, 4.0,
+        7.0, 7.0, 9.0, 9.0,
+        12.0, 14.0, 14.0, 16.0,
+        19.0, 19.0, 21.0, 21.0,
+
+        14.0, 12.0, 16.0, 14.0,
+        15.0, 19.0, 17.0, 21.0,
+        22.0, 20.0, 24.0, 22.0,
+        23.0, 27.0, 25.0, 29.0,
+
+        -7.0, -3.0, -5.0, -1.0,
+        0.0, -2.0, 2.0, 0.0,
+        1.0, 5.0, 3.0, 7.0,
+        8.0, 6.0, 10.0, 8.0,
+
+        7.0, 5.0, 9.0, 7.0,
+        8.0, 12.0, 10.0, 14.0,
+        15.0, 13.0, 17.0, 15.0,
+        16.0, 20.0, 18.0, 22.0,
+
+        -1.0, 1.0, -3.0, -1.0,
+        -2.0, -6.0, -4.0, -8.0,
+        -9.0, -7.0, -11.0, -9.0,
+        -10.0, -14.0, -12.0, -16.0,
+
+        6.0, 4.0, 8.0, 6.0,
+        9.0, 13.0, 11.0, 15.0,
+        18.0, 16.0, 20.0, 18.0,
+        21.0, 25.0, 23.0, 27.0,
+
+        5.0, 5.0, 7.0, 7.0,
+        8.0, 10.0, 10.0, 12.0,
+        13.0, 13.0, 15.0, 15.0,
+        16.0, 18.0, 18.0, 20.0
+    });
+
     // Check expected values (since exact values depend on conv implementation, verifying non-zero output)
     for (int i = 0; i < Y->get_size(); i++) {
-        EXPECT_NEAR(Y->get_data()[i], 0.0f, 1e-5); // Values should not be zero if computed correctly
+        EXPECT_NEAR(Y->get_data()[i], expected_values.at(i), 1e-5); // Values should not be zero if computed correctly
     }
 }
 
