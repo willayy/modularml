@@ -28,7 +28,4 @@ jobs:
         name: coverage-details 
         path: build/coverage_report/coverage_details.html # Contains the coverage of all files
 
-    # Just tests that it works, in the future we can look into uploading the docs to GitHub pages or something similar  
-    - name: Generate Documentation
-      run: make docs
     

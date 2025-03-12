@@ -1,0 +1,47 @@
+name: "Generate and Deploy Documentation to Wiki"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate_docs:
+    name: "Generate Documentation"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: make install
+
+    - name: Build
+      run: make 
+
+    - name: Generate Documentation
+      run: make docs  # Assumes you have a Doxyfile in your repo
+
+    - name: Convert HTML to Markdown (Optional)
+      run: |
+        pip install html2text
+        html2text docs/html/index.html > docs/README.md
+
+    - name: Clone GitHub Wiki
+      run: |
+        git clone https://github.com/${{ github.repository }}.wiki.git wiki
+
+    - name: Copy Documentation to Wiki
+      run: cp -r docs/* wiki/
+
+    - name: Commit and Push to Wiki
+      run: |
+        cd wiki
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add .
+        git commit -m "Update documentation"
+        git push
