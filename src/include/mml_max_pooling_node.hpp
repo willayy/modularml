@@ -17,12 +17,16 @@
  */
 template <typename T> class MaxPoolingNode_mml : public PoolingNode_mml<T> {
 public:
-  MaxPoolingNode_mml(vector<int> k, vector<int> s, shared_ptr<Tensor<T>> in,
-                     shared_ptr<Tensor<T>> out, string p = "valid")
-      : PoolingNode_mml<T>(k, s, in, out, p) {}
+  MaxPoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
+                     shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output,
+                     string auto_pad, int ceiling_mode, vector<int> dilations,
+                     vector<int> pads)
+      : PoolingNode_mml<T>(kernel_shape, strides, input, output, auto_pad,
+                           ceiling_mode, dilations, pads) {}
 
 private:
   T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
-            int channel, int in_row_start, int in_col_start) const override;
+            int channel, int in_row_start, int in_col_start,
+            vector<int> effective_kernel_shape) const override;
 };
 #include "../mml_max_pooling_node.tpp"

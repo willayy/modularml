@@ -10,15 +10,21 @@
 #include "mml_tensor.hpp"
 
 template <typename T>
-PoolingNode_mml<T>::PoolingNode_mml(vector<int> k, vector<int> s,
-                                    shared_ptr<Tensor<T>> in,
-                                    shared_ptr<Tensor<T>> out, string p)
-    : kernel_shape(k), strides(s), input(in), output(out) {
-  if (p != "valid" && p != "same") {
-    throw std::invalid_argument(
-        "Invalid padding value! Only 'valid' and 'same' are allowed.");
+PoolingNode_mml<T>::PoolingNode_mml(vector<int> kernel_shape,
+                                    vector<int> strides,
+                                    shared_ptr<Tensor<T>> input,
+                                    shared_ptr<Tensor<T>> output,
+                                    string auto_pad, int ceiling_mode,
+                                    vector<int> dilations, vector<int> pads)
+    : kernel_shape(kernel_shape), strides(strides), input(input),
+      output(output), ceil_mode(ceiling_mode), dilations(dilations),
+      pads(pads) {
+  if (auto_pad != "VALID" && auto_pad != "SAME_UPPER" &&
+      auto_pad != "SAME_LOWER") {
+    throw std::invalid_argument("Invalid padding value! Only 'VALID', "
+                                "'SAME_UPPER' and 'SAME_LOWER' are allowed.");
   }
-  padding = p;
+  this->auto_pad = auto_pad;
 };
 
 template <typename T> bool PoolingNode_mml<T>::areInputsFilled() const {
@@ -46,61 +52,83 @@ array_mml<GeneralDataTypes> PoolingNode_mml<T>::getOutputs() const {
 };
 
 template <typename T> void PoolingNode_mml<T>::forward() {
-  array_mml<int> shape = input->get_shape();
-  if (shape.size() != 4) {
+  array_mml<int> input_shape = input->get_shape();
+  if (input_shape.size() != 4) {
     throw std::invalid_argument("Invalid tensor shape");
-  } else {
-    float pad_h = 0;
-    float pad_w = 0;
-    if (padding == "same") {
+  }
+
+  vector<int> output_shape = {input_shape[0], input_shape[1], 1, 1};
+
+  // Calculate effective kernel size with dilation
+  vector<int> effective_kernel_shape = {
+      kernel_shape[0] + (kernel_shape[0] - 1) * (dilations[0] - 1),
+      kernel_shape[1] + (kernel_shape[1] - 1) * (dilations[1] - 1)};
+
+  int pad_h = 0;
+  int pad_w = 0;
+
+  // Calculate output dimensions based on padding type
+  for (int i = 2; i < 4; i++) {
+    if (auto_pad == "VALID") {
+      if (ceil_mode) {
+        output_shape[i] = ceil(
+            (input_shape[i] - (effective_kernel_shape[i] - 1) * dilations[i]) /
+            strides[i]);
+      } else {
+        output_shape[i] =
+            floor((input_shape[i] -
+                   (effective_kernel_shape[i] - 1) * dilations[i]) /
+                  strides[i]) +
+            1;
+      }
+    } else if (auto_pad == "SAME_UPPER" || auto_pad == "SAME_LOWER") {
+
       pad_h = static_cast<float>(kernel_shape[0] - 1) / 2;
       pad_w = static_cast<float>(kernel_shape[1] - 1) / 2;
+
+      if (ceil_mode) {
+        output_shape[i] = ceil(input_shape[i] / strides[i]);
+      } else {
+        output_shape[i] = floor((input_shape[i] - 1) / strides[i]) + 1;
+      }
+    } else {
+      throw std::invalid_argument("Unsupported padding mode");
     }
+  }
 
-    // Calculate output dimensions
-    int padded_height = shape[1] + static_cast<int>(2 * pad_h);
-    int padded_width = shape[2] + static_cast<int>(2 * pad_w);
-    int output_height = (padded_height - kernel_shape[0]) / strides[0] + 1;
-    int output_width = (padded_width - kernel_shape[1]) / strides[1] + 1;
+  // Initialize output tensor with correct dimensions
+  output = tensor_mml_p<T>(
+      {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
 
-    // Remove comment for debug
-    //  std::cerr << "Padded height: " << padded_height << " Padded width: " <<
-    //  padded_width << "\n";
+  // Perform pooling operation
+  for (int element = 0; element < input_shape[0]; element++) {
+    for (int channel = 0; channel < input_shape[1]; channel++) {
+      for (int out_row = 0; out_row < output_shape[2]; out_row++) {
+        for (int out_col = 0; out_col < output_shape[3]; out_col++) {
+          int in_row_start = out_row * strides[0];
+          int in_col_start = out_col * strides[1];
 
-    /// Initialize output tensor with correct dimensions
-    output = tensor_mml_p<T>({shape[0], output_height, output_width, shape[3]});
+          // Adjust the starting indices after padding type
+          if (auto_pad == "SAME_UPPER") {
+            in_row_start -= static_cast<int>(std::floor(pad_h));
+            in_col_start -= static_cast<int>(std::floor(pad_w));
+          } else if (auto_pad == "SAME_LOWER") {
+            in_row_start -= static_cast<int>(std::ceil(pad_h));
+            in_col_start -= static_cast<int>(std::ceil(pad_w));
+          }
 
-    /// First for loop. For each element in the batch
-    for (int element = 0; element < shape[0]; element++) {
-      /// Second for loop. For each channel
-      for (int channel = 0; channel < shape[3]; channel++) {
-        /// Third for loop. Each row in the output matrix
-        for (int out_row = 0; out_row < output_height; out_row++) {
-          /// Fourth for loop. Each output column
-          for (int out_col = 0; out_col < output_width; out_col++) {
-            // Calculate input region start (with stride)
-            int in_row_start =
-                out_row * strides[0] - static_cast<int>(std::floor(pad_h));
-            int in_col_start =
-                out_col * strides[1] - static_cast<int>(std::floor(pad_w));
-            /// Initialize lowest value for type T
-            T value = pooling(input, shape, element, channel, in_row_start,
-                              in_col_start);
+          T value = pooling(input, input_shape, element, channel, in_row_start,
+                            in_col_start);
 
-            // Store result in output tensor
-            if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
-                element >= shape[0] || out_row >= output_height ||
-                out_col >= output_width || channel >= shape[3]) {
-              throw std::out_of_range("Output tensor indices out of range");
-            } else {
-              (*output)[{element, out_row, out_col, channel}] = value;
-            }
+          if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
+              element >= input_shape[0] || out_row >= output_shape[2] ||
+              out_col >= output_shape[3] || channel >= input_shape[1]) {
+            throw std::out_of_range("Output tensor indices out of range");
+          } else {
+            (*output)[{element, channel, out_row, out_col}] = value;
           }
         }
       }
     }
-    /// Remove comment for debug
-    // std::cerr << "Resulting tensor: " << (*output_tensor).to_string() <<
-    // "\n";
   }
 }

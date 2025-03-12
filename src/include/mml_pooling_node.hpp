@@ -31,8 +31,11 @@ public:
    * It has a default value of "valid" (no padding) and can also accept "same"
    * (padding to preserve the input dimensions).
    */
-  PoolingNode_mml(vector<int> k, vector<int> s, shared_ptr<Tensor<T>> in,
-                  shared_ptr<Tensor<T>> out, string p = "valid");
+  PoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
+                  shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output,
+                  string auto_pad = "NOTSET", int ceiling_mode = 0,
+                  vector<int> dilations = {1, 1},
+                  vector<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   /**
    * @brief Forward function that propogates the input tensor through the
@@ -88,6 +91,11 @@ protected:
   /// @brief A string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
-  string padding;
+  string auto_pad;
+
+  int ceil_mode;
+
+  vector<int> dilations;
+  vector<int> pads;
 };
 #include "../mml_pooling_node.tpp"
