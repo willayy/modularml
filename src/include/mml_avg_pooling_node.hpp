@@ -20,13 +20,15 @@ public:
   AvgPoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
                      shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output,
                      string auto_pad, int ceiling_mode, vector<int> dilations,
-                     vector<int> pads)
-      : PoolingNode_mml<T>(kernel_shape, strides, input, output, auto_pad,
+                     vector<int> pads, int count_include_pad = 0)
+      : count_include_pad(count_include_pad),
+        PoolingNode_mml<T>(kernel_shape, strides, input, output, auto_pad,
                            ceiling_mode, dilations, pads) {}
 
 private:
   T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
             int channel, int in_row_start, int in_col_start,
             vector<int> effective_kernel_shape) const override;
+  int count_include_pad;
 };
 #include "../mml_avg_pooling_node.tpp"
