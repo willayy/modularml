@@ -3,7 +3,7 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_tensor.hpp"
+#include "a_tensor.hpp"
 
 /**
  * @class ReLUNode
@@ -30,7 +30,7 @@ class ReLUNode : public Node {
    * @param X Shared pointer to the tensor X.
    * @param Y Shared pointer to the output tensor.
    */
-  ReLUNode(std::shared_ptr<AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
+  ReLUNode(shared_ptr<const AbstractTensor> X, shared_ptr<AbstractTensor> Y)
       : X(X), Y(Y) {}
 
   /**
@@ -38,17 +38,16 @@ class ReLUNode : public Node {
    */
   void forward() override {
     if (!areInputsFilled())
-      throw std::runtime_error("ReLUNode inputs are not fully set.");
+      throw runtime_error("ReLUNode inputs are not fully set.");
 
     if (!X)
-      throw std::runtime_error("Failed to cast X to Tensor_mml<T>.");
+      throw runtime_error("Failed to cast X to Tensor<T>.");
 
     if (!Y)
-      throw std::runtime_error("Output tensor Y is not allocated.");
+      throw runtime_error("Output tensor Y is not allocated.");
 
     Arithmetic_mml<T> arithmetic;
-    arithmetic.elementwise_in_place(X, [](T x) { return x > 0 ? x : 0; });
-    *Y = *X;
+    arithmetic.elementwise(X, [](T x) { return x > 0 ? x : 0; }, Y);
   }
 
   /**
@@ -65,14 +64,14 @@ class ReLUNode : public Node {
    */
   void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
     if (inputs.size() < 1)
-      throw std::runtime_error("TanHNode expects at least one input: X.");
+      throw runtime_error("ReLUNode expects at least one input: X.");
 
-    auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
+    auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
 
-    auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
-    if (!X || !valueX_mml)
-      throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-    *X = *Y;
+    if (!X || !valueX)
+      throw runtime_error("Failed to cast X or input X to Tensor<T>.");
+    
+    X = std::const_pointer_cast<AbstractTensor>(valueX);
   }
 
   /**
@@ -93,6 +92,6 @@ class ReLUNode : public Node {
   }
 
  private:
-  std::shared_ptr<AbstractTensor> X;  // Input tensor X.
-  std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  shared_ptr<const AbstractTensor> X;  // Input tensor X.
+  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
