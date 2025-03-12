@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <string>
 #include <unordered_set>
+#include <initializer_list>
+#include <algorithm>
 #include <variant>
 #include <vector>
 
