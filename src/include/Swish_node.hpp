@@ -3,7 +3,7 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_tensor.hpp"
+#include "a_tensor.hpp"
 
 /**
  * @class SwishNode
@@ -67,7 +67,7 @@ class SwishNode : public Node {
 
  private:
   // Input
-  std::shared_ptr<AbstractTensor> X;  // Input tensor X.
+  shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
   std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.

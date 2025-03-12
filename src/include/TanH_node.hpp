@@ -1,9 +1,9 @@
 #pragma once
 
 #include "a_node.hpp"
+#include "a_tensor.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_tensor.hpp"
 
 /**
  * @class TanHNode
@@ -18,7 +18,7 @@ class TanHNode : public Node {
   static_assert(
       std::is_same_v<T, float> ||
           std::is_same_v<T, double>,
-      "TanHNode supports only float, double, int32_t, int64_t");
+      "TanHNode supports only float, double");
 
  public:
   // Type constraints: no bfloat16 or float16 for now (not native to C++17).
@@ -68,7 +68,7 @@ class TanHNode : public Node {
 
  private:
   // Input
-  std::shared_ptr<AbstractTensor> X;  // Input tensor X.
+  shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
   std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
