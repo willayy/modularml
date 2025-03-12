@@ -135,10 +135,15 @@ void ConvNode<T>::im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> outp
     // Iterate over each image in the batch
     for (int n = 0; n < get_batch_size(); ++n) {
         for (int h = 0; h < get_out_height(); ++h) {
-            for (int w = 0; w < get_out_width(); ++w) {
+            for (int w = 0; w < get_out_width(); ++w) {  // Traverse into each batch
+
                 int col_index = h * get_out_width() + w;  // Column index in im2col matrix
 
-                for (int c = 0; c < get_in_channels(); ++c) {
+                for (int c = 0; c < get_in_channels(); ++c) {  // If the input has multiple channels, iterate over each one
+
+                    // Here we loop over the kernel's height and width, simulating how the kernel moves across the input tensor.
+                    // For each position of the kernel, the corresponding input values are extracted and stored in the output tensor.
+                    // If the kernel extends beyond the boundaries of the input (due to padding or stride), zero padding is added instead of the input values.
                     for (int kh = 0; kh < get_kernel_height(); ++kh) {
                         for (int kw = 0; kw < get_kernel_width(); ++kw) {
                             int input_h = h * get_stride_height() - get_padding_top() + kh;
