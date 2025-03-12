@@ -17,7 +17,7 @@ template <typename T>
 class SwishNode : public Node {
   static_assert(
       std::is_same_v<T, float> ||
-          std::is_same_v<T, double>,
+      std::is_same_v<T, double>,
       "SwishNode supports only float, double");
 
  public:
@@ -30,72 +30,40 @@ class SwishNode : public Node {
    * @param Y Shared pointer to the output tensor Y.
    */
   SwishNode(std::shared_ptr<AbstractTensor> X,
-            std::shared_ptr<AbstractTensor> Y)
-      : X(X), Y(Y) {}
+            std::shared_ptr<AbstractTensor> Y);
 
   /**
    * @brief Perform the forward pass computation applying swish.
    */
-  void forward() override {
-    if (!areInputsFilled())
-      throw std::runtime_error("SwishNode inputs are not fully set.");
-
-    if (!X)
-      throw std::runtime_error("Failed to cast X to Tensor_mml<T>.");
-
-    if (!Y)
-      throw std::runtime_error("Output tensor Y is not allocated.");
-
-    Arithmetic_mml<T> arithmetic;
-    arithmetic.elementwise_in_place(X, [](T x) {
-      T sigmoid_x = static_cast<T>(1) / (static_cast<T>(1) + std::exp(-x));
-      return x * sigmoid_x;
-    });
-    *Y = *X;
-  }
+  void forward() override;
 
   /**
    * @brief Check if the input(s) are filled.
+   *
+   * @return True if the input(s) are filled, false otherwise.
    */
-  bool areInputsFilled() const override {
-    return X && X->get_size() > 0;
-  }
+  bool areInputsFilled() const override;
 
   /**
    * @brief Set the input(s) for the node.
    *
    * @param inputs The input data to be set, where X is inputs[0].
    */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-    if (inputs.size() < 1)
-      throw std::runtime_error("TanHNode expects at least one input: X.");
-
-    auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-
-    auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
-    if (!X || !valueX_mml)
-      throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-    *X = *Y;
-  }
+  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
 
   /**
    * @brief Check if the output(s) are filled.
    *
    * @return True if the output(s) are filled, false otherwise.
    */
-  bool areOutputsFilled() const override {
-    if (!Y) return false;
-    return Y->get_size() > 0;
-  }
+  bool areOutputsFilled() const override;
 
   /**
    * @brief Get the output(s) of the node.
    *
    * @return The output data.
    */
-  array_mml<GeneralDataTypes> getOutputs() const override {
-    return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y))};
-  }
+  array_mml<GeneralDataTypes> getOutputs() const override;
 
  private:
   // Input
@@ -104,3 +72,5 @@ class SwishNode : public Node {
   // Output
   std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
+
+#include "../Swish_node.tpp"
