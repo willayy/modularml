@@ -111,7 +111,9 @@ def onnx_to_json(path: str):
                 "opset_version": model.opset_import[0].version
             },
             "nodes": [],
-            "weights_file": model_weight_file_name # Path to the binary file
+            "weights_file": model_weight_file_name, # Path to the binary file
+            "inputs": [{"name": i.name, "type": str(i.type)} for i in graph.input],
+            "outputs": [{"name": i.name, "type": str(i.type)} for i in graph.output]
         }
 
         weight_file_path = f"./{model_weight_file_name}"
@@ -171,6 +173,15 @@ def get_node_op_types(path: str) -> None:
         
         for node in graph.node:
             print(node.op_type) 
+
+def convert_tensor_type(tensor_type):
+    # Converts ONNX TensorProto into a format which can be represented in JSON easier
+    element_type = onnx.TensorProto.DataType.Name(tensor_type.elem_type)
+    shape = [{"dim_value": dim.dim_value} for dim in tensor_type.shape.dim]
+    return {
+        "element_type": element_type,
+        "shape": shape
+    }
 
 # Script that reads a onnx file and converts it into a json format.
 def main():
