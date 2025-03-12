@@ -92,8 +92,11 @@ class ConvNode : public Node {
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
         array_mml<int> w_shape({get_out_channels(), flattened_size});
         auto flattened_weights = make_shared<Tensor_mml<T>>(w_shape);
-
-        // TODO Extract into private method
+        std::cout << "shape of W: " << W->get_shape() << std::endl;
+        W->reshape({get_out_channels(), flattened_size});
+        std::cout << "after reshape of W: " << W->get_shape() << std::endl;
+        
+        /* // TODO Extract into private method
         // Write the values from the weight tensor (W) to the flattened tensor
         for (int oc = 0; oc < get_out_channels(); ++oc) {
             for (int ic = 0; ic < get_in_channels(); ++ic) {
@@ -107,21 +110,23 @@ class ConvNode : public Node {
                     }
                 }
             }
-        }
+         }*/
 
-        array_mml<int> result_shape({flattened_weights->get_shape()[0], im2col_output->get_shape()[1]});
+        array_mml<int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
         auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
-
+        std::cout << "shape of result: " << result_ptr->get_shape() << std::endl;
+        
         shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
         gemm->gemm_inner_product(
             0, 0,
-            flattened_weights->get_shape()[0], im2col_output->get_shape()[1], flattened_weights->get_shape()[1],
+            W->get_shape()[0], im2col_output->get_shape()[1], W->get_shape()[1],
             1.0f,
-            flattened_weights, flattened_weights->get_shape()[1],
+            W, W->get_shape()[1],
             im2col_output, im2col_output->get_shape()[1],
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
-
+        
+        std::cout << "W shape after gemm call: " << W->get_shape() << std::endl;
         // TODO Make it possible to pass the bias into the gemm call instead
         /* if (B.has_value()) {
             auto bias = *B;
@@ -133,6 +138,7 @@ class ConvNode : public Node {
         } */
 
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
+        std::cout << "result shape after gemm call: " << result_ptr->get_shape() << std::endl;
 
         *Y = *result_ptr;
     };
