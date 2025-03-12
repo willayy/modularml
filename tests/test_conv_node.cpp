@@ -395,3 +395,188 @@ TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels_SciPyComparison) {
         EXPECT_NEAR(Y->get_data()[i], expected_values.at(i), 1e-5);
     }
 }
+
+TEST(ConvNodeTest, TestBiasAdd) {
+    // Define the input tensor shape and values
+    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<float> X_values({1.0f, 2.0f, 3.0f,
+                               4.0f, 5.0f, 6.0f,
+                               7.0f, 8.0f, 9.0f});
+
+    // Define the weight tensor shape and values (for testing im2col only, this might not be used)
+    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<float> W_values({1.0f, 1.0f,
+                               1.0f, 1.0f});
+
+    // Create input and weight tensors
+    shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
+    shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
+
+    // Output tensor shape (after applying Conv)
+    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<float> Y_values({0.0f, 0.0f,
+                               0.0f, 0.0f});
+
+    auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
+
+    // Setup other ConvNode parameters
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
+
+    array_mml<int> shape_bias({1});
+    array_mml<float> bias_values({10.0f});
+
+    auto B = make_shared<Tensor_mml<float>>(shape_bias, bias_values);
+
+    // Create ConvNode object
+    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 1);
+
+    conv.forward();
+
+    // The output is reshaped during the call to forward so we want to make sure that the size is correct
+    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 2, 2}));
+
+    EXPECT_FLOAT_EQ(Y->get_data()[0], 22);
+    EXPECT_FLOAT_EQ(Y->get_data()[1], 26);
+    EXPECT_FLOAT_EQ(Y->get_data()[2], 34);
+    EXPECT_FLOAT_EQ(Y->get_data()[3], 38);
+}
+
+TEST(ConvNodeTest, TestBias_MultipleOutChannels) {
+    // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
+    array_mml<int> shapeX({1, 3, 5, 5});
+    array_mml<float> X_values({
+        // Channel 1
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+
+        // Channel 2
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+
+        // Channel 3
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+    });
+
+    // Define the weight tensor (8 filters, each with 3 channels, 2x2 kernel)
+    // The above dimensions mean that the convolution will extract 8 total features
+    array_mml<int> shapeW({8, 3, 2, 2});
+    array_mml<float> W_values({                                        // 8 filters, each with 3 input channels
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,  // These are the filters
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
+                               1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1});
+
+    // Create input and weight tensors
+    shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
+    shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
+
+    // Set the size wrong intentionally to check that it gets reshapen correctly within forward()
+    array_mml<int> y_shape({1, 2, 3, 3});
+
+    auto Y = make_shared<Tensor_mml<float>>(y_shape);
+
+    // Define convolution parameters
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({0, 0, 0, 0});
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
+
+    array_mml<int> shape_bias({8});
+    array_mml<float> bias_values({ // Values
+        10.0f, 10.0f, 10.0f, 10.0f,
+        10.0f, 10.0f, 10.0f, 10.0f,
+    });
+
+    auto B = make_shared<Tensor_mml<float>>(shape_bias, bias_values);
+
+    // Create ConvNode object
+    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 8);
+
+    conv.forward();
+
+    // Check output shape
+    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
+
+    // This time as we have 3 in_channels
+    // The value after applying the filter should be 6 + 6 + 6 = 18
+    for (int i = 0; i < Y->get_size(); i++) {
+        EXPECT_NEAR(Y->get_data()[i], 28.0f, 1e-5);
+    }
+}

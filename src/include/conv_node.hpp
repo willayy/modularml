@@ -111,9 +111,28 @@ class ConvNode : public Node {
             im2col_output, im2col_output->get_shape()[1],
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
-
+            
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
-
+            
+        // The bias across each feature    
+        if (B.has_value()) {
+            
+            // We first have to retreive the bias tensor inside the optional
+            auto& bias_tensor = *B;
+        
+            for (int b = 0; b < get_batch_size(); b++) {
+                for (int i = 0; i < get_out_channels(); ++i) {
+                    for (int h = 0; h < get_out_height(); ++h) {
+                        for (int w = 0; w < get_out_width(); ++w) {
+                            int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
+                            
+                            // Access the bias value for the current output channel (i)
+                            (*result_ptr)[index] += (*bias_tensor)[i];
+                        }
+                    }
+                }
+            }
+        }      
         *Y = *result_ptr;
     };
 
