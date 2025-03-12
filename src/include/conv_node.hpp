@@ -5,7 +5,6 @@
 #include "mml_gemm.hpp"
 #include "mml_tensor.hpp"
 
-
 // TODO Add bias functionality and testing
 // TODO Test that padding, stride and dilation work
 
@@ -15,7 +14,7 @@
  *
  * This class inherits from the Node class and represents a Conv node
  * in a computational graph.
- * 
+ *
  * @author Tim Carlsson (timca@chalmers.se)
  */
 template <typename T>
@@ -52,7 +51,15 @@ class ConvNode : public Node {
              array_mml<int> stride,
              optional<shared_ptr<AbstractTensor>> B = std::nullopt,
              int group = 1)
-        : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {}
+        : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {
+        kernel_height = W->get_shape()[2];
+        kernel_width = W->get_shape()[3];
+        batch_size = X->get_shape()[0];
+        in_channels = X->get_shape()[1];
+        in_height = X->get_shape()[2];
+        in_width = X->get_shape()[3];
+        out_channels = W->get_shape()[0];
+    }
 
     /**
      * @brief Perform the forward pass convolution computation.
@@ -90,32 +97,11 @@ class ConvNode : public Node {
 
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
-        array_mml<int> w_shape({get_out_channels(), flattened_size});
-        auto flattened_weights = make_shared<Tensor_mml<T>>(w_shape);
-        std::cout << "shape of W: " << W->get_shape() << std::endl;
         W->reshape({get_out_channels(), flattened_size});
-        std::cout << "after reshape of W: " << W->get_shape() << std::endl;
-        
-        /* // TODO Extract into private method
-        // Write the values from the weight tensor (W) to the flattened tensor
-        for (int oc = 0; oc < get_out_channels(); ++oc) {
-            for (int ic = 0; ic < get_in_channels(); ++ic) {
-                for (int kh = 0; kh < get_kernel_height(); ++kh) {
-                    for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                        int flat_index = ic * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
-                        (*flattened_weights)[oc * flattened_size + flat_index] =
-                            (*W)[oc * get_in_channels() * get_kernel_height() * get_kernel_width() +
-                                 ic * get_kernel_height() * get_kernel_width() +
-                                 kh * get_kernel_width() + kw];
-                    }
-                }
-            }
-         }*/
 
         array_mml<int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
         auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
-        std::cout << "shape of result: " << result_ptr->get_shape() << std::endl;
-        
+
         shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
         gemm->gemm_inner_product(
             0, 0,
@@ -125,20 +111,8 @@ class ConvNode : public Node {
             im2col_output, im2col_output->get_shape()[1],
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
-        
-        std::cout << "W shape after gemm call: " << W->get_shape() << std::endl;
-        // TODO Make it possible to pass the bias into the gemm call instead
-        /* if (B.has_value()) {
-            auto bias = *B;
-            for (int oc = 0; oc < out_channels; ++oc) {
-                for (int i = 0; i < out_height * out_width; ++i) {
-                    result_ptr->get_data()[oc * out_height * out_width + i] += bias->get_data()[oc];
-                }
-            }
-        } */
 
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
-        std::cout << "result shape after gemm call: " << result_ptr->get_shape() << std::endl;
 
         *Y = *result_ptr;
     };
@@ -203,12 +177,20 @@ class ConvNode : public Node {
     // Output
     shared_ptr<AbstractTensor> Y;  // Output tensor.
 
-    // Attributes
+    // Convolution Attributes
     array_mml<int> dilations;
     array_mml<int> padding;
     array_mml<int> kernel_shape;
     array_mml<int> stride;
     int group;
+
+    int kernel_height;
+    int kernel_width;
+    int batch_size;
+    int in_channels;
+    int in_height;
+    int in_width;
+    int out_channels;
 
     /**
      * @brief Flips the content of each filter present in the weight kernel
@@ -286,14 +268,15 @@ class ConvNode : public Node {
     }
 
     // Getters for input tensor dimensions
-    int get_batch_size() const { return X->get_shape()[0]; }
-    int get_in_channels() const { return X->get_shape()[1]; }
-    int get_in_height() const { return X->get_shape()[2]; }
-    int get_in_width() const { return X->get_shape()[3]; }
+    int get_batch_size() const { return batch_size; }
+    int get_in_channels() const { return in_channels; }
+    int get_in_height() const { return in_height; }
+    int get_in_width() const { return in_width; }
 
     // Weight tensor getters
-    int get_kernel_height() const { return W->get_shape()[2]; }
-    int get_kernel_width() const { return W->get_shape()[3]; }
+    int get_kernel_height() const { return kernel_height; }
+    int get_kernel_width() const { return kernel_width; }
+    int get_out_channels() const { return out_channels; }
 
     // Getters for the other parameters
     int get_stride_h() const { return stride[0]; }
@@ -309,11 +292,6 @@ class ConvNode : public Node {
     // Returns the output width after the convolution
     int get_out_width() {
         return (get_in_width() - get_kernel_width() + 2 * get_padding_w()) / get_stride_w() + 1;
-    }
-
-    // Returns the number of output channel
-    int get_out_channels() {
-        return W->get_shape()[0];
     }
 
     // Checks the inputs to the convolution node and checks that parameters are correct
