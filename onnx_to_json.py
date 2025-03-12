@@ -172,13 +172,21 @@ def get_node_op_types(path: str) -> None:
             print(node.op_type) 
 
 def convert_tensor_type(tensor_type):
-    # Converts ONNX TensorProto into a format which can be represented in JSON easier
-    element_type = onnx.TensorProto.DataType.Name(tensor_type.elem_type)
-    shape = [{"dim_value": dim.dim_value} for dim in tensor_type.shape.dim]
+    # Print the tensor_type to understand its structure
+    print(tensor_type)
+    # Check if elem_type is available
+    if tensor_type.HasField('tensor_type'):
+        element_type = tensor_type.tensor_type.elem_type
+        shape = [{"dim_value": dim.dim_value} for dim in tensor_type.tensor_type.shape.dim]
+    else:
+        element_type = "Unknown"  # Handle missing elem_type gracefully
+        shape = []  # If shape or dims are missing, return empty list
+    
     return {
         "element_type": element_type,
         "shape": shape
     }
+
 
 # Script that reads a onnx file and converts it into a json format.
 def main():
