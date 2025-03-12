@@ -84,7 +84,7 @@ class DropoutNode : public Node {
 
     if (!valueData)
       throw runtime_error("Failed to cast Input to the expected tensor types.");
-    data = std::const_pointer_cast<AbstractTensor>(valueData);
+    data = std::const_pointer_cast<AbstractTensor>(*valueData);
   }
 
   /**
