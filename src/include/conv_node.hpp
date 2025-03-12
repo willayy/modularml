@@ -2,9 +2,8 @@
 
 #include "a_node.hpp"
 #include "globals.hpp"
-#include "mml_tensor.hpp"
 #include "mml_gemm.hpp"
-#include <string>
+#include "mml_tensor.hpp"
 
 /**
  * @class ConvNode
@@ -17,10 +16,11 @@ template <typename T>
 class ConvNode : public Node {
     static_assert(
         std::is_same_v<T, double> ||
-        std::is_same_v<T, float> ||
-        std::is_same_v<T, uint>,
+            std::is_same_v<T, float> ||
+            std::is_same_v<T, uint>,
         "GemmNode_T supports only double, float, int8");
-public:
+
+   public:
     using AbstractTensor = Tensor<T>;
 
     /**
@@ -46,13 +46,12 @@ public:
              array_mml<int> stride,
              optional<shared_ptr<AbstractTensor>> B = std::nullopt,
              int group = 1)
-      : X(X), W(W), B(B), Y(Y),
-        dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {}
+        : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {}
 
     /**
      * @brief Perform the forward pass convolution computation.
-     * 
-     * This method performs the forward pass of the convolution operation. It computes the convolution 
+     *
+     * This method performs the forward pass of the convolution operation. It computes the convolution
      * between the input tensor and the weights (filters), and stores the result in the output tensor.
      * The process is as follows:
      * - Validating input dimensions and checking if inputs are set.
@@ -60,12 +59,12 @@ public:
      * - Flattening the weight tensor.
      * - Performing the matrix multiplication using GEMM (General Matrix Multiply) to compute the convolution result.
      * - Reshaping the result tensor to the appropriate output dimensions.
-     * 
+     *
      * The output of the convolution is stored in the `Y` tensor.
-     * 
+     *
      * @throws runtime_error If the input tensor is not correctly shaped or not filled.
      * @throws invalid_argument If any of the padding, stride, or kernel parameters are incorrectly specified.
-     * 
+     *
      * @see Tensor_mml, im2col, GEMM
      */
     void forward() override {
@@ -77,19 +76,12 @@ public:
         // Begin by flipping the weight kernel
         flip_kernel();
 
-        std::cout << "im2col_output_shape " << std::endl;
-        std::cout << get_in_channels() << " * " << get_kernel_height() << " * " << get_kernel_width() << std::endl;
-        std::cout << get_out_height() << " * " << get_batch_size() << " * " << get_out_width() << std::endl;  
-
-        auto im2col_output_shape = array_mml<int>({
-            get_in_channels() * get_kernel_height() * get_kernel_width(),
-            get_batch_size() * get_out_height() * get_out_width()
-        });
+        auto im2col_output_shape = array_mml<int>({get_in_channels() * get_kernel_height() * get_kernel_width(),
+                                                   get_batch_size() * get_out_height() * get_out_width()});
         auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
-        
+
         im2col(input_copy, im2col_output);
-        
-        std::cout << "im2coloutput shape: " << im2col_output->get_shape() << std::endl;
+
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
         array_mml<int> w_shape({get_out_channels(), flattened_size});
@@ -103,9 +95,9 @@ public:
                     for (int kw = 0; kw < get_kernel_width(); ++kw) {
                         int flat_index = ic * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
                         (*flattened_weights)[oc * flattened_size + flat_index] =
-                            (*W)[oc * get_in_channels() * get_kernel_height() * get_kernel_width() + 
-                                        ic * get_kernel_height() * get_kernel_width() + 
-                                        kh * get_kernel_width() + kw];
+                            (*W)[oc * get_in_channels() * get_kernel_height() * get_kernel_width() +
+                                 ic * get_kernel_height() * get_kernel_width() +
+                                 kh * get_kernel_width() + kw];
                     }
                 }
             }
@@ -123,12 +115,7 @@ public:
             im2col_output, im2col_output->get_shape()[1],
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
-        
-        std::cout << "after gemm shape: " << result_ptr->get_shape() << std::endl;
-        for (int i=0; i<result_ptr->get_size(); i++) {
-            std::cout << "result at index " << i << ": " << result_ptr->get_data()[i] << std::endl;
-        }
-    
+
         // TODO Make it possible to pass the bias into the gemm call instead
         /* if (B.has_value()) {
             auto bias = *B;
@@ -139,99 +126,14 @@ public:
             }
         } */
 
-        std::cout << "Reshaping the result into shape: " << std::endl;
-        std::cout << "Batch size: " << get_batch_size() << std::endl;
-        std::cout << "Out channels: " << get_out_channels() << std::endl;
-        std::cout << "Out height: " << get_out_height() << std::endl;
-        std::cout << "Out width: " << get_out_width() << std::endl;
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
 
-        std::cout << "result after reshape: " << result_ptr->get_shape() << std::endl;
-        
         *Y = *result_ptr;
-        
     };
 
     /**
-     * @brief Performs the im2col transformation on the input tensor.
-     *
-     * The im2col (image to column) operation transforms an input tensor into a matrix format
-     * suitable for efficient matrix multiplication.
-     *
-     * @tparam T The data type of the tensor elements.
-     * @param input A shared pointer to the input tensor.
-     * @param output A shared pointer to the output tensor, where the transformed data will be stored.
-     *
-     * The function extracts patches from the input tensor and arranges them into columns,
-     * preparing the data for efficient computation.
-     */
-    void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
-        
-        // Iterate over each image in the batch
-        for (int n = 0; n < get_batch_size(); ++n) {
-            for (int h = 0; h < get_out_height(); ++h) {
-                for (int w = 0; w < get_out_width(); ++w) {
-                    int col_index = h * get_out_width() + w; // Column index in im2col matrix
-
-                    for (int c = 0; c < get_in_channels(); ++c) {
-                        for (int kh = 0; kh < get_kernel_height(); ++kh) {
-                            for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                                int input_h = h * get_stride_h() - get_padding_h() + kh;
-                                int input_w = w * get_stride_w() - get_padding_w() + kw;
-
-                                int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
-
-                                // Compute linear index in output
-                                int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
-
-                                if (input_h >= 0 && input_h < get_in_height() && input_w >= 0 && input_w < get_in_width()) {
-                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) + c * (get_in_height() * get_in_width()) + input_h * get_in_width() + input_w;
-                                    (*output)[output_index] = (*input)[input_index];
-                                } else {
-                                    (*output)[output_index] = 0; // Padding
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }        
-    }
-
-    /**
-     * @brief Flips the content of each filter present in the weight kernel
-     */
-    void flip_kernel() {
-        int height = get_kernel_height();
-        int width = get_kernel_width();
-
-        for (int f = 0; f < get_out_channels(); f++) {
-            for (int c = 0; c < get_in_channels(); c++) {
-                
-                // Flip horizontally
-                for (int h = 0; h < height; h++) {
-                    for (int w = 0; w < width / 2; w++) {
-                        auto tmp = (*W)[{f, c, h, w}];
-                        (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
-                        (*W)[{f, c, h, width - 1 - w}] = tmp;
-                    }
-                }
-
-                // Flip vertically
-                for (int w = 0; w < width; w++) {
-                    for (int h = 0; h < height / 2; h++) {
-                        auto tmp = (*W)[{f, c, h, w}];
-                        (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
-                        (*W)[{f, c, height - 1 - h, w}] = tmp;
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
      * @brief Check if the input(s) are filled.
-     * 
+     *
      * @return True if the input(s) are filled, false otherwise.
      */
     bool areInputsFilled() const override {
@@ -242,7 +144,7 @@ public:
 
     /**
      * @brief Set the input(s) for the node.
-     * 
+     *
      * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
      */
     void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
@@ -264,7 +166,7 @@ public:
 
     /**
      * @brief Check if the output(s) are filled.
-     * 
+     *
      * @return True if the output(s) are filled, false otherwise.
      */
     bool areOutputsFilled() const override {
@@ -273,21 +175,21 @@ public:
 
     /**
      * @brief Get the output of the node.
-     * 
+     *
      * @return The output data.
      */
     array_mml<GeneralDataTypes> getOutputs() const override {
-        return array_mml<GeneralDataTypes>{ GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y)) };
+        return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y))};
     }
 
-private:
+   private:
     // Inputs
-    shared_ptr<AbstractTensor> X; // Input data tensor A has size N x C x H x W.
-    shared_ptr<AbstractTensor> W; // The weight tensor used in the convolution.
-    optional<shared_ptr<AbstractTensor>> B; // Optional 1D bias tensor.
+    shared_ptr<AbstractTensor> X;            // Input data tensor A has size N x C x H x W.
+    shared_ptr<AbstractTensor> W;            // The weight tensor used in the convolution.
+    optional<shared_ptr<AbstractTensor>> B;  // Optional 1D bias tensor.
 
     // Output
-    shared_ptr<AbstractTensor> Y; // Output tensor.
+    shared_ptr<AbstractTensor> Y;  // Output tensor.
 
     // Attributes
     array_mml<int> dilations;
@@ -295,6 +197,81 @@ private:
     array_mml<int> kernel_shape;
     array_mml<int> stride;
     int group;
+
+    /**
+     * @brief Flips the content of each filter present in the weight kernel
+     */
+    void flip_kernel() {
+        int height = get_kernel_height();
+        int width = get_kernel_width();
+
+        for (int f = 0; f < get_out_channels(); f++) {
+            for (int c = 0; c < get_in_channels(); c++) {
+                // Flip horizontally
+                for (int h = 0; h < height; h++) {
+                    for (int w = 0; w < width / 2; w++) {
+                        auto tmp = (*W)[{f, c, h, w}];
+                        (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
+                        (*W)[{f, c, h, width - 1 - w}] = tmp;
+                    }
+                }
+
+                // Flip vertically
+                for (int w = 0; w < width; w++) {
+                    for (int h = 0; h < height / 2; h++) {
+                        auto tmp = (*W)[{f, c, h, w}];
+                        (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
+                        (*W)[{f, c, height - 1 - h, w}] = tmp;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief Performs the im2col transformation on the input tensor.
+     *
+     * The im2col (image to column) operation transforms an input tensor into a matrix format
+     * suitable for efficient matrix multiplication.
+     *
+     * @tparam T The data type of the tensor elements.
+     * @param input A shared pointer to the input tensor.
+     * @param output A shared pointer to the output tensor, where the transformed data will be stored.
+     *
+     * The function extracts patches from the input tensor and arranges them into columns,
+     * preparing the data for efficient computation.
+     */
+    void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
+        // Iterate over each image in the batch
+        for (int n = 0; n < get_batch_size(); ++n) {
+            for (int h = 0; h < get_out_height(); ++h) {
+                for (int w = 0; w < get_out_width(); ++w) {
+                    int col_index = h * get_out_width() + w;  // Column index in im2col matrix
+
+                    for (int c = 0; c < get_in_channels(); ++c) {
+                        for (int kh = 0; kh < get_kernel_height(); ++kh) {
+                            for (int kw = 0; kw < get_kernel_width(); ++kw) {
+                                int input_h = h * get_stride_h() - get_padding_h() + kh;
+                                int input_w = w * get_stride_w() - get_padding_w() + kw;
+
+                                int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
+
+                                // Compute linear index in output
+                                int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
+
+                                if (input_h >= 0 && input_h < get_in_height() && input_w >= 0 && input_w < get_in_width()) {
+                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) + c * (get_in_height() * get_in_width()) + input_h * get_in_width() + input_w;
+                                    (*output)[output_index] = (*input)[input_index];
+                                } else {
+                                    (*output)[output_index] = 0;  // Padding
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Getters for input tensor dimensions
     int get_batch_size() const { return X->get_shape()[0]; }
@@ -321,7 +298,7 @@ private:
     int get_out_width() {
         return (get_in_width() - get_kernel_width() + 2 * get_padding_w()) / get_stride_w() + 1;
     }
-    
+
     // Returns the number of output channel
     int get_out_channels() {
         return W->get_shape()[0];
@@ -337,23 +314,23 @@ private:
             throw runtime_error("Input tensor must have 4 dimensions: (Features x Channels x Height x Width)");
 
         if (dilations.size() != 2) {
-            throw invalid_argument("Invalid dilations size. Expected a vector of size 2, but got: " + 
-                                    std::to_string(dilations.size()) + ".");
+            throw invalid_argument("Invalid dilations size. Expected a vector of size 2, but got: " +
+                                   std::to_string(dilations.size()) + ".");
         }
 
         if (padding.size() != 4) {
-            throw invalid_argument("Invalid padding vector size. Expected a vector of size 4, but got: " + 
-                                    std::to_string(padding.size()) + ".");
+            throw invalid_argument("Invalid padding vector size. Expected a vector of size 4, but got: " +
+                                   std::to_string(padding.size()) + ".");
         }
 
         if (kernel_shape.size() != 2) {
-            throw invalid_argument("Invalid kernel_shape vector size. Expected a vector of size 2, but got: " + 
-                                    std::to_string(kernel_shape.size()) + ".");
+            throw invalid_argument("Invalid kernel_shape vector size. Expected a vector of size 2, but got: " +
+                                   std::to_string(kernel_shape.size()) + ".");
         }
 
         if (stride.size() != 2) {
-            throw invalid_argument("Invalid stride vector size. Expected a vector of size 2, but got: " + 
-                                    std::to_string(stride.size()) + ".");
+            throw invalid_argument("Invalid stride vector size. Expected a vector of size 2, but got: " +
+                                   std::to_string(stride.size()) + ".");
         }
     }
 };
