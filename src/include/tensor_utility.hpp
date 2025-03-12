@@ -1,7 +1,4 @@
-#include <cmath>
-#include <iostream>
-#include <random>
-#include <type_traits>
+#pragma once
 
 #include "a_tensor.hpp"
 #include "array_mml.hpp"

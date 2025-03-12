@@ -1,9 +1,5 @@
 #pragma once
 
-#include <cmath>
-#include <stdexcept>
-#include <variant>
-
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
