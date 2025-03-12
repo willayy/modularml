@@ -2,6 +2,7 @@
 
 #include "array_mml.hpp"
 #include "globals.hpp"
+#include <string>
 
 #define ASSERT_ALLOWED_TYPE_T(T) static_assert(std::is_arithmetic_v<T>, "Tensor must have an arithmetic type.");
 

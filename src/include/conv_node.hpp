@@ -74,14 +74,22 @@ public:
         // Create a copy of the input
         auto input_copy = X->copy();
 
+        // Begin by flipping the weight kernel
+        flip_kernel();
+
+        std::cout << "im2col_output_shape " << std::endl;
+        std::cout << get_in_channels() << " * " << get_kernel_height() << " * " << get_kernel_width() << std::endl;
+        std::cout << get_out_height() << " * " << get_batch_size() << " * " << get_out_width() << std::endl;  
+
         auto im2col_output_shape = array_mml<int>({
-            get_batch_size() * get_out_height() * get_out_width(), 
-            get_in_channels() * get_kernel_height() * get_kernel_width()
+            get_in_channels() * get_kernel_height() * get_kernel_width(),
+            get_batch_size() * get_out_height() * get_out_width()
         });
         auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
         
         im2col(input_copy, im2col_output);
         
+        std::cout << "im2coloutput shape: " << im2col_output->get_shape() << std::endl;
         // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
         array_mml<int> w_shape({get_out_channels(), flattened_size});
@@ -131,6 +139,11 @@ public:
             }
         } */
 
+        std::cout << "Reshaping the result into shape: " << std::endl;
+        std::cout << "Batch size: " << get_batch_size() << std::endl;
+        std::cout << "Out channels: " << get_out_channels() << std::endl;
+        std::cout << "Out height: " << get_out_height() << std::endl;
+        std::cout << "Out width: " << get_out_width() << std::endl;
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
 
         std::cout << "result after reshape: " << result_ptr->get_shape() << std::endl;
@@ -183,6 +196,37 @@ public:
                 }
             }
         }        
+    }
+
+    /**
+     * @brief Flips the content of each filter present in the weight kernel
+     */
+    void flip_kernel() {
+        int height = get_kernel_height();
+        int width = get_kernel_width();
+
+        for (int f = 0; f < get_out_channels(); f++) {
+            for (int c = 0; c < get_in_channels(); c++) {
+                
+                // Flip horizontally
+                for (int h = 0; h < height; h++) {
+                    for (int w = 0; w < width / 2; w++) {
+                        auto tmp = (*W)[{f, c, h, w}];
+                        (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
+                        (*W)[{f, c, h, width - 1 - w}] = tmp;
+                    }
+                }
+
+                // Flip vertically
+                for (int w = 0; w < width; w++) {
+                    for (int h = 0; h < height / 2; h++) {
+                        auto tmp = (*W)[{f, c, h, w}];
+                        (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
+                        (*W)[{f, c, height - 1 - h, w}] = tmp;
+                    }
+                }
+            }
+        }
     }
     
     /**
