@@ -135,8 +135,8 @@ class reshapeNode : public Node {
     if (!valueData || !valueShape)
       throw runtime_error("Failed to cast inputs to the expected tensor types. Check the tensor types.");
 
-    data = valueData;
-    shape = valueShape;
+    data = *valueData;
+    shape = *valueShape;
   }
 
   /**
