@@ -2,7 +2,7 @@
 
 #include <conv_node.hpp>
 
-TEST(ConvNodeTest, TestConstructor) {
+TEST(conv_node_test, test_constructor) {
     std::cout << "My test" << std::endl;
 
     array_mml<int> shapeX({1, 1, 3, 3});
@@ -37,7 +37,7 @@ TEST(ConvNodeTest, TestConstructor) {
     ASSERT_EQ(Y->get_shape()[3], 2);  // Width
 }
 
-TEST(ConvNodeTest, TestForward) {
+TEST(conv_node_test, test_forward_simple) {
     // Define the input tensor shape and values
     array_mml<int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
@@ -82,7 +82,7 @@ TEST(ConvNodeTest, TestForward) {
     EXPECT_FLOAT_EQ(Y->get_data()[3], 28);
 }
 
-TEST(ConvNodeTest, TestForward_5x5Input_2x2Filter) {
+TEST(conv_node_test, test_forward_5x5input_2x2filter) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
     array_mml<int> shapeX({1, 1, 5, 5});
     array_mml<float> X_values({
@@ -155,7 +155,7 @@ TEST(ConvNodeTest, TestForward_5x5Input_2x2Filter) {
     }
 }
 
-TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels) {
+TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
     array_mml<int> shapeX({1, 3, 5, 5});
     array_mml<float> X_values({
@@ -286,7 +286,7 @@ TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels) {
     }
 }
 
-TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels_SciPyComparison) {
+TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison) {
     // The purpose of this test is to check if our implementation is the same as using scipy convolve2d implementation
 
     // Define the input tensor shape and values
@@ -396,7 +396,7 @@ TEST(ConvNodeTest, TestForward_3InChannels_8OutChannels_SciPyComparison) {
     }
 }
 
-TEST(ConvNodeTest, TestBiasAdd) {
+TEST(conv_node_test, test_bias_add) {
     // Define the input tensor shape and values
     array_mml<int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
@@ -444,7 +444,7 @@ TEST(ConvNodeTest, TestBiasAdd) {
     EXPECT_FLOAT_EQ(Y->get_data()[3], 38);
 }
 
-TEST(ConvNodeTest, TestBias_MultipleOutChannels) {
+TEST(conv_node_test, test_bias_multiple_out_channels) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
     array_mml<int> shapeX({1, 3, 5, 5});
     array_mml<float> X_values({
@@ -588,7 +588,7 @@ TEST(ConvNodeTest, TestBias_MultipleOutChannels) {
     }
 }
 
-TEST(ConvNodeTest, TestPadding) {
+TEST(conv_node_test, TestPadding) {
     // Define the input tensor shape and values
     array_mml<int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
