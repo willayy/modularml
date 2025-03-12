@@ -112,8 +112,8 @@ def onnx_to_json(path: str):
             },
             "nodes": [],
             "weights_file": model_weight_file_name, # Path to the binary file
-            "inputs": [{"name": i.name, "type": str(i.type)} for i in graph.input],
-            "outputs": [{"name": i.name, "type": str(i.type)} for i in graph.output]
+            "inputs": [convert_tensor_type(i.type) for i in graph.input],
+            "outputs": [convert_tensor_type(i.type) for i in graph.output]
         }
 
         weight_file_path = f"./{model_weight_file_name}"
