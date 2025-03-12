@@ -8,18 +8,11 @@ TanHNode<T>::TanHNode(std::shared_ptr<AbstractTensor> X, std::shared_ptr<Abstrac
 
 template <typename T>
 void TanHNode<T>::forward() {
-  if (!areInputsFilled())
-    throw std::runtime_error("TanHNode inputs are not fully set.");
-
-  if (!X)
-    throw std::runtime_error("Failed to cast X to Tensor_mml<T>.");
-
-  if (!Y)
-    throw std::runtime_error("Output tensor Y is not allocated.");
-
+  if (!areInputsFilled()) throw runtime_error("TanHNode inputs are not fully set.");
+  if (!X) throw runtime_error("Failed to cast X to Tensor<T>.");
+  if (!Y) throw runtime_error("Output tensor Y is not allocated.");
   Arithmetic_mml<T> arithmetic;
-  arithmetic.elementwise_in_place(X, [](T x) { return std::tanh(x); });
-  *Y = *X;
+  arithmetic.elementwise(X, [](T x) { return tanh(x); }, Y);
 }
 
 template <typename T>
@@ -29,15 +22,10 @@ bool TanHNode<T>::areInputsFilled() const {
 
 template <typename T>
 void TanHNode<T>::setInputs(const array_mml<GeneralDataTypes>& inputs) {
-  if (inputs.size() < 1)
-    throw std::runtime_error("TanHNode expects at least one input: X.");
-
-  auto valueX = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-
-  auto valueX_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(valueX);
-  if (!X || !valueX_mml)
-    throw std::runtime_error("Failed to cast X or input X to Tensor_mml<T>.");
-  *X = *valueX_mml;
+  if (inputs.size() < 1) throw runtime_error("TanHNode expects at least one input: X.");
+  auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
+  if (!X || !valueX) throw runtime_error("Failed to cast X or input X to Tensor<T>.");
+  X = std::const_pointer_cast<AbstractTensor>(valueX);
 }
 
 template <typename T>

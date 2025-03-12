@@ -13,21 +13,18 @@ GemmNode<T>::GemmNode(shared_ptr<AbstractTensor> A,
 
 template <typename T>
 void GemmNode<T>::forward() {
-  if (!areInputsFilled())
-    throw runtime_error("GemmNode inputs are not fully set.");
+  if (!areInputsFilled())throw runtime_error("GemmNode inputs are not fully set.");
 
   auto shapeA = A->get_shape();
-  if (shapeA.size() < 2)
-    throw runtime_error("Tensor A must be at least 2D.");
+
+  if (shapeA.size() < 2) throw runtime_error("Tensor A must be at least 2D.");
 
   int M = shapeA[0];  // Number of rows.
   int K = shapeA[1];  // Number of columns of A.
 
   auto shapeB = B->get_shape();
-  if (shapeB.size() < 2)
-    throw runtime_error("Tensor B must be at least 2D.");
-  if (shapeB[0] != K)
-    throw runtime_error("GemmNode: Dimension mismatch between A and B.");
+  if (shapeB.size() < 2) throw runtime_error("Tensor B must be at least 2D.");
+  if (shapeB[0] != K) throw runtime_error("GemmNode: Dimension mismatch between A and B.");
 
   int N = shapeB[1];  // Number of columns of B.
 
@@ -41,8 +38,7 @@ void GemmNode<T>::forward() {
   shared_ptr<Tensor_mml<T>> C_ptr;
   if (C.has_value() && C.value()) {
     C_ptr = std::dynamic_pointer_cast<Tensor_mml<T>>(C.value());
-    if (!C_ptr)
-      throw runtime_error("GemmNode: Failed to cast optional C to Tensor_mml<T>.");
+    if (!C_ptr) throw runtime_error("GemmNode: Failed to cast optional C to Tensor_mml<T>.");
   } else {
     Tensor_mml<T> zero_tensor({M, N});
     zero_tensor.fill(static_cast<T>(0));
@@ -50,11 +46,8 @@ void GemmNode<T>::forward() {
   }
 
   Gemm_mml<T> gemm;
-  gemm.gemm_inner_product(0, 0, M, N, K, static_cast<T>(alpha),
-                          A, lda,
-                          B, ldb,
-                          static_cast<T>(beta),
-                          C_ptr, ldc);
+  gemm.gemm_inner_product(0, 0, M, N, K, static_cast<T>(alpha), A,
+                          lda, B, ldb, static_cast<T>(beta), C_ptr, ldc);
 
   *Y = *C_ptr;
 }

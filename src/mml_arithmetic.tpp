@@ -54,7 +54,7 @@ bool Arithmetic_mml<T>::equals(const shared_ptr<Tensor<T>> a, const shared_ptr<T
 }
 
 template <typename T>
-void Arithmetic_mml<T>::elementwise(const shared_ptr<Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const {
+void Arithmetic_mml<T>::elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const {
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
