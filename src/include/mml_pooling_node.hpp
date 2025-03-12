@@ -25,17 +25,23 @@ template <typename T> class PoolingNode_mml : public Node {
 public:
   /**
    * @brief Base constructor for PoolingNode.
-   * @param k A 2x2 vector of integers representing the kernel shape/pooling
-   * window of the layer.
-   * @param s A 2x2 vector of integers representing the strides of the layer.
-   * @param p An optional parameter representing the padding of the layer.
-   * It has a default value of "valid" (no padding) and can also accept "same"
-   * (padding to preserve the input dimensions).
+   * @param kernel_shape A 2x2 vector of integers representing the kernel
+   * shape/pooling window of the layer.
+   * @param strides A 2x2 vector of integers representing the strides of the
+   * layer.
+   * @param input Pointer to the input tensor
+   * @param auto_pad (OPTIONAL Parameter representing the padding of the
+   * layer. It has a default value of "NOTSET" (no padding) and can also accept
+   * "VALID", "SAME_UPPER" and "SAME_LOWER"
+   * @param ceiling_mode (OPTIONAL) Whether the output shape should be
+   * calcualted with ceil or floor. Accepted values 1 for ceil and 0 for floor.
+   * @param dilations (OPTIONAL) Value for dilution of kernel_shape. Default
+   * value {1,1}.
+   * @param pads (NOT SUPPORTED)
    */
   PoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
-                  shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output,
-                  string auto_pad = "NOTSET", int ceiling_mode = 0,
-                  vector<int> dilations = {1, 1},
+                  shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
+                  int ceiling_mode = 0, vector<int> dilations = {1, 1},
                   vector<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   /**

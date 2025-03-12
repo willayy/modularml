@@ -14,18 +14,21 @@ template <typename T>
 PoolingNode_mml<T>::PoolingNode_mml(vector<int> kernel_shape,
                                     vector<int> strides,
                                     shared_ptr<Tensor<T>> input,
-                                    shared_ptr<Tensor<T>> output,
                                     string auto_pad, int ceiling_mode,
                                     vector<int> dilations, vector<int> pads)
     : kernel_shape(kernel_shape), strides(strides), input(input),
-      output(output), ceil_mode(ceiling_mode), dilations(dilations),
-      pads(pads) {
+      dilations(dilations), pads(pads) {
   if (auto_pad != "VALID" && auto_pad != "SAME_UPPER" &&
       auto_pad != "SAME_LOWER") {
     throw std::invalid_argument("Invalid padding value! Only 'VALID', "
                                 "'SAME_UPPER' and 'SAME_LOWER' are allowed.");
   }
+  if (ceil_mode < 0 || ceil_mode > 1) {
+    throw std::invalid_argument("Invalid ceil_mode value! Must be 0 or 1");
+  }
+
   this->auto_pad = auto_pad;
+  this->ceil_mode = ceil_mode;
   this->output = array_mml(2);
 };
 
