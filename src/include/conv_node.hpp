@@ -5,8 +5,6 @@
 #include "mml_gemm.hpp"
 #include "mml_tensor.hpp"
 
-// TODO Add bias functionality and testing
-// TODO Test that padding, stride and dilation work
 
 /**
  * @class ConvNode
@@ -20,10 +18,10 @@
 template <typename T>
 class ConvNode : public Node {
     static_assert(
-        std::is_same_v<T, double> ||
-            std::is_same_v<T, float> ||
-            std::is_same_v<T, uint>,
-        "GemmNode_T supports only double, float, int8");
+        std::is_same_v<T, double> || 
+        std::is_same_v<T, float>  || 
+        std::is_same_v<T, uint>,
+        "ConvNode_T only supports double, float, int");
 
    public:
     using AbstractTensor = Tensor<T>;
@@ -31,15 +29,14 @@ class ConvNode : public Node {
     /**
      * @brief Constructor for ConvNode.
      *
-     * @tparam T The data type of the tensor elements.
      * @param X Shared pointer to the tensor X (data input).
      * @param W Shared pointer to the tensor W (weights).
-     * @param B Optional shared pointer to the output tensor (bias).
      * @param Y Shared pointer to the output tensor Y.
      * @param dilations Dilation value along each spatial axis of the filter.
      * @param padding The shape of the convolution kernel.
      * @param kernel_shape The shape of the convolution kernel.
      * @param stride Stride along each spatial axis.
+     * @param B Optional shared pointer to the output tensor (bias).
      * @param group number of groups input channels and out channels are divided into.
      */
     ConvNode(shared_ptr<AbstractTensor> X,
@@ -50,317 +47,250 @@ class ConvNode : public Node {
              array_mml<int> kernel_shape,
              array_mml<int> stride,
              optional<shared_ptr<AbstractTensor>> B = std::nullopt,
-             int group = 1)
-        : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {
-        kernel_height = W->get_shape()[2];
-        kernel_width = W->get_shape()[3];
-        batch_size = X->get_shape()[0];
-        in_channels = X->get_shape()[1];
-        in_height = X->get_shape()[2];
-        in_width = X->get_shape()[3];
-        out_channels = W->get_shape()[0];
-    }
+             int group = 1);
 
     /**
-     * @brief Perform the forward pass convolution computation.
-     *
-     * This method performs the forward pass of the convolution operation. It computes the convolution
-     * between the input tensor and the weights (filters), and stores the result in the output tensor.
-     * The process is as follows:
-     * - Validating input dimensions and checking if inputs are set.
-     * - Reshaping the input tensor using im2col (image to column) to transform the convolution into a matrix multiplication.
-     * - Flattening the weight tensor.
-     * - Performing the matrix multiplication using GEMM (General Matrix Multiply) to compute the convolution result.
-     * - Reshaping the result tensor to the appropriate output dimensions.
-     *
-     * The output of the convolution is stored in the `Y` tensor.
-     *
-     * @throws runtime_error If the input tensor is not correctly shaped or not filled.
-     * @throws invalid_argument If any of the padding, stride, or kernel parameters are incorrectly specified.
-     *
-     * @see Tensor_mml, im2col, GEMM
+     * @brief Performs the forward pass convolution operation.
+     * 
+     * The method computes the forward convolution by performing the following steps:
+     * 
+     * 1. **Validate Inputs**: The method first checks that all the inputs are valid. This includes 
+     *    verifying the dimensions of the input tensor, kernel size, stride, padding, and other 
+     *    convolution parameters to ensure compatibility.
+     * 
+     * 2. **Apply im2col Transformation**: The input tensor is transformed using the im2col operation. 
+     *    See explanation below. The transformed data is stored in a temporary tensor, ready 
+     *    for efficient matrix multiplication.
+     * 
+     * 3. **Perform GEMM (General Matrix Multiply)**: The core of the convolution operation is carried 
+     *    out using GEMM, which efficiently performs matrix multiplication. The im2col-transformed input 
+     *    tensor is multiplied with the kernel weights, which are reshaped appropriately. This operation 
+     *    produces the convolution results in the output tensor, which contains the feature maps after 
+     *    applying the kernel.
+     * 
+     * 4. **Add Bias (Optional)**: If a bias term is specified, it is added to the output of the GEMM operation.
+     *    This bias is applied across the feature maps and is typically used to adjust the activation of the convolutional layer.
+     * 
+     * 5. **Store Result in Output Tensor**: The final result of the convolution operation, after the 
+     *    optional bias addition, is stored in the output tensor `Y`, which represents the convolved feature maps.
      */
-    void forward() override {
-        validate_inputs();
-
-        // Create a copy of the input
-        auto input_copy = X->copy();
-
-        // Begin by flipping the weight kernel
-        flip_kernel();
-
-        auto im2col_output_shape = array_mml<int>({
-            get_in_channels() * get_kernel_height() * get_kernel_width(),
-            get_batch_size() * get_out_height() * get_out_width()
-        });
-        
-        auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
-
-        im2col(input_copy, im2col_output);
-
-        // Flatten the weight tensor to prepare for GEMM
-        int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
-        W->reshape({get_out_channels(), flattened_size});
-
-        // Prepare the result tensor
-        array_mml<int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
-        auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
-        
-        shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
-        gemm->gemm_inner_product(
-            0, 0,
-            W->get_shape()[0], im2col_output->get_shape()[1], W->get_shape()[1],
-            1.0f,
-            W, W->get_shape()[1],
-            im2col_output, im2col_output->get_shape()[1],
-            0.0f,
-            result_ptr, result_ptr->get_shape()[1]);
-            
-        // Reshape the flattened result 
-        result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
-            
-        // Provided a bias, add it to the result tensor across each output feature    
-        if (B.has_value()) {
-            add_bias(result_ptr);
-        }      
-
-        // Write over the content of the output with the result of the convolution
-        *Y = *result_ptr;
-    };
+    void forward() override;
 
     /**
      * @brief Check if the input(s) are filled.
      *
      * @return True if the input(s) are filled, false otherwise.
      */
-    bool areInputsFilled() const override {
-        return X && X->get_size() > 0 &&
-               W && W->get_size() > 0 &&
-               (!B.has_value() || (B.value() && B.value()->get_size() > 0));
-    }
+    bool areInputsFilled() const override;
 
     /**
      * @brief Set the input(s) for the node.
      *
-     * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
+     * @param inputs The input data to be set.
      */
-    void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-        if (inputs.size() > 0) {
-            auto x_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-            *X = *x_value;
-        }
-
-        if (inputs.size() > 1) {
-            auto w_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
-            *W = *w_value;
-        }
-
-        if (inputs.size() > 2 && B.has_value()) {
-            auto b_value = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
-            *B.value() = *b_value;
-        }
-    }
+    void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
 
     /**
      * @brief Check if the output(s) are filled.
      *
      * @return True if the output(s) are filled, false otherwise.
      */
-    bool areOutputsFilled() const override {
-        return Y && Y->get_size() > 0;
-    }
+    bool areOutputsFilled() const override;
 
     /**
      * @brief Get the output of the node.
      *
      * @return The output data.
      */
-    array_mml<GeneralDataTypes> getOutputs() const override {
-        return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y))};
-    }
+    array_mml<GeneralDataTypes> getOutputs() const override;
 
    private:
     // Inputs
-    shared_ptr<AbstractTensor> X;            // Input data tensor A has size N x C x H x W.
-    shared_ptr<AbstractTensor> W;            // The weight tensor used in the convolution.
-    optional<shared_ptr<AbstractTensor>> B;  // Optional 1D bias tensor.
+    /**
+     * @brief Input data tensor containing the feature map(s) for the convolution.
+     * 
+     * The input tensor typically has the shape [batch_size, in_channels, in_height, in_width].
+     * This tensor represents the data that will be convolved with the kernel.
+     */
+    shared_ptr<AbstractTensor> X;
+
+    /**
+     * @brief Weight tensor (kernel) used in the convolution.
+     * 
+     * The kernel tensor typically has the shape [out_channels, in_channels / group, kernel_height, kernel_width] 
+     * for a grouped convolution. This tensor contains the filters that will be used to convolve the input tensor.
+     */
+    shared_ptr<AbstractTensor> W;
+
+    /**
+     * @brief Optional 1D bias tensor.
+     * 
+     * The bias tensor is added to the output feature map(s) after the convolution. 
+     * It is typically of shape [out_channels]. If not provided, no bias will be added.
+     */
+    optional<shared_ptr<AbstractTensor>> B; 
 
     // Output
-    shared_ptr<AbstractTensor> Y;  // Output tensor.
+    /**
+     * @brief Output tensor that holds the result of the convolution operation.
+     * 
+     * This tensor typically has the shape [batch_size, out_channels, out_height, out_width], 
+     * where the output feature map(s) will be stored after performing the convolution.
+     */
+    shared_ptr<AbstractTensor> Y;
 
-    // Convolution Attributes
+    /**
+     * @brief Dilation factors for each dimension of the kernel.
+     * 
+     * Dilation controls the spacing between elements in the kernel. The default is typically [1, 1], meaning no dilation.
+     * Dilation increases the receptive field of the kernel without increasing its size.
+     */
     array_mml<int> dilations;
-    array_mml<int> padding;
-    array_mml<int> kernel_shape;
-    array_mml<int> stride;
-    int group;
 
+    /**
+     * @brief Padding to be applied to the input tensor before performing the convolution.
+     * 
+     * Padding for each spatial direction is represented as [top, bottom, left, right]. 
+     * Padding ensures that the convolution can be performed at the borders of the input tensor.
+     */
+    array_mml<int> padding;
+
+    /**
+     * @brief Shape of the kernel (filter).
+     * 
+     * The kernel shape typically has the format [kernel_height, kernel_width]. 
+     * These dimensions determine the size of the region in the input tensor that will be convolved at each step.
+     */
+    array_mml<int> kernel_shape;
+
+    /**
+     * @brief Stride of the convolution operation.
+     * 
+     * Stride specifies the step size for moving the kernel across the input tensor. 
+     * It is typically represented as [vertical_stride, horizontal_stride].
+     */
+    array_mml<int> stride;
+
+    /**
+     * @brief Number of groups for grouped convolution.
+     * 
+     * If set to 1, a standard convolution is performed. If greater than 1, the input channels are divided into groups,
+     * and a grouped convolution is performed. Grouped convolutions can reduce computational complexity.
+     */
+    int group;
+    
+    /**
+     * @brief Height of the kernel (filter).
+     * 
+     * Kernel height determines the vertical size of the region in the input tensor to be convolved.
+     */
     int kernel_height;
+
+    /**
+     * @brief Width of the kernel (filter).
+     * 
+     * Kernel width determines the horizontal size of the region in the input tensor to be convolved.
+     */
     int kernel_width;
+
+    /**
+     * @brief Number of examples in the batch.
+     * 
+     * The batch size represents how many input tensors will be processed at once.
+     */
     int batch_size;
+
+    /**
+     * @brief Number of input channels.
+     * 
+     * The input channels correspond to the depth of the input tensor, typically 3 for RGB images.
+     */
     int in_channels;
+
+    /**
+     * @brief The height of the input tensor.
+     * 
+     * This is the height of the input feature map(s).
+     */
     int in_height;
+
+    /**
+     * @brief Width of the input tensor.
+     * 
+     * This is the width of the input feature map(s).
+     */
     int in_width;
+
+    /**
+     * @brief Number of output channels.
+     * 
+     * The number of output channels corresponds to the number of filters used in the convolution.
+     */
     int out_channels;
 
     /**
-     * @brief Flips the content of each filter present in the weight kernel
+     * @brief Flips the content of each filter present in the weight kernel.
+     * 
+     * This is done to perform the convolution correctly, otherwise the node would perform a cross-correlation computation
      */
-    void flip_kernel() {
-        int height = get_kernel_height();
-        int width = get_kernel_width();
-
-        for (int f = 0; f < get_out_channels(); f++) {
-            for (int c = 0; c < get_in_channels(); c++) {
-                // Flip horizontally
-                for (int h = 0; h < height; h++) {
-                    for (int w = 0; w < width / 2; w++) {
-                        auto tmp = (*W)[{f, c, h, w}];
-                        (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
-                        (*W)[{f, c, h, width - 1 - w}] = tmp;
-                    }
-                }
-
-                // Flip vertically
-                for (int w = 0; w < width; w++) {
-                    for (int h = 0; h < height / 2; h++) {
-                        auto tmp = (*W)[{f, c, h, w}];
-                        (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
-                        (*W)[{f, c, height - 1 - h, w}] = tmp;
-                    }
-                }
-            }
-        }
-    }
+    void flip_kernel();
 
     /**
      * @brief Performs the im2col transformation on the input tensor.
      *
-     * The im2col (image to column) operation transforms an input tensor into a matrix format
-     * suitable for efficient matrix multiplication.
+     * This method extracts patches from the input tensor and flattens them into columns, preparing 
+     * the data for efficient matrix multiplication in convolution operations. The im2col operation 
+     * unrolls local patches (based on kernel size, stride, and padding) into column vectors, making 
+     * convolutions computationally more efficient.
      *
-     * @tparam T The data type of the tensor elements.
-     * @param input A shared pointer to the input tensor.
-     * @param output A shared pointer to the output tensor, where the transformed data will be stored.
-     *
-     * The function extracts patches from the input tensor and arranges them into columns,
-     * preparing the data for efficient computation.
+     * @param input A shared pointer to the input tensor, typically of shape 
+     *              [batch_size, height, width, channels]. This is the data to be transformed into 
+     *              columns by extracting patches for the convolution.
+     * 
+     * @param output A shared pointer to the output tensor, where the transformed data will be stored. 
+     *               It will have shape [batch_size, output_height * output_width, 
+     *               kernel_height * kernel_width * channels], representing the flattened patches 
+     *               ready for matrix multiplication.
+     * 
+     * @note The im2col operation prepares the input for matrix multiplication with kernel weights 
+     *       during convolution but does not compute the convolution itself.
      */
-    void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
-        // Iterate over each image in the batch
-        for (int n = 0; n < get_batch_size(); ++n) {
-            for (int h = 0; h < get_out_height(); ++h) {
-                for (int w = 0; w < get_out_width(); ++w) {
-                    int col_index = h * get_out_width() + w;  // Column index in im2col matrix
-    
-                    for (int c = 0; c < get_in_channels(); ++c) {
-                        for (int kh = 0; kh < get_kernel_height(); ++kh) {
-                            for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                                int input_h = h * get_stride_height() - get_padding_top() + kh;
-                                int input_w = w * get_stride_width() - get_padding_left() + kw;
-    
-                                if (input_h < 0 || input_h >= get_in_height() + get_padding_bottom() ||
-                                    input_w < 0 || input_w >= get_in_width() + get_padding_right()) {
-    
-                                    (*output)[col_index] = 0;  // Padding
-                                }
-                                else {
-                                    int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
-    
-                                    int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
-    
-                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
-                                                      c * (get_in_height() * get_in_width()) +
-                                                      input_h * get_in_width() + input_w;
-    
-                                    // Check if input index is valid
-                                    if (input_index >= 0 && input_index < get_in_channels() * get_in_height() * get_in_width()) {
-                                        (*output)[output_index] = (*input)[input_index];
-                                    } 
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output);
 
-    void add_bias(shared_ptr<Tensor<T>> result_ptr) {
-        // We first have to retreive the bias tensor inside the optional
-        auto& bias_tensor = *B;
-        
-        for (int b = 0; b < get_batch_size(); b++) {
-            for (int i = 0; i < get_out_channels(); ++i) {
-                for (int h = 0; h < get_out_height(); ++h) {
-                    for (int w = 0; w < get_out_width(); ++w) {
-                        int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
-                        
-                        // Each value in bias vector is added to one entire out feature at a time
-                        (*result_ptr)[index] += (*bias_tensor)[i];
-                    }
-                }
-            }
-        }
-    }
+    /**
+     * @brief Performs the addition of the bias to the result.
+     *
+     * @param result_ptr The tensor to which the bias will be added.
+     */
+    void add_bias(shared_ptr<Tensor<T>> result_ptr);
 
     // Getters for input tensor dimensions
-    int get_batch_size() const { return batch_size; }
-    int get_in_channels() const { return in_channels; }
-    int get_in_height() const { return in_height; }
-    int get_in_width() const { return in_width; }
+    int get_batch_size() const;
+    int get_in_channels() const;
+    int get_in_height() const;
+    int get_in_width() const;
 
     // Weight tensor getters
-    int get_kernel_height() const { return kernel_height; }
-    int get_kernel_width() const { return kernel_width; }
-    int get_out_channels() const { return out_channels; }
+    int get_kernel_height() const;
+    int get_kernel_width() const;
+    int get_out_channels() const;
 
     // Getters for the other parameters
-    int get_stride_height() const { return stride[0]; }
-    int get_stride_width() const { return stride[1]; }
+    int get_stride_height() const;
+    int get_stride_width() const;
 
     // Padding for each spatial direction
-    int get_padding_top() const { return padding[0]; }
-    int get_padding_bottom() const { return padding[1]; }
-    int get_padding_left() const { return padding[2]; }
-    int get_padding_right() const { return padding[3]; }
+    int get_padding_top() const;
+    int get_padding_bottom() const;
+    int get_padding_left() const;
+    int get_padding_right() const;
 
-    // Returns the output height after the convolution
-    int get_out_height() {
-        return (get_in_height() + get_padding_top() + get_padding_bottom() - get_kernel_height()) / get_stride_height() + 1;
-    }
-    
-    int get_out_width() {
-        return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
-    }
-    
-    // Checks the inputs to the convolution node and checks that parameters are correct
-    void validate_inputs() {
-        if (!areInputsFilled())
-            throw runtime_error("ConvNode inputs are not fully set.");
+    // Getter for getting the output height and width
+    int get_out_height();
+    int get_out_width();
 
-        auto x_shape = X->get_shape();
-        if (x_shape.size() != 4)
-            throw runtime_error("Input tensor must have 4 dimensions: (Features x Channels x Height x Width)");
-
-        if (dilations.size() != 2) {
-            throw invalid_argument("Invalid dilations size. Expected a vector of size 2, but got: " +
-                                   std::to_string(dilations.size()) + ".");
-        }
-
-        if (padding.size() != 4) {
-            throw invalid_argument("Invalid padding vector size. Expected a vector of size 4, but got: " +
-                                   std::to_string(padding.size()) + ".");
-        }
-
-        if (kernel_shape.size() != 2) {
-            throw invalid_argument("Invalid kernel_shape vector size. Expected a vector of size 2, but got: " +
-                                   std::to_string(kernel_shape.size()) + ".");
-        }
-
-        if (stride.size() != 2) {
-            throw invalid_argument("Invalid stride vector size. Expected a vector of size 2, but got: " +
-                                   std::to_string(stride.size()) + ".");
-        }
-    }
+    // Checks the inputs to the convolution node
+    void validate_inputs();
 };
+
+#include "../conv_node.tpp"
