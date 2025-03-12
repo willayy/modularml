@@ -2,8 +2,8 @@
 
 #include "a_node.hpp"
 #include "globals.hpp"
-#include "mml_tensor.hpp"
 #include "mml_gemm.hpp"
+#include "mml_tensor.hpp"
 
 /**
  * @class GemmNode
@@ -14,158 +14,88 @@
  */
 template <typename T>
 class GemmNode : public Node {
-    static_assert(
-        std::is_same_v<T, float>   ||
-        std::is_same_v<T, double>  ||
-        std::is_same_v<T, int32_t> ||
-        std::is_same_v<T, int64_t> ||
-        std::is_same_v<T, uint32_t>||
-        std::is_same_v<T, uint64_t>,
-        "GemmNode_T supports only float, double, int32_t, int64_t, uint32_t, or uint64_t");
-public:
-    using AbstractTensor = Tensor<T>;
+  static_assert(
+      std::is_same_v<T, float> ||
+          std::is_same_v<T, double> ||
+          std::is_same_v<T, int32_t> ||
+          std::is_same_v<T, int64_t> ||
+          std::is_same_v<T, uint32_t> ||
+          std::is_same_v<T, uint64_t>,
+      "GemmNode_T supports only float, double, int32_t, int64_t, uint32_t, or uint64_t");
 
-    /**
-     * @brief Constructor for GemmNode.
-     *
-     * @param A Shared pointer to the tensor A.
-     * @param B Shared pointer to the tensor B.
-     * @param Y Shared pointer to the output tensor.
-     * @param C Optional shared pointer to the tensor C.
-     * @param alpha Scalar multiplier for A * B.
-     * @param beta Scalar multiplier for C.
-     * @param transA Whether to transpose A (0 means false).
-     * @param transB Whether to transpose B (0 means false).
-     */
-    GemmNode(shared_ptr<AbstractTensor> A,
-             shared_ptr<AbstractTensor> B,
-             shared_ptr<AbstractTensor> Y,
-             optional<shared_ptr<AbstractTensor>> C = std::nullopt,
-             float alpha = 1.0f,
-             float beta = 1.0f,
-             int transA = 0,
-             int transB = 0)
-      : A(A), B(B), C(C), Y(Y),
-        alpha(alpha), beta(beta), transA(transA), transB(transB) {}
+ public:
+  using AbstractTensor = Tensor<T>;
 
-    /**
-     * @brief Perform the forward pass computation using GEMM inner product.
-     *
-     * This function performs the forward pass computation using the General Matrix Multiply (GEMM) inner product.
-     */
-    void forward() override {
-        if (!areInputsFilled())
-            throw runtime_error("GemmNode inputs are not fully set.");
+  /**
+   * @brief Constructor for GemmNode.
+   *
+   * @param A Shared pointer to the tensor A.
+   * @param B Shared pointer to the tensor B.
+   * @param Y Shared pointer to the output tensor.
+   * @param C Optional shared pointer to the tensor C.
+   * @param alpha Scalar multiplier for A * B.
+   * @param beta Scalar multiplier for C.
+   * @param transA Whether to transpose A (0 means false).
+   * @param transB Whether to transpose B (0 means false).
+   */
+  GemmNode(shared_ptr<AbstractTensor> A,
+           shared_ptr<AbstractTensor> B,
+           shared_ptr<AbstractTensor> Y,
+           optional<shared_ptr<AbstractTensor>> C = std::nullopt,
+           float alpha = 1.0f,
+           float beta = 1.0f,
+           int transA = 0,
+           int transB = 0);
 
-       
-        auto shapeA = A->get_shape();
-        if (shapeA.size() < 2)
-            throw runtime_error("Tensor A must be at least 2D.");
+  /**
+   * @brief Perform the forward pass computation using GEMM inner product.
+   *
+   * This function performs the forward pass computation using the General Matrix Multiply (GEMM) inner product.
+   */
+  void forward() override;
 
-        int M = shapeA[0];  // Number of rows.
-        int K = shapeA[1];  // Number of columns of A.
+  /**
+   * @brief Check if the input(s) are filled.
+   *
+   * @return True if the input(s) are filled, false otherwise.
+   */
+  bool areInputsFilled() const override;
 
-        
-        auto shapeB = B->get_shape();
-        if (shapeB.size() < 2)
-            throw runtime_error("Tensor B must be at least 2D.");
-        if (shapeB[0] != K)
-            throw runtime_error("GemmNode: Dimension mismatch between A and B.");
-        
-        int N = shapeB[1];  // Number of columns of B.
-        
-        int lda = K;
-        int ldb = N;
-        int ldc = N;
+  /**
+   * @brief Set the input(s) for the node.
+   *
+   * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
+   */
+  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
 
-        // Handling optional C tensor not implemented directly in gemm_inner_product. 
-        // Will have to be done here instead by constructing suboptimal concrete tensor.
-        // Gemm_inner_product could be modified to handle optional C tensor and take output Y.
-        shared_ptr<Tensor_mml<T>> C_ptr;
-        if (C.has_value() && C.value()) {
-            C_ptr = std::dynamic_pointer_cast<Tensor_mml<T>>(C.value());
-            if (!C_ptr)
-                throw runtime_error("GemmNode: Failed to cast optional C to Tensor_mml<T>.");
-        } else {
-            Tensor_mml<T> zero_tensor({M, N});
-            zero_tensor.fill(static_cast<T>(0));
-            C_ptr = make_shared<Tensor_mml<T>>(zero_tensor);
-        }
+  /**
+   * @brief Check if the output(s) are filled.
+   *
+   * @return True if the output(s) are filled, false otherwise.
+   */
+  bool areOutputsFilled() const override;
 
-        Gemm_mml<T> gemm;
-        gemm.gemm_inner_product(0, 0, M, N, K, static_cast<T>(alpha),
-                                A, lda,
-                                B, ldb,
-                                static_cast<T>(beta),
-                                C_ptr, ldc);
+  /**
+   * @brief Get the output of the node.
+   *
+   * @return The output data.
+   */
+  array_mml<GeneralDataTypes> getOutputs() const override;
 
-        *Y = *C_ptr;
-    };
-    
-    /**
-     * @brief Check if the input(s) are filled.
-     * 
-     * @return True if the input(s) are filled, false otherwise.
-     */
-    bool areInputsFilled() const override {
-        return A && A->get_size() > 0 &&
-               B && B->get_size() > 0 &&
-               (!C.has_value() || (C.value() && C.value()->get_size() > 0));
-    }
+ private:
+  // Inputs
+  shared_ptr<AbstractTensor> A;            // Input tensor A.
+  shared_ptr<AbstractTensor> B;            // Input tensor B.
+  optional<shared_ptr<AbstractTensor>> C;  // Optional tensor C.
 
-    /**
-     * @brief Set the input(s) for the node.
-     * 
-     * @param inputs The input data to be set, where A is inputs[0], B is inputs[1] and optionally C is inputs[2].
-     */
-    void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-        if (inputs.size() > 0) {
-            auto valueA = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
-            *A = *valueA;
-        }
-            
+  // Output
+  shared_ptr<AbstractTensor> Y;  // Output tensor.
 
-        if (inputs.size() > 1) {
-            auto valueB = std::get<std::shared_ptr<AbstractTensor>>(inputs[1]);
-            *B = *valueB;
-        }
-
-        if (inputs.size() > 2 && C.has_value()) {
-            auto valueC = std::get<std::shared_ptr<AbstractTensor>>(inputs[2]);
-            *C.value() = *valueC;
-        }
-    }
-
-    /**
-     * @brief Check if the output(s) are filled.
-     * 
-     * @return True if the output(s) are filled, false otherwise.
-     */
-    bool areOutputsFilled() const override {
-        return Y && Y->get_size() > 0;
-    }
-
-    /**
-     * @brief Get the output of the node.
-     * 
-     * @return The output data.
-     */
-    array_mml<GeneralDataTypes> getOutputs() const override {
-        return array_mml<GeneralDataTypes>{ GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y)) };
-    }
-
-private:
-    // Inputs
-    shared_ptr<AbstractTensor> A; // Input tensor A.
-    shared_ptr<AbstractTensor> B; // Input tensor B.
-    optional<shared_ptr<AbstractTensor>> C; // Optional tensor C.
-
-    // Output
-    shared_ptr<AbstractTensor> Y; // Output tensor.
-
-    // Attributes
-    float alpha;  // Scalar multiplier for A * B.
-    float beta;   // Scalar multiplier for C.
-    int transA;   // Whether to transpose A (0: no, non-zero: yes).
-    int transB;   // Whether to transpose B (0: no, non-zero: yes).
+  // Attributes
+  float alpha;  // Scalar multiplier for A * B.
+  float beta;   // Scalar multiplier for C.
+  int transA;   // Whether to transpose A (0: no, non-zero: yes).
+  int transB;   // Whether to transpose B (0: no, non-zero: yes).
 };
+
+#include "../gemm_node.tpp"
