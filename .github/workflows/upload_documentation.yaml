@@ -1,4 +1,4 @@
-name: "Generate and Deploy Documentation to Wiki"
+name: "Generate and Upload Documentation to Wiki"
 
 on:
   push:
