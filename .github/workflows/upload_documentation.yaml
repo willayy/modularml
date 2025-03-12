@@ -27,6 +27,7 @@ jobs:
 
     - name: Convert HTML to Markdown (Optional)
       run: |
+        mkdir -p docs
         pip install html2text
         html2text build/docs/html/index.html > docs/README.md
 
