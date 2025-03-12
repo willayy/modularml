@@ -103,6 +103,7 @@ def onnx_to_json(path: str):
         graph = model.graph
 
         initializers_dict = {initializer.name: initializer for initializer in graph.initializer}
+        value_info_map = extract_value_info_shapes(graph)
 
         model_json = {
             "model": {
@@ -131,14 +132,17 @@ def onnx_to_json(path: str):
                 node_json = {
                     "name": node.name,
                     "op_type": node.op_type,
-                    "inputs": [{"name": i} for i in node.input],
-                    "outputs": [{"name": i} for i in node.output],
+                    "inputs": [],
+                    "outputs": [],
                     "attributes": {attr.name: onnx.helper.get_attribute_value(attr) for attr in node.attribute},
                     "initializers": []
                 }
 
                 # Each node has inputs, we use the name of the input to find the initializer field which stores values for weights and biases
                 for i in node.input:
+                    #shape_info = value_info_map.get(i, {"name": i, "error": "Shape unknown"})
+                    #node_json["inputs"].append(shape_info)
+
                     if i in initializers_dict:
                         initializer = initializers_dict[i]
                         data = convert_initializer(initializer) # Convert initializer to raw bytes
@@ -155,7 +159,12 @@ def onnx_to_json(path: str):
                             "offset": offset,
                             "size": size
                         })
-                        
+                
+                #for i in node.output:
+                #    shape_info = value_info_map.get(i, {"name": i, "error": "Shape unknown"})
+                #    node_json["outputs"].append(shape_info)
+
+
                 model_json["nodes"].append(node_json)
 
 
@@ -186,6 +195,17 @@ def convert_tensor_type(tensor_type):
         "element_type": element_type,
         "shape": shape
     }
+
+def extract_value_info_shapes(graph):
+    """Creates a dictionary mapping tensor names to their shape and type."""
+    value_info_map = {}
+
+    for vi in list(graph.input) + list(graph.output) + list(graph.value_info):
+        if vi.type.HasField("tensor_type"):
+            value_info_map[vi.name] = convert_tensor_type(vi.type)
+
+    return value_info_map
+
 
 
 # Script that reads a onnx file and converts it into a json format.
