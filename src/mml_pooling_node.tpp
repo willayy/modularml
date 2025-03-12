@@ -42,9 +42,7 @@ void PoolingNode_mml<T>::setInputs(const array_mml<GeneralDataTypes> &inputs) {
 };
 
 template <typename T> bool PoolingNode_mml<T>::areOutputsFilled() const {
-  if (!output)
-    return false;
-  return output->get_size() > 0;
+  return input && input->get_size() > 0;
 };
 
 template <typename T>
@@ -98,5 +96,6 @@ template <typename T> void PoolingNode_mml<T>::forward() {
     }
   }
 
-  pooling();
+  pooling(input, input_shape, output_shape, effective_kernel_shape, pad_h,
+          pad_w, auto_pad);
 }

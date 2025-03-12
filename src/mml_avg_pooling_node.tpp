@@ -4,15 +4,14 @@
 
 template <typename T>
 void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
-                                    array_mml<int> shape, int element,
-                                    int channel, int in_row_start,
-                                    int in_col_start,
-                                    vector<int> effective_kernel_shape) const {
+                                    array_mml<int> input_shape,
+                                    array_mml<int> output_shape,
+                                    vector<int> effective_kernel_shape,
+                                    float pad_h, float pad_w,
+                                    string auto_pad) const {
 
   // Initialize output tensor with correct dimensions
-  output = tensor_mml_p<T>(
-      {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
-  output_indices = tensor_mml_p<T>(
+  shared_ptr<Tensor<T>> output = tensor_mml_p<T>(
       {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
 
   // Perform pooling operation
@@ -20,8 +19,8 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
     for (int channel = 0; channel < input_shape[1]; channel++) {
       for (int out_row = 0; out_row < output_shape[2]; out_row++) {
         for (int out_col = 0; out_col < output_shape[3]; out_col++) {
-          int in_row_start = out_row * strides[0];
-          int in_col_start = out_col * strides[1];
+          int in_row_start = out_row * this->strides[0];
+          int in_col_start = out_col * this->strides[1];
 
           // Adjust the starting indices after padding type
           if (auto_pad == "SAME_UPPER") {
@@ -41,8 +40,8 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
               int curr_row = in_row_start + m;
               int curr_col = in_col_start + n;
               // Check if position is within bounds of the original input
-              if (curr_row >= 0 && curr_row < shape[2] && curr_col >= 0 &&
-                  curr_col < shape[3]) {
+              if (curr_row >= 0 && curr_row < input_shape[2] && curr_col >= 0 &&
+                  curr_col < input_shape[3]) {
                 k++;
                 value += (*t)[{element, channel, curr_row, curr_col}];
               }

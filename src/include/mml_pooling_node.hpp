@@ -71,9 +71,10 @@ public:
    * @returns Returns a value of type T that will be placed at the current index
    * of the output tensor.
    */
-  virtual void pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape,
-                       int element, int channel, int in_row_start,
-                       int in_col_start) const = 0;
+  virtual void pooling(const shared_ptr<Tensor<T>> t,
+                       array_mml<int> input_shape, array_mml<int> output_shape,
+                       vector<int> effective_kernel_shape, float pad_h,
+                       float pad_w, string auto_pad) const = 0;
 
 protected:
   //--------Inputs----------
