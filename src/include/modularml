@@ -6,6 +6,7 @@
 #include "a_arithmetic_module.hpp"
 #include "a_data_parser.hpp"
 #include "a_gemm.hpp"
+#include "a_onnx_gemm.hpp"
 #include "a_model.hpp"
 #include "a_node.hpp"
 #include "a_tensor.hpp"
@@ -15,4 +16,5 @@
 #include "mml_gemm.hpp"
 #include "mml_model.hpp"
 #include "mml_tensor.hpp"
+#include "mml_onnx_gemm.hpp"
 #include "tensor_utility.hpp"
