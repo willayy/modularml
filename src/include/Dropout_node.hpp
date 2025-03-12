@@ -6,7 +6,7 @@
 #include "mml_arithmetic.hpp"
 
 /**
- * @class ReLUNode
+ * @class DropoutNode
  * @brief A class representing a Dropout node in a computational graph.
  *
  * This class inherits from the Node class and represents the Dropout node
@@ -80,10 +80,10 @@ class DropoutNode : public Node {
     if (inputs.size() < 1)
       throw runtime_error("DropoutNode expects at least one input: input.");
 
-    auto valueData = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
+    auto valueData = std::get_if<shared_ptr<AbstractTensor>>(&inputs[0]);
 
-    if (!data || !valueData)
-      throw runtime_error("Failed to cast Input or input Input to Tensor_mml<T>.");
+    if (!valueData)
+      throw runtime_error("Failed to cast Input to the expected tensor types.");
     data = std::const_pointer_cast<AbstractTensor>(valueData);
   }
 
