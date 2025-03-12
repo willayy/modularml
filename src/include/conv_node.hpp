@@ -5,12 +5,18 @@
 #include "mml_gemm.hpp"
 #include "mml_tensor.hpp"
 
+
+// TODO Add bias functionality and testing
+// TODO Test that padding, stride and dilation work
+
 /**
  * @class ConvNode
  * @brief A class representing a Convolutional node in a computational graph.
  *
  * This class inherits from the Node class and represents a Conv node
  * in a computational graph.
+ * 
+ * @author Tim Carlsson (timca@chalmers.se)
  */
 template <typename T>
 class ConvNode : public Node {
