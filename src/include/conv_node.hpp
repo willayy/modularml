@@ -89,19 +89,23 @@ class ConvNode : public Node {
         // Begin by flipping the weight kernel
         flip_kernel();
 
-        auto im2col_output_shape = array_mml<int>({get_in_channels() * get_kernel_height() * get_kernel_width(),
-                                                   get_batch_size() * get_out_height() * get_out_width()});
+        auto im2col_output_shape = array_mml<int>({
+            get_in_channels() * get_kernel_height() * get_kernel_width(),
+            get_batch_size() * get_out_height() * get_out_width()
+        });
+        
         auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
 
         im2col(input_copy, im2col_output);
 
-        // Flatten the weight tensor (dimensions are Filters x in_channels * kernel_height * kernel_width)
+        // Flatten the weight tensor to prepare for GEMM
         int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
         W->reshape({get_out_channels(), flattened_size});
 
+        // Prepare the result tensor
         array_mml<int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
         auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
-
+        
         shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
         gemm->gemm_inner_product(
             0, 0,
@@ -112,27 +116,15 @@ class ConvNode : public Node {
             0.0f,
             result_ptr, result_ptr->get_shape()[1]);
             
+        // Reshape the flattened result 
         result_ptr->reshape({get_batch_size(), get_out_channels(), get_out_height(), get_out_width()});
             
-        // The bias across each feature    
+        // Provided a bias, add it to the result tensor across each output feature    
         if (B.has_value()) {
-            
-            // We first have to retreive the bias tensor inside the optional
-            auto& bias_tensor = *B;
-        
-            for (int b = 0; b < get_batch_size(); b++) {
-                for (int i = 0; i < get_out_channels(); ++i) {
-                    for (int h = 0; h < get_out_height(); ++h) {
-                        for (int w = 0; w < get_out_width(); ++w) {
-                            int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
-                            
-                            // Access the bias value for the current output channel (i)
-                            (*result_ptr)[index] += (*bias_tensor)[i];
-                        }
-                    }
-                }
-            }
+            add_bias(result_ptr);
         }      
+
+        // Write over the content of the output with the result of the convolution
         *Y = *result_ptr;
     };
 
@@ -260,26 +252,52 @@ class ConvNode : public Node {
             for (int h = 0; h < get_out_height(); ++h) {
                 for (int w = 0; w < get_out_width(); ++w) {
                     int col_index = h * get_out_width() + w;  // Column index in im2col matrix
-
+    
                     for (int c = 0; c < get_in_channels(); ++c) {
                         for (int kh = 0; kh < get_kernel_height(); ++kh) {
                             for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                                int input_h = h * get_stride_h() - get_padding_h() + kh;
-                                int input_w = w * get_stride_w() - get_padding_w() + kw;
-
-                                int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
-
-                                // Compute linear index in output
-                                int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
-
-                                if (input_h >= 0 && input_h < get_in_height() && input_w >= 0 && input_w < get_in_width()) {
-                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) + c * (get_in_height() * get_in_width()) + input_h * get_in_width() + input_w;
-                                    (*output)[output_index] = (*input)[input_index];
-                                } else {
-                                    (*output)[output_index] = 0;  // Padding
+                                int input_h = h * get_stride_height() - get_padding_top() + kh;
+                                int input_w = w * get_stride_width() - get_padding_left() + kw;
+    
+                                if (input_h < 0 || input_h >= get_in_height() + get_padding_bottom() ||
+                                    input_w < 0 || input_w >= get_in_width() + get_padding_right()) {
+    
+                                    (*output)[col_index] = 0;  // Padding
+                                }
+                                else {
+                                    int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
+    
+                                    int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
+    
+                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
+                                                      c * (get_in_height() * get_in_width()) +
+                                                      input_h * get_in_width() + input_w;
+    
+                                    // Check if input index is valid
+                                    if (input_index >= 0 && input_index < get_in_channels() * get_in_height() * get_in_width()) {
+                                        (*output)[output_index] = (*input)[input_index];
+                                    } 
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    void add_bias(shared_ptr<Tensor<T>> result_ptr) {
+        // We first have to retreive the bias tensor inside the optional
+        auto& bias_tensor = *B;
+        
+        for (int b = 0; b < get_batch_size(); b++) {
+            for (int i = 0; i < get_out_channels(); ++i) {
+                for (int h = 0; h < get_out_height(); ++h) {
+                    for (int w = 0; w < get_out_width(); ++w) {
+                        int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
+                        
+                        // Each value in bias vector is added to one entire out feature at a time
+                        (*result_ptr)[index] += (*bias_tensor)[i];
                     }
                 }
             }
@@ -298,21 +316,24 @@ class ConvNode : public Node {
     int get_out_channels() const { return out_channels; }
 
     // Getters for the other parameters
-    int get_stride_h() const { return stride[0]; }
-    int get_stride_w() const { return stride[1]; }
-    int get_padding_h() const { return padding[0]; }
-    int get_padding_w() const { return padding[1]; }
+    int get_stride_height() const { return stride[0]; }
+    int get_stride_width() const { return stride[1]; }
+
+    // Padding for each spatial direction
+    int get_padding_top() const { return padding[0]; }
+    int get_padding_bottom() const { return padding[1]; }
+    int get_padding_left() const { return padding[2]; }
+    int get_padding_right() const { return padding[3]; }
 
     // Returns the output height after the convolution
     int get_out_height() {
-        return (get_in_height() - get_kernel_height() + 2 * get_padding_h()) / get_stride_h() + 1;
+        return (get_in_height() + get_padding_top() + get_padding_bottom() - get_kernel_height()) / get_stride_height() + 1;
     }
-
-    // Returns the output width after the convolution
+    
     int get_out_width() {
-        return (get_in_width() - get_kernel_width() + 2 * get_padding_w()) / get_stride_w() + 1;
+        return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
     }
-
+    
     // Checks the inputs to the convolution node and checks that parameters are correct
     void validate_inputs() {
         if (!areInputsFilled())

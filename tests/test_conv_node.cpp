@@ -559,9 +559,16 @@ TEST(ConvNodeTest, TestBias_MultipleOutChannels) {
     array_mml<int> stride = array_mml<int>({1, 1});
 
     array_mml<int> shape_bias({8});
-    array_mml<float> bias_values({ // Values
-        10.0f, 10.0f, 10.0f, 10.0f,
-        10.0f, 10.0f, 10.0f, 10.0f,
+    array_mml<float> bias_values({
+        // Values
+        10.0f,
+        10.0f,
+        10.0f,
+        10.0f,
+        10.0f,
+        10.0f,
+        10.0f,
+        10.0f,
     });
 
     auto B = make_shared<Tensor_mml<float>>(shape_bias, bias_values);
@@ -579,4 +586,45 @@ TEST(ConvNodeTest, TestBias_MultipleOutChannels) {
     for (int i = 0; i < Y->get_size(); i++) {
         EXPECT_NEAR(Y->get_data()[i], 28.0f, 1e-5);
     }
+}
+
+TEST(ConvNodeTest, TestPadding) {
+    // Define the input tensor shape and values
+    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<float> X_values({1.0f, 2.0f, 3.0f,
+                               4.0f, 5.0f, 6.0f,
+                               7.0f, 8.0f, 9.0f});
+
+    // Define the weight tensor shape and values (for testing im2col only, this might not be used)
+    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<float> W_values({1.0f, 1.0f,
+                               1.0f, 1.0f});
+
+    // Create input and weight tensors
+    shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
+    shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
+
+    // Not correct, this gets reshaped in the call to forward
+    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<float> Y_values({0.0f, 0.0f,
+                               0.0f, 0.0f});
+
+    auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
+
+    // Setup other ConvNode parameters
+    array_mml<int> dilations = array_mml<int>({1, 1});
+    array_mml<int> padding = array_mml<int>({1, 1, 0, 0}); // Adds padding to all spatial directions essentially making the input 5x5 in height and width
+    array_mml<int> kernel_shape = array_mml<int>({2, 2});
+    array_mml<int> stride = array_mml<int>({1, 1});
+
+    auto B = std::nullopt;
+
+    // Create ConvNode object
+    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 1);
+
+    conv.forward();
+
+    // The output is reshaped during the call to forward so we want to make sure that the size is correct
+    // As we only add padding to the top and bottom we would expect the height to be 4 and the output to be 2
+    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 4, 2}));
 }
