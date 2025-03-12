@@ -26,9 +26,10 @@ public:
                            ceiling_mode, dilations, pads) {}
 
 private:
-  T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape, int element,
-            int channel, int in_row_start, int in_col_start,
-            vector<int> effective_kernel_shape) const override;
+  tuple<T, int> pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape,
+                        int element, int channel, int in_row_start,
+                        int in_col_start,
+                        vector<int> effective_kernel_shape) const override;
   int count_include_pad;
 };
 #include "../mml_avg_pooling_node.tpp"

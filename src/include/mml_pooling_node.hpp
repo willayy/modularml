@@ -5,6 +5,7 @@
 
 #include "a_node.hpp"
 #include "string.h"
+#include "tuple"
 
 /**
  * @class PoolingNode_mml
@@ -70,9 +71,9 @@ public:
    * @returns Returns a value of type T that will be placed at the current index
    * of the output tensor.
    */
-  virtual T pooling(const shared_ptr<Tensor<T>> t, array_mml<int> shape,
-                    int element, int channel, int in_row_start,
-                    int in_col_start) const = 0;
+  virtual tuple<T, int> pooling(const shared_ptr<Tensor<T>> t,
+                                array_mml<int> shape, int element, int channel,
+                                int in_row_start, int in_col_start) const = 0;
 
 protected:
   //--------Inputs----------
@@ -80,8 +81,8 @@ protected:
   ///@brief Input tensor
   shared_ptr<Tensor<T>> input;
 
-  ///@brief Output tensor
-  shared_ptr<Tensor<T>> output;
+  ///@brief Output tensors
+  array_mml<GeneralDataTypes> output;
 
   //--------Attributes------
   ///@brief A 2x2 vector of integers representing the filter/pooling window.

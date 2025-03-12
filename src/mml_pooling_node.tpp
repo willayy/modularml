@@ -8,6 +8,7 @@
 #include "globals.hpp"
 #include "mml_pooling_node.hpp"
 #include "mml_tensor.hpp"
+#include "tuple"
 
 template <typename T>
 PoolingNode_mml<T>::PoolingNode_mml(vector<int> kernel_shape,
@@ -25,6 +26,7 @@ PoolingNode_mml<T>::PoolingNode_mml(vector<int> kernel_shape,
                                 "'SAME_UPPER' and 'SAME_LOWER' are allowed.");
   }
   this->auto_pad = auto_pad;
+  this->output = array_mml(2);
 };
 
 template <typename T> bool PoolingNode_mml<T>::areInputsFilled() const {
@@ -99,6 +101,8 @@ template <typename T> void PoolingNode_mml<T>::forward() {
   // Initialize output tensor with correct dimensions
   output = tensor_mml_p<T>(
       {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
+  output_indices = tensor_mml_p<T>(
+      {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
 
   // Perform pooling operation
   for (int element = 0; element < input_shape[0]; element++) {
@@ -119,13 +123,17 @@ template <typename T> void PoolingNode_mml<T>::forward() {
 
           T value = pooling(input, input_shape, element, channel, in_row_start,
                             in_col_start);
+          tuple<T, int> result = pooling(input, input_shape, element, channel,
+                                         in_row_start, in_col_start);
 
           if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
               element >= input_shape[0] || out_row >= output_shape[2] ||
               out_col >= output_shape[3] || channel >= input_shape[1]) {
             throw std::out_of_range("Output tensor indices out of range");
           } else {
-            (*output)[{element, channel, out_row, out_col}] = value;
+            (*output)[{element, channel, out_row, out_col}] = get<0>(result);
+            (*output_indices)[{element, channel, out_row, out_col}] =
+                get<1>(result);
           }
         }
       }
