@@ -1,7 +1,8 @@
 name: "Generate and Upload Documentation to Wiki"
 
 on:
-  pull_request: main # Temp
+  pull_request: 
+    branches: [ main ] # Temp
   schedule:
     - cron: "0 8 * * 1"  # Runs at 08:00 UTC every Monday
   workflow_dispatch:  # Allows us to trigger workflow manually
