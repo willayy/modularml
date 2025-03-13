@@ -38,7 +38,17 @@ class reshapeNode : public Node {
               shared_ptr<AbstractTensor> reshaped, int allowzero = 0);
 
   /**
-   * @brief Perform the reshape function.
+   * @brief Performs the forward pass of the reshape operation.
+   *
+   * This function reshapes the input tensor to the specified shape.
+   * It checks if the inputs are filled, casts the data and shape to the appropriate tensor types,
+   * and allocates the output tensor if necessary. It then extracts the shape values from the shape tensor,
+   * handles the special case where a dimension is set to -1 (inferred dimension), and computes the new shape.
+   * Finally, it copies the data from the input tensor to the reshaped output tensor and applies the reshape.
+   *
+   * @throws std::runtime_error if the inputs are not fully set, if the data or shape cannot be cast to the appropriate tensor types,
+   *                            if the output tensor is not allocated, if multiple -1 values are present in the shape tensor,
+   *                            or if the inferred dimension does not match the total elements.
    */
   void forward() override;
 
