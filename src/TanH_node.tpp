@@ -3,7 +3,7 @@
 #include "TanH_node.hpp"
 
 template <typename T>
-TanHNode<T>::TanHNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
+TanHNode<T>::TanHNode(shared_ptr<const AbstractTensor> X, shared_ptr<AbstractTensor> Y)
     : X(X), Y(Y) {}
 
 template <typename T>
