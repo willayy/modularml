@@ -3,7 +3,7 @@
 #include "Swish_node.hpp"
 
 template <typename T>
-SwishNode<T>::SwishNode(std::shared_ptr<AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
+SwishNode<T>::SwishNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
     : X(X), Y(Y) {}
 
 template <typename T>
