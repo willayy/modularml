@@ -28,49 +28,61 @@ void reshapeNode<T>::forward() {
   if (!reshaped)
     throw runtime_error("Output tensor reshaped is not allocated.");
 
+  // Determine the size of the shape tensor (number of dimensions for the new shape)
   int shape_size = shape->get_size();
+
+  // Determine the total number of elements in the input data tensor
   int data_size = data->get_size();
+
+  // Create an array to store the new shape values (initialized with same size as shape tensor)
   array_mml<int> new_shape(shape_size);
 
-  // Extract shape values from shape tensor
-  int inferred_dim_index = -1;
-  int computed_elements = 1;
+  // Variables for handling inferred dimension (-1) and computing the total number of elements
+  int inferred_dim_index = -1;  // Stores the index of -1 if present
+  int computed_elements = 1;    // Tracks the product of explicitly defined shape dimensions
 
+  // Iterate through the shape tensor to determine the new shape values
   for (int i = 0; i < shape_size; ++i) {
-    int dim = (*shape)[i];
+    int dim = (*shape)[i];  // Extract the value for the current dimension
 
-    // If dim == -1, mark it for inference
+    // If dim == -1, mark it for inference (meaning this dimension should be computed)
     if (dim == -1) {
+      // Ensure that only one dimension is set to -1 (otherwise, the reshape would be ambiguous)
       if (inferred_dim_index != -1) {
         throw runtime_error("Invalid reshape: multiple -1 values in shape tensor.");
       }
-      inferred_dim_index = i;
-      new_shape[i] = -1;  // Placeholder
+      inferred_dim_index = i;  // Store the index of the inferred dimension
+      new_shape[i] = -1;       // Placeholder for now (to be computed later)
+
+      // If dim == 0 and allowzero flag is set, keep the original input shape at this index
     } else if (dim == 0 && allowzero == 1) {
-      // If allowzero is set, copy the original input shape at this index
-      new_shape[i] = data->get_shape()[i];
-      computed_elements *= new_shape[i];
+      new_shape[i] = data->get_shape()[i];  // Copy corresponding dimension from input tensor
+      computed_elements *= new_shape[i];    // Update total number of elements
     } else {
+      // Otherwise, just assign the given dimension value
       new_shape[i] = dim;
       computed_elements *= dim;
     }
   }
 
-  // Infer missing dimension if -1 is present
+  // If -1 was found, infer its value to ensure the total number of elements remains correct
   if (inferred_dim_index != -1) {
+    // Ensure that the total number of elements in the new shape matches the original data size
     if (data_size % computed_elements != 0) {
       throw runtime_error("Invalid reshape: inferred dimension does not match total elements.");
     }
+    // Compute the missing dimension size and update the new shape
     new_shape[inferred_dim_index] = data_size / computed_elements;
-    computed_elements *= new_shape[inferred_dim_index];  // Update total
+
+    // Update total computed elements (not strictly necessary, but keeps logic consistent)
+    computed_elements *= new_shape[inferred_dim_index];
   }
 
   // Copy the data from the input tensor to the reshaped output tensor
   *reshaped = *data;
 
-  // Apply reshape
+  // Apply reshape with the calculated new shape
   reshaped->reshape(new_shape);
-
 }
 
 template <typename T>
