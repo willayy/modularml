@@ -3,7 +3,7 @@
 #include "ReLU_node.hpp"
 
 template <typename T>
-ReLUNode<T>::ReLUNode(std::shared_ptr<AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
+ReLUNode<T>::ReLUNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y)
     : X(X), Y(Y) {}
 
 template <typename T>
