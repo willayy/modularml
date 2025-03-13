@@ -31,7 +31,7 @@ class ReLUNode : public Node {
    * @param X Shared pointer to the tensor X.
    * @param Y Shared pointer to the output tensor.
    */
-  ReLUNode(std::shared_ptr<AbstractTensor> X, std::shared_ptr<AbstractTensor> Y);
+  ReLUNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y);
 
   /**
    * @brief Perform the forward pass computation using ReLU activation function.
@@ -67,7 +67,7 @@ class ReLUNode : public Node {
   array_mml<GeneralDataTypes> getOutputs() const override;
 
  private:
-  std::shared_ptr<AbstractTensor> X;  // Input tensor X.
+  std::shared_ptr<const AbstractTensor> X;  // Input tensor X.
   std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
 
