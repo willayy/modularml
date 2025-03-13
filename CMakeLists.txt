@@ -169,4 +169,4 @@ add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
     COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
-)   
+)
