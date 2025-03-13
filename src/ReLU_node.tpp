@@ -23,7 +23,7 @@ bool ReLUNode<T>::areInputsFilled() const {
 template <typename T>
 void ReLUNode<T>::setInputs(const array_mml<GeneralDataTypes>& inputs) {
   if (inputs.size() < 1) throw runtime_error("ReLUNode expects at least one input: X.");
-  auto valueX = get<shared_ptr<AbstractTensor>>(inputs[0]);
+  auto valueX = std::get<shared_ptr<AbstractTensor>>(inputs[0]);
   if (!X || !valueX) throw runtime_error("Failed to cast X or input X to Tensor<T>.");
   X = std::const_pointer_cast<AbstractTensor>(valueX);
 }
