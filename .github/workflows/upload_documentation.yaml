@@ -36,7 +36,7 @@ jobs:
         git clone https://github.com/${{ github.repository }}.wiki.git wiki
 
     - name: Copy Documentation to Wiki
-      run: cp -r docs/html wiki/
+      run: cp -r build/docs/html wiki/
 
     - name: Commit and Push to Wiki
       run: |
