@@ -30,8 +30,8 @@ class TanHNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  TanHNode(std::shared_ptr<const AbstractTensor> X,
-           std::shared_ptr<AbstractTensor> Y);
+  TanHNode(shared_ptr<const AbstractTensor> X,
+           shared_ptr<AbstractTensor> Y);
 
   /**
    * @brief Perform the forward pass computation applying tanh.
@@ -71,7 +71,7 @@ class TanHNode : public Node {
   shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
-  std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
 
 #include "../TanH_node.tpp"
