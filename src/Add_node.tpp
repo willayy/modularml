@@ -13,13 +13,37 @@ void AddNode<T>::forward() {
     throw runtime_error("AddNode forward called without inputs being set");
   }
 
-  if (!A)
-    throw runtime_error("Failed to cast A to Tensor<T>");
-  if (!B)
-    throw runtime_error("Failed to cast B to Tensor<T>");
 
-    Arithmetic_mml<T> arithmetic;
-  arithmetic.add(A, B, C);
+  auto A_shape = A->get_shape();
+  auto B_shape = B->get_shape();
+  auto A_rank = A_shape.size();
+  auto B_rank = B_shape.size();
+  auto max_rank = std::max(A_rank, B_rank);
+  bool broadcast_comp = true;
+
+  // Check if broadcasting is possible
+  for (int i = 0; i < max_rank; i++) {
+    int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+    int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+
+    // Valid if dimensions match or one of them is 1
+    if (dim_A != dim_B && dim_A != 1 && dim_B != 1) {
+      broadcast_comp = false;  // Incompatible for broadcasting
+    }
+  }
+
+  Arithmetic_mml<T> arithmetic;
+
+  // Valid case:
+  if (A_shape == B_shape) {
+    arithmetic.add(A, B, C);
+    // Broadcasting case:
+  } else if (broadcast_comp) {
+    throw runtime_error("BROADCASTING NOT IMPLEMENTED YET");
+    // Invalid case:
+  } else {
+    throw runtime_error("Incompatible shapes for addition attempt in AddNode. Broadcasting impossible.");
+  }
 }
 
 template <typename T>
