@@ -3,7 +3,6 @@
 #include "a_node.hpp"
 #include "globals.hpp"
 #include "mml_arithmetic.hpp"
-#include "mml_tensor.hpp"
 #include "a_tensor.hpp"
 
 /**
