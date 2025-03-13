@@ -155,7 +155,13 @@ find_package(Doxygen
              REQUIRED dot
              OPTIONAL_COMPONENTS mscgen dia)
 
-# Set the output directory for Doxygen
+# Set the input directory for Doxygen
+set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
+
+# Set the Doxygen input directory
+set(DOXYGEN_INPUT ${DOXYGEN_INPUT_DIR})
+
+# Define output directory for Doxygen
 set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
 
 # Make doxygen extract all comments
@@ -164,7 +170,7 @@ set(DOXYGEN_EXTRACT_ALL YES)
 # Exclude libraries from doxygen
 set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 
-# Use convenience function to add doxygen docs
+# Create a custom target to generate docs
 add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
     COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
