@@ -27,10 +27,15 @@ TEST(test_node, test_ReLU_int32) {
   auto b = tensor_mml_p<int32_t>({3, 3}, {0, 5, 0, 10, 0, 15, 20, 0, 25});
   auto original_X = tensor_mml_p<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25});
 
-  auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25}));
+  auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-9, 5, -3, 10, -2, 15, 20, -6, 25}));
   auto Y = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}));
 
   ReLUNode<int32_t> reluNode(X, Y);
+
+  // Testing the use of setInput method here as well:
+  X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25}));
+  array_mml<GeneralDataTypes> inputs{X};
+  reluNode.setInputs(inputs);
   reluNode.forward();
 
   // Retrieve the tensor from the shared pointer Y

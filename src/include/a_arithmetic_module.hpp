@@ -56,7 +56,4 @@ class ArithmeticModule {
   /// @param f The function to apply element-wise.
   virtual void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const = 0;
 
-  /// @brief Clone the arithmetic module.
-  /// @return a shared pointer to a new arithmetic module.
-  virtual shared_ptr<ArithmeticModule<T>> clone() const = 0;
 };
