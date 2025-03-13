@@ -28,4 +28,5 @@ jobs:
         with:
           branch: gh-pages  # Deploy to the gh-pages branch
           folder: build/docs/html  # Path to the generated docs
+          target-folder: docs
           clean: true
