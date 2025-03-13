@@ -1,49 +1,30 @@
 name: "Generate and Upload Documentation to Wiki"
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:  # Allow manual triggering
+  pull_request: main # Temp
+  schedule:
+    - cron: "0 8 * * 1"  # Runs at 08:00 UTC every Monday
+  workflow_dispatch:  # Allows us to trigger workflow manually
 
 jobs:
-  generate_docs:
-    name: "Generate Documentation"
+  build-docs:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout Main Branch
+        uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: make install
+      - name: Install dependencies
+        run: make install
 
-    - name: Build
-      run: make 
+      - name: Build Project
+        run: make
 
-    - name: Generate Documentation
-      run: make docs  # Assumes you have a Doxyfile in your repo
+      - name: Generate Documentation
+        run: make docs
 
-    #- name: Convert HTML to Markdown (Optional)
-    #  run: |
-    #    mkdir -p docs
-    #    pip install html2text
-    #    html2text build/docs/html/index.html > docs/README.md
-
-    - name: Clone GitHub Wiki
-      run: |
-        git clone https://github.com/${{ github.repository }}.wiki.git wiki
-
-    - name: Copy Documentation to Wiki
-      run: cp -r build/docs/html wiki/
-
-    - name: Commit and Push to Wiki
-      run: |
-        cd wiki
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git remote set-url origin https://x-access-token:${{ secrets.MODULARML_TOKEN }}@github.com/${{ github.repository }}.wiki.git
-        git add .
-        git commit -m "Update documentation"
-        git push
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Deploy to the gh-pages branch
+          folder: build/docs/html  # Path to the generated docs
+          clean: true
