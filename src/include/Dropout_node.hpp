@@ -23,7 +23,7 @@ class DropoutNode : public Node {
   using AbstractTensor = Tensor<T>;
 
   /**
-   * @brief Constructor for TanHNode.
+   * @brief Constructor for DroputNode.
    *
    * @param data Shared pointer to the input tensor data.
    * @param output Shared pointer to the output tensor output.
@@ -37,72 +37,36 @@ class DropoutNode : public Node {
               optional<shared_ptr<AbstractTensor>> mask = std::nullopt,
               float ratio = 0.5,
               bool training_mode = false,
-              optional<int> seed = std::nullopt)
-      : data(data), output(output), mask(mask), ratio(ratio), training_mode(training_mode), seed(seed) {}
+              optional<int> seed = std::nullopt);
 
   /**
    * @brief Perform the forward pass using dropout.
    */
-  void forward() override {
-    if (!areInputsFilled())
-      throw runtime_error("DropoutNode inputs are not fully set.");
-
-    if (!data)
-      throw runtime_error("Failed to cast data to Tensor_mml<T>.");
-
-    if (!output)
-      throw runtime_error("Output tensor output is not allocated.");
-
-    if (data->get_shape().size() < 1)
-      throw runtime_error("Tensor data must be at least 1D.");
-
-    if (training_mode) {
-      throw runtime_error("DropoutNode forward pass in training mode is not implemented yet.");
-    } else {
-      *output = *data;
-    }
-  }
+  void forward() override;
 
   /**
    * @brief Check if the input(s) are filled.
    */
-  bool areInputsFilled() const override {
-    return data && data->get_size() > 0 &&
-           (!mask.has_value() || (mask.value() && mask.value()->get_size() > 0));
-  }
+  bool areInputsFilled() const override;
 
   /**
    * @brief Set the input(s) for the node.
    *
    * @param inputs The input data to be set, where data is inputs[0].
    */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override {
-    if (inputs.size() < 1)
-      throw runtime_error("DropoutNode expects at least one input: input.");
-
-    auto valueData = std::get_if<shared_ptr<AbstractTensor>>(&inputs[0]);
-
-    if (!valueData)
-      throw runtime_error("Failed to cast Input to the expected tensor types.");
-    data = std::const_pointer_cast<AbstractTensor>(*valueData);
-  }
+  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
 
   /**
    * @brief Check if the output(s) are filled.
    */
-  bool areOutputsFilled() const override {
-    if (!output) return false;
-    return output->get_size() > 0;
-  }
+  bool areOutputsFilled() const override;
 
   /**
    * @brief Get the output of the node.
    *
    * @return The output data.
    */
-  array_mml<GeneralDataTypes> getOutputs() const override {
-    return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(output))};
-  }
+  array_mml<GeneralDataTypes> getOutputs() const override;
 
  private:
   // Inputs
@@ -117,3 +81,5 @@ class DropoutNode : public Node {
   bool training_mode;  // Training mode.
   optional<int> seed;  // Random seed.
 };
+
+#include "../Dropout_node.tpp"
