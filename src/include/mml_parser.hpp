@@ -2,7 +2,85 @@
 
 #include "a_data_parser.hpp"
 #include "mml_tensor.hpp"
+#include "ReLU_node.hpp"
+#include "Swish_node.hpp"
+#include "TanH_node.hpp"
+#include "gemm_node.hpp"
+#include "mml_model.hpp"
 
+// Helper function: to create a GEMM node
+std::unique_ptr<Node> makeGemm(const GeneralDataTypes& a, const GeneralDataTypes& b, 
+  const GeneralDataTypes& y, const std::optional<GeneralDataTypes>& c = std::nullopt,
+  float alpha = 1.0f, float beta = 1.0f, int transA = 0, int transB = 0) {
+  return std::visit([&](const auto& aptr) -> std::unique_ptr<Node> {
+    // Get the type of the tensor element
+    using TensorPtr = std::decay_t<decltype(aptr)>;
+    using TensorType = typename TensorPtr::element_type;
+    using ValueType = typename TensorType::value_type;
+    
+    // Get the output tensors with the same type as the input
+    auto bptr = std::get<std::shared_ptr<Tensor<ValueType>>>(b);
+    auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+    
+    // Handle optional C tensor
+    std::optional<std::shared_ptr<Tensor<ValueType>>> cptr = std::nullopt;
+    if (c.has_value()) {
+      cptr = std::get<std::shared_ptr<Tensor<ValueType>>>(c.value());
+    }
+    
+    // Create a GemmNode with the appropriate type
+    return std::make_unique<GemmNode<ValueType>>(
+      aptr, bptr, yptr, cptr, alpha, beta, transA, transB);
+  }, a);
+}
+
+// Helper function: to create a ReLU node
+std::unique_ptr<Node> makeRelu(const GeneralDataTypes& x, const GeneralDataTypes& y) {
+  return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
+      // Get the type of the tensor element
+      using TensorPtr = std::decay_t<decltype(xptr)>;
+      using TensorType = typename TensorPtr::element_type;
+      using ValueType = typename TensorType::value_type;
+      
+      // Get the output tensor with the same type as the input
+      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+      
+      // Create a ReLUNode with the appropriate type
+      return std::make_unique<ReLUNode<ValueType>>(xptr, yptr);
+  }, x);
+}
+
+// Helper function: to create a Swish node
+std::unique_ptr<Node> makeSwish(const GeneralDataTypes& x, const GeneralDataTypes& y) {
+  return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
+      // Get the type of the tensor element
+      using TensorPtr = std::decay_t<decltype(xptr)>;
+      using TensorType = typename TensorPtr::element_type;
+      using ValueType = typename TensorType::value_type;
+      
+      // Get the output tensor with the same type as the input
+      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+      
+      // Create a SwishNode with the appropriate type
+      return std::make_unique<SwishNode<ValueType>>(xptr, yptr);
+  }, x);
+}
+
+// Helper function: to create a TanH node
+std::unique_ptr<Node> makeTanH(const GeneralDataTypes& x, const GeneralDataTypes& y) {
+  return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
+      // Get the type of the tensor element
+      using TensorPtr = std::decay_t<decltype(xptr)>;
+      using TensorType = typename TensorPtr::element_type;
+      using ValueType = typename TensorType::value_type;
+      
+      // Get the output tensor with the same type as the input
+      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+      
+      // Create a TanHNode with the appropriate type
+      return std::make_unique<TanHNode<ValueType>>(xptr, yptr);
+  }, x);
+}
 
 // Helper function: to map the tensors
 std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) {
@@ -20,7 +98,7 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       }
       array_mml shapeArray(dims);
 
-      
+      // Need to handle more data types
       if (dataType == 1) {
         std::vector<float> data = init["floatData"].get<std::vector<float>>();
         array_mml dataArray(data);
@@ -128,15 +206,12 @@ std::vector<unique_ptr<Node>> constructNodes(const json& graph, const std::unord
         outputs.push_back(tensorMap.at(output.get<std::string>()));
       }
       
-      // Create the node
-      if (opType == "Add") {
-        nodes.push_back(std::make_unique<>);
-      } else if (opType == "Sub") {
-        nodes.push_back(std::make_unique<>);
-      } else if (opType == "Mul") {
-        nodes.push_back(std::make_unique<>);
-      } else if (opType == "Div") {
-        nodes.push_back(std::make_unique<>);
+      if (opType == "Relu") {
+        nodes.push_back(makeRelu(inputs[0], outputs[0]));
+      } else if (opType == "TanH") {
+        nodes.push_back(makeTanH(inputs[0], outputs[0]));
+      } else if (opType == "Swish") {
+        nodes.push_back(makeSwish(inputs[0], outputs[0]));
       } else {
         throw std::runtime_error("Currently unsupported operation type: " + opType);
       }
@@ -150,15 +225,17 @@ class Parser_mml: public DataParser {
   public:
     Parser_mml() = default;
     
-    unique_ptr<Model> parse(const json& data) const {
+    unique_ptr<Model> parse(const json& data) const override {
       //Get the graph
       json graph = data["graph"];
 
       // Get the tensors
       std::unordered_map<std::string, GeneralDataTypes> tensors = mapTensors(graph);
 
+      // Construct the nodes
+      std::vector<unique_ptr<Node>> nodes = constructNodes(graph, tensors);
 
-
-
+      // Create the model
+      return std::make_unique<Model_mml>(std::move(nodes));
     }
-}
+};
