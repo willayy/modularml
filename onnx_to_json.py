@@ -78,28 +78,21 @@ import os
 import json
 import numpy as np
 from onnx import numpy_helper
+import onnx.shape_inference
 
 parser = argparse.ArgumentParser(description="Process a file")
 parser.add_argument("path", type=str, help="Path to a file")
 
 model_weight_file_name = "model_weights.bin"
 
-""" Checks if the path provided leads to a onnx file """
-def is_onnx(path: str):
-    if os.path.isfile(path) and path.lower().endswith(".onnx"):
-        return True
-    else:
-        return False
-
-""" Converts a TensorProto object into a numpy array """
-def convert_initializer(initializer):
-    return numpy_helper.to_array(initializer)
-
-
 """ Creates a JSON representation of the model stored in ONNX format """
 def onnx_to_json(path: str):
     if is_onnx(path):
         model = onnx.load(path)
+
+        # This will infer the shape of intermediate tensors in the graph
+        model = onnx.shape_inference.infer_shapes(model)
+
         graph = model.graph
 
         initializers_dict = {initializer.name: initializer for initializer in graph.initializer}
@@ -140,8 +133,15 @@ def onnx_to_json(path: str):
 
                 # Each node has inputs, we use the name of the input to find the initializer field which stores values for weights and biases
                 for i in node.input:
-                    #shape_info = value_info_map.get(i, {"name": i, "error": "Shape unknown"})
-                    #node_json["inputs"].append(shape_info)
+                    # Check if the input is optional (some nodes might not have an input)
+                    input_entry = {"name": i if i else "optional"}
+                    
+                    # Get the shape information from value_info_map
+                    shape_info = value_info_map.get(i, {"name": i, "error": "Shape unknown"})
+                
+                    input_entry.update(shape_info)  # Update the entry with shape and any additional info
+
+                    node_json["inputs"].append(input_entry)
 
                     if i in initializers_dict:
                         initializer = initializers_dict[i]
@@ -160,9 +160,22 @@ def onnx_to_json(path: str):
                             "size": size
                         })
                 
-                #for i in node.output:
-                #    shape_info = value_info_map.get(i, {"name": i, "error": "Shape unknown"})
-                #    node_json["outputs"].append(shape_info)
+                for i in node.output:
+                    output_entry = {"name": i if i else "optional"}  # Mark optional outputs
+
+                    if i in value_info_map:
+                        value_info = value_info_map[i]
+                        output_entry["element_type"] = value_info.get("element_type", "Unknown")
+                        
+                        if isinstance(value_info.get("shape"), list):
+                            output_entry["shape"] = value_info["shape"]
+                        else:
+                            output_entry["shape"] = value_info.get("shape", "Unknown")
+                    else:
+                        output_entry["element_type"] = "Unknown"
+                        output_entry["shape"] = "Unknown"
+
+                    node_json["outputs"].append(output_entry)
 
 
                 model_json["nodes"].append(node_json)
@@ -171,33 +184,50 @@ def onnx_to_json(path: str):
         with open("./model.json", "w") as f:
             json.dump(model_json, f, indent=4)
 
+
+""" Checks if the path provided leads to a onnx file """
+def is_onnx(path: str):
+    if os.path.isfile(path) and path.lower().endswith(".onnx"):
+        return True
+    else:
+        return False
+
+""" Converts a TensorProto object into a numpy array """
+def convert_initializer(initializer):
+    return numpy_helper.to_array(initializer)
+
+
 """ A helper function that can be used to get a overview of a model from the console """
 def get_node_op_types(path: str) -> None:
     if is_onnx(path):
         model = onnx.load(path)
         graph = model.graph
-        
+
         for node in graph.node:
             print(node.op_type) 
 
+""" Converts a tensor_type object into a dictionary """
 def convert_tensor_type(tensor_type):
-    # Print the tensor_type to understand its structure
-    print(tensor_type)
-    # Check if elem_type is available
     if tensor_type.HasField('tensor_type'):
-        element_type = tensor_type.tensor_type.elem_type
-        shape = [{"dim_value": dim.dim_value} for dim in tensor_type.tensor_type.shape.dim]
+        element_type = get_elem_type_name(tensor_type.tensor_type.elem_type)
+        shape = [dim.dim_value for dim in tensor_type.tensor_type.shape.dim]
     else:
-        element_type = "Unknown"  # Handle missing elem_type gracefully
-        shape = []  # If shape or dims are missing, return empty list
+        element_type = "Unknown" 
+        shape = []
     
     return {
         "element_type": element_type,
         "shape": shape
     }
 
+""" Maps the element type to the data type is represents """
+def get_elem_type_name(elem_type):
+    """elem_type could be 1 for example which means that the data type is FLOAT so we directly write FLOAT instead of 1"""
+    return onnx.TensorProto.DataType.Name(elem_type)
+
+
+""" Creates a dictionary mapping tensor names to their shape and type."""
 def extract_value_info_shapes(graph):
-    """Creates a dictionary mapping tensor names to their shape and type."""
     value_info_map = {}
 
     for vi in list(graph.input) + list(graph.output) + list(graph.value_info):
@@ -205,7 +235,6 @@ def extract_value_info_shapes(graph):
             value_info_map[vi.name] = convert_tensor_type(vi.type)
 
     return value_info_map
-
 
 
 # Script that reads a onnx file and converts it into a json format.
