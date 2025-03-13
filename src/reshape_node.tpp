@@ -65,11 +65,6 @@ void reshapeNode<T>::forward() {
     computed_elements *= new_shape[inferred_dim_index];  // Update total
   }
 
-  // Final validation of reshape
-  if (computed_elements != data_size) {
-    throw runtime_error("The total number of elements in the new shape does not match the number of elements in the data tensor.");
-  }
-
   // Apply reshape
   reshaped->reshape(new_shape);
 
