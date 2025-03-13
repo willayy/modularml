@@ -65,13 +65,12 @@ void reshapeNode<T>::forward() {
     computed_elements *= new_shape[inferred_dim_index];  // Update total
   }
 
+  // Copy the data from the input tensor to the reshaped output tensor
+  *reshaped = *data;
+
   // Apply reshape
   reshaped->reshape(new_shape);
 
-  // Copy the data from the input tensor to the reshaped output tensor
-  for (int i = 0; i < data_size; ++i) {
-    (*reshaped)[i] = (*data)[i];
-  }
 }
 
 template <typename T>
