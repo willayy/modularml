@@ -30,7 +30,7 @@ class TanHNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  TanHNode(std::shared_ptr<AbstractTensor> X,
+  TanHNode(std::shared_ptr<const AbstractTensor> X,
            std::shared_ptr<AbstractTensor> Y);
 
   /**
