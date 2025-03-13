@@ -29,8 +29,8 @@ class SwishNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  SwishNode(std::shared_ptr<const AbstractTensor> X,
-            std::shared_ptr<AbstractTensor> Y);
+  SwishNode(shared_ptr<const AbstractTensor> X,
+            shared_ptr<AbstractTensor> Y);
 
   /**
    * @brief Perform the forward pass computation applying swish.
@@ -70,7 +70,7 @@ class SwishNode : public Node {
   shared_ptr<const AbstractTensor> X;  // Input tensor X.
 
   // Output
-  std::shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
 };
 
 #include "../Swish_node.tpp"
