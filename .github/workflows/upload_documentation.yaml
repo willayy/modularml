@@ -25,18 +25,18 @@ jobs:
     - name: Generate Documentation
       run: make docs  # Assumes you have a Doxyfile in your repo
 
-    - name: Convert HTML to Markdown (Optional)
-      run: |
-        mkdir -p docs
-        pip install html2text
-        html2text build/docs/html/index.html > docs/README.md
+    #- name: Convert HTML to Markdown (Optional)
+    #  run: |
+    #    mkdir -p docs
+    #    pip install html2text
+    #    html2text build/docs/html/index.html > docs/README.md
 
     - name: Clone GitHub Wiki
       run: |
         git clone https://github.com/${{ github.repository }}.wiki.git wiki
 
     - name: Copy Documentation to Wiki
-      run: cp -r docs/* wiki/
+      run: cp -r docs/html wiki/
 
     - name: Commit and Push to Wiki
       run: |
