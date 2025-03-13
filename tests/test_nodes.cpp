@@ -64,7 +64,7 @@ TEST(test_node, test_Swish_float) {
   ASSERT_TRUE(tensors_are_close(*Y, *b));
 }
 
-TEST(test_node, test_reshape_float) {
+TEST(test_node, test_reshape_basic) {
   /**
    * @brief Expected Tensor after the Reshape function is applied to the data tensor.
    */
@@ -78,46 +78,41 @@ TEST(test_node, test_reshape_float) {
   reshapeNode.forward();
 
   ASSERT_EQ(*reshaped, *b);
+}
 
-  // Test where the setInputs method is used with a high-dimensional reshape
-  data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
-
-  // Complex reshape: Change (3,2) → (2,1,3,1) for multi-dimensional testing
-  shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
-
+TEST(test_node, test_reshape_high_dimensional) {
   /**
    * @brief Expected Tensor after the Reshape function is applied to the data tensor.
    */
-  b = tensor_mml_p<float>({2, 1, 3, 1}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
+  auto b = tensor_mml_p<float>({2, 1, 3, 1}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
 
-  array_mml<GeneralDataTypes> inputs({data, shape});
+  auto data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
+  auto shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
+  auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 1, 3, 1}));
+
+  reshapeNode<float> reshapeNode(data, shape, reshaped);
+  array_mml<GeneralDataTypes> inputs({data, shape}); // This is because we also want to test the setInputs function
   reshapeNode.setInputs(inputs);
-
   reshapeNode.forward();
 
-  // Check if the reshaped tensor matches expected output
   ASSERT_EQ(*reshaped, *b);
+}
 
+TEST(test_node, test_reshape_with_inferred_dimension) {
   /**
    * @brief Expected Tensor after the Reshape function is applied to the data tensor.
    * This tests the automatic inference of one dimension using `-1`.
    */
-  // Expected output tensor after reshape (same values, different shape)
-  b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-  // Input tensor (3,2)
-  data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+  auto data = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+  auto shape = tensor_mml_p<int64_t>({2}, {-1, 3});
+  auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
-  // Shape tensor with `-1`, meaning the missing dimension should be inferred
-  shape = tensor_mml_p<int64_t>({2}, {-1, 3});  // ONNX rule: `-1` is automatically computed
-
-  // Reshaped output tensor (expected to become {2,3})
-
-  inputs = array_mml<GeneralDataTypes>({data, shape});
+  reshapeNode<float> reshapeNode(data, shape, reshaped);
+  array_mml<GeneralDataTypes> inputs({data, shape}); // This is because we also want to test the setInputs function
   reshapeNode.setInputs(inputs);
-
   reshapeNode.forward();
 
-  // Ensure that the reshaped tensor matches the expected output
   ASSERT_EQ(*reshaped, *b);
 }
