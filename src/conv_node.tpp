@@ -31,7 +31,7 @@ void ConvNode<T>::forward() {
     // Begin by flipping the weight kernel
     flip_kernel();
 
-    auto im2col_output_shape = array_mml<int>({get_in_channels() * get_kernel_height() * get_kernel_width(),
+    auto im2col_output_shape = array_mml<unsigned long int>({get_in_channels() * get_kernel_height() * get_kernel_width(),
                                                get_batch_size() * get_out_height() * get_out_width()});
 
     auto im2col_output = make_shared<Tensor_mml<T>>(im2col_output_shape);
@@ -39,11 +39,11 @@ void ConvNode<T>::forward() {
     im2col(input_copy, im2col_output);
 
     // Flatten the weight tensor to prepare for GEMM
-    int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
+    unsigned long int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
     W->reshape({get_out_channels(), flattened_size});
 
     // Prepare the result tensor
-    array_mml<int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
+    array_mml<unsigned long int> result_shape({W->get_shape()[0], im2col_output->get_shape()[1]});
     auto result_ptr = make_shared<Tensor_mml<T>>(result_shape);
 
     shared_ptr<GemmModule<T>> gemm = make_shared<Gemm_mml<T>>();
@@ -105,73 +105,73 @@ array_mml<GeneralDataTypes> ConvNode<T>::getOutputs() const {
 
 template <typename T>
 void ConvNode<T>::flip_kernel() {
-    int height = get_kernel_height();
-    int width = get_kernel_width();
+  unsigned long int height = get_kernel_height();
+  unsigned long int width = get_kernel_width();
 
-    for (int f = 0; f < get_out_channels(); f++) {
-        for (int c = 0; c < get_in_channels(); c++) {
-            // Flip horizontally
-            for (int h = 0; h < height; h++) {
-                for (int w = 0; w < width / 2; w++) {
-                    auto tmp = (*W)[{f, c, h, w}];
-                    (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
-                    (*W)[{f, c, h, width - 1 - w}] = tmp;
-                }
-            }
-
-            // Flip vertically
-            for (int w = 0; w < width; w++) {
-                for (int h = 0; h < height / 2; h++) {
-                    auto tmp = (*W)[{f, c, h, w}];
-                    (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
-                    (*W)[{f, c, height - 1 - h, w}] = tmp;
-                }
-            }
+  for (unsigned long int f = 0; f < get_out_channels(); f++) {
+    for (unsigned long int c = 0; c < get_in_channels(); c++) {
+      // Flip horizontally
+      for (unsigned long int h = 0; h < height; h++) {
+        for (unsigned long int w = 0; w < width / 2; w++) {
+          auto tmp = (*W)[{f, c, h, w}];
+          (*W)[{f, c, h, w}] = (*W)[{f, c, h, width - 1 - w}];
+          (*W)[{f, c, h, width - 1 - w}] = tmp;
         }
+      }
+
+      // Flip vertically
+      for (unsigned long int w = 0; w < width; w++) {
+        for (unsigned long int h = 0; h < height / 2; h++) {
+          auto tmp = (*W)[{f, c, h, w}];
+          (*W)[{f, c, h, w}] = (*W)[{f, c, height - h - 1, w}];
+          (*W)[{f, c, height - 1 - h, w}] = tmp;
+        }
+      }
     }
+  }
 }
 
 template <typename T>
 void ConvNode<T>::im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output) {
     // Iterate over each image in the batch
-    for (int n = 0; n < get_batch_size(); ++n) {
-        for (int h = 0; h < get_out_height(); ++h) {
-            for (int w = 0; w < get_out_width(); ++w) {  // Traverse into each batch
+    for (unsigned long int n = 0; n < get_batch_size(); ++n) {
+      for (unsigned long int h = 0; h < get_out_height(); ++h) {
+        for (unsigned long int w = 0; w < get_out_width(); ++w) {  // Traverse into each batch
 
-                int col_index = h * get_out_width() + w;  // Column index in im2col matrix
+          unsigned long int col_index = h * get_out_width() + w;  // Column index in im2col matrix
 
-                for (int c = 0; c < get_in_channels(); ++c) {  // If the input has multiple channels, iterate over each one
+          for (unsigned long int c = 0; c < get_in_channels(); ++c) {  // If the input has multiple channels, iterate over each one
 
-                    // Here we loop over the kernel's height and width, simulating how the kernel moves across the input tensor.
-                    // For each position of the kernel, the corresponding input values are extracted and stored in the output tensor.
-                    // If the kernel extends beyond the boundaries of the input (due to padding or stride), zero padding is added instead of the input values.
-                    for (int kh = 0; kh < get_kernel_height(); ++kh) {
-                        for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                            int input_h = h * get_stride_height() - get_padding_top() + kh;
-                            int input_w = w * get_stride_width() - get_padding_left() + kw;
+            // Here we loop over the kernel's height and width, simulating how the kernel moves across the input tensor.
+            // For each position of the kernel, the corresponding input values are extracted and stored in the output tensor.
+            // If the kernel extends beyond the boundaries of the input (due to padding or stride), zero padding is added instead of the input values.
+            for (unsigned long int kh = 0; kh < get_kernel_height(); ++kh) {
+              for (unsigned long int kw = 0; kw < get_kernel_width(); ++kw) {
+                unsigned long int input_h = h * get_stride_height() - get_padding_top() + kh;
+                unsigned long int input_w = w * get_stride_width() - get_padding_left() + kw;
 
-                            if (input_h < 0 || input_h >= get_in_height() + get_padding_bottom() ||
-                                input_w < 0 || input_w >= get_in_width() + get_padding_right()) {
-                                (*output)[col_index] = 0;  // Padding
-                            } else {
-                                int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
+                if (input_h < 0 || input_h >= get_in_height() + get_padding_bottom() ||
+                    input_w < 0 || input_w >= get_in_width() + get_padding_right()) {
+                  (*output)[col_index] = 0;  // Padding
+                } else {
+                  unsigned long int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
 
-                                int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
+                  unsigned long int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
 
-                                int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
+                  unsigned long int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
                                                   c * (get_in_height() * get_in_width()) +
                                                   input_h * get_in_width() + input_w;
 
-                                // Check if input index is valid
-                                if (input_index >= 0 && input_index < get_in_channels() * get_in_height() * get_in_width()) {
-                                    (*output)[output_index] = (*input)[input_index];
-                                }
-                            }
-                        }
-                    }
+                  // Check if input index is valid
+                  if (input_index >= 0 && input_index < get_in_channels() * get_in_height() * get_in_width()) {
+                    (*output)[output_index] = (*input)[input_index];
+                  }
                 }
+              }
             }
+          }
         }
+      }
     }
 }
 
@@ -180,17 +180,17 @@ void ConvNode<T>::add_bias(shared_ptr<Tensor<T>> result_ptr) {
     // We first have to retrieve the bias tensor inside the optional
     auto& bias_tensor = *B;
 
-    for (int b = 0; b < get_batch_size(); b++) {
-        for (int i = 0; i < get_out_channels(); ++i) {
-            for (int h = 0; h < get_out_height(); ++h) {
-                for (int w = 0; w < get_out_width(); ++w) {
-                    int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
+    for (unsigned long int b = 0; b < get_batch_size(); b++) {
+      for (unsigned long int i = 0; i < get_out_channels(); ++i) {
+        for (unsigned long int h = 0; h < get_out_height(); ++h) {
+          for (unsigned long int w = 0; w < get_out_width(); ++w) {
+            unsigned long int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
 
-                    // Each value in bias vector is added to one entire out feature at a time
-                    (*result_ptr)[index] += (*bias_tensor)[i];
-                }
-            }
+            // Each value in bias vector is added to one entire out feature at a time
+            (*result_ptr)[index] += (*bias_tensor)[i];
+          }
         }
+      }
     }
 }
 
@@ -225,64 +225,52 @@ void ConvNode<T>::validate_inputs() {
 }
 
 template <typename T>
-void ConvNode<T>::update_parameters() {
-    kernel_height = W->get_shape()[2];
-    kernel_width = W->get_shape()[3];
-    batch_size = X->get_shape()[0];
-    in_channels = X->get_shape()[1];
+unsigned long int ConvNode<T>::get_batch_size() const { return batch_size; }
 
-    in_height = X->get_shape()[2];
-    in_width = X->get_shape()[3];
-    out_channels = W->get_shape()[0];
+template <typename T>
+unsigned long int ConvNode<T>::get_in_channels() const { return in_channels; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_in_height() const { return in_height; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_in_width() const { return in_width; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_kernel_height() const { return kernel_height; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_kernel_width() const { return kernel_width; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_out_channels() const { return out_channels; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_stride_height() const { return stride[0]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_stride_width() const { return stride[1]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_padding_top() const { return padding[0]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_padding_bottom() const { return padding[1]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_padding_left() const { return padding[2]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_padding_right() const { return padding[3]; }
+
+template <typename T>
+unsigned long int ConvNode<T>::get_out_height() {
+  return (get_in_height() + get_padding_top() + get_padding_bottom() - get_kernel_height()) / get_stride_height() + 1;
 }
 
 template <typename T>
-int ConvNode<T>::get_batch_size() const { return batch_size; }
-
-template <typename T>
-int ConvNode<T>::get_in_channels() const { return in_channels; }
-
-template <typename T>
-int ConvNode<T>::get_in_height() const { return in_height; }
-
-template <typename T>
-int ConvNode<T>::get_in_width() const { return in_width; }
-
-template <typename T>
-int ConvNode<T>::get_kernel_height() const { return kernel_height; }
-
-template <typename T>
-int ConvNode<T>::get_kernel_width() const { return kernel_width; }
-
-template <typename T>
-int ConvNode<T>::get_out_channels() const { return out_channels; }
-
-template <typename T>
-int ConvNode<T>::get_stride_height() const { return stride[0]; }
-
-template <typename T>
-int ConvNode<T>::get_stride_width() const { return stride[1]; }
-
-template <typename T>
-int ConvNode<T>::get_padding_top() const { return padding[0]; }
-
-template <typename T>
-int ConvNode<T>::get_padding_bottom() const { return padding[1]; }
-
-template <typename T>
-int ConvNode<T>::get_padding_left() const { return padding[2]; }
-
-template <typename T>
-int ConvNode<T>::get_padding_right() const { return padding[3]; }
-
-template <typename T>
-int ConvNode<T>::get_out_height() {
-    return (get_in_height() + get_padding_top() + get_padding_bottom() - get_kernel_height()) / get_stride_height() + 1;
-}
-
-template <typename T>
-int ConvNode<T>::get_out_width() {
-    return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
+unsigned long int ConvNode<T>::get_out_width() {
+  return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
 }
 
 

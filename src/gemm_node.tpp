@@ -19,18 +19,18 @@ void GemmNode<T>::forward() {
 
   if (shapeA.size() < 2) throw runtime_error("Tensor A must be at least 2D.");
 
-  int M = shapeA[0];  // Number of rows.
-  int K = shapeA[1];  // Number of columns of A.
+  unsigned long int M = shapeA[0];  // Number of rows.
+  unsigned long int K = shapeA[1];  // Number of columns of A.
 
   auto shapeB = B->get_shape();
   if (shapeB.size() < 2) throw runtime_error("Tensor B must be at least 2D.");
   if (shapeB[0] != K) throw runtime_error("GemmNode: Dimension mismatch between A and B.");
 
-  int N = shapeB[1];  // Number of columns of B.
+  unsigned long int N = shapeB[1];  // Number of columns of B.
 
-  int lda = K;
-  int ldb = N;
-  int ldc = N;
+  unsigned long int lda = K;
+  unsigned long int ldb = N;
+  unsigned long int ldc = N;
 
   // Handling optional C tensor not implemented directly in gemm_inner_product.
   // Will have to be done here instead by constructing suboptimal concrete tensor.

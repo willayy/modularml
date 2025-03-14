@@ -6,11 +6,11 @@ set(PROJECT_NAME "modularml")
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set the C version
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 20)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
@@ -88,6 +88,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         -pedantic 
         -Werror
         -Wnon-virtual-dtor
+        -Wfatal-errors
+        -fmax-errors=1
         -Waddress
         -Walloc-zero
         -Walloca

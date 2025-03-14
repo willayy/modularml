@@ -5,19 +5,19 @@
 TEST(conv_node_test, test_constructor) {
     std::cout << "My test" << std::endl;
 
-    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<unsigned long int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
                                4.0f, 5.0f, 6.0f,
                                7.0f, 8.0f, 9.0f});
 
-    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeW({1, 1, 2, 2});
     array_mml<float> W_values({1.0f, 0.0f,
                                0.0, -1.0f});
 
     shared_ptr<Tensor_mml<float>> X = make_shared<Tensor_mml<float>>(shapeX, X_values);
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
-    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeY({1, 1, 2, 2});
     array_mml<float> Y_values({0.0f, 0.0f,
                                0.0f, 0.0f});
     auto Y = make_shared<Tensor_mml<float>>(shapeY, Y_values);
@@ -39,13 +39,13 @@ TEST(conv_node_test, test_constructor) {
 
 TEST(conv_node_test, test_forward_simple) {
     // Define the input tensor shape and values
-    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<unsigned long int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
                                4.0f, 5.0f, 6.0f,
                                7.0f, 8.0f, 9.0f});
 
     // Define the weight tensor shape and values (for testing im2col only, this might not be used)
-    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeW({1, 1, 2, 2});
     array_mml<float> W_values({1.0f, 1.0f,
                                1.0f, 1.0f});
 
@@ -54,7 +54,7 @@ TEST(conv_node_test, test_forward_simple) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Output tensor shape (after applying Conv)
-    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeY({1, 1, 2, 2});
     array_mml<float> Y_values({0.0f, 0.0f,
                                0.0f, 0.0f});
 
@@ -74,7 +74,7 @@ TEST(conv_node_test, test_forward_simple) {
     conv.forward();
 
     // The output is reshaped during the call to forward so we want to make sure that the size is correct
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 2, 2}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 1, 2, 2}));
 
     EXPECT_FLOAT_EQ(Y->get_data()[0], 12);
     EXPECT_FLOAT_EQ(Y->get_data()[1], 16);
@@ -84,7 +84,7 @@ TEST(conv_node_test, test_forward_simple) {
 
 TEST(conv_node_test, test_forward_5x5input_2x2filter) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
-    array_mml<int> shapeX({1, 1, 5, 5});
+    array_mml<unsigned long int> shapeX({1, 1, 5, 5});
     array_mml<float> X_values({
         // Channel 1
         1,
@@ -115,7 +115,7 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
     });
 
     // Define the weight tensor (1 filter, 1 channels, 2x2 kernel)
-    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeW({1, 1, 2, 2});
     array_mml<float> W_values({
         1,
         0,
@@ -128,7 +128,7 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
-    array_mml<int> y_shape({1, 2, 3, 3});
+    array_mml<unsigned long int> y_shape({1, 2, 3, 3});
 
     auto Y = make_shared<Tensor_mml<float>>(y_shape);
 
@@ -146,7 +146,7 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
     conv.forward();
 
     // Should extract 16 patches from the feature in a 4x4 matrix
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 4, 4}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 1, 4, 4}));
 
     // All values should be 6 as the distance from the first value in the kernel compared to the next is 6 for each stride
     // This additionally checks that the kernel was flipped correctly as the expected value otherwise would be -6
@@ -157,7 +157,7 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
 
 TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
-    array_mml<int> shapeX({1, 3, 5, 5});
+    array_mml<unsigned long int> shapeX({1, 3, 5, 5});
     array_mml<float> X_values({
         // Channel 1
         1,
@@ -243,7 +243,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
 
     // Define the weight tensor (8 filters, each with 3 channels, 2x2 kernel)
     // The above dimensions mean that the convolution will extract 8 total features
-    array_mml<int> shapeW({8, 3, 2, 2});
+    array_mml<unsigned long int> shapeW({8, 3, 2, 2});
     array_mml<float> W_values({                                        // 8 filters, each with 3 input channels
                                1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,  // These are the filters
                                1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
@@ -259,7 +259,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Set the size wrong intentionally to check that it gets reshapen correctly within forward()
-    array_mml<int> y_shape({1, 2, 3, 3});
+    array_mml<unsigned long int> y_shape({1, 2, 3, 3});
 
     auto Y = make_shared<Tensor_mml<float>>(y_shape);
 
@@ -277,7 +277,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
     conv.forward();
 
     // Check output shape
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 8, 4, 4}));
 
     // This time as we have 3 in_channels
     // The value after applying the filter should be 6 + 6 + 6 = 18
@@ -290,7 +290,7 @@ TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison)
     // The purpose of this test is to check if our implementation is the same as using scipy convolve2d implementation
 
     // Define the input tensor shape and values
-    array_mml<int> shapeX({1, 3, 5, 5});
+    array_mml<unsigned long int> shapeX({1, 3, 5, 5});
     array_mml<float> X_values({// Channel 1
                                1, 2, 3, 4, 5,
                                6, 7, 8, 9, 10,
@@ -313,7 +313,7 @@ TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison)
                                0, 1, 0, 1, 0});
 
     // Define the weight tensor (8 filters, each with 3 channels, 2x2 kernel)
-    array_mml<int> shapeW({8, 3, 2, 2});
+    array_mml<unsigned long int> shapeW({8, 3, 2, 2});
     array_mml<float> W_values({// 8 filters, each with 3 input channels
                                1, 0, 0, -1, 0, 1, -1, 0, 1, -1, 0, 1,
                                -1, 1, 1, 0, 0, -1, 1, 1, 1, 0, -1, -1,
@@ -329,7 +329,7 @@ TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison)
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
-    array_mml<int> y_shape({1, 8, 4, 4});
+    array_mml<unsigned long int> y_shape({1, 8, 4, 4});
 
     auto Y = make_shared<Tensor_mml<float>>(y_shape);
 
@@ -347,7 +347,7 @@ TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison)
     conv.forward();
 
     // Check output shape
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 8, 4, 4}));
 
     // Expected values (8 extracted feature maps each 4x4)
     // These were calculated using SciPy convolve2d function with the same parameters as above
@@ -398,13 +398,13 @@ TEST(conv_node_test, test_forward_3_in_channels_8_out_channels_scipy_comparison)
 
 TEST(conv_node_test, test_bias_add) {
     // Define the input tensor shape and values
-    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<unsigned long int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
                                4.0f, 5.0f, 6.0f,
                                7.0f, 8.0f, 9.0f});
 
     // Define the weight tensor shape and values (for testing im2col only, this might not be used)
-    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeW({1, 1, 2, 2});
     array_mml<float> W_values({1.0f, 1.0f,
                                1.0f, 1.0f});
 
@@ -413,7 +413,7 @@ TEST(conv_node_test, test_bias_add) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Output tensor shape (after applying Conv)
-    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeY({1, 1, 2, 2});
     array_mml<float> Y_values({0.0f, 0.0f,
                                0.0f, 0.0f});
 
@@ -425,7 +425,7 @@ TEST(conv_node_test, test_bias_add) {
     array_mml<int> kernel_shape = array_mml<int>({2, 2});
     array_mml<int> stride = array_mml<int>({1, 1});
 
-    array_mml<int> shape_bias({1});
+    array_mml<unsigned long int> shape_bias({1});
     array_mml<float> bias_values({10.0f});
 
     auto B = make_shared<Tensor_mml<float>>(shape_bias, bias_values);
@@ -436,7 +436,7 @@ TEST(conv_node_test, test_bias_add) {
     conv.forward();
 
     // The output is reshaped during the call to forward so we want to make sure that the size is correct
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 2, 2}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 1, 2, 2}));
 
     EXPECT_FLOAT_EQ(Y->get_data()[0], 22);
     EXPECT_FLOAT_EQ(Y->get_data()[1], 26);
@@ -446,7 +446,7 @@ TEST(conv_node_test, test_bias_add) {
 
 TEST(conv_node_test, test_bias_multiple_out_channels) {
     // The purpose of this test is to check that the convolution node is able to handle multiple input and output channels
-    array_mml<int> shapeX({1, 3, 5, 5});
+    array_mml<unsigned long int> shapeX({1, 3, 5, 5});
     array_mml<float> X_values({
         // Channel 1
         1,
@@ -532,7 +532,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
 
     // Define the weight tensor (8 filters, each with 3 channels, 2x2 kernel)
     // The above dimensions mean that the convolution will extract 8 total features
-    array_mml<int> shapeW({8, 3, 2, 2});
+    array_mml<unsigned long int> shapeW({8, 3, 2, 2});
     array_mml<float> W_values({                                        // 8 filters, each with 3 input channels
                                1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,  // These are the filters
                                1, 0, 0, -1, 1, 0, 0, -1, 1, 0, 0, -1,
@@ -548,7 +548,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Set the size wrong intentionally to check that it gets reshapen correctly within forward()
-    array_mml<int> y_shape({1, 2, 3, 3});
+    array_mml<unsigned long int> y_shape({1, 2, 3, 3});
 
     auto Y = make_shared<Tensor_mml<float>>(y_shape);
 
@@ -558,7 +558,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
     array_mml<int> kernel_shape = array_mml<int>({2, 2});
     array_mml<int> stride = array_mml<int>({1, 1});
 
-    array_mml<int> shape_bias({8});
+    array_mml<unsigned long int> shape_bias({8});
     array_mml<float> bias_values({
         // Values
         10.0f,
@@ -579,7 +579,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
     conv.forward();
 
     // Check output shape
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 8, 4, 4}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 8, 4, 4}));
 
     // This time as we have 3 in_channels
     // The value after applying the filter should be 6 + 6 + 6 = 18
@@ -590,13 +590,13 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
 
 TEST(conv_node_test, TestPadding) {
     // Define the input tensor shape and values
-    array_mml<int> shapeX({1, 1, 3, 3});
+    array_mml<unsigned long int> shapeX({1, 1, 3, 3});
     array_mml<float> X_values({1.0f, 2.0f, 3.0f,
                                4.0f, 5.0f, 6.0f,
                                7.0f, 8.0f, 9.0f});
 
     // Define the weight tensor shape and values (for testing im2col only, this might not be used)
-    array_mml<int> shapeW({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeW({1, 1, 2, 2});
     array_mml<float> W_values({1.0f, 1.0f,
                                1.0f, 1.0f});
 
@@ -605,7 +605,7 @@ TEST(conv_node_test, TestPadding) {
     shared_ptr<Tensor_mml<float>> W = make_shared<Tensor_mml<float>>(shapeW, W_values);
 
     // Not correct, this gets reshaped in the call to forward
-    array_mml<int> shapeY({1, 1, 2, 2});
+    array_mml<unsigned long int> shapeY({1, 1, 2, 2});
     array_mml<float> Y_values({0.0f, 0.0f,
                                0.0f, 0.0f});
 
@@ -626,5 +626,5 @@ TEST(conv_node_test, TestPadding) {
 
     // The output is reshaped during the call to forward so we want to make sure that the size is correct
     // As we only add padding to the top and bottom we would expect the height to be 4 and the output to be 2
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({1, 1, 4, 2}));
+    EXPECT_EQ(Y->get_shape(), array_mml<unsigned long int>({1, 1, 4, 2}));
 }

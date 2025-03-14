@@ -3,7 +3,7 @@
 #include "array_mml.hpp"
 
 template <typename T>
-array_mml<T>::array_mml(uint64_t size) : data(make_unique<T[]>(size)), d_size(size) {}
+array_mml<T>::array_mml(unsigned long int size) : data(make_unique<T[]>(size)), d_size(size) {}
 
 template <typename T>
 array_mml<T>::array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
@@ -31,12 +31,12 @@ array_mml<T>::array_mml(array_mml&& other) noexcept : data(move(other.data)), d_
 }
 
 template <typename T>
-uint64_t array_mml<T>::size() const {
+unsigned long int array_mml<T>::size() const {
   return this->d_size;
 }
 
 template <typename T>
-T& array_mml<T>::operator[](uint64_t index) {
+T& array_mml<T>::operator[](unsigned long int index) {
   if (index >= this->d_size) {
     throw out_of_range("Invalid array_mml index");
   } else {
@@ -45,7 +45,7 @@ T& array_mml<T>::operator[](uint64_t index) {
 }
 
 template <typename T>
-const T& array_mml<T>::operator[](uint64_t index) const {
+const T& array_mml<T>::operator[](unsigned long int index) const {
   if (index >= this->d_size) {
     throw out_of_range("Invalid array_mml index");
   } else {
@@ -63,7 +63,7 @@ array_mml<T>& array_mml<T>::operator=(const array_mml& other) {
 }
 
 template <typename T>
-array_mml<T> array_mml<T>::subarray(uint64_t start, uint64_t end) const {
+array_mml<T> array_mml<T>::subarray(unsigned long int start, unsigned long int end) const {
   if (start >= this->d_size || end > this->d_size || start > end) {
     throw out_of_range("Invalid array_mml index");
   }
@@ -90,19 +90,19 @@ string array_mml<T>::to_string() const {
   string str = "[";
   // if longer than 50 print first 10 then ... then last 10
   if (this->size() > 50) {
-    for (uint64_t i = 0; i < 10; i++) {
+    for (unsigned long int i = 0; i < 10; i++) {
       str += std::to_string(this->data[i]);
       str += ", ";
     }
     str += "..., ";
-    for (uint64_t i = this->size() - 10; i < this->size(); i++) {
+    for (unsigned long int i = this->size() - 10; i < this->size(); i++) {
       str += std::to_string(this->data[i]);
       if (i != this->size() - 1) {
         str += ", ";
       }
     }
   } else {
-    for (uint64_t i = 0; i < this->size(); i++) {
+    for (unsigned long int i = 0; i < this->size(); i++) {
       str += std::to_string(this->data[i]);
       if (i != this->size() - 1) {
         str += ", ";
