@@ -9,11 +9,16 @@ FlattenNode<T>::FlattenNode(shared_ptr<AbstractTensor> X,
 template <typename T>
 void FlattenNode<T>::forward() {
     auto input_copy = X->copy();
+    
+    if (axis >= input_copy->get_shape().size()) {
+        throw std::invalid_argument("Flatten axis is out of range");
+    }
+    
 
     int height_2d, width_2d;
 
     if (get_axis() == 0) {
-        // This gives a warning, but when get_size returns int in the future it will disappear
+        // This gives a warning, but when get_size() returns int in the future it will disappear
         input_copy->reshape({input_copy->get_size()});
     }
 
