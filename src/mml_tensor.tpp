@@ -3,8 +3,9 @@
 #include "mml_tensor.hpp"
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape) : Tensor<T>() {
-  this->shape = array_mml<unsigned long int>(shape);
+Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape)
+    : Tensor<T>(),
+      shape(shape) {
   this->offsets = compute_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->get_size());
@@ -12,8 +13,9 @@ Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape) : Tensor<T>
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(const array_mml<unsigned long int>& shape) : Tensor<T>() {
-  this->shape = array_mml<unsigned long int>(shape);
+Tensor_mml<T>::Tensor_mml(const array_mml<unsigned long int>& shape)
+ : Tensor<T>(),
+    shape(shape) {
   this->offsets = compute_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->get_size());
@@ -21,19 +23,21 @@ Tensor_mml<T>::Tensor_mml(const array_mml<unsigned long int>& shape) : Tensor<T>
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape, initializer_list<T> data) : Tensor<T>() {
-  this->shape = array_mml<unsigned long int>(shape);
+Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape, initializer_list<T> data)
+ : Tensor<T>(),
+    shape(shape),
+    data(data) {
   this->offsets = compute_offsets();
   this->size = compute_size();
-  this->data = array_mml<T>(data);
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(array_mml<unsigned long int>& shape, array_mml<T>& data) : Tensor<T>() {
-  this->shape = array_mml<unsigned long int>(shape);
+Tensor_mml<T>::Tensor_mml(array_mml<unsigned long int>& shape, array_mml<T>& data)
+ : Tensor<T>(),
+    shape(shape),
+    data(data) {
   this->offsets = compute_offsets();
   this->size = compute_size();
-  this->data = array_mml<T>(data);
 }
 
 template <typename T>
@@ -240,10 +244,14 @@ array_mml<unsigned long int> Tensor_mml<T>::compute_offsets() const {
   auto computed_offsets = array_mml<unsigned long int>(shape_size);
   computed_offsets.fill(1);
   // Special case if shape is 1D
-  if (shape_size == 1) { return computed_offsets; }
+  if (shape_size == 1) {
+    return computed_offsets;
+  }
   // Compute offsets
   unsigned long int i = shape_size - 2;
-  do { computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1]; } while (i-- > 0);
+  do {
+    computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1];
+  } while (i-- > 0);
   return computed_offsets;
 }
 

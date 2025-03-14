@@ -16,7 +16,7 @@ class array_mml {
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
-  explicit array_mml(std::initializer_list<T> data);
+  array_mml(std::initializer_list<T> data);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
