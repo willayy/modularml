@@ -1,11 +1,5 @@
 #pragma once
 
-#include <algorithm>
-#include <initializer_list>
-#include <memory>
-#include <stdexcept>
-#include <vector>
-
 #include "globals.hpp"
 
 /// @brief Array class mimicking the std::array class but without the size being a template parameter.
@@ -19,66 +13,39 @@ class array_mml {
 
   /// @brief Constructor for array_mml class.
   /// @param size The size of the array.
-  explicit array_mml(uint64_t size) : data(make_unique<T[]>(size)), d_size(size) {}
+  explicit array_mml(uint64_t size);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
-  explicit array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-    copy(data.begin(), data.end(), this->data.get());
-  }
+  explicit array_mml(std::initializer_list<T> data);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
-  explicit array_mml(vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-    copy(data.begin(), data.end(), this->data.get());
-  }
+  explicit array_mml(std::vector<T>& data);
 
-  /// @brief Copy constructor for array_mml class.
+  /// @brief Copy constructor using a vector.
   /// @param data The data to copy.
-  explicit array_mml(const vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-    copy(data.begin(), data.end(), this->data.get());
-  }
+  explicit array_mml(const std::vector<T>& data);
 
-  /// @brief Copy constructor for array_mml class.
-  array_mml(const array_mml& other) : data(make_unique<T[]>(other.d_size)), d_size(other.d_size) {
-    copy(other.data.get(), other.data.get() + other.d_size, this->data.get());
-  }
+  /// @brief Copy constructor using another array.
+  array_mml(const array_mml& other);
 
   /// @brief Move constructor for array_mml class.
-  array_mml(array_mml&& other) noexcept : data(move(other.data)), d_size(other.d_size) {
-    other.d_size = 0;
-  }
-
-  /// @brief Destructor for array_mml class.
-  ~array_mml() = default;
+  array_mml(array_mml&& other) noexcept;
 
   /// @brief Get the size of the array, the number of elements in the array.
   /// @return The size of the array.
-  uint64_t size() const {
-    return this->d_size;
-  }
+  uint64_t size() const;
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  T& operator[](uint64_t index) {
-    if (index >= this->d_size) {
-      throw out_of_range("Invalid array_mml index");
-    } else {
-      return this->data[index];
-    }
-  }
+  T& operator[](uint64_t index);
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  const T& operator[](uint64_t index) const {
-    if (index >= this->d_size) {
-      throw out_of_range("Invalid array_mml index");
-    } else {
-      return this->data[index];
-    }
-  }
+  const T& operator[](uint64_t index) const;
 
   /// @brief Move assignment operator.
   /// @param other The array to move.
@@ -88,106 +55,68 @@ class array_mml {
   /// @brief Copy assignment operator.
   /// @param other The array to copy.
   /// @return The copied array.
-  array_mml& operator=(const array_mml& other) {
-    if (this != &other) {
-      copy(other.begin(), other.end(), this->data.get());
-      this->d_size = other.d_size;
-    }
-    return *this;
-  }
+  array_mml& operator=(const array_mml& other);
+
+  /// @brief Get a subarray from the array.
+  /// @param start The start index of the subarray.
+  /// @param end The end index of the subarray.
+  /// @return The subarray.
+  array_mml subarray(uint64_t start, uint64_t end) const;
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
   /// @return True if the arrays are equal, false otherwise.
-  bool operator==(const array_mml& other) const {
-    if (this->d_size != other.d_size) {
-      return false;
-    }
-    return equal(this->begin(), this->end(), other.begin());
-  }
+  bool operator==(const array_mml& other) const;
 
   /// @brief Inequality operator.
   /// @param other The array to compare with.
   /// @return True if the arrays are not equal, false otherwise.
-  bool operator!=(const array_mml& other) const {
-    return !(*this == other);
-  }
+  bool operator!=(const array_mml& other) const;
 
-  string to_string() const {
-    string str = "[";
-    // if longer than 50 print first 10 then ... then last 10
-    if (this->size() > 50) {
-      for (uint64_t i = 0; i < 10; i++) {
-        str += std::to_string(this->data[i]);
-        str += ", ";
-      }
-      str += "..., ";
-      for (uint64_t i = this->size() - 10; i < this->size(); i++) {
-        str += std::to_string(this->data[i]);
-        if (i != this->size() - 1) {
-          str += ", ";
-        }
-      }
-    } else {
-      for (uint64_t i = 0; i < this->size(); i++) {
-        str += std::to_string(this->data[i]);
-        if (i != this->size() - 1) {
-          str += ", ";
-        }
-      }
-    }
-    str += "]";
-    return str;
-  }
+  /// @brief Convert the array to a string.
+  /// @return The string representation of the array.
+  std::string to_string() const;
 
-  friend ostream& operator<<(ostream& os, const array_mml<T>& arr) {
+  /// @brief Output stream operator.
+  /// @param os The output stream.
+  /// @param arr The array to output.
+  /// @return The output stream.
+  friend std::ostream& operator<<(std::ostream& os, const array_mml<T>& arr) {
     os << arr.to_string();
     return os;
   }
 
   /// @brief Get an iterator to the beginning of the array.
   /// @return An iterator to the beginning of the array.
-  T* begin() {
-    return this->data.get();
-  }
+  T* begin();
 
   /// @brief Get a const iterator to the beginning of the array.
   /// @return A const iterator to the beginning of the array.
-  const T* begin() const {
-    return this->data.get();
-  }
+  const T* begin() const;
 
   /// @brief Get an iterator to the end of the array.
   /// @return An iterator to the end of the array.
-  T* end() {
-    return this->data.get() + this->d_size;
-  }
+  T* end();
 
   /// @brief Get a const iterator to the end of the array.
   /// @return A const iterator to the end of the array.
-  const T* end() const {
-    return this->data.get() + this->d_size;
-  }
+  const T* end() const;
 
   /// @brief Get a pointer to the underlying data.
   /// @return A pointer to the underlying data.
-  T* get() {
-    return this->data.get();
-  }
+  T* get();
 
   /// @brief Get a const pointer to the underlying data.
   /// @return A const pointer to the underlying data.
-  const T* get() const {
-    return this->data.get();
-  }
+  const T* get() const;
 
   /// @brief Fill the array with a given value.
   /// @param value The value to fill the array with.
-  void fill(const T& value) {
-    std::fill(this->begin(), this->end(), value);
-  }
+  void fill(const T& value);
 
  private:
-  unique_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
+  std::unique_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
   uint64_t d_size;
 };
+
+#include "../array_mml.tpp"
