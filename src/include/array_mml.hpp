@@ -7,13 +7,12 @@
 template <typename T>
 class array_mml {
  public:
-
   /// @brief Default constructor for array_mml class.
   array_mml() : data(make_unique<T[]>(0)), d_size(0) {}
 
   /// @brief Constructor for array_mml class.
   /// @param size The size of the array.
-  explicit array_mml(uint64_t size);
+  explicit array_mml(unsigned long int size);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
@@ -35,17 +34,17 @@ class array_mml {
 
   /// @brief Get the size of the array, the number of elements in the array.
   /// @return The size of the array.
-  uint64_t size() const;
+  unsigned long int size() const;
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  T& operator[](uint64_t index);
+  T& operator[](unsigned long int index);
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  const T& operator[](uint64_t index) const;
+  const T& operator[](unsigned long int index) const;
 
   /// @brief Move assignment operator.
   /// @param other The array to move.
@@ -61,7 +60,7 @@ class array_mml {
   /// @param start The start index of the subarray.
   /// @param end The end index of the subarray.
   /// @return The subarray.
-  array_mml subarray(uint64_t start, uint64_t end) const;
+  array_mml subarray(unsigned long int start, unsigned long int end) const;
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
@@ -116,7 +115,7 @@ class array_mml {
 
  private:
   std::unique_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
-  uint64_t d_size;
+  unsigned long int d_size;
 };
 
 #include "../array_mml.tpp"

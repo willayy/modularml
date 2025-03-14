@@ -20,8 +20,8 @@ class GemmNode : public Node {
           std::is_same_v<T, int32_t> ||
           std::is_same_v<T, int64_t> ||
           std::is_same_v<T, uint32_t> ||
-          std::is_same_v<T, uint64_t>,
-      "GemmNode_T supports only float, double, int32_t, int64_t, uint32_t, or uint64_t");
+          std::is_same_v<T, unsigned long int>,
+      "GemmNode_T supports only float, double, int32_t, int64_t, uint32_t, or unsigned long int");
 
  public:
   using AbstractTensor = Tensor<T>;

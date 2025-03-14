@@ -42,11 +42,11 @@ class Tensor {
 
   /// @brief Get the shape of the tensor.
   /// @return A vector of integers representing the shape.
-  virtual const array_mml<int> &get_shape() const = 0;
+  virtual const array_mml<unsigned long int> &get_shape() const = 0;
 
   /// @brief Get the the total number of elements in the tensor.
   /// @return The total number of elements in the tensor.
-  virtual uint64_t get_size() const = 0;
+  virtual unsigned long int get_size() const = 0;
 
   /// @brief Fills the tensor with a given value.
   /// @param value The value to fill the tensor with.
@@ -64,30 +64,30 @@ class Tensor {
   /// @brief Get an element from the tensor using multi-dimensional indices.
   /// @param indices A vector of integers representing the indices of the element.
   /// @return An element at the given indices.
-  virtual const T &operator[](initializer_list<int> indices) const = 0;
+  virtual const T &operator[](initializer_list<unsigned long int> indices) const = 0;
 
   /// @brief Set an element in the tensor using multi-dimensional indices.
   /// @param indices A vector of integers representing the indices of the element.
   /// @return An element at the given indices.
-  virtual T &operator[](initializer_list<int> indices) = 0;
+  virtual T &operator[](initializer_list<unsigned long int> indices) = 0;
 
   ///@brief Get an element from the tensor using multi-dimensional indices.
   ///@param indices A vector of integers representing the indices of the element.
   ///@return An element at the given indices.
-  virtual const T &operator[](array_mml<int> &indices) const = 0;
+  virtual const T &operator[](array_mml<unsigned long int> &indices) const = 0;
 
   ///@brief Set an element in the tensor using multi-dimensional indices.
   ///@param indices A vector of integers representing the indices of the element.
   ///@return An element at the given indices.
-  virtual T &operator[](array_mml<int> &indices) = 0;
+  virtual T &operator[](array_mml<unsigned long int> &indices) = 0;
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor expressed as a list of integers.
-  virtual void reshape(const array_mml<int> &new_shape) = 0;
+  virtual void reshape(const array_mml<unsigned long int> &new_shape) = 0;
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor expressed as a list of integers.
-  virtual void reshape(initializer_list<int> new_shape) = 0;
+  virtual void reshape(initializer_list<unsigned long int> new_shape) = 0;
 
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
@@ -116,12 +116,12 @@ class Tensor {
   ///@brief Get an element from the tensor using singel-dimensional index.
   ///@param index A single integer representing the index of the element.
   ///@return The element at the given indices.*/
-  virtual const T &operator[](int index) const = 0;
+  virtual const T &operator[](unsigned long int index) const = 0;
 
   ///@brief Set an element in the tensor using single-dimensional index.
   ///@param index A single integer representing the index of the element.
   ///@return The tensor with the element get_mutable_elem.*/
-  virtual T &operator[](int index) = 0;
+  virtual T &operator[](unsigned long int index) = 0;
 
   /// @brief Method way to get a copy of the tensor.
   /// @return A shared pointer to the copied tensor.
