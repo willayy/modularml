@@ -96,7 +96,10 @@ array_mml<T> array_mml<T>::m_subarray(uli start, uli end) {
     throw out_of_range("Invalid array_mml subarray index");
   }
   auto data_ptr_address = this->data.get();
-  array_mml new_array(this->data + start, this->data + end);
+  auto offset = sizeof(T) * start;
+  T* new_data_ptr_address = data_ptr_address + offset;
+  shared_ptr<T[]> new_data_ptr(new_data_ptr_address, [](T*) { /* noop */}); //NOSONAR We want to use raw pointer stop complaining.
+  array_mml new_array(new_data_ptr, end - start);
   return new_array;
 }
 

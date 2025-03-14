@@ -52,6 +52,28 @@ class Tensor {
   /// @param value The value to fill the tensor with.
   virtual void fill(T value) = 0;
 
+  /// @brief Flips the tensor along a given dimension.
+  /// @param dim The dimension to flip along.
+  virtual void flip(uli dim) = 0;
+
+  /// @brief Get a mutable slice of the tensor.
+  /// @param slice_indices The indices of the slice.
+  /// @return A slice of the tensor.
+  virtual shared_ptr<Tensor<T>> slice(initializer_list<uli> slice_indices) = 0;
+
+  /// @brief Get a mutable slice of the tensor.
+  /// @param slice_indices The indices of the slice.
+  /// @return A slice of the tensor.
+  virtual shared_ptr<Tensor<T>> slice(array_mml<uli> &slice_indices) = 0;
+
+  /// @brief Reshape the tensor.
+  /// @param new_shape The new shape of the tensor expressed as a list of integers.
+  virtual void reshape(const array_mml<uli> &new_shape) = 0;
+
+  /// @brief Reshape the tensor.
+  /// @param new_shape The new shape of the tensor expressed as a list of integers.
+  virtual void reshape(initializer_list<uli> new_shape) = 0;
+
   /// @brief Display the tensor.
   /// @return A string representation of the tensor.
   virtual string to_string() const = 0;
@@ -80,14 +102,6 @@ class Tensor {
   ///@param indices A vector of integers representing the indices of the element.
   ///@return An element at the given indices.
   virtual T &operator[](array_mml<uli> &indices) = 0;
-
-  /// @brief Reshape the tensor.
-  /// @param new_shape The new shape of the tensor expressed as a list of integers.
-  virtual void reshape(const array_mml<uli> &new_shape) = 0;
-
-  /// @brief Reshape the tensor.
-  /// @param new_shape The new shape of the tensor expressed as a list of integers.
-  virtual void reshape(initializer_list<uli> new_shape) = 0;
 
   /// @brief Check if the tensor is a matrix.
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
