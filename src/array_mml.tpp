@@ -3,30 +3,42 @@
 #include "array_mml.hpp"
 
 template <typename T>
-array_mml<T>::array_mml(unsigned long int size) : data(make_unique<T[]>(size)), d_size(size) {}
+array_mml<T>::array_mml(unsigned long int size)
+    : data(make_unique<T[]>(size)),
+      d_size(size) {}
 
 template <typename T>
-array_mml<T>::array_mml(initializer_list<T> data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-  copy(data.begin(), data.end(), this->data.get());
+array_mml<T>::array_mml(initializer_list<T> data)
+    : data(make_unique<T[]>(data.size())),
+      d_size(data.size()) {
+  std::ranges::copy(data, this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-  copy(data.begin(), data.end(), this->data.get());
+array_mml<T>::array_mml(vector<T>& data)
+    : data(make_unique<T[]>(data.size())),
+      d_size(data.size()) {
+  std::ranges::copy(data, this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(const vector<T>& data) : data(make_unique<T[]>(data.size())), d_size(data.size()) {
-  copy(data.begin(), data.end(), this->data.get());
+array_mml<T>::array_mml(const vector<T>& data)
+    : data(make_unique<T[]>(data.size())),
+      d_size(data.size()) {
+  std::ranges::copy(data, this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(const array_mml& other) : data(make_unique<T[]>(other.d_size)), d_size(other.d_size) {
+array_mml<T>::array_mml(const array_mml& other)
+    : data(make_unique<T[]>(other.d_size)),
+      d_size(other.d_size) {
   copy(other.data.get(), other.data.get() + other.d_size, this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(array_mml&& other) noexcept : data(move(other.data)), d_size(other.d_size) {
+array_mml<T>::array_mml(array_mml&& other) noexcept
+    : data(move(other.data)),
+      d_size(other.d_size) {
   other.d_size = 0;
 }
 
@@ -56,7 +68,7 @@ const T& array_mml<T>::operator[](unsigned long int index) const {
 template <typename T>
 array_mml<T>& array_mml<T>::operator=(const array_mml& other) {
   if (this != &other) {
-    copy(other.begin(), other.end(), this->data.get());
+    std::ranges::copy(other, this->data.get());
     this->d_size = other.d_size;
   }
   return *this;
@@ -145,5 +157,5 @@ const T* array_mml<T>::get() const {
 
 template <typename T>
 void array_mml<T>::fill(const T& value) {
-  std::fill(this->begin(), this->end(), value);
+  std::ranges::fill(*this, value);
 }
