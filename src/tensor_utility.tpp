@@ -55,3 +55,26 @@ array_mml<T> generate_random_array_mml_real(uint64_t lo_sz, uint64_t hi_sz, T lo
   }
   return arr;
 }
+
+
+template <typename T>
+static auto generate_random_tensor(const array_mml<int>& shape, T lo_v, T hi_v) {
+  static_assert(std::is_arithmetic_v<T>, "Tensor type must be an arithmetic type (int, float, double, etc.).");
+  Tensor_mml<T> tensor(shape);
+  std::random_device rd;
+  std::mt19937 gen(rd());
+
+  if constexpr (std::is_integral_v<T>) {
+    std::uniform_int_distribution<T> dist(lo_v, hi_v);
+    for (size_t i = 0; i < tensor.get_size(); i++) {
+      tensor[i] = dist(gen);
+    }
+  } else if constexpr (std::is_floating_point_v<T>) {
+    std::uniform_real_distribution<T> dist(lo_v, hi_v);
+    for (size_t i = 0; i < tensor.get_size(); i++) {
+      tensor.operator[](i) = dist(gen);
+    }
+  }
+
+  return move(tensor);
+}
