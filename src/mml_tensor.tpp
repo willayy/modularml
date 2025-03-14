@@ -3,7 +3,7 @@
 #include "mml_tensor.hpp"
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape)
+Tensor_mml<T>::Tensor_mml(initializer_list<uli> shape)
     : Tensor<T>(),
       shape(shape) {
   this->offsets = compute_offsets();
@@ -13,9 +13,9 @@ Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape)
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(const array_mml<unsigned long int>& shape)
- : Tensor<T>(),
-    shape(shape) {
+Tensor_mml<T>::Tensor_mml(const array_mml<uli>& shape)
+    : Tensor<T>(),
+      shape(shape) {
   this->offsets = compute_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->get_size());
@@ -23,19 +23,19 @@ Tensor_mml<T>::Tensor_mml(const array_mml<unsigned long int>& shape)
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(initializer_list<unsigned long int> shape, initializer_list<T> data)
- : Tensor<T>(),
-    shape(shape),
-    data(data) {
+Tensor_mml<T>::Tensor_mml(initializer_list<uli> shape, initializer_list<T> data)
+    : Tensor<T>(),
+      shape(shape),
+      data(data) {
   this->offsets = compute_offsets();
   this->size = compute_size();
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(array_mml<unsigned long int>& shape, array_mml<T>& data)
- : Tensor<T>(),
-    shape(shape),
-    data(data) {
+Tensor_mml<T>::Tensor_mml(array_mml<uli>& shape, array_mml<T>& data)
+    : Tensor<T>(),
+      shape(shape),
+      data(data) {
   this->offsets = compute_offsets();
   this->size = compute_size();
 }
@@ -50,8 +50,8 @@ Tensor_mml<T>::Tensor_mml(Tensor_mml&& other) noexcept : Tensor<T>(other) {
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(const Tensor_mml& other) : Tensor<T>(other) {
-  this->shape = array_mml<unsigned long int>(other.shape);
-  this->offsets = array_mml<unsigned long int>(other.offsets);
+  this->shape = array_mml<uli>(other.shape);
+  this->offsets = array_mml<uli>(other.offsets);
   this->data = array_mml<T>(other.data);
   this->size = other.size;
 }
@@ -64,8 +64,8 @@ const array_mml<T>& Tensor_mml<T>::get_data() const {
 template <typename T>
 Tensor_mml<T>& Tensor_mml<T>::operator=(const Tensor_mml& other) {
   if (this != &other) {
-    this->shape = array_mml<unsigned long int>(other.shape);
-    this->offsets = array_mml<unsigned long int>(other.offsets);
+    this->shape = array_mml<uli>(other.shape);
+    this->offsets = array_mml<uli>(other.offsets);
     this->size = other.size;
     this->data = array_mml<T>(other.data);
   }
@@ -88,8 +88,8 @@ Tensor<T>& Tensor_mml<T>::operator=(const Tensor<T>& other) {
   if (this != &other) {
     auto other_cast = dynamic_cast<const Tensor_mml<T>&>(other);
     this->data = array_mml<T>(other_cast.data);
-    this->shape = array_mml<unsigned long int>(other_cast.shape);
-    this->offsets = array_mml<unsigned long int>(other_cast.offsets);
+    this->shape = array_mml<uli>(other_cast.shape);
+    this->offsets = array_mml<uli>(other_cast.offsets);
     this->size = other_cast.size;
   }
   return *this;
@@ -110,7 +110,7 @@ Tensor<T>& Tensor_mml<T>::operator=(Tensor<T>&& other) noexcept {
 template <typename T>
 string Tensor_mml<T>::to_string() const {
   string base = string("Tensor_mml<") + typeid(T).name() + "> ";
-  string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<unsigned long int>(this));
+  string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<uli>(this));
   string shape_str = "Shape: " + this->shape.to_string();
   string size_str = "Size: " + std::to_string(this->size);
   string data_str = "Data: ";
@@ -130,17 +130,17 @@ shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
 }
 
 template <typename T>
-void Tensor_mml<T>::reshape(const array_mml<unsigned long int>& new_shape) {
+void Tensor_mml<T>::reshape(const array_mml<uli>& new_shape) {
   if (!valid_shape(new_shape)) {
     throw invalid_argument("Invalid shape");
   }
-  this->shape = array_mml<unsigned long int>(new_shape);
+  this->shape = array_mml<uli>(new_shape);
   this->offsets = compute_offsets();
 }
 
 template <typename T>
-void Tensor_mml<T>::reshape(initializer_list<unsigned long int> new_shape) {
-  reshape(array_mml<unsigned long int>(new_shape));
+void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
+  reshape(array_mml<uli>(new_shape));
 }
 
 template <typename T>
@@ -161,7 +161,7 @@ bool Tensor_mml<T>::operator==(const Tensor<T>& other) const {
   if (this->get_size() != other.get_size()) {
     return false;
   }
-  for (unsigned long int i = 0; i < this->get_size(); i++) {
+  for (uli i = 0; i < this->get_size(); i++) {
     if (this->data[i] != other[i]) {
       return false;
     }
@@ -175,22 +175,22 @@ bool Tensor_mml<T>::operator!=(const Tensor<T>& other) const {
 }
 
 template <typename T>
-const array_mml<unsigned long int>& Tensor_mml<T>::get_shape() const {
+const array_mml<uli>& Tensor_mml<T>::get_shape() const {
   return this->shape;
 }
 
 template <typename T>
-const array_mml<unsigned long int>& Tensor_mml<T>::get_offsets() const {
+const array_mml<uli>& Tensor_mml<T>::get_offsets() const {
   return this->offsets;
 }
 
 template <typename T>
-unsigned long int Tensor_mml<T>::get_size() const {
+uli Tensor_mml<T>::get_size() const {
   return this->size;
 }
 
 template <typename T>
-const T& Tensor_mml<T>::operator[](array_mml<unsigned long int>& indices) const {
+const T& Tensor_mml<T>::operator[](array_mml<uli>& indices) const {
   if (!valid_indices(indices)) {
     throw invalid_argument("Invalid indices");
   }
@@ -198,7 +198,7 @@ const T& Tensor_mml<T>::operator[](array_mml<unsigned long int>& indices) const 
 }
 
 template <typename T>
-T& Tensor_mml<T>::operator[](array_mml<unsigned long int>& indices) {
+T& Tensor_mml<T>::operator[](array_mml<uli>& indices) {
   if (!valid_indices(indices)) {
     throw invalid_argument("Invalid indices");
   }
@@ -206,19 +206,19 @@ T& Tensor_mml<T>::operator[](array_mml<unsigned long int>& indices) {
 }
 
 template <typename T>
-const T& Tensor_mml<T>::operator[](initializer_list<unsigned long int> indices) const {
-  auto indices_array = array_mml<unsigned long int>(indices);
+const T& Tensor_mml<T>::operator[](initializer_list<uli> indices) const {
+  auto indices_array = array_mml<uli>(indices);
   return (*this)[indices_array];
 }
 
 template <typename T>
-T& Tensor_mml<T>::operator[](initializer_list<unsigned long int> indices) {
-  auto indices_array = array_mml<unsigned long int>(indices);
+T& Tensor_mml<T>::operator[](initializer_list<uli> indices) {
+  auto indices_array = array_mml<uli>(indices);
   return (*this)[indices_array];
 }
 
 template <typename T>
-const T& Tensor_mml<T>::operator[](unsigned long int index) const {
+const T& Tensor_mml<T>::operator[](uli index) const {
   if (index >= this->get_size()) {
     throw invalid_argument("Invalid index");
   }
@@ -226,7 +226,7 @@ const T& Tensor_mml<T>::operator[](unsigned long int index) const {
 }
 
 template <typename T>
-T& Tensor_mml<T>::operator[](unsigned long int index) {
+T& Tensor_mml<T>::operator[](uli index) {
   if (index >= this->get_size()) {
     throw invalid_argument("Invalid index");
   }
@@ -239,16 +239,16 @@ void Tensor_mml<T>::fill(T value) {
 }
 
 template <typename T>
-array_mml<unsigned long int> Tensor_mml<T>::compute_offsets() const {
-  const unsigned long int shape_size = this->shape.size();
-  auto computed_offsets = array_mml<unsigned long int>(shape_size);
+array_mml<uli> Tensor_mml<T>::compute_offsets() const {
+  const uli shape_size = this->shape.size();
+  auto computed_offsets = array_mml<uli>(shape_size);
   computed_offsets.fill(1);
   // Special case if shape is 1D
   if (shape_size == 1) {
     return computed_offsets;
   }
   // Compute offsets
-  unsigned long int i = shape_size - 2;
+  uli i = shape_size - 2;
   do {
     computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1];
   } while (i-- > 0);
@@ -256,21 +256,21 @@ array_mml<unsigned long int> Tensor_mml<T>::compute_offsets() const {
 }
 
 template <typename T>
-unsigned long int Tensor_mml<T>::compute_size() const {
-  return accumulate(this->shape.begin(), this->shape.end(), 1, multiplies<unsigned long int>());
+uli Tensor_mml<T>::compute_size() const {
+  return accumulate(this->shape.begin(), this->shape.end(), 1, multiplies<uli>());
 }
 
 template <typename T>
-bool Tensor_mml<T>::valid_shape(const array_mml<unsigned long int>& new_shape) const {
-  return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<unsigned long int>()) == this->get_size();
+bool Tensor_mml<T>::valid_shape(const array_mml<uli>& new_shape) const {
+  return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<uli>()) == this->get_size();
 }
 
 template <typename T>
-bool Tensor_mml<T>::valid_indices(const array_mml<unsigned long int>& indices) const {
+bool Tensor_mml<T>::valid_indices(const array_mml<uli>& indices) const {
   if (indices.size() != this->shape.size()) {
     return false;
   }
-  for (unsigned long int i = 0; i < indices.size(); i++) {
+  for (uli i = 0; i < indices.size(); i++) {
     if (indices[i] >= this->shape[i]) {
       return false;
     }
@@ -279,10 +279,10 @@ bool Tensor_mml<T>::valid_indices(const array_mml<unsigned long int>& indices) c
 }
 
 template <typename T>
-unsigned long int Tensor_mml<T>::index_with_offset(array_mml<unsigned long int> indices) const {
+uli Tensor_mml<T>::index_with_offset(array_mml<uli> indices) const {
   auto index = 0;
   const auto shape_size = shape.size();
-  for (unsigned long int i = 0; i < shape_size; i++) {
+  for (uli i = 0; i < shape_size; i++) {
     index += (indices[i]) * this->offsets[i];
   }
   return index;
@@ -290,25 +290,25 @@ unsigned long int Tensor_mml<T>::index_with_offset(array_mml<unsigned long int> 
 
 // Convenience initializers
 template <typename T>
-Tensor<T> tensor_mml(const initializer_list<unsigned long int> shape) {
+Tensor<T> tensor_mml(const initializer_list<uli> shape) {
   auto t = make_shared<Tensor_mml<T>>(shape);
   return t;
 }
 
 template <typename T>
-Tensor_mml<T> tensor_mml(const initializer_list<unsigned long int> shape, const initializer_list<T> data) {
+Tensor_mml<T> tensor_mml(const initializer_list<uli> shape, const initializer_list<T> data) {
   auto t = Tensor_mml<T>(shape, data);
   return t;
 }
 
 template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<unsigned long int> shape) {
+shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape) {
   auto t = make_shared<Tensor_mml<T>>(shape);
   return t;
 }
 
 template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<unsigned long int> shape, const initializer_list<T> data) {
+shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data) {
   auto t = make_shared<Tensor_mml<T>>(shape, data);
   return t;
 }

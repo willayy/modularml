@@ -264,29 +264,29 @@ class ConvNode : public Node {
   void add_bias(shared_ptr<Tensor<T>> result_ptr);
 
   // Getters for input tensor dimensions
-  unsigned long int get_batch_size() const;
-  unsigned long int get_in_channels() const;
-  unsigned long int get_in_height() const;
-  unsigned long int get_in_width() const;
+  uli get_batch_size() const;
+  uli get_in_channels() const;
+  uli get_in_height() const;
+  uli get_in_width() const;
 
   // Weight tensor getters
-  unsigned long int get_kernel_height() const;
-  unsigned long int get_kernel_width() const;
-  unsigned long int get_out_channels() const;
+  uli get_kernel_height() const;
+  uli get_kernel_width() const;
+  uli get_out_channels() const;
 
   // Getters for the other parameters
-  unsigned long int get_stride_height() const;
-  unsigned long int get_stride_width() const;
+  uli get_stride_height() const;
+  uli get_stride_width() const;
 
   // Padding for each spatial direction
-  unsigned long int get_padding_top() const;
-  unsigned long int get_padding_bottom() const;
-  unsigned long int get_padding_left() const;
-  unsigned long int get_padding_right() const;
+  uli get_padding_top() const;
+  uli get_padding_bottom() const;
+  uli get_padding_left() const;
+  uli get_padding_right() const;
 
   // Getter for getting the output height and width
-  unsigned long int get_out_height();
-  unsigned long int get_out_width();
+  uli get_out_height();
+  uli get_out_width();
 
   // Checks the inputs to the convolution node
   void validate_inputs();

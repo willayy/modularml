@@ -139,7 +139,7 @@ TEST(test_mml_gemm, test_transpose_1) {
 
 TEST(test_mml_gemm, test_gemm_properties) {
   for (int i = 0; i < 100; i++) {
-    array_mml<unsigned long int> shape = generate_random_array_mml_integral<unsigned long int>(2, 2);
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>(2, 2);
     shape[0] = shape[1];
     const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data1 = generate_random_array_mml_integral<int>(elements, elements);

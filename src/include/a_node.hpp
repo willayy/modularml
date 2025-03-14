@@ -14,7 +14,7 @@ using GeneralDataTypes = variant<
     std::shared_ptr<Tensor<int8_t>>,
     std::shared_ptr<Tensor<uint16_t>>,
     std::shared_ptr<Tensor<uint32_t>>,
-    std::shared_ptr<Tensor<unsigned long int>>,
+    std::shared_ptr<Tensor<uli>>,
     std::shared_ptr<Tensor<uint8_t>>>;
 
 /**
