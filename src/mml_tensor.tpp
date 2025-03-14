@@ -145,6 +145,7 @@ void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
 
 template <typename T>
 void Tensor_mml<T>::flip(uli dim) {
+
 }
 
 template <typename T>
@@ -163,12 +164,12 @@ shared_ptr<Tensor<T>> Tensor_mml<T>::slice(array_mml<uli>& slice_indices) {
   array_mml<uli> slice_shape = array_mml<uli>(slice_shape_dif);
 
   for (uli i = 0; i < slice_shape_dif; i++) {
-    slice_shape[i] = this->shape[i + slice_shape_dif];
+    slice_shape[i] = this->shape[i + 1];
   }
 
   uli data_slice_start = index_with_offset(slice_indices);
   uli data_slice_size = accumulate(slice_shape.begin(), slice_shape.end(), 1, multiplies<uli>());
-  array_mml<T> data_slice = this->data.m_subarray(data_slice_start, data_slice_size);
+  array_mml<T> data_slice = this->data.m_subarray(data_slice_start, data_slice_start + data_slice_size);
 
   return make_shared<Tensor_mml<T>>(slice_shape, data_slice);
 }
@@ -311,8 +312,7 @@ bool Tensor_mml<T>::valid_indices(const array_mml<uli>& indices) const {
 template <typename T>
 uli Tensor_mml<T>::index_with_offset(array_mml<uli> indices) const {
   auto index = 0;
-  const auto shape_size = shape.size();
-  for (uli i = 0; i < shape_size; i++) {
+  for (uli i = 0; i < indices.size(); i++) {
     index += (indices[i]) * this->offsets[i];
   }
   return index;
@@ -320,7 +320,7 @@ uli Tensor_mml<T>::index_with_offset(array_mml<uli> indices) const {
 
 template <typename T>
 bool Tensor_mml<T>::valid_slice_indices(const array_mml<uli>& slice_indices) const {
-  if (slice_indices.size() < this->shape.size()) {
+  if (slice_indices.size() >= this->shape.size()) {
     return false;
   }
   for (uli i = 0; i < slice_indices.size(); i++) {

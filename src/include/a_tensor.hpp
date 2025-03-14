@@ -16,8 +16,6 @@
 template <typename T>
 class Tensor {
  public:
-  /// @brief The type of the data in the tensor.
-  using value_type = T;
 
   /// @brief Default constructor for Tensor class.
   Tensor() = default;
