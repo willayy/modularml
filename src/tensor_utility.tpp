@@ -33,11 +33,11 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
 }
 
 template <typename T>
-array_mml<T> generate_random_array_mml_integral(unsigned long int lo_sz, unsigned long int hi_sz, T lo_v, T hi_v) {
+array_mml<T> generate_random_array_mml_integral(uli lo_sz, uli hi_sz, T lo_v, T hi_v) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
-  unsigned long int n = size_dist(gen);
+  uli n = size_dist(gen);
   array_mml<T> arr = array_mml<T>(n);
   std::uniform_int_distribution<T> int_dist(lo_v, hi_v);
   for (int i = 0; i < n; i++) {
@@ -47,11 +47,11 @@ array_mml<T> generate_random_array_mml_integral(unsigned long int lo_sz, unsigne
 }
 
 template <typename T>
-array_mml<T> generate_random_array_mml_real(unsigned long int lo_sz, unsigned long int hi_sz, T lo_v, T hi_v) {
+array_mml<T> generate_random_array_mml_real(uli lo_sz, uli hi_sz, T lo_v, T hi_v) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
-  unsigned long int n = size_dist(gen);
+  uli n = size_dist(gen);
   array_mml<T> arr = array_mml<T>(n);
   std::uniform_real_distribution<T> real_dist(lo_v, hi_v);
   for (int i = 0; i < n; i++) {

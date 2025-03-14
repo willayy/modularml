@@ -29,21 +29,21 @@ void reshapeNode<T>::forward() {
     throw runtime_error("Output tensor reshaped is not allocated.");
 
   // Determine the size of the shape tensor (number of dimensions for the new shape)
-  unsigned long int shape_size = shape->get_size();
+  uli shape_size = shape->get_size();
 
   // Determine the total number of elements in the input data tensor
-  unsigned long int data_size = data->get_size();
+  uli data_size = data->get_size();
 
   // Create an array to store the new shape values (initialized with same size as shape tensor)
-  array_mml<unsigned long int> new_shape(shape_size);
+  array_mml<uli> new_shape(shape_size);
 
   // Variables for handling inferred dimension (-1) and computing the total number of elements
   int inferred_dim_index = -1;  // Stores the index of -1 if present
   int computed_elements = 1;    // Tracks the product of explicitly defined shape dimensions
 
   // Iterate through the shape tensor to determine the new shape values
-  for (unsigned long int i = 0; i < shape_size; ++i) {
-    unsigned long int dim = (*shape)[i];  // Extract the value for the current dimension
+  for (uli i = 0; i < shape_size; ++i) {
+    uli dim = (*shape)[i];  // Extract the value for the current dimension
 
     // If dim == -1, mark it for inference (meaning this dimension should be computed)
     if (dim == -1) {

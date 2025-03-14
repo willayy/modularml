@@ -5,7 +5,7 @@
 // Test the default constructors
 TEST(test_mml_tensor, test_default_constructor_1) {
   Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
-  auto expected_shape = array_mml<unsigned long int>({3, 3});
+  auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto actual_shape = t1.get_shape();
   auto actual_data = t1.get_data();
@@ -26,7 +26,7 @@ TEST(test_mml_tensor, test_copy_constructor_1) {
 TEST(test_mml_tensor, test_move_constructor_1) {
   Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
   Tensor_mml<int> t2 = move(t1);
-  auto expected_shape = array_mml<unsigned long int>({3, 3});
+  auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto actual_shape = t2.get_shape();
   auto actual_data = t2.get_data();
@@ -47,7 +47,7 @@ TEST(test_mml_tensor, test_move_assignment_1) {
   Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
   Tensor_mml<int> t2 = Tensor_mml<int>({2, 2});
   t2 = move(t1);
-  auto expected_shape = array_mml<unsigned long int>({3, 3});
+  auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto actual_shape = t2.get_shape();
   auto actual_data = t2.get_data();
@@ -62,7 +62,7 @@ TEST(test_mml_tensor, test_move_assignment_2) {
   shared_ptr<Tensor<int>> t2 =
       make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
   *t2 = move(*t1);
-  auto expected_shape = array_mml<unsigned long int>({3, 3});
+  auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto actual_shape = t2->get_shape();
   ASSERT_EQ(expected_shape, actual_shape);
@@ -79,7 +79,7 @@ TEST(test_mml_tensor, test_copy_assignment_2) {
   shared_ptr<Tensor<int>> t2 =
       make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
   *t2 = *t1;
-  auto expected_shape = array_mml<unsigned long int>({3, 3});
+  auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto actual_shape = t2->get_shape();
   ASSERT_EQ(expected_shape, actual_shape);
@@ -129,10 +129,10 @@ TEST(test_mml_tensor, test_indices_1) {
         generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     for (int j = 0; j < t1->get_size(); j++) {
-      array_mml<unsigned long int> indices = array_mml<unsigned long int>(shape.size());
+      array_mml<uli> indices = array_mml<uli>(shape.size());
       int k = j;
 
-      unsigned long int l = shape.size() - 1;
+      uli l = shape.size() - 1;
       do {
         indices[l] = k % shape[l];
         k /= shape[l];
@@ -152,13 +152,13 @@ TEST(test_mml_tensor, test_indices_2) {
         generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
 
-    auto indices = array_mml<unsigned long int>(shape.size());
+    auto indices = array_mml<uli>(shape.size());
     indices.fill(0);
 
-    for (unsigned long int j = 0; j < t1->get_size(); j++) {
+    for (uli j = 0; j < t1->get_size(); j++) {
       ASSERT_EQ(data[j], (*t1)[indices]);
 
-      unsigned long int k = shape.size() - 1;
+      uli k = shape.size() - 1;
       do {
         if (indices[k] < shape[k] - 1) {
           indices[k] = indices[k] + 1;
@@ -181,11 +181,11 @@ TEST(test_mml_tensor, test_reshape_1) {
         generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     t1->reshape({elements});
-    auto expected_shape = array_mml<unsigned long int>({elements});
+    auto expected_shape = array_mml<uli>({elements});
     auto actual_shape = t1->get_shape();
     ASSERT_EQ(expected_shape, actual_shape);
     auto expected_data = data;
-    for (unsigned long int j = 0; i < elements; i++) {
+    for (uli j = 0; i < elements; i++) {
       ASSERT_EQ(expected_data[j], (*t1)[j]);
     }
   }
@@ -201,12 +201,12 @@ TEST(test_mml_tensor, test_reshape_2) {
         generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     if (shape[0] % 2 == 0) {
-      unsigned long int rows = shape[0] / 2;
-      unsigned long int cols = 2;
-      auto new_shape = array_mml<unsigned long int>({rows, cols});
+      uli rows = shape[0] / 2;
+      uli cols = 2;
+      auto new_shape = array_mml<uli>({rows, cols});
       t1->reshape(new_shape);
-      for (unsigned long int i = 0; i < rows; i++) {
-        for (unsigned long int j = 0; j < cols; j++) {
+      for (uli i = 0; i < rows; i++) {
+        for (uli j = 0; j < cols; j++) {
           auto expected = data[i * cols + j];
           auto actual = (*t1)[{i, j}];
           ASSERT_EQ(expected, actual);

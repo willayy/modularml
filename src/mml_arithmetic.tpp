@@ -17,7 +17,7 @@ Arithmetic_mml<T>::~Arithmetic_mml() = default;
 template <typename T>
 void Arithmetic_mml<T>::add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const {
   const auto size = a->get_size();
-  for (unsigned long int i = 0; i < size; i++) {
+  for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] + (*b)[i];
   }
 }
@@ -25,7 +25,7 @@ void Arithmetic_mml<T>::add(const shared_ptr<const Tensor<T>> a, const shared_pt
 template <typename T>
 void Arithmetic_mml<T>::subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const {
   const auto size = a->get_size();
-  for (unsigned long int i = 0; i < size; i++) {
+  for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] - (*b)[i];
   }
 }
@@ -33,7 +33,7 @@ void Arithmetic_mml<T>::subtract(const shared_ptr<Tensor<T>> a, const shared_ptr
 template <typename T>
 void Arithmetic_mml<T>::multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const {
   const auto size = a->get_size();
-  for (unsigned long int i = 0; i < size; i++) {
+  for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] * b;
   }
 }
@@ -44,7 +44,7 @@ bool Arithmetic_mml<T>::equals(const shared_ptr<Tensor<T>> a, const shared_ptr<T
     return false;
   } else {
     const auto size = a->get_size();
-    for (unsigned long int i = 0; i < size; i++) {
+    for (uli i = 0; i < size; i++) {
       if ((*a)[i] != (*b)[i]) {
         return false;
       }
@@ -58,25 +58,24 @@ void Arithmetic_mml<T>::elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
-  array_mml<unsigned long int> indices(num_dimensions);
-  for (unsigned long int i = 0; i < num_dimensions; ++i) {
+  array_mml<uli> indices(num_dimensions);
+  for (uli i = 0; i < num_dimensions; ++i) {
     indices[i] = 0;
   }
   const auto total_elements = a->get_size();
 
-  for (unsigned long int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+  for (uli linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
     // Apply function `f` from `a` to `c`
     (*c)[indices] = f((*a)[indices]);
 
     // Increment indices
-    unsigned long int d = num_dimensions - 1;
+    uli d = num_dimensions - 1;
     do {
       if (++indices[d] < shape[d]) {
         break;  // No carry needed, continue iteration
       }
       indices[d] = 0;  // Carry over to the next dimension
     } while (d-- > 0);
-
   }
 }
 
@@ -85,19 +84,19 @@ void Arithmetic_mml<T>::elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
-  array_mml<unsigned long int> indices(num_dimensions);
-  for (unsigned long int i = 0; i < num_dimensions; ++i) {
+  array_mml<uli> indices(num_dimensions);
+  for (uli i = 0; i < num_dimensions; ++i) {
     indices[i] = 0;
   }
 
   const auto total_elements = a->get_size();
 
-  for (unsigned long int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+  for (uli linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
     // Apply the function `f` to the current element
     (*a)[indices] = f((*a)[indices]);
 
     // Increment indices like a multi-dimensional counter
-    unsigned long int d = num_dimensions - 1;
+    uli d = num_dimensions - 1;
     do {
       if (++indices[d] < shape[d]) {
         break;  // No carry needed, continue iteration
