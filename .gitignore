@@ -51,6 +51,7 @@
 
 # json files
 *.json
+!test.json
 
 # Maybe simply use *.bin
 model_weights.bin 
