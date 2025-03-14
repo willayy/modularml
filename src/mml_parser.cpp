@@ -8,44 +8,62 @@
 
 // Helper function: to create a GEMM node
 std::unique_ptr<Node> makeGemm(const GeneralDataTypes& a, const GeneralDataTypes& b, 
-  const GeneralDataTypes& y, const std::optional<GeneralDataTypes>& c = std::nullopt,
-  float alpha = 1.0f, float beta = 1.0f, int transA = 0, int transB = 0) {
-  return std::visit([&](const auto& aptr) -> std::unique_ptr<Node> {
-    // Get the type of the tensor element
-    using TensorPtr = std::decay_t<decltype(aptr)>;
-    using TensorType = typename TensorPtr::element_type;
-    using ValueType = typename TensorType::value_type;
-    
-    // Get the output tensors with the same type as the input
-    auto bptr = std::get<std::shared_ptr<Tensor<ValueType>>>(b);
-    auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
-    
-    // Handle optional C tensor
-    std::optional<std::shared_ptr<Tensor<ValueType>>> cptr = std::nullopt;
-    if (c.has_value()) {
-      cptr = std::get<std::shared_ptr<Tensor<ValueType>>>(c.value());
-    }
-    
-    // Create a GemmNode with the appropriate type
-    return std::make_unique<GemmNode<ValueType>>(
-      aptr, bptr, yptr, cptr, alpha, beta, transA, transB);
-  }, a);
+    const GeneralDataTypes& y, const std::optional<GeneralDataTypes>& c = std::nullopt,
+    float alpha = 1.0f, float beta = 1.0f, int transA = 0, int transB = 0) {
+    return std::visit([&](const auto& aptr) -> std::unique_ptr<Node> {
+        // Get the type of the tensor element
+        using TensorPtr = std::decay_t<decltype(aptr)>;
+        using TensorType = typename TensorPtr::element_type;
+        using ValueType = typename TensorType::value_type;
+        
+        // GemmNode only supports float, double, int32_t, int64_t, uint32_t, or uint64_t
+        if constexpr (std::is_same_v<ValueType, float> || 
+                                    std::is_same_v<ValueType, double> || 
+                                    std::is_same_v<ValueType, int32_t> || 
+                                    std::is_same_v<ValueType, int64_t> ||
+                                    std::is_same_v<ValueType, uint32_t> ||
+                                    std::is_same_v<ValueType, uint64_t>) {
+            // Get the output tensors with the same type as the input
+            auto bptr = std::get<std::shared_ptr<Tensor<ValueType>>>(b);
+            auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+            
+            // Handle optional C tensor
+            std::optional<std::shared_ptr<Tensor<ValueType>>> cptr = std::nullopt;
+            if (c.has_value()) {
+                cptr = std::get<std::shared_ptr<Tensor<ValueType>>>(c.value());
+            }
+            
+            // Create a GemmNode with the appropriate type
+            return std::make_unique<GemmNode<ValueType>>(
+                aptr, bptr, yptr, cptr, alpha, beta, transA, transB);
+        } else {
+            throw std::runtime_error("GemmNode only supports float, double, int32_t, int64_t, uint32_t, or uint64_t types");
+        }
+    }, a);
 }
 
 // Helper function: to create a ReLU node
 std::unique_ptr<Node> makeRelu(const GeneralDataTypes& x, const GeneralDataTypes& y) {
-  return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
-      // Get the type of the tensor element
-      using TensorPtr = std::decay_t<decltype(xptr)>;
-      using TensorType = typename TensorPtr::element_type;
-      using ValueType = typename TensorType::value_type;
-      
-      // Get the output tensor with the same type as the input
-      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
-      
-      // Create a ReLUNode with the appropriate type
-      return std::make_unique<ReLUNode<ValueType>>(xptr, yptr);
-  }, x);
+    return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
+            // Get the type of the tensor element
+            using TensorPtr = std::decay_t<decltype(xptr)>;
+            using TensorType = typename TensorPtr::element_type;
+            using ValueType = typename TensorType::value_type;
+            
+            // ReLUNode only supports float, double, int32_t, int64_t
+            if constexpr (std::is_same_v<ValueType, float> || 
+                                        std::is_same_v<ValueType, double> || 
+                                        std::is_same_v<ValueType, int32_t> || 
+                                        std::is_same_v<ValueType, int64_t>) {
+                    // Get the output tensor with the same type as the input
+                    auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+                    
+                    // Create a ReLUNode with the appropriate type
+                    return std::make_unique<ReLUNode<ValueType>>(xptr, yptr);
+            } else {
+                    throw std::runtime_error("ReLUNode only supports float, double, int32_t, int64_t types");
+            }
+    }, x);
 }
 
 // Helper function: to create a Swish node
@@ -56,28 +74,38 @@ std::unique_ptr<Node> makeSwish(const GeneralDataTypes& x, const GeneralDataType
       using TensorType = typename TensorPtr::element_type;
       using ValueType = typename TensorType::value_type;
       
-      // Get the output tensor with the same type as the input
-      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
-      
-      // Create a SwishNode with the appropriate type
-      return std::make_unique<SwishNode<ValueType>>(xptr, yptr);
+      // SwishNode only supports float and double
+      if constexpr (std::is_same_v<ValueType, float> || std::is_same_v<ValueType, double>) {
+          // Get the output tensor with the same type as the input
+          auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+          
+          // Create a SwishNode with the appropriate type
+          return std::make_unique<SwishNode<ValueType>>(xptr, yptr);
+      } else {
+          throw std::runtime_error("SwishNode only supports float and double types");
+      }
   }, x);
 }
 
 // Helper function: to create a TanH node
 std::unique_ptr<Node> makeTanH(const GeneralDataTypes& x, const GeneralDataTypes& y) {
-  return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
-      // Get the type of the tensor element
-      using TensorPtr = std::decay_t<decltype(xptr)>;
-      using TensorType = typename TensorPtr::element_type;
-      using ValueType = typename TensorType::value_type;
-      
-      // Get the output tensor with the same type as the input
-      auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
-      
-      // Create a TanHNode with the appropriate type
-      return std::make_unique<TanHNode<ValueType>>(xptr, yptr);
-  }, x);
+    return std::visit([&y](const auto& xptr) -> std::unique_ptr<Node> {
+            // Get the type of the tensor element
+            using TensorPtr = std::decay_t<decltype(xptr)>;
+            using TensorType = typename TensorPtr::element_type;
+            using ValueType = typename TensorType::value_type;
+            
+            // TanHNode only supports float and double
+            if constexpr (std::is_same_v<ValueType, float> || std::is_same_v<ValueType, double>) {
+                    // Get the output tensor with the same type as the input
+                    auto yptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y);
+                    
+                    // Create a TanHNode with the appropriate type
+                    return std::make_unique<TanHNode<ValueType>>(xptr, yptr);
+            } else {
+                    throw std::runtime_error("TanHNode only supports float and double types");
+            }
+    }, x);
 }
 
 // Helper function: to map the tensors
@@ -208,7 +236,7 @@ std::vector<unique_ptr<Node>> constructNodes(const json& graph, const std::unord
         nodes.push_back(makeRelu(inputs[0], outputs[0]));
       } else if (opType == "TanH") {
         nodes.push_back(makeTanH(inputs[0], outputs[0]));
-      } else if (opType == "Swish") {
+      } else if (opType == "HardSwish") {
         nodes.push_back(makeSwish(inputs[0], outputs[0]));
       } else {
         throw std::runtime_error("Currently unsupported operation type: " + opType);
