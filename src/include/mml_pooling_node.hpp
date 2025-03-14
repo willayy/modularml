@@ -23,6 +23,9 @@ template <typename T> class PoolingNode_mml : public Node {
       "PoolingNode_mml supports only float, double, int32_t, int64_t");
 
 public:
+  ///@brief Output tensors
+  array_mml<GeneralDataTypes> output;
+
   /**
    * @brief Base constructor for PoolingNode.
    * @param kernel_shape A 2x2 vector of integers representing the kernel
@@ -33,7 +36,7 @@ public:
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
    * layer. It has a default value of "NOTSET" (no padding) and can also accept
    * "VALID", "SAME_UPPER" and "SAME_LOWER"
-   * @param ceiling_mode (OPTIONAL) Whether the output shape should be
+   * @param ceil_mode (OPTIONAL) Whether the output shape should be
    * calcualted with ceil or floor. Accepted values 1 for ceil and 0 for floor.
    * @param dilations (OPTIONAL) Value for dilution of kernel_shape. Default
    * value {1,1}.
@@ -41,7 +44,7 @@ public:
    */
   PoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
                   shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                  int ceiling_mode = 0, vector<int> dilations = {1, 1},
+                  int ceil_mode = 0, vector<int> dilations = {1, 1},
                   vector<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   /**
@@ -80,16 +83,13 @@ public:
   virtual void pooling(const shared_ptr<Tensor<T>> t,
                        array_mml<int> input_shape, array_mml<int> output_shape,
                        vector<int> effective_kernel_shape, float pad_h,
-                       float pad_w, string auto_pad) const = 0;
+                       float pad_w, string auto_pad) = 0;
 
 protected:
   //--------Inputs----------
 
   ///@brief Input tensor
   shared_ptr<Tensor<T>> input;
-
-  ///@brief Output tensors
-  array_mml<GeneralDataTypes> output;
 
   //--------Attributes------
   ///@brief A 2x2 vector of integers representing the filter/pooling window.

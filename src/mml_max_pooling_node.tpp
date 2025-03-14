@@ -6,8 +6,7 @@ void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<int> input_shape,
                                     array_mml<int> output_shape,
                                     vector<int> effective_kernel_shape,
-                                    float pad_h, float pad_w,
-                                    string auto_pad) const {
+                                    float pad_h, float pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
   shared_ptr<Tensor<T>> output = tensor_mml_p<T>(
@@ -34,31 +33,21 @@ void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
 
           T value = std::numeric_limits<T>::lowest();
           int index = 0;
-          for (int m = 0; m < this->effective_kernel_shape[0];
-               m += this->dilation[0]) {
-            for (int n = 0; n < this->effective_kernel_shape[1];
-                 n += this->dilation[1]) {
+          for (int m = 0; m < effective_kernel_shape[0];
+               m += this->dilations[0]) {
+            for (int n = 0; n < effective_kernel_shape[1];
+                 n += this->dilations[1]) {
               int curr_row = in_row_start + m;
               int curr_col = in_col_start + n;
-              // Check if position is within bounds of the original input
-              if (curr_row >= 0 && curr_row < input_shape[2] && curr_col >= 0 &&
-                  curr_col < input_shape[3]) {
-                if (element < 0 || curr_row < 0 || curr_col < 0 ||
-                    channel < 0 || element >= input_shape[0] ||
-                    curr_row >= input_shape[2] || curr_col >= input_shape[3] ||
-                    channel >= input_shape[1]) {
-                  throw std::out_of_range("Out of range");
+
+              if ((*t)[{element, channel, curr_row, curr_col}] > value) {
+
+                value = (*t)[{element, channel, curr_row, curr_col}];
+                if (storage_order) {
+                  index = curr_col * input_shape[2] + curr_row;
+                } else {
+                  index = curr_row * input_shape[3] + curr_col;
                 }
-                if ((*t)[{element, channel, curr_row, curr_col}] > value) {
-                  value = (*t)[{element, channel, curr_row, curr_col}];
-                  if (storage_order) {
-                    index = curr_col * input_shape[2] + curr_row;
-                  } else {
-                    index = curr_row * input_shape[3] + curr_col;
-                  }
-                }
-                value = std::max(value,
-                                 (*t)[{element, channel, curr_row, curr_col}]);
               }
             }
           }
@@ -70,6 +59,7 @@ void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
               out_col >= output_shape[3] || channel >= input_shape[1]) {
             throw std::out_of_range("Output tensor indices out of range");
           } else {
+
             (*output)[{element, channel, out_row, out_col}] = get<0>(result);
             (*output_indices)[{element, channel, out_row, out_col}] =
                 get<1>(result);

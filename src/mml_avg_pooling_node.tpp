@@ -7,8 +7,7 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<int> input_shape,
                                     array_mml<int> output_shape,
                                     vector<int> effective_kernel_shape,
-                                    float pad_h, float pad_w,
-                                    string auto_pad) const {
+                                    float pad_h, float pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
   shared_ptr<Tensor<T>> output = tensor_mml_p<T>(
@@ -33,9 +32,9 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
 
           T value = 0;
           int k = 0;
-          for (int m = 0; m < this->effective_kernel_shape[0];
+          for (int m = 0; m < effective_kernel_shape[0];
                m += this->dilations[0]) {
-            for (int n = 0; n < this->effective_kernel_shape[1];
+            for (int n = 0; n < effective_kernel_shape[1];
                  n += this->dilations[1]) {
               int curr_row = in_row_start + m;
               int curr_col = in_col_start + n;

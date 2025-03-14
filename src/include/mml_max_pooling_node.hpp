@@ -27,7 +27,7 @@ public:
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
    * layer. It has a default value of "NOTSET" (no padding) and can also accept
    * "VALID", "SAME_UPPER" and "SAME_LOWER"
-   * @param ceiling_mode (OPTIONAL) Whether the output shape should be
+   * @param ceil_mode (OPTIONAL) Whether the output shape should be
    * calcualted with ceil or floor. Accepted values 1 for ceil and 0 for floor.
    * @param dilations (OPTIONAL) Value for dilution of kernel_shape. Default
    * value {1,1}.
@@ -37,17 +37,17 @@ public:
    * Defaults to row major.
    */
   MaxPoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
-                     shared_ptr<Tensor<T>> input, string auto_pad,
-                     int ceiling_mode, vector<int> dilations, vector<int> pads,
-                     int storage_order = 0)
+                     shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
+                     int ceil_mode = 0, vector<int> dilations = {1, 1},
+                     vector<int> pads = {0, 0}, int storage_order = 0)
       : storage_order(storage_order),
-        PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceiling_mode,
+        PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceil_mode,
                            dilations, pads) {}
 
 private:
   void pooling(const shared_ptr<Tensor<T>> t, array_mml<int> input_shape,
                array_mml<int> output_shape, vector<int> effective_kernel_shape,
-               float pad_h, float pad_w, string auto_pad) const override;
+               float pad_h, float pad_w, string auto_pad) override;
   int storage_order;
 };
 
