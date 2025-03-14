@@ -7,8 +7,8 @@ TEST(test_mml_tensor, test_default_constructor_1) {
   Tensor_mml<int> t1 = Tensor_mml<int>({3, 3});
   auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
-  auto actual_shape = t1.get_shape();
-  auto actual_data = t1.get_data();
+  auto const& actual_shape = t1.get_shape();
+  auto const& actual_data = t1.get_data();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ(expected_data, actual_data);
 }
@@ -28,8 +28,8 @@ TEST(test_mml_tensor, test_move_constructor_1) {
   Tensor_mml<int> t2 = move(t1);
   auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
-  auto actual_shape = t2.get_shape();
-  auto actual_data = t2.get_data();
+  auto const& actual_shape = t2.get_shape();
+  auto const& actual_data = t2.get_data();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ(expected_data, actual_data);
 }
@@ -49,8 +49,8 @@ TEST(test_mml_tensor, test_move_assignment_1) {
   t2 = move(t1);
   auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
-  auto actual_shape = t2.get_shape();
-  auto actual_data = t2.get_data();
+  auto const& actual_shape = t2.get_shape();
+  auto const& actual_data = t2.get_data();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ(expected_data, actual_data);
 }
@@ -217,6 +217,10 @@ TEST(test_mml_tensor, test_reshape_2) {
                 // average of 100 valid tests
     }
   }
+}
+
+TEST(test_mml_tensor, test_slicing_1) {
+
 }
 
 TEST(test_mml_tensor, test_to_string) {

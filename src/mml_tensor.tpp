@@ -144,6 +144,36 @@ void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
 }
 
 template <typename T>
+void Tensor_mml<T>::flip(uli dim) {
+}
+
+template <typename T>
+shared_ptr<Tensor<T>> Tensor_mml<T>::slice(initializer_list<uli> slice_indices) {
+  auto slice_indices_array = array_mml<uli>(slice_indices);
+  return slice(slice_indices_array);
+}
+
+template <typename T>
+shared_ptr<Tensor<T>> Tensor_mml<T>::slice(array_mml<uli>& slice_indices) {
+  if (!valid_slice_indices(slice_indices)) {
+    throw invalid_argument("Invalid slice indices");
+  }
+
+  uli slice_shape_dif = this->shape.size() - slice_indices.size();
+  array_mml<uli> slice_shape = array_mml<uli>(slice_shape_dif);
+
+  for (uli i = 0; i < slice_shape_dif; i++) {
+    slice_shape[i] = this->shape[i + slice_shape_dif];
+  }
+
+  uli data_slice_start = index_with_offset(slice_indices);
+  uli data_slice_size = accumulate(slice_shape.begin(), slice_shape.end(), 1, multiplies<uli>());
+  array_mml<T> data_slice = this->data.m_subarray(data_slice_start, data_slice_size);
+
+  return make_shared<Tensor_mml<T>>(slice_shape, data_slice);
+}
+
+template <typename T>
 bool Tensor_mml<T>::is_matrix() const {
   return this->shape.size() == 2;
 }
@@ -286,6 +316,19 @@ uli Tensor_mml<T>::index_with_offset(array_mml<uli> indices) const {
     index += (indices[i]) * this->offsets[i];
   }
   return index;
+}
+
+template <typename T>
+bool Tensor_mml<T>::valid_slice_indices(const array_mml<uli>& slice_indices) const {
+  if (slice_indices.size() < this->shape.size()) {
+    return false;
+  }
+  for (uli i = 0; i < slice_indices.size(); i++) {
+    if (slice_indices[i] >= this->shape[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 // Convenience initializers

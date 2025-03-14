@@ -60,6 +60,9 @@ class Tensor_mml : public Tensor<T> {
   Tensor<T>& operator=(Tensor<T>&& other) noexcept override;
   string to_string() const override;
   shared_ptr<Tensor<T>> copy() const override;
+  void flip(uli dim) override;
+  shared_ptr<Tensor<T>> slice(initializer_list<uli> slice_indices) override;
+  shared_ptr<Tensor<T>> slice(array_mml<uli>& slice_indices) override;
   void reshape(const array_mml<uli>& new_shape) override;
   void reshape(initializer_list<uli> new_shape) override;
   bool is_matrix() const override;
@@ -88,6 +91,7 @@ class Tensor_mml : public Tensor<T> {
   uli compute_size() const;
   bool valid_shape(const array_mml<uli>& new_shape) const;
   bool valid_indices(const array_mml<uli>& indices) const;
+  bool valid_slice_indices(const array_mml<uli>& slice_indices) const;
   uli index_with_offset(array_mml<uli> indices) const;
 };
 
