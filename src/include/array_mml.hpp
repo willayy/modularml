@@ -19,6 +19,11 @@ class array_mml {
   array_mml(std::initializer_list<T> data);
 
   /// @brief Constructor for array_mml class.
+  /// @param data The pointer to the data to set in the array.
+  /// @param size The size of the data.
+  array_mml(shared_ptr<T[]> data, unsigned long int size);
+
+  /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
   explicit array_mml(std::vector<T>& data);
 
@@ -61,6 +66,12 @@ class array_mml {
   /// @param end The end index of the subarray.
   /// @return The subarray.
   array_mml subarray(unsigned long int start, unsigned long int end) const;
+
+  /// @brief Get a mutable subarray from the array.
+  /// @param start The start index of the subarray.
+  /// @param end The end index of the subarray.
+  /// @return A mutable subarray.
+  array_mml m_subarray(unsigned long int start, unsigned long int end);
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
@@ -114,7 +125,7 @@ class array_mml {
   void fill(const T& value);
 
  private:
-  std::unique_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
+  std::shared_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
   unsigned long int d_size;
 };
 
