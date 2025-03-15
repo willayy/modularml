@@ -19,3 +19,4 @@
 #include "mml_tensor.hpp"
 #include "mml_onnx_gemm.hpp"
 #include "tensor_utility.hpp"
+#include "log_softmax_node.hpp"
