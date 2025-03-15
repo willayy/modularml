@@ -21,7 +21,7 @@ jobs:
       run: make all
 
     - name: Run tests
-      run: make test
+      run: make test  
 
     - name: Generate coverage report
       run: make coverage
@@ -34,5 +34,5 @@ jobs:
 
     - name: Extract Coverage Percentage
       run: |
-        COVERAGE=$(grep -oP '<td class="coverage-[^"]+">\K\d+\.\d+(?=%</td>)' build/coverage_report/coverage_details.html)
+        COVERAGE=$(grep -oP '<td class="CoverValue line-coverage coverage[^"]+">\K\d+\.\d+(?=%</td>)' build/coverage_report/coverage_details.html)
         echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
