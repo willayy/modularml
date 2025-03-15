@@ -95,21 +95,10 @@ class Tensor_mml : public Tensor<T> {
   uli index_with_offset(array_mml<uli> indices) const;
 };
 
-// Convenience initializers
-template <typename T>
-Tensor<T> tensor_mml(const initializer_list<uli> shape);
-
-template <typename T>
-Tensor_mml<T> tensor_mml(const initializer_list<uli> shape, const initializer_list<T> data);
-
 template <typename T>
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape);
 
 template <typename T>
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data);
 
-/*  We include the implementation of the template class here
- *   because the compiler needs to see the implementation
- *   when instantiating the template with a specific type.
- *   This is a common but hacky practice when working with templates.  */
 #include "../mml_tensor.tpp"
