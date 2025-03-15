@@ -91,18 +91,6 @@ array_mml<T> array_mml<T>::subarray(uli start, uli end) const {
 }
 
 template <typename T>
-array_mml<T> array_mml<T>::m_subarray(uli start, uli end) {
-  if (start >= this->d_size || end > this->d_size || start > end) {
-    throw out_of_range("Invalid array_mml subarray index");
-  }
-  auto data_ptr_address = this->data.get();
-  T* new_data_ptr_address = data_ptr_address + start;
-  shared_ptr<T[]> new_data_ptr(new_data_ptr_address, [](T*) { /* noop */}); //NOSONAR We want to use raw pointer stop complaining.
-  array_mml new_array(new_data_ptr, end - start);
-  return new_array;
-}
-
-template <typename T>
 bool array_mml<T>::operator==(const array_mml& other) const {
   if (this->d_size != other.d_size) {
     return false;

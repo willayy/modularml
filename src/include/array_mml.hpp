@@ -15,8 +15,8 @@ class array_mml {
   explicit array_mml(uli size);
 
   /// @brief Constructor for array_mml class.
-  /// @param data The data to set in the array.
-  array_mml(std::initializer_list<T> data);
+  /// @param data The data to set in the array as a initializer list.
+  array_mml(initializer_list<T> data);
 
   /// @brief Constructor for array_mml class.
   /// @param data The pointer to the data to set in the array.
@@ -25,11 +25,11 @@ class array_mml {
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
-  explicit array_mml(std::vector<T>& data);
+  explicit array_mml(vector<T>& data);
 
   /// @brief Copy constructor using a vector.
   /// @param data The data to copy.
-  explicit array_mml(const std::vector<T>& data);
+  explicit array_mml(const vector<T>& data);
 
   /// @brief Copy constructor using another array.
   array_mml(const array_mml& other);
@@ -66,12 +66,6 @@ class array_mml {
   /// @param end The end index of the subarray.
   /// @return The subarray.
   array_mml subarray(uli start, uli end) const;
-
-  /// @brief Get a mutable subarray from the array.
-  /// @param start The start index of the subarray.
-  /// @param end The end index of the subarray.
-  /// @return A mutable subarray.
-  array_mml m_subarray(uli start, uli end);
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
@@ -125,7 +119,7 @@ class array_mml {
   void fill(const T& value);
 
  private:
-  std::shared_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
+  shared_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
   uli d_size;
 };
 
