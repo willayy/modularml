@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main ]
   push:
-    branches: [ main ]
+    branches: [ '*' ]
 
 jobs:
   build:
@@ -32,4 +32,7 @@ jobs:
         name: coverage-details 
         path: build/coverage_report/coverage_details.html # Contains the coverage of all files
 
-    
+    - name: Extract Coverage Percentage
+      run: |
+        COVERAGE=$(grep -oP '<td class="coverage-[^"]+">\K\d+\.\d+(?=%</td>)' build/coverage_report/coverage_details.html)
+        echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
