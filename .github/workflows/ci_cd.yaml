@@ -34,5 +34,5 @@ jobs:
 
     - name: Extract Coverage Percentage
       run: |
-        COVERAGE=$(grep -oP '<th scope="row">Lines:</th>.*?<td class="coverage-[^"]+">(\d+\.\d+)%</td>' build/coverage_report/coverage_details.html | sed -E 's/.*>([0-9]+\.[0-9]+)%<\/td>/\1/')
+        grep -oP '<th scope="row">Lines:</th>.*?<td class="coverage-[^"]+">[^<]+</td>' build/coverage_report/coverage_details.html
         echo "Line Coverage: $COVERAGE"
