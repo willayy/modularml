@@ -55,7 +55,7 @@ jobs:
         overall_coverage=$(echo "scale=2; $total_covered / $total_lines * 100" | bc)
         echo "Overall line coverage: $overall_coverage%"
         
-        echo "$overall_coverage > coverage.txt"
+        echo "COVERAGE=$overall_coverage" >> $GITHUB_ENV
 
     - name: Create Coverage Badge
       run: |
