@@ -4,7 +4,7 @@
 #include "mml_tensor.hpp"
 
 
-TEST(test_log_softmax_node, test_constructor) {
+TEST(test_log_softmax_node, test_forward_basic) {
     array_mml<int> x_shape({3, 3});
     array_mml<float> x_values({1.0f, 2.0f, 3.0f,
                                4.0f, 5.0f, 6.0f,
@@ -57,6 +57,7 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
 }
 
 TEST(test_log_softmax_node, test_forward_handle_zeros) {
+    // Should result in an equal distribution
     array_mml<int> x_shape({3, 3});
     array_mml<float> x_values({
         0.0f, 0.0f, 0.0f,
@@ -84,6 +85,7 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
 }
 
 TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
+    // Checks that the node can handle very large and very small floats
     array_mml<int> x_shape({3, 3});
     array_mml<float> x_values({
         FLT_MAX, FLT_MIN, 1.0f,
