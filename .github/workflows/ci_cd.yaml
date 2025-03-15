@@ -34,5 +34,20 @@ jobs:
 
     - name: Extract Coverage Percentage
       run: |
-        grep -oP '<th scope="row">Lines:</th>.*?<td class="coverage-[^"]+">[^<]+</td>' build/coverage_report/coverage_details.html
-        echo "Line Coverage: $COVERAGE"
+        total_lines=0
+        total_covered=0
+
+        # Read the CSV file line by line (skip the header)
+        tail -n +2 "build/coverage_report/coverage.csv" | while IFS=',' read -r filename line_total line_covered line_percent branch_total branch_covered branch_percent function_total function_covered function_percent; do
+            # Accumulate total lines and covered lines
+            total_lines=$(echo "$total_lines + $line_total" | bc)
+            total_covered=$(echo "$total_covered + $line_covered" | bc)
+        done
+
+        # Calculate the overall line coverage percentage
+        if [ "$total_lines" -gt 0 ]; then
+            line_coverage_percent=$(echo "scale=2; $total_covered / $total_lines * 100" | bc)
+            echo "Overall Line Coverage: $line_coverage_percent%"
+        else
+            echo "No lines to calculate coverage."
+        fi
