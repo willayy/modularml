@@ -35,24 +35,34 @@ jobs:
     - name: Extract Coverage Percentage
       run: |
         if [ ! -f "build/coverage_report/coverage.csv" ]; then
-          echo "CSV file does not exist."
-          exit 1
+            echo "CSV file does not exist."
+            exit 1
+        else
+            echo "CSV file exists"
         fi
 
         total_lines=0
         total_covered=0
 
-        # Read the CSV file line by line (skip the header)
-        tail -n +2 "build/coverage_report/coverage.csv" | while IFS=',' read -r filename line_total line_covered line_percent branch_total branch_covered branch_percent function_total function_covered function_percent; do
-            # Accumulate total lines and covered lines
-            total_lines=$(echo "$total_lines + $line_total" | bc)
-            total_covered=$(echo "$total_covered + $line_covered" | bc)
-        done
+        skip_headers=1
+        while IFS=, read -r filename line_total line_covered line_percent
+        do
+            if ((skip_headers))
+            then
+                ((skip_headers--))
+            else
+                echo "I got:$line_total|$line_covered|$line_percent"
+                total_lines=$((total_lines + line_total))
+                total_covered=$((total_covered + line_covered))
+            fi
+        done < build/coverage_report/coverage.csv
 
-        # Calculate the overall line coverage percentage
-        if [ "$total_lines" -gt 0 ]; then
-            line_coverage_percent=$(echo "scale=2; $total_covered / $total_lines * 100" | bc)
-            echo "Overall Line Coverage: $line_coverage_percent%"
+        echo "Total lines: $total_lines"
+        echo "Total covered: $total_covered"
+
+        if ((total_lines > 0)); then
+            overall_coverage=$(echo "scale=2; $total_covered / $total_lines * 100" | bc)
+            echo "Overall line coverage: $overall_coverage%"
         else
-            echo "No lines to calculate coverage."
+            echo "No total lines to calculate coverage."
         fi
