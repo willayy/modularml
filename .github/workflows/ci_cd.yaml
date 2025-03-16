@@ -81,6 +81,12 @@ jobs:
         git fetch origin gh-pages
         git checkout gh-pages
         mkdir -p docs
+
+        if [ -f docs/coverage-badge.svg ]; then
+        echo "Removing old coverage badge"
+        rm docs/coverage-badge.svg
+        fi
+
         mv coverage-badge.svg docs/coverage-badge.svg
         git add docs/coverage-badge.svg
         
