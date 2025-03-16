@@ -81,9 +81,9 @@ jobs:
         git fetch origin gh-pages
         git checkout gh-pages
 
-        mv coverage-badge.svg coverage-badge.svg
+        mv coverage-badge.svg docs/
 
-        git add coverage-badge.svg
+        git add docs/coverage-badge.svg
         
         git commit -m "Update coverage badge"
         git push origin gh-pages
