@@ -73,16 +73,15 @@ jobs:
 
         curl -o coverage-badge.svg "https://img.shields.io/badge/Coverage-${COVERAGE}%25-${COLOR}"
 
+
     - name: Commit and Push Badge to gh-pages
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-
         git fetch origin gh-pages
         git checkout gh-pages
-
-        mv coverage-badge.svg docs/
-
+        mkdir -p docs
+        mv coverage-badge.svg docs/coverage-badge.svg
         git add docs/coverage-badge.svg
         
         git commit -m "Update coverage badge"
