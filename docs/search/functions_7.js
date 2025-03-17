@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['matrix_5fmatch_0',['matrix_match',['../classTensor.html#a96071f07e594af2988f0677731c8381d',1,'Tensor::matrix_match()'],['../classTensor__mml.html#a31eae4944695a67a4d98278ce9824ab5',1,'Tensor_mml::matrix_match()']]],
-  ['model_5fmml_1',['model_mml',['../classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561',1,'Model_mml::Model_mml()=default'],['../classModel__mml.html#a9673f0900fde912848aef47833894b09',1,'Model_mml::Model_mml(vector&lt; unique_ptr&lt; Node &gt; &gt; &amp;&amp;initialNodes)']]],
-  ['multiply_2',['multiply',['../classArithmeticModule.html#a8c30d16aa23540f72c21ab3dead108c7',1,'ArithmeticModule::multiply()'],['../classArithmetic__mml.html#a18b6d754f0bf93232e54d30373aefc4c',1,'Arithmetic_mml::multiply()']]]
+  ['infer_0',['infer',['../classModel.html#a6f3792d775df387e0145d0aadc36b0f2',1,'Model::infer()'],['../classModel__mml.html#a90fc7f57d067e0bfa46896221a142341',1,'Model_mml::infer()']]],
+  ['is_5fmatrix_1',['is_matrix',['../classTensor.html#ac06a9ab79cc2da13c2570c4e30955e9d',1,'Tensor::is_matrix()'],['../classTensor__mml.html#af7fd16c6e2dad8c4d2ec52bddc3558d2',1,'Tensor_mml::is_matrix()']]]
 ];

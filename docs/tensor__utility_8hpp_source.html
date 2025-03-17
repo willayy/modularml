@@ -99,7 +99,11 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><a class="code hl_class" href="classarray__mml.html">array_mml&lt;T&gt;</a> generate_random_array_mml_real(uint64_t lo_sz = 1, uint64_t hi_sz = 5, T lo_v = 1, T hi_v = 100);</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#include &quot;../tensor_utility.tpp&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#define GENERATE_RANDOM_TENSOR(T) (std::is_arithmetic_v&lt;T&gt;, &quot;Random Tensor generation requires an arithmetic type (int, float, double, etc.).&quot;);</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">static</span> <span class="keyword">auto</span> generate_random_tensor(<span class="keyword">const</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;int&gt;</a>&amp; shape, T lo_v = T(0), T hi_v = T(1));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;../tensor_utility.tpp&quot;</span></div>
 <div class="ttc" id="aclassTensor_html"><div class="ttname"><a href="classTensor.html">Tensor</a></div><div class="ttdoc">Abstract class representing a Tensor.</div><div class="ttdef"><b>Definition</b> a_tensor.hpp:17</div></div>
 <div class="ttc" id="aclassarray__mml_html"><div class="ttname"><a href="classarray__mml.html">array_mml</a></div><div class="ttdoc">Array class mimicking the std::array class but without the size being a template parameter.</div><div class="ttdef"><b>Definition</b> array_mml.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->

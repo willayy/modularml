@@ -86,19 +86,23 @@ Inheritance diagram for Node:</div>
 <div class="dyncontent">
 <div class="center"><img src="classNode__inherit__graph.png" border="0" usemap="#aNode_inherit__map" alt="Inheritance graph"/></div>
 <map name="aNode_inherit__map" id="aNode_inherit__map">
-<area shape="rect" title="Abstract base class representing a node in a computational graph." alt="" coords="5,129,61,155"/>
+<area shape="rect" title="Abstract base class representing a node in a computational graph." alt="" coords="5,179,61,204"/>
 <area shape="rect" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph." alt="" coords="119,5,246,31"/>
-<area shape="poly" title=" " alt="" coords="45,116,71,77,88,57,108,40,129,28,132,33,111,44,92,61,75,80,50,119"/>
-<area shape="rect" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph." alt="" coords="113,55,252,80"/>
-<area shape="poly" title=" " alt="" coords="61,118,108,89,136,78,138,83,111,94,63,123"/>
-<area shape="rect" href="classReLUNode.html" title="A class representing a ReLU node in a computational graph." alt="" coords="119,104,247,129"/>
-<area shape="poly" title=" " alt="" coords="74,132,118,125,119,130,75,138"/>
-<area shape="rect" href="classSwishNode.html" title="A class representing a Swish node in a computational graph." alt="" coords="117,153,249,179"/>
-<area shape="poly" title=" " alt="" coords="76,146,117,153,116,158,75,151"/>
-<area shape="rect" href="classTanHNode.html" title="A class representing a TanH node in a computational graph." alt="" coords="119,203,246,228"/>
-<area shape="poly" title=" " alt="" coords="65,160,111,188,141,200,139,205,108,192,62,165"/>
-<area shape="rect" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph." alt="" coords="109,252,256,277"/>
-<area shape="poly" title=" " alt="" coords="50,165,76,202,111,237,134,249,131,254,108,241,72,206,46,168"/>
+<area shape="poly" title=" " alt="" coords="38,165,62,103,82,69,108,40,126,28,129,33,111,44,86,72,67,105,43,166"/>
+<area shape="rect" href="classDropoutNode.html" title="A class representing a Dropout node in a computational graph." alt="" coords="109,55,256,80"/>
+<area shape="poly" title=" " alt="" coords="45,165,71,126,88,106,108,89,129,78,132,82,111,94,92,110,75,130,50,168"/>
+<area shape="rect" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="113,104,253,129"/>
+<area shape="poly" title=" " alt="" coords="61,168,108,138,136,127,138,132,111,143,63,172"/>
+<area shape="rect" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph." alt="" coords="113,153,252,179"/>
+<area shape="poly" title=" " alt="" coords="74,182,113,175,114,180,75,187"/>
+<area shape="rect" href="classReLUNode.html" title="A class representing a ReLU node in a computational graph." alt="" coords="119,203,247,228"/>
+<area shape="poly" title=" " alt="" coords="75,195,118,202,118,208,74,201"/>
+<area shape="rect" href="classSwishNode.html" title="A class representing a Swish node in a computational graph." alt="" coords="117,252,249,277"/>
+<area shape="poly" title=" " alt="" coords="65,210,111,237,141,249,139,254,108,242,62,214"/>
+<area shape="rect" href="classTanHNode.html" title="A class representing a TanH node in a computational graph." alt="" coords="119,301,246,327"/>
+<area shape="poly" title=" " alt="" coords="50,215,76,252,111,287,134,299,131,304,108,291,72,255,46,218"/>
+<area shape="rect" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph." alt="" coords="109,351,256,376"/>
+<area shape="poly" title=" " alt="" coords="44,217,68,277,87,308,111,336,131,348,128,353,108,340,82,312,63,279,39,219"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -183,7 +187,7 @@ Public Member Functions</h2></td></tr>
 <p>This pure virtual function must be overridden by derived classes to determine if the input(s) required for computation are filled.</p>
 <dl class="section return"><dt>Returns</dt><dd>True if the input(s) are filled, false otherwise. </dd></dl>
 
-<p>Implemented in <a class="el" href="classConvNode.html#a485148cf4bc1f2036d138205a18ba4ae">ConvNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a9604ddba0cb384842ef30cdc764cf0f0">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a0e991df2dbf4a0ade695a4cd460cc6ff">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a6e131ab2c74f90cacdb96b318431c8d1">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#ab281c26b63dcf6e91d91e099c59f0d2c">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#ae35f6536a10b9358b3468e9a92910c38">TanHNode&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classConvNode.html#a485148cf4bc1f2036d138205a18ba4ae">ConvNode&lt; T &gt;</a>, <a class="el" href="classDropoutNode.html#a7e652bbe73620697be9919b7aedc32da">DropoutNode&lt; T &gt;</a>, <a class="el" href="classFlattenNode.html#a0bbb029fc80052efa88f93fc8ecd800b">FlattenNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a9604ddba0cb384842ef30cdc764cf0f0">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a0e991df2dbf4a0ade695a4cd460cc6ff">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a6e131ab2c74f90cacdb96b318431c8d1">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#ab281c26b63dcf6e91d91e099c59f0d2c">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#ae35f6536a10b9358b3468e9a92910c38">TanHNode&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -214,7 +218,7 @@ Public Member Functions</h2></td></tr>
 <p>This pure virtual function must be overridden by derived classes to determine if the output(s) of the node are filled.</p>
 <dl class="section return"><dt>Returns</dt><dd>True if the output(s) are filled, false otherwise. </dd></dl>
 
-<p>Implemented in <a class="el" href="classConvNode.html#aa2695a40b2d9ceffcfc27fc26032b0de">ConvNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#aba018f2af912376733c9b76623aaf79b">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#af3b1ecac0ce8d7dd2ff5dfd7d0deb478">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a99fe876eb7cdb117f1996fcbb8c54a57">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a39439683515a17cd6f45bd898d4a527b">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a65db2b490f711b0ed235d9c00a0ed112">TanHNode&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classConvNode.html#aa2695a40b2d9ceffcfc27fc26032b0de">ConvNode&lt; T &gt;</a>, <a class="el" href="classDropoutNode.html#ab4961f6cb12293252141b7c107eb6720">DropoutNode&lt; T &gt;</a>, <a class="el" href="classFlattenNode.html#ac1afd9e86e1a1f23aaa2e5163ff4331c">FlattenNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#aba018f2af912376733c9b76623aaf79b">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#af3b1ecac0ce8d7dd2ff5dfd7d0deb478">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a99fe876eb7cdb117f1996fcbb8c54a57">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a39439683515a17cd6f45bd898d4a527b">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a65db2b490f711b0ed235d9c00a0ed112">TanHNode&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -244,7 +248,7 @@ Public Member Functions</h2></td></tr>
 <p>Perform the forward pass computation. </p>
 <p>This pure virtual function must be overridden by derived classes to implement the specific forward pass logic. It modifies the output(s) in place. </p>
 
-<p>Implemented in <a class="el" href="classConvNode.html#a6f96550ecec970dc406ff253f274657d">ConvNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a2fc9f66dc751faee6673c5ef009624e4">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a18b26e38ad2cf0096d6863c886558e62">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a7a9a7924983461bf13528ca911ce8947">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a7d8ca11ac10c3f107af940ff519ce54a">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a40bd2837aa30971fa629df3f92db6dcb">TanHNode&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classConvNode.html#a6f96550ecec970dc406ff253f274657d">ConvNode&lt; T &gt;</a>, <a class="el" href="classDropoutNode.html#ab24693b779eb7206ffa79df62d2d8e43">DropoutNode&lt; T &gt;</a>, <a class="el" href="classFlattenNode.html#aa0677a86e9ae72426531c81a86b2c992">FlattenNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a2fc9f66dc751faee6673c5ef009624e4">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a18b26e38ad2cf0096d6863c886558e62">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a7a9a7924983461bf13528ca911ce8947">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a7d8ca11ac10c3f107af940ff519ce54a">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a40bd2837aa30971fa629df3f92db6dcb">TanHNode&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -275,7 +279,7 @@ Public Member Functions</h2></td></tr>
 <p>This pure virtual function must be overridden by derived classes to retrieve the output of the node. Currently, it supports a singular output.</p>
 <dl class="section return"><dt>Returns</dt><dd>The output data. </dd></dl>
 
-<p>Implemented in <a class="el" href="classConvNode.html#a15703ffcdf1b824790bf3eacc287095a">ConvNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a055c855628527f92a930b6d92c37557e">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a6e43c48a717c116284b24c8f3bf0adcf">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a69c9b520f4a644fbe31b9c7a25005ae8">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#aa0ed8ce2136e0a597633c6c52029732b">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a69ad3678937b5c7a1c466b7fdb882336">TanHNode&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classConvNode.html#a15703ffcdf1b824790bf3eacc287095a">ConvNode&lt; T &gt;</a>, <a class="el" href="classDropoutNode.html#a266edb049d124df4db5316ada61042f6">DropoutNode&lt; T &gt;</a>, <a class="el" href="classFlattenNode.html#a286efb4ff797bf64887a3a3f15c7da09">FlattenNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#a055c855628527f92a930b6d92c37557e">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a6e43c48a717c116284b24c8f3bf0adcf">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#a69c9b520f4a644fbe31b9c7a25005ae8">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#aa0ed8ce2136e0a597633c6c52029732b">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a69ad3678937b5c7a1c466b7fdb882336">TanHNode&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -312,7 +316,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classConvNode.html#a205bec16482dd0a3140711e94842bd6d">ConvNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#ab68d5ed6f93729c2a2538172f6e848a6">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a17c8a0493ed1122748adfc292de75bf4">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#ac52c7420b66e643b35343a3ece42ba12">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a5253622ccb4a89f241c67cff27c1fa60">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a3ad40030f42091357de73bcfd61b6f0d">TanHNode&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classConvNode.html#a205bec16482dd0a3140711e94842bd6d">ConvNode&lt; T &gt;</a>, <a class="el" href="classDropoutNode.html#a8db11d589f400b42c6707c0772a00c68">DropoutNode&lt; T &gt;</a>, <a class="el" href="classFlattenNode.html#aac9d44dd829d4656ed0175848da50bc4">FlattenNode&lt; T &gt;</a>, <a class="el" href="classGemmNode.html#ab68d5ed6f93729c2a2538172f6e848a6">GemmNode&lt; T &gt;</a>, <a class="el" href="classReLUNode.html#a17c8a0493ed1122748adfc292de75bf4">ReLUNode&lt; T &gt;</a>, <a class="el" href="classreshapeNode.html#ac52c7420b66e643b35343a3ece42ba12">reshapeNode&lt; T &gt;</a>, <a class="el" href="classSwishNode.html#a5253622ccb4a89f241c67cff27c1fa60">SwishNode&lt; T &gt;</a>, and <a class="el" href="classTanHNode.html#a3ad40030f42091357de73bcfd61b6f0d">TanHNode&lt; T &gt;</a>.</p>
 
 </div>
 </div>
