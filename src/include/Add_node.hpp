@@ -61,7 +61,7 @@ class AddNode : Node {
   shared_ptr<const AbstractTensor> A;  // Input tensor A
   shared_ptr<const AbstractTensor> B;  // Input tensor B
   shared_ptr<AbstractTensor> C;        // Output tensor C
- 
+
   /**
    * @brief Helper function used when broadcasting addition is required.
    * Likely only temporary to be replaced with something that can be used in multiple nodes instead.

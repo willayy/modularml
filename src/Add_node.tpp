@@ -92,7 +92,9 @@ void AddNode<T>::broadcast_addition() const {
     int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
     int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
-    switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1 : (dim_B == 1) ? 2 : 3) {
+    switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1
+                               : (dim_B == 1)   ? 2
+                                                : 3) {
       case 0:
         output_shape[max_rank - 1 - i] = dim_A;
         break;
@@ -131,7 +133,7 @@ void AddNode<T>::broadcast_addition() const {
 
     // Compute multi-dimensional indices on the fly
     for (int j = 0; j < max_rank; j++) {
-      int coord = remaining / output_strides[j]; // Extract coordinate for dim j
+      int coord = remaining / output_strides[j];  // Extract coordinate for dim j
       remaining %= output_strides[j];
 
       int dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
