@@ -38,7 +38,7 @@ void AddNode<T>::forward() {
     arithmetic.add(A, B, C);
     // Broadcasting case:
   } else if (broadcast_comp) {
-    throw runtime_error("BROADCASTING NOT IMPLEMENTED YET");
+    broadcast_addition();
     // Invalid case:
   } else {
     throw runtime_error("Incompatible shapes for addition attempt in AddNode. Broadcasting impossible.");
@@ -78,7 +78,7 @@ array_mml<GeneralDataTypes> AddNode<T>::getOutputs() const {
 }
 
 template <typename T>
-void AddNode<T>::braodcast_addition() const {
+void AddNode<T>::broadcast_addition() const {
   auto A_shape = A->get_shape();
   auto B_shape = B->get_shape();
   auto A_rank = A_shape.size();
@@ -86,21 +86,64 @@ void AddNode<T>::braodcast_addition() const {
   auto max_rank = std::max(A_rank, B_rank);
 
   // Compute output shape based on broadcasting rules
-  std::vector<size_t> output_shape(max_rank, 1);
+  array_mml<int> output_shape(max_rank);
+  std::fill(output_shape.begin(), output_shape.end(), 1);
   for (int i = 0; i < max_rank; i++) {
     int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
     int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
-    if (dim_A == dim_B) {
-      output_shape[max_rank - 1 - i] = dim_A;
-    } else if (dim_A == 1) {
-      output_shape[max_rank - 1 - i] = dim_B;
-    } else if (dim_B == 1) {
-      output_shape[max_rank - 1 - i] = dim_A;
-    } else {
-      throw std::runtime_error("Incompatible shapes for broadcasting.");
+    switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1 : (dim_B == 1) ? 2 : 3) {
+      case 0:
+        output_shape[max_rank - 1 - i] = dim_A;
+        break;
+      case 1:
+        output_shape[max_rank - 1 - i] = dim_B;
+        break;
+      case 2:
+        output_shape[max_rank - 1 - i] = dim_A;
+        break;
+      default:
+        throw std::runtime_error("Incompatible shapes for broadcasting.");
     }
   }
 
   C->reshape(output_shape);
+
+  vector<int> A_strides(A_rank, 1);
+  vector<int> B_strides(B_rank, 1);
+  vector<int> output_strides(max_rank, 1);
+
+  // Compute strides for each tensor
+  for (int i = max_rank - 2; i >= 0; --i) {
+    output_strides[i] = output_strides[i + 1] * output_shape[i + 1];
+  }
+  for (int i = A_rank - 2; i >= 0; --i) {
+    A_strides[i] = A_strides[i + 1] * A_shape[i + 1];
+  }
+  for (int i = B_rank - 2; i >= 0; --i) {
+    B_strides[i] = B_strides[i + 1] * B_shape[i + 1];
+  }
+
+  // Iterate through the output tensor
+  for (int flat_idx = 0; flat_idx < C->get_size(); flat_idx++) {
+    int A_idx = 0, B_idx = 0;
+    int remaining = flat_idx;
+
+    // Compute multi-dimensional indices on the fly
+    for (int j = 0; j < max_rank; j++) {
+      int coord = remaining / output_strides[j]; // Extract coordinate for dim j
+      remaining %= output_strides[j];
+
+      int dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
+      int dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
+
+      if (dim_A > 1) A_idx += coord * A_strides[j];
+      if (dim_B > 1) B_idx += coord * B_strides[j];
+    }
+
+    // Perform element-wise addition
+    T value_A = (*A)[A_idx];
+    T value_B = (*B)[B_idx];
+    (*C)[flat_idx] = value_A + value_B;
+  }
 }
