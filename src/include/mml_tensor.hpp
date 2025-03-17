@@ -77,6 +77,10 @@ class Tensor_mml : public Tensor<T> {
   T& operator[](int index) override;
   void fill(T value) override;
 
+  //Utility methods
+  int public_index_with_offset(const array_mml<int>& indices) const;
+  array_mml<int> public_unflatten_index(int linear_index) const;
+
  private:
   array_mml<T> data;
   array_mml<int> shape;
@@ -89,6 +93,7 @@ class Tensor_mml : public Tensor<T> {
   bool valid_shape(const array_mml<int>& new_shape) const;
   bool valid_indices(const array_mml<int>& indices) const;
   int index_with_offset(array_mml<int> indices) const;
+  array_mml<int> unflatten_index(int linear_index) const;
 };
 
 // Convenience initializers

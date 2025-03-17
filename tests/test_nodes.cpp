@@ -159,3 +159,49 @@ TEST(test_node, test_reshape_with_inferred_dimension) {
 
   ASSERT_EQ(*reshaped, *b);
 }
+
+TEST(test_node, test_Softmax_float) {
+  /**
+   * @brief Expected Tensor after the Softmax function is applied.
+   */
+  auto original_X = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 2.0f, 3.0f, 4.0f});
+  auto expected_Y = tensor_mml_p<float>({2, 3}, {0.09003057, 0.24472847, 0.66524096,
+                                                0.09003057, 0.24472847, 0.66524096});
+
+  auto X = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}, {1.0f, 2.0f, 3.0f, 2.0f, 3.0f, 4.0f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+
+  SoftmaxNode<float> softmaxNode(X, Y, -1);
+  softmaxNode.forward();
+
+  // Retrieve output via getOutput()
+  auto result = softmaxNode.getOutput();
+
+  // Check values
+  for (int i = 0; i < result->get_size(); i++) {
+      EXPECT_NEAR((*result)[i], (*expected_Y)[i], 1e-5);
+  }
+}
+
+TEST(test_node, test_Softmax_int32) {
+  /**
+   * @brief Softmax should work for int32_t but behave similarly to float casting.
+   */
+  auto original_X = tensor_mml_p<int32_t>({2, 3}, {1, 2, 3, 2, 3, 4});
+  auto expected_Y = tensor_mml_p<int32_t>({2, 3}, {0, 0, 1, 0, 0, 1});
+
+  auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({2, 3}, {1, 2, 3, 2, 3, 4}));
+  auto Y = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({2, 3}));
+
+  SoftmaxNode<int32_t> softmaxNode(X, Y, -1);
+  softmaxNode.forward();
+
+  // Retrieve output via getOutput()
+  auto result = softmaxNode.getOutput();
+
+  // Check values (integer-based softmax rounds values, hence checking 0 or 1)
+  for (int i = 0; i < result->get_size(); i++) {
+      EXPECT_LE((*result)[i], 1);
+      EXPECT_GE((*result)[i], 0);
+  }
+}

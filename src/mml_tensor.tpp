@@ -302,3 +302,27 @@ shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape, const init
   auto t = make_shared<Tensor_mml<T>>(shape, data);
   return t;
 }
+
+template <typename T>
+array_mml<int> Tensor_mml<T>::unflatten_index(int linear_index) const {
+    // Create an array_mml<int> with the same dimensionality as 'shape'
+    array_mml<int> indices(this->shape.size());
+    int remainder = linear_index;
+
+    // Row major unflattening. fill from right (last dimension) to left (first dimension)
+    for (int d = static_cast<int>(this->shape.size()) - 1; d >= 0; --d) {
+        indices[d] = remainder % this->shape[d];
+        remainder /= this->shape[d];
+    }
+    return indices;
+}
+
+template <typename T>
+int Tensor_mml<T>::public_index_with_offset(const array_mml<int>& indices) const {
+    return index_with_offset(indices);
+}
+
+template <typename T>
+array_mml<int> Tensor_mml<T>::public_unflatten_index(int linear_index) const {
+    return unflatten_index(linear_index);
+}
