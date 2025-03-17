@@ -38,7 +38,7 @@ public:
   AvgPoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
                      shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
                      int ceil_mode = 0, vector<int> dilations = {1, 1},
-                     vector<int> pads = {0, 0}, int count_include_pad = 0)
+                     vector<int> pads = {0, 0, 0, 0}, int count_include_pad = 0)
       : count_include_pad(count_include_pad),
         PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceil_mode,
                            dilations, pads) {}
@@ -46,7 +46,7 @@ public:
 private:
   void pooling(const shared_ptr<Tensor<T>> t, array_mml<int> input_shape,
                array_mml<int> output_shape, vector<int> effective_kernel_shape,
-               float pad_h, float pad_w, string auto_pad) override;
+               int pad_h, int pad_w, string auto_pad) override;
   int count_include_pad;
 };
 #include "../mml_avg_pooling_node.tpp"

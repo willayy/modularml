@@ -79,12 +79,10 @@ template <typename T> void PoolingNode_mml<T>::forward() {
       kernel_shape[0] + (kernel_shape[0] - 1) * (dilations[0] - 1),
       kernel_shape[1] + (kernel_shape[1] - 1) * (dilations[1] - 1)};
 
-  float pad_h = 0;
-  float pad_w = 0;
-
+  vector<int> pad_shape = {pads[0] + pads[1], pads[2] + pads[3]};
   // Calculate output dimensions based on padding type
   for (int i = 2; i < 4; i++) {
-    if (auto_pad == "VALID" || auto_pad == "NOTSET") {
+    if (auto_pad == "VALID") {
       if (ceil_mode) {
         output_shape[i] = static_cast<int>(
             ceil((static_cast<float>(input_shape[i]) -
@@ -101,17 +99,43 @@ template <typename T> void PoolingNode_mml<T>::forward() {
       }
     } else if (auto_pad == "SAME_UPPER" || auto_pad == "SAME_LOWER") {
 
-      pad_h = static_cast<float>(kernel_shape[0] - 1) / 2;
-      pad_w = static_cast<float>(kernel_shape[1] - 1) / 2;
+      if (ceil_mode) {
+
+        output_shape[i] = static_cast<int>(
+            ceil(static_cast<float>(input_shape[i]) / strides[i - 2]));
+
+      } else {
+        output_shape[i] =
+            static_cast<int>(floor((static_cast<float>(input_shape[i]) - 1) /
+                                   static_cast<float>(strides[i - 2]))) +
+            1;
+      }
+      pad_shape[i - 2] =
+          (output_shape[i] - 1) * strides[i - 2] +
+          ((effective_kernel_shape[i - 2] - 1) * dilations[i - 2] + 1) -
+          input_shape[i];
+
+    } else {
 
       if (ceil_mode) {
-        output_shape[i] = ceil(input_shape[i] / strides[i]);
+        output_shape[i] = static_cast<int>(
+            ceil((static_cast<float>(input_shape[i]) + pad_shape[i - 2] -
+                  dilations[i - 2] * (effective_kernel_shape[i - 2] - 1) - 1) /
+                     strides[i - 2] +
+                 1));
       } else {
-        output_shape[i] = floor((input_shape[i] - 1) / strides[i]) + 1;
+
+        output_shape[i] = static_cast<int>(
+            floor((input_shape[i] + pad_shape[i - 2] -
+                   dilations[i - 2] * (effective_kernel_shape[i - 2] - 1) - 1) /
+                      strides[i - 2] +
+                  1));
       }
     }
   }
-
-  pooling(input, input_shape, output_shape, effective_kernel_shape, pad_h,
-          pad_w, auto_pad);
+  std::cerr << "OUTPUT SHAPE: " << output_shape[2] << "x" << output_shape[3]
+            << std::endl
+            << std::flush;
+  pooling(input, input_shape, output_shape, effective_kernel_shape,
+          pad_shape[0], pad_shape[1], auto_pad);
 }

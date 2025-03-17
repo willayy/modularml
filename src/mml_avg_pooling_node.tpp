@@ -7,7 +7,7 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<int> input_shape,
                                     array_mml<int> output_shape,
                                     vector<int> effective_kernel_shape,
-                                    float pad_h, float pad_w, string auto_pad) {
+                                    int pad_h, int pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
   shared_ptr<Tensor<T>> output = tensor_mml_p<T>(
@@ -23,11 +23,16 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
 
           // Adjust the starting indices after padding type
           if (auto_pad == "SAME_UPPER") {
-            in_row_start -= static_cast<int>(std::floor(pad_h));
-            in_col_start -= static_cast<int>(std::floor(pad_w));
+            in_row_start -= pad_h / 2;
+            in_col_start -= pad_w / 2;
           } else if (auto_pad == "SAME_LOWER") {
-            in_row_start -= static_cast<int>(std::ceil(pad_h));
-            in_col_start -= static_cast<int>(std::ceil(pad_w));
+            in_row_start -=
+                static_cast<int>(ceil(static_cast<float>(pad_h) / 2));
+            in_col_start -=
+                static_cast<int>(ceil(static_cast<float>(pad_w) / 2));
+          } else if (auto_pad == "NOTSET") {
+            in_row_start -= this->pads[0];
+            in_col_start -= this->pads[2];
           }
 
           T value = 0;
