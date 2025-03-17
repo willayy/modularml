@@ -61,6 +61,8 @@ class AddNode : Node {
   shared_ptr<const AbstractTensor> A;  // Input tensor A
   shared_ptr<const AbstractTensor> B;  // Input tensor B
   shared_ptr<AbstractTensor> C;        // Output tensor C
+
+  void braodcast_addition() const;
 };
 
 #include "../Add_node.tpp"

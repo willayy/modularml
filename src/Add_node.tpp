@@ -13,7 +13,6 @@ void AddNode<T>::forward() {
     throw runtime_error("AddNode forward called without inputs being set");
   }
 
-
   auto A_shape = A->get_shape();
   auto B_shape = B->get_shape();
   auto A_rank = A_shape.size();
@@ -76,4 +75,32 @@ bool AddNode<T>::areOutputsFilled() const {
 template <typename T>
 array_mml<GeneralDataTypes> AddNode<T>::getOutputs() const {
   return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(C))};
+}
+
+template <typename T>
+void AddNode<T>::braodcast_addition() const {
+  auto A_shape = A->get_shape();
+  auto B_shape = B->get_shape();
+  auto A_rank = A_shape.size();
+  auto B_rank = B_shape.size();
+  auto max_rank = std::max(A_rank, B_rank);
+
+  // Compute output shape based on broadcasting rules
+  std::vector<size_t> output_shape(max_rank, 1);
+  for (int i = 0; i < max_rank; i++) {
+    int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+    int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+
+    if (dim_A == dim_B) {
+      output_shape[max_rank - 1 - i] = dim_A;
+    } else if (dim_A == 1) {
+      output_shape[max_rank - 1 - i] = dim_B;
+    } else if (dim_B == 1) {
+      output_shape[max_rank - 1 - i] = dim_A;
+    } else {
+      throw std::runtime_error("Incompatible shapes for broadcasting.");
+    }
+  }
+
+  C->reshape(output_shape);
 }
