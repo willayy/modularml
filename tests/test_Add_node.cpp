@@ -182,3 +182,63 @@ TEST(AddNodeTest, AddNodeTest_Broadcasting_IncompatibleShapes) {
    */
   EXPECT_THROW(addNode.forward(), std::runtime_error);
 }
+
+TEST(AddNodeTest, AddNodeTest_int) {
+  /**
+   * @brief Expected result tensor.
+   */
+  auto b = tensor_mml_p<int>({1, 2}, {3, 5});  // A + B expected output
+
+  /**
+   * @brief Input tensors.
+   */
+  auto A = tensor_mml_p<int>({1, 2}, {1, 2});  // Input A
+  auto B = tensor_mml_p<int>({1, 2}, {2, 3});  // Input B
+
+  auto A_ref = A;
+  auto B_ref = B;
+
+  /**
+   * @brief Output tensor.
+   */
+  auto C = tensor_mml_p<int>({1, 2});
+
+  AddNode<int> addNode(A, B, C);
+  addNode.forward();
+
+  // Check if the output tensor is correct
+  ASSERT_EQ(*b, *C);
+  // Check if the input tensors are unchanged
+  ASSERT_EQ(*A, *A_ref);
+  ASSERT_EQ(*B, *B_ref);
+}
+
+TEST(AddNodeTest, AddNodeTest_Broadcasting_int) {
+  /**
+   * @brief Expected result tensor.
+   */
+  auto b = tensor_mml_p<int>({1, 2}, {3, 4});  // A + B expected output after broadcasting
+
+  /**
+   * @brief Input tensors.
+   */
+  auto A = tensor_mml_p<int>({1, 2}, {1, 2});  // Input A (1x2)
+  auto B = tensor_mml_p<int>({1, 1}, {2});     // Input B (1x1) - needs broadcasting
+
+  auto A_ref = A;
+  auto B_ref = B;
+
+  /**
+   * @brief Output tensor.
+   */
+  auto C = tensor_mml_p<int>({1, 2});  // Output tensor (expected to match A's shape after broadcasting B)
+
+  AddNode<int> addNode(A, B, C);
+  addNode.forward();  // Should invoke broadcast addition
+
+  // Ensure output tensor is correct
+  ASSERT_EQ(*b, *C);
+  // Ensure input tensors remain unchanged
+  ASSERT_EQ(*A, *A_ref);
+  ASSERT_EQ(*B, *B_ref);
+}
