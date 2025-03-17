@@ -1,12 +1,18 @@
 #pragma once
 
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <initializer_list>
 #include <iostream>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <numeric>
 #include <optional>
+#include <random>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_set>
 #include <variant>
 #include <vector>
@@ -20,6 +26,7 @@ using std::equal;
 using std::initializer_list;
 using std::invalid_argument;
 using std::log;
+using std::exp;
 using std::logic_error;
 using std::make_shared;
 using std::make_unique;
@@ -38,3 +45,5 @@ using std::unordered_set;
 using std::variant;
 using std::vector;
 using std::visit;
+using std::optional;
+using std::nullopt;

@@ -36,7 +36,7 @@ FetchContent_MakeAvailable(nlohmann_json)
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG release-1.11.0
+  GIT_TAG v1.16.0
 )
 FetchContent_MakeAvailable(googletest)
 
@@ -44,6 +44,9 @@ FetchContent_MakeAvailable(googletest)
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
+
+# Use max 8 threads for building, improve build times
+set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -61,7 +64,7 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB SOURCES ${SRC_DIR}/*.cpp)
+file(GLOB SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
 
 # Glob all header files
 file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
@@ -131,11 +134,15 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
 
+# If on MacOS, gcovr --gcov-executable gcov-14
+if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr)
+    set(GCOVR_EXECUTABLE ${GCOVR_EXECUTABLE} --gcov-executable gcov-14)
+endif()
+
 # Create coverage target
 add_custom_target(coverage_report
     COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
     COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
-    COMMENT "Generating coverage report"
 )
 
 # Add dependencies to the coverage report
@@ -148,7 +155,13 @@ find_package(Doxygen
              REQUIRED dot
              OPTIONAL_COMPONENTS mscgen dia)
 
-# Set the output directory for Doxygen
+# Set the input directory for Doxygen
+set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
+
+# Set the Doxygen input directory
+set(DOXYGEN_INPUT ${DOXYGEN_INPUT_DIR})
+
+# Define output directory for Doxygen
 set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
 
 # Make doxygen extract all comments
@@ -157,9 +170,9 @@ set(DOXYGEN_EXTRACT_ALL YES)
 # Exclude libraries from doxygen
 set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 
-# Use convenience function to add doxygen docs
+# Create a custom target to generate docs
 add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
     COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
-)   
+)
