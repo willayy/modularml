@@ -21,9 +21,9 @@ template <typename T> class PoolingNode_mml : public Node {
 public:
   /**
    * @brief Base constructor for PoolingNode.
-   * @param kernel_shape A 2x2 vector of integers representing the kernel
+   * @param kernel_shape A 2x2 array_mml of integers representing the kernel
    * shape/pooling window of the layer.
-   * @param strides A 2x2 vector of integers representing the strides of the
+   * @param strides A 2x2 array_mml of integers representing the strides of the
    * layer.
    * @param input Pointer to the input tensor
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
@@ -83,9 +83,9 @@ protected:
   shared_ptr<Tensor<T>> input;
 
   //--------Attributes------
-  ///@brief A 2x2 vector of integers representing the filter/pooling window.
+  ///@brief A 2x2 array_mml of integers representing the filter/pooling window.
   array_mml<int> kernel_shape;
-  ///@brief A 2x2 vector of integers representing the stride of the window.
+  ///@brief A 2x2 array_mml of integers representing the stride of the window.
   array_mml<int> strides;
   /// @brief A string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the

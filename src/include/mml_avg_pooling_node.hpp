@@ -19,9 +19,9 @@ template <typename T> class AvgPoolingNode_mml : public PoolingNode_mml<T> {
 public:
   /**
    * @brief Constructor for AvgPool.
-   * @param kernel_shape A 2x2 vector of integers representing the kernel
+   * @param kernel_shape A 2x2 array_mml of integers representing the kernel
    * shape/pooling window of the layer.
-   * @param strides A 2x2 vector of integers representing the strides of the
+   * @param strides A 2x2 array_mml of integers representing the strides of the
    * layer.
    * @param input Pointer to the input tensor
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
