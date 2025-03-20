@@ -1,7 +1,22 @@
+/**
+ * @file test_LeNet.cpp
+ * @brief Unit tests for the LeNet model using Google Test framework.
+ */
+
 #include <gtest/gtest.h>
 
 #include <modularml>
 
+/**
+ * @class LeNetModel
+ * @brief Implementation of the LeNet model.
+ *
+ * This is by no means an example of how models should be implemented
+ * using the framewrok. It is just a way, that has been done in order
+ * to mimic Pytorch as well as possible.
+ *
+ * @tparam T Data type of the tensors.
+ */
 template <typename T>
 class LeNetModel {
  private:
@@ -79,12 +94,12 @@ class LeNetModel {
                                      1);                          // groups = 1
 
     conv2 = make_unique<ConvNode<T>>(input_tensor, w2, conv_output_tensor2,
-                                      array_mml<int>{1, 1},        // dilation = 1
-                                      array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
-                                      array_mml<int>{5, 5},        // kernel size = 5
-                                      array_mml<int>{1, 1},        // stride = 1
-                                      std::nullopt,                // No bias
-                                      1);                          // groups = 1
+                                     array_mml<int>{1, 1},        // dilation = 1
+                                     array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
+                                     array_mml<int>{5, 5},        // kernel size = 5
+                                     array_mml<int>{1, 1},        // stride = 1
+                                     std::nullopt,                // No bias
+                                     1);                          // groups = 1
 
     conv3 = make_unique<ConvNode<T>>(input_tensor, W3, conv_output_tensor3,
                                      array_mml<int>{1, 1},        // dilation = 1
@@ -209,6 +224,11 @@ class LeNetModel {
   }
 };
 
+/**
+ * @brief Test the forward pass of the LeNet model.
+ * Later on this will make use of results from Pytorch and compare them.
+ * I just want to make sure that the forward pass is working first.
+ */
 TEST(test_LeNet, test_LeNet_forward) {
   array_mml<int> tensor_shape = array_mml<int>({1, 1, 32, 32});
   array_mml<float> tensor_data = array_mml<float>(vector<float>(32 * 32, 1.0f));
