@@ -9,7 +9,7 @@ class LeNetModel {
   shared_ptr<Tensor<T>> output_tensor;
 
   shared_ptr<Tensor_mml<float>> W1, w2, W3, W_gemm1, W_gemm2, B_gemm1, B_gemm2;
-  shared_ptr<Tensor_mml<T>> conv_output_tensor1, conv_output_tensor2a, conv_output_tensor2b, conv_output_tensor3;
+  shared_ptr<Tensor_mml<T>> conv_output_tensor1, conv_output_tensor2, conv_output_tensor3;
   shared_ptr<Tensor_mml<T>> output_gemm1, output_gemm2;
   shared_ptr<Tensor_mml<T>> output_tensor_ReLU, output_tensor_MaxPool, output_tensor_Reshape, output_tensor_Reshape2, output_tensor_logSoftMax, output_tensor_add;
 
@@ -31,8 +31,7 @@ class LeNetModel {
 
     array_mml<int> conv_shape = array_mml<int>({1, 1, 28, 28});
     conv_output_tensor1 = make_shared<Tensor_mml<T>>(conv_shape);
-    conv_output_tensor2a = make_shared<Tensor_mml<T>>(conv_shape);
-    conv_output_tensor2b = make_shared<Tensor_mml<T>>(conv_shape);
+    conv_output_tensor2 = make_shared<Tensor_mml<T>>(conv_shape);
     conv_output_tensor3 = make_shared<Tensor_mml<T>>(conv_shape);
 
     // Output tensor construtors:
@@ -79,7 +78,7 @@ class LeNetModel {
                                      std::nullopt,                // No bias
                                      1);                          // groups = 1
 
-    conv2 = make_unique<ConvNode<T>>(input_tensor, w2, conv_output_tensor2a,
+    conv2 = make_unique<ConvNode<T>>(input_tensor, w2, conv_output_tensor2,
                                       array_mml<int>{1, 1},        // dilation = 1
                                       array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
                                       array_mml<int>{5, 5},        // kernel size = 5
@@ -138,21 +137,19 @@ class LeNetModel {
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
 
-    // Max Pooling
+    // Max Pooling, works a bit diffrent than the other nodes atm
     maxPoolNode->forward();
     *output_tensor_MaxPool = *std::get<std::shared_ptr<Tensor<T>>>(maxPoolNode->getOutputs()[0]);
-
-    // Print the shape of output_tensor_MaxPool
-    std::cout << "Shape of output_tensor_MaxPool: " << output_tensor_MaxPool->get_shape() << std::endl;
-
-    // Print the shape of W2
-    std::cout << "Shape of W2: " << w2->get_shape() << std::endl;
-
     *input_tensor = *output_tensor_MaxPool;
+
+    std::cout << "Shape of w2 before conv2: " << w2->get_shape() << std::endl;
+    std::cout << "Shape of input_tensor before conv2: " << input_tensor->get_shape() << std::endl;
+    // The two shapes printed are correct, but the conv2 node bellow is not working as expected
+    // Might be that I have fed it with incorrect parameters.
 
     // Convolution 2
     conv2->forward();
-    *input_tensor = *conv_output_tensor2a;
+    *input_tensor = *conv_output_tensor2;
 
     // Relu
     reluNode->forward();
@@ -180,7 +177,7 @@ class LeNetModel {
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
 
-    // Flatten
+    // Flatten - declared inside the forward function
     auto batch_size = input_tensor->get_shape()[0];
     auto shape_tensor = make_shared<Tensor_mml<int64_t>>(array_mml<int>{batch_size, -1});
     reshapeNode1 = make_unique<reshapeNode<T>>(input_tensor, shape_tensor, output_tensor_Reshape);
