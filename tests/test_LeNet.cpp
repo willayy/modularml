@@ -245,7 +245,7 @@ class LeNetModel {
     // Gemm 2
     gemm2->forward();
     *input_tensor = *output_gemm2;
-    std::count << "Input shape after gemm2 is: " << input_tensor->get_shape() << std::endl;
+    std::cout << "Input shape after gemm2 is: " << input_tensor->get_shape() << std::endl;
     if (input_tensor->get_shape() != array_mml<int>{1, 10}) {
       throw std::runtime_error("Shape of input tensor after gemm2 is not correct.");
     }
