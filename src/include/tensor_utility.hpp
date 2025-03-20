@@ -44,4 +44,21 @@ array_mml<T> generate_random_array_mml_real(uint64_t lo_sz = 1, uint64_t hi_sz =
 template <typename T>
 static auto generate_random_tensor(const array_mml<int>& shape, T lo_v = T(0), T hi_v = T(1));
 
+/**
+ * @brief Initializes the weights of a tensor using the Kaiming Uniform initialization method.
+ *
+ * This function initializes the weights of the given tensor using the Kaiming Uniform initialization method,
+ * which is designed to keep the variance of the input and output distributions the same. This is particularly
+ * useful for deep neural networks.
+ *
+ * @tparam T The data type of the tensor elements (must be an arithmetic type).
+ * @param W The tensor to initialize.
+ * @param in_channels The number of input channels.
+ * @param kernel_size The size of the kernel.
+ * @param gen_opt Optional random number generator. If not provided, a new generator will be created.
+ */
+template <typename T>
+void kaimingUniform(std::shared_ptr<Tensor_mml<T>> W, int in_channels, int kernel_size,
+                    std::mt19937& gen);
+
 #include "../tensor_utility.tpp"

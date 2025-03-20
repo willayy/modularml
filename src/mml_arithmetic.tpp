@@ -15,7 +15,7 @@ template <typename T>
 Arithmetic_mml<T>::~Arithmetic_mml() = default;
 
 template <typename T>
-void Arithmetic_mml<T>::add(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const {
+void Arithmetic_mml<T>::add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const {
   const auto size = a->get_size();
   for (int i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] + (*b)[i];
@@ -57,6 +57,9 @@ template <typename T>
 void Arithmetic_mml<T>::elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const {
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
+
+  // Copy the shape and data of `a` to `c`
+  *c = *a;
 
   array_mml<int> indices(num_dimensions);
   for (uint64_t i = 0; i < num_dimensions; ++i) {

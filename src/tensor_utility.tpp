@@ -56,7 +56,6 @@ array_mml<T> generate_random_array_mml_real(uint64_t lo_sz, uint64_t hi_sz, T lo
   return arr;
 }
 
-
 template <typename T>
 static auto generate_random_tensor(const array_mml<int>& shape, T lo_v, T hi_v) {
   static_assert(std::is_arithmetic_v<T>, "Tensor type must be an arithmetic type (int, float, double, etc.).");
@@ -77,4 +76,20 @@ static auto generate_random_tensor(const array_mml<int>& shape, T lo_v, T hi_v) 
   }
 
   return move(tensor);
+}
+
+template <typename T>
+void kaimingUniform(std::shared_ptr<Tensor_mml<T>> W, int in_channels, int kernel_size,
+                    std::mt19937& gen) {
+  int fan_in = in_channels * kernel_size * kernel_size;
+  float limit = std::sqrt(6.0f / fan_in);
+  std::uniform_real_distribution<T> dist(-limit, limit);
+
+  // Define lambda function for random initialization
+  auto random_func = [](T x, std::uniform_real_distribution<T>& dist, std::mt19937& gen) -> T { return dist(gen); };
+
+  // Apply in-place transformation
+  for (size_t i = 0; i < W->get_size(); ++i) {
+    (*W)[i] = random_func((*W)[i], dist, gen);
+  }
 }
