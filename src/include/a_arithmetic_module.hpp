@@ -26,7 +26,7 @@ class ArithmeticModule {
   /// @param a The first tensor.
   /// @param b The second tensor structure.
   /// @param c The tensor structure to store the result.
-  virtual void add(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const = 0;
+  virtual void add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const = 0;
 
   /// @brief Subtract one tensor structure from another.
   /// @param a The tensor structure to subtract from.
