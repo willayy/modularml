@@ -25,7 +25,7 @@ config:
 
 build:
 	@echo "Building the project..."
-	@$(CMAKE) --build $(BUILD_DIR)
+	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 # Will install dependencies
 install:
@@ -39,7 +39,7 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
-test:
+test: all
 	@echo "Running tests...\n"
 	@cd ./build && ctest --output-on-failure
 

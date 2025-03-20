@@ -1,7 +1,7 @@
 #pragma once
 
+#include "a_tensor.hpp"
 #include "globals.hpp"
-#include "tensor.hpp"
 
 #define ASSERT_ALLOWED_TYPES_AR(T) static_assert(std::is_arithmetic_v<T>, "ArithmeticModule type must be arithmetic.")
 
@@ -45,7 +45,15 @@ class ArithmeticModule {
   /// @param b The second tensor structure.
   virtual bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const = 0;
 
-  /// @brief Clone the arithmetic module.
-  /// @return a shared pointer to a new arithmetic module.
-  virtual shared_ptr<ArithmeticModule<T>> clone() const = 0;
+  /// @brief Apply an element-wise operation to two tensor structures.
+  /// @param a The tensor structure.
+  /// @param f The function to apply element-wise.
+  /// @param c The tensor structure to store the result.
+  virtual void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const = 0;
+
+  /// @brief Apply an element-wise operation to a tensor structure in place.
+  /// @param a The tensor structure.
+  /// @param f The function to apply element-wise.
+  virtual void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const = 0;
+
 };
