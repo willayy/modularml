@@ -74,8 +74,6 @@ public:
    * processed.
    * @param in_col_start Index of the first column in the window that is being
    * processed.
-   * @returns Returns a value of type T that will be placed at the current index
-   * of the output tensor.
    */
 
 protected:
