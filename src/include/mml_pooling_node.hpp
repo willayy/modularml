@@ -3,10 +3,6 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "a_node.hpp"
-#include "string.h"
-#include "tuple"
-
 /**
  * @class PoolingNode_mml
  * @brief Base class for pooling nodes (e.g., MaxPooling, AveragePooling).
