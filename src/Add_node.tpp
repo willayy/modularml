@@ -36,7 +36,7 @@ void AddNode<T>::forward() {
   // Valid case:
   if (A_shape == B_shape) {
     if (C->get_shape() != A_shape) {
-      C->reshape(A_shape);  // Reshape output tensor to be the same as input tensors
+      *C = *A;  // Reshape output tensor to be the same as input tensors
     }
     arithmetic.add(A, B, C);
     // Broadcasting case:

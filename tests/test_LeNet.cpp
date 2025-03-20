@@ -23,7 +23,7 @@ class LeNetModel {
   shared_ptr<Tensor<T>> input_tensor;
   shared_ptr<Tensor<T>> output_tensor;
 
-  shared_ptr<Tensor_mml<float>> W1, w2, W3, W_gemm1, W_gemm2, B_gemm1, B_gemm2;
+  shared_ptr<Tensor_mml<float>> W1, W2, W3, W_gemm1, W_gemm2, B_gemm1, B_gemm2;
   shared_ptr<Tensor_mml<T>> conv_output_tensor1, conv_output_tensor2, conv_output_tensor3;
   shared_ptr<Tensor_mml<T>> output_gemm1, output_gemm2;
   shared_ptr<Tensor_mml<T>> output_tensor_ReLU, output_tensor_MaxPool, output_tensor_Reshape, output_tensor_Reshape2, output_tensor_logSoftMax, output_tensor_add;
@@ -65,8 +65,8 @@ class LeNetModel {
     W1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{6, 1, 5, 5});
     kaimingUniform(W1, 1, 5, gen);
 
-    w2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{16, 6, 5, 5});
-    kaimingUniform(w2, 6, 5, gen);
+    W2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{16, 6, 5, 5});
+    kaimingUniform(W2, 6, 5, gen);
 
     W3 = std::make_shared<Tensor_mml<T>>(array_mml<int>{120, 16, 5, 5});
     kaimingUniform(W3, 16, 5, gen);
@@ -93,7 +93,7 @@ class LeNetModel {
                                      std::nullopt,                // No bias
                                      1);                          // groups = 1
 
-    conv2 = make_unique<ConvNode<T>>(input_tensor, w2, conv_output_tensor2,
+    conv2 = make_unique<ConvNode<T>>(input_tensor, W2, conv_output_tensor2,
                                      array_mml<int>{1, 1},        // dilation = 1
                                      array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
                                      array_mml<int>{5, 5},        // kernel size = 5
@@ -134,7 +134,7 @@ class LeNetModel {
 
     // Other layers
     reluNode = make_unique<ReLUNode<T>>(input_tensor, output_tensor_ReLU);
-    maxPoolNode = make_unique<MaxPoolingNode_mml<T>>(vector<int>{2, 2}, vector<int>{2, 2}, std::static_pointer_cast<Tensor_mml<T>>(input_tensor), "VALID");
+    maxPoolNode = make_unique<MaxPoolingNode_mml<T>>(vector<int>{2, 2}, vector<int>{2, 2}, input_tensor, "VALID");
     addNode = make_unique<AddNode<T>>(input_tensor, input_tensor, output_tensor_add);
     logSoftMaxNode = make_unique<LogSoftMaxNode<T>>(input_tensor, output_tensor_logSoftMax);
   }
@@ -151,16 +151,19 @@ class LeNetModel {
     // Relu
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
+    std::cout << "Input shape after conv1 and relu is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 6, 32, 32}) {
+      throw std::runtime_error("Shape of input tensor after conv1 is not correct.");
+    }
 
     // Max Pooling, works a bit diffrent than the other nodes atm
     maxPoolNode->forward();
     *output_tensor_MaxPool = *std::get<std::shared_ptr<Tensor<T>>>(maxPoolNode->getOutputs()[0]);
     *input_tensor = *output_tensor_MaxPool;
-
-    std::cout << "Shape of w2 before conv2: " << w2->get_shape() << std::endl;
-    std::cout << "Shape of input_tensor before conv2: " << input_tensor->get_shape() << std::endl;
-    // The two shapes printed are correct, but the conv2 node bellow is not working as expected
-    // Might be that I have fed it with incorrect parameters.
+    std::cout << "Input shape after maxpool1 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 6, 16, 16}) {
+      throw std::runtime_error("Shape of input tensor after maxpool1 is not correct.");
+    }
 
     // Convolution 2
     conv2->forward();
@@ -169,10 +172,19 @@ class LeNetModel {
     // Relu
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
+    std::cout << "Input shape after conv2 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 16, 12, 12}) {
+      throw std::runtime_error("Shape of input tensor after conv2 is not correct.");
+    }
 
     // Max Pooling
     maxPoolNode->forward();
+    *output_tensor_MaxPool = *std::get<std::shared_ptr<Tensor<T>>>(maxPoolNode->getOutputs()[0]);
     *input_tensor = *output_tensor_MaxPool;
+    std::cout << "Input shape after maxpool2 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 16, 6, 6}) {
+      throw std::runtime_error("Shape of input tensor after maxpool2 is not correct.");
+    }
 
     // Add
     // copy the tensor
@@ -183,6 +195,10 @@ class LeNetModel {
     // Add
     addNode->forward();
     *input_tensor = *output_tensor_add;
+    std::cout << "Input shape after add is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 16, 6, 6}) {
+      throw std::runtime_error("Shape of input tensor after add is not correct.");
+    }
 
     // Convolution 3
     conv3->forward();
@@ -191,25 +207,48 @@ class LeNetModel {
     // Relu
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
+    std::cout << "Input shape after conv3 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 120, 2, 2}) {
+      throw std::runtime_error("Shape of input tensor after conv3 is not correct.");
+    }
 
     // Flatten - declared inside the forward function
     auto batch_size = input_tensor->get_shape()[0];
-    auto shape_tensor = make_shared<Tensor_mml<int64_t>>(array_mml<int>{batch_size, -1});
+    auto shape_array = array_mml<int>{2};  // Define the shape of the shape tensor
+    auto shape_data = array_mml<int64_t>{batch_size, -1};  // Reshape values
+    
+    auto shape_tensor = make_shared<Tensor_mml<int64_t>>(shape_array, shape_data);
+    
     reshapeNode1 = make_unique<reshapeNode<T>>(input_tensor, shape_tensor, output_tensor_Reshape);
     reshapeNode1->forward();
     *input_tensor = *output_tensor_Reshape;
+    std::cout << "Input shape after reshape1 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 480}) {
+      throw std::runtime_error("Shape of input tensor after reshape1 is not correct.");
+    }
 
+    std::cout << "Shape of W_gemm1 before gemm1: " << W_gemm1->get_shape() << std::endl;
+    std::cout << "Shape of input_tensor before Gemm1: " << input_tensor->get_shape() << std::endl;
+    std::cout << "Shape of B_gemm1 before Gemm1: " << B_gemm1->get_shape() << std::endl;
     // Gemm 1
+
     gemm1->forward();
     *input_tensor = *output_gemm1;
-
     // Relu
     reluNode->forward();
     *input_tensor = *output_tensor_ReLU;
+    std::cout << "Input shape after gemm1 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 84}) {
+      throw std::runtime_error("Shape of input tensor after gemm1 is not correct.");
+    }
 
     // Gemm 2
     gemm2->forward();
     *input_tensor = *output_gemm2;
+    std::count << "Input shape after gemm2 is: " << input_tensor->get_shape() << std::endl;
+    if (input_tensor->get_shape() != array_mml<int>{1, 10}) {
+      throw std::runtime_error("Shape of input tensor after gemm2 is not correct.");
+    }
 
     // LogSoftMax
     logSoftMaxNode->forward();
