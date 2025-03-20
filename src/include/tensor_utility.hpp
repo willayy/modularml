@@ -28,4 +28,20 @@ array_mml<T> generate_random_array_mml_integral(uint64_t lo_sz = 1, uint64_t hi_
 template <typename T>
 array_mml<T> generate_random_array_mml_real(uint64_t lo_sz = 1, uint64_t hi_sz = 5, T lo_v = 1, T hi_v = 100);
 
+/**
+ * @brief Generates a random tensor with the specified shape and value range.
+ *
+ * This function creates a tensor with random values within the specified range.
+ * The type of the tensor elements must be an arithmetic type.
+ *
+ * @tparam T The data type of the tensor elements (must be an arithmetic type).
+ * @param shape The shape of the tensor to generate.
+ * @param lo_v The lower bound of the random values.
+ * @param hi_v The upper bound of the random values.
+ * @return A tensor with random values within the specified range.
+ */
+#define GENERATE_RANDOM_TENSOR(T) (std::is_arithmetic_v<T>, "Random Tensor generation requires an arithmetic type (int, float, double, etc.).");
+template <typename T>
+static auto generate_random_tensor(const array_mml<int>& shape, T lo_v = T(0), T hi_v = T(1));
+
 #include "../tensor_utility.tpp"
