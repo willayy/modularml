@@ -35,10 +35,10 @@ public:
    * value {1,1}.
    * @param pads (NOT SUPPORTED)
    */
-  PoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
+  PoolingNode_mml(array_mml<int> kernel_shape, array_mml<int> strides,
                   shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                  int ceil_mode = 0, vector<int> dilations = {1, 1},
-                  vector<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
+                  int ceil_mode = 0, array_mml<int> dilations = {1, 1},
+                  array_mml<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   /**
    * @brief Forward function that propogates the input tensor through the
@@ -75,8 +75,8 @@ public:
 protected:
   virtual void pooling(const shared_ptr<Tensor<T>> t,
                        array_mml<int> input_shape, array_mml<int> output_shape,
-                       vector<int> effective_kernel_shape, int pad_h, int pad_w,
-                       string auto_pad) = 0;
+                       array_mml<int> effective_kernel_shape, int pad_h,
+                       int pad_w, string auto_pad) = 0;
   //--------Inputs----------
 
   ///@brief Input tensor
@@ -84,9 +84,9 @@ protected:
 
   //--------Attributes------
   ///@brief A 2x2 vector of integers representing the filter/pooling window.
-  vector<int> kernel_shape;
+  array_mml<int> kernel_shape;
   ///@brief A 2x2 vector of integers representing the stride of the window.
-  vector<int> strides;
+  array_mml<int> strides;
   /// @brief A string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
@@ -97,7 +97,7 @@ protected:
 
   int ceil_mode;
 
-  vector<int> dilations;
-  vector<int> pads;
+  array_mml<int> dilations;
+  array_mml<int> pads;
 };
 #include "../mml_pooling_node.tpp"

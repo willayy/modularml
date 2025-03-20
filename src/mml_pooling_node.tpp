@@ -11,11 +11,12 @@
 #include "tuple"
 
 template <typename T>
-PoolingNode_mml<T>::PoolingNode_mml(vector<int> kernel_shape,
-                                    vector<int> strides,
+PoolingNode_mml<T>::PoolingNode_mml(array_mml<int> kernel_shape,
+                                    array_mml<int> strides,
                                     shared_ptr<Tensor<T>> input,
                                     string auto_pad, int ceil_mode,
-                                    vector<int> dilations, vector<int> pads)
+                                    array_mml<int> dilations,
+                                    array_mml<int> pads)
     : kernel_shape(kernel_shape), strides(strides), input(input),
       dilations(dilations), pads(pads) {
   if (auto_pad != "NOTSET" && auto_pad != "VALID" && auto_pad != "SAME_UPPER" &&
@@ -70,9 +71,9 @@ template <typename T> void PoolingNode_mml<T>::forward() {
       array_mml({input_shape[0], input_shape[1], 1, 1});
 
   // Calculate effective kernel size with dilation
-  vector<int> effective_kernel_shape = {
-      kernel_shape[0] + (kernel_shape[0] - 1) * (dilations[0] - 1),
-      kernel_shape[1] + (kernel_shape[1] - 1) * (dilations[1] - 1)};
+  array_mml<int> effective_kernel_shape =
+      array_mml({kernel_shape[0] + (kernel_shape[0] - 1) * (dilations[0] - 1),
+                 kernel_shape[1] + (kernel_shape[1] - 1) * (dilations[1] - 1)});
 
   vector<int> pad_shape = {pads[0] + pads[1], pads[2] + pads[3]};
   // Calculate output dimensions based on padding type
