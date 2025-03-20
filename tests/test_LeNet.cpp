@@ -51,8 +51,8 @@ class LeNetModel {
 
     // Output tensor construtors:
     // Allocate minimal output tensors (single-element tensors)
-    output_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{1});
-    output_gemm2 = make_shared<Tensor_mml<T>>(array_mml<int>{1});
+    output_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
+    output_gemm2 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
     output_tensor_ReLU = make_shared<Tensor_mml<T>>(array_mml<int>{1});
     output_tensor_MaxPool = make_shared<Tensor_mml<T>>(array_mml<int>{1});
     output_tensor_Reshape = make_shared<Tensor_mml<T>>(array_mml<int>{1});
@@ -71,17 +71,17 @@ class LeNetModel {
     W3 = std::make_shared<Tensor_mml<T>>(array_mml<int>{120, 16, 5, 5});
     kaimingUniform(W3, 16, 5, gen);
 
-    W_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{84, 480});
+    W_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{480, 84});
     kaimingUniform(W_gemm1, 120, 480, gen);
 
-    W_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{10, 84});
+    W_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{84, 10});
     kaimingUniform(W_gemm2, 84, 84, gen);
 
     // Bias for Gemm
-    B_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{84});
+    B_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
     B_gemm1->fill(0.0f);
 
-    B_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{10});
+    B_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 10});
     B_gemm2->fill(0.0f);
 
     // Convolutional layers
@@ -112,7 +112,7 @@ class LeNetModel {
     // Gemm layers
     gemm1 = make_unique<GemmNode<T>>(
         input_tensor,  // A (Input tensor of shape (batch_size, 480))
-        W_gemm1,       // B (Weight tensor of shape (84, 480))
+        W_gemm1,       // B (Weight tensor of shape (480, 84))
         output_gemm1,  // Y (Output tensor of shape (batch_size, 84))
         B_gemm1,       // C (Bias tensor of shape (84,))
         1.0f,          // alpha (default 1.0)
@@ -123,7 +123,7 @@ class LeNetModel {
 
     gemm2 = make_unique<GemmNode<T>>(
         input_tensor,  // A (Input tensor of shape (batch_size, 84))
-        W_gemm2,       // B (Weight tensor of shape (10, 84))
+        W_gemm2,       // B (Weight tensor of shape (84, 10))
         output_gemm2,  // Y (Output tensor of shape (batch_size, 10))
         B_gemm2,       // C (Bias tensor of shape (10,))
         1.0f,          // alpha (default 1.0)
@@ -216,7 +216,6 @@ class LeNetModel {
     auto batch_size = input_tensor->get_shape()[0];
     auto shape_array = array_mml<int>{2};  // Define the shape of the shape tensor
     auto shape_data = array_mml<int64_t>{batch_size, -1};  // Reshape values
-    
     auto shape_tensor = make_shared<Tensor_mml<int64_t>>(shape_array, shape_data);
     
     reshapeNode1 = make_unique<reshapeNode<T>>(input_tensor, shape_tensor, output_tensor_Reshape);
@@ -231,7 +230,6 @@ class LeNetModel {
     std::cout << "Shape of input_tensor before Gemm1: " << input_tensor->get_shape() << std::endl;
     std::cout << "Shape of B_gemm1 before Gemm1: " << B_gemm1->get_shape() << std::endl;
     // Gemm 1
-
     gemm1->forward();
     *input_tensor = *output_gemm1;
     // Relu
@@ -252,9 +250,13 @@ class LeNetModel {
 
     // LogSoftMax
     logSoftMaxNode->forward();
-
     // FINAL RESULT
     *output_tensor = *output_tensor_logSoftMax;
+    std::cout << "Final shape after logSoftMax is: " << output_tensor->get_shape() << std::endl;
+    if (output_tensor->get_shape() != array_mml<int>{1, 10}) {
+      throw std::runtime_error("Shape of output tensor after logSoftMax is not correct.");
+    }
+
   }
 
   ~LeNetModel() {
@@ -281,6 +283,7 @@ TEST(test_LeNet, test_LeNet_forward) {
   array_mml<int> expected_shape = array_mml<int>({1, 1, 14, 14});
   array_mml<float> expected_data = array_mml<float>(vector<float>(14 * 14, 1.0f));
   auto expected_output = make_shared<Tensor_mml<float>>(expected_shape, expected_data);
+  std::cout << "Output tensor: " << *output_tensor << std::endl;
 
   ASSERT_EQ(*output_tensor, *expected_output);
 }
