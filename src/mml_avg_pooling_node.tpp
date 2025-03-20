@@ -6,7 +6,7 @@ template <typename T>
 void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<int> input_shape,
                                     array_mml<int> output_shape,
-                                    vector<int> effective_kernel_shape,
+                                    array_mml<int> effective_kernel_shape,
                                     int pad_h, int pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
@@ -53,8 +53,9 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
           }
           if (count_include_pad) {
             value = value / (this->kernel_shape[0] * this->kernel_shape[1]);
+          } else {
+            value = value / k;
           }
-          value = value / k;
 
           if (element < 0 || out_row < 0 || out_col < 0 || channel < 0 ||
               element >= input_shape[0] || out_row >= output_shape[2] ||

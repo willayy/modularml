@@ -3,10 +3,6 @@
 #include <cmath>
 #include <stdexcept>
 
-#include "a_node.hpp"
-#include "string.h"
-#include "tuple"
-
 /**
  * @class PoolingNode_mml
  * @brief Base class for pooling nodes (e.g., MaxPooling, AveragePooling).
@@ -23,14 +19,11 @@ template <typename T> class PoolingNode_mml : public Node {
       "PoolingNode_mml supports only float, double, int32_t, int64_t");
 
 public:
-  ///@brief Output tensors
-  array_mml<GeneralDataTypes> output;
-
   /**
    * @brief Base constructor for PoolingNode.
-   * @param kernel_shape A 2x2 vector of integers representing the kernel
+   * @param kernel_shape A 2x2 array_mml of integers representing the kernel
    * shape/pooling window of the layer.
-   * @param strides A 2x2 vector of integers representing the strides of the
+   * @param strides A 2x2 array_mml of integers representing the strides of the
    * layer.
    * @param input Pointer to the input tensor
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
@@ -42,10 +35,10 @@ public:
    * value {1,1}.
    * @param pads (NOT SUPPORTED)
    */
-  PoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
+  PoolingNode_mml(array_mml<int> kernel_shape, array_mml<int> strides,
                   shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                  int ceil_mode = 0, vector<int> dilations = {1, 1},
-                  vector<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
+                  int ceil_mode = 0, array_mml<int> dilations = {1, 1},
+                  array_mml<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   /**
    * @brief Forward function that propogates the input tensor through the
@@ -77,33 +70,34 @@ public:
    * processed.
    * @param in_col_start Index of the first column in the window that is being
    * processed.
-   * @returns Returns a value of type T that will be placed at the current index
-   * of the output tensor.
    */
+protected:
   virtual void pooling(const shared_ptr<Tensor<T>> t,
                        array_mml<int> input_shape, array_mml<int> output_shape,
-                       vector<int> effective_kernel_shape, int pad_h, int pad_w,
-                       string auto_pad) = 0;
+                       array_mml<int> effective_kernel_shape, int pad_h,
+                       int pad_w, string auto_pad) = 0;
 
-protected:
   //--------Inputs----------
 
   ///@brief Input tensor
   shared_ptr<Tensor<T>> input;
 
   //--------Attributes------
-  ///@brief A 2x2 vector of integers representing the filter/pooling window.
-  vector<int> kernel_shape;
-  ///@brief A 2x2 vector of integers representing the stride of the window.
-  vector<int> strides;
+  ///@brief A 2x2 array_mml of integers representing the filter/pooling window.
+  array_mml<int> kernel_shape;
+  ///@brief A 2x2 array_mml of integers representing the stride of the window.
+  array_mml<int> strides;
   /// @brief A string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
   string auto_pad;
 
+  ///@brief Output tensors
+  array_mml<GeneralDataTypes> output;
+
   int ceil_mode;
 
-  vector<int> dilations;
-  vector<int> pads;
+  array_mml<int> dilations;
+  array_mml<int> pads;
 };
 #include "../mml_pooling_node.tpp"

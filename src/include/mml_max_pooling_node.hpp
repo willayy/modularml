@@ -19,9 +19,9 @@ template <typename T> class MaxPoolingNode_mml : public PoolingNode_mml<T> {
 public:
   /**
    * @brief Constructor for MaxPool.
-   * @param kernel_shape A 2x2 vector of integers representing the kernel
+   * @param kernel_shape A 2x2 array_mml of integers representing the kernel
    * shape/pooling window of the layer.
-   * @param strides A 2x2 vector of integers representing the strides of the
+   * @param strides A 2x2 array_mml of integers representing the strides of the
    * layer.
    * @param input Pointer to the input tensor
    * @param auto_pad (OPTIONAL Parameter representing the padding of the
@@ -36,18 +36,19 @@ public:
    * be calculated as row or column major. 1 is row major and 0 is column major.
    * Defaults to row major.
    */
-  MaxPoolingNode_mml(vector<int> kernel_shape, vector<int> strides,
+  MaxPoolingNode_mml(array_mml<int> kernel_shape, array_mml<int> strides,
                      shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                     int ceil_mode = 0, vector<int> dilations = {1, 1},
-                     vector<int> pads = {0, 0, 0, 0}, int storage_order = 0)
+                     int ceil_mode = 0, array_mml<int> dilations = {1, 1},
+                     array_mml<int> pads = {0, 0, 0, 0}, int storage_order = 0)
       : storage_order(storage_order),
         PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceil_mode,
                            dilations, pads) {}
 
 private:
   void pooling(const shared_ptr<Tensor<T>> t, array_mml<int> input_shape,
-               array_mml<int> output_shape, vector<int> effective_kernel_shape,
-               int pad_h, int pad_w, string auto_pad) override;
+               array_mml<int> output_shape,
+               array_mml<int> effective_kernel_shape, int pad_h, int pad_w,
+               string auto_pad) override;
   int storage_order;
 };
 

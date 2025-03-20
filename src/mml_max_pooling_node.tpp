@@ -5,7 +5,9 @@ template <typename T>
 void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<int> input_shape,
                                     array_mml<int> output_shape,
-                                    vector<int> effective_kernel_shape,
+
+                                    array_mml<int> effective_kernel_shape,
+
                                     int pad_h, int pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
