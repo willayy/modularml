@@ -103,7 +103,11 @@ class ConvNode : public Node {
      */
     array_mml<GeneralDataTypes> getOutputs() const override;
 
+    shared_ptr<Tensor<T>> get_weight() const;
+
    private:
+
+   
     // Inputs
     /**
      * @brief Input data tensor containing the feature map(s) for the convolution.
@@ -263,6 +267,8 @@ class ConvNode : public Node {
      */
     void add_bias(shared_ptr<Tensor<T>> result_ptr);
 
+    
+
     // Getters for input tensor dimensions
     int get_batch_size() const;
     int get_in_channels() const;
@@ -290,6 +296,10 @@ class ConvNode : public Node {
 
     // Checks the inputs to the convolution node
     void validate_inputs();
+
+    // Updates parameters based on the content of the input and weight tensor
+    // This method is executed before forward so that we get the correct parameters.
+    void update_parameters();
 };
 
 #include "../conv_node.tpp"
