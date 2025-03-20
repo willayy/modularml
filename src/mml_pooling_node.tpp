@@ -45,24 +45,19 @@ void PoolingNode_mml<T>::setInputs(const array_mml<GeneralDataTypes> &inputs) {
 };
 
 template <typename T> bool PoolingNode_mml<T>::areOutputsFilled() const {
-  return input && input->get_size() > 0;
+  if (auto tensor_ptr = std::get_if<std::shared_ptr<Tensor<T>>>(&output[0])) {
+    auto &tensor = *tensor_ptr;
+
+    return tensor && tensor->get_size() > 0;
+
+  } else {
+    return false;
+  }
 };
 
 template <typename T>
 array_mml<GeneralDataTypes> PoolingNode_mml<T>::getOutputs() const {
-  auto castToT = [](const auto &ptr) -> GeneralDataTypes {
-    // Check if the type of ptr is std::shared_ptr<Tensor<T>>
-    if constexpr (std::is_same_v<std::decay_t<decltype(ptr)>,
-                                 std::shared_ptr<Tensor<T>>>) {
-      return GeneralDataTypes(ptr); // No cast needed, already the correct type
-    } else {
-      // Handle incompatible types (e.g., throw an exception or convert)
-      throw std::runtime_error("Incompatible tensor type in std::variant");
-    }
-  };
-
-  return array_mml<GeneralDataTypes>{std::visit(castToT, output[0]),
-                                     std::visit(castToT, output[1])};
+  return output;
 }
 
 template <typename T> void PoolingNode_mml<T>::forward() {

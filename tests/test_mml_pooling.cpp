@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <modularml>
+#include <typeinfo>
 
 TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
@@ -15,19 +16,20 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
 
   max_pool.forward();
 
+  array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
+
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
-    shared_ptr<Tensor<float>> real_output = *tensor_ptr;
-    std::cerr << "Resulting tensor: " << real_output->to_string() << std::endl
-              << std::flush;
-    ASSERT_EQ(*real_output, *output);
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
+
+    ASSERT_EQ(*(tensor_ptr->get()), *output);
   } else {
     std::cerr << "Error: The variant does not hold the expected type"
               << std::endl
               << std::flush;
   }
+
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
     std::cerr << "Resulting tensor: " << real_output_indices->to_string()
               << std::endl
@@ -52,9 +54,10 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
       {2, 2}, {1, 2}, input, "SAME_UPPER", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   max_pool.forward();
+  array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -64,7 +67,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
               << std::flush;
   }
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
 
     ASSERT_EQ(*real_output_indices, *output_indices);
@@ -87,9 +90,10 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
       {2, 2}, {1, 2}, input, "SAME_LOWER", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   max_pool.forward();
+  array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -99,7 +103,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
               << std::flush;
   }
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
 
     ASSERT_EQ(*real_output_indices, *output_indices);
@@ -121,9 +125,10 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
       {2, 2}, {1, 2}, input, "VALID", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   max_pool.forward();
+  array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -133,7 +138,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
               << std::flush;
   }
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
 
     ASSERT_EQ(*real_output_indices, *output_indices);
@@ -156,9 +161,10 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
       {2, 2}, {1, 2}, input, "NOTSET", 1, {1, 1}, {0, 1, 0, 0}, 0);
 
   max_pool.forward();
+  array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -168,7 +174,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
               << std::flush;
   }
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
 
     ASSERT_EQ(*real_output_indices, *output_indices);
@@ -185,9 +191,10 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
                                        {1, 1}, {0, 1, 0, 0}, 0);
 
   max_pool.forward();
+  outputs = max_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -197,7 +204,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
               << std::flush;
   }
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&max_pool.output[1])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[1])) {
     shared_ptr<Tensor<float>> real_output_indices = *tensor_ptr;
 
     ASSERT_EQ(*real_output_indices, *output_indices);
@@ -217,9 +224,10 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
       {2, 2}, {1, 2}, input, "VALID", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   avg_pool.forward();
+  array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -241,9 +249,10 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
       {2, 2}, {1, 2}, input, "SAME_UPPER", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   avg_pool.forward();
+  array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -259,9 +268,10 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
                                        {1, 1}, {0, 0, 0, 0}, 0);
 
   avg_pool.forward();
+  outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -277,9 +287,10 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
                                        {1, 1}, {0, 0, 0, 0}, 1);
 
   avg_pool.forward();
+  outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -301,9 +312,10 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
       {2, 2}, {1, 2}, input, "SAME_LOWER", 1, {1, 1}, {0, 0, 0, 0}, 0);
 
   avg_pool.forward();
+  array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -325,9 +337,10 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
       {2, 2}, {1, 2}, input, "NOTSET", 1, {1, 1}, {0, 1, 0, 0}, 1);
 
   avg_pool.forward();
+  array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);
@@ -344,9 +357,10 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
                                        {1, 1}, {0, 1, 0, 0}, 1);
 
   avg_pool.forward();
+  outputs = avg_pool.getOutputs();
 
   if (auto tensor_ptr =
-          std::get_if<std::shared_ptr<Tensor<float>>>(&avg_pool.output[0])) {
+          std::get_if<std::shared_ptr<Tensor<float>>>(&outputs[0])) {
     shared_ptr<Tensor<float>> real_output = *tensor_ptr;
 
     ASSERT_EQ(*real_output, *output);

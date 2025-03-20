@@ -23,9 +23,6 @@ template <typename T> class PoolingNode_mml : public Node {
       "PoolingNode_mml supports only float, double, int32_t, int64_t");
 
 public:
-  ///@brief Output tensors
-  array_mml<GeneralDataTypes> output;
-
   /**
    * @brief Base constructor for PoolingNode.
    * @param kernel_shape A 2x2 vector of integers representing the kernel
@@ -80,12 +77,12 @@ public:
    * @returns Returns a value of type T that will be placed at the current index
    * of the output tensor.
    */
+
+protected:
   virtual void pooling(const shared_ptr<Tensor<T>> t,
                        array_mml<int> input_shape, array_mml<int> output_shape,
                        vector<int> effective_kernel_shape, int pad_h, int pad_w,
                        string auto_pad) = 0;
-
-protected:
   //--------Inputs----------
 
   ///@brief Input tensor
@@ -100,6 +97,9 @@ protected:
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
   string auto_pad;
+
+  ///@brief Output tensors
+  array_mml<GeneralDataTypes> output;
 
   int ceil_mode;
 
