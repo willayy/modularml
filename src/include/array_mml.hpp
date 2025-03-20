@@ -119,7 +119,7 @@ class array_mml {
   void fill(const T& value);
 
  private:
-  shared_ptr<T[]> data;  // NOSONAR - unique_ptr is the correct data structure to use here, we cant use std::array because it requires the size to be a template parameter.
+  shared_ptr<T[]> data;
   uli d_size;
 };
 

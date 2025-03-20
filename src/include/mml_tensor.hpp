@@ -16,21 +16,31 @@ class Tensor_mml : public Tensor<T> {
  public:
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
-  explicit Tensor_mml(initializer_list<uli> shape);
-
-  /// @brief Constructor for Tensor_mml class.
-  /// @param shape The shape of the tensor.
-  explicit Tensor_mml(const array_mml<uli>& shape);
-
-  /// @brief Constructor for Tensor_mml class.
-  /// @param shape The shape of the tensor.
-  /// @param data The data to set in the tensor.
-  explicit Tensor_mml(initializer_list<uli> shape, initializer_list<T> data);
+  explicit Tensor_mml(
+      initializer_list<uli> shape,
+      optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
-  explicit Tensor_mml(array_mml<uli>& shape, array_mml<T>& data);
+  explicit Tensor_mml(
+      initializer_list<uli> shape,
+      initializer_list<T> data,
+      optional<array_mml<uli>> slice_offsets = nullopt);
+
+  /// @brief Constructor for Tensor_mml class.
+  /// @param shape The shape of the tensor.
+  explicit Tensor_mml(
+      const array_mml<uli>& shape,
+      optional<array_mml<uli>> slice_offsets = nullopt);
+
+  /// @brief Constructor for Tensor_mml class.
+  /// @param shape The shape of the tensor.
+  /// @param data The data to set in the tensor.
+  explicit Tensor_mml(
+      array_mml<uli>& shape,
+      array_mml<T>& data,
+      optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Destructor for Tensor_mml class.
   ~Tensor_mml() = default;
@@ -44,16 +54,6 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Get the raw 1D data of the tensor.
   /// @return The data of the tensor.
   const array_mml<T>& get_data() const;
-
-  /// @brief Copy-Assignment operator for Tensor_mml class.
-  /// @param other The tensor to assign.
-  /// @return The copied tensor.
-  Tensor_mml& operator=(const Tensor_mml& other);
-
-  /// @brief Move-Assignment operator for Tensor_mml class.
-  /// @param other The tensor to assign.
-  /// @return The moved tensor.
-  Tensor_mml& operator=(Tensor_mml&& other) noexcept;
 
   /// Ovveridden methods from the base class
   Tensor<T>& operator=(const Tensor<T>& other) override;
@@ -83,16 +83,20 @@ class Tensor_mml : public Tensor<T> {
  private:
   array_mml<T> data;
   array_mml<uli> shape;
-  array_mml<uli> offsets;
+  array_mml<uli> indices_offsets;
+  optional<array_mml<uli>> slice_offsets;
   uli size;
 
   // Helper methods
-  array_mml<uli> compute_offsets() const;
   uli compute_size() const;
+  array_mml<uli> compute_indices_offsets() const;
+  array_mml<uli> compute_slice_offsets(array_mml<uli>& slice_indices_size, array_mml<uli>& slice_shape) const;
   bool valid_shape(const array_mml<uli>& new_shape) const;
   bool valid_indices(const array_mml<uli>& indices) const;
+  bool valid_index(uli index) const;
   bool valid_slice_indices(const array_mml<uli>& slice_indices) const;
-  uli index_with_offset(array_mml<uli> indices) const;
+  uli indices_to_1d_index(array_mml<uli> indices) const;
+  uli index_to_slice_index(uli index) const;
 };
 
 template <typename T>

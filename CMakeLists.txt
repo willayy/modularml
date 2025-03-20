@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set the C version
-set(CMAKE_C_STANDARD 20)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
@@ -83,21 +83,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
     target_compile_options(${PROJECT_NAME} PRIVATE 
-        -Wall 
-        -Wextra 
-        -pedantic 
-        -Werror
-        -Wnon-virtual-dtor
         -Wfatal-errors
+        -fdiagnostics-color=always
         -fmax-errors=1
-        -Waddress
-        -Walloc-zero
-        -Walloca
-        -Wattributes
-        -Warray-bounds
-        -Wdeprecated
-        -Wif-not-aligned
-        -Wmissing-attributes
+        -pedantic-errors
     )
     
 endif()
