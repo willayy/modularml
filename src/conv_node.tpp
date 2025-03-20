@@ -22,6 +22,7 @@ ConvNode<T>::ConvNode(shared_ptr<AbstractTensor> X,
 
 template <typename T>
 void ConvNode<T>::forward() {
+    update_parameters();
     validate_inputs();
 
     // Create a copy of the input
@@ -224,6 +225,18 @@ void ConvNode<T>::validate_inputs() {
 }
 
 template <typename T>
+void ConvNode<T>::update_parameters() {
+    kernel_height = W->get_shape()[2];
+    kernel_width = W->get_shape()[3];
+    batch_size = X->get_shape()[0];
+    in_channels = X->get_shape()[1];
+
+    in_height = X->get_shape()[2];
+    in_width = X->get_shape()[3];
+    out_channels = W->get_shape()[0];
+}
+
+template <typename T>
 int ConvNode<T>::get_batch_size() const { return batch_size; }
 
 template <typename T>
@@ -271,3 +284,5 @@ template <typename T>
 int ConvNode<T>::get_out_width() {
     return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
 }
+
+

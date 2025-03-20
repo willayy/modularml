@@ -290,6 +290,10 @@ class ConvNode : public Node {
 
     // Checks the inputs to the convolution node
     void validate_inputs();
+
+    // Updates parameters based on the content of the input and weight tensor
+    // This method is executed before forward so that we get the correct parameters.
+    void update_parameters();
 };
 
 #include "../conv_node.tpp"
