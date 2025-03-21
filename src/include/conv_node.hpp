@@ -19,7 +19,7 @@ class ConvNode : public Node {
   static_assert(
       std::is_same_v<T, double> ||
           std::is_same_v<T, float> ||
-          std::is_same_v<T, uint>,
+          std::is_same_v<T, uli>,
       "ConvNode_T only supports double, float, int");
 
  public:
