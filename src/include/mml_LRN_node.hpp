@@ -5,8 +5,8 @@ template <typename T> class LRNNode_mml : public Node {
                 "LRNNode_mml supports only float, double ");
 
 public:
-  LRNNode_mml(int size, float alpha = 0.0001f, float beta = 0.75f,
-              float bias = 1.0f);
+  LRNNode_mml(shared_ptr<Tensor<T>> input, int size, float alpha = 0.0001f,
+              float beta = 0.75f, float bias = 1.0f);
 
   void forward() override;
 

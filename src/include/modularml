@@ -15,6 +15,7 @@
 #include "flatten_node.hpp"
 #include "gemm_node.hpp"
 #include "globals.hpp"
+#include "mml_LRN_node.hpp"
 #include "mml_arithmetic.hpp"
 #include "mml_avg_pooling_node.hpp"
 #include "mml_gemm.hpp"
