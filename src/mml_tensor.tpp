@@ -114,7 +114,7 @@ Tensor<T>& Tensor_mml<T>::operator=(Tensor<T>&& other) noexcept {
 template <typename T>
 string Tensor_mml<T>::to_string() const {
   string base = string("Tensor_mml<") + typeid(T).name() + "> ";
-  string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<uli>(this));
+  string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<uintptr_t>(this));
   string shape_str = "Shape: " + this->shape.to_string();
   string size_str = "Size: " + std::to_string(this->size);
   string data_str = "Data: ";
