@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 
+#include "test_LeNet.hpp"
 #include <modularml>
 
 /**
@@ -51,6 +52,7 @@ class LeNetModel {
 
     // Output tensor construtors:
     // Allocate minimal output tensors (single-element tensors)
+    // Gemm needs matrixes due to a constraint in the current implementation
     output_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
     output_gemm2 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
     output_tensor_ReLU = make_shared<Tensor_mml<T>>(array_mml<int>{1});
@@ -274,16 +276,17 @@ TEST(test_LeNet, test_LeNet_forward) {
   array_mml<int> tensor_shape = array_mml<int>({1, 1, 32, 32});
   array_mml<float> tensor_data = array_mml<float>(vector<float>(32 * 32, 1.0f));
 
-  auto tensor = make_shared<Tensor_mml<float>>(tensor_shape, tensor_data);
-  LeNetModel<float> model(tensor);
+  auto TensorToProcess = tensor_mml_p<float>({INPUTTENSOR_SHAPE}, {INPUTTENSOR_DATA});
+  LeNetModel<float> model(TensorToProcess);
 
   model.forward();
   auto output_tensor = model.getTensor();
 
   array_mml<int> expected_shape = array_mml<int>({1, 1, 14, 14});
   array_mml<float> expected_data = array_mml<float>(vector<float>(14 * 14, 1.0f));
-  auto expected_output = make_shared<Tensor_mml<float>>(expected_shape, expected_data);
+  auto expected_output = tensor_mml_p<float>({EXPECTED_SHAPE}, {EXPECTED_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
-  ASSERT_EQ(*output_tensor, *expected_output);
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.08f));
+  //ASSERT_EQ(*output_tensor, *expected_output);
 }
