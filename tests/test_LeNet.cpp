@@ -80,11 +80,13 @@ class LeNetModel {
     kaimingUniform(W_gemm2, 84, 84, gen);
 
     // Bias for Gemm
-    B_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
-    B_gemm1->fill(0.0f);
-
-    B_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 10});
-    B_gemm2->fill(0.0f);
+    //B_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
+    array_mml<int> bias1_shape = array_mml<int>{BIAS1_SHAPE};
+    array_mml<float> bias1_data = array_mml<float>{BIAS1_DATA};
+    B_gemm1 = std::make_shared<Tensor_mml<float>>(bias1_shape, bias1_data);
+    array_mml<int> bias2_shape = array_mml<int>{BIAS2_SHAPE};
+    array_mml<float> bias2_data = array_mml<float>{BIAS2_DATA};
+    B_gemm2 = std::make_shared<Tensor_mml<float>>(bias2_shape, bias2_data);
 
     // Convolutional layers
     conv1 = make_unique<ConvNode<T>>(input_tensor, W1, conv_output_tensor1,
@@ -278,6 +280,6 @@ TEST(test_LeNet, test_LeNet_forward) {
   auto expected_output = tensor_mml_p<float>({EXPECTED_SHAPE}, {EXPECTED_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
-  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.08f));
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.05f));
   //ASSERT_EQ(*output_tensor, *expected_output);
 }
