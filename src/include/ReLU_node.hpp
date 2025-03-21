@@ -12,62 +12,31 @@
  * This class inherits from the Node class and represents the rectified linear function (ReLU) node
  * in a computational graph. It performs the forward pass computation applying ReLU elementwise.
  */
-template <typename T>
 class ReLUNode : public Node {
-  static_assert(
-      std::is_same_v<T, float> ||
-      std::is_same_v<T, double> ||
-      std::is_same_v<T, int32_t> ||
-      std::is_same_v<T, int64_t>,
-      "ReLUNode supports only float, double, int32_t, int64_t");
-
  public:
-  using AbstractTensor = Tensor<T>;
-
+  using T = std::variant<double, float, int16_t, int32_t, int64_t, int8_t>;
   /**
    * @brief Constructor for ReLUNode.
    *
    * @param X Shared pointer to the tensor X.
    * @param Y Shared pointer to the output tensor.
    */
-  ReLUNode(shared_ptr<const AbstractTensor> X, shared_ptr<AbstractTensor> Y);
+  ReLUNode(std::string X, std::string Y);
+
+  /**
+   * @brief Constructor for ReluNode from JSON.
+   *
+   * @param node JSON object representing the Relu node.
+   */
+  ReLUNode(const json& node);
 
   /**
    * @brief Perform the forward pass computation using ReLU activation function.
    */
-  void forward() override;
-
-  /**
-   * @brief Check if the input(s) are filled.
-   *
-   * @return True if the input(s) are filled, false otherwise.
-   */
-  bool areInputsFilled() const override;
-
-  /**
-   * @brief Set the input(s) for the node.
-   *
-   * @param inputs The input data to be set, where X is inputs[0].
-   */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
-
-  /**
-   * @brief Check if the output(s) are filled.
-   *
-   * @return True if the output(s) are filled, false otherwise.
-   */
-  bool areOutputsFilled() const override;
-
-  /**
-   * @brief Get the output of the node.
-   *
-   * @return The output data.
-   */
-  array_mml<GeneralDataTypes> getOutputs() const override;
+  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
  private:
-  shared_ptr<const AbstractTensor> X;  // Input tensor X.
-  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  std::string X;  // Input tensor X.
+  std::string Y;  // Output tensor Y.
 };
 
-#include "../ReLU_node.tpp"

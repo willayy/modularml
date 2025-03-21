@@ -26,8 +26,8 @@ public:
      * 
      * @param initialNodes A vector of unique pointers to Node objects to initialize the model with.
      */
-    explicit Model_mml(vector<unique_ptr<Node>>&& initialNodes)
-        : nodes(move(initialNodes)) {}
+    explicit Model_mml(vector<unique_ptr<Node>>&& initialNodes, std::unordered_map<string, GeneralDataTypes>& iomap, std::vector<std::string> inputs, std::vector<std::string> outputs)
+        : nodes(move(initialNodes)), iomap(iomap), inputs(inputs), outputs(outputs) {}
 
     /**
      * @brief Adds a node to the model graph.
@@ -44,9 +44,16 @@ public:
      * @param tensor A reference to the input data for inference.
      * @return GeneralDataTypes The result of the inference.
      */
-    array_mml<GeneralDataTypes> infer(const array_mml<GeneralDataTypes>& inputs) override;
+    std::unordered_map<string, GeneralDataTypes> infer(const std::unordered_map<string, GeneralDataTypes>& inputs) override;
 
 private:
     // Nodes in the graph
     vector<unique_ptr<Node>> nodes;
+
+    // Map of inputs and outputs
+    std::unordered_map<string, GeneralDataTypes> iomap;
+
+    // Inputs and outputs
+    std::vector<std::string> inputs;
+    std::vector<std::string> outputs;
 };

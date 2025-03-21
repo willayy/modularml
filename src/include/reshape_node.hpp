@@ -12,19 +12,10 @@
  * in a computational graph. It performs reshape after being given an
  * input tensor and a shape tensor.
  */
-template <typename T>
 class reshapeNode : public Node {
-  static_assert(
-      std::is_same_v<T, float> ||
-          std::is_same_v<T, double> ||
-          std::is_same_v<T, int32_t> ||
-          std::is_same_v<T, int64_t> ||
-          std::is_same_v<T, bool> ||
-          std::is_same_v<T, string>,
-      "reshapeNode supports only float, double, int32_t, int64_t, bool, string");
-
  public:
-  using AbstractTensor = Tensor<T>;
+  using T = std::variant<double, float, int16_t, int32_t, int64_t, int8_t, uint16_t, uint32_t, uint64_t, uint8_t>;
+  using ShapeDataType = std::variant<int64_t>;
 
   /**
    * @brief Constructor for reshapeNode.
@@ -34,8 +25,15 @@ class reshapeNode : public Node {
    * @param reshaped Shared pointer to the reshaped tensor (output).
    * @param allowzero =0 by default. allowzero=1 indicates that if any value in the ‘shape’ input is set to zero, the zero value is honored
    */
-  reshapeNode(shared_ptr<const AbstractTensor> data, shared_ptr<const Tensor<int64_t>> shape,
-              shared_ptr<AbstractTensor> reshaped, int allowzero = 0);
+  reshapeNode(std::string data, std::string shape,
+              std::string reshaped, int allowzero = 0);
+
+  /**
+   * @brief Constructor for reshapeNode from JSON.
+   * 
+   * @param node JSON object representing the reshape node.
+   */
+  reshapeNode(const json& node);
 
   /**
    * @brief Performs the forward pass of the reshape operation.
@@ -50,40 +48,14 @@ class reshapeNode : public Node {
    *                            if the output tensor is not allocated, if multiple -1 values are present in the shape tensor,
    *                            or if the inferred dimension does not match the total elements.
    */
-  void forward() override;
-
-  /**
-   * @brief Check if the input(s) are filled.
-   */
-  bool areInputsFilled() const override;
-
-  /**
-   * @brief Set the input(s) for the node.
-   *
-   * @param inputs The input data to be set, where inputs[0] is the data tensor and inputs[1] is the shape tensor.
-   */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
-
-  /**
-   * @brief Check if the output(s) are filled.
-   */
-  bool areOutputsFilled() const override;
-
-  /**
-   * @brief Get the output of the node.
-   *
-   * @return The output data.
-   */
-  array_mml<GeneralDataTypes> getOutputs() const override;
+  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
  private:
   // tensors
-  shared_ptr<const AbstractTensor> data;    // Input tensor data.
-  shared_ptr<const Tensor<int64_t>> shape;  // Input tensor shape.
-  shared_ptr<AbstractTensor> reshaped;      // Output tensor reshaped.
+  std::string data;    // Input tensor data.
+  std::string shape;  // Input tensor shape.
+  std::string reshaped;      // Output tensor reshaped.
 
   // attributes
   int allowzero;
 };
-
-#include "../reshape_node.tpp"

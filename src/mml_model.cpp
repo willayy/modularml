@@ -1,13 +1,14 @@
 #include "include/mml_model.hpp"
 
-array_mml<GeneralDataTypes> Model_mml::infer(const array_mml<GeneralDataTypes>& inputs) {
+std::unordered_map<string, GeneralDataTypes> Model_mml::infer(const std::unordered_map<string, GeneralDataTypes>& inputs) {
     if (nodes.empty()) {
         throw runtime_error("ComputeGraph has no nodes.");
     }
 
-    // Set input tensor to the first node (believe it will always be the first node, but parser can enforce this)
-    Node& firstNode = *nodes.front();
-    firstNode.setInputs(inputs);
+    // Set input tensors
+    for (const auto& [name, tensor] : inputs) {
+        iomap[name] = tensor;
+    }
 
     // Track executed nodes
     unordered_set<Node*> executed;
@@ -23,12 +24,12 @@ array_mml<GeneralDataTypes> Model_mml::infer(const array_mml<GeneralDataTypes>& 
                 continue;  // Already executed
             }
  
-            if (!node.areInputsFilled()) {
-                continue;  // Wait for inputs
-            }
+            //if (!node.areInputsFilled()) {
+                //continue;  // Wait for inputs
+            //}
  
             // Execute node
-            node.forward();
+            //node.forward();
             executed.insert(&node);
         }
  
@@ -38,10 +39,13 @@ array_mml<GeneralDataTypes> Model_mml::infer(const array_mml<GeneralDataTypes>& 
         }
     }
  
-    // Get output from the last node
-    if (const Node& lastNode = *nodes.back(); lastNode.areOutputsFilled()) {
-        return lastNode.getOutputs();
+    // Get output(s)
+    std::unordered_map<string, GeneralDataTypes> returnMap;
+    for (const auto& name: outputs) {
+        if (iomap.find(name) != iomap.end()) {
+            returnMap[name] = iomap[name];
+        }
     }
- 
-    throw runtime_error("No valid output found in the compute graph.");
- }
+
+    return returnMap;
+}

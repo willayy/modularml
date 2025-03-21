@@ -20,7 +20,7 @@ public:
      * @param inputs The input data for the model.
      * @return The result of the model inference.
      */
-    virtual array_mml<GeneralDataTypes> infer(const array_mml<GeneralDataTypes>& inputs) = 0;
+    virtual std::unordered_map<string, GeneralDataTypes> infer(const std::unordered_map<string, GeneralDataTypes>& inputs) = 0;
 
     /**
      * @brief Virtual destructor for the Model class.

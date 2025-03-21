@@ -13,64 +13,33 @@
  * activation in a computational graph. It performs the forward
  * pass computation applying swish elementwise.
  */
-template <typename T>
 class SwishNode : public Node {
-  static_assert(
-      std::is_same_v<T, float> ||
-      std::is_same_v<T, double>,
-      "SwishNode supports only float, double");
-
  public:
-  using AbstractTensor = Tensor<T>;
-
+  using T = std::variant<double, float>;
   /**
    * @brief Constructor for SwishNode.
    *
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  SwishNode(shared_ptr<const AbstractTensor> X,
-            shared_ptr<AbstractTensor> Y);
+  SwishNode(std::string X, std::string Y);
+
+  /**
+   * @brief Constructor for SwishNode from JSON.
+   *
+   * @param node JSON object representing the Swish node.
+   */
+  SwishNode(const json& node);
 
   /**
    * @brief Perform the forward pass computation applying swish.
    */
-  void forward() override;
-
-  /**
-   * @brief Check if the input(s) are filled.
-   *
-   * @return True if the input(s) are filled, false otherwise.
-   */
-  bool areInputsFilled() const override;
-
-  /**
-   * @brief Set the input(s) for the node.
-   *
-   * @param inputs The input data to be set, where X is inputs[0].
-   */
-  void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
-
-  /**
-   * @brief Check if the output(s) are filled.
-   *
-   * @return True if the output(s) are filled, false otherwise.
-   */
-  bool areOutputsFilled() const override;
-
-  /**
-   * @brief Get the output(s) of the node.
-   *
-   * @return The output data.
-   */
-  array_mml<GeneralDataTypes> getOutputs() const override;
+  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
  private:
   // Input
-  shared_ptr<const AbstractTensor> X;  // Input tensor X.
+  std::string X;  // Input tensor X.
 
   // Output
-  shared_ptr<AbstractTensor> Y;  // Output tensor Y.
+  std::string Y;  // Output tensor Y.
 };
-
-#include "../Swish_node.tpp"

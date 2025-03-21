@@ -3,6 +3,18 @@
 #include "a_tensor.hpp"
 #include "globals.hpp"
 
+template<typename T, typename Variant>
+struct is_in_variant;
+
+// Specialization for std::variant types using a fold expression
+template<typename T, typename... Ts>
+struct is_in_variant<T, std::variant<Ts...>>
+    : std::bool_constant<(std::is_same_v<T, Ts> || ...)> {};
+
+// Helper variable template for convenience
+template<typename T, typename Variant>
+constexpr bool is_in_variant_v = is_in_variant<T, Variant>::value;
+
 // Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don't know.
 using GeneralDataTypes = variant<
     std::shared_ptr<Tensor<bool>>,
@@ -35,47 +47,7 @@ public:
      * implement the specific forward pass logic. It modifies the output(s) 
      * in place.
      */
-    virtual void forward() = 0;
-
-    /**
-     * @brief Check if the input(s) are filled.
-     *
-     * This pure virtual function must be overridden by derived classes to 
-     * determine if the input(s) required for computation are filled.
-     * 
-     * @return True if the input(s) are filled, false otherwise.
-     */
-    virtual bool areInputsFilled() const = 0;
-
-    /**
-     * @brief Set the input(s) for the node.
-     *
-     * This pure virtual function must be overridden by derived classes to 
-     * set the input(s) for the node.
-     * 
-     * @param inputs The input data to be set.
-     */
-    virtual void setInputs(const array_mml<GeneralDataTypes>& inputs) = 0; // This function could have better type safety somehow maybe.
-
-    /**
-     * @brief Check if the output(s) are filled.
-     *
-     * This pure virtual function must be overridden by derived classes to 
-     * determine if the output(s) of the node are filled.
-     * 
-     * @return True if the output(s) are filled, false otherwise.
-     */
-    virtual bool areOutputsFilled() const = 0;
-
-    /**
-     * @brief Get the output of the node.
-     *
-     * This pure virtual function must be overridden by derived classes to 
-     * retrieve the output of the node. Currently, it supports a singular output.
-     * 
-     * @return The output data.
-     */
-    virtual array_mml<GeneralDataTypes> getOutputs() const = 0;
+    virtual void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) = 0;
 
     /**
      * @brief Virtual destructor for the Node class.

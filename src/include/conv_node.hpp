@@ -14,16 +14,9 @@
  *
  * @author Tim Carlsson (timca@chalmers.se)
  */
-template <typename T>
 class ConvNode : public Node {
-    static_assert(
-        std::is_same_v<T, double> ||
-            std::is_same_v<T, float> ||
-            std::is_same_v<T, uint>,
-        "ConvNode_T only supports double, float, int");
-
    public:
-    using AbstractTensor = Tensor<T>;
+    using T = std::variant<std::shared_ptr<Tensor<double>>, std::shared_ptr<Tensor<float>>>;
 
     /**
      * @brief Constructor for ConvNode.
@@ -38,15 +31,22 @@ class ConvNode : public Node {
      * @param B Optional shared pointer to the output tensor (bias).
      * @param group number of groups input channels and out channels are divided into.
      */
-    ConvNode(shared_ptr<AbstractTensor> X,
-             shared_ptr<AbstractTensor> W,
-             shared_ptr<AbstractTensor> Y,
+    ConvNode(std::string X,
+             std::string W,
+             std::string Y,
              array_mml<int> dilations,
              array_mml<int> padding,
              array_mml<int> kernel_shape,
              array_mml<int> stride,
-             optional<shared_ptr<AbstractTensor>> B = std::nullopt,
+             optional<std::string> B = std::nullopt,
              int group = 1);
+    
+    /**
+     * @brief Constructor for ConvNode from JSON.
+     * 
+     * @param node JSON object representing the Conv node.
+     */
+    ConvNode(const json& node);
 
     /**
      * @brief Performs the forward pass convolution operation.
@@ -73,35 +73,7 @@ class ConvNode : public Node {
      * 5. **Store Result in Output Tensor**: The final result of the convolution operation, after the
      *    optional bias addition, is stored in the output tensor `Y`, which represents the convolved feature maps.
      */
-    void forward() override;
-
-    /**
-     * @brief Check if the input(s) are filled.
-     *
-     * @return True if the input(s) are filled, false otherwise.
-     */
-    bool areInputsFilled() const override;
-
-    /**
-     * @brief Set the input(s) for the node.
-     *
-     * @param inputs The input data to be set.
-     */
-    void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
-
-    /**
-     * @brief Check if the output(s) are filled.
-     *
-     * @return True if the output(s) are filled, false otherwise.
-     */
-    bool areOutputsFilled() const override;
-
-    /**
-     * @brief Get the output of the node.
-     *
-     * @return The output data.
-     */
-    array_mml<GeneralDataTypes> getOutputs() const override;
+    void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
    private:
     // Inputs
@@ -111,7 +83,7 @@ class ConvNode : public Node {
      * The input tensor typically has the shape [batch_size, in_channels, in_height, in_width].
      * This tensor represents the data that will be convolved with the kernel.
      */
-    shared_ptr<AbstractTensor> X;
+    std::string X;
 
     /**
      * @brief Weight tensor (kernel) used in the convolution.
@@ -119,7 +91,7 @@ class ConvNode : public Node {
      * The kernel tensor typically has the shape [out_channels, in_channels / group, kernel_height, kernel_width]
      * for a grouped convolution. This tensor contains the filters that will be used to convolve the input tensor.
      */
-    shared_ptr<AbstractTensor> W;
+    std::string W;
 
     /**
      * @brief Optional 1D bias tensor.
@@ -127,7 +99,7 @@ class ConvNode : public Node {
      * The bias tensor is added to the output feature map(s) after the convolution.
      * It is typically of shape [out_channels]. If not provided, no bias will be added.
      */
-    optional<shared_ptr<AbstractTensor>> B;
+    optional<std::string> B;
 
     // Output
     /**
@@ -136,7 +108,7 @@ class ConvNode : public Node {
      * This tensor typically has the shape [batch_size, out_channels, out_height, out_width],
      * where the output feature map(s) will be stored after performing the convolution.
      */
-    shared_ptr<AbstractTensor> Y;
+    std::string Y;
 
     /**
      * @brief Dilation factors for each dimension of the kernel.
@@ -232,7 +204,7 @@ class ConvNode : public Node {
      *
      * This is done to perform the convolution correctly, otherwise the node would perform a cross-correlation computation
      */
-    void flip_kernel();
+    void flip_kernel(T& weight_variant);
 
     /**
      * @brief Performs the im2col transformation on the input tensor.
@@ -254,14 +226,14 @@ class ConvNode : public Node {
      * @note The im2col operation prepares the input for matrix multiplication with kernel weights
      *       during convolution but does not compute the convolution itself.
      */
-    void im2col(shared_ptr<Tensor<T>> input, shared_ptr<Tensor<T>> output);
+    void im2col(T& input_variant, T& output_variant);
 
     /**
      * @brief Performs the addition of the bias to the result.
      *
      * @param result_ptr The tensor to which the bias will be added.
      */
-    void add_bias(shared_ptr<Tensor<T>> result_ptr);
+    void add_bias(T& result_variant, T& bias_variant);
 
     // Getters for input tensor dimensions
     int get_batch_size() const;
@@ -290,6 +262,8 @@ class ConvNode : public Node {
 
     // Checks the inputs to the convolution node
     void validate_inputs();
+    
+    // Updates parameters based on the content of the input and weight tensor
+    // This method is executed before forward so that we get the correct parameters.
+    void update_parameters(array_mml<int>& input_shape, array_mml<int>& weight_shape);
 };
-
-#include "../conv_node.tpp"

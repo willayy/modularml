@@ -14,10 +14,9 @@
  * 
  * @author Tim Carlsson (timca@chalmers.se)
  */
-template <typename T>
 class FlattenNode : public Node {
 public:
-    using AbstractTensor = Tensor<T>;
+    using T = std::variant<double, float, int16_t, int32_t, int64_t, int8_t, uint16_t, uint32_t, uint64_t, uint8_t>;
 
     /**
      * @brief Constructor for FlattenNode.
@@ -31,45 +30,23 @@ public:
      * @param axis The axis along which the flattening operation is performed. 
      *             Defaults to 1 (collapsing all dimensions before this axis into the first dimension).
      */
-    FlattenNode(shared_ptr<AbstractTensor> X,
-                shared_ptr<AbstractTensor> Y,
+    FlattenNode(std::string X,
+                std::string Y,
                 int axis = 1);
-
-
+    
+    /**
+     * @brief Constructor for FlattenNode from JSON.
+     * 
+     * @param node JSON object representing the Flatten node.
+     */
+    FlattenNode(const json& node);
+    
     /**
      * @brief Performs the flattening operation on the input tensor.
      * 
      * Transforms the input tensor into a 2D tensor along the specified axis
      */
-    void forward() override;
-
-    /**
-     * @brief Check if the input(s) are filled.
-     *
-     * @return True if the input(s) are filled, false otherwise.
-     */
-    bool areInputsFilled() const override;
-
-    /**
-     * @brief Set the input(s) for the node.
-     *
-     * @param inputs The input data to be set.
-     */
-    void setInputs(const array_mml<GeneralDataTypes>& inputs) override;
-
-    /**
-     * @brief Check if the output(s) are filled.
-     *
-     * @return True if the output(s) are filled, false otherwise.
-     */
-    bool areOutputsFilled() const override;
-
-    /**
-     * @brief Get the output of the node.
-     *
-     * @return The output data.
-     */
-    array_mml<GeneralDataTypes> getOutputs() const override;
+    void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
 private:
 
@@ -78,14 +55,14 @@ private:
      *
      * The input tensor can have any shape and any type.
      */
-    shared_ptr<Tensor<T>> X;
+    std::string X;
 
     /**
      * @brief Output data tensor for the node.
      *
      * Contains the result after the forward pass, the shape of the tensor will always be 2D.
      */
-    shared_ptr<Tensor<T>> Y;
+    std::string Y;
 
     /**
      * @brief The axis along which the flattening operation is performed.
@@ -97,5 +74,3 @@ private:
 
     int get_axis() const;
 };
-
-#include "../flatten_node.tpp"
