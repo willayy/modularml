@@ -1,6 +1,9 @@
 #pragma once
 
 #include "mml_arithmetic.hpp"
+#include <memory>
+#include <cmath> // For exp()
+#include "mml_tensor.hpp"
 
 template <typename T>
 Arithmetic_mml<T>::Arithmetic_mml() = default;
@@ -105,98 +108,187 @@ void Arithmetic_mml<T>::elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*
 }
 
 template <typename T>
-void Arithmetic_mml<T>::reduce_max(const shared_ptr<const Tensor<T>> input,
-                                   shared_ptr<Tensor<T>> output,
-                                   int axis) const {
-  auto input_mml = static_cast<const Tensor_mml<T>*>(input.get());
-  if (!input_mml) {
-    throw std::invalid_argument("reduce_max only supports Tensor_mml<T>.");
-  }
+std::shared_ptr<Tensor<T>> Arithmetic_mml<T>::reduce_max(
+    const std::shared_ptr<const Tensor<T>> input, int axis) const {
 
-  auto shape = input_mml->get_shape();
-  if (axis < 0 || axis >= static_cast<int>(shape.size())) {
-    throw std::invalid_argument("Invalid axis for reduce_max.");
-  }
+    // Ensure the input tensor is valid
+    if (!input) {
+        throw std::invalid_argument("Input tensor cannot be null.");
+    }
 
-  auto reduced_shape = shape;
-  reduced_shape[axis] = 1;
-  output->reshape(reduced_shape);
-  output->fill(std::numeric_limits<T>::lowest());
+    auto shape = input->get_shape();
 
-  const auto input_size = input_mml->get_size();
-  if (input_size == 0) {
-    throw std::invalid_argument("Input tensor is empty.");
-  }
-  array_mml<int> idx; // Declare idx outside the loop
-  for (size_t i = 0; i < input_size; ++i) {
-    idx = input_mml->public_unflatten_index(i);
-    idx[axis] = 0;
-    size_t out_index = input_mml->public_index_with_offset(idx);
-    (*output)[out_index] = std::max((*output)[out_index], (*input_mml)[i]);
-  }
+    // Adjust negative axis values
+    if (axis < 0) {
+        axis += shape.size();
+    }
+
+    // Validate axis range
+    if (axis < 0 || axis >= static_cast<int>(shape.size())) {
+        throw std::runtime_error("Invalid axis for reduce_max.");
+    }
+
+    // Convert input to Tensor_mml
+    auto input_mml = std::static_pointer_cast<const Tensor_mml<T>>(input);
+    if (!input_mml) {
+        throw std::invalid_argument("reduce_max only supports Tensor_mml<T>.");
+    }
+
+    // Compute the reduced shape by setting the reduced axis to 1
+    array_mml<int> reduced_shape = shape;
+    reduced_shape[axis] = 1;
+
+    // Allocate memory for the output tensor
+    size_t reduced_size = 1;
+    for (int dim : reduced_shape) {
+        reduced_size *= dim;
+    }
+
+    auto output = std::make_shared<Tensor_mml<T>>(reduced_shape);
+    output->fill(std::numeric_limits<T>::lowest());  // Initialize with lowest possible value
+
+    size_t input_size = input_mml->get_size();
+    size_t output_size = output->get_size();
+
+    // Iterate over the input tensor and perform max reduction
+    for (size_t i = 0; i < input_size; ++i) {
+        auto idx = input_mml->public_unflatten_index(i);
+        array_mml<int> reduced_idx = idx;
+        reduced_idx[axis] = 0;  // Reduce along the specified axis
+
+        // Compute the corresponding index in the output tensor
+        size_t out_index = output->public_index_with_offset(reduced_idx);
+
+        // Check bounds to prevent out of range access
+        if (out_index >= output_size) {
+            throw std::runtime_error("reduce_max: Output index out of bounds.");
+        }
+
+        if (i >= input_mml->get_size()) {
+            throw std::runtime_error("reduce_max: Input index out of bounds.");
+        }
+
+        // Perform max operation
+        (*output)[out_index] = std::max((*output)[out_index], (*input_mml)[i]);
+    }
+
+    return output;
 }
 
 template <typename T>
-void Arithmetic_mml<T>::reduce_sum(const shared_ptr<const Tensor<T>> input,
-                                   shared_ptr<Tensor<T>> output,
-                                   int axis) const {
-  auto input_mml = static_cast<const Tensor_mml<T>*>(input.get());
-  if (!input_mml) {
-    throw std::invalid_argument("reduce_sum only supports Tensor_mml<T>.");
-  }
+std::shared_ptr<Tensor<T>> Arithmetic_mml<T>::reduce_sum(
+    const std::shared_ptr<const Tensor<T>> input, int axis) const {
+    
+    // Ensure input tensor is valid
+    if (!input) {
+        throw std::invalid_argument("Input tensor cannot be null.");
+    }
 
-  auto shape = input_mml->get_shape();
-  if (axis < 0 || axis >= static_cast<int>(shape.size())) {
-    throw std::invalid_argument("Invalid axis for reduce_sum.");
-  }
+    auto shape = input->get_shape();
 
-  auto reduced_shape = shape;
-  reduced_shape[axis] = 1;
-  output->reshape(reduced_shape);
-  output->fill(0);
+    // Adjust negative axis values
+    if (axis < 0) {
+        axis += shape.size();
+    }
 
-  const auto input_size = input_mml->get_size();
-  for (size_t i = 0; i < input_size; i++) {
-    auto idx = input_mml->public_unflatten_index(i);
-    idx[axis] = 0;
-    size_t out_index = input_mml->public_index_with_offset(idx);
-    (*output)[out_index] += (*input_mml)[i];
-  }
+    // Validate axis range
+    if (axis < 0 || axis >= static_cast<int>(shape.size())) {
+        throw std::runtime_error("Invalid axis for reduce_sum.");
+    }
+
+    // Convert input to Tensor_mml
+    auto input_mml = std::dynamic_pointer_cast<const Tensor_mml<T>>(input);
+    if (!input_mml) {
+        throw std::invalid_argument("reduce_sum only supports Tensor_mml<T>.");
+    }
+
+    // Compute reduced shape by setting the reduced axis to 1
+    array_mml<int> reduced_shape = shape;
+    reduced_shape[axis] = 1;  
+
+    // Allocate memory for the output tensor
+    auto output = std::make_shared<Tensor_mml<T>>(reduced_shape);
+    output->fill(0);  // Initialize with zero
+
+    // Iterate over input tensor and perform sum reduction
+    for (size_t i = 0; i < input_mml->get_size(); ++i) {
+        auto idx = input_mml->public_unflatten_index(i);
+        idx[axis] = 0;  // Reduce along the specified axis
+
+        // Compute corresponding index in output tensor
+        size_t out_index = output->public_index_with_offset(idx);
+
+        // Perform summation
+        (*output)[out_index] += (*input_mml)[i];
+    }
+
+    return output;
 }
 
 template <typename T>
-void Arithmetic_mml<T>::elementwise_softmax(
-    const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output,
-    int axis) const {
-  auto input_mml = static_cast<const Tensor_mml<T>*>(input.get());
-  if (!input_mml) {
-    throw std::invalid_argument("elementwise_softmax requires Tensor_mml<T>.");
-  }
+std::shared_ptr<Tensor<T>> Arithmetic_mml<T>::elementwise_softmax(
+    std::shared_ptr<const Tensor<T>> input, int axis) const {
+    
+    // Ensure input tensor is valid
+    if (!input) {
+        throw std::invalid_argument("Input tensor cannot be null.");
+    }
 
-  auto shape = input->get_shape();
-  output->reshape(shape);
-  auto reduced_shape = shape;
-  reduced_shape[axis] = 1;
+    auto shape = input->get_shape();
 
-  auto max_vals = make_shared<Tensor_mml<T>>(reduced_shape);
-  reduce_max(input, max_vals, axis);
+    // Adjust negative axis values
+    if (axis < 0) {
+        axis += shape.size();
+    }
 
-  auto temp = std::make_shared<Tensor_mml<T>>(shape);
-  const auto size = input->get_size();
-  for (size_t i = 0; i < size; i++) {
-    auto idx = input_mml->public_unflatten_index(i);
-    idx[axis] = 0;
-    size_t max_index = input_mml->public_index_with_offset(idx);
-    (*temp)[i] = std::exp((*input_mml)[i] - (*max_vals)[max_index]);
-  }
+    // Validate axis range
+    if (axis < 0 || axis >= static_cast<int>(shape.size())) {
+        throw std::invalid_argument("Invalid axis for elementwise_softmax.");
+    }
 
-  auto sum_vals = make_shared<Tensor_mml<T>>(reduced_shape);
-  this->reduce_sum(temp, sum_vals, axis);
+    // Allocate memory for output tensor
+    auto output = std::make_shared<Tensor_mml<T>>(shape);
 
-  for (size_t i = 0; i < size; i++) {
-    auto idx = input_mml->public_unflatten_index(i);
-    idx[axis] = 0;
-    size_t sum_index = input_mml->public_index_with_offset(idx);
-    (*output)[i] = (*temp)[i] / (*sum_vals)[sum_index];
-  }
+    // Convert input to Tensor_mml
+    auto input_mml = std::dynamic_pointer_cast<const Tensor_mml<T>>(input);
+    if (!input_mml) {
+        throw std::invalid_argument("elementwise_softmax requires Tensor_mml<T>.");
+    }
+
+    // Compute max values for numerical stability
+    auto max_vals = reduce_max(input, axis);
+    auto max_vals_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(max_vals);
+    if (!max_vals_mml) {
+        throw std::invalid_argument("reduce_max did not return a Tensor_mml<T>.");
+    }
+
+    // Compute exp(input - max) for each element
+    auto temp = std::make_shared<Tensor_mml<T>>(shape);
+    size_t input_size = input->get_size();
+
+    for (size_t i = 0; i < input_size; i++) {
+        auto idx = input_mml->public_unflatten_index(i);
+        idx[axis] = 0; // Align with max values
+        size_t max_index = max_vals_mml->public_index_with_offset(idx);
+
+        (*temp)[i] = std::exp((*input_mml)[i] - (*max_vals_mml)[max_index]);
+    }
+
+    // Compute sum(exp(input - max)) along axis
+    auto sum_vals = reduce_sum(temp, axis);
+    auto sum_vals_mml = std::dynamic_pointer_cast<Tensor_mml<T>>(sum_vals);
+    if (!sum_vals_mml) {
+        throw std::invalid_argument("reduce_sum did not return a Tensor_mml<T>.");
+    }
+
+    // Compute final softmax values
+    for (size_t i = 0; i < input_size; i++) {
+        auto idx = input_mml->public_unflatten_index(i);
+        idx[axis] = 0;
+        size_t sum_index = sum_vals_mml->public_index_with_offset(idx);
+
+        (*output)[i] = (*temp)[i] / (*sum_vals_mml)[sum_index];
+    }
+
+    return output;
 }

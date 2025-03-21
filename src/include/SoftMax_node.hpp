@@ -27,10 +27,9 @@ public:
    * @brief Constructor for SoftmaxNode.
    *
    * @param X Shared pointer to the input tensor X.
-   * @param Y Shared pointer to the output tensor Y.
    * @param axis Axis along which to apply softmax. Defaults to -1.
    */
-  SoftmaxNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y, int axis = -1);
+  SoftmaxNode(std::shared_ptr<const AbstractTensor> X, int axis = -1);
 
   /**
    * @brief Executes the forward pass of the Softmax operation.

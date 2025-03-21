@@ -305,7 +305,6 @@ shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<int> shape, const init
 
 template <typename T>
 array_mml<int> Tensor_mml<T>::unflatten_index(int linear_index) const {
-    // Create an array_mml<int> with the same dimensionality as 'shape'
     array_mml<int> indices(this->shape.size());
     int remainder = linear_index;
 
@@ -317,6 +316,7 @@ array_mml<int> Tensor_mml<T>::unflatten_index(int linear_index) const {
     return indices;
 }
 
+//Wrappers for index_with_offset and unflatten_index
 template <typename T>
 int Tensor_mml<T>::public_index_with_offset(const array_mml<int>& indices) const {
     return index_with_offset(indices);

@@ -7,48 +7,39 @@
  * @brief SoftmaxNode constructor.
  */
 template <typename T>
-SoftmaxNode<T>::SoftmaxNode(std::shared_ptr<const AbstractTensor> X, std::shared_ptr<AbstractTensor> Y, int axis)
-    : input_(X), output_(Y), axis_(axis) {}
+SoftmaxNode<T>::SoftmaxNode(std::shared_ptr<const AbstractTensor> X, int axis)
+    : input_(X), axis_(axis) {}
 
 /**
  * @brief Computes the Softmax function along the specified axis.
  */
 template <typename T>
 void SoftmaxNode<T>::forward() {
-    auto& in = *input_;
-    auto& out = *output_;
-
-    // Ensure input_ and output_ are allocated
-    if (!input_ || !output_) {
-        throw std::runtime_error("SoftmaxNode: input or output tensor is null.");
+    if (!input_) {
+        throw std::runtime_error("SoftmaxNode: input tensor is null.");
     }
 
-    int dim = (axis_ < 0) ? (in.get_shape().size() + axis_) : axis_;
+    // Adjust negative axis
+    int dim = (axis_ < 0) ? (input_->get_shape().size() + axis_) : axis_;
 
-    // Compute max values along the specified axis
-    auto max_vals = tensor_utility::reduce_max(in, dim);
+    // Validate axis
+    if (dim < 0 || dim >= input_->get_shape().size()) {
+        throw std::out_of_range("SoftmaxNode: axis is out of range.");
+    }
 
-    // Create arithmetic module
-    const std::shared_ptr<ArithmeticModule<T>> am = std::make_shared<Arithmetic_mml<T>>();
+    // Cast input_ to Tensor_mml<T>
+    auto input_mml = std::static_pointer_cast<const Tensor_mml<T>>(input_);
+    if (!input_mml) {
+        throw std::runtime_error("SoftmaxNode: Failed to cast input to Tensor_mml.");
+    }
 
-    // ✅ FIX: Convert shape to std::initializer_list<int> so tensor_mml_p<T>() accepts it
-    auto temp = tensor_mml_p<T>({in.get_shape().begin(), in.get_shape().end()});
-
-    // Compute exp(input - max_vals)
-    am->elementwise_in_place(temp, [](T x) { return std::exp(x); });
-
-    // Compute sum of exponentials along the axis
-    auto sum_vals = tensor_utility::reduce_sum(temp, dim);
-
-    // Element-wise division to normalize
-    am->elementwise(temp, [](T x) { return x; }, sum_vals);
-
-    // Assign the result to the output
-    output_ = temp;
+    // Compute softmax
+    auto am = std::make_shared<Arithmetic_mml<T>>();
+    output_ = am->elementwise_softmax(input_mml, dim);
 }
 
 /**
- * @brief Returns the output tensor.
+ * @brief Returns the computed output tensor.
  */
 template <typename T>
 std::shared_ptr<typename SoftmaxNode<T>::AbstractTensor> SoftmaxNode<T>::getOutput() {
@@ -68,15 +59,14 @@ bool SoftmaxNode<T>::areInputsFilled() const {
  */
 template <typename T>
 void SoftmaxNode<T>::setInputs(const array_mml<GeneralDataTypes>& inputs) {
-    if (inputs.size() < 1) {
+    if (inputs.size() == 0) {
         throw std::runtime_error("SoftmaxNode expects at least one input.");
     }
-    
     input_ = std::get<std::shared_ptr<AbstractTensor>>(inputs[0]);
 }
 
 /**
- * @brief Checks if all outputs are properly set.
+ * @brief Checks if the output tensor is properly set.
  */
 template <typename T>
 bool SoftmaxNode<T>::areOutputsFilled() const {
@@ -84,7 +74,7 @@ bool SoftmaxNode<T>::areOutputsFilled() const {
 }
 
 /**
- * @brief Returns an array of the output tensors.
+ * @brief Returns an array containing the output tensor.
  */
 template <typename T>
 array_mml<GeneralDataTypes> SoftmaxNode<T>::getOutputs() const {

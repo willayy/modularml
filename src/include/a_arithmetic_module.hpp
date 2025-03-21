@@ -59,24 +59,22 @@ class ArithmeticModule {
   /**
    * @brief Applies Softmax function elementwise along an axis.
    * @param input Input tensor.
-   * @param output Output tensor.
    * @param axis Axis along which to apply Softmax.
    */
-  virtual void elementwise_softmax(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const = 0;
-
+  virtual std::shared_ptr<Tensor<T>> elementwise_softmax(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
   /**
    * @brief Computes the maximum value along a specified axis.
    * @param input Input tensor.
-   * @param output Output tensor (stores max values).
    * @param axis Axis along which to compute the max.
    */
-  virtual void reduce_max(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const = 0;
+  virtual std::shared_ptr<Tensor<T>> reduce_max(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
 
   /**
    * @brief Computes the sum along a specified axis.
    * @param input Input tensor.
-   * @param output Output tensor (stores summed values).
    * @param axis Axis along which to compute the sum.
    */
-  virtual void reduce_sum(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const = 0;
+  virtual std::shared_ptr<Tensor<T>> reduce_sum(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
 };
+
+

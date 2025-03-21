@@ -27,11 +27,11 @@ class Arithmetic_mml : public ArithmeticModule<T> {
 
   void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const override;
 
-  void reduce_max(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const override;
+  std::shared_ptr<Tensor<T>> reduce_max(const std::shared_ptr<const Tensor<T>> input, int axis) const;
 
-  void reduce_sum(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const override;
+  std::shared_ptr<Tensor<T>> reduce_sum(const std::shared_ptr<const Tensor<T>> input, int axis) const;
 
-  void elementwise_softmax(const shared_ptr<const Tensor<T>> input, shared_ptr<Tensor<T>> output, int axis) const override;
+  std::shared_ptr<Tensor<T>> elementwise_softmax(const std::shared_ptr<const Tensor<T>> input, int axis) const;
     
 };
 

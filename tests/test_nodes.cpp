@@ -171,7 +171,7 @@ TEST(test_node, test_Softmax_float) {
   auto X = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}, {1.0f, 2.0f, 3.0f, 2.0f, 3.0f, 4.0f}));
   auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
-  SoftmaxNode<float> softmaxNode(X, Y, -1);
+  SoftmaxNode<float> softmaxNode(X, -1);
   softmaxNode.forward();
 
   // Retrieve output via getOutput()
@@ -193,7 +193,7 @@ TEST(test_node, test_Softmax_int32) {
   auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({2, 3}, {1, 2, 3, 2, 3, 4}));
   auto Y = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({2, 3}));
 
-  SoftmaxNode<int32_t> softmaxNode(X, Y, -1);
+  SoftmaxNode<int32_t> softmaxNode(X, -1);
   softmaxNode.forward();
 
   // Retrieve output via getOutput()
@@ -203,5 +203,191 @@ TEST(test_node, test_Softmax_int32) {
   for (int i = 0; i < result->get_size(); i++) {
       EXPECT_LE((*result)[i], 1);
       EXPECT_GE((*result)[i], 0);
+  }
+}
+
+TEST(test_node, test_Softmax_edge_cases) {
+  auto X = tensor_mml_p<float>({1, 3}, {1000.0f, 1000.0f, 1000.0f}); 
+  auto expected_Y = tensor_mml_p<float>({1, 3}, {1.0f / 3, 1.0f / 3, 1.0f / 3});
+
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({1, 3}));
+  SoftmaxNode<float> softmaxNode(X, -1);
+  softmaxNode.forward();
+
+  auto result = softmaxNode.getOutput();
+  for (int i = 0; i < result->get_size(); i++) {
+      EXPECT_NEAR((*result)[i], (*expected_Y)[i], 1e-5);
+  }
+}
+
+/**
+ * @brief Test Softmax with explicitly defined 1D tensor
+ */
+TEST(test_node, test_Softmax_1D_explicit) {
+  auto X = tensor_mml_p<float>({5}, {1.2f, -0.8f, 3.5f, 0.5f, -1.2f});
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({5}));
+
+  SoftmaxNode<float> softmaxNode(X, 0);  // Apply along the only axis (0)
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1
+  float sum = 0;
+  for (int i = 0; i < 5; i++) {
+      sum += (*result)[i];
+  }
+  EXPECT_NEAR(sum, 1.0, 1e-5);
+}
+
+TEST(test_node, test_Softmax_2D_explicit) {
+  /**
+   * @brief Test Softmax with explicitly defined 2D tensor
+   */
+  auto X = tensor_mml_p<float>({2, 3}, {
+      1.2f, -0.8f, 3.5f,
+      -1.2f, 2.5f, 0.3f
+  });
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+
+  SoftmaxNode<float> softmaxNode(X, 1);
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1 for each row
+  for (int i = 0; i < 2; i++) {
+      float sum = 0;
+      for (int j = 0; j < 3; j++) {
+          sum += (*result)[{i, j}];
+      }
+      EXPECT_NEAR(sum, 1.0, 1e-5);
+  }
+}
+
+
+TEST(test_node, test_Softmax_3D_explicit) {
+  /**
+  * @brief Test Softmax with explicitly defined 3D tensor
+  */
+  auto X = tensor_mml_p<float>({2, 2, 3}, {
+      1.2f, 0.5f, 2.8f,   3.1f, -0.5f, 0.9f,
+      -2.0f, 1.3f, 4.0f,  -1.0f, 2.2f, -0.1f
+  });
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 2, 3}));
+
+  SoftmaxNode<float> softmaxNode(X, 2);  // Apply along last axis
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1 per row in last axis
+  for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 2; j++) {
+          float sum = 0;
+          for (int k = 0; k < 3; k++) {
+              sum += (*result)[{i, j, k}];
+          }
+          EXPECT_NEAR(sum, 1.0, 1e-5);
+      }
+  }
+}
+
+TEST(test_node, test_Softmax_4D_axis2) {
+  /**
+   * @brief Test Softmax with explicitly defined 4D tensor along axis 2
+   */
+  auto X = tensor_mml_p<float>({2, 2, 2, 3}, {
+      0.2f, 1.5f, -1.1f,   2.3f, -0.7f, 3.6f,  
+      4.2f, -1.9f, 0.9f,   -2.3f, 2.7f, 1.0f,
+      
+      -3.1f, 2.5f, 1.7f,   -0.4f, 3.2f, 2.1f,
+      0.8f, -1.4f, 4.5f,   1.2f, -2.0f, 2.8f
+  });
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 2, 2, 3}));
+
+  SoftmaxNode<float> softmaxNode(X, 2);  // Apply along axis 2
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1 per slice along axis 2
+  for (int i = 0; i < 2; i++) {       // Batch
+      for (int j = 0; j < 2; j++) {   // Rows
+          for (int w = 0; w < 3; w++) { // Last axis (column dimension stays)
+              float sum = 0;
+              for (int k = 0; k < 2; k++) { // Sum over axis 2
+                  sum += (*result)[{i, j, k, w}];
+              }
+              EXPECT_NEAR(sum, 1.0, 1e-5);
+          }
+      }
+  }
+}
+
+TEST(test_node, test_Softmax_5D_explicit) {
+  /**
+  * @brief Test Softmax with explicitly defined 5D tensor
+  */
+  auto X = tensor_mml_p<float>({2, 2, 2, 2, 3}, {
+      -1.2f, 2.4f, 0.9f,   -3.1f, 1.3f, 3.0f,
+      2.0f, -0.7f, 4.1f,   -0.5f, 3.8f, 1.2f,
+
+      1.0f, -2.4f, 3.3f,   -1.8f, 2.9f, 0.5f,
+      4.5f, -0.3f, 1.7f,   -2.6f, 2.4f, 0.8f,
+
+      3.2f, -1.1f, 2.5f,   0.6f, 2.8f, -0.4f,
+      -2.3f, 4.0f, 1.1f,   2.7f, -3.0f, 1.9f,
+
+      -0.5f, 3.5f, 2.0f,   1.3f, -1.7f, 4.6f,
+      -2.1f, 0.9f, 3.8f,   -3.2f, 2.2f, 1.5f
+  });
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 2, 2, 2, 3}));
+
+  SoftmaxNode<float> softmaxNode(X, 4);  // Apply along last axis
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1 per row in last axis
+  for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 2; j++) {
+          for (int k = 0; k < 2; k++) {
+              for (int d = 0; d < 2; d++) {
+                  float sum = 0;
+                  for (int w = 0; w < 3; w++) {
+                      sum += (*result)[{i, j, k, d, w}];
+                  }
+                  EXPECT_NEAR(sum, 1.0, 1e-5);
+              }
+          }
+      }
+  }
+}
+
+TEST(test_node, test_Softmax_3D_large_dimension) {
+  /**
+   * @brief Large Test Softmax with explicitly defined 3D tensor
+   */
+
+  // Total values = 2 * 3 * 12 = 72
+  auto X = tensor_mml_p<float>({2, 3, 12}, {
+      1.2f, 0.5f, 2.8f, -0.2f, 3.1f, -0.5f, 0.9f, 1.3f, -2.0f, 1.3f, 4.0f, -1.5f,
+      -1.0f, 2.2f, -0.1f, 0.8f, 0.3f, 1.7f, 0.9f, -0.4f, 3.0f, -2.1f, 1.5f, 2.8f,
+      -0.9f, 4.2f, 1.3f, -2.3f, 1.6f, -1.5f, 3.4f, 0.0f, 2.5f, -0.8f, 1.9f, -3.0f,
+
+      0.1f, -1.0f, 1.2f, 2.3f, -0.4f, 1.8f, -1.5f, 0.0f, 3.3f, 2.1f, 0.4f, 1.5f,
+      2.4f, -0.3f, 0.9f, 1.1f, 2.7f, -0.8f, -2.0f, 1.6f, 0.3f, 1.0f, -1.1f, 2.0f,
+      1.4f, 0.2f, 2.8f, -0.6f, 0.5f, 3.1f, 1.9f, 2.2f, -1.2f, -0.7f, 0.8f, 0.0f
+  });
+
+  SoftmaxNode<float> softmaxNode(X, 2);  // Apply softmax along last axis
+  softmaxNode.forward();
+  auto result = softmaxNode.getOutput();
+
+  // Verify sum of softmax output is ~1 per slice along axis 2
+  for (int i = 0; i < 2; i++) {       // Batch
+    for (int j = 0; j < 3; j++) {     // Rows
+      float sum = 0;
+      for (int k = 0; k < 12; k++) {  // Axis = 2
+        sum += (*result)[{i, j, k}];
+      }
+      EXPECT_NEAR(sum, 1.0, 1e-5);
+    }
   }
 }
