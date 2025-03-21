@@ -104,6 +104,9 @@ class Tensor {
   /// @param dim The dimension to flip along.
   virtual void flip(uli dim) = 0;
 
+  /// @brief Reverses the buffer of the tensor.
+  virtual void reverse_buffer() = 0;
+
   /// @brief Get a mutable slice of the tensor.
   /// @param slice_indices The indices of the slice.
   /// @return A slice of the tensor.

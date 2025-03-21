@@ -46,6 +46,7 @@ set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 # ------------------- Binary ------------------------------- #
 
 # Use max 8 threads for building, improve build times
+find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
