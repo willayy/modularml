@@ -158,7 +158,27 @@ void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
 
 template <typename T>
 void Tensor_mml<T>::flip(uli dim) {
-  // TODO: Implement
+  if (!valid_flip_dimension(dim)) throw invalid_argument("Invalid flip dimension");
+  for (uli i = 0; i < this->shape[dim]; i++) {
+    array_mml<uli> indices = array_mml<uli>(dim + 1);
+    indices.fill(0);
+    indices[dim] = i;
+    shared_ptr<Tensor<T>> slice = this->slice(indices);
+    slice->reverse_buffer();
+  }
+}
+
+template <typename T>
+void Tensor_mml<T>::reverse_buffer() {
+  uli i = 0;
+  uli j = this->size - 1;
+  while (i < j) {
+    T temp = this->data[i];
+    this->data[i] = this->data[j];
+    this->data[j] = temp;
+    i++;
+    j--;
+  }
 }
 
 template <typename T>
@@ -402,6 +422,11 @@ bool Tensor_mml<T>::valid_slice_indices(const array_mml<uli>& slice_indices) con
     }
   }
   return true;
+}
+
+template <typename T>
+bool Tensor_mml<T>::valid_flip_dimension(uli dim) const {
+  return dim < this->shape.size();
 }
 
 // Convenience initializers

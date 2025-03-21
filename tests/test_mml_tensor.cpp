@@ -533,6 +533,96 @@ TEST(test_mml_tensor, test_slicing_7) {
   ASSERT_EQ(*expected_t13, *t13);
 }
 
+TEST(test_mml_tensor, test_buffer_reverse_1) {
+  shared_ptr<Tensor<int>> t1 = tensor_mml_p(
+      {3, 3},
+      {1, 2, 3,
+       4, 5, 6,
+       7, 8, 9});
+
+  
+  t1->reverse_buffer();
+
+  shared_ptr<Tensor<int>> expected_t1 = tensor_mml_p(
+      {3, 3},
+      {9, 8, 7,
+       6, 5, 4,
+       3, 2, 1});
+
+  ASSERT_EQ(*expected_t1, *t1);
+}
+
+TEST(test_mml_tensor, test_flip_1) {
+  shared_ptr<Tensor<int>> t1 = tensor_mml_p(
+      {3, 3},
+      {1, 2, 3,
+       4, 5, 6,
+       7, 8, 9});
+
+  t1->flip(0);
+
+  shared_ptr<Tensor<int>> expected_t2 = tensor_mml_p(
+      {3, 3},
+      {7, 8, 9,
+       4, 5, 6,
+       1, 2, 3});
+
+  ASSERT_EQ(*expected_t2, *t1);
+}
+
+TEST(test_mml_tensor, test_flip_2) {
+  shared_ptr<Tensor<int>> t1 = tensor_mml_p(
+      {3, 3, 3},
+      {1, 2, 3,
+       4, 5, 6,
+       7, 8, 9,
+
+       10, 11, 12,
+       13, 14, 15,
+       16, 17, 18,
+
+       19, 20, 21,
+       22, 23, 24,
+       25, 26, 27});
+
+  shared_ptr<Tensor<int>> t2 = t1->copy();
+
+  t1->flip(0);
+
+  shared_ptr<Tensor<int>> expected_t1 = tensor_mml_p(
+      {3, 3, 3},
+      {19, 20, 21,
+       22, 23, 24,
+       25, 26, 27,
+
+       10, 11, 12,
+       13, 14, 15,
+       16, 17, 18,
+
+       1, 2, 3,
+       4, 5, 6,
+       7, 8, 9});
+
+  t2->flip(1);
+
+  shared_ptr<Tensor<int>> expected_t2 = tensor_mml_p(
+      {3, 3, 3},
+      {7, 8, 9,
+       4, 5, 6,
+       1, 2, 3,
+
+       16, 17, 18,
+       13, 14, 15,
+       10, 11, 12,
+
+       25, 26, 27,
+       22, 23, 24,
+       19, 20, 21});
+      
+  ASSERT_EQ(*expected_t1, *t1);
+  ASSERT_EQ(*expected_t2, *t2);
+}
+
 TEST(test_mml_tensor, test_to_string) {
   const auto t1 = Tensor_mml<int>({3, 3});
   const string ptr_str =
