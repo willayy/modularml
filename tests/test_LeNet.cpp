@@ -13,7 +13,7 @@
  * @brief Implementation of the LeNet model.
  *
  * This is by no means an example of how models should be implemented
- * using the framewrok. It is just a way, that has been done in order
+ * using the framework. It is just a way, that has been done in order
  * to mimic Pytorch as well as possible.
  *
  * @tparam T Data type of the tensors.
@@ -50,7 +50,7 @@ class LeNetModel {
     conv_output_tensor2 = make_shared<Tensor_mml<T>>(conv_shape);
     conv_output_tensor3 = make_shared<Tensor_mml<T>>(conv_shape);
 
-    // Output tensor construtors:
+    // Output tensor constructors:
     // Allocate minimal output tensors (single-element tensors)
     // Gemm needs matrixes due to a constraint in the current implementation
     output_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
@@ -158,7 +158,7 @@ class LeNetModel {
       throw std::runtime_error("Shape of input tensor after conv1 is not correct.");
     }
 
-    // Max Pooling, works a bit diffrent than the other nodes atm
+    // Max Pooling, works a bit different than the other nodes atm
     maxPoolNode->forward();
     *output_tensor_MaxPool = *std::get<std::shared_ptr<Tensor<T>>>(maxPoolNode->getOutputs()[0]);
     *input_tensor = *output_tensor_MaxPool;
@@ -261,10 +261,6 @@ class LeNetModel {
 
   }
 
-  ~LeNetModel() {
-    input_tensor.reset();
-    output_tensor.reset();
-  }
 };
 
 /**
@@ -273,17 +269,12 @@ class LeNetModel {
  * I just want to make sure that the forward pass is working first.
  */
 TEST(test_LeNet, test_LeNet_forward) {
-  array_mml<int> tensor_shape = array_mml<int>({1, 1, 32, 32});
-  array_mml<float> tensor_data = array_mml<float>(vector<float>(32 * 32, 1.0f));
-
   auto TensorToProcess = tensor_mml_p<float>({INPUTTENSOR_SHAPE}, {INPUTTENSOR_DATA});
   LeNetModel<float> model(TensorToProcess);
 
   model.forward();
   auto output_tensor = model.getTensor();
 
-  array_mml<int> expected_shape = array_mml<int>({1, 1, 14, 14});
-  array_mml<float> expected_data = array_mml<float>(vector<float>(14 * 14, 1.0f));
   auto expected_output = tensor_mml_p<float>({EXPECTED_SHAPE}, {EXPECTED_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
