@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set the C version
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 20)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
@@ -80,18 +80,6 @@ add_library(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 
-# Add all warning flags if build type is Debug, this could be considered pseudo linting.
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-    target_compile_options(${PROJECT_NAME} PRIVATE 
-        -Wfatal-errors
-        -fdiagnostics-color=always
-        -fmax-errors=1
-        -pedantic-errors
-    )
-    
-endif()
-
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
@@ -108,7 +96,7 @@ add_executable(
 )
 
 # Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path -Wfatal-errors -fdiagnostics-color=always -fmax-errors=1 -pedantic-errors)
 # Linker flags
 target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
 # Link the test executable with the main project executable
