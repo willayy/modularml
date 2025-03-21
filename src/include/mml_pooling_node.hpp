@@ -40,13 +40,6 @@ public:
                   int ceil_mode = 0, array_mml<int> dilations = {1, 1},
                   array_mml<int> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
-  /**
-   * @brief Forward function that propogates the input tensor through the
-   * pooling operation.
-   * @param input A shared pointer to the input tensor.
-   * @return Returns a shared pointer to a new tensor with reduced spatial
-   * dimensions.
-   */
   void forward() override;
 
   bool areInputsFilled() const override;
