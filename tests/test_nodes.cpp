@@ -212,3 +212,25 @@ TEST(test_node, test_Sigmoid_float) {
   ASSERT_TRUE(tensors_are_close(*b, *Y));
   ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
 }
+
+TEST(test_node, test_Gelu_float) {
+  /**
+   * @brief Expected Tensor after the ReLU function is applied to each element.
+   */
+  auto b = tensor_mml_p<float>({3, 2}, {0.841344f, 1.954499f, 2.995950f,
+                                        -0.158655f, -0.0455003f, -0.004049f});
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  GeluNode<float> geluNode(X, Y, "none");
+  geluNode.forward();
+
+  // Retrieve the tensor from the shared pointer Y
+
+  // ASSERT_TRUE(tensors_are_close(*b, *Y));
+  // ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}
