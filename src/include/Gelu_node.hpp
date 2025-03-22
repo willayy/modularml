@@ -69,5 +69,7 @@ private:
   shared_ptr<const AbstractTensor> X;
   ///@brief Pointer to output tensor
   shared_ptr<AbstractTensor> Y;
+  ///@brief Gelu approximation algorithm
+  string approximate;
 };
 #include "../Gelu_node.tpp"

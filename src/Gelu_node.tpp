@@ -7,7 +7,7 @@ GeluNode<T>::GeluNode(shared_ptr<const AbstractTensor> X,
                       shared_ptr<AbstractTensor> Y, string approximate)
     : X(X), Y(Y) {
   if (approximate == "none" || approximate == "tanh") {
-    approximate(approximate);
+    this->approximate = approximate;
   } else {
     throw invalid_argument("Invalid value for argument approximate.");
   }
@@ -22,18 +22,25 @@ template <typename T> void GeluNode<T>::forward() {
     throw runtime_error("Output tensor Y is not allocated.");
   Arithmetic_mml<T> arithmetic;
 
-  arithmetic.elementwise(
-      X,
-      [](T x) {
-        return approximate == "none"
-                   ? 0.5 * x * (1 + std::erf(x / std::sqrt(2)))
-                   : 0.5 * x *
-                         (1 + std::tanh(std::sqrt(2 / std : pi) *
-                                        (x + 0.044715 * std::pow(x, 3))));
-      },
-      Y);
+  if (approximate == "none") {
+    arithmetic.elementwise(
+        X,
+        [](T x) {
+          return static_cast<T>(0.5f * x * (1 + std::erf(x / std::sqrt(2))));
+        },
+        Y);
+  } else {
+    arithmetic.elementwise(
+        X,
+        [](T x) {
+          return static_cast<T>(
+              0.5 * x *
+              (1 + std::tanh(std::sqrt(2 / M_PI) *
+                             (x + 0.044715f * std::pow(x, 3)))));
+        },
+        Y);
+  }
 }
-
 template <typename T> bool GeluNode<T>::areInputsFilled() const {
   return X && X->get_size() > 0;
 }
