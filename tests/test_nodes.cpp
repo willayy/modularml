@@ -231,6 +231,6 @@ TEST(test_node, test_Gelu_float) {
 
   // Retrieve the tensor from the shared pointer Y
 
-  // ASSERT_TRUE(tensors_are_close(*b, *Y));
-  // ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
 }
