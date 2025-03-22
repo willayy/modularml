@@ -26,8 +26,8 @@ public:
      * 
      * @param initialNodes A vector of shared pointers to Node objects to initialize the model with.
      */
-    explicit Model_mml(vector<shared_ptr<Node>>&& initialNodes, std::unordered_map<string, GeneralDataTypes>& iomap, std::vector<std::string> inputs, std::vector<std::string> outputs)
-        : nodes(move(initialNodes)), iomap(iomap), inputs(inputs), outputs(outputs) {}
+    explicit Model_mml(vector<shared_ptr<Node>> initialNodes, std::unordered_map<string, GeneralDataTypes> iomap, std::vector<std::string> inputs, std::vector<std::string> outputs)
+        : nodes(move(initialNodes)), iomap(move(iomap)), inputs(move(inputs)), outputs(move(outputs)) {}
 
     /**
      * @brief Adds a node to the model graph.

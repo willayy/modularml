@@ -114,8 +114,8 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
 }
 
 // Helper function: to construct the nodes
-std::vector<unique_ptr<Node>> constructNodes(const json& graph) {
-  std::vector<unique_ptr<Node>> nodes;
+std::vector<shared_ptr<Node>> constructNodes(const json& graph) {
+  std::vector<shared_ptr<Node>> nodes;
   
   // Look for nodes
   if (graph.contains("node") && graph["node"].is_array()) {
@@ -123,21 +123,21 @@ std::vector<unique_ptr<Node>> constructNodes(const json& graph) {
       std::string opType = node["opType"];
       
       if (opType == "Relu") {
-        nodes.push_back(std::make_unique<ReLUNode>(node));
+        nodes.push_back(std::make_shared<ReLUNode>(node));
       } else if (opType == "TanH") {
-        nodes.push_back(std::make_unique<TanHNode>(node));
+        nodes.push_back(std::make_shared<TanHNode>(node));
       } else if (opType == "HardSwish") {
-        nodes.push_back(std::make_unique<SwishNode>(node));
+        nodes.push_back(std::make_shared<SwishNode>(node));
       } else if (opType == "Gemm") {
-        nodes.push_back(std::make_unique<GemmNode>(node));
+        nodes.push_back(std::make_shared<GemmNode>(node));
       } else if (opType == "Reshape") {
-        nodes.push_back(std::make_unique<reshapeNode>(node));
+        nodes.push_back(std::make_shared<reshapeNode>(node));
       } else if (opType == "Flatten") {
-        nodes.push_back(std::make_unique<FlattenNode>(node));
+        nodes.push_back(std::make_shared<FlattenNode>(node));
       } else if (opType == "Dropout") {
-        nodes.push_back(std::make_unique<DropoutNode>(node));
+        nodes.push_back(std::make_shared<DropoutNode>(node));
       } else if (opType == "Conv") {
-        nodes.push_back(std::make_unique<ConvNode>(node));
+        nodes.push_back(std::make_shared<ConvNode>(node));
       } else {
         throw std::runtime_error("Currently unsupported operation type: " + opType);
       }
@@ -181,7 +181,7 @@ unique_ptr<Model> Parser_mml::parse(const json& data) const {
     std::unordered_map<std::string, GeneralDataTypes> iomap = mapTensors(graph);
     
     // Construct the nodes
-    std::vector<unique_ptr<Node>> nodes = constructNodes(graph);
+    std::vector<shared_ptr<Node>> nodes = constructNodes(graph);
 
     // Get the inputs
     std::vector<std::string> inputs = getInputs(graph);
@@ -190,5 +190,5 @@ unique_ptr<Model> Parser_mml::parse(const json& data) const {
     std::vector<std::string> outputs = getOutputs(graph);
     
     // Create the model
-    return std::make_unique<Model_mml>(move(nodes), iomap, inputs, outputs);
+    return std::make_unique<Model_mml>(nodes, iomap, inputs, outputs);
 }

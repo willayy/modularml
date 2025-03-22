@@ -67,8 +67,6 @@ ConvNode::ConvNode(const json& node) {
 }
 
 void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) {
-    //infer attributes first
-
     auto x_it = iomap.find(X);
     if (x_it == iomap.end()) {
         throw std::runtime_error("ConvNode: Input tensor X not found in iomap");
@@ -97,10 +95,19 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     
             auto y_it = iomap.find(Y);
             if (y_it == iomap.end()) {
-              throw std::runtime_error("ConvNode: Input tensor Y not found in iomap");
+                // Create output tensor if it doesn't exist
+                auto y_ptr = x_ptr->copy();
+                // No need to fill with zeros as the convolution function will overwrite the values
+                iomap[Y] = y_ptr;
+                y_it = iomap.find(Y);
+            } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(y_it->second)) {
+                throw std::runtime_error("ConvNode: Output tensor Y has incorrect type");
             }
         
             auto y_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
+
+            //infer and update attributes first
+            update_parameters(x_ptr->get_shape(), w_ptr->get_shape());
     
             // Create a copy of the input
             auto input_copy = x_ptr->copy();
@@ -293,4 +300,15 @@ int ConvNode::get_out_height() {
 
 int ConvNode::get_out_width() {
     return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
+}
+
+void ConvNode::update_parameters(const array_mml<int>& input_shape, const array_mml<int>& weight_shape) {
+    kernel_height = weight_shape[2];
+    kernel_width = weight_shape[3];
+    batch_size = input_shape[0];
+    in_channels = input_shape[1];
+
+    in_height = input_shape[2];
+    in_width = input_shape[3];
+    out_channels = weight_shape[0];
 }

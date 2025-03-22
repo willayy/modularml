@@ -16,12 +16,23 @@ TEST(flatten_node_test, test_forward_3d_tensor) {
 
     shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
+    std::string x_string = "X";
+    std::string y_string = "Y";
+    std::unordered_map<std::string, GeneralDataTypes> iomap;
+    iomap[x_string] = X;
+    iomap[y_string] = Y;
 
-    FlattenNode<float> flatten(X, Y, 1);
+    FlattenNode flatten(x_string, y_string, 1);
 
-    flatten.forward();
+    flatten.forward(iomap);
 
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({2, 6}));
+    auto y_it = iomap.find(y_string);
+    ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+    
+    auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+    ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+    
+    EXPECT_EQ(result_ptr->get_shape(), array_mml<int>({2, 6}));
 }   
 
 
@@ -49,10 +60,22 @@ TEST(flatten_node_test, test_forward_4d_tensor) {
 
     shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
+    std::string x_string = "X";
+    std::string y_string = "Y";
+    std::unordered_map<std::string, GeneralDataTypes> iomap;
+    iomap[x_string] = X;
+    //iomap[y_string] = Y; Not mapping to test auto creation of output tensor
+
     // Axis = 2 means that that the shape is flattened as such 2x2, 3x3 = {4, 9} 
-    FlattenNode<float> flatten(X, Y, 2);
+    FlattenNode flatten(x_string, y_string, 2);
 
-    flatten.forward();
+    flatten.forward(iomap);
 
-    EXPECT_EQ(Y->get_shape(), array_mml<int>({4, 9}));
+    auto y_it = iomap.find(y_string);
+    ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+    
+    auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+    ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+    
+    EXPECT_EQ(result_ptr->get_shape(), array_mml<int>({4, 9}));
 }   

@@ -12,12 +12,30 @@ TEST(test_node, test_ReLU_float) {
   auto X = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
   auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
 
-  ReLUNode<float> reluNode(X, Y);
-  reluNode.forward();
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
+  
 
-  // Retrieve the tensor from the shared pointer Y
-  ASSERT_EQ(*Y, *b);
-  ASSERT_EQ(*X, *original_X);  // Ensure the input tensor is intact
+  ReLUNode reluNode(x_string, y_string);
+  reluNode.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+  
+  auto input_ptr = std::get<std::shared_ptr<Tensor<float>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+  
+  ASSERT_EQ(*result_ptr, *b);
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_ReLU_int32) {
@@ -27,20 +45,32 @@ TEST(test_node, test_ReLU_int32) {
   auto b = tensor_mml_p<int32_t>({3, 3}, {0, 5, 0, 10, 0, 15, 20, 0, 25});
   auto original_X = tensor_mml_p<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25});
 
-  auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-9, 5, -3, 10, -2, 15, 20, -6, 25}));
+  auto X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25}));
   auto Y = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}));
 
-  ReLUNode<int32_t> reluNode(X, Y);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  //iomap[y_string] = Y; Not mapping to test auto creation of output tensor
 
-  // Testing the use of setInput method here as well:
-  X = make_shared<Tensor_mml<int32_t>>(Tensor_mml<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25}));
-  array_mml<GeneralDataTypes> inputs{X};
-  reluNode.setInputs(inputs);
-  reluNode.forward();
+  ReLUNode reluNode(x_string, y_string);
+  reluNode.forward(iomap);
 
-  // Retrieve the tensor from the shared pointer Y
-  ASSERT_EQ(*Y, *b);
-  ASSERT_EQ(*X, *original_X);  // Ensure the input tensor is intact
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<int32_t>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+  
+  auto input_ptr = std::get<std::shared_ptr<Tensor<int32_t>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *b);
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_TanH_float) {
@@ -53,12 +83,29 @@ TEST(test_node, test_TanH_float) {
   auto X = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
   auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
 
-  TanHNode<float> tanhNode(X, Y);
-  tanhNode.forward();
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  //iomap[y_string] = Y; Not mapping to test auto creation of output tensor
 
-  // Retrieve the tensor from the shared pointer Y
-  ASSERT_EQ(*Y, *b);
-  ASSERT_EQ(*X, *original_X);  // Ensure the input tensor is intact
+  TanHNode tanhNode(x_string, y_string);
+  tanhNode.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+  
+  auto input_ptr = std::get<std::shared_ptr<Tensor<float>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *b);
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_Swish_float) {
@@ -70,12 +117,30 @@ TEST(test_node, test_Swish_float) {
 
   auto X = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
   auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
+  
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  //iomap[y_string] = Y; Not mapping to test auto creation of output tensor
 
-  SwishNode<float> swishNode(X, Y);
-  swishNode.forward();
+  SwishNode swishNode(x_string, y_string);
+  swishNode.forward(iomap);
 
-  ASSERT_TRUE(tensors_are_close(*Y, *b));
-  ASSERT_EQ(*X, *original_X);  // Ensure the input tensor is intact
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+  
+  auto input_ptr = std::get<std::shared_ptr<Tensor<float>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_reshape_basic) {
@@ -88,10 +153,24 @@ TEST(test_node, test_reshape_basic) {
   auto shape = tensor_mml_p<int64_t>({2}, {2, 3});
   auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
-  reshapeNode<float> reshapeNode(data, shape, reshaped);
-  reshapeNode.forward();
+  std::string data_string = "data";
+  std::string shape_string = "shape";
+  std::string reshaped_string = "reshaped";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[data_string] = data;
+  iomap[shape_string] = shape;
+  iomap[reshaped_string] = reshaped;
 
-  ASSERT_EQ(*reshaped, *b);
+  reshapeNode reshapeNode(data_string, shape_string, reshaped_string);
+  reshapeNode.forward(iomap);
+
+  auto reshaped_it = iomap.find(reshaped_string);
+  ASSERT_NE(reshaped_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(reshaped_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *b);
 }
 
 TEST(test_node, test_reshape_high_dimensional) {
@@ -104,12 +183,24 @@ TEST(test_node, test_reshape_high_dimensional) {
   auto shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
   auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 1, 3, 1}));
 
-  reshapeNode<float> reshapeNode(data, shape, reshaped);
-  array_mml<GeneralDataTypes> inputs({data, shape}); // This is because we also want to test the setInputs function
-  reshapeNode.setInputs(inputs);
-  reshapeNode.forward();
+  std::string data_string = "data";
+  std::string shape_string = "shape";
+  std::string reshaped_string = "reshaped";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[data_string] = data;
+  iomap[shape_string] = shape;
+  //iomap[reshaped_string] = reshaped; Not mapping to test auto creation of output tensor
 
-  ASSERT_EQ(*reshaped, *b);
+  reshapeNode reshapeNode(data_string, shape_string, reshaped_string);
+  reshapeNode.forward(iomap);
+
+  auto reshaped_it = iomap.find(reshaped_string);
+  ASSERT_NE(reshaped_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(reshaped_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *b);
 }
 
 TEST(test_node, test_Dropout_float) {
@@ -117,13 +208,25 @@ TEST(test_node, test_Dropout_float) {
    * @brief If dropout is not in training mode, the output should be the same as the input.
    */
   auto data = tensor_mml_p<float>({3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f, -0.1423f, 2.8577f, 3.9281f, -0.0719f});
-  auto refrence = data;
+  auto reference = data;
   auto output = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
 
-  DropoutNode<float> DropoutNode(data,output);
-  DropoutNode.forward();
+  std::string data_string = "data";
+  std::string output_string = "output";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[data_string] = data;
+  iomap[output_string] = output;
 
-  ASSERT_EQ(*output, *refrence);
+  DropoutNode DropoutNode(data_string, output_string);
+  DropoutNode.forward(iomap);
+
+  auto output_it = iomap.find(output_string);
+  ASSERT_NE(output_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *reference);
 }
 
 TEST(test_node, test_Dropout_random_float) {
@@ -135,10 +238,22 @@ TEST(test_node, test_Dropout_random_float) {
   auto reference = data;
   auto output = make_shared<Tensor_mml<float>>(Tensor_mml<float>(shape));
 
-  DropoutNode<float> dropoutNode(data, output);
-  dropoutNode.forward();
+  std::string data_string = "data";
+  std::string output_string = "output";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[data_string] = data;
+  //iomap[output_string] = output; Not mapping to test auto creation of output tensor
 
-  ASSERT_EQ(*output, *reference);
+  DropoutNode DropoutNode(data_string, output_string);
+  DropoutNode.forward(iomap);
+
+  auto output_it = iomap.find(output_string);
+  ASSERT_NE(output_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+  
+  ASSERT_EQ(*result_ptr, *reference);
 }
 
 TEST(test_node, test_reshape_with_inferred_dimension) {
@@ -152,10 +267,22 @@ TEST(test_node, test_reshape_with_inferred_dimension) {
   auto shape = tensor_mml_p<int64_t>({2}, {-1, 3});
   auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
-  reshapeNode<float> reshapeNode(data, shape, reshaped);
-  array_mml<GeneralDataTypes> inputs({data, shape}); // This is because we also want to test the setInputs function
-  reshapeNode.setInputs(inputs);
-  reshapeNode.forward();
+  std::string data_string = "data";
+  std::string shape_string = "shape";
+  std::string reshaped_string = "reshaped";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[data_string] = data;
+  iomap[shape_string] = shape;
+  //iomap[reshaped_string] = reshaped; Not mapping to test auto creation of output tensor
 
-  ASSERT_EQ(*reshaped, *b);
+  reshapeNode reshapeNode(data_string, shape_string, reshaped_string);
+  reshapeNode.forward(iomap);
+
+  auto reshaped_it = iomap.find(reshaped_string);
+  ASSERT_NE(reshaped_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(reshaped_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_EQ(*result_ptr, *b);
 }

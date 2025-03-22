@@ -50,11 +50,17 @@ void DropoutNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     using ValueType = typename TensorType::value_type;
 
     if constexpr (!is_in_variant_v<ValueType, T>) {
-      throw std::runtime_error("ReshapeNode: Unsupported data type for tensor data");
+      throw std::runtime_error("DropoutNode: Unsupported data type for tensor data");
     } else {
       auto output_it = iomap.find(output);
       if (output_it == iomap.end()) {
-        throw std::runtime_error("ReshapeNode: Output tensor reshaped not found in iomap");
+        // Create a new output tensor by copying the input tensor
+        auto output_ptr = data_ptr->copy();
+        // No need to fill with zeros as the dropout function will overwrite the values
+        iomap[output] = output_ptr;
+        output_it = iomap.find(output);
+      } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(output_it->second)) {
+        throw std::runtime_error("DropoutNode: Output tensor has incorrect type");
       }
 
       auto output_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(output_it->second);

@@ -279,5 +279,5 @@ class ConvNode : public Node {
     
     // Updates parameters based on the content of the input and weight tensor
     // This method is executed before forward so that we get the correct parameters.
-    void update_parameters(array_mml<int>& input_shape, array_mml<int>& weight_shape);
+    void update_parameters(const array_mml<int>& input_shape, const array_mml<int>& weight_shape);
 };

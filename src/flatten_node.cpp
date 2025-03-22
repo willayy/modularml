@@ -40,7 +40,13 @@ void FlattenNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
         } else {
             auto y_it = iomap.find(Y);
             if (y_it == iomap.end()) {
-                throw std::runtime_error("FlattenNode: Output tensor Y not found in iomap");
+                // Create output tensor if it doesn't exist
+                auto y_ptr = x_ptr->copy();
+                // No need to fill with zeros as the flatten function will overwrite the values
+                iomap[Y] = y_ptr;
+                y_it = iomap.find(Y);
+            } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(y_it->second)) {
+                throw std::runtime_error("FlattenNode: Output tensor Y has incorrect type");
             }
 
             auto y_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);

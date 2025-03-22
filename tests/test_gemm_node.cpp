@@ -30,23 +30,27 @@ TEST(GemmNodeTest, ForwardMultiplication) {
     auto B_ptr = std::make_shared<Tensor_mml<float>>(tensorB);
     auto Y_ptr = std::make_shared<Tensor_mml<float>>(tensorY);
 
-    // Construct the GemmNode<float>.
-    // Here, alpha = 1.0, beta = 0.0, and no transposition is applied.
-    GemmNode<float> node(A_ptr, B_ptr, Y_ptr, std::nullopt, 1.0f, 0.0f, 0, 0);
+    // Setup the iomap with tensor names
+    std::string a_string = "A";
+    std::string b_string = "B";
+    std::string y_string = "Y";
+    std::unordered_map<std::string, GeneralDataTypes> iomap;
+    iomap[a_string] = A_ptr;
+    iomap[b_string] = B_ptr;
+    //iomap[y_string] = Y_ptr; Not mapping to test auto creation of output tensor
 
-    // Run the forward pass.
-    node.forward();
+    // Construct the GemmNode with alpha=1.0, beta=0.0, no transposition
+    GemmNode node(a_string, b_string, y_string, std::nullopt, 1.0f, 0.0f, 0, 0);
 
-    // Retrieve output from the node.
-    array_mml<GeneralDataTypes> outputs = node.getOutputs();
-    ASSERT_EQ(outputs.size(), 1u);
+    // Run the forward pass
+    node.forward(iomap);
 
-    // Extract the shared pointer to the base Tensor type from the variant.
-    auto result_base_ptr = std::get<std::shared_ptr<Tensor<float>>>(outputs[0]);
-
-    // Optionally cast it to the concrete type (Tensor_mml<float>) if you need concrete functionality.
-    auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_base_ptr);
-    ASSERT_NE(result, nullptr) << "Output tensor cast to Tensor_mml<float> failed.";
+    // Retrieve the result from iomap
+    auto y_it = iomap.find(y_string);
+    ASSERT_NE(y_it, iomap.end()) << "Output tensor Y not found in iomap after forward pass";
+    
+    // Extract the shared pointer to the output tensor
+    auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
 
     // Expected result:
     // First row: 1*7 + 2*9 + 3*11 = 7 + 18 + 33 = 58,
@@ -61,6 +65,6 @@ TEST(GemmNodeTest, ForwardMultiplication) {
 
     // Compare each element of the result with the expected value.
     for (int i = 0; i < expected.get_size(); i++) {
-        EXPECT_FLOAT_EQ(expected[i], (*result)[i]);
+        EXPECT_FLOAT_EQ(expected[i], (*result_ptr)[i]);
     }
 }

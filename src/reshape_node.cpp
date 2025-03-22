@@ -50,7 +50,13 @@ void reshapeNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     } else {
       auto reshaped_it = iomap.find(reshaped);
       if (reshaped_it == iomap.end()) {
-        throw std::runtime_error("ReshapeNode: Output tensor reshaped not found in iomap");
+        // Create a new output tensor by copying the input tensor
+        auto new_reshaped_ptr = data_ptr->copy();
+        // No need to fill with zeros as the reshape function will overwrite the values
+        iomap[reshaped] = new_reshaped_ptr;
+        reshaped_it = iomap.find(reshaped);
+      } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(reshaped_it->second)) {
+        throw std::runtime_error("ReshapeNode: Output tensor has incorrect type");
       }
 
       auto reshaped_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(reshaped_it->second);
