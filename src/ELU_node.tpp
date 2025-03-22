@@ -2,6 +2,7 @@
 
 #include "ELU_node.hpp"
 
+template <typename T>
 ELUNode<T>::ELUNode(shared_ptr<AbstractTensor> X, shared_ptr<AbstractTensor> Y,
                     float alpha)
     : X(X), Y(Y), alpha(alpha){};
@@ -13,9 +14,7 @@ template <typename T> void ELUNode<T>::forward() {
     throw runtime_error("Failed to cast X to Tensor<T>.");
   if (!Y)
     throw runtime_error("Output tensor Y is not allocated.");
-  Arithmetic_mml<T> arithmetic;
-  arithmetic.elementwise(
-      X, [](T x) { return x < 0 ? alpha * (exp(x) - 1) : x; }, Y);
+  elu_elementwise();
 }
 
 template <typename T> bool ELUNode<T>::areInputsFilled() const {
@@ -42,4 +41,32 @@ template <typename T>
 array_mml<GeneralDataTypes> ELUNode<T>::getOutputs() const {
   return array_mml<GeneralDataTypes>{
       GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(Y))};
+}
+
+template <typename T> T ELUNode<T>::elu_operation(T x) {
+  return x < 0 ? alpha * (exp(x) - 1) : x;
+}
+
+template <typename T> void ELUNode<T>::elu_elementwise() {
+  const auto shape = X->get_shape();
+  const auto num_dimensions = shape.size();
+
+  array_mml<int> indices(num_dimensions);
+  for (uint64_t i = 0; i < num_dimensions; ++i) {
+    indices[i] = 0;
+  }
+  const auto total_elements = X->get_size();
+
+  for (int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+    // Apply function `f` from `a` to `c`
+    (*Y)[indices] = elu_operation((*X)[indices]);
+
+    // Increment indices like a multi-dimensional counter
+    for (int d = num_dimensions - 1; d >= 0; --d) {
+      if (++indices[d] < shape[d]) {
+        break; // No carry needed, continue iteration
+      }
+      indices[d] = 0; // Carry over to the next dimension
+    }
+  }
 }

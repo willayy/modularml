@@ -212,3 +212,25 @@ TEST(test_node, test_Sigmoid_float) {
   ASSERT_TRUE(tensors_are_close(*b, *Y));
   ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
 }
+
+TEST(test_node, test_ELUNode_float) {
+
+  /**
+   * @brief Expected Tensor after the ReLU function is applied to each element.
+   */
+  auto b = tensor_mml_p<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.264241f, -1.729329f, -1.900425f});
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  ELUNode<float> elu_node(X, Y, 2.0f);
+  elu_node.forward();
+
+  // Retrieve the tensor from the shared pointer Y
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}

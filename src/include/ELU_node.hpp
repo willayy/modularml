@@ -45,7 +45,10 @@ public:
   array_mml<GeneralDataTypes> getOutputs() const override;
 
 private:
+  T elu_operation(T x);
+  void elu_elementwise();
   shared_ptr<AbstractTensor> X;
   shared_ptr<AbstractTensor> Y;
   float alpha;
-}
+};
+#include "../ELU_node.tpp"
