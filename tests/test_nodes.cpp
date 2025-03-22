@@ -216,7 +216,7 @@ TEST(test_node, test_Sigmoid_float) {
 TEST(test_node, test_ELUNode_float) {
 
   /**
-   * @brief Expected Tensor after the ReLU function is applied to each element.
+   * @brief Expected Tensor after the ELU function is applied to each element.
    */
   auto b = tensor_mml_p<float>(
       {3, 2}, {1.0f, 2.0f, 3.0f, -1.264241f, -1.729329f, -1.900425f});
