@@ -5,17 +5,17 @@ FlattenNode::FlattenNode(std::string X,
                             int axis) : X(X), Y(Y), axis(axis) {}
 
 FlattenNode::FlattenNode(const json& node) {
-    if (node.contains("inputs") && node["inputs"].is_array()) {
-        X = node["inputs"][0];
+    if (node.contains("input") && node["input"].is_array()) {
+        X = node["input"][0];
     }
 
-    if (node.contains("outputs") && node["outputs"].is_array()) {
-        Y = node["outputs"][0];
+    if (node.contains("output") && node["output"].is_array()) {
+        Y = node["output"][0];
     }
 
     axis = 1;
-    if (node.contains("attributes") && node["attributes"].is_object()) {
-        for (const auto& attr : node["attributes"]) {
+    if (node.contains("attribute") && node["attribute"].is_object()) {
+        for (const auto& attr : node["attribute"]) {
             if (attr["name"] == "axis") {
                 axis = attr["i"];
             }

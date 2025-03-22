@@ -124,7 +124,7 @@ std::vector<shared_ptr<Node>> constructNodes(const json& graph) {
       
       if (opType == "Relu") {
         nodes.push_back(std::make_shared<ReLUNode>(node));
-      } else if (opType == "TanH") {
+      } else if (opType == "Tanh") {
         nodes.push_back(std::make_shared<TanHNode>(node));
       } else if (opType == "HardSwish") {
         nodes.push_back(std::make_shared<SwishNode>(node));

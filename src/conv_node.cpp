@@ -32,21 +32,21 @@ ConvNode::ConvNode(std::string X,
 }
 
 ConvNode::ConvNode(const json& node) {
-    if (node.contains("inputs") && node["inputs"].is_array()) {
-        X = node["inputs"][0];
-        W = node["inputs"][1];
-        if (node["inputs"].size() > 2) {
-            B = node["inputs"][2];
+    if (node.contains("input") && node["input"].is_array()) {
+        X = node["input"][0];
+        W = node["input"][1];
+        if (node["input"].size() > 2) {
+            B = node["input"][2];
         }
     }
 
-    if (node.contains("outputs") && node["outputs"].is_array()) {
-        Y = node["outputs"][0];
+    if (node.contains("output") && node["output"].is_array()) {
+        Y = node["output"][0];
     }
 
     group = 1;
-    if (node.contains("attributes") && node["attributes"].is_object()) {
-        for (const auto& attr : node["attributes"]) {
+    if (node.contains("attribute") && node["attribute"].is_object()) {
+        for (const auto& attr : node["attribute"]) {
             if (attr["name"] == "dilations") {
                 std::vector<int> dilations_vec = attr["ints"];
                 dilations = array_mml<int>(dilations_vec);

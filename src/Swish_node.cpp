@@ -3,12 +3,12 @@
 SwishNode::SwishNode(std::string X, std::string Y): X(X), Y(Y) {}
 
 SwishNode::SwishNode(const json& node) {
-  if (node.contains("inputs") && node["inputs"].is_array()) {
-    X = node["inputs"][0];
+  if (node.contains("input") && node["input"].is_array()) {
+    X = node["input"][0];
   }
 
-  if (node.contains("outputs") && node["outputs"].is_array()) {
-    Y = node["outputs"][0];
+  if (node.contains("output") && node["output"].is_array()) {
+    Y = node["output"][0];
   }
 }
 

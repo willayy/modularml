@@ -40,11 +40,11 @@ vector<vector<shared_ptr<Node>>> Model_mml::topologicalSort() {
         throw runtime_error("ComputeGraph has no nodes.");
     }
 
-    // Create output-to-node mapping
-    std::unordered_map<std::string, std::vector<shared_ptr<Node>>> nodeMap;
+    // Create output-to-node mapping (which node produces which tensor)
+    std::unordered_map<std::string, shared_ptr<Node>> producerMap;
     for (auto& node : nodes) {
         for (const auto& output : node->getOutputs()) {
-            nodeMap[output].push_back(node);
+            producerMap[output] = node;
         }
     }
 
@@ -52,18 +52,23 @@ vector<vector<shared_ptr<Node>>> Model_mml::topologicalSort() {
     std::unordered_map<shared_ptr<Node>, int> inDegree;
     std::unordered_map<shared_ptr<Node>, std::vector<shared_ptr<Node>>> adjacentMap;
     
+    // Initialize in-degree to zero for all nodes
     for (auto& node : nodes) {
         inDegree[node] = 0;
-        for (const auto& input : node->getInputs()) {
-            auto it = nodeMap.find(input);
-            if (it != nodeMap.end()) {
-                for (auto& adjacentNode : it->second) {
-                    if (adjacentNode != node) {
-                        adjacentMap[adjacentNode].push_back(node);
-                        inDegree[node]++;
-                    }
+    }
+    
+    // Build the adjacency list: if node B consumes output from node A, add A → B edge
+    for (auto& consumerNode : nodes) {
+        for (const auto& input : consumerNode->getInputs()) {
+            auto producerIt = producerMap.find(input);
+            if (producerIt != producerMap.end()) {
+                shared_ptr<Node> producerNode = producerIt->second;
+                if (producerNode != consumerNode) { // Avoid self-loops
+                    adjacentMap[producerNode].push_back(consumerNode);
+                    inDegree[consumerNode]++;
                 }
             }
+            // Inputs that aren't in producerMap are external inputs or initializers
         }
     }
 
@@ -85,7 +90,7 @@ vector<vector<shared_ptr<Node>>> Model_mml::topologicalSort() {
         currentLayer.reserve(size);
         
         for (int i = 0; i < size; i++) {
-            auto& node = q.front();
+            auto node = q.front();
             q.pop();
             
             currentLayer.push_back(node);

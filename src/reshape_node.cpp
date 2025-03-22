@@ -8,18 +8,18 @@ reshapeNode::reshapeNode(std::string data, std::string shape,
 }
 
 reshapeNode::reshapeNode(const json& node) {
-  if (node.contains("inputs") && node["inputs"].is_array()) {
-    data = node["inputs"][0];
-    shape = node["inputs"][1];
+  if (node.contains("input") && node["input"].is_array()) {
+    data = node["input"][0];
+    shape = node["input"][1];
   }
 
-  if (node.contains("outputs") && node["outputs"].is_array()) {
-    reshaped = node["outputs"][0];
+  if (node.contains("output") && node["output"].is_array()) {
+    reshaped = node["output"][0];
   }
 
   allowzero = 0;
-  if (node.contains("attributes") && node["attributes"].is_object()) {
-    for (const auto& attr : node["attributes"]) {
+  if (node.contains("attribute") && node["attribute"].is_object()) {
+    for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "allowzero") {
         allowzero = attr["i"];
       }

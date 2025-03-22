@@ -9,24 +9,24 @@ GemmNode::GemmNode(std::string A,
     : A(A), B(B), C(C), Y(Y), alpha(alpha), beta(beta), transA(transA), transB(transB) {}
 
 GemmNode::GemmNode(const json& node) {
-  if (node.contains("inputs") && node["inputs"].is_array()) {
-    A = node["inputs"][0];
-    B = node["inputs"][1];
-    if (node["inputs"].size() > 2) {
-      C = node["inputs"][2];
+  if (node.contains("input") && node["input"].is_array()) {
+    A = node["input"][0];
+    B = node["input"][1];
+    if (node["input"].size() > 2) {
+      C = node["input"][2];
     }
   }
 
-  if (node.contains("outputs") && node["outputs"].is_array()) {
-    Y = node["outputs"][0];
+  if (node.contains("output") && node["output"].is_array()) {
+    Y = node["output"][0];
   }
 
   alpha = 1.0f;
   beta = 1.0f;
   transA = 0;
   transB = 0;
-  if (node.contains("attributes") && node["attributes"].is_object()) {
-    for (const auto& attr : node["attributes"]) {
+  if (node.contains("attribute") && node["attribute"].is_object()) {
+    for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "alpha") {
         alpha = attr["f"];
       } else if (attr["name"] == "beta") {
@@ -108,11 +108,36 @@ void GemmNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
           throw std::runtime_error("GemmNode: Input tensor C not found in iomap");
         }
         auto c_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(c_it->second);
-        new_c_ptr = std::dynamic_pointer_cast<Tensor_mml<ValueType>>(c_ptr);
-        if (!new_c_ptr) {
-          throw runtime_error("GemmNode: Failed to cast optional C to Tensor_mml<T>.");
+        auto c_shape = c_ptr->get_shape();
+        
+        // Handle broadcasting for C
+        if (c_shape.size() == 1 && c_shape[0] == N) {
+          // C is a 1D vector [N], reshape to [1, N] for matrix operations
+          auto reshaped_c = c_ptr->copy();
+          reshaped_c->reshape({1, N});
+          
+          // Now expand to [M, N] if M > 1 by repeating the vector M times
+          array_mml<int> new_shape = array_mml<int>({M, N});
+          new_c_ptr = make_shared<Tensor_mml<ValueType>>(new_shape);
+          for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+              (*new_c_ptr)[i * N + j] = (*reshaped_c)[j];
+            }
+          }
+        } 
+        else if (c_shape.size() == 2 && c_shape[0] == M && c_shape[1] == N) {
+          // C is already in the right shape [M, N]
+          new_c_ptr = std::dynamic_pointer_cast<Tensor_mml<ValueType>>(c_ptr);
+          if (!new_c_ptr) {
+            throw runtime_error("GemmNode: Failed to cast optional C to Tensor_mml<T>.");
+          }
+        } 
+        else {
+          throw runtime_error("GemmNode: Tensor C must be broadcastable to shape [" + 
+                              std::to_string(M) + ", " + std::to_string(N) + "]");
         }
       } else {
+        // If C is not provided, use zeros
         Tensor_mml<ValueType> zero_tensor({M, N});
         zero_tensor.fill(static_cast<ValueType>(0));
         new_c_ptr = make_shared<Tensor_mml<ValueType>>(zero_tensor);

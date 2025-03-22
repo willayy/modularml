@@ -9,22 +9,22 @@ DropoutNode::DropoutNode(std::string data,
     : data(data), output(output), mask(mask), ratio(ratio), training_mode(training_mode), seed(seed) {}
 
 DropoutNode::DropoutNode(const json& node) {
-  if (node.contains("inputs") && node["inputs"].is_array()) {
-    data = node["inputs"][0];
+  if (node.contains("input") && node["input"].is_array()) {
+    data = node["input"][0];
   }
 
-  if (node.contains("outputs") && node["outputs"].is_array()) {
-    output = node["outputs"][0];
-    if (node["outputs"].size() > 1) {
-      mask = node["outputs"][1];
+  if (node.contains("output") && node["output"].is_array()) {
+    output = node["output"][0];
+    if (node["output"].size() > 1) {
+      mask = node["output"][1];
     }
   }
 
   ratio = 0.5;
   training_mode = false;
   seed = std::nullopt;
-  if (node.contains("attributes") && node["attributes"].is_object()) {
-    for (const auto& attr : node["attributes"]) {
+  if (node.contains("attribute") && node["attribute"].is_object()) {
+    for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "ratio") {
         ratio = attr["f"];
       } else if (attr["name"] == "training_mode") {
