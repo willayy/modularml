@@ -42,3 +42,11 @@ void SwishNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap
     }
   }, x_tensor);
 }
+
+std::vector<std::string> SwishNode::getInputs() {
+  return {X};
+}
+
+std::vector<std::string> SwishNode::getOutputs() {
+  return {Y};
+}

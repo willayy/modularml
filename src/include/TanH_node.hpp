@@ -37,6 +37,20 @@ class TanHNode : public Node {
    */
   void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
 
+  /**
+   * @brief Get inputs.
+   * 
+   * @return The names of the inputs to the node.
+   */
+  std::vector<std::string> getInputs() override;
+
+  /**
+   * @brief Get outputs.
+   * 
+   * @return The names of the outputs to the node.
+   */
+  std::vector<std::string> getOutputs() override;
+
  private:
   // Input
   std::string X;  // Input tensor X.

@@ -71,3 +71,15 @@ void DropoutNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     }
   }, data_tensor);
 }
+
+std::vector<std::string> DropoutNode::getInputs() {
+  return {data};
+}
+
+std::vector<std::string> DropoutNode::getOutputs() {
+  if (mask.has_value()) {
+    return {output, mask.value()};
+  } else {
+    return {output};
+  }
+}

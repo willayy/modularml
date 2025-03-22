@@ -50,6 +50,22 @@ public:
     virtual void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) = 0;
 
     /**
+     * @brief Get inputs.
+     * 
+     * This pure virtual function must be overridden by derived classes to
+     * @return The names of the inputs to the node.
+     */
+    virtual std::vector<std::string> getInputs() = 0;
+
+    /**
+     * @brief Get outputs.
+     * 
+     * This pure virtual function must be overridden by derived classes to
+     * @return The names of the outputs to the node.
+     */
+    virtual std::vector<std::string> getOutputs() = 0;
+
+    /**
      * @brief Virtual destructor for the Node class.
      *
      * Ensures derived class destructors are called properly.

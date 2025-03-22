@@ -40,3 +40,11 @@ void TanHNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     }
   }, x_tensor);
 }
+
+std::vector<std::string> TanHNode::getInputs() {
+  return {X};
+}
+
+std::vector<std::string> TanHNode::getOutputs() {
+  return {Y};
+}

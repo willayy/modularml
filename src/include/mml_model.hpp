@@ -24,17 +24,17 @@ public:
     /**
      * @brief Constructor for Model_mml with initial nodes.
      * 
-     * @param initialNodes A vector of unique pointers to Node objects to initialize the model with.
+     * @param initialNodes A vector of shared pointers to Node objects to initialize the model with.
      */
-    explicit Model_mml(vector<unique_ptr<Node>>&& initialNodes, std::unordered_map<string, GeneralDataTypes>& iomap, std::vector<std::string> inputs, std::vector<std::string> outputs)
+    explicit Model_mml(vector<shared_ptr<Node>>&& initialNodes, std::unordered_map<string, GeneralDataTypes>& iomap, std::vector<std::string> inputs, std::vector<std::string> outputs)
         : nodes(move(initialNodes)), iomap(iomap), inputs(inputs), outputs(outputs) {}
 
     /**
      * @brief Adds a node to the model graph.
      * 
-     * @param node A unique pointer to a Node object to be added to the graph.
+     * @param node A shared pointer to a Node object to be added to the graph.
      */
-    void addNode(unique_ptr<Node> node) {
+    void addNode(shared_ptr<Node> node) {
         nodes.push_back(move(node));
     }
 
@@ -48,7 +48,7 @@ public:
 
 private:
     // Nodes in the graph
-    vector<unique_ptr<Node>> nodes;
+    vector<shared_ptr<Node>> nodes;
 
     // Map of inputs and outputs
     std::unordered_map<string, GeneralDataTypes> iomap;
@@ -56,4 +56,7 @@ private:
     // Inputs and outputs
     std::vector<std::string> inputs;
     std::vector<std::string> outputs;
+
+    // Helper function to do topological sort
+    vector<vector<shared_ptr<Node>>> topologicalSort();
 };

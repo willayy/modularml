@@ -158,6 +158,18 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     }, x_tensor);
 }
 
+std::vector<std::string> ConvNode::getInputs() {
+    if (B.has_value()) {
+        return {X, W, B.value()};
+    } else {
+        return {X, W};
+    }
+}
+
+std::vector<std::string> ConvNode::getOutputs() {
+    return {Y};
+}
+
 void ConvNode::flip_kernel(T& weight_variant) {
     std::visit([this](auto &weight) {
         int height = get_kernel_height();

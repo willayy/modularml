@@ -76,6 +76,14 @@ void FlattenNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     }, x_tensor);
 }
 
+std::vector<std::string> FlattenNode::getInputs() {
+    return {X};
+}
+
+std::vector<std::string> FlattenNode::getOutputs() {
+    return {Y};
+}
+
 int FlattenNode::get_axis() const {
     return axis;
 }

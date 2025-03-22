@@ -89,3 +89,15 @@ void GemmNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     }
   }, a_tensor);
 }
+
+std::vector<std::string> GemmNode::getInputs() {
+  if (C.has_value()) {
+    return {A, B, C.value()};
+  } else {
+    return {A, B};
+  }
+}
+
+std::vector<std::string> GemmNode::getOutputs() {
+  return {Y};
+}

@@ -113,3 +113,11 @@ void reshapeNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     }
   }, data_tensor, shape_tensor);
 }
+
+std::vector<std::string> reshapeNode::getInputs() {
+  return {data, shape};
+}
+
+std::vector<std::string> reshapeNode::getOutputs() {
+  return {reshaped};
+}

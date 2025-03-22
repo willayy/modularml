@@ -40,3 +40,11 @@ void ReLUNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     }
   }, x_tensor);
 }
+
+std::vector<std::string> ReLUNode::getInputs() {
+  return {X};
+}
+
+std::vector<std::string> ReLUNode::getOutputs() {
+  return {Y};
+}
