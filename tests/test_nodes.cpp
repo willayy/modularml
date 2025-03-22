@@ -215,7 +215,7 @@ TEST(test_node, test_Sigmoid_float) {
 
 TEST(test_node, test_Gelu_float) {
   /**
-   * @brief Expected Tensor after the ReLU function is applied to each element.
+   * @brief Expected Tensor after the Gelu function is applied to each element.
    */
   auto b = tensor_mml_p<float>({3, 2}, {0.841344f, 1.954499f, 2.995950f,
                                         -0.158655f, -0.0455003f, -0.004049f});
@@ -233,4 +233,11 @@ TEST(test_node, test_Gelu_float) {
 
   ASSERT_TRUE(tensors_are_close(*b, *Y));
   ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+
+  b = tensor_mml_p<float>({3, 2}, {0.841192f, 1.9546f, 2.99636f, -0.158808f,
+                                   -0.045402f, -0.003637f});
+  geluNode = GeluNode<float>(X, Y, "tanh");
+  geluNode.forward();
+
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
 }
