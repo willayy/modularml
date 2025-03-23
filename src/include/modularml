@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Dropout_node.hpp"
+#include "LeakyReLU_node.hpp"
 #include "ReLU_node.hpp"
 #include "Sigmoid_node.hpp"
 #include "Swish_node.hpp"
