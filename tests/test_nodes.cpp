@@ -241,3 +241,27 @@ TEST(test_node, test_Gelu_float) {
 
   ASSERT_TRUE(tensors_are_close(*b, *Y));
 }
+
+TEST(test_node, test_Gelu_random_float) {
+  /**
+   * @brief Expected Tensor after the Gelu function is applied to each element.
+   */
+  auto b = tensor_mml_p<float>(
+      {3, 2}, {-0.001011f, -0.169019f, 7.991757f, -0.036949f, 0.0f, 0.0f});
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {-3.436826f, -0.819629f, 7.991757f,
+                                   -2.107639f, -7.18764f, -6.513006f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {-3.436826f, -0.819629f, 7.991757f, -2.107639f,
+                                 -7.18764f, -6.513006f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  GeluNode<float> geluNode(X, Y, "none");
+  geluNode.forward();
+
+  // Retrieve the tensor from the shared pointer Y
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}
