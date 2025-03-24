@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['swishnode_0',['SwishNode',['../classSwishNode.html',1,'']]]
+  ['relunode_0',['ReLUNode',['../classReLUNode.html',1,'']]],
+  ['reshapenode_1',['reshapeNode',['../classreshapeNode.html',1,'']]]
 ];

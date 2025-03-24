@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['relunode_0',['relunode',['../classReLUNode.html',1,'ReLUNode&lt; T &gt;'],['../classReLUNode.html#a680eca1cb72e8e9b1a946a4b6175bb90',1,'ReLUNode::ReLUNode()']]],
-  ['reshape_1',['reshape',['../classTensor.html#ab2318ff920d684845d564ddd38fb89e5',1,'Tensor::reshape(const array_mml&lt; int &gt; &amp;new_shape)=0'],['../classTensor.html#af20ba023c59f10a99b20f57f95b42e4a',1,'Tensor::reshape(initializer_list&lt; int &gt; new_shape)=0'],['../classTensor__mml.html#ae0761cdbeb50962d4a459f4d7c2eeb91',1,'Tensor_mml::reshape(const array_mml&lt; int &gt; &amp;new_shape) override'],['../classTensor__mml.html#a8a2cbc2ef4d9a0034758ca936ea9fb3f',1,'Tensor_mml::reshape(initializer_list&lt; int &gt; new_shape) override']]],
-  ['reshapenode_2',['reshapenode',['../classreshapeNode.html',1,'reshapeNode&lt; T &gt;'],['../classreshapeNode.html#a120fdab219cd07364d16c73f12363570',1,'reshapeNode::reshapeNode()']]]
+  ['parse_0',['parse',['../classDataParser.html#adf6dd159bf32a2cc4d1eede918af93a6',1,'DataParser']]],
+  ['pooling_1',['pooling',['../classPoolingNode__mml.html#a2e5ee75e130c7354f1963e6d8c46ef87',1,'PoolingNode_mml']]],
+  ['poolingnode_5fmml_2',['poolingnode_mml',['../classPoolingNode__mml.html',1,'PoolingNode_mml&lt; T &gt;'],['../classPoolingNode__mml.html#a4824c82be26451047bdb5e21c62d8105',1,'PoolingNode_mml::PoolingNode_mml()']]]
 ];

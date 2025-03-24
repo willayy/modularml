@@ -1,19 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="5,179,61,204"/>
-<area shape="rect" id="Node000001" href="$classConvNode.html" title="A class representing a Convolutional node in a computational graph." alt="" coords="119,5,246,31"/>
-<area shape="poly" id="edge4_Node000000_Node000001" title=" " alt="" coords="38,165,62,103,82,69,108,40,126,28,129,33,111,44,86,72,67,105,43,166"/>
-<area shape="rect" id="Node000002" href="$classDropoutNode.html" title="A class representing a Dropout node in a computational graph." alt="" coords="109,55,256,80"/>
-<area shape="poly" id="edge5_Node000000_Node000002" title=" " alt="" coords="45,165,71,126,88,106,108,89,129,78,132,82,111,94,92,110,75,130,50,168"/>
-<area shape="rect" id="Node000003" href="$classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="113,104,253,129"/>
-<area shape="poly" id="edge6_Node000000_Node000003" title=" " alt="" coords="61,168,108,138,136,127,138,132,111,143,63,172"/>
-<area shape="rect" id="Node000004" href="$classGemmNode.html" title="A class representing a GEMM node in a computational graph." alt="" coords="113,153,252,179"/>
-<area shape="poly" id="edge7_Node000000_Node000004" title=" " alt="" coords="74,182,113,175,114,180,75,187"/>
-<area shape="rect" id="Node000005" href="$classReLUNode.html" title="A class representing a ReLU node in a computational graph." alt="" coords="119,203,247,228"/>
-<area shape="poly" id="edge8_Node000000_Node000005" title=" " alt="" coords="75,195,118,202,118,208,74,201"/>
-<area shape="rect" id="Node000006" href="$classSwishNode.html" title="A class representing a Swish node in a computational graph." alt="" coords="117,252,249,277"/>
-<area shape="poly" id="edge9_Node000000_Node000006" title=" " alt="" coords="65,210,111,237,141,249,139,254,108,242,62,214"/>
-<area shape="rect" id="Node000007" href="$classTanHNode.html" title="A class representing a TanH node in a computational graph." alt="" coords="119,301,246,327"/>
-<area shape="poly" id="edge10_Node000000_Node000007" title=" " alt="" coords="50,215,76,252,111,287,134,299,131,304,108,291,72,255,46,218"/>
-<area shape="rect" id="Node000008" href="$classreshapeNode.html" title="A class representing a reshape node in a computational graph." alt="" coords="109,351,256,376"/>
-<area shape="poly" id="edge11_Node000000_Node000008" title=" " alt="" coords="44,217,68,277,87,308,111,336,131,348,128,353,108,340,82,312,63,279,39,219"/>
+<area shape="rect" id="Node000000" href="$classModel.html" title="Abstract base class for machine learning models." alt="" coords="5,5,68,31"/>
+<area shape="rect" id="Node000001" href="$classModel__mml.html" title="A class representing a modular machine learning model." alt="" coords="116,5,215,31"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="82,15,116,15,116,21,82,21"/>
 </map>

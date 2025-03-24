@@ -189,10 +189,14 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="comment">// Checks the inputs to the convolution node</span></div>
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="keywordtype">void</span> validate_inputs();</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>};</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="comment">// Updates parameters based on the content of the input and weight tensor</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    <span class="comment">// This method is executed before forward so that we get the correct parameters.</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keywordtype">void</span> update_parameters();</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>};</div>
 </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor">#include &quot;../conv_node.tpp&quot;</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="preprocessor">#include &quot;../conv_node.tpp&quot;</span></div>
 <div class="ttc" id="aclassConvNode_html"><div class="ttname"><a href="classConvNode.html">ConvNode</a></div><div class="ttdoc">A class representing a Convolutional node in a computational graph.</div><div class="ttdef"><b>Definition</b> conv_node.hpp:18</div></div>
 <div class="ttc" id="aclassConvNode_html_a15703ffcdf1b824790bf3eacc287095a"><div class="ttname"><a href="classConvNode.html#a15703ffcdf1b824790bf3eacc287095a">ConvNode::getOutputs</a></div><div class="ttdeci">array_mml&lt; GeneralDataTypes &gt; getOutputs() const override</div><div class="ttdoc">Get the output of the node.</div></div>
 <div class="ttc" id="aclassConvNode_html_a205bec16482dd0a3140711e94842bd6d"><div class="ttname"><a href="classConvNode.html#a205bec16482dd0a3140711e94842bd6d">ConvNode::setInputs</a></div><div class="ttdeci">void setInputs(const array_mml&lt; GeneralDataTypes &gt; &amp;inputs) override</div><div class="ttdoc">Set the input(s) for the node.</div></div>

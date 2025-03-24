@@ -1,19 +1,27 @@
 <map id="Node" name="Node">
-<area shape="rect" id="Node000001" title="Abstract base class representing a node in a computational graph." alt="" coords="5,179,61,204"/>
-<area shape="rect" id="Node000002" href="$classConvNode.html" title="A class representing a Convolutional node in a computational graph." alt="" coords="119,5,246,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="38,165,62,103,82,69,108,40,126,28,129,33,111,44,86,72,67,105,43,166"/>
-<area shape="rect" id="Node000003" href="$classDropoutNode.html" title="A class representing a Dropout node in a computational graph." alt="" coords="109,55,256,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="45,165,71,126,88,106,108,89,129,78,132,82,111,94,92,110,75,130,50,168"/>
-<area shape="rect" id="Node000004" href="$classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="113,104,253,129"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="61,168,108,138,136,127,138,132,111,143,63,172"/>
-<area shape="rect" id="Node000005" href="$classGemmNode.html" title="A class representing a GEMM node in a computational graph." alt="" coords="113,153,252,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="74,182,113,175,114,180,75,187"/>
-<area shape="rect" id="Node000006" href="$classReLUNode.html" title="A class representing a ReLU node in a computational graph." alt="" coords="119,203,247,228"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="75,195,118,202,118,208,74,201"/>
-<area shape="rect" id="Node000007" href="$classSwishNode.html" title="A class representing a Swish node in a computational graph." alt="" coords="117,252,249,277"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="65,210,111,237,141,249,139,254,108,242,62,214"/>
-<area shape="rect" id="Node000008" href="$classTanHNode.html" title="A class representing a TanH node in a computational graph." alt="" coords="119,301,246,327"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="50,215,76,252,111,287,134,299,131,304,108,291,72,255,46,218"/>
-<area shape="rect" id="Node000009" href="$classreshapeNode.html" title="A class representing a reshape node in a computational graph." alt="" coords="109,351,256,376"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="44,217,68,277,87,308,111,336,131,348,128,353,108,340,82,312,63,279,39,219"/>
+<area shape="rect" id="Node000001" title="Abstract base class representing a node in a computational graph." alt="" coords="5,228,61,253"/>
+<area shape="rect" id="Node000002" href="$classConvNode.html" title="A class representing a Convolutional node in a computational graph." alt="" coords="135,5,262,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="34,214,41,175,54,128,75,81,90,59,108,40,134,25,137,29,111,44,94,62,80,84,59,130,46,176,40,215"/>
+<area shape="rect" id="Node000003" href="$classDropoutNode.html" title="A class representing a Dropout node in a computational graph." alt="" coords="125,55,272,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="38,214,61,151,81,118,108,89,126,78,129,82,111,93,86,121,66,153,43,215"/>
+<area shape="rect" id="Node000004" href="$classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="129,104,269,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="45,214,70,175,88,155,108,138,130,127,132,132,111,143,91,159,75,178,49,217"/>
+<area shape="rect" id="Node000005" href="$classGemmNode.html" title="A class representing a GEMM node in a computational graph." alt="" coords="129,153,268,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="60,217,108,188,139,176,141,181,110,192,63,222"/>
+<area shape="rect" id="Node000006" href="$classPoolingNode__mml.html" title="Base class for pooling nodes (e.g., MaxPooling, AveragePooling)." alt="" coords="109,203,288,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="74,232,116,225,116,231,75,237"/>
+<area shape="rect" id="Node000009" href="$classReLUNode.html" title="A class representing a ReLU node in a computational graph." alt="" coords="135,252,263,277"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="75,244,135,253,134,258,75,249"/>
+<area shape="rect" id="Node000010" href="$classSigmoidNode.html" title=" " alt="" coords="125,301,272,327"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="64,259,110,286,145,299,143,304,108,291,61,264"/>
+<area shape="rect" id="Node000011" href="$classSwishNode.html" title="A class representing a Swish node in a computational graph." alt="" coords="133,351,265,376"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="50,264,75,301,92,320,111,336,136,348,133,353,108,340,88,324,71,305,45,267"/>
+<area shape="rect" id="Node000012" href="$classTanHNode.html" title="A class representing a TanH node in a computational graph." alt="" coords="135,400,262,425"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="44,266,67,326,86,358,111,385,136,399,134,404,108,389,82,361,62,329,39,268"/>
+<area shape="rect" id="Node000013" href="$classreshapeNode.html" title="A class representing a reshape node in a computational graph." alt="" coords="125,449,272,475"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="40,266,46,304,59,349,80,395,94,416,111,435,130,447,127,451,108,439,90,420,76,398,54,351,41,305,35,267"/>
+<area shape="rect" id="Node000007" href="$classAvgPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs average pooling." alt="" coords="338,179,541,204"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="301,202,338,199,338,204,302,208"/>
+<area shape="rect" id="Node000008" href="$classMaxPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs max pooling." alt="" coords="336,228,543,253"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="302,224,336,227,336,232,302,229"/>
 </map>

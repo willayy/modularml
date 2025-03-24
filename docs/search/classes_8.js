@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['relunode_0',['ReLUNode',['../classReLUNode.html',1,'']]],
-  ['reshapenode_1',['reshapeNode',['../classreshapeNode.html',1,'']]]
+  ['poolingnode_5fmml_0',['PoolingNode_mml',['../classPoolingNode__mml.html',1,'']]]
 ];
