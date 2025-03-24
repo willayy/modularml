@@ -83,7 +83,7 @@ private:
      * 
      * Allows only non-negative values, default is axis=1.
      */
-    u_int axis;
+    int axis;
 
 
     int get_axis() const;
