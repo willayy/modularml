@@ -266,3 +266,51 @@ TEST(test_node, test_Gelu_random_float) {
 
   ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
 }
+
+TEST(test_node, test_leaky_relu_float) {
+  /**
+   * @brief Expected Tensor after the LeakyReLU function is applied to each
+   * element.
+   */
+  auto b =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -0.02f, -0.04f, -0.06f});
+
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  LeakyReLUNode<float> leakyReLU(X, Y, 0.02);
+  leakyReLU.forward();
+
+  // Retrieve the tensor from the shared pointer Y
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}
+
+TEST(test_node, test_leaky_relu_random_float) {
+  /**
+   * @brief Expected Tensor after the LeakyReLU function is applied to each
+   * element.
+   */
+
+  auto b = tensor_mml_p<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f,
+                                        -0.224878f, -0.0481f, 7.324412f});
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f, -7.495929f,
+                                   -1.602100f, 7.324412f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f, -7.495929f,
+                                 -1.602100f, 7.324412f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  LeakyReLUNode<float> leakyReLU(X, Y, 0.03);
+  leakyReLU.forward();
+  // Retrieve the tensor from the shared pointer Y
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}
