@@ -314,3 +314,46 @@ TEST(test_node, test_leaky_relu_random_float) {
 
   ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
 }
+
+TEST(test_node, test_ELUNode_float) {
+
+  /**
+   * @brief Expected Tensor after the ELU function is applied to each element.
+   */
+  auto b = tensor_mml_p<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.264241f, -1.729329f, -1.900425f});
+
+  auto original_X =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+
+  auto X = make_shared<Tensor_mml<float>>(
+      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  ELUNode<float> elu_node(X, Y, 2.0f);
+  elu_node.forward();
+
+  // Retrieve the tensor from the shared pointer Y
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+  ASSERT_EQ(*X, *original_X); // Ensure the input tensor is intact
+}
+
+TEST(test_node, test_ELUNode_random_float) {
+
+  /**
+   * @brief Expected Tensor after the ELU function is applied to each element.
+   */
+
+  auto b = tensor_mml_p<float>({3, 2}, {-0.197959f, -0.199985f, -0.191696f,
+                                        -0.172574f, -0.199538f, 7.627019});
+  auto X = tensor_mml_p<float>({3, 2}, {-4.584662f, -9.531804f, -3.181585f,
+                                        -1.986814f, -6.069519f, 7.627019f});
+
+  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+
+  ELUNode<float> elu_node(X, Y, 0.2f);
+  elu_node.forward();
+
+  // Retrieve the tensor from the shared pointer
+  ASSERT_TRUE(tensors_are_close(*b, *Y));
+}
