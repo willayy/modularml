@@ -64,29 +64,29 @@ class LeNetModel {
 
     // Weights generated the same way that they are in pytorch
     std::mt19937 gen(42);
-    W1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{6, 1, 5, 5});
+    W1 = make_shared<Tensor_mml<T>>(array_mml<int>{6, 1, 5, 5});
     kaimingUniform(W1, 1, 5, gen);
 
-    W2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{16, 6, 5, 5});
+    W2 = make_shared<Tensor_mml<T>>(array_mml<int>{16, 6, 5, 5});
     kaimingUniform(W2, 6, 5, gen);
 
-    W3 = std::make_shared<Tensor_mml<T>>(array_mml<int>{120, 16, 5, 5});
+    W3 = make_shared<Tensor_mml<T>>(array_mml<int>{120, 16, 5, 5});
     kaimingUniform(W3, 16, 5, gen);
 
-    W_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{480, 84});
+    W_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{480, 84});
     kaimingUniform(W_gemm1, 120, 480, gen);
 
-    W_gemm2 = std::make_shared<Tensor_mml<T>>(array_mml<int>{84, 10});
+    W_gemm2 = make_shared<Tensor_mml<T>>(array_mml<int>{84, 10});
     kaimingUniform(W_gemm2, 84, 84, gen);
 
     // Bias for Gemm
-    //B_gemm1 = std::make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
+    //B_gemm1 = make_shared<Tensor_mml<T>>(array_mml<int>{1, 84});
     array_mml<int> bias1_shape = array_mml<int>{BIAS1_SHAPE};
     array_mml<float> bias1_data = array_mml<float>{BIAS1_DATA};
-    B_gemm1 = std::make_shared<Tensor_mml<float>>(bias1_shape, bias1_data);
+    B_gemm1 = make_shared<Tensor_mml<float>>(bias1_shape, bias1_data);
     array_mml<int> bias2_shape = array_mml<int>{BIAS2_SHAPE};
     array_mml<float> bias2_data = array_mml<float>{BIAS2_DATA};
-    B_gemm2 = std::make_shared<Tensor_mml<float>>(bias2_shape, bias2_data);
+    B_gemm2 = make_shared<Tensor_mml<float>>(bias2_shape, bias2_data);
 
     // Convolutional layers
     conv1 = make_unique<ConvNode<T>>(input_tensor, W1, conv_output_tensor1,
@@ -94,7 +94,7 @@ class LeNetModel {
                                      array_mml<int>{2, 2, 2, 2},  // padding = 2
                                      array_mml<int>{5, 5},        // kernel size = 5
                                      array_mml<int>{1, 1},        // stride = 1
-                                     std::nullopt,                // No bias
+                                     nullopt,                // No bias
                                      1);                          // groups = 1
 
     conv2 = make_unique<ConvNode<T>>(input_tensor, W2, conv_output_tensor2,
@@ -102,7 +102,7 @@ class LeNetModel {
                                      array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
                                      array_mml<int>{5, 5},        // kernel size = 5
                                      array_mml<int>{1, 1},        // stride = 1
-                                     std::nullopt,                // No bias
+                                     nullopt,                // No bias
                                      1);                          // groups = 1
 
     conv3 = make_unique<ConvNode<T>>(input_tensor, W3, conv_output_tensor3,
@@ -110,7 +110,7 @@ class LeNetModel {
                                      array_mml<int>{0, 0, 0, 0},  // padding = 0 (default)
                                      array_mml<int>{5, 5},        // kernel size = 5
                                      array_mml<int>{1, 1},        // stride = 1
-                                     std::nullopt,                // No bias
+                                     nullopt,                // No bias
                                      1);                          // groups = 1
 
     // Gemm layers
