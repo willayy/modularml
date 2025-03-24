@@ -30,7 +30,7 @@ make all
 make test
 ```
 
-## Contributing
+### Contributing
 We welcome contributions!  
 Please read our [Contributing Guide](CONTRIBUTING.md) for instructions on how to get started.
 
