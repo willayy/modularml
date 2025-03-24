@@ -157,18 +157,6 @@ void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
 }
 
 template <typename T>
-void Tensor_mml<T>::flip(uli dim) {
-  if (!valid_flip_dimension(dim)) throw invalid_argument("Invalid flip dimension");
-  for (uli i = 0; i < this->shape[dim]; i++) {
-    array_mml<uli> indices = array_mml<uli>(dim + 1);
-    indices.fill(0);
-    indices[dim] = i;
-    shared_ptr<Tensor<T>> slice = this->slice(indices);
-    slice->reverse_buffer();
-  }
-}
-
-template <typename T>
 void Tensor_mml<T>::reverse_buffer() {
   uli i = 0;
   uli j = this->size - 1;
@@ -325,9 +313,7 @@ array_mml<uli> Tensor_mml<T>::compute_indices_offsets() const {
   computed_offsets.fill(1);
 
   // Special case if shape is 1D
-  if (shape_size == 1) {
-    return computed_offsets;
-  }
+  if (shape_size == 1) { return computed_offsets; }
   
   // Compute offsets
   uli i = shape_size - 2;
@@ -344,6 +330,7 @@ array_mml<uli> Tensor_mml<T>::compute_slice_offsets(array_mml<uli>& slice_indice
   uli i_stride = 1;
   uli i_add = 0;
 
+  // If the slice shape is odd, we need to adjust the i_stride and i_add to account for columns
   if (slice_shape.size() % 2 != 0) {
     i_stride = this->shape[ this->shape.size() - 1 ];
     i_add = slice_indices[ slice_indices.size() - 1 ];
@@ -422,11 +409,6 @@ bool Tensor_mml<T>::valid_slice_indices(const array_mml<uli>& slice_indices) con
     }
   }
   return true;
-}
-
-template <typename T>
-bool Tensor_mml<T>::valid_flip_dimension(uli dim) const {
-  return dim < this->shape.size();
 }
 
 // Convenience initializers

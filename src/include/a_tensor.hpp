@@ -100,10 +100,6 @@ class Tensor {
   /// @param value The value to fill the tensor with.
   virtual void fill(T value) = 0;
 
-  /// @brief Flips the tensor along a given dimension.
-  /// @param dim The dimension to flip along.
-  virtual void flip(uli dim) = 0;
-
   /// @brief Reverses the buffer of the tensor.
   virtual void reverse_buffer() = 0;
 

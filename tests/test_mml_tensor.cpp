@@ -214,6 +214,7 @@ TEST(test_mml_tensor, test_reshape_2) {
   }
 }
 
+// Test slicing Tensors
 TEST(test_mml_tensor, test_slicing_1) {
   shared_ptr<Tensor<int>> t1 = tensor_mml_p(
     {3, 3},
@@ -265,9 +266,17 @@ TEST(test_mml_tensor, test_slicing_3) {
 TEST(test_mml_tensor, test_slicing_4) {
   shared_ptr<Tensor<float>> t1 = tensor_mml_p(
       {3, 3, 3},
-      {1.0f,  2.0f,  3.0f,  /**/ 4.0f,  5.0f,  6.0f,  /**/ 7.0f,  8.0f,  9.0f,
-       10.0f, 11.0f, 12.0f, /**/ 13.0f, 14.0f, 15.0f, /**/ 16.0f, 17.0f, 18.0f,
-       19.0f, 20.0f, 21.0f, /**/ 22.0f, 23.0f, 24.0f, /**/ 25.0f, 26.0f, 27.0f});
+      {1.0f,  2.0f,  3.0f,
+       4.0f,  5.0f,  6.0f,
+       7.0f,  8.0f,  9.0f,
+
+       10.0f, 11.0f, 12.0f, 
+       13.0f, 14.0f, 15.0f,
+       16.0f, 17.0f, 18.0f,
+
+       19.0f, 20.0f, 21.0f,
+       22.0f, 23.0f, 24.0f,
+       25.0f, 26.0f, 27.0f});
 
   shared_ptr<Tensor<float>> t2 = t1->slice({0});
   shared_ptr<Tensor<float>> t3 = t1->slice({1});
@@ -550,77 +559,6 @@ TEST(test_mml_tensor, test_buffer_reverse_1) {
        3, 2, 1});
 
   ASSERT_EQ(*expected_t1, *t1);
-}
-
-TEST(test_mml_tensor, test_flip_1) {
-  shared_ptr<Tensor<int>> t1 = tensor_mml_p(
-      {3, 3},
-      {1, 2, 3,
-       4, 5, 6,
-       7, 8, 9});
-
-  t1->flip(0);
-
-  shared_ptr<Tensor<int>> expected_t2 = tensor_mml_p(
-      {3, 3},
-      {7, 8, 9,
-       4, 5, 6,
-       1, 2, 3});
-
-  ASSERT_EQ(*expected_t2, *t1);
-}
-
-TEST(test_mml_tensor, test_flip_2) {
-  shared_ptr<Tensor<int>> t1 = tensor_mml_p(
-      {3, 3, 3},
-      {1, 2, 3,
-       4, 5, 6,
-       7, 8, 9,
-
-       10, 11, 12,
-       13, 14, 15,
-       16, 17, 18,
-
-       19, 20, 21,
-       22, 23, 24,
-       25, 26, 27});
-
-  shared_ptr<Tensor<int>> t2 = t1->copy();
-
-  t1->flip(0);
-
-  shared_ptr<Tensor<int>> expected_t1 = tensor_mml_p(
-      {3, 3, 3},
-      {19, 20, 21,
-       22, 23, 24,
-       25, 26, 27,
-
-       10, 11, 12,
-       13, 14, 15,
-       16, 17, 18,
-
-       1, 2, 3,
-       4, 5, 6,
-       7, 8, 9});
-
-  t2->flip(1);
-
-  shared_ptr<Tensor<int>> expected_t2 = tensor_mml_p(
-      {3, 3, 3},
-      {7, 8, 9,
-       4, 5, 6,
-       1, 2, 3,
-
-       16, 17, 18,
-       13, 14, 15,
-       10, 11, 12,
-
-       25, 26, 27,
-       22, 23, 24,
-       19, 20, 21});
-      
-  ASSERT_EQ(*expected_t1, *t1);
-  ASSERT_EQ(*expected_t2, *t2);
 }
 
 TEST(test_mml_tensor, test_to_string) {

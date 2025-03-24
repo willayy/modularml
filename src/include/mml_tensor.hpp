@@ -61,7 +61,6 @@ class Tensor_mml : public Tensor<T> {
   string to_string() const override;
   shared_ptr<Tensor<T>> copy() const override;
   void reverse_buffer() override;
-  void flip(uli dim) override;
   shared_ptr<Tensor<T>> slice(initializer_list<uli> slice_indices) override;
   shared_ptr<Tensor<T>> slice(array_mml<uli>& slice_indices) override;
   void reshape(const array_mml<uli>& new_shape) override;
@@ -96,7 +95,6 @@ class Tensor_mml : public Tensor<T> {
   bool valid_indices(const array_mml<uli>& indices) const;
   bool valid_index(uli index) const;
   bool valid_slice_indices(const array_mml<uli>& slice_indices) const;
-  bool valid_flip_dimension(uli dim) const;
   uli indices_to_1d_index(array_mml<uli> indices) const;
   uli index_to_slice_index(uli index) const;
 };
