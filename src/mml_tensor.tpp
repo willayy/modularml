@@ -4,7 +4,7 @@
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(
-    initializer_list<uli> shape,
+    const initializer_list<uli> shape,
     optional<array_mml<uli>> slice_offsets) : Tensor<T>(),
                                               shape(shape) {
   bool has_value = slice_offsets.has_value();
@@ -17,8 +17,8 @@ Tensor_mml<T>::Tensor_mml(
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(
-    initializer_list<uli> shape,
-    initializer_list<T> data,
+    const initializer_list<uli> shape,
+    const initializer_list<T> data,
     optional<array_mml<uli>> slice_offsets) : Tensor<T>(),
                                               shape(shape),
                                               data(data) {
@@ -43,8 +43,8 @@ Tensor_mml<T>::Tensor_mml(
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(
-    array_mml<uli>& shape,
-    array_mml<T>& data,
+    const array_mml<uli>& shape,
+    const array_mml<T>& data,
     optional<array_mml<uli>> slice_offsets) : Tensor<T>(),
                                               shape(shape),
                                               data(data) {

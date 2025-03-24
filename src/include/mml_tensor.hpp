@@ -17,15 +17,15 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   explicit Tensor_mml(
-      initializer_list<uli> shape,
+      const initializer_list<uli> shape,
       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   explicit Tensor_mml(
-      initializer_list<uli> shape,
-      initializer_list<T> data,
+      const initializer_list<uli> shape,
+      const initializer_list<T> data,
       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
@@ -38,8 +38,8 @@ class Tensor_mml : public Tensor<T> {
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   explicit Tensor_mml(
-      array_mml<uli>& shape,
-      array_mml<T>& data,
+      const array_mml<uli>& shape,
+      const array_mml<T>& data,
       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Destructor for Tensor_mml class.
