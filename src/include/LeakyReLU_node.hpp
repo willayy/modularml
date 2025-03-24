@@ -5,11 +5,11 @@
 
 /**
  * @class LeakyReLUNode
- * @brief A class representing a ReLU node in a computational graph.
+ * @brief A class representing a LeakyReLU node in a computational graph.
  *
  * This class inherits from the Node class and represents the rectified linear
- * function (ReLU) node in a computational graph. It performs the forward pass
- * computation applying ReLU elementwise.
+ * function (LeakyReLU) node in a computational graph. It performs the forward
+ * pass computation applying ReLU elementwise.
  */
 template <typename T> class LeakyReLUNode : public Node {
   static_assert(std::is_same_v<T, float> || std::is_same_v<T, double>,
