@@ -1,7 +1,7 @@
 #pragma once
 /**
  * @class LRNNode_mml
- * @brief Performs Local Response Normalizarion
+ * @brief Performs Local Response Normalization
  * @details LRNNode_mml performs Local Response Normalization according to the
  * ONNX specifications. It normalizes the tensor across local input regions. The
  * local region is defined across the channels.
