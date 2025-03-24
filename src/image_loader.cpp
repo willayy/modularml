@@ -1,28 +1,30 @@
 #include "image_loader.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 template <typename T>
-unique_ptr<Tensor<T>> ImageLoader<T>::load(std::string image_path, int width, int height) const {
+std::unique_ptr<Tensor<T>> ImageLoader<T>::load(std::string image_path, int width, int height) const {
     int in_width, in_height, channels;
 
-    unsigned char* image_data = stbi_load(image_path, &in_width, &in_height, &channels, 0);
+    unsigned char* image_data = stbi_load(image_path.c_str(), &in_width, &in_height, &channels, 0);
 
-    if (!data) {
-        throw invalid_argument("Failed to load image: " + image_path);
+    if (!image_data) {
+        throw std::invalid_argument("Failed to load image: " + image_path);
     }
 
-    unsigned char* resized_image_data = new unsigned char[width * height * channels];
-
-    if (!stbir_resize_uint8(image_data, in_width, in_height, 0,
-                            resized_image_data, width, height, 0, channels)) {
-        throw invalid_argument("Failed to resize image");
+    // Convert the unsigned char image data to float data for stbir
+    float* float_image_data = new float[in_width * in_height * channels];
+    for (int i = 0; i < in_width * in_height * channels; ++i) {
+        float_image_data[i] = static_cast<float>(image_data[i]) / 255.0f;  // Normalize to [0, 1]
     }
 
     // Prepare the output tensor
     array_mml<int> image_tensor_shape({1, channels, width, height});
-    array_mml<float> image_data(channels * width * height); // Just 0:s
-    shared_ptr<Tensor_mml<float>> output = make_shared<Tensor_mml<float>>(image_tensor_shape, image_data);
+    array_mml<float> output_data(channels * width * height);  // Initialize a float array
+    std::shared_ptr<Tensor_mml<float>> output = std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
 
-    // The data inside image_data is {R, G, B, R, G, B, ...} 
+    // The data inside output_data is {R, G, B, R, G, B, ...} 
     // So we iterate 3 steps each time and write the R G B for each pixel to the tensor
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -30,13 +32,16 @@ unique_ptr<Tensor<T>> ImageLoader<T>::load(std::string image_path, int width, in
             
             // This writes each pixel component to the correct slice in the tensor
             for (int c = 0; c < channels; c++) {
-                unsigned char pixel_component = image_data[index + c];
+                float pixel_component = float_image_data[index + c];
+                
+                // Write the pixel component value
                 (*output)[{1, c, y, x}] = pixel_component;
             }
         }   
     }
-    // Write the image data in the correct order to the tensor data array
 
-
-
+    // Return the Tensor as a unique_ptr
+    return std::make_unique<Tensor_mml<T>>(*output);
 }
+
+template class ImageLoader<float>;

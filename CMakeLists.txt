@@ -49,6 +49,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(stb)
 
+# Add the stb include directory to your project
+
+
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
@@ -88,6 +91,11 @@ add_library(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 
+target_include_directories(
+    ${PROJECT_NAME}  # Your library target
+    PUBLIC
+    ${CMAKE_BINARY_DIR}/_deps/stb-src  # Add the directory where stb headers are located
+)
 # Add all warning flags if build type is Debug, this could be considered pseudo linting.
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 

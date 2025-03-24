@@ -1,10 +1,10 @@
-#include "a_data_loader.hpp"
+#pragma once 
+
+#include "mml_tensor.hpp"
 #include "globals.hpp"
-#include "stb_image.h"
-#include "stb_image_resize.h"
 
 template <typename T>
-class ImageLoader : public DataLoader {
+class ImageLoader {
    public:
     /**
      * @brief Loads an image.
@@ -16,7 +16,7 @@ class ImageLoader : public DataLoader {
      * @param height The desired width of the output
      * @return A unique_ptr to a Tensor containing the data that was loaded.
      */
-    unique_ptr<Tensor<T>> load(std::string image_path, int width, int height) const override;
+    unique_ptr<Tensor<T>> load(std::string image_path, int width, int height) const;
 
    private:
 };
