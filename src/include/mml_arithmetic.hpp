@@ -15,7 +15,7 @@ class Arithmetic_mml : public ArithmeticModule<T> {
 
   ~Arithmetic_mml() override;
 
-  void add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const override;
+  void add(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const override;
 
   void subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const override;
 
