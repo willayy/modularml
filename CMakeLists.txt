@@ -96,7 +96,7 @@ add_executable(
 )
 
 # Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path -Wfatal-errors -fdiagnostics-color=always -fmax-errors=1 -pedantic-errors)
+target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path -Wfatal-errors -fmax-errors=1 -pedantic-errors)
 # Linker flags
 target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
 # Link the test executable with the main project executable

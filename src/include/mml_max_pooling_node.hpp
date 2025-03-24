@@ -36,10 +36,10 @@ public:
    * be calculated as row or column major. 1 is row major and 0 is column major.
    * Defaults to row major.
    */
-  MaxPoolingNode_mml(array_mml<int> kernel_shape, array_mml<int> strides,
+  MaxPoolingNode_mml(array_mml<uli> kernel_shape, array_mml<uli> strides,
                      shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                     int ceil_mode = 0, array_mml<int> dilations = {1, 1},
-                     array_mml<int> pads = {0, 0, 0, 0}, int storage_order = 0)
+                     uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
+                     array_mml<uli> pads = {0, 0, 0, 0}, uli storage_order = 0)
       : storage_order(storage_order),
         PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceil_mode,
                            dilations, pads) {}
@@ -47,9 +47,9 @@ public:
 private:
   void pooling(const shared_ptr<Tensor<T>> t, array_mml<uli> input_shape,
                array_mml<uli> output_shape,
-               array_mml<int> effective_kernel_shape, int pad_h, int pad_w,
+               array_mml<uli> effective_kernel_shape, uli pad_h, uli pad_w,
                string auto_pad) override;
-  int storage_order;
+  uli storage_order;
 };
 
 #include "../mml_max_pooling_node.tpp"

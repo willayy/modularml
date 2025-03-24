@@ -3,12 +3,12 @@
 #include "Add_node.hpp"
 
 template <typename T>
-AddNode<T>::AddNode(shared_ptr<const AbstractTensor> A, shared_ptr<const AbstractTensor> B,
+AddNode<T>::AddNode(shared_ptr<const AbstractTensor> A,
+                    shared_ptr<const AbstractTensor> B,
                     shared_ptr<AbstractTensor> C)
     : A(A), B(B), C(C) {}
 
-template <typename T>
-void AddNode<T>::forward() {
+template <typename T> void AddNode<T>::forward() {
   if (!areInputsFilled()) {
     throw runtime_error("AddNode forward called without inputs being set");
   }
@@ -27,7 +27,7 @@ void AddNode<T>::forward() {
 
     // Valid if dimensions match or one of them is 1
     if (dim_A != dim_B && dim_A != 1 && dim_B != 1) {
-      broadcast_comp = false;  // Incompatible for broadcasting
+      broadcast_comp = false; // Incompatible for broadcasting
     }
   }
 
@@ -36,7 +36,8 @@ void AddNode<T>::forward() {
   // Valid case:
   if (A_shape == B_shape) {
     if (C->get_shape() != A_shape) {
-      C->reshape(A_shape);  // Reshape output tensor to be the same as input tensors
+      C->reshape(
+          A_shape); // Reshape output tensor to be the same as input tensors
     }
     arithmetic.add(A, B, C);
     // Broadcasting case:
@@ -44,17 +45,17 @@ void AddNode<T>::forward() {
     broadcast_addition();
     // Invalid case:
   } else {
-    throw runtime_error("Incompatible shapes for addition attempt in AddNode. Broadcasting impossible.");
+    throw runtime_error("Incompatible shapes for addition attempt in AddNode. "
+                        "Broadcasting impossible.");
   }
 }
 
-template <typename T>
-bool AddNode<T>::areInputsFilled() const {
+template <typename T> bool AddNode<T>::areInputsFilled() const {
   return A && A->get_size() > 0 && B && B->get_size() > 0;
 }
 
 template <typename T>
-void AddNode<T>::setInputs(const array_mml<GeneralDataTypes>& inputs) {
+void AddNode<T>::setInputs(const array_mml<GeneralDataTypes> &inputs) {
   if (inputs.size() != 2) {
     throw runtime_error("AddNode expects 2 inputs");
   }
@@ -70,18 +71,17 @@ void AddNode<T>::setInputs(const array_mml<GeneralDataTypes>& inputs) {
   B = *valueB;
 }
 
-template <typename T>
-bool AddNode<T>::areOutputsFilled() const {
+template <typename T> bool AddNode<T>::areOutputsFilled() const {
   return C && C->get_size() > 0;
 }
 
 template <typename T>
 array_mml<GeneralDataTypes> AddNode<T>::getOutputs() const {
-  return array_mml<GeneralDataTypes>{GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(C))};
+  return array_mml<GeneralDataTypes>{
+      GeneralDataTypes(std::static_pointer_cast<AbstractTensor>(C))};
 }
 
-template <typename T>
-void AddNode<T>::broadcast_addition() const {
+template <typename T> void AddNode<T>::broadcast_addition() const {
   auto A_shape = A->get_shape();
   auto B_shape = B->get_shape();
   auto A_rank = A_shape.size();
@@ -95,37 +95,35 @@ void AddNode<T>::broadcast_addition() const {
     uli dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
     uli dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
-    switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1
-                               : (dim_B == 1)   ? 2
-                                                : 3) {
-      case 0:
-        output_shape[max_rank - 1 - i] = dim_A;
-        break;
-      case 1:
-        output_shape[max_rank - 1 - i] = dim_B;
-        break;
-      case 2:
-        output_shape[max_rank - 1 - i] = dim_A;
-        break;
-      default:
-        throw std::runtime_error("Incompatible shapes for broadcasting.");
+    switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1 : (dim_B == 1) ? 2 : 3) {
+    case 0:
+      output_shape[max_rank - 1 - i] = dim_A;
+      break;
+    case 1:
+      output_shape[max_rank - 1 - i] = dim_B;
+      break;
+    case 2:
+      output_shape[max_rank - 1 - i] = dim_A;
+      break;
+    default:
+      throw std::runtime_error("Incompatible shapes for broadcasting.");
     }
   }
 
   C->reshape(output_shape);
 
-  vector<int> A_strides(A_rank, 1);
-  vector<int> B_strides(B_rank, 1);
-  vector<int> output_strides(max_rank, 1);
+  vector<uli> A_strides(A_rank, 1);
+  vector<uli> B_strides(B_rank, 1);
+  vector<uli> output_strides(max_rank, 1);
 
   // Compute strides for each tensor
-  for (int i = max_rank - 2; i >= 0; --i) {
+  for (uli i = max_rank - 2; i >= 0; --i) {
     output_strides[i] = output_strides[i + 1] * output_shape[i + 1];
   }
-  for (int i = A_rank - 2; i >= 0; --i) {
+  for (uli i = A_rank - 2; i >= 0; --i) {
     A_strides[i] = A_strides[i + 1] * A_shape[i + 1];
   }
-  for (int i = B_rank - 2; i >= 0; --i) {
+  for (uli i = B_rank - 2; i >= 0; --i) {
     B_strides[i] = B_strides[i + 1] * B_shape[i + 1];
   }
 
@@ -142,8 +140,10 @@ void AddNode<T>::broadcast_addition() const {
       uli dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
       uli dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
 
-      if (dim_A > 1) A_idx += coord * A_strides[j];
-      if (dim_B > 1) B_idx += coord * B_strides[j];
+      if (dim_A > 1)
+        A_idx += coord * A_strides[j];
+      if (dim_B > 1)
+        B_idx += coord * B_strides[j];
     }
 
     // Perform element-wise addition

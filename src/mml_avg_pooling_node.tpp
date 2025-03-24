@@ -6,8 +6,8 @@ template <typename T>
 void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
                                     array_mml<uli> input_shape,
                                     array_mml<uli> output_shape,
-                                    array_mml<int> effective_kernel_shape,
-                                    int pad_h, int pad_w, string auto_pad) {
+                                    array_mml<uli> effective_kernel_shape,
+                                    uli pad_h, uli pad_w, string auto_pad) {
 
   // Initialize output tensor with correct dimensions
   shared_ptr<Tensor<T>> output = tensor_mml_p<T>(
@@ -27,22 +27,22 @@ void AvgPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
             in_col_start -= pad_w / 2;
           } else if (auto_pad == "SAME_LOWER") {
             in_row_start -=
-                static_cast<int>(ceil(static_cast<float>(pad_h) / 2));
+                static_cast<uli>(ceil(static_cast<float>(pad_h) / 2));
             in_col_start -=
-                static_cast<int>(ceil(static_cast<float>(pad_w) / 2));
+                static_cast<uli>(ceil(static_cast<float>(pad_w) / 2));
           } else if (auto_pad == "NOTSET") {
             in_row_start -= this->pads[0];
             in_col_start -= this->pads[2];
           }
 
           T value = 0;
-          int k = 0;
-          for (int m = 0; m < effective_kernel_shape[0];
+          uli k = 0;
+          for (uli m = 0; m < effective_kernel_shape[0];
                m += this->dilations[0]) {
-            for (int n = 0; n < effective_kernel_shape[1];
+            for (uli n = 0; n < effective_kernel_shape[1];
                  n += this->dilations[1]) {
-              int curr_row = in_row_start + m;
-              int curr_col = in_col_start + n;
+              uli curr_row = in_row_start + m;
+              uli curr_col = in_col_start + n;
               // Check if position is within bounds of the original input
               if (curr_row >= 0 && curr_row < input_shape[2] && curr_col >= 0 &&
                   curr_col < input_shape[3]) {

@@ -11,12 +11,12 @@
 #include "tuple"
 
 template <typename T>
-PoolingNode_mml<T>::PoolingNode_mml(array_mml<int> kernel_shape,
-                                    array_mml<int> strides,
+PoolingNode_mml<T>::PoolingNode_mml(array_mml<uli> kernel_shape,
+                                    array_mml<uli> strides,
                                     shared_ptr<Tensor<T>> input,
-                                    string auto_pad, int ceil_mode,
-                                    array_mml<int> dilations,
-                                    array_mml<int> pads)
+                                    string auto_pad, uli ceil_mode,
+                                    array_mml<uli> dilations,
+                                    array_mml<uli> pads)
     : kernel_shape(kernel_shape), strides(strides), input(input),
       dilations(dilations), pads(pads) {
   if (auto_pad != "NOTSET" && auto_pad != "VALID" && auto_pad != "SAME_UPPER" &&
@@ -71,16 +71,16 @@ template <typename T> void PoolingNode_mml<T>::forward() {
       array_mml({input_shape[0], input_shape[1], 1UL, 1UL});
 
   // Calculate effective kernel size with dilation
-  array_mml<int> effective_kernel_shape =
+  array_mml<uli> effective_kernel_shape =
       array_mml({kernel_shape[0] + (kernel_shape[0] - 1) * (dilations[0] - 1),
                  kernel_shape[1] + (kernel_shape[1] - 1) * (dilations[1] - 1)});
 
-  vector<int> pad_shape = {pads[0] + pads[1], pads[2] + pads[3]};
+  vector<uli> pad_shape = {pads[0] + pads[1], pads[2] + pads[3]};
   // Calculate output dimensions based on padding type
-  for (int i = 2; i < 4; i++) {
+  for (uli i = 2; i < 4; i++) {
     if (auto_pad == "VALID") {
       if (ceil_mode) {
-        output_shape[i] = static_cast<int>(
+        output_shape[i] = static_cast<uli>(
             ceil((static_cast<float>(input_shape[i]) -
                   (effective_kernel_shape[i - 2] - 1) * dilations[i - 2]) /
                  static_cast<float>(strides[i - 2])));
@@ -97,12 +97,12 @@ template <typename T> void PoolingNode_mml<T>::forward() {
 
       if (ceil_mode) {
 
-        output_shape[i] = static_cast<int>(
+        output_shape[i] = static_cast<uli>(
             ceil(static_cast<float>(input_shape[i]) / strides[i - 2]));
 
       } else {
         output_shape[i] =
-            static_cast<int>(floor((static_cast<float>(input_shape[i]) - 1) /
+            static_cast<uli>(floor((static_cast<float>(input_shape[i]) - 1) /
                                    static_cast<float>(strides[i - 2]))) +
             1;
       }
@@ -114,14 +114,14 @@ template <typename T> void PoolingNode_mml<T>::forward() {
     } else {
 
       if (ceil_mode) {
-        output_shape[i] = static_cast<int>(
+        output_shape[i] = static_cast<uli>(
             ceil((static_cast<float>(input_shape[i]) + pad_shape[i - 2] -
                   dilations[i - 2] * (effective_kernel_shape[i - 2] - 1) - 1) /
                      strides[i - 2] +
                  1));
       } else {
 
-        output_shape[i] = static_cast<int>(
+        output_shape[i] = static_cast<uli>(
             floor((input_shape[i] + pad_shape[i - 2] -
                    dilations[i - 2] * (effective_kernel_shape[i - 2] - 1) - 1) /
                       strides[i - 2] +

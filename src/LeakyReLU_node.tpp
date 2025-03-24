@@ -54,18 +54,18 @@ template <typename T> void LeakyReLUNode<T>::leaky_relu_elementwise() {
   const auto shape = X->get_shape();
   const auto num_dimensions = shape.size();
 
-  array_mml<int> indices(num_dimensions);
-  for (uint64_t i = 0; i < num_dimensions; ++i) {
+  array_mml<uli> indices(num_dimensions);
+  for (uli i = 0; i < num_dimensions; ++i) {
     indices[i] = 0;
   }
   const auto total_elements = X->get_size();
 
-  for (int linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
+  for (uli linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
     // Apply function `f` from `a` to `c`
     (*Y)[indices] = leaky_relu_operation((*X)[indices]);
 
     // Increment indices like a multi-dimensional counter
-    for (int d = num_dimensions - 1; d >= 0; --d) {
+    for (uli d = num_dimensions - 1; d >= 0; --d) {
       if (++indices[d] < shape[d]) {
         break; // No carry needed, continue iteration
       }

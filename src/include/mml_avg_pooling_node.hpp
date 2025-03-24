@@ -35,21 +35,20 @@ public:
    * @param count_include_pad (OPTIONAL) Whether the padding should be included
    * when calculating the edges. 1 for yes and 0 for no. Defaults to no.
    */
-  AvgPoolingNode_mml(array_mml<int> kernel_shape, array_mml<int> strides,
+  AvgPoolingNode_mml(array_mml<uli> kernel_shape, array_mml<uli> strides,
                      shared_ptr<Tensor<T>> input, string auto_pad = "NOTSET",
-                     int ceil_mode = 0, array_mml<int> dilations = {1, 1},
-                     array_mml<int> pads = {0, 0, 0, 0},
-                     int count_include_pad = 0)
+                     uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
+                     array_mml<uli> pads = {0, 0, 0, 0},
+                     uli count_include_pad = 0)
       : count_include_pad(count_include_pad),
         PoolingNode_mml<T>(kernel_shape, strides, input, auto_pad, ceil_mode,
                            dilations, pads) {}
 
 private:
-  void pooling(const shared_ptr<Tensor<T>> t, 
-               array_mml<uli> input_shape,
+  void pooling(const shared_ptr<Tensor<T>> t, array_mml<uli> input_shape,
                array_mml<uli> output_shape,
-               array_mml<int> effective_kernel_shape, int pad_h, int pad_w,
+               array_mml<uli> effective_kernel_shape, uli pad_h, uli pad_w,
                string auto_pad) override;
-  int count_include_pad;
+  uli count_include_pad;
 };
 #include "../mml_avg_pooling_node.tpp"

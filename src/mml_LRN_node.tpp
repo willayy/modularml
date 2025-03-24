@@ -3,7 +3,7 @@
 #include "mml_LRN_node.hpp"
 
 template <typename T>
-LRNNode_mml<T>::LRNNode_mml(shared_ptr<Tensor<T>> input, int size, float alpha,
+LRNNode_mml<T>::LRNNode_mml(shared_ptr<Tensor<T>> input, uli size, float alpha,
                             float beta, float bias)
     : input(input), size(size), alpha(alpha), beta(beta), bias(bias){};
 

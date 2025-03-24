@@ -12,8 +12,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
       tensor_mml_p<float>({1, 1, 2, 2}, {5, 7, 13, 15});
 
   MaxPoolingNode_mml<float> max_pool = MaxPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({2, 2}), input, "NOTSET", 0,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), input, "NOTSET", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
 
@@ -52,8 +52,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
       tensor_mml_p<float>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   MaxPoolingNode_mml<float> max_pool = MaxPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_UPPER", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_UPPER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
   array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
@@ -89,8 +89,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
       tensor_mml_p<float>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
 
   MaxPoolingNode_mml<float> max_pool = MaxPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_LOWER", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_LOWER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
   array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
@@ -125,8 +125,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
       tensor_mml_p<float>({1, 1, 2, 1}, {4, 7});
 
   MaxPoolingNode_mml<float> max_pool = MaxPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "VALID", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "VALID", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
   array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
@@ -162,8 +162,8 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
       tensor_mml_p<float>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   MaxPoolingNode_mml<float> max_pool = MaxPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "NOTSET", 1,
-      array_mml({1, 1}), array_mml({0, 1, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "NOTSET", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
   array_mml<GeneralDataTypes> outputs = max_pool.getOutputs();
@@ -192,9 +192,9 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   output = tensor_mml_p<float>({1, 1, 3, 1}, {5, 8, 8});
   output_indices = tensor_mml_p<float>({1, 1, 3, 1}, {4, 7, 7});
 
-  max_pool = MaxPoolingNode_mml<float>(array_mml({2, 2}), array_mml({1, 2}),
-                                       input, "NOTSET", 0, array_mml({1, 1}),
-                                       array_mml({0, 1, 0, 0}), 0);
+  max_pool = MaxPoolingNode_mml<float>(array_mml({2UL, 2UL}), array_mml({1UL, 2UL}),
+                                       input, "NOTSET", 0UL, array_mml({1UL, 1UL}),
+                                       array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
 
   max_pool.forward();
   outputs = max_pool.getOutputs();
@@ -227,8 +227,8 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
   shared_ptr<Tensor<float>> output = tensor_mml_p<float>({1, 1, 2, 1}, {3, 6});
 
   AvgPoolingNode_mml<float> avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "VALID", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "VALID", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward();
   array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
@@ -253,8 +253,8 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 4.5, 6, 7.5, 7.5, 9});
 
   AvgPoolingNode_mml<float> avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_UPPER", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_UPPER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward();
   array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
@@ -273,8 +273,8 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   output = tensor_mml_p<float>({1, 1, 3, 2}, {3, 4.5, 6, 7.5, 7.5, 9});
 
   avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_UPPER", 0,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_UPPER", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward();
   outputs = avg_pool.getOutputs();
@@ -293,8 +293,8 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   output = tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
   avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_UPPER", 0,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 1);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_UPPER", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward();
   outputs = avg_pool.getOutputs();
@@ -319,8 +319,8 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
       tensor_mml_p<float>({1, 1, 3, 2}, {1, 2.5, 2.5, 4, 5.5, 7});
 
   AvgPoolingNode_mml<float> avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "SAME_LOWER", 1,
-      array_mml({1, 1}), array_mml({0, 0, 0, 0}), 0);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "SAME_LOWER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward();
   array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
@@ -345,8 +345,8 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
   AvgPoolingNode_mml<float> avg_pool = AvgPoolingNode_mml<float>(
-      array_mml({2, 2}), array_mml({1, 2}), input, "NOTSET", 1,
-      array_mml({1, 1}), array_mml({0, 1, 0, 0}), 1);
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "NOTSET", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward();
   array_mml<GeneralDataTypes> outputs = avg_pool.getOutputs();
@@ -365,9 +365,9 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
   input = tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   output = tensor_mml_p<float>({1, 1, 3, 1}, {3, 6, 3.75});
 
-  avg_pool = AvgPoolingNode_mml<float>(array_mml({2, 2}), array_mml({1, 2}),
-                                       input, "NOTSET", 0, array_mml({1, 1}),
-                                       array_mml({0, 1, 0, 0}), 1);
+  avg_pool = AvgPoolingNode_mml<float>(
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), input, "NOTSET", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward();
   outputs = avg_pool.getOutputs();
