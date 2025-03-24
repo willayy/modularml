@@ -35,4 +35,30 @@ private:
     static std::unordered_map<string, std::chrono::high_resolution_clock::time_point> times;
 };
 
+/**
+ * @example
+ * 
+ * Example usage:
+ * 
+ * ```cpp
+ * #include <iostream>
+ * #include "Profiler.h"
+ * 
+ * int main() {
+ *     Profiler::begin_timing("ExampleSection");
+ *     
+ *     // Simulate some workload
+ *     for (volatile int i = 0; i < 1000000; ++i);
+ *     
+ *     Profiler::end_timing("ExampleSection");
+ *     return 0;
+ * }
+ * ```
+ * 
+ * Output:
+ * ```
+ * ExampleSection took 3.45 ms
+ * ```
+ */
+
 
