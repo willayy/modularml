@@ -24,3 +24,5 @@
 #include "mml_tensor.hpp"
 #include "reshape_node.hpp"
 #include "tensor_utility.hpp"
+#include "log_softmax_node.hpp"
+#include "flatten_node.hpp"
