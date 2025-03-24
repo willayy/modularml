@@ -7,7 +7,7 @@
 
 /**
  * @class LogSoftMaxNode
- * @brief A class representing a ReLU node in a computational graph.
+ * @brief A class representing a LogSoftMax node in a computational graph.
  *
  * This class inherits from the Node class and represents the LogSoftMax node
  * in a computational graph. It performs the forward pass computation applying SoftMax and Logarithm along the specified axis.
