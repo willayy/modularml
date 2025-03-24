@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Add_node.hpp"
 #include "Dropout_node.hpp"
 #include "ELU_node.hpp"
+#include "Gelu_node.hpp"
+#include "LeakyReLU_node.hpp"
 #include "ReLU_node.hpp"
 #include "Sigmoid_node.hpp"
 #include "Swish_node.hpp"
@@ -16,6 +19,7 @@
 #include "flatten_node.hpp"
 #include "gemm_node.hpp"
 #include "globals.hpp"
+#include "log_softmax_node.hpp"
 #include "mml_arithmetic.hpp"
 #include "mml_avg_pooling_node.hpp"
 #include "mml_gemm.hpp"

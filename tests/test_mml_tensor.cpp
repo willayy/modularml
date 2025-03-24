@@ -57,8 +57,10 @@ TEST(test_mml_tensor, test_move_assignment_1) {
 
 // Test the move assignment using abstract class
 TEST(test_mml_tensor, test_move_assignment_2) {
-  shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
-  shared_ptr<Tensor<int>> t2 = make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+  shared_ptr<Tensor<int>> t1 =
+      make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+  shared_ptr<Tensor<int>> t2 =
+      make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
   *t2 = move(*t1);
   auto expected_shape = array_mml<int>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -72,8 +74,10 @@ TEST(test_mml_tensor, test_move_assignment_2) {
 
 // Test the copy assignment using abstract class
 TEST(test_mml_tensor, test_copy_assignment_2) {
-  shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
-  shared_ptr<Tensor<int>> t2 = make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+  shared_ptr<Tensor<int>> t1 =
+      make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+  shared_ptr<Tensor<int>> t2 =
+      make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
   *t2 = *t1;
   auto expected_shape = array_mml<int>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -85,12 +89,15 @@ TEST(test_mml_tensor, test_copy_assignment_2) {
   ASSERT_EQ(expected_data, actual_data);
 }
 
-// Generate an arbitrary tensor and check if all elements can be accessed using indices
+// Generate an arbitrary tensor and check if all elements can be accessed using
+// indices
 TEST(test_mml_tensor, test_index_1) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     for (int j = 0; j < (*t1).get_size(); j++) {
       (*t1)[j] = 101;
@@ -102,8 +109,10 @@ TEST(test_mml_tensor, test_index_1) {
 TEST(test_mml_tensor, test_index_2) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     for (int j = 0; j < (*t1).get_size(); j++) {
       ASSERT_EQ(data[j], (*t1)[j]);
@@ -114,8 +123,10 @@ TEST(test_mml_tensor, test_index_2) {
 TEST(test_mml_tensor, test_indices_1) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     for (int j = 0; j < t1->get_size(); j++) {
       array_mml<int> indices = array_mml<int>(shape.size());
@@ -133,8 +144,10 @@ TEST(test_mml_tensor, test_indices_1) {
 TEST(test_mml_tensor, test_indices_2) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
 
     auto indices = array_mml<int>(shape.size());
@@ -159,8 +172,10 @@ TEST(test_mml_tensor, test_indices_2) {
 TEST(test_mml_tensor, test_reshape_1) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     t1->reshape({elements});
     auto expected_shape = array_mml<int>({elements});
@@ -176,9 +191,11 @@ TEST(test_mml_tensor, test_reshape_1) {
 // Reshape into 1D into 2D tensor
 TEST(test_mml_tensor, test_reshape_2) {
   for (int i = 0; i < 200; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>(1,1);
-    const auto elements = accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
-    array_mml<int> data = generate_random_array_mml_integral<int>(elements, elements);
+    array_mml<int> shape = generate_random_array_mml_integral<int>(1, 1);
+    const auto elements =
+        accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
+    array_mml<int> data =
+        generate_random_array_mml_integral<int>(elements, elements);
     shared_ptr<Tensor<int>> t1 = make_shared<Tensor_mml<int>>(shape, data);
     if (shape[0] % 2 == 0) {
       auto rows = shape[0] / 2;
@@ -193,15 +210,31 @@ TEST(test_mml_tensor, test_reshape_2) {
         }
       }
     } else {
-      continue; // Skip odd-sized arrays testing with 200 iterations to get an average of 100 valid tests
-    } 
+      continue; // Skip odd-sized arrays testing with 200 iterations to get an
+                // average of 100 valid tests
+    }
   }
 }
 
 TEST(test_mml_tensor, test_to_string) {
   const auto t1 = Tensor_mml<int>({3, 3});
-  const string ptr_str = "Pointer: " + std::to_string(reinterpret_cast<uint64_t>(&t1));
-  string expected = "Tensor_mml<i> " + ptr_str + ", Shape: [3, 3], Size: 9, Data: [0, 0, 0, 0, 0, 0, 0, 0, 0]";
+  const string ptr_str =
+      "Pointer: " + std::to_string(reinterpret_cast<uint64_t>(&t1));
+  string expected =
+      "Tensor_mml<i> " + ptr_str +
+      ", Shape: [3, 3], Size: 9, Data: [0, 0, 0, 0, 0, 0, 0, 0, 0]";
   string actual = t1.to_string();
   ASSERT_EQ(expected, actual);
+}
+
+TEST(test_mml_tensor, tensor_utility_tensors_are_close) {
+  const auto t1 =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.0f, -3.2f, 5.1f, 2.0f});
+  const auto t2 =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.000002f, -3.2f, 5.1f, 2.0f});
+  const auto t3 =
+      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.00002f, -3.2f, 5.1f, 2.0f});
+
+  ASSERT_TRUE(tensors_are_close(*t1, *t2));
+  ASSERT_FALSE(tensors_are_close(*t1, *t3));
 }
