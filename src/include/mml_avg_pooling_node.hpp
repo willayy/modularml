@@ -45,8 +45,9 @@ public:
                            dilations, pads) {}
 
 private:
-  void pooling(const shared_ptr<Tensor<T>> t, array_mml<int> input_shape,
-               array_mml<int> output_shape,
+  void pooling(const shared_ptr<Tensor<T>> t, 
+               array_mml<uli> input_shape,
+               array_mml<uli> output_shape,
                array_mml<int> effective_kernel_shape, int pad_h, int pad_w,
                string auto_pad) override;
   int count_include_pad;

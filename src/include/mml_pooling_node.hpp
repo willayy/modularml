@@ -67,7 +67,7 @@ public:
 
 protected:
   virtual void pooling(const shared_ptr<Tensor<T>> t,
-                       array_mml<int> input_shape, array_mml<int> output_shape,
+                       array_mml<uli> input_shape, array_mml<uli> output_shape,
                        array_mml<int> effective_kernel_shape, int pad_h,
                        int pad_w, string auto_pad) = 0;
   //--------Inputs----------

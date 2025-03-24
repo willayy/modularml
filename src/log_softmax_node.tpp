@@ -24,26 +24,26 @@ void LogSoftMaxNode<T>::forward() {
     auto input_copy = X->copy();
 
     // For each batch, in the input
-    for (int b = 0; b < input_copy->get_shape()[0]; b++) {
-        // Find the maximum value in the row for numerical stability
-        float max_val = -std::numeric_limits<float>::infinity();
-        for (int c = 0; c < input_copy->get_shape()[axis]; c++) {
-            max_val = std::max(max_val, (*input_copy)[{b, c}]);
-        }
-    
-        // Exponentiate and accumulate the sum
-        float sum = 0;
-        std::vector<float> exp_values(input_copy->get_shape()[axis]);
-        for (int c = 0; c < input_copy->get_shape()[axis]; c++) {
-            float value = (*input_copy)[{b, c}] - max_val;
-            exp_values[c] = std::exp(value);
-            sum += exp_values[c];
-        }
-    
-        for (int c = 0; c < input_copy->get_shape()[axis]; c++) {
-            // Apply soft max and perform log on the result
-            (*input_copy)[{b, c}] = std::log(exp_values[c] / sum);
-        }
+    for (uli b = 0; b < input_copy->get_shape()[0]; b++) {
+      // Find the maximum value in the row for numerical stability
+      float max_val = -std::numeric_limits<float>::infinity();
+      for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+        max_val = std::max(max_val, (*input_copy)[{b, c}]);
+      }
+
+      // Exponentiate and accumulate the sum
+      float sum = 0;
+      std::vector<float> exp_values(input_copy->get_shape()[axis]);
+      for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+        float value = (*input_copy)[{b, c}] - max_val;
+        exp_values[c] = std::exp(value);
+        sum += exp_values[c];
+      }
+
+      for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+        // Apply soft max and perform log on the result
+        (*input_copy)[{b, c}] = std::log(exp_values[c] / sum);
+      }
     }
 
     *Y = *input_copy;

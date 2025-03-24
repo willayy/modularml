@@ -61,7 +61,7 @@ array_mml<T> generate_random_array_mml_real(uli lo_sz, uli hi_sz, T lo_v, T hi_v
 }
 
 template <typename T>
-static auto generate_random_tensor(const array_mml<int> &shape, T lo_v,
+static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
                                    T hi_v) {
   static_assert(
       std::is_arithmetic_v<T>,

@@ -15,7 +15,7 @@ void FlattenNode<T>::forward() {
     }
     
 
-    int height_2d, width_2d;
+    uli height_2d, width_2d;
 
     if (get_axis() == 0) {
         // This gives a warning, but when get_size() returns int in the future it will disappear

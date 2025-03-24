@@ -170,7 +170,7 @@ TEST(test_mml_tensor, test_indices_2) {
 TEST(test_mml_tensor, test_reshape_1) {
   for (int i = 0; i < 100; i++) {
     array_mml<int> shape = generate_random_array_mml_integral<int>();
-    const auto elements =
+    const uli elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);

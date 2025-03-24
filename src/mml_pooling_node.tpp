@@ -62,13 +62,13 @@ array_mml<GeneralDataTypes> PoolingNode_mml<T>::getOutputs() const {
 }
 
 template <typename T> void PoolingNode_mml<T>::forward() {
-  array_mml<int> input_shape = input->get_shape();
+  array_mml<uli> input_shape = input->get_shape();
   if (input_shape.size() != 4) {
     throw std::invalid_argument("Invalid tensor shape");
   }
 
-  array_mml<int> output_shape =
-      array_mml({input_shape[0], input_shape[1], 1, 1});
+  array_mml<uli> output_shape =
+      array_mml({input_shape[0], input_shape[1], 1UL, 1UL});
 
   // Calculate effective kernel size with dilation
   array_mml<int> effective_kernel_shape =
@@ -129,9 +129,7 @@ template <typename T> void PoolingNode_mml<T>::forward() {
       }
     }
   }
-  std::cerr << "OUTPUT SHAPE: " << output_shape[2] << "x" << output_shape[3]
-            << std::endl
-            << std::flush;
+
   pooling(input, input_shape, output_shape, effective_kernel_shape,
           pad_shape[0], pad_shape[1], auto_pad);
 }

@@ -3,8 +3,8 @@
 
 template <typename T>
 void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
-                                    array_mml<int> input_shape,
-                                    array_mml<int> output_shape,
+                                    array_mml<uli> input_shape,
+                                    array_mml<uli> output_shape,
                                     array_mml<int> effective_kernel_shape,
                                     int pad_h, int pad_w, string auto_pad) {
 
@@ -15,12 +15,12 @@ void MaxPoolingNode_mml<T>::pooling(const shared_ptr<Tensor<T>> t,
       {output_shape[0], output_shape[1], output_shape[2], output_shape[3]});
 
   // Perform pooling operation
-  for (int element = 0; element < input_shape[0]; element++) {
-    for (int channel = 0; channel < input_shape[1]; channel++) {
-      for (int out_row = 0; out_row < output_shape[2]; out_row++) {
-        for (int out_col = 0; out_col < output_shape[3]; out_col++) {
-          int in_row_start = out_row * this->strides[0];
-          int in_col_start = out_col * this->strides[1];
+  for (uli element = 0; element < input_shape[0]; element++) {
+    for (uli channel = 0; channel < input_shape[1]; channel++) {
+      for (uli out_row = 0; out_row < output_shape[2]; out_row++) {
+        for (uli out_col = 0; out_col < output_shape[3]; out_col++) {
+          uli in_row_start = out_row * this->strides[0];
+          uli in_col_start = out_col * this->strides[1];
 
           // Adjust the starting indices after padding type
           if (auto_pad == "SAME_UPPER") {

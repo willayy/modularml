@@ -19,14 +19,15 @@ TEST(test_log_softmax_node, test_forward_basic) {
 
     logsoftmax.forward();
 
-    for (int b = 0; b < Y->get_shape()[0]; b++) {
+    for (uli b = 0; b < Y->get_shape()[0]; b++) {
 
-        float row_sum = 0;
-        
-        for (int c = 0; c < Y->get_shape()[1]; c++) {
-            row_sum += std::exp( (*Y)[{b, c}] ); // exponentiate the result so we can check that they sum to 1
-        }
-        EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1 
+      float row_sum = 0;
+
+      for (uli c = 0; c < Y->get_shape()[1]; c++) {
+        row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+                                           // check that they sum to 1
+      }
+      EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1
     }
 }
 
@@ -46,13 +47,15 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
 
     logsoftmax.forward();
 
-    for (int b = 0; b < Y->get_shape()[0]; b++) {
-        float row_sum = 0;
-        
-        for (int c = 0; c < Y->get_shape()[1]; c++) {
-            row_sum += std::exp( (*Y)[{b, c}] ); // exponentiate the result so we can check that they sum to 1
-        }
-        EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1 which it should
+    for (uli b = 0; b < Y->get_shape()[0]; b++) {
+      float row_sum = 0;
+
+      for (uli c = 0; c < Y->get_shape()[1]; c++) {
+        row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+                                           // check that they sum to 1
+      }
+      EXPECT_NEAR(row_sum, 1.0f,
+                  1e-5); // Checks that each row sums to 1 which it should
     }
 }
 
@@ -74,13 +77,15 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
 
     logsoftmax.forward();
 
-    for (int b = 0; b < Y->get_shape()[0]; b++) {
-        float row_sum = 0;
-        
-        for (int c = 0; c < Y->get_shape()[1]; c++) {
-            row_sum += std::exp( (*Y)[{b, c}] ); // exponentiate the result so we can check that they sum to 1
-        }
-        EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1 which it should
+    for (uli b = 0; b < Y->get_shape()[0]; b++) {
+      float row_sum = 0;
+
+      for (uli c = 0; c < Y->get_shape()[1]; c++) {
+        row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+                                           // check that they sum to 1
+      }
+      EXPECT_NEAR(row_sum, 1.0f,
+                  1e-5); // Checks that each row sums to 1 which it should
     }
 }
 
@@ -102,13 +107,15 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
 
     logsoftmax.forward();
 
-    for (int b = 0; b < Y->get_shape()[0]; b++) {
-        float row_sum = 0;
-        
-        for (int c = 0; c < Y->get_shape()[1]; c++) {
-            row_sum += std::exp( (*Y)[{b, c}] ); // exponentiate the result so we can check that they sum to 1
-        }
-        EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1 which it should
+    for (uli b = 0; b < Y->get_shape()[0]; b++) {
+      float row_sum = 0;
+
+      for (uli c = 0; c < Y->get_shape()[1]; c++) {
+        row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+                                           // check that they sum to 1
+      }
+      EXPECT_NEAR(row_sum, 1.0f,
+                  1e-5); // Checks that each row sums to 1 which it should
     }
 }
 

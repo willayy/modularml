@@ -21,9 +21,9 @@ void AddNode<T>::forward() {
   bool broadcast_comp = true;
 
   // Check if broadcasting is possible
-  for (int i = 0; i < max_rank; i++) {
-    int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
-    int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+  for (uli i = 0; i < max_rank; i++) {
+    uli dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+    uli dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
     // Valid if dimensions match or one of them is 1
     if (dim_A != dim_B && dim_A != 1 && dim_B != 1) {
@@ -89,11 +89,11 @@ void AddNode<T>::broadcast_addition() const {
   auto max_rank = std::max(A_rank, B_rank);
 
   // Compute output shape based on broadcasting rules
-  array_mml<int> output_shape(max_rank);
+  array_mml<uli> output_shape(max_rank);
   std::fill(output_shape.begin(), output_shape.end(), 1);
-  for (int i = 0; i < max_rank; i++) {
-    int dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
-    int dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+  for (uli i = 0; i < max_rank; i++) {
+    uli dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+    uli dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
     switch ((dim_A == dim_B) ? 0 : (dim_A == 1) ? 1
                                : (dim_B == 1)   ? 2
@@ -130,17 +130,17 @@ void AddNode<T>::broadcast_addition() const {
   }
 
   // Iterate through the output tensor
-  for (int flat_idx = 0; flat_idx < C->get_size(); flat_idx++) {
-    int A_idx = 0, B_idx = 0;
-    int remaining = flat_idx;
+  for (uli flat_idx = 0; flat_idx < C->get_size(); flat_idx++) {
+    uli A_idx = 0, B_idx = 0;
+    uli remaining = flat_idx;
 
     // Compute multi-dimensional indices on the fly
-    for (int j = 0; j < max_rank; j++) {
-      int coord = remaining / output_strides[j];  // Extract coordinate for dim j
+    for (uli j = 0; j < max_rank; j++) {
+      uli coord = remaining / output_strides[j]; // Extract coordinate for dim j
       remaining %= output_strides[j];
 
-      int dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
-      int dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
+      uli dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
+      uli dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
 
       if (dim_A > 1) A_idx += coord * A_strides[j];
       if (dim_B > 1) B_idx += coord * B_strides[j];

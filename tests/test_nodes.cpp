@@ -157,12 +157,12 @@ TEST(test_node, test_Dropout_random_float) {
    * @brief If dropout is not in training mode, the output should be the same as
    * the input.
    */
-  const array_mml<int> shape =
-      generate_random_array_mml_integral<int>(3, 3, 3, 3);
+  const array_mml<uli> shape =
+      generate_random_array_mml_integral<uli>(3, 3, 3, 3);
   auto data = make_shared<Tensor_mml<float>>(
       generate_random_tensor<float>(shape, -5.0f, 5.0f));
   auto reference = data;
-  auto output = make_shared<Tensor_mml<float>>(Tensor_mml<float>(shape));
+  auto output = make_shared<Tensor_mml<float>>(shape);
 
   DropoutNode<float> dropoutNode(data, output);
   dropoutNode.forward();
