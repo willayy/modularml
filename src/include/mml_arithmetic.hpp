@@ -29,10 +29,7 @@ class Arithmetic_mml : public ArithmeticModule<T> {
 
   std::shared_ptr<Tensor<T>> reduce_max(const std::shared_ptr<const Tensor<T>> input, int axis) const;
 
-  std::shared_ptr<Tensor<T>> reduce_sum(const std::shared_ptr<const Tensor<T>> input, int axis) const;
-
-  std::shared_ptr<Tensor<T>> elementwise_softmax(const std::shared_ptr<const Tensor<T>> input, int axis) const;
-    
+  std::shared_ptr<Tensor<T>> reduce_sum(const std::shared_ptr<const Tensor<T>> input, int axis) const;    
 };
 
 #include "../mml_arithmetic.tpp"

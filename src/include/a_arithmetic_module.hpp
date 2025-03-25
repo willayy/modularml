@@ -57,12 +57,6 @@ class ArithmeticModule {
   virtual void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const = 0;
 
   /**
-   * @brief Applies Softmax function elementwise along an axis.
-   * @param input Input tensor.
-   * @param axis Axis along which to apply Softmax.
-   */
-  virtual std::shared_ptr<Tensor<T>> elementwise_softmax(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
-  /**
    * @brief Computes the maximum value along a specified axis.
    * @param input Input tensor.
    * @param axis Axis along which to compute the max.

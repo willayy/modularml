@@ -52,9 +52,9 @@ public:
   array_mml<GeneralDataTypes> getOutputs() const override;
 
 private:
-  std::shared_ptr<const AbstractTensor> input_;
-  std::shared_ptr<AbstractTensor> output_;
-  int axis_;
+  std::shared_ptr<const AbstractTensor> input;
+  std::shared_ptr<AbstractTensor> output;
+  int axis;
 };
 
 #include "../SoftMax_node.tpp"
