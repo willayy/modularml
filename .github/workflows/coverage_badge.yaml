@@ -85,7 +85,7 @@ jobs:
           
           if [ -f docs/coverage-badge.svg ]; then
           echo "Removing old coverage badge"
-          rm docs/coverage-badge.svg
+          git rm docs/coverage-badge.svg
           git add docs/coverage-badge.svg
           fi
           
