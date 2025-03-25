@@ -77,18 +77,23 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git fetch origin gh-pages
+          
+          git fetch origin
           git checkout gh-pages
+          
           mkdir -p docs
           
-
           if [ -f docs/coverage-badge.svg ]; then
           echo "Removing old coverage badge"
           rm docs/coverage-badge.svg
           fi
-          # Very wierd the badge doesnt even get staged anymore, this worked before
-          mv new-coverage-badge.svg docs/coverage-badge.svg
-          git add docs/coverage-badge.svg
           
+          # Very wierd the badge doesnt even get staged anymore, this worked before
+          
+          mv new-coverage-badge.svg docs/coverage-badge.svg
+          
+          git add -f docs/coverage-badge.svg
+          git status
+
           git commit -m "Update coverage badge"
           git push origin gh-pages
