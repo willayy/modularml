@@ -90,9 +90,9 @@ jobs:
           
           # Very wierd the badge doesnt even get staged anymore, this worked before
           
-          mv new-coverage-badge.svg docs/coverage-badge.svg
+          mv new-coverage-badge.svg docs/new-coverage-badge.svg
           
-          git add -f docs/coverage-badge.svg
+          git add -f docs/new-coverage-badge.svg
           git status
 
           git commit -m "Update coverage badge"
