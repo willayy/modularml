@@ -65,7 +65,7 @@ template <typename T> void LeakyReLUNode<T>::leaky_relu_elementwise() {
     (*Y)[indices] = leaky_relu_operation((*X)[indices]);
 
     // Increment indices like a multi-dimensional counter
-    for (uli d = num_dimensions - 1; d >= 0; --d) {
+    for (uli d = num_dimensions - 1; ((int) d) >= 0; --d) {
       if (++indices[d] < shape[d]) {
         break; // No carry needed, continue iteration
       }

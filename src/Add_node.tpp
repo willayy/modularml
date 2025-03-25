@@ -117,13 +117,13 @@ template <typename T> void AddNode<T>::broadcast_addition() const {
   vector<uli> output_strides(max_rank, 1);
 
   // Compute strides for each tensor
-  for (uli i = max_rank - 2; i >= 0; --i) {
+  for (uli i = max_rank - 2; ((int) i) >= 0; --i) {
     output_strides[i] = output_strides[i + 1] * output_shape[i + 1];
   }
-  for (uli i = A_rank - 2; i >= 0; --i) {
+  for (uli i = A_rank - 2; ((int) i) >= 0; --i) {
     A_strides[i] = A_strides[i + 1] * A_shape[i + 1];
   }
-  for (uli i = B_rank - 2; i >= 0; --i) {
+  for (uli i = B_rank - 2; ((int) i) >= 0; --i) {
     B_strides[i] = B_strides[i + 1] * B_shape[i + 1];
   }
 

@@ -15,7 +15,7 @@ template <typename T> void LogSoftMaxNode<T>::forward() {
     throw runtime_error("Output tensor Y is not allocated.");
 
   // If axis is negative
-  if (axis < 0)
+  if (((int) axis) < 0)
     axis += X->get_shape().size();
 
   if (axis >= X->get_shape().size())

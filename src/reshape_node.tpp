@@ -4,13 +4,14 @@
 
 template <typename T>
 reshapeNode<T>::reshapeNode(shared_ptr<const AbstractTensor> data,
-                            shared_ptr<const Tensor<uli>> shape,
-                            shared_ptr<AbstractTensor> reshaped, int allowzero)
+                            shared_ptr<const Tensor<int64_t>> shape,
+                            shared_ptr<AbstractTensor> reshaped, 
+                            int allowzero)
     : data(data), shape(shape), reshaped(reshaped), allowzero(allowzero) {
   if (allowzero != 0 && allowzero != 1)
     throw runtime_error("Invalid value for allowzero. Must be 0 or 1.");
   if (!shape)
-    throw runtime_error("Shape tensor must be of type uli.");
+    throw runtime_error("Shape tensor must be of type int.");
   if constexpr (std::is_same_v<T, string> || std::is_same_v<T, bool>) {
     throw runtime_error(
         "Reshape operation is not yet implemented for string or bool tensors.");
@@ -109,7 +110,7 @@ void reshapeNode<T>::setInputs(const array_mml<GeneralDataTypes> &inputs) {
     throw runtime_error("reshapeNode expects two inputs: data and shape.");
 
   auto valueData = std::get_if<shared_ptr<AbstractTensor>>(&inputs[0UL]);
-  auto valueShape = std::get_if<shared_ptr<AbstractTensor>>(&inputs[1UL]);
+  auto valueShape = std::get_if<shared_ptr<Tensor<int64_t>>>(&inputs[1UL]);
 
   if (!valueData || !valueShape)
     throw runtime_error("Failed to cast inputs to the expected tensor types. "

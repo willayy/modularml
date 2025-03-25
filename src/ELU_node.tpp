@@ -62,7 +62,7 @@ template <typename T> void ELUNode<T>::elu_elementwise() {
     (*Y)[indices] = elu_operation((*X)[indices]);
 
     // Increment indices like a multi-dimensional counter
-    for (uli d = num_dimensions - 1; d >= 0; --d) {
+    for (uli d = num_dimensions - 1; ((int) d) >= 0; --d) {
       if (++indices[d] < shape[d]) {
         break; // No carry needed, continue iteration
       }

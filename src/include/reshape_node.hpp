@@ -34,7 +34,7 @@ class reshapeNode : public Node {
    * @param reshaped Shared pointer to the reshaped tensor (output).
    * @param allowzero =0 by default. allowzero=1 indicates that if any value in the ‘shape’ input is set to zero, the zero value is honored
    */
-  reshapeNode(shared_ptr<const AbstractTensor> data, shared_ptr<const Tensor<uli>> shape,
+  reshapeNode(shared_ptr<const AbstractTensor> data, shared_ptr<const Tensor<int64_t>> shape,
               shared_ptr<AbstractTensor> reshaped, int allowzero = 0);
 
   /**

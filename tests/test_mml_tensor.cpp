@@ -52,10 +52,10 @@ TEST(test_mml_tensor, test_move_assignment_1) {
 
 // Test the move assignment using abstract class
 TEST(test_mml_tensor, test_move_assignment_2) {
-  shared_ptr<Tensor<int>> t1 =
-      make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+  shared_ptr<Tensor<int>> t1 = 
+      make_shared<Tensor_mml<int>>(array_mml<uli>({3, 3}));
   shared_ptr<Tensor<int>> t2 =
-      make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+      make_shared<Tensor_mml<int>>(array_mml<uli>({2, 2}));
   *t2 = move(*t1);
   auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -70,9 +70,9 @@ TEST(test_mml_tensor, test_move_assignment_2) {
 // Test the copy assignment using abstract class
 TEST(test_mml_tensor, test_copy_assignment_2) {
   shared_ptr<Tensor<int>> t1 =
-      make_shared<Tensor_mml<int>>(array_mml<int>({3, 3}));
+      make_shared<Tensor_mml<int>>(array_mml<uli>({3, 3}));
   shared_ptr<Tensor<int>> t2 =
-      make_shared<Tensor_mml<int>>(array_mml<int>({2, 2}));
+      make_shared<Tensor_mml<int>>(array_mml<uli>({2, 2}));
   *t2 = *t1;
   auto expected_shape = array_mml<uli>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -88,7 +88,7 @@ TEST(test_mml_tensor, test_copy_assignment_2) {
 // indices
 TEST(test_mml_tensor, test_index_1) {
   for (int i = 0; i < 100; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>();
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>();
     const auto elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
@@ -103,7 +103,7 @@ TEST(test_mml_tensor, test_index_1) {
 
 TEST(test_mml_tensor, test_index_2) {
   for (int i = 0; i < 100; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>();
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>();
     const auto elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
@@ -117,7 +117,7 @@ TEST(test_mml_tensor, test_index_2) {
 
 TEST(test_mml_tensor, test_indices_1) {
   for (int i = 0; i < 100; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>();
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>();
     const auto elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
@@ -140,7 +140,7 @@ TEST(test_mml_tensor, test_indices_1) {
 
 TEST(test_mml_tensor, test_indices_2) {
   for (int i = 0; i < 100; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>();
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>();
     const auto elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
@@ -169,7 +169,7 @@ TEST(test_mml_tensor, test_indices_2) {
 // Reshape into 1D tensor
 TEST(test_mml_tensor, test_reshape_1) {
   for (int i = 0; i < 100; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>();
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>();
     const uli elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
@@ -189,7 +189,7 @@ TEST(test_mml_tensor, test_reshape_1) {
 // Reshape into 1D into 2D tensor
 TEST(test_mml_tensor, test_reshape_2) {
   for (int i = 0; i < 200; i++) {
-    array_mml<int> shape = generate_random_array_mml_integral<int>(1, 1);
+    array_mml<uli> shape = generate_random_array_mml_integral<uli>(1, 1);
     const auto elements =
         accumulate(shape.begin(), shape.end(), 1, multiplies<int>());
     array_mml<int> data =
