@@ -14,8 +14,14 @@ jobs:
     runs-on: ubuntu-latest  
     steps:
 
-      - name: Build
-        run: make
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: make install
+
+      - name: Configure and Build
+        run: make all
 
       - name: Generate coverage report
         run: make coverage
