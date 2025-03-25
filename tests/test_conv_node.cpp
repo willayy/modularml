@@ -3,8 +3,6 @@
 #include <conv_node.hpp>
 
 TEST(conv_node_test, test_constructor) {
-  std::cout << "My test" << std::endl;
-
   array_mml<uli> shapeX({1, 1, 3, 3});
   array_mml<float> X_values(
       {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
