@@ -3,7 +3,7 @@
 #include "mml_LRN_node.hpp"
 
 template <typename T>
-LRNNode_mml<T>::LRNNode_mml(shared_ptr<Tensor<T>> input, int size, float alpha,
+LRNNode_mml<T>::LRNNode_mml(shared_ptr<Tensor<T>> input, uli size, float alpha,
                             float beta, float bias)
     : input(input), size(size), alpha(alpha), beta(beta), bias(bias){};
 
@@ -32,26 +32,26 @@ template <typename T> bool LRNNode_mml<T>::areOutputsFilled() const {
 
 template <typename T> void LRNNode_mml<T>::forward() {
 
-  array_mml<int> shape = input->get_shape();
+  array_mml<uli> shape = input->get_shape();
   output = tensor_mml_p<T>({shape[0], shape[1], shape[2], shape[3]});
 
   /// Each batch element
-  for (int n = 0; n < shape[0]; n++) {
+  for (uli n = 0; n < shape[0]; n++) {
     /// Each channel
-    for (int c = 0; c < shape[1]; c++) {
+    for (uli c = 0; c < shape[1]; c++) {
       /// Each row
-      for (int h = 0; h < shape[2]; h++) {
+      for (uli h = 0; h < shape[2]; h++) {
         /// Each column
-        for (int w = 0; w < shape[3]; w++) {
+        for (uli w = 0; w < shape[3]; w++) {
 
           /// Region
-          int start = std::max(0, c - (size - 1) / 2);
-          int end =
+          uli start = std::max(0UL, c - (size - 1) / 2);
+          uli end =
               std::min(shape[1] - 1, c + (size - 1) / 2 + ((size - 1) % 2));
 
           /// Calculate square_sum
           T square_sum = 0;
-          for (int i = start; i <= end; i++) {
+          for (uli i = start; i <= end; i++) {
             square_sum += (*input)[{n, i, h, w}] * (*input)[{n, i, h, w}];
           }
           (*output)[{n, c, h, w}] =

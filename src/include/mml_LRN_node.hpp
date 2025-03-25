@@ -21,7 +21,7 @@ public:
    * @param bias (default = 1.0) Bias to avoid division with 0.
    *
    */
-  LRNNode_mml(shared_ptr<Tensor<T>> input, int size, float alpha = 0.0001f,
+  LRNNode_mml(shared_ptr<Tensor<T>> input, uli size, float alpha = 0.0001f,
               float beta = 0.75f, float bias = 1.0f);
 
   void forward() override;
@@ -51,6 +51,6 @@ private:
   float bias;
 
   ///@brief Number of channels to sum over
-  int size;
+  uli size;
 };
 #include "../mml_LRN_node.tpp"
