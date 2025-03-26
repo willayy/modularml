@@ -1,6 +1,7 @@
 #pragma once
 #include "a_tensor.hpp"
 #include "globals.hpp"
+#include "tensor_operation_functions.hpp"
 
 #define ASSERT_ALLOWED_TYPES_AR(T) static_assert(std::is_arithmetic_v<T>, "TensorOperationModule type must be arithmetic.")
 /**
@@ -15,11 +16,7 @@ class TensorOperationsModule {
     /**
     * @brief Get the instance of the TensorOperationsModule.
     * @return The instance of the TensorOperationsModule. */
-    static TensorOperationsModule& getInstance() {
-        static TensorOperationsModule instance;
-        return instance;
-    }
-
+    static TensorOperationsModule& getInstance();
     // Delete copy constructor and assignment operator.
     TensorOperationsModule(const TensorOperationsModule&) = delete;
     TensorOperationsModule& operator=(const TensorOperationsModule&) = delete;
@@ -44,7 +41,7 @@ class TensorOperationsModule {
    * @param BETA Scalar beta.
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C. */
-   static void gemm(int TA, int TB, int M, int N, int K, T ALPHA,
+   void gemm(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> A, int lda,
                              shared_ptr<Tensor<T>> B, int ldb,
                              T BETA,
@@ -63,7 +60,7 @@ class TensorOperationsModule {
    * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N). */
-   static shared_ptr<Tensor<T>> gemm_onnx(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+   shared_ptr<Tensor<T>> gemm_onnx(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                               float alpha = 1.0, float beta = 1.0,
                                               int transA = 0, int transB = 0,
                                               optional<shared_ptr<Tensor<T>>> C = nullopt) = 0;
@@ -74,7 +71,7 @@ class TensorOperationsModule {
      * @param a First tensor.
      * @param b Second tensor.
      * @param c Output tensor. */
-    static void add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const;
+    void add(const shared_ptr<const Tensor<T>> a, const shared_ptr<const Tensor<T>> b, shared_ptr<Tensor<T>> c) const;
 
     /**
      * @brief Subtracts two tensors element-wise.
@@ -82,7 +79,7 @@ class TensorOperationsModule {
      * @param a First tensor.
      * @param b Second tensor.
      * @param c Output tensor. */
-    static void subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const;
+    void subtract(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b, shared_ptr<Tensor<T>> c) const;
 
     /**
      * @brief Multiplies a tensor by a scalar.
@@ -90,93 +87,43 @@ class TensorOperationsModule {
      * @param a Input tensor.
      * @param b Scalar.
      * @param c Output tensor. */
-    static void multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const;
+    void multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const;
 
     /**
      * @brief Compares two tensors element-wise.
      * @param a First tensor.
      * @param b Second tensor.
      * @return True if the tensors are equal, false otherwise. */
-    static bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const;
+    bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const;
 
     /**
      * @brief Applies a function element-wise to a tensor.
      * @param a Input tensor.
      * @param f Function to apply.
      * @param c Output tensor. */
-    static void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const;
+    void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const;
 
     /**
      * @brief Applies a function element-wise to a tensor in place.
      * @param a Input tensor.
      * @param f Function to apply. */
-    static void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const;
+    void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const;
 
-    static void set_operation_func(string id, std::function func) {
-        if (id == "gemm") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(int, int, int, int, int, T, shared_ptr<Tensor<T>>, int, shared_ptr<Tensor<T>>, int, T, shared_ptr<Tensor<T>>, int)>,
-                "Function signature does not match gemm."
-            );
-            gemm_ptr = func
-        } else if (id == "gemm_onnx") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                shared_ptr<Tensor<T>> (*)(shared_ptr<Tensor<T>>, shared_ptr<Tensor<T>>, float, float, int, int, optional<shared_ptr<Tensor<T>>>)>,
-                "Function signature does not match gemm_onnx."
-            );
-            gemm_onnx_ptr = func;
-        } else if (id == "add") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(const shared_ptr<const Tensor<T>>, const shared_ptr<const Tensor<T>>, shared_ptr<Tensor<T>>) const>,
-                "Function signature does not match add."
-            );
-            add_ptr = func;
-        } else if (id == "subtract") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(const shared_ptr<Tensor<T>>, const shared_ptr<Tensor<T>>, shared_ptr<Tensor<T>>) const>,
-                "Function signature does not match subtract."
-            );
-            subtract_ptr = func;
-        } else if (id == "multiply") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(const shared_ptr<Tensor<T>>, T, shared_ptr<Tensor<T>>) const>,
-                "Function signature does not match multiply."
-            );
-            multiply_ptr = func;
-        } else if (id == "equals") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                bool (*)(const shared_ptr<Tensor<T>>, const shared_ptr<Tensor<T>>) const>,
-                "Function signature does not match equals."
-            );
-            equals_ptr = func;
-        } else if (id == "elementwise") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(const shared_ptr<const Tensor<T>>, T (*)(T), const shared_ptr<Tensor<T>>) const>,
-                "Function signature does not match elementwise."
-            );
-            elementwise_ptr = func;
-        } else if (id == "elementwise_in_place") {
-            static_assert(
-                std::is_same_v<decltype(func),
-                void (*)(const shared_ptr<Tensor<T>>, T (*)(T)) const>,
-                "Function signature does not match elementwise_in_place."
-            );
-            elementwise_in_place_ptr = func;
-        } else {
-            throw invalid_argument("Invalid function id.");
-        }
-    }
+    void set_operation_func(string id, function<void()> func);
 
     private:
     // Private constructor.
-    TensorOperationsModule() {} 
+    TensorOperationsModule() {
+        this->gemm_ptr = mml_gemm_inner_product;
+        this->gemm_onnx_ptr = mml_onnx_gemm_inner_product;
+        this->add_ptr = mml_add;
+        this->subtract_ptr = mml_subtract;
+        this->multiply_ptr = mml_multiply;
+        this->equals_ptr = mml_equals;
+        this->elementwise_ptr = mml_elementwise;
+        this->elementwise_in_place_ptr = mml_elementwise_in_place;
+    } 
+
     // Pointer to the gemm function.
     void (*gemm_ptr)(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> A, int lda,
@@ -201,3 +148,5 @@ class TensorOperationsModule {
     // Pointer to the elementwise_in_place function.
     void (*elementwise_in_place_ptr)(const shared_ptr<Tensor<T>> a, T (*f)(T));
 };
+
+#include "../tensor_operations_module.tpp"

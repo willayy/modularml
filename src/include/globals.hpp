@@ -18,6 +18,7 @@
 #include <variant>
 #include <vector>
 
+using std::function;
 using nlohmann::json;
 using std::accumulate;
 using std::copy;

@@ -410,17 +410,3 @@ bool Tensor_mml<T>::valid_slice_indices(const array_mml<uli>& slice_indices) con
   }
   return true;
 }
-
-// Convenience initializers
-
-template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape) {
-  auto t = make_shared<Tensor_mml<T>>(shape);
-  return t;
-}
-
-template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data) {
-  auto t = make_shared<Tensor_mml<T>>(shape, data);
-  return t;
-}

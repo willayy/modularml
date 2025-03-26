@@ -99,10 +99,4 @@ class Tensor_mml : public Tensor<T> {
   uli index_to_slice_index(uli index) const;
 };
 
-template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape);
-
-template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data);
-
 #include "../mml_tensor.tpp"
