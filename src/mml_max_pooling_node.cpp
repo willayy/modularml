@@ -68,7 +68,7 @@ void MaxPoolingNode_mml::pooling(const TensorT& t,
                     if (storage_order) {
                       index = curr_col * input_shape[2] + curr_row;
                     } else {
-                      index = curr_col * input_shape[3] + curr_row;
+                      index = curr_row * input_shape[3] + curr_col;
                     }
                   }
                 }

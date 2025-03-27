@@ -186,6 +186,9 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   ASSERT_EQ(*output_ptr, *exp_output);
   ASSERT_EQ(*indices_ptr, *exp_output_indices);
 
+  iomap.clear();
+  iomap[input_string] = input;
+
   exp_output = tensor_mml_p<float>({1, 1, 3, 1}, {5, 8, 8});
   exp_output_indices = tensor_mml_p<int64_t>({1, 1, 3, 1}, {4, 7, 7});
 
@@ -278,6 +281,9 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   ASSERT_NE(output_ptr, nullptr) << "Failed to get output tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
+  
+  iomap.clear();
+  iomap[input_string] = input;
 
   exp_output = tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
@@ -349,9 +355,11 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
 
   ASSERT_EQ(*output_ptr, *exp_output);
 
+  iomap.clear();
+
   input = tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   exp_output = tensor_mml_p<float>({1, 1, 3, 1}, {3, 6, 3.75});
-
+  
   iomap[input_string] = input;
 
   avg_pool = AvgPoolingNode_mml(input_string, vector<string>{output_string},

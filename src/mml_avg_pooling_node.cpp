@@ -24,18 +24,8 @@ void AvgPoolingNode_mml::pooling(const TensorT& t_variant,
 
     array_mml<uli> reshape_shape = {output_shape[0], output_shape[1], output_shape[2], output_shape[3]};
 
-    auto output_it = iomap.find(outputs[0]);
-    if (output_it == iomap.end()) {
-        // Create output tensor if it doesn't exist
-        auto output_ptr = make_shared<Tensor_mml<ValueType>>(reshape_shape);
-        iomap[outputs[0]] = output_ptr;
-        output_it = iomap.find(outputs[0]);
-    } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(output_it->second)) {
-        throw std::runtime_error("AvgPoolingNode_mml: Output tensor Y has incorrect type");
-    }
-
-    auto output_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(output_it->second);
-    output_ptr->fill(0);
+    auto output_ptr = make_shared<Tensor_mml<ValueType>>(reshape_shape);
+    iomap[outputs[0]] = output_ptr;
 
     // Perform pooling operation
     for (uli element = 0; element < input_shape[0]; element++) {
