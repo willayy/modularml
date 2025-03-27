@@ -2,6 +2,7 @@
 
 #include <modularml>
 
+// ---------    Kaiming Tests
 TEST(test_tensor_utility, test_kaiming_uniform_basic) {
   const int in_channels = 3;
   const int kernel_size = 3;
@@ -111,6 +112,8 @@ TEST(test_tensor_utility, test_kaiming_external_vs_internal) {
   ASSERT_FALSE(is_constant(tensor_int)) << "Internal RNG tensor is unexpectedly constant";
 }
 
+// ---------    Random tensor tests
+
 TEST(test_tensor_utility, test_generate_random_tensor_basic) {
   using namespace std;
 
@@ -169,4 +172,72 @@ TEST(test_tensor_utility, test_generate_random_tensor_basic) {
     }
     ASSERT_FALSE(all_same);
   }
+}
+
+// ---------    tesors_are_close tests
+
+TEST(test_tensor_utility, test_tensors_are_close_equal) {
+  Tensor_mml<float> a({3}, {1.0f, 2.0f, 3.0f});
+  Tensor_mml<float> b({3}, {1.0f, 2.0f, 3.0f});
+  ASSERT_TRUE(tensors_are_close(a, b, 0.01f));
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_within_tolerance) {
+  Tensor_mml<float> a({3}, {1.0f, 2.01f, 2.98f});
+  Tensor_mml<float> b({3}, {1.0f, 2.0f, 3.0f});
+  ASSERT_TRUE(tensors_are_close(a, b, 0.01f));  // within 1% tolerance
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_exceeds_tolerance) {
+  Tensor_mml<float> a({3}, {1.0f, 2.2f, 3.1f});
+  Tensor_mml<float> b({3}, {1.0f, 2.0f, 3.0f});
+  ASSERT_FALSE(tensors_are_close(a, b, 0.01f));  // exceeds tolerance
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_different_shapes) {
+  Tensor_mml<float> a({2}, {1.0f, 2.0f});
+  Tensor_mml<float> b({3}, {1.0f, 2.0f, 3.0f});
+  ASSERT_FALSE(tensors_are_close(a, b, 0.01f));
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_zero_tolerance) {
+  Tensor_mml<float> a({3}, {1.0f, 2.0f, 3.0f});
+  Tensor_mml<float> b({3}, {1.0f, 2.0f, 3.001f});
+  ASSERT_FALSE(tensors_are_close(a, b, 0.0f));  // no tolerance
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_integers_exact) {
+  Tensor_mml<int> a({3}, {1, 2, 3});
+  Tensor_mml<int> b({3}, {1, 2, 3});
+  ASSERT_TRUE(tensors_are_close(a, b, 0));  // exact match for integers
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_integers_fail) {
+  Tensor_mml<int> a({3}, {1, 2, 4});
+  Tensor_mml<int> b({3}, {1, 2, 3});
+  ASSERT_FALSE(tensors_are_close(a, b, 0));  // mismatch
+}
+
+TEST(test_tensor_utility, test_tensors_are_close_with_negatives) {
+  Tensor_mml<float> a({3}, {-1.0f, -2.01f, -3.0f});
+  Tensor_mml<float> b({3}, {-1.0f, -2.0f, -3.0f});
+  ASSERT_TRUE(tensors_are_close(a, b, 0.01f));  // relative tolerance should still apply
+}
+
+TEST(test_tensor_utils, test_tensors_are_close_zero_reference_value) {
+  // a is slightly off from zero at the middle
+  Tensor_mml<float> a({3}, {1.0f, 0.000009f, 3.0f});
+  Tensor_mml<float> b({3}, {1.0f, 0.0f, 3.0f});
+
+  // tolerance is 1e-2, but the actual fallback tolerance is 1e-5
+  // 0.000009 < 0.00001 ⇒ within tolerance, should pass
+  ASSERT_TRUE(tensors_are_close(a, b, 0.01f));
+}
+
+TEST(test_tensor_utils, test_tensors_are_close_zero_reference_value_fail) {
+  Tensor_mml<float> a({3}, {1.0f, 0.0002f, 3.0f});
+  Tensor_mml<float> b({3}, {1.0f, 0.0f, 3.0f});
+
+  // 0.0002 > 0.00001 ⇒ outside fallback tolerance
+  ASSERT_FALSE(tensors_are_close(a, b, 0.01f));
 }
