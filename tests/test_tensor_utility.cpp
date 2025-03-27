@@ -2,7 +2,7 @@
 
 #include <modularml>
 
-TEST(test_kaiming, test_kaiming_uniform_basic) {
+TEST(test_tensor_utility, test_kaiming_uniform_basic) {
     const int in_channels = 3;
     const int kernel_size = 3;
     const size_t num_elements = 27;
@@ -39,7 +39,7 @@ TEST(test_kaiming, test_kaiming_uniform_basic) {
     ASSERT_EQ(*tensor, *tensor2);
 }
 
-TEST(test_kaiming, test_kaiming_uniform_empty_tensor) {
+TEST(test_tensor_utility, test_kaiming_uniform_empty_tensor) {
     const auto in_channels = 3;
     const auto kernel_size = 3;
 
@@ -51,7 +51,7 @@ TEST(test_kaiming, test_kaiming_uniform_empty_tensor) {
     ASSERT_EQ(tensor->get_size(), 0);  // Still zero
 }
 
-TEST(test_kaiming, test_kaiming_uniform_zero_fan_in) {
+TEST(test_tensor_utility, test_kaiming_uniform_zero_fan_in) {
     const auto in_channels = 0;
     const auto kernel_size = 3;
 
@@ -62,7 +62,7 @@ TEST(test_kaiming, test_kaiming_uniform_zero_fan_in) {
     ASSERT_THROW(kaimingUniform(tensor, in_channels, kernel_size), std::invalid_argument);
 }
 
-TEST(test_kaiming, test_kaiming_external_vs_internal) {
+TEST(test_tensor_utility, test_kaiming_external_vs_internal) {
     const int in_channels = 3;
     const int kernel_size = 3;
     const size_t num_elements = 27;
