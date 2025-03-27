@@ -6,12 +6,13 @@
 
 /**
  * @class FlattenNode
- * @brief A node that flattens an input tensor along a specified axis. Implements the Node interface.
+ * @brief A node that flattens an input tensor along a specified axis.
+ * Implements the Node interface.
  *
- * The FlattenNode reshapes the input tensor into a 2D tensor (matrix), 
- * where dimensions before the `axis` are collapsed into the first dimension 
+ * The FlattenNode reshapes the input tensor into a 2D tensor (matrix),
+ * where dimensions before the `axis` are collapsed into the first dimension
  * and dimensions after the `axis` are collapsed into the second dimension.
- * 
+ *
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class FlattenNode : public Node {
@@ -63,7 +64,6 @@ public:
     std::vector<std::string> getOutputs() override;
 
 private:
-
     /**
      * @brief Input data tensor for the node.
      *

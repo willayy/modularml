@@ -25,7 +25,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
 
     std::unordered_map<string, GeneralDataTypes> inputs;
 
-    array_mml<int> shape({1, 2});
+    array_mml<uli> shape({1, 2});
     array_mml<float> values({0.5f, -0.5f});
 
 
@@ -47,7 +47,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
 
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-    EXPECT_EQ(output_tensor->get_shape(), array_mml<int>({1, 3}));
+    EXPECT_EQ(output_tensor->get_shape(), array_mml<uli>({1, 3}));
 
     // Dynamic cast to Tensor_mml<float> to access the data
     auto output_tensor_mml = std::dynamic_pointer_cast<Tensor_mml<float>>(output_tensor);
@@ -55,7 +55,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
 
     auto expected_output = array_mml<float>({-0.46211716f, -0.46211716f, -0.46211716f});
 
-    for (int i = 0; i < output_tensor_mml->get_size(); i++) {
+    for (uli i = 0; i < output_tensor_mml->get_size(); i++) {
         EXPECT_NEAR(output_tensor_mml->get_data()[i], expected_output[i], 1e-5);
     }
 }

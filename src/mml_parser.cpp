@@ -20,9 +20,9 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       std::string initName = init["name"];
       int dataType = init["dataType"];
       
-      std::vector<int> dims;
+      std::vector<uli> dims;
       for (const auto& el : init["dims"]) {
-        dims.push_back(std::stoi(el.get<std::string>()));
+        dims.push_back(static_cast<uli>(std::stoi(el.get<std::string>())));
       }
       array_mml shapeArray(dims);
 
@@ -50,9 +50,9 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       std::string inputName = input["name"];
       int dataType = input["type"]["tensorType"]["elemType"];
       
-      std::vector<int> dims;
+      std::vector<uli> dims;
       for (const auto& dim : input["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(std::stoi(dim["dimValue"].get<std::string>()));
+        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
       }
       array_mml shapeArray(dims);
       
@@ -72,9 +72,9 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       std::string outputName = output["name"];
       int dataType = output["type"]["tensorType"]["elemType"];
       
-      std::vector<int> dims;
+      std::vector<uli> dims;
       for (const auto& dim : output["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(std::stoi(dim["dimValue"].get<std::string>()));
+        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
       }
       array_mml shapeArray(dims);
       
@@ -94,9 +94,9 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       std::string valueInfoName = valueInfo["name"];
       int dataType = valueInfo["type"]["tensorType"]["elemType"];
       
-      std::vector<int> dims;
+      std::vector<uli> dims;
       for (const auto& dim : valueInfo["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(std::stoi(dim["dimValue"].get<std::string>()));
+        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
       }
       array_mml shapeArray(dims);
       

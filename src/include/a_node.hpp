@@ -15,6 +15,20 @@ struct is_in_variant<T, std::variant<Ts...>>
 template<typename T, typename Variant>
 constexpr bool is_in_variant_v = is_in_variant<T, Variant>::value;
 
+template<typename Variant>
+struct TensorVariantMaker;
+
+// Specialization for std::variant types:
+template<typename... Ts>
+struct TensorVariantMaker<std::variant<Ts...>> {
+    using type = std::variant<std::shared_ptr<Tensor<Ts>>...>;
+};
+
+// Helper type alias for convenience
+template<typename Variant>
+using TensorVariant = typename TensorVariantMaker<Variant>::type;
+
+
 // Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don't know.
 using GeneralDataTypes = variant<
     std::shared_ptr<Tensor<bool>>,
@@ -26,16 +40,15 @@ using GeneralDataTypes = variant<
     std::shared_ptr<Tensor<int8_t>>,
     std::shared_ptr<Tensor<uint16_t>>,
     std::shared_ptr<Tensor<uint32_t>>,
-    std::shared_ptr<Tensor<uint64_t>>,
-    std::shared_ptr<Tensor<uint8_t>>
->;
+    std::shared_ptr<Tensor<uint64_t>>, // Think this is meant to be unsigned long long or uint64_t not unsigned long int
+    std::shared_ptr<Tensor<uint8_t>>>;
 
 /**
  * @class Node
  * @brief Abstract base class representing a node in a computational graph.
  *
- * This class defines the interface for nodes in a computational graph, 
- * including methods for forward propagation, input/output management, 
+ * This class defines the interface for nodes in a computational graph,
+ * including methods for forward propagation, input/output management,
  * and checking the status of inputs and outputs.
  */
 class Node {
@@ -65,10 +78,10 @@ public:
      */
     virtual std::vector<std::string> getOutputs() = 0;
 
-    /**
-     * @brief Virtual destructor for the Node class.
-     *
-     * Ensures derived class destructors are called properly.
-     */
-    virtual ~Node() = default;
+  /**
+   * @brief Virtual destructor for the Node class.
+   *
+   * Ensures derived class destructors are called properly.
+   */
+  virtual ~Node() = default;
 };

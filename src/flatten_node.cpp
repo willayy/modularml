@@ -29,11 +29,9 @@ void FlattenNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     }
     
     const GeneralDataTypes& x_tensor = x_it->second;
-    std::visit([&](const auto& x_ptr) {
 
-        using TensorPtr = std::decay_t<decltype(x_ptr)>;
-        using TensorType = typename TensorPtr::element_type;
-        using ValueType = typename TensorType::value_type;
+    std::visit([&](const auto& x_ptr) {
+        using ValueType = typename std::decay_t<decltype(x_ptr)>::element_type::value_type;
         
         if constexpr (!is_in_variant_v<ValueType, T>) {
             throw std::runtime_error("FlattenNode: Unsupported data type for tensor X");
@@ -57,11 +55,11 @@ void FlattenNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
                 throw std::invalid_argument("Flatten axis is out of range");
             }
 
-            int height_2d, width_2d;
+            uli height_2d, width_2d;
 
             if (get_axis() == 0) {
                 // This gives a warning, but when get_size() returns int in the future it will disappear
-                input_copy->reshape({static_cast<int>(input_copy->get_size())});
+                input_copy->reshape({input_copy->get_size()});
             } else { 
                 height_2d = 1;
                 width_2d = 1;

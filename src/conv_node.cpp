@@ -3,12 +3,12 @@
 ConvNode::ConvNode(std::string X,
                       std::string W,
                       std::string Y,
-                      array_mml<int> dilations,
-                      array_mml<int> padding,
-                      array_mml<int> kernel_shape,
-                      array_mml<int> stride,
+                      array_mml<uli> dilations,
+                      array_mml<uli> padding,
+                      array_mml<uli> kernel_shape,
+                      array_mml<uli> stride,
                       optional<std::string> B,
-                      int group)
+                      uli group)
     : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding), kernel_shape(kernel_shape), stride(stride) {
     if (dilations.size() != 2) {
         throw invalid_argument("Invalid dilations size. Expected a vector of size 2, but got: " +
@@ -48,17 +48,17 @@ ConvNode::ConvNode(const json& node) {
     if (node.contains("attribute") && node["attribute"].is_object()) {
         for (const auto& attr : node["attribute"]) {
             if (attr["name"] == "dilations") {
-                std::vector<int> dilations_vec = attr["ints"];
-                dilations = array_mml<int>(dilations_vec);
+                std::vector<uli> dilations_vec = attr["ints"];
+                dilations = array_mml<uli>(dilations_vec);
             } else if (attr["name"] == "pads") {
-                std::vector<int> padding_vec = attr["ints"];
-                padding = array_mml<int>(padding_vec);
+                std::vector<uli> padding_vec = attr["ints"];
+                padding = array_mml<uli>(padding_vec);
             } else if (attr["name"] == "kernel_shape") {
-                std::vector<int> kernel_vec = attr["ints"];
-                kernel_shape = array_mml<int>(kernel_vec);
+                std::vector<uli> kernel_vec = attr["ints"];
+                kernel_shape = array_mml<uli>(kernel_vec);
             } else if (attr["name"] == "strides") {
-                std::vector<int> stride_vec = attr["ints"];
-                stride = array_mml<int>(stride_vec);
+                std::vector<uli> stride_vec = attr["ints"];
+                stride = array_mml<uli>(stride_vec);
             } else if (attr["name"] == "group") {
                 group = attr["i"];
             }
@@ -72,26 +72,25 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
         throw std::runtime_error("ConvNode: Input tensor X not found in iomap");
     }
 
-    const GeneralDataTypes& x_tensor = x_it->second;
+    auto w_it = iomap.find(W);
+    if (w_it == iomap.end()) {
+        throw std::runtime_error("ConvNode: Input tensor W not found in iomap");
+    }
 
-    std::visit([&](const auto& x_ptr) {
-        using TensorPtr = std::decay_t<decltype(x_ptr)>;
-        using TensorType = typename TensorPtr::element_type;
-        using ValueType = typename TensorType::value_type;
+    const GeneralDataTypes& x_tensor = x_it->second;
+    const GeneralDataTypes& w_tensor = w_it->second;
+
+    std::visit([&](const auto& x_ptr, const auto& w_ptr) {
+        using ValueTypeX = typename std::decay_t<decltype(x_ptr)>::element_type::value_type;
+        using ValueTypeW = typename std::decay_t<decltype(w_ptr)>::element_type::value_type;
+        
     
-        if constexpr (!is_in_variant_v<shared_ptr<Tensor<ValueType>>, T>) {
+        if constexpr (!is_in_variant_v<ValueTypeX, T> || !std::is_same_v<ValueTypeX, ValueTypeW>) {
           throw std::runtime_error("ConvNode: Unsupported data type for tensor data");
         } else {
             if (x_ptr->get_shape().size() < 1) {
                 throw runtime_error("Input tensor must have 4 dimensions: (Features x Channels x Height x Width).");
             }
-        
-            auto w_it = iomap.find(W);
-            if (w_it == iomap.end()) {
-              throw std::runtime_error("ConvNode: Input tensor W not found in iomap");
-            }
-        
-            auto w_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(w_it->second);
     
             auto y_it = iomap.find(Y);
             if (y_it == iomap.end()) {
@@ -100,11 +99,11 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
                 // No need to fill with zeros as the convolution function will overwrite the values
                 iomap[Y] = y_ptr;
                 y_it = iomap.find(Y);
-            } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(y_it->second)) {
+            } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second)) {
                 throw std::runtime_error("ConvNode: Output tensor Y has incorrect type");
             }
         
-            auto y_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
+            auto y_ptr = std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
             //infer and update attributes first
             update_parameters(x_ptr->get_shape(), w_ptr->get_shape());
@@ -113,27 +112,24 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
             auto input_copy = x_ptr->copy();
             
             // Begin by flipping the weight kernel
-            T weight_variant = w_ptr;
-            flip_kernel(weight_variant);
+            flip_kernel(w_ptr);
     
-            auto im2col_output_shape = array_mml<int>({get_in_channels() * get_kernel_height() * get_kernel_width(),
+            auto im2col_output_shape = array_mml<uli>({get_in_channels() * get_kernel_height() * get_kernel_width(),
                 get_batch_size() * get_out_height() * get_out_width()});
     
-            auto im2col_output = make_shared<Tensor_mml<ValueType>>(im2col_output_shape);
+            auto im2col_output = make_shared<Tensor_mml<ValueTypeX>>(im2col_output_shape);
             
-            T input_copy_variant = input_copy;
-            T im2col_output_variant = im2col_output;
-            im2col(input_copy_variant, im2col_output_variant);
+            im2col(input_copy, im2col_output);
     
             // Flatten the weight tensor to prepare for GEMM
-            int flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
+            uli flattened_size = get_in_channels() * get_kernel_height() * get_kernel_width();
             w_ptr->reshape({get_out_channels(), flattened_size});
             
             // Prepare the result tensor
-            array_mml<int> result_shape({w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
-            auto result_ptr = make_shared<Tensor_mml<ValueType>>(result_shape);
+            array_mml<uli> result_shape({w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
+            auto result_ptr = make_shared<Tensor_mml<ValueTypeX>>(result_shape);
     
-            auto gemm = make_shared<Gemm_mml<ValueType>>();
+            auto gemm = make_shared<Gemm_mml<ValueTypeX>>();
             gemm->gemm_inner_product(
                 0, 0,
                 w_ptr->get_shape()[0], im2col_output->get_shape()[1], w_ptr->get_shape()[1],
@@ -151,18 +147,16 @@ void ConvNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
                 if (b_it == iomap.end()) {
                     throw std::runtime_error("ConvNode: Input tensor B not found in iomap");
                 }
-                auto b_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(b_it->second);
+                auto b_ptr = std::get<std::shared_ptr<Tensor<ValueTypeX>>>(b_it->second);
 
-                T result_variant = result_ptr;
-                T b_variant = b_ptr;
-                add_bias(result_variant, b_variant);
+                add_bias(result_ptr, b_ptr);
             }
         
             // Write over the content of the output with the result of the convolution
             *y_ptr = *result_ptr;
         }
 
-    }, x_tensor);
+    }, x_tensor, w_tensor);
 }
 
 std::vector<std::string> ConvNode::getInputs() {
@@ -177,16 +171,16 @@ std::vector<std::string> ConvNode::getOutputs() {
     return {Y};
 }
 
-void ConvNode::flip_kernel(T& weight_variant) {
+void ConvNode::flip_kernel(const TensorT& weight_variant) {
     std::visit([this](auto &weight) {
-        int height = get_kernel_height();
-        int width = get_kernel_width();
+        uli height = get_kernel_height();
+        uli width = get_kernel_width();
 
-        for (int f = 0; f < get_out_channels(); f++) {
-            for (int c = 0; c < get_in_channels(); c++) {
+        for (uli f = 0; f < get_out_channels(); f++) {
+            for (uli c = 0; c < get_in_channels(); c++) {
                 // Flip horizontally
-                for (int h = 0; h < height; h++) {
-                    for (int w = 0; w < width / 2; w++) {
+                for (uli h = 0; h < height; h++) {
+                    for (uli w = 0; w < width / 2; w++) {
                         auto tmp = (*weight)[{f, c, h, w}];
                         (*weight)[{f, c, h, w}] = (*weight)[{f, c, h, width - 1 - w}];
                         (*weight)[{f, c, h, width - 1 - w}] = tmp;
@@ -194,8 +188,8 @@ void ConvNode::flip_kernel(T& weight_variant) {
                 }
 
                 // Flip vertically
-                for (int w = 0; w < width; w++) {
-                    for (int h = 0; h < height / 2; h++) {
+                for (uli w = 0; w < width; w++) {
+                    for (uli h = 0; h < height / 2; h++) {
                         auto tmp = (*weight)[{f, c, h, w}];
                         (*weight)[{f, c, h, w}] = (*weight)[{f, c, height - h - 1, w}];
                         (*weight)[{f, c, height - 1 - h, w}] = tmp;
@@ -206,34 +200,34 @@ void ConvNode::flip_kernel(T& weight_variant) {
     }, weight_variant);
 }
 
-void ConvNode::im2col(T& input_variant, T& output_variant) {
+void ConvNode::im2col(const TensorT& input_variant, const TensorT& output_variant) {
     std::visit([this](auto &input, auto &output) {
         // Iterate over each image in the batch
-        for (int n = 0; n < get_batch_size(); ++n) {
-            for (int h = 0; h < get_out_height(); ++h) {
-                for (int w = 0; w < get_out_width(); ++w) {  // Traverse into each batch
+        for (uli n = 0; n < get_batch_size(); ++n) {
+            for (uli h = 0; h < get_out_height(); ++h) {
+                for (uli w = 0; w < get_out_width(); ++w) {  // Traverse into each batch
 
-                    int col_index = h * get_out_width() + w;  // Column index in im2col matrix
+                    uli col_index = h * get_out_width() + w;  // Column index in im2col matrix
 
-                    for (int c = 0; c < get_in_channels(); ++c) {  // If the input has multiple channels, iterate over each one
+                    for (uli c = 0; c < get_in_channels(); ++c) {  // If the input has multiple channels, iterate over each one
 
                         // Here we loop over the kernel's height and width, simulating how the kernel moves across the input tensor.
                         // For each position of the kernel, the corresponding input values are extracted and stored in the output tensor.
                         // If the kernel extends beyond the boundaries of the input (due to padding or stride), zero padding is added instead of the input values.
-                        for (int kh = 0; kh < get_kernel_height(); ++kh) {
-                            for (int kw = 0; kw < get_kernel_width(); ++kw) {
-                                int input_h = h * get_stride_height() - get_padding_top() + kh;
-                                int input_w = w * get_stride_width() - get_padding_left() + kw;
+                        for (uli kh = 0; kh < get_kernel_height(); ++kh) {
+                            for (uli kw = 0; kw < get_kernel_width(); ++kw) {
+                                uli input_h = h * get_stride_height() - get_padding_top() + kh;
+                                uli input_w = w * get_stride_width() - get_padding_left() + kw;
 
                                 if (input_h < 0 || input_h >= get_in_height() + get_padding_bottom() ||
                                     input_w < 0 || input_w >= get_in_width() + get_padding_right()) {
                                     (*output)[col_index] = 0;  // Padding
                                 } else {
-                                    int row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
+                                    uli row_index = c * get_kernel_height() * get_kernel_width() + kh * get_kernel_width() + kw;
 
-                                    int output_index = row_index * (get_out_height() * get_out_width()) + col_index;
+                                    uli output_index = row_index * (get_out_height() * get_out_width()) + col_index;
 
-                                    int input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
+                                    uli input_index = n * (get_in_channels() * get_in_height() * get_in_width()) +
                                                     c * (get_in_height() * get_in_width()) +
                                                     input_h * get_in_width() + input_w;
 
@@ -251,13 +245,13 @@ void ConvNode::im2col(T& input_variant, T& output_variant) {
     }, input_variant, output_variant);
 }
 
-void ConvNode::add_bias(T& result_variant, T& bias_variant) {
+void ConvNode::add_bias(const TensorT& result_variant, const TensorT& bias_variant) {
     std::visit([this](auto &result, auto &bias) {
-        for (int b = 0; b < get_batch_size(); b++) {
-            for (int i = 0; i < get_out_channels(); ++i) {
-                for (int h = 0; h < get_out_height(); ++h) {
-                    for (int w = 0; w < get_out_width(); ++w) {
-                        int index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
+        for (uli b = 0; b < get_batch_size(); b++) {
+            for (uli i = 0; i < get_out_channels(); ++i) {
+                for (uli h = 0; h < get_out_height(); ++h) {
+                    for (uli w = 0; w < get_out_width(); ++w) {
+                        uli index = ((b * get_out_channels() + i) * get_out_height() + h) * get_out_width() + w;
 
                         // Each value in bias vector is added to one entire out feature at a time
                         (*result)[index] += (*bias)[i];
@@ -268,41 +262,41 @@ void ConvNode::add_bias(T& result_variant, T& bias_variant) {
     }, result_variant, bias_variant);
 }
 
-int ConvNode::get_batch_size() const { return batch_size; }
+uli ConvNode::get_batch_size() const { return batch_size; }
 
-int ConvNode::get_in_channels() const { return in_channels; }
+uli ConvNode::get_in_channels() const { return in_channels; }
 
-int ConvNode::get_in_height() const { return in_height; }
+uli ConvNode::get_in_height() const { return in_height; }
 
-int ConvNode::get_in_width() const { return in_width; }
+uli ConvNode::get_in_width() const { return in_width; }
 
-int ConvNode::get_kernel_height() const { return kernel_height; }
+uli ConvNode::get_kernel_height() const { return kernel_height; }
 
-int ConvNode::get_kernel_width() const { return kernel_width; }
+uli ConvNode::get_kernel_width() const { return kernel_width; }
 
-int ConvNode::get_out_channels() const { return out_channels; }
+uli ConvNode::get_out_channels() const { return out_channels; }
 
-int ConvNode::get_stride_height() const { return stride[0]; }
+uli ConvNode::get_stride_height() const { return stride[0]; }
 
-int ConvNode::get_stride_width() const { return stride[1]; }
+uli ConvNode::get_stride_width() const { return stride[1]; }
 
-int ConvNode::get_padding_top() const { return padding[0]; }
+uli ConvNode::get_padding_top() const { return padding[0]; }
 
-int ConvNode::get_padding_bottom() const { return padding[1]; }
+uli ConvNode::get_padding_bottom() const { return padding[1]; }
 
-int ConvNode::get_padding_left() const { return padding[2]; }
+uli ConvNode::get_padding_left() const { return padding[2]; }
 
-int ConvNode::get_padding_right() const { return padding[3]; }
+uli ConvNode::get_padding_right() const { return padding[3]; }
 
-int ConvNode::get_out_height() {
+uli ConvNode::get_out_height() {
     return (get_in_height() + get_padding_top() + get_padding_bottom() - get_kernel_height()) / get_stride_height() + 1;
 }
 
-int ConvNode::get_out_width() {
+uli ConvNode::get_out_width() {
     return (get_in_width() + get_padding_left() + get_padding_right() - get_kernel_width()) / get_stride_width() + 1;
 }
 
-void ConvNode::update_parameters(const array_mml<int>& input_shape, const array_mml<int>& weight_shape) {
+void ConvNode::update_parameters(const array_mml<uli>& input_shape, const array_mml<uli>& weight_shape) {
     kernel_height = weight_shape[2];
     kernel_width = weight_shape[3];
     batch_size = input_shape[0];

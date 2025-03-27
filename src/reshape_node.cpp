@@ -45,7 +45,7 @@ void reshapeNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
     using ValueType = typename std::decay_t<decltype(data_ptr)>::element_type::value_type;
     using ShapeValueType = typename std::decay_t<decltype(shape_ptr)>::element_type::value_type;
 
-    if constexpr (!is_in_variant_v<ValueType, T> || !is_in_variant_v<ShapeValueType, ShapeDataType>) {
+    if constexpr (!is_in_variant_v<ValueType, T> || !std::is_same_v<ShapeValueType, int64_t>) {
       throw std::runtime_error("ReshapeNode: Unsupported data type for tensor data");
     } else {
       auto reshaped_it = iomap.find(reshaped);
@@ -62,21 +62,21 @@ void reshapeNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
       auto reshaped_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(reshaped_it->second);
 
       // Determine the size of the shape tensor (number of dimensions for the new shape)
-      int shape_size = shape_ptr->get_size();
+      uli shape_size = shape_ptr->get_size();
 
       // Determine the total number of elements in the input data tensor
-      int data_size = data_ptr->get_size();
+      uli data_size = data_ptr->get_size();
 
       // Create an array to store the new shape values (initialized with same size as shape tensor)
-      array_mml<int> new_shape(shape_size);
+      array_mml<uli> new_shape(shape_size);
 
       // Variables for handling inferred dimension (-1) and computing the total number of elements
       int inferred_dim_index = -1;  // Stores the index of -1 if present
-      int computed_elements = 1;    // Tracks the product of explicitly defined shape dimensions
+      uli computed_elements = 1;    // Tracks the product of explicitly defined shape dimensions
       
       // Iterate through the shape tensor to determine the new shape values
-      for (int i = 0; i < shape_size; ++i) {
-        int dim = (*shape_ptr)[i];  // Extract the value for the current dimension
+      for (uli i = 0; i < shape_size; ++i) {
+        uli dim = (*shape_ptr)[i];  // Extract the value for the current dimension
 
         // If dim == -1, mark it for inference (meaning this dimension should be computed)
         if (dim == -1) {

@@ -16,7 +16,8 @@
  */
 class ConvNode : public Node {
    public:
-    using T = std::variant<std::shared_ptr<Tensor<double>>, std::shared_ptr<Tensor<float>>>;
+    using T = std::variant<double, float>;
+    using TensorT = TensorVariant<T>; // Gets std::variant<shared_ptr<tensor<T>>, ...> from T
 
     /**
      * @brief Constructor for ConvNode.
@@ -34,12 +35,12 @@ class ConvNode : public Node {
     ConvNode(std::string X,
              std::string W,
              std::string Y,
-             array_mml<int> dilations,
-             array_mml<int> padding,
-             array_mml<int> kernel_shape,
-             array_mml<int> stride,
+             array_mml<uli> dilations,
+             array_mml<uli> padding,
+             array_mml<uli> kernel_shape,
+             array_mml<uli> stride,
              optional<std::string> B = std::nullopt,
-             int group = 1);
+             uli group = 1);
     
     /**
      * @brief Constructor for ConvNode from JSON.
@@ -89,195 +90,205 @@ class ConvNode : public Node {
      */
     std::vector<std::string> getOutputs() override;
 
-   private:
-    // Inputs
-    /**
-     * @brief Input data tensor containing the feature map(s) for the convolution.
-     *
-     * The input tensor typically has the shape [batch_size, in_channels, in_height, in_width].
-     * This tensor represents the data that will be convolved with the kernel.
-     */
-    std::string X;
+  private:
+  // Inputs
+  /**
+   * @brief Input data tensor containing the feature map(s) for the convolution.
+   *
+   * The input tensor typically has the shape [batch_size, in_channels, in_height, in_width].
+   * This tensor represents the data that will be convolved with the kernel.
+   */
+  std::string X;
 
-    /**
-     * @brief Weight tensor (kernel) used in the convolution.
-     *
-     * The kernel tensor typically has the shape [out_channels, in_channels / group, kernel_height, kernel_width]
-     * for a grouped convolution. This tensor contains the filters that will be used to convolve the input tensor.
-     */
-    std::string W;
+  /**
+   * @brief Weight tensor (kernel) used in the convolution.
+   *
+   * The kernel tensor typically has the shape [out_channels, in_channels / group, kernel_height, kernel_width]
+   * for a grouped convolution. This tensor contains the filters that will be used to convolve the input tensor.
+   */
+  std::string W;
 
-    /**
-     * @brief Optional 1D bias tensor.
-     *
-     * The bias tensor is added to the output feature map(s) after the convolution.
-     * It is typically of shape [out_channels]. If not provided, no bias will be added.
-     */
-    optional<std::string> B;
+  /**
+   * @brief Optional 1D bias tensor.
+   *
+   * The bias tensor is added to the output feature map(s) after the convolution.
+   * It is typically of shape [out_channels]. If not provided, no bias will be added.
+   */
+  optional<std::string> B;
 
-    // Output
-    /**
-     * @brief Output tensor that holds the result of the convolution operation.
-     *
-     * This tensor typically has the shape [batch_size, out_channels, out_height, out_width],
-     * where the output feature map(s) will be stored after performing the convolution.
-     */
-    std::string Y;
+  // Output
+  /**
+   * @brief Output tensor that holds the result of the convolution operation.
+   *
+   * This tensor typically has the shape [batch_size, out_channels, out_height, out_width],
+   * where the output feature map(s) will be stored after performing the convolution.
+   */
+  std::string Y;
 
-    /**
-     * @brief Dilation factors for each dimension of the kernel.
-     *
-     * Dilation controls the spacing between elements in the kernel. The default is typically [1, 1], meaning no dilation.
-     * Dilation increases the receptive field of the kernel without increasing its size.
-     */
-    array_mml<int> dilations;
+  /**
+   * @brief Dilation factors for each dimension of the kernel.
+   *
+   * Dilation controls the spacing between elements in the kernel. The default
+   * is typically [1, 1], meaning no dilation. Dilation increases the receptive
+   * field of the kernel without increasing its size.
+   */
+  array_mml<uli> dilations;
 
-    /**
-     * @brief Padding to be applied to the input tensor before performing the convolution.
-     *
-     * Padding for each spatial direction is represented as [top, bottom, left, right].
-     * Padding ensures that the convolution can be performed at the borders of the input tensor.
-     */
-    array_mml<int> padding;
+  /**
+   * @brief Padding to be applied to the input tensor before performing the
+   * convolution.
+   *
+   * Padding for each spatial direction is represented as [top, bottom, left,
+   * right]. Padding ensures that the convolution can be performed at the
+   * borders of the input tensor.
+   */
+  array_mml<uli> padding;
 
-    /**
-     * @brief Shape of the kernel (filter).
-     *
-     * The kernel shape typically has the format [kernel_height, kernel_width].
-     * These dimensions determine the size of the region in the input tensor that will be convolved at each step.
-     */
-    array_mml<int> kernel_shape;
+  /**
+   * @brief Shape of the kernel (filter).
+   *
+   * The kernel shape typically has the format [kernel_height, kernel_width].
+   * These dimensions determine the size of the region in the input tensor that
+   * will be convolved at each step.
+   */
+  array_mml<uli> kernel_shape;
 
-    /**
-     * @brief Stride of the convolution operation.
-     *
-     * Stride specifies the step size for moving the kernel across the input tensor.
-     * It is typically represented as [vertical_stride, horizontal_stride].
-     */
-    array_mml<int> stride;
+  /**
+   * @brief Stride of the convolution operation.
+   *
+   * Stride specifies the step size for moving the kernel across the input
+   * tensor. It is typically represented as [vertical_stride,
+   * horizontal_stride].
+   */
+  array_mml<uli> stride;
 
-    /**
-     * @brief Number of groups for grouped convolution.
-     *
-     * If set to 1, a standard convolution is performed. If greater than 1, the input channels are divided into groups,
-     * and a grouped convolution is performed. Grouped convolutions can reduce computational complexity.
-     */
-    int group;
+  /**
+   * @brief Number of groups for grouped convolution.
+   *
+   * If set to 1, a standard convolution is performed. If greater than 1, the
+   * input channels are divided into groups, and a grouped convolution is
+   * performed. Grouped convolutions can reduce computational complexity.
+   */
+  uli group;
 
-    /**
-     * @brief Height of the kernel (filter).
-     *
-     * Kernel height determines the vertical size of the region in the input tensor to be convolved.
-     */
-    int kernel_height;
+  /**
+   * @brief Height of the kernel (filter).
+   *
+   * Kernel height determines the vertical size of the region in the input
+   * tensor to be convolved.
+   */
+  uli kernel_height;
 
-    /**
-     * @brief Width of the kernel (filter).
-     *
-     * Kernel width determines the horizontal size of the region in the input tensor to be convolved.
-     */
-    int kernel_width;
+  /**
+   * @brief Width of the kernel (filter).
+   *
+   * Kernel width determines the horizontal size of the region in the input
+   * tensor to be convolved.
+   */
+  uli kernel_width;
 
-    /**
-     * @brief Number of examples in the batch.
-     *
-     * The batch size represents how many input tensors will be processed at once.
-     */
-    int batch_size;
+  /**
+   * @brief Number of examples in the batch.
+   *
+   * The batch size represents how many input tensors will be processed at once.
+   */
+  uli batch_size;
 
-    /**
-     * @brief Number of input channels.
-     *
-     * The input channels correspond to the depth of the input tensor, typically 3 for RGB images.
-     */
-    int in_channels;
+  /**
+   * @brief Number of input channels.
+   *
+   * The input channels correspond to the depth of the input tensor, typically 3
+   * for RGB images.
+   */
+  uli in_channels;
 
-    /**
-     * @brief The height of the input tensor.
-     *
-     * This is the height of the input feature map(s).
-     */
-    int in_height;
+  /**
+   * @brief The height of the input tensor.
+   *
+   * This is the height of the input feature map(s).
+   */
+  uli in_height;
 
-    /**
-     * @brief Width of the input tensor.
-     *
-     * This is the width of the input feature map(s).
-     */
-    int in_width;
+  /**
+   * @brief Width of the input tensor.
+   *
+   * This is the width of the input feature map(s).
+   */
+  uli in_width;
 
-    /**
-     * @brief Number of output channels.
-     *
-     * The number of output channels corresponds to the number of filters used in the convolution.
-     */
-    int out_channels;
+  /**
+   * @brief Number of output channels.
+   *
+   * The number of output channels corresponds to the number of filters used in
+   * the convolution.
+   */
+  uli out_channels;
 
-    /**
-     * @brief Flips the content of each filter present in the weight kernel.
-     *
-     * This is done to perform the convolution correctly, otherwise the node would perform a cross-correlation computation
-     */
-    void flip_kernel(T& weight_variant);
+  /**
+   * @brief Flips the content of each filter present in the weight kernel.
+   *
+   * This is done to perform the convolution correctly, otherwise the node would perform a cross-correlation computation
+   */
+  void flip_kernel(const TensorT& weight_variant);
 
-    /**
-     * @brief Performs the im2col transformation on the input tensor.
-     *
-     * This method extracts patches from the input tensor and flattens them into columns, preparing
-     * the data for efficient matrix multiplication in convolution operations. The im2col operation
-     * unrolls local patches (based on kernel size, stride, and padding) into column vectors, making
-     * convolutions computationally more efficient.
-     *
-     * @param input A shared pointer to the input tensor, typically of shape
-     *              [batch_size, height, width, channels]. This is the data to be transformed into
-     *              columns by extracting patches for the convolution.
-     *
-     * @param output A shared pointer to the output tensor, where the transformed data will be stored.
-     *               It will have shape [batch_size, output_height * output_width,
-     *               kernel_height * kernel_width * channels], representing the flattened patches
-     *               ready for matrix multiplication.
-     *
-     * @note The im2col operation prepares the input for matrix multiplication with kernel weights
-     *       during convolution but does not compute the convolution itself.
-     */
-    void im2col(T& input_variant, T& output_variant);
+  /**
+   * @brief Performs the im2col transformation on the input tensor.
+   *
+   * This method extracts patches from the input tensor and flattens them into columns, preparing
+   * the data for efficient matrix multiplication in convolution operations. The im2col operation
+   * unrolls local patches (based on kernel size, stride, and padding) into column vectors, making
+   * convolutions computationally more efficient.
+   *
+   * @param input A shared pointer to the input tensor, typically of shape
+   *              [batch_size, height, width, channels]. This is the data to be transformed into
+   *              columns by extracting patches for the convolution.
+   *
+   * @param output A shared pointer to the output tensor, where the transformed data will be stored.
+   *               It will have shape [batch_size, output_height * output_width,
+   *               kernel_height * kernel_width * channels], representing the flattened patches
+   *               ready for matrix multiplication.
+   *
+   * @note The im2col operation prepares the input for matrix multiplication with kernel weights
+   *       during convolution but does not compute the convolution itself.
+   */
+  void im2col(const TensorT& input_variant, const TensorT& output_variant);
 
-    /**
-     * @brief Performs the addition of the bias to the result.
-     *
-     * @param result_ptr The tensor to which the bias will be added.
-     */
-    void add_bias(T& result_variant, T& bias_variant);
+  /**
+   * @brief Performs the addition of the bias to the result.
+   *
+   * @param result_ptr The tensor to which the bias will be added.
+   */
+  void add_bias(const TensorT& result_variant, const TensorT& bias_variant);
 
-    // Getters for input tensor dimensions
-    int get_batch_size() const;
-    int get_in_channels() const;
-    int get_in_height() const;
-    int get_in_width() const;
+  // Getters for input tensor dimensions
+  uli get_batch_size() const;
+  uli get_in_channels() const;
+  uli get_in_height() const;
+  uli get_in_width() const;
 
-    // Weight tensor getters
-    int get_kernel_height() const;
-    int get_kernel_width() const;
-    int get_out_channels() const;
+  // Weight tensor getters
+  uli get_kernel_height() const;
+  uli get_kernel_width() const;
+  uli get_out_channels() const;
 
-    // Getters for the other parameters
-    int get_stride_height() const;
-    int get_stride_width() const;
+  // Getters for the other parameters
+  uli get_stride_height() const;
+  uli get_stride_width() const;
 
-    // Padding for each spatial direction
-    int get_padding_top() const;
-    int get_padding_bottom() const;
-    int get_padding_left() const;
-    int get_padding_right() const;
+  // Padding for each spatial direction
+  uli get_padding_top() const;
+  uli get_padding_bottom() const;
+  uli get_padding_left() const;
+  uli get_padding_right() const;
 
-    // Getter for getting the output height and width
-    int get_out_height();
-    int get_out_width();
+  // Getter for getting the output height and width
+  uli get_out_height();
+  uli get_out_width();
 
-    // Checks the inputs to the convolution node
-    void validate_inputs();
-    
-    // Updates parameters based on the content of the input and weight tensor
-    // This method is executed before forward so that we get the correct parameters.
-    void update_parameters(const array_mml<int>& input_shape, const array_mml<int>& weight_shape);
+  // Checks the inputs to the convolution node
+  void validate_inputs();
+  
+  // Updates parameters based on the content of the input and weight tensor
+  // This method is executed before forward so that we get the correct parameters.
+  void update_parameters(const array_mml<uli>& input_shape, const array_mml<uli>& weight_shape);
 };
