@@ -8,8 +8,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
       {1, 1, 4, 4}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
   shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 2, 2}, {6, 8, 14, 16});
-  shared_ptr<Tensor<float>> exp_output_indices =
-      tensor_mml_p<float>({1, 1, 2, 2}, {5, 7, 13, 15});
+  shared_ptr<Tensor<int64_t>> exp_output_indices =
+      tensor_mml_p<int64_t>({1, 1, 2, 2}, {5, 7, 13, 15});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -33,7 +33,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   auto indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  auto indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  auto indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
@@ -45,8 +45,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
-  shared_ptr<Tensor<float>> exp_output_indices =
-      tensor_mml_p<float>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
+  shared_ptr<Tensor<int64_t>> exp_output_indices =
+      tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -70,7 +70,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
   auto indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  auto indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  auto indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
@@ -82,8 +82,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {1, 3, 4, 6, 7, 9});
-  shared_ptr<Tensor<float>> exp_output_indices =
-      tensor_mml_p<float>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
+  shared_ptr<Tensor<int64_t>> exp_output_indices =
+      tensor_mml_p<int64_t>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -107,7 +107,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
   auto indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  auto indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  auto indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
@@ -118,8 +118,8 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
   shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>({1, 1, 2, 1}, {5, 8});
-  shared_ptr<Tensor<float>> exp_output_indices =
-      tensor_mml_p<float>({1, 1, 2, 1}, {4, 7});
+  shared_ptr<Tensor<int64_t>> exp_output_indices =
+      tensor_mml_p<int64_t>({1, 1, 2, 1}, {4, 7});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -143,7 +143,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
   auto indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  auto indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  auto indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
@@ -155,8 +155,8 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
-  shared_ptr<Tensor<float>> exp_output_indices =
-      tensor_mml_p<float>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
+  shared_ptr<Tensor<int64_t>> exp_output_indices =
+      tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -180,14 +180,14 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   auto indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  auto indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  auto indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);
   ASSERT_EQ(*indices_ptr, *exp_output_indices);
 
   exp_output = tensor_mml_p<float>({1, 1, 3, 1}, {5, 8, 8});
-  exp_output_indices = tensor_mml_p<float>({1, 1, 3, 1}, {4, 7, 7});
+  exp_output_indices = tensor_mml_p<int64_t>({1, 1, 3, 1}, {4, 7, 7});
 
   max_pool = MaxPoolingNode_mml(input_string, vector<string>{output_string, indices_string},
                                       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}),
@@ -205,7 +205,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   indices_it = iomap.find(indices_string);
   ASSERT_NE(output_it, iomap.end()) << "Indices tensor not found in iomap after forward pass";
 
-  indices_ptr = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+  indices_ptr = std::get<std::shared_ptr<Tensor<int64_t>>>(indices_it->second);
   ASSERT_NE(indices_ptr, nullptr) << "Failed to get indices tensor";
 
   ASSERT_EQ(*output_ptr, *exp_output);

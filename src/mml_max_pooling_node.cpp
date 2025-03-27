@@ -19,7 +19,7 @@ void MaxPoolingNode_mml::pooling(const TensorT& t,
   std::visit([&](const auto& t){
     using ValueType = typename std::decay_t<decltype(t)>::element_type::value_type;
 
-    array_mml reshape_shape = {output_shape[0], output_shape[1], output_shape[2], output_shape[3]};
+    array_mml<uli> reshape_shape = {output_shape[0], output_shape[1], output_shape[2], output_shape[3]};
 
     auto output_ptr = make_shared<Tensor_mml<ValueType>>(reshape_shape);
     iomap[outputs[0]] = output_ptr;
@@ -53,18 +53,18 @@ void MaxPoolingNode_mml::pooling(const TensorT& t,
             }
 
             ValueType value = std::numeric_limits<ValueType>::lowest();
-            int index = 0;
-            for (int m = 0; m < effective_kernel_shape[0];
+            uli index = 0;
+            for (uli m = 0; m < effective_kernel_shape[0];
                 m += this->dilations[0]) {
-              for (int n = 0; n < effective_kernel_shape[1];
+              for (uli n = 0; n < effective_kernel_shape[1];
                   n += this->dilations[1]) {
-                int curr_row = in_row_start + m;
-                int curr_col = in_col_start + n;
+                uli curr_row = in_row_start + m;
+                uli curr_col = in_col_start + n;
                 if (curr_row >= 0 && curr_row < input_shape[2] && curr_col >= 0 &&
                     curr_col < input_shape[3]) {
-                  if ((*t)[{element, channel, static_cast<uli>(curr_row), static_cast<uli>(curr_col)}] > value) {
+                  if ((*t)[{element, channel, curr_row, curr_col}] > value) {
 
-                    value = (*t)[{element, channel, static_cast<uli>(curr_row), static_cast<uli>(curr_col)}];
+                    value = (*t)[{element, channel, curr_row, curr_col}];
                     if (storage_order) {
                       index = curr_col * input_shape[2] + curr_row;
                     } else {
