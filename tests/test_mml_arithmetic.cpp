@@ -84,8 +84,8 @@ TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
     19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f});
 
   const shared_ptr<Tensor<float>> b = tensor_mml_p<float>({2, 2, 3, 2}, 
-    {1.0f,   4.0f,   9.0f,  16.0f,  25.0f,  36.0f,  
-     49.0f,  64.0f,  81.0f, 100.0f, 121.0f, 144.0f,  
+                                                          {1.0f, 4.0f, 9.0f, 16.0f, 25.0f, 36.0f,
+                                                           49.0f, 64.0f, 81.0f, 100.0f, 121.0f, 144.0f,
 
     169.0f, 196.0f, 225.0f, 256.0f, 289.0f, 324.0f,  
     361.0f, 400.0f, 441.0f, 484.0f, 529.0f, 576.0f});
