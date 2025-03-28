@@ -110,5 +110,5 @@ template <typename T>
 void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size) {
   std::random_device rd;
   std::mt19937 gen(rd());  // seeded automatically
-  kaimingUniform(W, in_channels, kernel_size, gen);
+  kaiming_uniform(W, in_channels, kernel_size, gen);
 }
