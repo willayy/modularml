@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "flatten_node.hpp"
+#include "nodes/flatten.hpp"
 
 
 TEST(flatten_node_test, test_forward_3d_tensor) {
@@ -16,11 +16,23 @@ TEST(flatten_node_test, test_forward_3d_tensor) {
 
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  FlattenNode<float> flatten(X, Y, 1);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
 
-  flatten.forward();
+  FlattenNode flatten(x_string, y_string, 1);
 
-  EXPECT_EQ(Y->get_shape(), array_mml<uli>({2, 6}));
+  flatten.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+  
+  EXPECT_EQ(result_ptr->get_shape(), array_mml<uli>({2, 6}));
 }   
 
 
@@ -45,10 +57,22 @@ TEST(flatten_node_test, test_forward_4d_tensor) {
 
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  // Axis = 2 means that that the shape is flattened as such 2x2, 3x3 = {4, 9}
-  FlattenNode<float> flatten(X, Y, 2);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  //iomap[y_string] = Y; Not mapping to test auto creation of output tensor
 
-  flatten.forward();
+  // Axis = 2 means that that the shape is flattened as such 2x2, 3x3 = {4, 9} 
+  FlattenNode flatten(x_string, y_string, 2);
 
-  EXPECT_EQ(Y->get_shape(), array_mml<uli>({4, 9}));
+  flatten.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+  
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+  
+  EXPECT_EQ(result_ptr->get_shape(), array_mml<uli>({4, 9}));
 }   

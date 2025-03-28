@@ -1,0 +1,104 @@
+{
+  "irVersion": "8",
+  "producerName": "onnx-example",
+  "graph": {
+    "node": [
+      {
+        "input": [
+          "input",
+          "W",
+          "B"
+        ],
+        "output": [
+          "gemm_output"
+        ],
+        "opType": "Gemm"
+      },
+      {
+        "input": [
+          "gemm_output"
+        ],
+        "output": [
+          "output"
+        ],
+        "opType": "Tanh"
+      }
+    ],
+    "name": "SimpleTestModel",
+    "initializer": [
+      {
+        "dims": [
+          "2",
+          "3"
+        ],
+        "dataType": 1,
+        "floatData": [
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0
+        ],
+        "name": "W"
+      },
+      {
+        "dims": [
+          "3"
+        ],
+        "dataType": 1,
+        "floatData": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "name": "B"
+      }
+    ],
+    "input": [
+      {
+        "name": "input",
+        "type": {
+          "tensorType": {
+            "elemType": 1,
+            "shape": {
+              "dim": [
+                {
+                  "dimValue": "1"
+                },
+                {
+                  "dimValue": "2"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "output": [
+      {
+        "name": "output",
+        "type": {
+          "tensorType": {
+            "elemType": 1,
+            "shape": {
+              "dim": [
+                {
+                  "dimValue": "1"
+                },
+                {
+                  "dimValue": "3"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "opsetImport": [
+    {
+      "version": "18"
+    }
+  ]
+}

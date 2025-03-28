@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "log_softmax_node.hpp"
-#include "mml_tensor.hpp"
+#include "nodes/log_softmax.hpp"
 
 TEST(test_log_softmax_node, test_forward_basic) {
   array_mml<uli> x_shape({3, 3});
@@ -14,16 +13,28 @@ TEST(test_log_softmax_node, test_forward_basic) {
       make_shared<Tensor_mml<float>>(x_shape, x_values);
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  LogSoftMaxNode<float> logsoftmax(X, Y);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
 
-  logsoftmax.forward();
+  LogSoftMaxNode logsoftmax(x_string, y_string);
 
-  for (uli b = 0; b < Y->get_shape()[0]; b++) {
+  logsoftmax.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  for (uli b = 0; b < result_ptr->get_shape()[0]; b++) {
 
     float row_sum = 0;
 
-    for (uli c = 0; c < Y->get_shape()[1]; c++) {
-      row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+    for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
+      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
                                          // check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1
@@ -41,15 +52,27 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
       make_shared<Tensor_mml<float>>(x_shape, x_values);
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  LogSoftMaxNode<float> logsoftmax(X, Y);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
 
-  logsoftmax.forward();
+  LogSoftMaxNode logsoftmax(x_string, y_string);
 
-  for (uli b = 0; b < Y->get_shape()[0]; b++) {
+  logsoftmax.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  for (uli b = 0; b < result_ptr->get_shape()[0]; b++) {
     float row_sum = 0;
 
-    for (uli c = 0; c < Y->get_shape()[1]; c++) {
-      row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+    for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
+      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
                                          // check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
@@ -69,15 +92,27 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
       make_shared<Tensor_mml<float>>(x_shape, x_values);
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  LogSoftMaxNode<float> logsoftmax(X, Y);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
 
-  logsoftmax.forward();
+  LogSoftMaxNode logsoftmax(x_string, y_string);
 
-  for (uli b = 0; b < Y->get_shape()[0]; b++) {
+  logsoftmax.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  for (uli b = 0; b < result_ptr->get_shape()[0]; b++) {
     float row_sum = 0;
 
-    for (uli c = 0; c < Y->get_shape()[1]; c++) {
-      row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+    for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
+      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
                                          // check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
@@ -97,15 +132,27 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
       make_shared<Tensor_mml<float>>(x_shape, x_values);
   shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
 
-  LogSoftMaxNode<float> logsoftmax(X, Y);
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
 
-  logsoftmax.forward();
+  LogSoftMaxNode logsoftmax(x_string, y_string);
 
-  for (uli b = 0; b < Y->get_shape()[0]; b++) {
+  logsoftmax.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  for (uli b = 0; b < result_ptr->get_shape()[0]; b++) {
     float row_sum = 0;
 
-    for (uli c = 0; c < Y->get_shape()[1]; c++) {
-      row_sum += std::exp((*Y)[{b, c}]); // exponentiate the result so we can
+    for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
+      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
                                          // check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
