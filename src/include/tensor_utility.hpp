@@ -73,7 +73,7 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0), T
  * @param gen A random number generator.
  */
 template <typename T>
-void kaimingUniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size, std::mt19937 &gen);
+void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size, std::mt19937 &gen);
 
 /**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
@@ -88,6 +88,6 @@ void kaimingUniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size, s
  * @param kernel_size The size of the kernel.
  */
 template <typename T>
-void kaimingUniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size);
+void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size);
 
 #include "../tensor_utility.tpp"
