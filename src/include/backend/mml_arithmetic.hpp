@@ -20,8 +20,10 @@ class Arithmetic_mml : public ArithmeticModule<T> {
   void multiply(const shared_ptr<Tensor<T>> a, const T b, shared_ptr<Tensor<T>> c) const override;
 
   bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const override;
-
+  
   void elementwise(const shared_ptr<const Tensor<T>> a, std::function<T(T)> f, const shared_ptr<Tensor<T>> c) const override;
+
+  int arg_max(const shared_ptr<const Tensor<T>> a) const override;
 
   void elementwise_in_place(const shared_ptr<Tensor<T>> a, std::function<T(T)> f) const override;
 };
