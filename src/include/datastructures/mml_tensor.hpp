@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datastuctures/a_tensor.hpp"
+#include "datastructures/a_tensor.hpp"
 #include "globals.hpp"
 
 /*!
@@ -104,4 +104,4 @@ shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape);
 template <typename T>
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data);
 
-#include "../mml_tensor.tpp"
+#include "../datastructures/mml_tensor.tpp"

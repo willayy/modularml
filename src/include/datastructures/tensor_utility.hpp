@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datastuctures/a_tensor.hpp"
+#include "datastructures/a_tensor.hpp"
 #include "globals.hpp"
 
 /**
@@ -56,4 +56,4 @@ template <typename T>
 static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0),
                                    T hi_v = T(1));
 
-#include "../tensor_utility.tpp"
+#include "../datastructures/tensor_utility.tpp"

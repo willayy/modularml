@@ -1,6 +1,6 @@
 #pragma once
 
-#include "include/mml_gemm.hpp"
+#include "backend/mml_gemm.hpp"
 
 void static check_lda(int lda, int K) {
   if (lda < K) {

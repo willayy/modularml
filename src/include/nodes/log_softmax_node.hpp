@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nodes/sa_node.hpp"
+#include "nodes/a_node.hpp"
 
 /**
  * @class LogSoftMaxNode
