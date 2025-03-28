@@ -28,6 +28,10 @@ class Arithmetic_mml : public ArithmeticModule<T> {
   void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override;
 
   void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const override;
+
+  std::shared_ptr<Tensor<T>> reduce_max(const std::shared_ptr<const Tensor<T>> input, int axis) const;
+
+  std::shared_ptr<Tensor<T>> reduce_sum(const std::shared_ptr<const Tensor<T>> input, int axis) const;    
 };
 
 #include "../mml_arithmetic.tpp"

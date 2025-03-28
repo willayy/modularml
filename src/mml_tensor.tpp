@@ -424,3 +424,4 @@ shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const init
   auto t = make_shared<Tensor_mml<T>>(shape, data);
   return t;
 }
+

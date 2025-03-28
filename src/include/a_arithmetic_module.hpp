@@ -68,4 +68,20 @@ class ArithmeticModule {
   /// @param a The tensor structure.
   /// @param f The function to apply element-wise.
   virtual void elementwise_in_place(const shared_ptr<Tensor<T>> a, T (*f)(T)) const = 0;
+
+  /**
+   * @brief Computes the maximum value along a specified axis.
+   * @param input Input tensor.
+   * @param axis Axis along which to compute the max.
+   */
+  virtual std::shared_ptr<Tensor<T>> reduce_max(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
+
+  /**
+   * @brief Computes the sum along a specified axis.
+   * @param input Input tensor.
+   * @param axis Axis along which to compute the sum.
+   */
+  virtual std::shared_ptr<Tensor<T>> reduce_sum(std::shared_ptr<const Tensor<T>> input, int axis) const = 0;
 };
+
+
