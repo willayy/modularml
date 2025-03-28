@@ -34,14 +34,14 @@ jobs:
         - name: Check that issue title does not contain bracked text.
           run: |
             issue_title=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")
-            if [ "$(echo "$issue_title" | grep -E '\[.*\]')" ]; then
+            if [ "$(echo "$issue_title" | grep -E '\<.*\>')" ]; then
                 echo ""
                 echo "The issue title is: $issue_title"
                 echo ""
                 echo "The bracketed text is:"
-                echo "$issue_title" | grep -E '\[.*\]'
+                echo "$issue_title" | grep -E '\<.*\>'
                 echo ""
-                echo "Which matches the regex '\[.*\]'."
+                echo "Which matches the regex '\<.*\>'."
                 echo ""
                 echo "Issue title contains bracketed text. Failing the workflow."
                 echo ""
@@ -134,14 +134,14 @@ jobs:
         - name: Check that issue does not include any bracketed text.
           run: |
             issue_body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
-            if [ "$(echo "$issue_body" | grep -E '\[.*\]')" ]; then
+            if [ "$(echo "$issue_body" | grep -E '\<.*\>')" ]; then
                 echo ""
                 echo "The issue body is: $issue_body"
                 echo ""
                 echo "The bracketed text is:"
-                echo "$issue_body" | grep -E '\[.*\]'
+                echo "$issue_body" | grep -E '\<.*\>'
                 echo ""
-                echo "Which matches the regex '\[.*\]'."
+                echo "Which matches the regex '\<.*\>'."
                 echo ""
                 echo "Issue description contains bracketed text. Failing the workflow."
                 echo ""
