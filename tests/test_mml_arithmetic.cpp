@@ -97,12 +97,12 @@ TEST(test_mml_arithmetic, test_elementwise_in_place_many_dimensions_4D) {
 TEST(test_mml_arithmetic, test_argmax_1) {
   const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
   const int b = 5;
-  ASSERT_EQ(am->argMax(a), b);
+  ASSERT_EQ(am->arg_max(a), b);
 }
 
 TEST(test_mml_arithmetic, test_argmax_2) {
   const shared_ptr<Tensor<float>> a = tensor_mml_p<float>({0});
-  ASSERT_THROW(am->argMax(a), std::runtime_error);
+  ASSERT_THROW(am->arg_max(a), std::runtime_error);
 }
 
 TEST(test_mml_arithmetic, test_argmax_3) {
@@ -114,7 +114,7 @@ TEST(test_mml_arithmetic, test_argmax_3) {
                                                            2.2f, 3.1f, 0.4f, 1.1f,
                                                            4.4f, 6.6f, 2.2f, 0.0f});
   const int expected_index = 14;
-  ASSERT_EQ(am->argMax(a), expected_index);
+  ASSERT_EQ(am->arg_max(a), expected_index);
 }
 
 TEST(test_mml_arithmetic, test_argmax_4) {
@@ -124,5 +124,5 @@ TEST(test_mml_arithmetic, test_argmax_4) {
                                                            -50.0f, -30.0f, -60.0f,
                                                            -7.0f, -8.0f, -9.0f});
   const int expected_index = 5;
-  ASSERT_EQ(am->argMax(a), expected_index);
+  ASSERT_EQ(am->arg_max(a), expected_index);
 }

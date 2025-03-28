@@ -56,7 +56,7 @@ class ArithmeticModule {
   ///
   /// @param a The input tensor to search through.
   /// @return The flattened index (int) of the first occurrence of the maximum value.
-  virtual int argMax(const shared_ptr<const Tensor<T>> a) const = 0;
+  virtual int arg_max(const shared_ptr<const Tensor<T>> a) const = 0;
 
   /// @brief Apply an element-wise operation to two tensor structures.
   /// @param a The tensor structure.

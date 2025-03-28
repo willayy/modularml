@@ -23,7 +23,7 @@ class Arithmetic_mml : public ArithmeticModule<T> {
 
   bool equals(const shared_ptr<Tensor<T>> a, const shared_ptr<Tensor<T>> b) const override;
 
-  int argMax(const shared_ptr<const Tensor<T>> a) const override;
+  int arg_max(const shared_ptr<const Tensor<T>> a) const override;
 
   void elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const override;
 

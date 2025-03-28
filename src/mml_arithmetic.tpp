@@ -54,10 +54,10 @@ bool Arithmetic_mml<T>::equals(const shared_ptr<Tensor<T>> a, const shared_ptr<T
 }
 
 template <typename T>
-int Arithmetic_mml<T>::argMax(const shared_ptr<const Tensor<T>> a) const {
+int Arithmetic_mml<T>::arg_max(const shared_ptr<const Tensor<T>> a) const {
   const auto size = a->get_size();
   if (size == 0) {
-    throw runtime_error("argMax called on an empty tensor.");
+    throw runtime_error("arg_max called on an empty tensor.");
   }
 
   T max_value = (*a)[0];
