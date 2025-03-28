@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <conv_node.hpp>
+#include "nodes/conv_node.hpp"
 
 /* TEST(conv_node_test, test_constructor) {
     std::cout << "My test" << std::endl;

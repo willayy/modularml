@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "log_softmax_node.hpp"
-#include "mml_tensor.hpp"
+#include "nodes/log_softmax_node.hpp"
 
 TEST(test_log_softmax_node, test_forward_basic) {
   array_mml<uli> x_shape({3, 3});
