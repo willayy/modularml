@@ -54,6 +54,26 @@ bool Arithmetic_mml<T>::equals(const shared_ptr<Tensor<T>> a, const shared_ptr<T
 }
 
 template <typename T>
+int Arithmetic_mml<T>::arg_max(const shared_ptr<const Tensor<T>> a) const {
+  const auto size = a->get_size();
+  if (size == 0) {
+    throw runtime_error("arg_max called on an empty tensor.");
+  }
+
+  T max_value = (*a)[0];
+  int max_index = 0;
+
+  for (int i = 1; i < static_cast<int>(size); ++i) {
+    if ((*a)[i] > max_value) {
+      max_value = (*a)[i];
+      max_index = i;
+    }
+  }
+
+  return max_index;
+}
+
+template <typename T>
 void Arithmetic_mml<T>::elementwise(const shared_ptr<const Tensor<T>> a, T (*f)(T), const shared_ptr<Tensor<T>> c) const {
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
