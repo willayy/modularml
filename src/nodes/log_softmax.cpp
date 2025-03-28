@@ -1,4 +1,4 @@
-#include "nodes/log_softmax_node.hpp"
+#include "nodes/log_softmax.hpp"
 
 LogSoftMaxNode::LogSoftMaxNode(std::string X, std::string Y, uli axis)
     : X(X), Y(Y), axis(axis) {}

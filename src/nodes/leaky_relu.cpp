@@ -1,4 +1,4 @@
-#include "nodes/LeakyReLU_node.hpp"
+#include "nodes/leaky_relu.hpp"
 
 LeakyReLUNode::LeakyReLUNode(std::string X, std::string Y, float alpha)
     : X(X), Y(Y), alpha(alpha) {}

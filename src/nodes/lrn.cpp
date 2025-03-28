@@ -1,4 +1,4 @@
-#include "nodes/mml_LRN_node.hpp"
+#include "nodes/lrn.hpp"
 
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
                             float beta, float bias)

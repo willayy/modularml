@@ -1,4 +1,4 @@
-#include "nodes/ReLU_node.hpp"
+#include "nodes/relu.hpp"
 
 ReLUNode::ReLUNode(std::string X, std::string Y): X(X), Y(Y) {}
 

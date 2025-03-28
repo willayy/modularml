@@ -1,4 +1,4 @@
-#include "nodes/Add_node.hpp"
+#include "nodes/add.hpp"
 
 AddNode::AddNode(std::string A,
                     std::string B,

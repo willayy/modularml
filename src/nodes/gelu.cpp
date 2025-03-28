@@ -1,4 +1,4 @@
-#include "nodes/Gelu_node.hpp"
+#include "nodes/gelu.hpp"
 
 GeluNode::GeluNode(std::string X, std::string Y, string approximate): X(X), Y(Y) {
   if (approximate == "none" || approximate == "tanh") {

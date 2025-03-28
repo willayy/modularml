@@ -1,4 +1,4 @@
-#include "nodes/Sigmoid_node.hpp"
+#include "nodes/sigmoid.hpp"
 
 SigmoidNode::SigmoidNode(std::string X, std::string Y)
     : X(X), Y(Y) {}

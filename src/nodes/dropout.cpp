@@ -1,4 +1,4 @@
-#include "nodes/Dropout_node.hpp"
+#include "nodes/dropout.hpp"
 
 DropoutNode::DropoutNode(std::string data,
                             std::string output,

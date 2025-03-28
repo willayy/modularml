@@ -1,4 +1,4 @@
-#include "nodes/conv_node.hpp"
+#include "nodes/conv.hpp"
 
 ConvNode::ConvNode(std::string X,
                       std::string W,

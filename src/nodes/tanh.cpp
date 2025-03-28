@@ -1,8 +1,8 @@
-#include "nodes/Swish_node.hpp"
+#include "nodes/tanh.hpp"
 
-SwishNode::SwishNode(std::string X, std::string Y): X(X), Y(Y) {}
+TanHNode::TanHNode(std::string X, std::string Y): X(X), Y(Y) {}
 
-SwishNode::SwishNode(const json& node) {
+TanHNode::TanHNode(const json& node) {
   if (node.contains("input") && node["input"].is_array()) {
     X = node["input"][0];
   }
@@ -12,10 +12,10 @@ SwishNode::SwishNode(const json& node) {
   }
 }
 
-void SwishNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) {
+void TanHNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) {
   auto x_it = iomap.find(X);
   if (x_it == iomap.end()) {
-      throw std::runtime_error("SwishNode: Input tensor X not found in iomap");
+      throw std::runtime_error("TanHNode: Input tensor X not found in iomap");
   }
   
   const GeneralDataTypes& x_tensor = x_it->second;
@@ -26,7 +26,7 @@ void SwishNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap
     using ValueType = typename TensorType::value_type;
     
     if constexpr (!is_in_variant_v<ValueType, T>) {
-      throw std::runtime_error("SwishNode: Unsupported data type for tensor X");
+      throw std::runtime_error("TanHNode: Unsupported data type for tensor X");
     } else {
       auto y_it = iomap.find(Y);
       if (y_it == iomap.end()) {
@@ -36,23 +36,21 @@ void SwishNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap
         iomap[Y] = y_ptr;
         y_it = iomap.find(Y);
       } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(y_it->second)) {
-        throw std::runtime_error("SwishNode: Output tensor Y has incorrect type");
+        throw std::runtime_error("TanHNode: Output tensor Y has incorrect type");
       }
 
       auto y_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
       Arithmetic_mml<ValueType> arithmetic;
-      arithmetic.elementwise(x_ptr, [](ValueType x) -> ValueType {
-        ValueType sigmoid_x = static_cast<ValueType>(1) / (static_cast<ValueType>(1) + exp(-x));
-        return x * sigmoid_x; }, y_ptr);
+      arithmetic.elementwise(x_ptr, [](ValueType x) -> ValueType { return tanh(x); }, y_ptr);
     }
   }, x_tensor);
 }
 
-std::vector<std::string> SwishNode::getInputs() {
+std::vector<std::string> TanHNode::getInputs() {
   return {X};
 }
 
-std::vector<std::string> SwishNode::getOutputs() {
+std::vector<std::string> TanHNode::getOutputs() {
   return {Y};
 }

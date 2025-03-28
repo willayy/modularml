@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "nodes/log_softmax_node.hpp"
+#include "nodes/log_softmax.hpp"
 
 TEST(test_log_softmax_node, test_forward_basic) {
   array_mml<uli> x_shape({3, 3});

@@ -1,4 +1,4 @@
-#include "nodes/ELU_node.hpp"
+#include "nodes/elu.hpp"
 
 ELUNode::ELUNode(std::string X, std::string Y, float alpha)
     : X(X), Y(Y), alpha(alpha){};

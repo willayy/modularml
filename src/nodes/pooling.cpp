@@ -1,4 +1,4 @@
-#include "nodes/mml_pooling_node.hpp"
+#include "nodes/pooling.hpp"
 
 PoolingNode_mml::PoolingNode_mml(std::string input, std::vector<std::string> outputs, 
                                 array_mml<uli> kernel_shape, array_mml<uli> strides,

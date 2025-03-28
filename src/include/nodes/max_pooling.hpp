@@ -1,24 +1,24 @@
 #pragma once
 
-#include "nodes/mml_pooling_node.hpp"
+#include "nodes/pooling.hpp"
 
 /**
- * @class AvgPoolingNode_mml
- * @brief Derived class from PoolingNode_mml that performs average pooling.
+ * @class MaxPoolingNode_mml
+ * @brief Derived class from PoolingNode_mml that performs max pooling.
  * @details This class inherits from the `PoolingNode_mml` base class and
- * implements the specific pooling operation for average pooling. It applies a
- * sliding window over the input tensor and reduces each window to the **average
- * value** of the elements within that window. The output tensor will have the
- * same number of channels as the input tensor but with reduced spatial
- * dimensions (height and width), depending on the stride and padding settings.
+ * implements the specific pooling operation for max pooling. It applies a
+ * sliding window over the input tensor and reduces each window to the **maximum
+ * value** within that window. The output tensor will have the same number of
+ * channels as the input tensor but with reduced spatial dimensions (height and
+ * width), depending on the stride and padding settings.
  *
- * This class overrides the `pooling()` method to define the behavior of average
+ * This class overrides the `pooling()` method to define the behavior of max
  * pooling.
  */
-class AvgPoolingNode_mml : public PoolingNode_mml {
+class MaxPoolingNode_mml : public PoolingNode_mml {
 public:
   /**
-   * @brief Constructor for AvgPool.
+   * @brief Constructor for MaxPool.
    * @param kernel_shape A 2x2 array_mml of integers representing the kernel
    * shape/pooling window of the layer.
    * @param strides A 2x2 array_mml of integers representing the strides of the
@@ -32,23 +32,23 @@ public:
    * @param dilations (OPTIONAL) Value for dilution of kernel_shape. Default
    * value {1,1}.
    * @param pads (NOT SUPPORTED)
-   * @param count_include_pad (OPTIONAL) Whether the padding should be included
-   * when calculating the edges. 1 for yes and 0 for no. Defaults to no.
+   * @param storage_order (OPTIONAL) Wether the indices of the max values should
+   * be calculated as row or column major. 1 is row major and 0 is column major.
+   * Defaults to row major.
    */
-  AvgPoolingNode_mml(std::string input, std::vector<std::string> outputs, array_mml<uli> kernel_shape, 
-                    array_mml<uli> strides, string auto_pad = "NOTSET",
+  MaxPoolingNode_mml(std::string input, std::vector<std::string> outputs, array_mml<uli> kernel_shape, array_mml<uli> strides,
+                      string auto_pad = "NOTSET",
                      uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
-                     array_mml<uli> pads = {0, 0, 0, 0},
-                     uli count_include_pad = 0)
+                     array_mml<uli> pads = {0, 0, 0, 0}, uli storage_order = 0)
       : PoolingNode_mml(input, outputs, kernel_shape, strides, auto_pad, ceil_mode, dilations, pads), 
-        count_include_pad(count_include_pad) {}
+        storage_order(storage_order) {}
 
-  AvgPoolingNode_mml(const json& node);
+  MaxPoolingNode_mml(const json& node);
 
 private:
   void pooling(const TensorT& t, array_mml<uli> input_shape,
                array_mml<uli> output_shape,
                array_mml<uli> effective_kernel_shape, uli pad_h, uli pad_w,
                string auto_pad, std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
-  uli count_include_pad;
+  uli storage_order;
 };

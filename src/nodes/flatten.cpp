@@ -1,4 +1,4 @@
-#include "nodes/flatten_node.hpp"
+#include "nodes/flatten.hpp"
 
 FlattenNode::FlattenNode(std::string X,
                             std::string Y,

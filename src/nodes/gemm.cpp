@@ -1,4 +1,4 @@
-#include "nodes/gemm_node.hpp"
+#include "nodes/gemm.hpp"
 
 GemmNode::GemmNode(std::string A,
                       std::string B,

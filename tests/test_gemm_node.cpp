@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "nodes/gemm_node.hpp"
+#include "nodes/gemm.hpp"
 
 TEST(GemmNodeTest, ForwardMultiplication) {
   // Define dimensions: M = 2, K = 3, N = 2.

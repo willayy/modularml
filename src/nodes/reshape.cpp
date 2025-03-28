@@ -1,4 +1,4 @@
-#include "nodes/reshape_node.hpp"
+#include "nodes/reshape.hpp"
 
 reshapeNode::reshapeNode(std::string data, std::string shape,
                             std::string reshaped, int allowzero)

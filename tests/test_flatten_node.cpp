@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "nodes/flatten_node.hpp"
+#include "nodes/flatten.hpp"
 
 
 TEST(flatten_node_test, test_forward_3d_tensor) {
