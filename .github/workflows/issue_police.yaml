@@ -34,7 +34,7 @@ jobs:
         - name: Check that issue title does not contain bracked text.
           run: |
             issue_title=$(jq -r '.issue.title' "$GITHUB_EVENT_PATH")
-            if [ "$(echo "$issue_title" | grep -E '\<.*\>')" ]; then
+            if [ "$(echo "$issue_title" | grep -E '[<].*[>]')" ]; then
                 echo ""
                 echo "The issue title is: $issue_title"
                 echo ""
