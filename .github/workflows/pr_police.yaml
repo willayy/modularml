@@ -47,7 +47,7 @@ jobs:
         - name: Check that the description contains no bracketed text (e.g. [Feature ...]).
           run: |
             pr_body=$(jq -r '.pull_request.body' "$GITHUB_EVENT_PATH")
-            if [ "$(echo "$pr_body" | grep -E '\<.*\>')" ]; then
+            if [ "$(echo "$pr_body" | grep -E '[<].*[>]')" ]; then
               echo ""
               echo "The PR body is: $pr_body"
               echo ""
