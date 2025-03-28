@@ -134,7 +134,7 @@ jobs:
         - name: Check that issue does not include any bracketed text.
           run: |
             issue_body=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")
-            if [ "$(echo "$issue_body" | grep -E '\<.*\>')" ]; then
+            if [ "$(echo "$issue_body" | grep -E '[<].*[>]')" ]; then
                 echo ""
                 echo "The issue body is: $issue_body"
                 echo ""
