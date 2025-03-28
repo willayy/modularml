@@ -13,24 +13,24 @@ GemmNode<T>::GemmNode(shared_ptr<AbstractTensor> A,
 
 template <typename T>
 void GemmNode<T>::forward() {
-  if (!areInputsFilled())throw runtime_error("GemmNode inputs are not fully set.");
+  if (!areInputsFilled()) throw runtime_error("GemmNode inputs are not fully set.");
 
   auto shapeA = A->get_shape();
 
   if (shapeA.size() < 2) throw runtime_error("Tensor A must be at least 2D.");
 
-  int M = shapeA[0];  // Number of rows.
-  int K = shapeA[1];  // Number of columns of A.
+  uli M = shapeA[0];  // Number of rows.
+  uli K = shapeA[1];  // Number of columns of A.
 
   auto shapeB = B->get_shape();
   if (shapeB.size() < 2) throw runtime_error("Tensor B must be at least 2D.");
   if (shapeB[0] != K) throw runtime_error("GemmNode: Dimension mismatch between A and B.");
 
-  int N = shapeB[1];  // Number of columns of B.
+  uli N = shapeB[1];  // Number of columns of B.
 
-  int lda = K;
-  int ldb = N;
-  int ldc = N;
+  uli lda = K;
+  uli ldb = N;
+  uli ldc = N;
 
   // Handling optional C tensor not implemented directly in gemm_inner_product.
   // Will have to be done here instead by constructing suboptimal concrete tensor.
