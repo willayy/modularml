@@ -70,20 +70,19 @@ $(function() {
 
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">GemmNode&lt; T &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">GemmNode Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="classGemmNode.html">GemmNode</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>AbstractTensor</b> typedef (defined in <a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a>)</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classGemmNode.html#a9604ddba0cb384842ef30cdc764cf0f0">areInputsFilled</a>() const override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#aba018f2af912376733c9b76623aaf79b">areOutputsFilled</a>() const override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classGemmNode.html#a2fc9f66dc751faee6673c5ef009624e4">forward</a>() override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#a37608a0a93d86c3afced5201261be80e">GemmNode</a>(shared_ptr&lt; AbstractTensor &gt; A, shared_ptr&lt; AbstractTensor &gt; B, shared_ptr&lt; AbstractTensor &gt; Y, optional&lt; shared_ptr&lt; AbstractTensor &gt; &gt; C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classGemmNode.html#a055c855628527f92a930b6d92c37557e">getOutputs</a>() const override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#ab68d5ed6f93729c2a2538172f6e848a6">setInputs</a>(const array_mml&lt; GeneralDataTypes &gt; &amp;inputs) override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode&lt; T &gt;</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a>()=default</td><td class="entry"><a class="el" href="classNode.html">Node</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#aa2e933a8ae405d32a02355f338ec2dd0">forward</a>(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classGemmNode.html#a3cac37ab0ae8888a8bb66887a6ca5f4d">GemmNode</a>(std::string A, std::string B, std::string Y, optional&lt; std::string &gt; C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#a5ac4086395a58cc7552b76d77e9b15e2">GemmNode</a>(const json &amp;node)</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classGemmNode.html#a9eb1ce8f8354b68a24ec01444ad4c7b5">getInputs</a>() override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classGemmNode.html#ad414016f8af59114d0391e3f568577b8">getOutputs</a>() override</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>T</b> typedef (defined in <a class="el" href="classGemmNode.html">GemmNode</a>)</td><td class="entry"><a class="el" href="classGemmNode.html">GemmNode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a>()=default</td><td class="entry"><a class="el" href="classNode.html">Node</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

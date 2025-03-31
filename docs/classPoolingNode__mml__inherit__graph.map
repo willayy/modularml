@@ -1,9 +1,9 @@
-<map id="PoolingNode_mml&lt; T &gt;" name="PoolingNode_mml&lt; T &gt;">
-<area shape="rect" id="Node000001" title="Base class for pooling nodes (e.g., MaxPooling, AveragePooling)." alt="" coords="132,79,311,104"/>
-<area shape="rect" id="Node000003" href="$classAvgPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs average pooling." alt="" coords="5,152,208,177"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,113,127,154,124,150,190,109"/>
-<area shape="rect" id="Node000004" href="$classMaxPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs max pooling." alt="" coords="233,152,439,177"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,109,319,150,316,154,250,113"/>
-<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="193,5,249,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,44,224,79,219,79,219,44"/>
+<map id="PoolingNode_mml" name="PoolingNode_mml">
+<area shape="rect" id="Node000001" title="Base class for pooling nodes (e.g., MaxPooling, AveragePooling)." alt="" coords="113,79,255,104"/>
+<area shape="rect" id="Node000003" href="$classAvgPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs average pooling." alt="" coords="5,152,171,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="159,114,105,154,102,150,156,110"/>
+<area shape="rect" id="Node000004" href="$classMaxPoolingNode__mml.html" title="Derived class from PoolingNode_mml that performs max pooling." alt="" coords="195,152,365,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="212,110,266,150,263,154,209,114"/>
+<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="156,5,212,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,44,187,79,181,79,181,44"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['flattennode_0',['FlattenNode',['../classFlattenNode.html',1,'']]]
+  ['elunode_0',['ELUNode',['../classELUNode.html',1,'']]]
 ];

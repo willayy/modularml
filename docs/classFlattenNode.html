@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: FlattenNode&lt; T &gt; Class Template Reference</title>
+<title>ModularML: FlattenNode Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,90 +74,84 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classFlattenNode-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">FlattenNode&lt; T &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">FlattenNode Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>A node that flattens an input tensor along a specified axis. Implements the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> interface.  
  <a href="classFlattenNode.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="flatten__node_8hpp_source.html">flatten_node.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="flatten_8hpp_source.html">flatten.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for FlattenNode&lt; T &gt;:</div>
+Inheritance diagram for FlattenNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFlattenNode__inherit__graph.png" border="0" usemap="#aFlattenNode_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="aFlattenNode_3_01T_01_4_inherit__map" id="aFlattenNode_3_01T_01_4_inherit__map">
-<area shape="rect" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="5,79,145,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="47,5,103,31"/>
-<area shape="poly" title=" " alt="" coords="78,44,78,79,73,79,73,44"/>
+<div class="center"><img src="classFlattenNode__inherit__graph.png" border="0" usemap="#aFlattenNode_inherit__map" alt="Inheritance graph"/></div>
+<map name="aFlattenNode_inherit__map" id="aFlattenNode_inherit__map">
+<area shape="rect" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="5,79,108,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="29,5,85,31"/>
+<area shape="poly" title=" " alt="" coords="59,44,59,79,54,79,54,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for FlattenNode&lt; T &gt;:</div>
+Collaboration diagram for FlattenNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFlattenNode__coll__graph.png" border="0" usemap="#aFlattenNode_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="aFlattenNode_3_01T_01_4_coll__map" id="aFlattenNode_3_01T_01_4_coll__map">
-<area shape="rect" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="5,79,145,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="47,5,103,31"/>
-<area shape="poly" title=" " alt="" coords="78,44,78,79,73,79,73,44"/>
+<div class="center"><img src="classFlattenNode__coll__graph.png" border="0" usemap="#aFlattenNode_coll__map" alt="Collaboration graph"/></div>
+<map name="aFlattenNode_coll__map" id="aFlattenNode_coll__map">
+<area shape="rect" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="5,79,108,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="29,5,85,31"/>
+<area shape="poly" title=" " alt="" coords="59,44,59,79,54,79,54,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a635820156ae807b4029277c868d7b2f8" id="r_a635820156ae807b4029277c868d7b2f8"><td class="memItemLeft" align="right" valign="top"><a id="a635820156ae807b4029277c868d7b2f8" name="a635820156ae807b4029277c868d7b2f8"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractTensor</b> = <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;</td></tr>
-<tr class="separator:a635820156ae807b4029277c868d7b2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa31502a52373b198da73365ea9e5b9ce" id="r_aa31502a52373b198da73365ea9e5b9ce"><td class="memItemLeft" align="right" valign="top"><a id="aa31502a52373b198da73365ea9e5b9ce" name="aa31502a52373b198da73365ea9e5b9ce"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant&lt; double, float, int16_t, int32_t, int64_t, int8_t, uint16_t, uint32_t, uint64_t, uint8_t &gt;</td></tr>
+<tr class="separator:aa31502a52373b198da73365ea9e5b9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae5c3b17f6d11dfd3a95b0f2d52ff86f4" id="r_ae5c3b17f6d11dfd3a95b0f2d52ff86f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#ae5c3b17f6d11dfd3a95b0f2d52ff86f4">FlattenNode</a> (shared_ptr&lt; AbstractTensor &gt; X, shared_ptr&lt; AbstractTensor &gt; Y, int axis=1)</td></tr>
-<tr class="memdesc:ae5c3b17f6d11dfd3a95b0f2d52ff86f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface.">FlattenNode</a>.  <br /></td></tr>
-<tr class="separator:ae5c3b17f6d11dfd3a95b0f2d52ff86f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0677a86e9ae72426531c81a86b2c992" id="r_aa0677a86e9ae72426531c81a86b2c992"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#aa0677a86e9ae72426531c81a86b2c992">forward</a> () override</td></tr>
-<tr class="memdesc:aa0677a86e9ae72426531c81a86b2c992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the flattening operation on the input tensor.  <br /></td></tr>
-<tr class="separator:aa0677a86e9ae72426531c81a86b2c992"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bbb029fc80052efa88f93fc8ecd800b" id="r_a0bbb029fc80052efa88f93fc8ecd800b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a0bbb029fc80052efa88f93fc8ecd800b">areInputsFilled</a> () const override</td></tr>
-<tr class="memdesc:a0bbb029fc80052efa88f93fc8ecd800b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the input(s) are filled.  <br /></td></tr>
-<tr class="separator:a0bbb029fc80052efa88f93fc8ecd800b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac9d44dd829d4656ed0175848da50bc4" id="r_aac9d44dd829d4656ed0175848da50bc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#aac9d44dd829d4656ed0175848da50bc4">setInputs</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;inputs) override</td></tr>
-<tr class="memdesc:aac9d44dd829d4656ed0175848da50bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the input(s) for the node.  <br /></td></tr>
-<tr class="separator:aac9d44dd829d4656ed0175848da50bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1afd9e86e1a1f23aaa2e5163ff4331c" id="r_ac1afd9e86e1a1f23aaa2e5163ff4331c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#ac1afd9e86e1a1f23aaa2e5163ff4331c">areOutputsFilled</a> () const override</td></tr>
-<tr class="memdesc:ac1afd9e86e1a1f23aaa2e5163ff4331c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the output(s) are filled.  <br /></td></tr>
-<tr class="separator:ac1afd9e86e1a1f23aaa2e5163ff4331c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a286efb4ff797bf64887a3a3f15c7da09" id="r_a286efb4ff797bf64887a3a3f15c7da09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a286efb4ff797bf64887a3a3f15c7da09">getOutputs</a> () const override</td></tr>
-<tr class="memdesc:a286efb4ff797bf64887a3a3f15c7da09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the output of the node.  <br /></td></tr>
-<tr class="separator:a286efb4ff797bf64887a3a3f15c7da09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a582b10a1f449d2f65439603ff22f756b" id="r_a582b10a1f449d2f65439603ff22f756b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a582b10a1f449d2f65439603ff22f756b">FlattenNode</a> (std::string X, std::string Y, int axis=1)</td></tr>
+<tr class="memdesc:a582b10a1f449d2f65439603ff22f756b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface.">FlattenNode</a>.  <br /></td></tr>
+<tr class="separator:a582b10a1f449d2f65439603ff22f756b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19984ccd719672d2a19fd50d3298c83b" id="r_a19984ccd719672d2a19fd50d3298c83b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a19984ccd719672d2a19fd50d3298c83b">FlattenNode</a> (const json &amp;node)</td></tr>
+<tr class="memdesc:a19984ccd719672d2a19fd50d3298c83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface.">FlattenNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:a19984ccd719672d2a19fd50d3298c83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1baa8973b5446411b868062ec83ef9d1" id="r_a1baa8973b5446411b868062ec83ef9d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a1baa8973b5446411b868062ec83ef9d1">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
+<tr class="memdesc:a1baa8973b5446411b868062ec83ef9d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the flattening operation on the input tensor.  <br /></td></tr>
+<tr class="separator:a1baa8973b5446411b868062ec83ef9d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6058bc1b484828312f0400b88fb968e1" id="r_a6058bc1b484828312f0400b88fb968e1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#a6058bc1b484828312f0400b88fb968e1">getInputs</a> () override</td></tr>
+<tr class="memdesc:a6058bc1b484828312f0400b88fb968e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
+<tr class="separator:a6058bc1b484828312f0400b88fb968e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae6f76a155328bc549de232b8411dcbe" id="r_aae6f76a155328bc549de232b8411dcbe"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlattenNode.html#aae6f76a155328bc549de232b8411dcbe">getOutputs</a> () override</td></tr>
+<tr class="memdesc:aae6f76a155328bc549de232b8411dcbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get outputs.  <br /></td></tr>
+<tr class="separator:aae6f76a155328bc549de232b8411dcbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classNode.html">Node</a></td></tr>
 <tr class="memitem:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode" id="r_abce703f211f6a577085b4b8ad68cbb19"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a> ()=default</td></tr>
 <tr class="memdesc:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class.  <br /></td></tr>
 <tr class="separator:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class FlattenNode&lt; T &gt;</div><p>A node that flattens an input tensor along a specified axis. Implements the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> interface. </p>
+<div class="textblock"><p>A node that flattens an input tensor along a specified axis. Implements the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> interface. </p>
 <p>The <a class="el" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface.">FlattenNode</a> reshapes the input tensor into a 2D tensor (matrix), where dimensions before the <code>axis</code> are collapsed into the first dimension and dimensions after the <code>axis</code> are collapsed into the second dimension.</p>
 <dl class="section author"><dt>Author</dt><dd>Tim Carlsson (<a href="#" onclick="location.href='mai'+'lto:'+'tim'+'ca'+'@ch'+'al'+'mer'+'s.'+'se'; return false;">timca<span class="obfuscator">.nosp@m.</span>@cha<span class="obfuscator">.nosp@m.</span>lmers<span class="obfuscator">.nosp@m.</span>.se</a>) </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae5c3b17f6d11dfd3a95b0f2d52ff86f4" name="ae5c3b17f6d11dfd3a95b0f2d52ff86f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5c3b17f6d11dfd3a95b0f2d52ff86f4">&#9670;&#160;</a></span>FlattenNode()</h2>
+<a id="a582b10a1f449d2f65439603ff22f756b" name="a582b10a1f449d2f65439603ff22f756b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a582b10a1f449d2f65439603ff22f756b">&#9670;&#160;</a></span>FlattenNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;<a class="el" href="classFlattenNode.html">::FlattenNode</a> </td>
+          <td class="memname">FlattenNode::FlattenNode </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>X</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>Y</em>, </td>
         </tr>
         <tr>
@@ -187,86 +181,47 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a19984ccd719672d2a19fd50d3298c83b" name="a19984ccd719672d2a19fd50d3298c83b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19984ccd719672d2a19fd50d3298c83b">&#9670;&#160;</a></span>FlattenNode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlattenNode::FlattenNode </td>
+          <td>(</td>
+          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface.">FlattenNode</a> from JSON. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>JSON object representing the Flatten node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0bbb029fc80052efa88f93fc8ecd800b" name="a0bbb029fc80052efa88f93fc8ecd800b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bbb029fc80052efa88f93fc8ecd800b">&#9670;&#160;</a></span>areInputsFilled()</h2>
+<a id="a1baa8973b5446411b868062ec83ef9d1" name="a1baa8973b5446411b868062ec83ef9d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1baa8973b5446411b868062ec83ef9d1">&#9670;&#160;</a></span>forward()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;::areInputsFilled </td>
+          <td class="memname">void FlattenNode::forward </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the input(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the input(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">Node</a>.</p>
-
-</div>
-</div>
-<a id="ac1afd9e86e1a1f23aaa2e5163ff4331c" name="ac1afd9e86e1a1f23aaa2e5163ff4331c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1afd9e86e1a1f23aaa2e5163ff4331c">&#9670;&#160;</a></span>areOutputsFilled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;::areOutputsFilled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the output(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the output(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">Node</a>.</p>
-
-</div>
-</div>
-<a id="aa0677a86e9ae72426531c81a86b2c992" name="aa0677a86e9ae72426531c81a86b2c992"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0677a86e9ae72426531c81a86b2c992">&#9670;&#160;</a></span>forward()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;::forward </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramname"><em>iomap</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -280,58 +235,23 @@ template&lt;typename T &gt; </div>
 <p>Performs the flattening operation on the input tensor. </p>
 <p>Transforms the input tensor into a 2D tensor along the specified axis </p>
 
-<p>Implements <a class="el" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 
 </div>
 </div>
-<a id="a286efb4ff797bf64887a3a3f15c7da09" name="a286efb4ff797bf64887a3a3f15c7da09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a286efb4ff797bf64887a3a3f15c7da09">&#9670;&#160;</a></span>getOutputs()</h2>
+<a id="a6058bc1b484828312f0400b88fb968e1" name="a6058bc1b484828312f0400b88fb968e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6058bc1b484828312f0400b88fb968e1">&#9670;&#160;</a></span>getInputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; <a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;::getOutputs </td>
+          <td class="memname">std::vector&lt; std::string &gt; FlattenNode::getInputs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the output of the node. </p>
-<dl class="section return"><dt>Returns</dt><dd>The output data. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a3bdab94a8251368e536260e433bb2628">Node</a>.</p>
-
-</div>
-</div>
-<a id="aac9d44dd829d4656ed0175848da50bc4" name="aac9d44dd829d4656ed0175848da50bc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac9d44dd829d4656ed0175848da50bc4">&#9670;&#160;</a></span>setInputs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classFlattenNode.html">FlattenNode</a>&lt; T &gt;::setInputs </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -342,20 +262,46 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the input(s) for the node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inputs</td><td>The input data to be set. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Get inputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the inputs to the node. </dd></dl>
 
-<p>Implements <a class="el" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">Node</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/runner/work/modularml/modularml/src/include/<a class="el" href="flatten__node_8hpp_source.html">flatten_node.hpp</a></li>
+<a id="aae6f76a155328bc549de232b8411dcbe" name="aae6f76a155328bc549de232b8411dcbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae6f76a155328bc549de232b8411dcbe">&#9670;&#160;</a></span>getOutputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; FlattenNode::getOutputs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get outputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the outputs to the node. </dd></dl>
+
+<p>Implements <a class="el" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">Node</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/runner/work/modularml/modularml/src/include/nodes/<a class="el" href="flatten_8hpp_source.html">flatten.hpp</a></li>
+<li>/home/runner/work/modularml/modularml/src/nodes/<b>flatten.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

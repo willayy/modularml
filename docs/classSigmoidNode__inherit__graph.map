@@ -1,5 +1,5 @@
-<map id="SigmoidNode&lt; T &gt;" name="SigmoidNode&lt; T &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,152,104"/>
-<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="51,5,107,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,44,81,79,76,79,76,44"/>
+<map id="SigmoidNode" name="SigmoidNode">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,115,104"/>
+<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="32,5,88,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,44,63,79,57,79,57,44"/>
 </map>

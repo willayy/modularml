@@ -1,5 +1,5 @@
-<map id="DropoutNode&lt; T &gt;" name="DropoutNode&lt; T &gt;">
-<area shape="rect" id="Node000001" title="A class representing a Dropout node in a computational graph." alt="" coords="5,79,152,104"/>
-<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="51,5,107,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,44,81,79,76,79,76,44"/>
+<map id="DropoutNode" name="DropoutNode">
+<area shape="rect" id="Node000001" title="A class representing a Dropout node in a computational graph." alt="" coords="5,79,113,104"/>
+<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="31,5,87,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,44,62,79,57,79,57,44"/>
 </map>

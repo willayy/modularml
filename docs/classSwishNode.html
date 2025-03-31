@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: SwishNode&lt; T &gt; Class Template Reference</title>
+<title>ModularML: SwishNode Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,89 +74,83 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classSwishNode-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">SwishNode&lt; T &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">SwishNode Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>A class representing a Swish node in a computational graph.  
  <a href="classSwishNode.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Swish__node_8hpp_source.html">Swish_node.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="swish_8hpp_source.html">swish.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for SwishNode&lt; T &gt;:</div>
+Inheritance diagram for SwishNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classSwishNode__inherit__graph.png" border="0" usemap="#aSwishNode_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="aSwishNode_3_01T_01_4_inherit__map" id="aSwishNode_3_01T_01_4_inherit__map">
-<area shape="rect" title="A class representing a Swish node in a computational graph." alt="" coords="5,79,137,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="43,5,99,31"/>
-<area shape="poly" title=" " alt="" coords="74,44,74,79,69,79,69,44"/>
+<div class="center"><img src="classSwishNode__inherit__graph.png" border="0" usemap="#aSwishNode_inherit__map" alt="Inheritance graph"/></div>
+<map name="aSwishNode_inherit__map" id="aSwishNode_inherit__map">
+<area shape="rect" title="A class representing a Swish node in a computational graph." alt="" coords="5,79,100,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="25,5,81,31"/>
+<area shape="poly" title=" " alt="" coords="55,44,55,79,50,79,50,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for SwishNode&lt; T &gt;:</div>
+Collaboration diagram for SwishNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classSwishNode__coll__graph.png" border="0" usemap="#aSwishNode_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="aSwishNode_3_01T_01_4_coll__map" id="aSwishNode_3_01T_01_4_coll__map">
-<area shape="rect" title="A class representing a Swish node in a computational graph." alt="" coords="5,79,137,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="43,5,99,31"/>
-<area shape="poly" title=" " alt="" coords="74,44,74,79,69,79,69,44"/>
+<div class="center"><img src="classSwishNode__coll__graph.png" border="0" usemap="#aSwishNode_coll__map" alt="Collaboration graph"/></div>
+<map name="aSwishNode_coll__map" id="aSwishNode_coll__map">
+<area shape="rect" title="A class representing a Swish node in a computational graph." alt="" coords="5,79,100,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="25,5,81,31"/>
+<area shape="poly" title=" " alt="" coords="55,44,55,79,50,79,50,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac77447a141392ddfcea0a7ace4706ae4" id="r_ac77447a141392ddfcea0a7ace4706ae4"><td class="memItemLeft" align="right" valign="top"><a id="ac77447a141392ddfcea0a7ace4706ae4" name="ac77447a141392ddfcea0a7ace4706ae4"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractTensor</b> = <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;</td></tr>
-<tr class="separator:ac77447a141392ddfcea0a7ace4706ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e2427e83bd1b5fdf88395f38d6390e" id="r_a57e2427e83bd1b5fdf88395f38d6390e"><td class="memItemLeft" align="right" valign="top"><a id="a57e2427e83bd1b5fdf88395f38d6390e" name="a57e2427e83bd1b5fdf88395f38d6390e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant&lt; double, float &gt;</td></tr>
+<tr class="separator:a57e2427e83bd1b5fdf88395f38d6390e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a76563f1371f082b270b930bc1e2209cd" id="r_a76563f1371f082b270b930bc1e2209cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a76563f1371f082b270b930bc1e2209cd">SwishNode</a> (shared_ptr&lt; const AbstractTensor &gt; X, shared_ptr&lt; AbstractTensor &gt; Y)</td></tr>
-<tr class="memdesc:a76563f1371f082b270b930bc1e2209cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classSwishNode.html" title="A class representing a Swish node in a computational graph.">SwishNode</a>.  <br /></td></tr>
-<tr class="separator:a76563f1371f082b270b930bc1e2209cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d8ca11ac10c3f107af940ff519ce54a" id="r_a7d8ca11ac10c3f107af940ff519ce54a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a7d8ca11ac10c3f107af940ff519ce54a">forward</a> () override</td></tr>
-<tr class="memdesc:a7d8ca11ac10c3f107af940ff519ce54a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation applying swish.  <br /></td></tr>
-<tr class="separator:a7d8ca11ac10c3f107af940ff519ce54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab281c26b63dcf6e91d91e099c59f0d2c" id="r_ab281c26b63dcf6e91d91e099c59f0d2c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#ab281c26b63dcf6e91d91e099c59f0d2c">areInputsFilled</a> () const override</td></tr>
-<tr class="memdesc:ab281c26b63dcf6e91d91e099c59f0d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the input(s) are filled.  <br /></td></tr>
-<tr class="separator:ab281c26b63dcf6e91d91e099c59f0d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5253622ccb4a89f241c67cff27c1fa60" id="r_a5253622ccb4a89f241c67cff27c1fa60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a5253622ccb4a89f241c67cff27c1fa60">setInputs</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;inputs) override</td></tr>
-<tr class="memdesc:a5253622ccb4a89f241c67cff27c1fa60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the input(s) for the node.  <br /></td></tr>
-<tr class="separator:a5253622ccb4a89f241c67cff27c1fa60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39439683515a17cd6f45bd898d4a527b" id="r_a39439683515a17cd6f45bd898d4a527b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a39439683515a17cd6f45bd898d4a527b">areOutputsFilled</a> () const override</td></tr>
-<tr class="memdesc:a39439683515a17cd6f45bd898d4a527b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the output(s) are filled.  <br /></td></tr>
-<tr class="separator:a39439683515a17cd6f45bd898d4a527b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0ed8ce2136e0a597633c6c52029732b" id="r_aa0ed8ce2136e0a597633c6c52029732b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#aa0ed8ce2136e0a597633c6c52029732b">getOutputs</a> () const override</td></tr>
-<tr class="memdesc:aa0ed8ce2136e0a597633c6c52029732b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the output(s) of the node.  <br /></td></tr>
-<tr class="separator:aa0ed8ce2136e0a597633c6c52029732b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bd06ec1f0e0ff0ada1278f21f20aeea" id="r_a3bd06ec1f0e0ff0ada1278f21f20aeea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a3bd06ec1f0e0ff0ada1278f21f20aeea">SwishNode</a> (std::string X, std::string Y)</td></tr>
+<tr class="memdesc:a3bd06ec1f0e0ff0ada1278f21f20aeea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classSwishNode.html" title="A class representing a Swish node in a computational graph.">SwishNode</a>.  <br /></td></tr>
+<tr class="separator:a3bd06ec1f0e0ff0ada1278f21f20aeea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63aa5b623de104cecbc41304ad5d0122" id="r_a63aa5b623de104cecbc41304ad5d0122"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a63aa5b623de104cecbc41304ad5d0122">SwishNode</a> (const json &amp;node)</td></tr>
+<tr class="memdesc:a63aa5b623de104cecbc41304ad5d0122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classSwishNode.html" title="A class representing a Swish node in a computational graph.">SwishNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:a63aa5b623de104cecbc41304ad5d0122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b19a68aa71783cf5e0e3c8eee7862c" id="r_a80b19a68aa71783cf5e0e3c8eee7862c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#a80b19a68aa71783cf5e0e3c8eee7862c">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
+<tr class="memdesc:a80b19a68aa71783cf5e0e3c8eee7862c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation applying swish.  <br /></td></tr>
+<tr class="separator:a80b19a68aa71783cf5e0e3c8eee7862c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacad94dc65aceff066549048fba53f8e" id="r_aacad94dc65aceff066549048fba53f8e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#aacad94dc65aceff066549048fba53f8e">getInputs</a> () override</td></tr>
+<tr class="memdesc:aacad94dc65aceff066549048fba53f8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
+<tr class="separator:aacad94dc65aceff066549048fba53f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f10934ce78c61d269ee22d94dd93f3" id="r_ae5f10934ce78c61d269ee22d94dd93f3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSwishNode.html#ae5f10934ce78c61d269ee22d94dd93f3">getOutputs</a> () override</td></tr>
+<tr class="memdesc:ae5f10934ce78c61d269ee22d94dd93f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get outputs.  <br /></td></tr>
+<tr class="separator:ae5f10934ce78c61d269ee22d94dd93f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classNode.html">Node</a></td></tr>
 <tr class="memitem:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode" id="r_abce703f211f6a577085b4b8ad68cbb19"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a> ()=default</td></tr>
 <tr class="memdesc:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class.  <br /></td></tr>
 <tr class="separator:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class SwishNode&lt; T &gt;</div><p>A class representing a Swish node in a computational graph. </p>
+<div class="textblock"><p>A class representing a Swish node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents the Swish activation in a computational graph. It performs the forward pass computation applying swish elementwise. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a76563f1371f082b270b930bc1e2209cd" name="a76563f1371f082b270b930bc1e2209cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76563f1371f082b270b930bc1e2209cd">&#9670;&#160;</a></span>SwishNode()</h2>
+<a id="a3bd06ec1f0e0ff0ada1278f21f20aeea" name="a3bd06ec1f0e0ff0ada1278f21f20aeea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bd06ec1f0e0ff0ada1278f21f20aeea">&#9670;&#160;</a></span>SwishNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;<a class="el" href="classSwishNode.html">::SwishNode</a> </td>
+          <td class="memname">SwishNode::SwishNode </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; const AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>X</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>Y</em>&#160;</td>
         </tr>
         <tr>
@@ -178,86 +172,47 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a63aa5b623de104cecbc41304ad5d0122" name="a63aa5b623de104cecbc41304ad5d0122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63aa5b623de104cecbc41304ad5d0122">&#9670;&#160;</a></span>SwishNode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SwishNode::SwishNode </td>
+          <td>(</td>
+          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classSwishNode.html" title="A class representing a Swish node in a computational graph.">SwishNode</a> from JSON. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>JSON object representing the Swish node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab281c26b63dcf6e91d91e099c59f0d2c" name="ab281c26b63dcf6e91d91e099c59f0d2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab281c26b63dcf6e91d91e099c59f0d2c">&#9670;&#160;</a></span>areInputsFilled()</h2>
+<a id="a80b19a68aa71783cf5e0e3c8eee7862c" name="a80b19a68aa71783cf5e0e3c8eee7862c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80b19a68aa71783cf5e0e3c8eee7862c">&#9670;&#160;</a></span>forward()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;::areInputsFilled </td>
+          <td class="memname">void SwishNode::forward </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the input(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the input(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">Node</a>.</p>
-
-</div>
-</div>
-<a id="a39439683515a17cd6f45bd898d4a527b" name="a39439683515a17cd6f45bd898d4a527b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39439683515a17cd6f45bd898d4a527b">&#9670;&#160;</a></span>areOutputsFilled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;::areOutputsFilled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the output(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the output(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">Node</a>.</p>
-
-</div>
-</div>
-<a id="a7d8ca11ac10c3f107af940ff519ce54a" name="a7d8ca11ac10c3f107af940ff519ce54a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d8ca11ac10c3f107af940ff519ce54a">&#9670;&#160;</a></span>forward()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;::forward </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramname"><em>iomap</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -270,58 +225,23 @@ template&lt;typename T &gt; </div>
 
 <p>Perform the forward pass computation applying swish. </p>
 
-<p>Implements <a class="el" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 
 </div>
 </div>
-<a id="aa0ed8ce2136e0a597633c6c52029732b" name="aa0ed8ce2136e0a597633c6c52029732b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0ed8ce2136e0a597633c6c52029732b">&#9670;&#160;</a></span>getOutputs()</h2>
+<a id="aacad94dc65aceff066549048fba53f8e" name="aacad94dc65aceff066549048fba53f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacad94dc65aceff066549048fba53f8e">&#9670;&#160;</a></span>getInputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; <a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;::getOutputs </td>
+          <td class="memname">std::vector&lt; std::string &gt; SwishNode::getInputs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the output(s) of the node. </p>
-<dl class="section return"><dt>Returns</dt><dd>The output data. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a3bdab94a8251368e536260e433bb2628">Node</a>.</p>
-
-</div>
-</div>
-<a id="a5253622ccb4a89f241c67cff27c1fa60" name="a5253622ccb4a89f241c67cff27c1fa60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5253622ccb4a89f241c67cff27c1fa60">&#9670;&#160;</a></span>setInputs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classSwishNode.html">SwishNode</a>&lt; T &gt;::setInputs </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -332,20 +252,46 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the input(s) for the node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inputs</td><td>The input data to be set, where X is inputs[0]. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Get inputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the inputs to the node. </dd></dl>
 
-<p>Implements <a class="el" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">Node</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/runner/work/modularml/modularml/src/include/<a class="el" href="Swish__node_8hpp_source.html">Swish_node.hpp</a></li>
+<a id="ae5f10934ce78c61d269ee22d94dd93f3" name="ae5f10934ce78c61d269ee22d94dd93f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5f10934ce78c61d269ee22d94dd93f3">&#9670;&#160;</a></span>getOutputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; SwishNode::getOutputs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get outputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the outputs to the node. </dd></dl>
+
+<p>Implements <a class="el" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">Node</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/runner/work/modularml/modularml/src/include/nodes/<a class="el" href="swish_8hpp_source.html">swish.hpp</a></li>
+<li>/home/runner/work/modularml/modularml/src/nodes/<b>swish.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

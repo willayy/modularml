@@ -94,9 +94,9 @@ Inheritance diagram for Model:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6f3792d775df387e0145d0aadc36b0f2" id="r_a6f3792d775df387e0145d0aadc36b0f2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a6f3792d775df387e0145d0aadc36b0f2">infer</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;inputs)=0</td></tr>
-<tr class="memdesc:a6f3792d775df387e0145d0aadc36b0f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the model with a single given input tensor.  <br /></td></tr>
-<tr class="separator:a6f3792d775df387e0145d0aadc36b0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d75c67361fc34ad02f180678bba57ab" id="r_a4d75c67361fc34ad02f180678bba57ab"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; string, GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">infer</a> (const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;inputs)=0</td></tr>
+<tr class="memdesc:a4d75c67361fc34ad02f180678bba57ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the model with a single given input tensor.  <br /></td></tr>
+<tr class="separator:a4d75c67361fc34ad02f180678bba57ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2efbe4ec768191fa70ad86f260ec2fd6" id="r_a2efbe4ec768191fa70ad86f260ec2fd6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">~Model</a> ()=default</td></tr>
 <tr class="memdesc:a2efbe4ec768191fa70ad86f260ec2fd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> class.  <br /></td></tr>
 <tr class="separator:a2efbe4ec768191fa70ad86f260ec2fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,8 +134,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6f3792d775df387e0145d0aadc36b0f2" name="a6f3792d775df387e0145d0aadc36b0f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f3792d775df387e0145d0aadc36b0f2">&#9670;&#160;</a></span>infer()</h2>
+<a id="a4d75c67361fc34ad02f180678bba57ab" name="a4d75c67361fc34ad02f180678bba57ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d75c67361fc34ad02f180678bba57ab">&#9670;&#160;</a></span>infer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,9 +144,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; Model::infer </td>
+          <td class="memname">virtual std::unordered_map&lt; string, GeneralDataTypes &gt; Model::infer </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;&#160;</td>
           <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -168,12 +168,12 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result of the model inference. </dd></dl>
 
-<p>Implemented in <a class="el" href="classModel__mml.html#a90fc7f57d067e0bfa46896221a142341">Model_mml</a>.</p>
+<p>Implemented in <a class="el" href="classModel__mml.html#ad09dbcac28794c9979fb7975830cf08a">Model_mml</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/runner/work/modularml/modularml/src/include/<a class="el" href="a__model_8hpp_source.html">a_model.hpp</a></li>
+<li>/home/runner/work/modularml/modularml/src/include/backend/<a class="el" href="a__model_8hpp_source.html">a_model.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

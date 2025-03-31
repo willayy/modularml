@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: /home/runner/work/modularml/modularml/src/include/a_model.hpp Source File</title>
+<title>ModularML: /home/runner/work/modularml/modularml/src/include/backend/a_model.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="dir_9368f0fcf1151dd65455dedceecfb3a4.html">backend</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -84,21 +84,20 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;a_node.hpp&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;nodes/a_node.hpp&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;globals.hpp&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classModel.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classModel.html">Model</a> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classModel.html#a6f3792d775df387e0145d0aadc36b0f2">   23</a></span>    <span class="keyword">virtual</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a> <a class="code hl_function" href="classModel.html#a6f3792d775df387e0145d0aadc36b0f2">infer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a>&amp; inputs) = 0;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">   23</a></span>    <span class="keyword">virtual</span> std::unordered_map&lt;string, GeneralDataTypes&gt; <a class="code hl_function" href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">infer</a>(<span class="keyword">const</span> std::unordered_map&lt;string, GeneralDataTypes&gt;&amp; inputs) = 0;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">   30</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">~Model</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>};</div>
 </div>
 <div class="ttc" id="aclassModel_html"><div class="ttname"><a href="classModel.html">Model</a></div><div class="ttdoc">Abstract base class for machine learning models.</div><div class="ttdef"><b>Definition</b> a_model.hpp:13</div></div>
 <div class="ttc" id="aclassModel_html_a2efbe4ec768191fa70ad86f260ec2fd6"><div class="ttname"><a href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">Model::~Model</a></div><div class="ttdeci">virtual ~Model()=default</div><div class="ttdoc">Virtual destructor for the Model class.</div></div>
-<div class="ttc" id="aclassModel_html_a6f3792d775df387e0145d0aadc36b0f2"><div class="ttname"><a href="classModel.html#a6f3792d775df387e0145d0aadc36b0f2">Model::infer</a></div><div class="ttdeci">virtual array_mml&lt; GeneralDataTypes &gt; infer(const array_mml&lt; GeneralDataTypes &gt; &amp;inputs)=0</div><div class="ttdoc">Run the model with a single given input tensor.</div></div>
-<div class="ttc" id="aclassarray__mml_html"><div class="ttname"><a href="classarray__mml.html">array_mml</a></div><div class="ttdoc">Array class mimicking the std::array class but without the size being a template parameter.</div><div class="ttdef"><b>Definition</b> array_mml.hpp:8</div></div>
+<div class="ttc" id="aclassModel_html_a4d75c67361fc34ad02f180678bba57ab"><div class="ttname"><a href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">Model::infer</a></div><div class="ttdeci">virtual std::unordered_map&lt; string, GeneralDataTypes &gt; infer(const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;inputs)=0</div><div class="ttdoc">Run the model with a single given input tensor.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

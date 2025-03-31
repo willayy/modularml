@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: ReLUNode&lt; T &gt; Class Template Reference</title>
+<title>ModularML: ReLUNode Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,89 +74,83 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classReLUNode-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">ReLUNode&lt; T &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">ReLUNode Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>A class representing a ReLU node in a computational graph.  
  <a href="classReLUNode.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ReLU__node_8hpp_source.html">ReLU_node.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="relu_8hpp_source.html">relu.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for ReLUNode&lt; T &gt;:</div>
+Inheritance diagram for ReLUNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classReLUNode__inherit__graph.png" border="0" usemap="#aReLUNode_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="aReLUNode_3_01T_01_4_inherit__map" id="aReLUNode_3_01T_01_4_inherit__map">
-<area shape="rect" title="A class representing a ReLU node in a computational graph." alt="" coords="5,79,133,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="41,5,97,31"/>
-<area shape="poly" title=" " alt="" coords="72,44,72,79,67,79,67,44"/>
+<div class="center"><img src="classReLUNode__inherit__graph.png" border="0" usemap="#aReLUNode_inherit__map" alt="Inheritance graph"/></div>
+<map name="aReLUNode_inherit__map" id="aReLUNode_inherit__map">
+<area shape="rect" title="A class representing a ReLU node in a computational graph." alt="" coords="5,79,96,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="23,5,79,31"/>
+<area shape="poly" title=" " alt="" coords="53,44,53,79,48,79,48,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for ReLUNode&lt; T &gt;:</div>
+Collaboration diagram for ReLUNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classReLUNode__coll__graph.png" border="0" usemap="#aReLUNode_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="aReLUNode_3_01T_01_4_coll__map" id="aReLUNode_3_01T_01_4_coll__map">
-<area shape="rect" title="A class representing a ReLU node in a computational graph." alt="" coords="5,79,133,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="41,5,97,31"/>
-<area shape="poly" title=" " alt="" coords="72,44,72,79,67,79,67,44"/>
+<div class="center"><img src="classReLUNode__coll__graph.png" border="0" usemap="#aReLUNode_coll__map" alt="Collaboration graph"/></div>
+<map name="aReLUNode_coll__map" id="aReLUNode_coll__map">
+<area shape="rect" title="A class representing a ReLU node in a computational graph." alt="" coords="5,79,96,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="23,5,79,31"/>
+<area shape="poly" title=" " alt="" coords="53,44,53,79,48,79,48,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9efdd701ad84eef1db288c23a081949b" id="r_a9efdd701ad84eef1db288c23a081949b"><td class="memItemLeft" align="right" valign="top"><a id="a9efdd701ad84eef1db288c23a081949b" name="a9efdd701ad84eef1db288c23a081949b"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractTensor</b> = <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;</td></tr>
-<tr class="separator:a9efdd701ad84eef1db288c23a081949b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2471353caab4008934983137e0b2dcc2" id="r_a2471353caab4008934983137e0b2dcc2"><td class="memItemLeft" align="right" valign="top"><a id="a2471353caab4008934983137e0b2dcc2" name="a2471353caab4008934983137e0b2dcc2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant&lt; double, float, int16_t, int32_t, int64_t, int8_t &gt;</td></tr>
+<tr class="separator:a2471353caab4008934983137e0b2dcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a680eca1cb72e8e9b1a946a4b6175bb90" id="r_a680eca1cb72e8e9b1a946a4b6175bb90"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#a680eca1cb72e8e9b1a946a4b6175bb90">ReLUNode</a> (shared_ptr&lt; const AbstractTensor &gt; X, shared_ptr&lt; AbstractTensor &gt; Y)</td></tr>
-<tr class="memdesc:a680eca1cb72e8e9b1a946a4b6175bb90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classReLUNode.html" title="A class representing a ReLU node in a computational graph.">ReLUNode</a>.  <br /></td></tr>
-<tr class="separator:a680eca1cb72e8e9b1a946a4b6175bb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18b26e38ad2cf0096d6863c886558e62" id="r_a18b26e38ad2cf0096d6863c886558e62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#a18b26e38ad2cf0096d6863c886558e62">forward</a> () override</td></tr>
-<tr class="memdesc:a18b26e38ad2cf0096d6863c886558e62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using ReLU activation function.  <br /></td></tr>
-<tr class="separator:a18b26e38ad2cf0096d6863c886558e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e991df2dbf4a0ade695a4cd460cc6ff" id="r_a0e991df2dbf4a0ade695a4cd460cc6ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#a0e991df2dbf4a0ade695a4cd460cc6ff">areInputsFilled</a> () const override</td></tr>
-<tr class="memdesc:a0e991df2dbf4a0ade695a4cd460cc6ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the input(s) are filled.  <br /></td></tr>
-<tr class="separator:a0e991df2dbf4a0ade695a4cd460cc6ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17c8a0493ed1122748adfc292de75bf4" id="r_a17c8a0493ed1122748adfc292de75bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#a17c8a0493ed1122748adfc292de75bf4">setInputs</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;inputs) override</td></tr>
-<tr class="memdesc:a17c8a0493ed1122748adfc292de75bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the input(s) for the node.  <br /></td></tr>
-<tr class="separator:a17c8a0493ed1122748adfc292de75bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3b1ecac0ce8d7dd2ff5dfd7d0deb478" id="r_af3b1ecac0ce8d7dd2ff5dfd7d0deb478"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#af3b1ecac0ce8d7dd2ff5dfd7d0deb478">areOutputsFilled</a> () const override</td></tr>
-<tr class="memdesc:af3b1ecac0ce8d7dd2ff5dfd7d0deb478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the output(s) are filled.  <br /></td></tr>
-<tr class="separator:af3b1ecac0ce8d7dd2ff5dfd7d0deb478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e43c48a717c116284b24c8f3bf0adcf" id="r_a6e43c48a717c116284b24c8f3bf0adcf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#a6e43c48a717c116284b24c8f3bf0adcf">getOutputs</a> () const override</td></tr>
-<tr class="memdesc:a6e43c48a717c116284b24c8f3bf0adcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the output of the node.  <br /></td></tr>
-<tr class="separator:a6e43c48a717c116284b24c8f3bf0adcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe53d71b50e850e8144caf593288f64a" id="r_abe53d71b50e850e8144caf593288f64a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#abe53d71b50e850e8144caf593288f64a">ReLUNode</a> (std::string X, std::string Y)</td></tr>
+<tr class="memdesc:abe53d71b50e850e8144caf593288f64a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classReLUNode.html" title="A class representing a ReLU node in a computational graph.">ReLUNode</a>.  <br /></td></tr>
+<tr class="separator:abe53d71b50e850e8144caf593288f64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa6b5eb88446d946fca75869cd621c83" id="r_afa6b5eb88446d946fca75869cd621c83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#afa6b5eb88446d946fca75869cd621c83">ReLUNode</a> (const json &amp;node)</td></tr>
+<tr class="memdesc:afa6b5eb88446d946fca75869cd621c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for ReluNode from JSON.  <br /></td></tr>
+<tr class="separator:afa6b5eb88446d946fca75869cd621c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebc530bab26ae0e70db06bf434112eda" id="r_aebc530bab26ae0e70db06bf434112eda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#aebc530bab26ae0e70db06bf434112eda">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
+<tr class="memdesc:aebc530bab26ae0e70db06bf434112eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using ReLU activation function.  <br /></td></tr>
+<tr class="separator:aebc530bab26ae0e70db06bf434112eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8af8f7dcbcbae3ab7dc8d33e869a8b7" id="r_ae8af8f7dcbcbae3ab7dc8d33e869a8b7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">getInputs</a> () override</td></tr>
+<tr class="memdesc:ae8af8f7dcbcbae3ab7dc8d33e869a8b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
+<tr class="separator:ae8af8f7dcbcbae3ab7dc8d33e869a8b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac34beab53ab8a6dca5c0a723a2dab505" id="r_ac34beab53ab8a6dca5c0a723a2dab505"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classReLUNode.html#ac34beab53ab8a6dca5c0a723a2dab505">getOutputs</a> () override</td></tr>
+<tr class="memdesc:ac34beab53ab8a6dca5c0a723a2dab505"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get outputs.  <br /></td></tr>
+<tr class="separator:ac34beab53ab8a6dca5c0a723a2dab505"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classNode.html">Node</a></td></tr>
 <tr class="memitem:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode" id="r_abce703f211f6a577085b4b8ad68cbb19"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a> ()=default</td></tr>
 <tr class="memdesc:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class.  <br /></td></tr>
 <tr class="separator:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class ReLUNode&lt; T &gt;</div><p>A class representing a ReLU node in a computational graph. </p>
+<div class="textblock"><p>A class representing a ReLU node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents the rectified linear function (ReLU) node in a computational graph. It performs the forward pass computation applying ReLU elementwise. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a680eca1cb72e8e9b1a946a4b6175bb90" name="a680eca1cb72e8e9b1a946a4b6175bb90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a680eca1cb72e8e9b1a946a4b6175bb90">&#9670;&#160;</a></span>ReLUNode()</h2>
+<a id="abe53d71b50e850e8144caf593288f64a" name="abe53d71b50e850e8144caf593288f64a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe53d71b50e850e8144caf593288f64a">&#9670;&#160;</a></span>ReLUNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;<a class="el" href="classReLUNode.html">::ReLUNode</a> </td>
+          <td class="memname">ReLUNode::ReLUNode </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; const AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>X</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>Y</em>&#160;</td>
         </tr>
         <tr>
@@ -178,86 +172,47 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="afa6b5eb88446d946fca75869cd621c83" name="afa6b5eb88446d946fca75869cd621c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa6b5eb88446d946fca75869cd621c83">&#9670;&#160;</a></span>ReLUNode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ReLUNode::ReLUNode </td>
+          <td>(</td>
+          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for ReluNode from JSON. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>JSON object representing the Relu node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0e991df2dbf4a0ade695a4cd460cc6ff" name="a0e991df2dbf4a0ade695a4cd460cc6ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e991df2dbf4a0ade695a4cd460cc6ff">&#9670;&#160;</a></span>areInputsFilled()</h2>
+<a id="aebc530bab26ae0e70db06bf434112eda" name="aebc530bab26ae0e70db06bf434112eda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebc530bab26ae0e70db06bf434112eda">&#9670;&#160;</a></span>forward()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;::areInputsFilled </td>
+          <td class="memname">void ReLUNode::forward </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the input(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the input(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">Node</a>.</p>
-
-</div>
-</div>
-<a id="af3b1ecac0ce8d7dd2ff5dfd7d0deb478" name="af3b1ecac0ce8d7dd2ff5dfd7d0deb478"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3b1ecac0ce8d7dd2ff5dfd7d0deb478">&#9670;&#160;</a></span>areOutputsFilled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;::areOutputsFilled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the output(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the output(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">Node</a>.</p>
-
-</div>
-</div>
-<a id="a18b26e38ad2cf0096d6863c886558e62" name="a18b26e38ad2cf0096d6863c886558e62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b26e38ad2cf0096d6863c886558e62">&#9670;&#160;</a></span>forward()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;::forward </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramname"><em>iomap</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -270,58 +225,23 @@ template&lt;typename T &gt; </div>
 
 <p>Perform the forward pass computation using ReLU activation function. </p>
 
-<p>Implements <a class="el" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 
 </div>
 </div>
-<a id="a6e43c48a717c116284b24c8f3bf0adcf" name="a6e43c48a717c116284b24c8f3bf0adcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e43c48a717c116284b24c8f3bf0adcf">&#9670;&#160;</a></span>getOutputs()</h2>
+<a id="ae8af8f7dcbcbae3ab7dc8d33e869a8b7" name="ae8af8f7dcbcbae3ab7dc8d33e869a8b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">&#9670;&#160;</a></span>getInputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; <a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;::getOutputs </td>
+          <td class="memname">std::vector&lt; std::string &gt; ReLUNode::getInputs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the output of the node. </p>
-<dl class="section return"><dt>Returns</dt><dd>The output data. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a3bdab94a8251368e536260e433bb2628">Node</a>.</p>
-
-</div>
-</div>
-<a id="a17c8a0493ed1122748adfc292de75bf4" name="a17c8a0493ed1122748adfc292de75bf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17c8a0493ed1122748adfc292de75bf4">&#9670;&#160;</a></span>setInputs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classReLUNode.html">ReLUNode</a>&lt; T &gt;::setInputs </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -332,20 +252,46 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the input(s) for the node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inputs</td><td>The input data to be set, where X is inputs[0]. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Get inputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the inputs to the node. </dd></dl>
 
-<p>Implements <a class="el" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">Node</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/runner/work/modularml/modularml/src/include/<a class="el" href="ReLU__node_8hpp_source.html">ReLU_node.hpp</a></li>
+<a id="ac34beab53ab8a6dca5c0a723a2dab505" name="ac34beab53ab8a6dca5c0a723a2dab505"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac34beab53ab8a6dca5c0a723a2dab505">&#9670;&#160;</a></span>getOutputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; ReLUNode::getOutputs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get outputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the outputs to the node. </dd></dl>
+
+<p>Implements <a class="el" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">Node</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/runner/work/modularml/modularml/src/include/nodes/<a class="el" href="relu_8hpp_source.html">relu.hpp</a></li>
+<li>/home/runner/work/modularml/modularml/src/nodes/<b>relu.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

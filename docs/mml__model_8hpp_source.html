@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: /home/runner/work/modularml/modularml/src/include/mml_model.hpp Source File</title>
+<title>ModularML: /home/runner/work/modularml/modularml/src/include/backend/mml_model.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="dir_9368f0fcf1151dd65455dedceecfb3a4.html">backend</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -84,40 +84,47 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;a_model.hpp&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;a_node.hpp&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classModel__mml.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classModel__mml.html">Model_mml</a>: <span class="keyword">public</span> <a class="code hl_class" href="classModel.html">Model</a> {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">   22</a></span>    <a class="code hl_function" href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">Model_mml</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classModel__mml.html#a9673f0900fde912848aef47833894b09">   29</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classModel__mml.html#a9673f0900fde912848aef47833894b09">Model_mml</a>(vector&lt;unique_ptr&lt;Node&gt;&gt;&amp;&amp; initialNodes)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        : nodes(move(initialNodes)) {}</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;backend/a_model.hpp&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classModel__mml.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classModel__mml.html">Model_mml</a>: <span class="keyword">public</span> <a class="code hl_class" href="classModel.html">Model</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">   20</a></span>    <a class="code hl_function" href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">Model_mml</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classModel__mml.html#a5c5906723abc89e44ea0b077b9a41168">   27</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classModel__mml.html#a5c5906723abc89e44ea0b077b9a41168">Model_mml</a>(vector&lt;shared_ptr&lt;Node&gt;&gt; initialNodes, std::unordered_map&lt;string, GeneralDataTypes&gt; iomap, std::vector&lt;std::string&gt; inputs, std::vector&lt;std::string&gt; outputs)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        : nodes(move(initialNodes)), iomap(move(iomap)), inputs(move(inputs)), outputs(move(outputs)) {}</div>
 </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classModel__mml.html#ace0e24a6437ed56d1f0aef306a7fafb8">   37</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classModel__mml.html#ace0e24a6437ed56d1f0aef306a7fafb8">addNode</a>(unique_ptr&lt;Node&gt; node) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        nodes.push_back(move(node));</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classModel__mml.html#a558daf7814cb5862baed182bbadba339">   35</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classModel__mml.html#a558daf7814cb5862baed182bbadba339">addNode</a>(shared_ptr&lt;Node&gt; node) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        nodes.push_back(move(node));</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
 </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a> <a class="code hl_function" href="classModel__mml.html#a90fc7f57d067e0bfa46896221a142341">infer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a>&amp; inputs) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">// Nodes in the graph</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    vector&lt;unique_ptr&lt;Node&gt;&gt; nodes;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::unordered_map&lt;string, GeneralDataTypes&gt; <a class="code hl_function" href="classModel__mml.html#ad09dbcac28794c9979fb7975830cf08a">infer</a>(<span class="keyword">const</span> std::unordered_map&lt;string, GeneralDataTypes&gt;&amp; inputs) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// Nodes in the graph</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    vector&lt;shared_ptr&lt;Node&gt;&gt; nodes;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">// Map of inputs and outputs</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::unordered_map&lt;string, GeneralDataTypes&gt; iomap;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// Inputs and outputs</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::vector&lt;std::string&gt; inputs;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::vector&lt;std::string&gt; outputs;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// Helper function to do topological sort</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    vector&lt;vector&lt;shared_ptr&lt;Node&gt;&gt;&gt; topologicalSort();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
 </div>
-<div class="ttc" id="aclassModel__mml_html"><div class="ttname"><a href="classModel__mml.html">Model_mml</a></div><div class="ttdoc">A class representing a modular machine learning model.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:15</div></div>
-<div class="ttc" id="aclassModel__mml_html_a90fc7f57d067e0bfa46896221a142341"><div class="ttname"><a href="classModel__mml.html#a90fc7f57d067e0bfa46896221a142341">Model_mml::infer</a></div><div class="ttdeci">array_mml&lt; GeneralDataTypes &gt; infer(const array_mml&lt; GeneralDataTypes &gt; &amp;inputs) override</div><div class="ttdoc">Runs inference on the graph.</div><div class="ttdef"><b>Definition</b> mml_model.cpp:3</div></div>
-<div class="ttc" id="aclassModel__mml_html_a9673f0900fde912848aef47833894b09"><div class="ttname"><a href="classModel__mml.html#a9673f0900fde912848aef47833894b09">Model_mml::Model_mml</a></div><div class="ttdeci">Model_mml(vector&lt; unique_ptr&lt; Node &gt; &gt; &amp;&amp;initialNodes)</div><div class="ttdoc">Constructor for Model_mml with initial nodes.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:29</div></div>
+<div class="ttc" id="aclassModel__mml_html"><div class="ttname"><a href="classModel__mml.html">Model_mml</a></div><div class="ttdoc">A class representing a modular machine learning model.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:13</div></div>
+<div class="ttc" id="aclassModel__mml_html_a558daf7814cb5862baed182bbadba339"><div class="ttname"><a href="classModel__mml.html#a558daf7814cb5862baed182bbadba339">Model_mml::addNode</a></div><div class="ttdeci">void addNode(shared_ptr&lt; Node &gt; node)</div><div class="ttdoc">Adds a node to the model graph.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:35</div></div>
+<div class="ttc" id="aclassModel__mml_html_a5c5906723abc89e44ea0b077b9a41168"><div class="ttname"><a href="classModel__mml.html#a5c5906723abc89e44ea0b077b9a41168">Model_mml::Model_mml</a></div><div class="ttdeci">Model_mml(vector&lt; shared_ptr&lt; Node &gt; &gt; initialNodes, std::unordered_map&lt; string, GeneralDataTypes &gt; iomap, std::vector&lt; std::string &gt; inputs, std::vector&lt; std::string &gt; outputs)</div><div class="ttdoc">Constructor for Model_mml with initial nodes.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:27</div></div>
 <div class="ttc" id="aclassModel__mml_html_aab13ce4bb2666865c8964036b3a8a561"><div class="ttname"><a href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">Model_mml::Model_mml</a></div><div class="ttdeci">Model_mml()=default</div><div class="ttdoc">Default constructor for Model_mml.</div></div>
-<div class="ttc" id="aclassModel__mml_html_ace0e24a6437ed56d1f0aef306a7fafb8"><div class="ttname"><a href="classModel__mml.html#ace0e24a6437ed56d1f0aef306a7fafb8">Model_mml::addNode</a></div><div class="ttdeci">void addNode(unique_ptr&lt; Node &gt; node)</div><div class="ttdoc">Adds a node to the model graph.</div><div class="ttdef"><b>Definition</b> mml_model.hpp:37</div></div>
+<div class="ttc" id="aclassModel__mml_html_ad09dbcac28794c9979fb7975830cf08a"><div class="ttname"><a href="classModel__mml.html#ad09dbcac28794c9979fb7975830cf08a">Model_mml::infer</a></div><div class="ttdeci">std::unordered_map&lt; string, GeneralDataTypes &gt; infer(const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;inputs) override</div><div class="ttdoc">Runs inference on the graph.</div><div class="ttdef"><b>Definition</b> mml_model.cpp:5</div></div>
 <div class="ttc" id="aclassModel_html"><div class="ttname"><a href="classModel.html">Model</a></div><div class="ttdoc">Abstract base class for machine learning models.</div><div class="ttdef"><b>Definition</b> a_model.hpp:13</div></div>
-<div class="ttc" id="aclassarray__mml_html"><div class="ttname"><a href="classarray__mml.html">array_mml</a></div><div class="ttdoc">Array class mimicking the std::array class but without the size being a template parameter.</div><div class="ttdef"><b>Definition</b> array_mml.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

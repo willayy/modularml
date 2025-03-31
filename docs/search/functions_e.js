@@ -1,12 +1,7 @@
 var searchData=
 [
-  ['_7earithmeticmodule_0',['~ArithmeticModule',['../classArithmeticModule.html#ab82c70e0a3dae495898177a939cb8dc6',1,'ArithmeticModule']]],
-  ['_7edataparser_1',['~DataParser',['../classDataParser.html#ab217652610afa07a9c98431b1531185b',1,'DataParser']]],
-  ['_7egemm_5fmml_2',['~Gemm_mml',['../classGemm__mml.html#aa143f1a46453c930d752db232f0104f8',1,'Gemm_mml']]],
-  ['_7egemmmodule_3',['~GemmModule',['../classGemmModule.html#a1b3fa5eebe2a99813969a2a5884048b4',1,'GemmModule']]],
-  ['_7emodel_4',['~Model',['../classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6',1,'Model']]],
-  ['_7enode_5',['~Node',['../classNode.html#abce703f211f6a577085b4b8ad68cbb19',1,'Node']]],
-  ['_7eonnxgemmmodule_6',['~OnnxGemmModule',['../classOnnxGemmModule.html#ae4e6d9342ac2cf444bd57aab42802e37',1,'OnnxGemmModule']]],
-  ['_7etensor_7',['~Tensor',['../classTensor.html#a5aec5b2d6582dc2eb3619158bc61f94c',1,'Tensor']]],
-  ['_7etensor_5fmml_8',['~Tensor_mml',['../classTensor__mml.html#af30c56cd9a295069ca5cc341b568797a',1,'Tensor_mml']]]
+  ['tanhnode_0',['tanhnode',['../classTanHNode.html#acd2f2089f6b43c7beeb0dbafdf62b99e',1,'TanHNode::TanHNode(std::string X, std::string Y)'],['../classTanHNode.html#a9e4812826491fe3a32d9c62355e572a2',1,'TanHNode::TanHNode(const json &amp;node)']]],
+  ['tensor_1',['tensor',['../classTensor.html#a116b0abb7c1ba0fbb396056844ef0910',1,'Tensor::Tensor()=default'],['../classTensor.html#a4a842b7b4c22cae5ae97cd28c722cf1b',1,'Tensor::Tensor(const Tensor &amp;other)=default'],['../classTensor.html#a0083cdcbbbffd72c61c83384e777ef65',1,'Tensor::Tensor(Tensor &amp;&amp;other) noexcept=default']]],
+  ['tensor_5fmml_2',['tensor_mml',['../classTensor__mml.html#a448bd0627ba73fbd220475e3a340565d',1,'Tensor_mml::Tensor_mml(const initializer_list&lt; uli &gt; shape, optional&lt; array_mml&lt; uli &gt; &gt; slice_offsets=nullopt)'],['../classTensor__mml.html#ad3d218bbbca9308a9c92e002c2f66937',1,'Tensor_mml::Tensor_mml(const initializer_list&lt; uli &gt; shape, const initializer_list&lt; T &gt; data, optional&lt; array_mml&lt; uli &gt; &gt; slice_offsets=nullopt)'],['../classTensor__mml.html#a233e5285df3b16f5e208b70d1f12c84c',1,'Tensor_mml::Tensor_mml(const array_mml&lt; uli &gt; &amp;shape, optional&lt; array_mml&lt; uli &gt; &gt; slice_offsets=nullopt)'],['../classTensor__mml.html#a0e43a8b36d93a57be175ddb777dacffe',1,'Tensor_mml::Tensor_mml(const array_mml&lt; uli &gt; &amp;shape, const array_mml&lt; T &gt; &amp;data, optional&lt; array_mml&lt; uli &gt; &gt; slice_offsets=nullopt)'],['../classTensor__mml.html#a5743abffcf84e95ec38deb7bf72d4c18',1,'Tensor_mml::Tensor_mml(Tensor_mml &amp;&amp;other) noexcept'],['../classTensor__mml.html#a2d27132e06ce9de1407d669dc6e11e7b',1,'Tensor_mml::Tensor_mml(const Tensor_mml &amp;other)']]],
+  ['to_5fstring_3',['to_string',['../classTensor.html#a9f44984735679e35288a176b231db1cb',1,'Tensor::to_string()'],['../classarray__mml.html#a2fff79971cc1dd75afa30f880ae675e6',1,'array_mml::to_string()'],['../classTensor__mml.html#a6f945e94df01d21830a73eb2a00a9883',1,'Tensor_mml::to_string()']]]
 ];

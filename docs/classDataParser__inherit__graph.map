@@ -1,0 +1,5 @@
+<map id="DataParser" name="DataParser">
+<area shape="rect" id="Node000001" title="Abstract class for parsing JSON data of a model into a Model Object." alt="" coords="8,5,101,31"/>
+<area shape="rect" id="Node000002" href="$classParser__mml.html" title="A class for parsing JSON data of a model into a Model_mml object." alt="" coords="5,79,104,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,44,57,79,52,79,52,44"/>
+</map>

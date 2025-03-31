@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: /home/runner/work/modularml/modularml/src/include/a_node.hpp Source File</title>
+<title>ModularML: /home/runner/work/modularml/modularml/src/include/nodes/a_node.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="dir_9a1e10bbb3be72b22504931c64ca1114.html">nodes</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -84,48 +84,76 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;a_tensor.hpp&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;globals.hpp&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don&#39;t know.</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using </span>GeneralDataTypes = variant&lt;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    std::shared_ptr&lt;Tensor&lt;bool&gt;&gt;,</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    std::shared_ptr&lt;Tensor&lt;double&gt;&gt;,</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    std::shared_ptr&lt;Tensor&lt;float&gt;&gt;,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    std::shared_ptr&lt;Tensor&lt;int16_t&gt;&gt;,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    std::shared_ptr&lt;Tensor&lt;int32_t&gt;&gt;,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    std::shared_ptr&lt;Tensor&lt;int64_t&gt;&gt;,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    std::shared_ptr&lt;Tensor&lt;int8_t&gt;&gt;,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    std::shared_ptr&lt;Tensor&lt;uint16_t&gt;&gt;,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    std::shared_ptr&lt;Tensor&lt;uint32_t&gt;&gt;,</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::shared_ptr&lt;Tensor&lt;uint64_t&gt;&gt;,</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    std::shared_ptr&lt;Tensor&lt;uint8_t&gt;&gt;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>&gt;;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classNode.html">   29</a></span><span class="keyword">class </span><a class="code hl_class" href="classNode.html">Node</a> {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">   38</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">forward</a>() = 0;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">   48</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">areInputsFilled</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">   58</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">setInputs</a>(<span class="keyword">const</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a>&amp; inputs) = 0; <span class="comment">// This function could have better type safety somehow maybe.</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">   68</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">areOutputsFilled</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classNode.html#a3bdab94a8251368e536260e433bb2628">   78</a></span>    <span class="keyword">virtual</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;GeneralDataTypes&gt;</a> <a class="code hl_function" href="classNode.html#a3bdab94a8251368e536260e433bb2628">getOutputs</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">   85</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>};</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;datastructures/a_tensor.hpp&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;datastructures/mml_tensor.hpp&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;backend/mml_gemm.hpp&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;backend/mml_arithmetic.hpp&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;globals.hpp&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Variant&gt;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="structis__in__variant.html">   11</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__in__variant.html">is_in_variant</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// Specialization for std::variant types using a fold expression</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Ts&gt;</div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structis__in__variant_3_01T_00_01std_1_1variant_3_01Ts_8_8_8_01_4_01_4.html">   15</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structis__in__variant.html">is_in_variant</a>&lt;T, std::variant&lt;Ts...&gt;&gt;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    : std::bool_constant&lt;(std::is_same_v&lt;T, Ts&gt; || ...)&gt; {};</div>
 </div>
-<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:29</div></div>
-<div class="ttc" id="aclassNode_html_a24e86cad9799a2157d1dd8b264537ef3"><div class="ttname"><a href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">Node::forward</a></div><div class="ttdeci">virtual void forward()=0</div><div class="ttdoc">Perform the forward pass computation.</div></div>
-<div class="ttc" id="aclassNode_html_a268f6ee57cb391b9ebe6b08a2d691429"><div class="ttname"><a href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">Node::areOutputsFilled</a></div><div class="ttdeci">virtual bool areOutputsFilled() const =0</div><div class="ttdoc">Check if the output(s) are filled.</div></div>
-<div class="ttc" id="aclassNode_html_a3bdab94a8251368e536260e433bb2628"><div class="ttname"><a href="classNode.html#a3bdab94a8251368e536260e433bb2628">Node::getOutputs</a></div><div class="ttdeci">virtual array_mml&lt; GeneralDataTypes &gt; getOutputs() const =0</div><div class="ttdoc">Get the output of the node.</div></div>
-<div class="ttc" id="aclassNode_html_a785a6ce30e86fcdfe40897c78e31842b"><div class="ttname"><a href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">Node::setInputs</a></div><div class="ttdeci">virtual void setInputs(const array_mml&lt; GeneralDataTypes &gt; &amp;inputs)=0</div><div class="ttdoc">Set the input(s) for the node.</div></div>
-<div class="ttc" id="aclassNode_html_a7b7feb041f1dbd99219f058e61744374"><div class="ttname"><a href="classNode.html#a7b7feb041f1dbd99219f058e61744374">Node::areInputsFilled</a></div><div class="ttdeci">virtual bool areInputsFilled() const =0</div><div class="ttdoc">Check if the input(s) are filled.</div></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// Helper variable template for convenience</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> Variant&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">constexpr</span> <span class="keywordtype">bool</span> is_in_variant_v = <a class="code hl_struct" href="structis__in__variant.html">is_in_variant&lt;T, Variant&gt;::value</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Variant&gt;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structTensorVariantMaker.html">   23</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structTensorVariantMaker.html">TensorVariantMaker</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">// Specialization for std::variant types:</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Ts&gt;</div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structTensorVariantMaker_3_01std_1_1variant_3_01Ts_8_8_8_01_4_01_4.html">   27</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structTensorVariantMaker.html">TensorVariantMaker</a>&lt;std::variant&lt;Ts...&gt;&gt; {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">using </span>type = std::variant&lt;std::shared_ptr&lt;Tensor&lt;Ts&gt;&gt;...&gt;;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">// Helper type alias for convenience</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Variant&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">using </span>TensorVariant = <span class="keyword">typename</span> <a class="code hl_struct" href="structTensorVariantMaker.html">TensorVariantMaker&lt;Variant&gt;::type</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">// Type constraints: no bfloat16 or float16 for now (not native to c++ 17). Also maybe exists more don&#39;t know.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">using </span>GeneralDataTypes = variant&lt;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    std::shared_ptr&lt;Tensor&lt;bool&gt;&gt;,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    std::shared_ptr&lt;Tensor&lt;double&gt;&gt;,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    std::shared_ptr&lt;Tensor&lt;float&gt;&gt;,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    std::shared_ptr&lt;Tensor&lt;int16_t&gt;&gt;,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    std::shared_ptr&lt;Tensor&lt;int32_t&gt;&gt;,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    std::shared_ptr&lt;Tensor&lt;int64_t&gt;&gt;,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    std::shared_ptr&lt;Tensor&lt;int8_t&gt;&gt;,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::shared_ptr&lt;Tensor&lt;uint16_t&gt;&gt;,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    std::shared_ptr&lt;Tensor&lt;uint32_t&gt;&gt;,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    std::shared_ptr&lt;Tensor&lt;uint64_t&gt;&gt;, <span class="comment">// Think this is meant to be unsigned long long or uint64_t not unsigned long int</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::shared_ptr&lt;Tensor&lt;uint8_t&gt;&gt;&gt;;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00058" data-start="{" data-end="};">
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classNode.html">   58</a></span><span class="keyword">class </span><a class="code hl_class" href="classNode.html">Node</a> {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">   67</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt;&amp; iomap) = 0;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">   75</a></span>    <span class="keyword">virtual</span> std::vector&lt;std::string&gt; <a class="code hl_function" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">getInputs</a>() = 0;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">   83</a></span>    <span class="keyword">virtual</span> std::vector&lt;std::string&gt; <a class="code hl_function" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">getOutputs</a>() = 0;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">   90</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>};</div>
+</div>
+<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:58</div></div>
+<div class="ttc" id="aclassNode_html_a2bddc439cc3877b4caa7b7c6485f2cfe"><div class="ttname"><a href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node::forward</a></div><div class="ttdeci">virtual void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap)=0</div><div class="ttdoc">Perform the forward pass computation.</div></div>
+<div class="ttc" id="aclassNode_html_a45dcfb4f3bf9bd0199c8465464de75c6"><div class="ttname"><a href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">Node::getOutputs</a></div><div class="ttdeci">virtual std::vector&lt; std::string &gt; getOutputs()=0</div><div class="ttdoc">Get outputs.</div></div>
+<div class="ttc" id="aclassNode_html_a8cb6c79059a25bc6ce17b3b269c18f46"><div class="ttname"><a href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">Node::getInputs</a></div><div class="ttdeci">virtual std::vector&lt; std::string &gt; getInputs()=0</div><div class="ttdoc">Get inputs.</div></div>
 <div class="ttc" id="aclassNode_html_abce703f211f6a577085b4b8ad68cbb19"><div class="ttname"><a href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">Node::~Node</a></div><div class="ttdeci">virtual ~Node()=default</div><div class="ttdoc">Virtual destructor for the Node class.</div></div>
-<div class="ttc" id="aclassarray__mml_html"><div class="ttname"><a href="classarray__mml.html">array_mml</a></div><div class="ttdoc">Array class mimicking the std::array class but without the size being a template parameter.</div><div class="ttdef"><b>Definition</b> array_mml.hpp:8</div></div>
+<div class="ttc" id="astructTensorVariantMaker_html"><div class="ttname"><a href="structTensorVariantMaker.html">TensorVariantMaker</a></div><div class="ttdef"><b>Definition</b> a_node.hpp:23</div></div>
+<div class="ttc" id="astructis__in__variant_html"><div class="ttname"><a href="structis__in__variant.html">is_in_variant</a></div><div class="ttdef"><b>Definition</b> a_node.hpp:11</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: ConvNode&lt; T &gt; Class Template Reference</title>
+<title>ModularML: ConvNode Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,132 +74,129 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classConvNode-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">ConvNode&lt; T &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">ConvNode Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>A class representing a Convolutional node in a computational graph.  
  <a href="classConvNode.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="conv__node_8hpp_source.html">conv_node.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="conv_8hpp_source.html">conv.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for ConvNode&lt; T &gt;:</div>
+Inheritance diagram for ConvNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classConvNode__inherit__graph.png" border="0" usemap="#aConvNode_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="aConvNode_3_01T_01_4_inherit__map" id="aConvNode_3_01T_01_4_inherit__map">
-<area shape="rect" title="A class representing a Convolutional node in a computational graph." alt="" coords="5,79,132,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="41,5,97,31"/>
-<area shape="poly" title=" " alt="" coords="71,44,71,79,66,79,66,44"/>
+<div class="center"><img src="classConvNode__inherit__graph.png" border="0" usemap="#aConvNode_inherit__map" alt="Inheritance graph"/></div>
+<map name="aConvNode_inherit__map" id="aConvNode_inherit__map">
+<area shape="rect" title="A class representing a Convolutional node in a computational graph." alt="" coords="5,79,95,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="22,5,78,31"/>
+<area shape="poly" title=" " alt="" coords="53,44,53,79,47,79,47,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for ConvNode&lt; T &gt;:</div>
+Collaboration diagram for ConvNode:</div>
 <div class="dyncontent">
-<div class="center"><img src="classConvNode__coll__graph.png" border="0" usemap="#aConvNode_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="aConvNode_3_01T_01_4_coll__map" id="aConvNode_3_01T_01_4_coll__map">
-<area shape="rect" title="A class representing a Convolutional node in a computational graph." alt="" coords="5,79,132,104"/>
-<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="41,5,97,31"/>
-<area shape="poly" title=" " alt="" coords="71,44,71,79,66,79,66,44"/>
+<div class="center"><img src="classConvNode__coll__graph.png" border="0" usemap="#aConvNode_coll__map" alt="Collaboration graph"/></div>
+<map name="aConvNode_coll__map" id="aConvNode_coll__map">
+<area shape="rect" title="A class representing a Convolutional node in a computational graph." alt="" coords="5,79,95,104"/>
+<area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="22,5,78,31"/>
+<area shape="poly" title=" " alt="" coords="53,44,53,79,47,79,47,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a1b13fd5061b85e41ba67e0fdfa53f235" id="r_a1b13fd5061b85e41ba67e0fdfa53f235"><td class="memItemLeft" align="right" valign="top"><a id="a1b13fd5061b85e41ba67e0fdfa53f235" name="a1b13fd5061b85e41ba67e0fdfa53f235"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractTensor</b> = <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;</td></tr>
-<tr class="separator:a1b13fd5061b85e41ba67e0fdfa53f235"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07dceca6a90b4174c2c420f00a669bea" id="r_a07dceca6a90b4174c2c420f00a669bea"><td class="memItemLeft" align="right" valign="top"><a id="a07dceca6a90b4174c2c420f00a669bea" name="a07dceca6a90b4174c2c420f00a669bea"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant&lt; double, float &gt;</td></tr>
+<tr class="separator:a07dceca6a90b4174c2c420f00a669bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ba16fe3a7b512b4594cfcf43b97c832" id="r_a3ba16fe3a7b512b4594cfcf43b97c832"><td class="memItemLeft" align="right" valign="top"><a id="a3ba16fe3a7b512b4594cfcf43b97c832" name="a3ba16fe3a7b512b4594cfcf43b97c832"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TensorT</b> = TensorVariant&lt; T &gt;</td></tr>
+<tr class="separator:a3ba16fe3a7b512b4594cfcf43b97c832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2b6aaef1e8de769afcffd4a1a891448a" id="r_a2b6aaef1e8de769afcffd4a1a891448a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a2b6aaef1e8de769afcffd4a1a891448a">ConvNode</a> (shared_ptr&lt; AbstractTensor &gt; X, shared_ptr&lt; AbstractTensor &gt; W, shared_ptr&lt; AbstractTensor &gt; Y, <a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt; dilations, <a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt; padding, <a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt; kernel_shape, <a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt; stride, optional&lt; shared_ptr&lt; AbstractTensor &gt; &gt; B=std::nullopt, int group=1)</td></tr>
-<tr class="memdesc:a2b6aaef1e8de769afcffd4a1a891448a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a>.  <br /></td></tr>
-<tr class="separator:a2b6aaef1e8de769afcffd4a1a891448a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f96550ecec970dc406ff253f274657d" id="r_a6f96550ecec970dc406ff253f274657d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a6f96550ecec970dc406ff253f274657d">forward</a> () override</td></tr>
-<tr class="memdesc:a6f96550ecec970dc406ff253f274657d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the forward pass convolution operation.  <br /></td></tr>
-<tr class="separator:a6f96550ecec970dc406ff253f274657d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a485148cf4bc1f2036d138205a18ba4ae" id="r_a485148cf4bc1f2036d138205a18ba4ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a485148cf4bc1f2036d138205a18ba4ae">areInputsFilled</a> () const override</td></tr>
-<tr class="memdesc:a485148cf4bc1f2036d138205a18ba4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the input(s) are filled.  <br /></td></tr>
-<tr class="separator:a485148cf4bc1f2036d138205a18ba4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a205bec16482dd0a3140711e94842bd6d" id="r_a205bec16482dd0a3140711e94842bd6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a205bec16482dd0a3140711e94842bd6d">setInputs</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;inputs) override</td></tr>
-<tr class="memdesc:a205bec16482dd0a3140711e94842bd6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the input(s) for the node.  <br /></td></tr>
-<tr class="separator:a205bec16482dd0a3140711e94842bd6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2695a40b2d9ceffcfc27fc26032b0de" id="r_aa2695a40b2d9ceffcfc27fc26032b0de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#aa2695a40b2d9ceffcfc27fc26032b0de">areOutputsFilled</a> () const override</td></tr>
-<tr class="memdesc:aa2695a40b2d9ceffcfc27fc26032b0de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the output(s) are filled.  <br /></td></tr>
-<tr class="separator:aa2695a40b2d9ceffcfc27fc26032b0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15703ffcdf1b824790bf3eacc287095a" id="r_a15703ffcdf1b824790bf3eacc287095a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a15703ffcdf1b824790bf3eacc287095a">getOutputs</a> () const override</td></tr>
-<tr class="memdesc:a15703ffcdf1b824790bf3eacc287095a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the output of the node.  <br /></td></tr>
-<tr class="separator:a15703ffcdf1b824790bf3eacc287095a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac82719a3a08d244c04265ee4d863ced9" id="r_ac82719a3a08d244c04265ee4d863ced9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#ac82719a3a08d244c04265ee4d863ced9">ConvNode</a> (std::string X, std::string W, std::string Y, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; dilations, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; padding, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; kernel_shape, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; stride, optional&lt; std::string &gt; B=std::nullopt, uli group=1)</td></tr>
+<tr class="memdesc:ac82719a3a08d244c04265ee4d863ced9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a>.  <br /></td></tr>
+<tr class="separator:ac82719a3a08d244c04265ee4d863ced9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad813402f031fddba42a8f5b01e5ee27f" id="r_ad813402f031fddba42a8f5b01e5ee27f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#ad813402f031fddba42a8f5b01e5ee27f">ConvNode</a> (const json &amp;node)</td></tr>
+<tr class="memdesc:ad813402f031fddba42a8f5b01e5ee27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:ad813402f031fddba42a8f5b01e5ee27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5e91966bd89a064c3f3e8784345a03" id="r_a3c5e91966bd89a064c3f3e8784345a03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a3c5e91966bd89a064c3f3e8784345a03">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
+<tr class="memdesc:a3c5e91966bd89a064c3f3e8784345a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the forward pass convolution operation.  <br /></td></tr>
+<tr class="separator:a3c5e91966bd89a064c3f3e8784345a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7359b13307360a9829329074ed0d19f9" id="r_a7359b13307360a9829329074ed0d19f9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a7359b13307360a9829329074ed0d19f9">getInputs</a> () override</td></tr>
+<tr class="memdesc:a7359b13307360a9829329074ed0d19f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
+<tr class="separator:a7359b13307360a9829329074ed0d19f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358571537cc6539e9c661db13d9ca251" id="r_a358571537cc6539e9c661db13d9ca251"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a358571537cc6539e9c661db13d9ca251">getOutputs</a> () override</td></tr>
+<tr class="memdesc:a358571537cc6539e9c661db13d9ca251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get outputs.  <br /></td></tr>
+<tr class="separator:a358571537cc6539e9c661db13d9ca251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classNode.html">Node</a></td></tr>
 <tr class="memitem:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode" id="r_abce703f211f6a577085b4b8ad68cbb19"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNode.html#abce703f211f6a577085b4b8ad68cbb19">~Node</a> ()=default</td></tr>
 <tr class="memdesc:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class.  <br /></td></tr>
 <tr class="separator:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class ConvNode&lt; T &gt;</div><p>A class representing a Convolutional node in a computational graph. </p>
+<div class="textblock"><p>A class representing a Convolutional node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents a Conv node in a computational graph.</p>
 <dl class="section author"><dt>Author</dt><dd>Tim Carlsson (<a href="#" onclick="location.href='mai'+'lto:'+'tim'+'ca'+'@ch'+'al'+'mer'+'s.'+'se'; return false;">timca<span class="obfuscator">.nosp@m.</span>@cha<span class="obfuscator">.nosp@m.</span>lmers<span class="obfuscator">.nosp@m.</span>.se</a>) </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2b6aaef1e8de769afcffd4a1a891448a" name="a2b6aaef1e8de769afcffd4a1a891448a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b6aaef1e8de769afcffd4a1a891448a">&#9670;&#160;</a></span>ConvNode()</h2>
+<a id="ac82719a3a08d244c04265ee4d863ced9" name="ac82719a3a08d244c04265ee4d863ced9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac82719a3a08d244c04265ee4d863ced9">&#9670;&#160;</a></span>ConvNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;<a class="el" href="classConvNode.html">::ConvNode</a> </td>
+          <td class="memname">ConvNode::ConvNode </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>X</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>W</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; AbstractTensor &gt;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>Y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
           <td class="paramname"><em>dilations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
           <td class="paramname"><em>padding</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
           <td class="paramname"><em>kernel_shape</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; int &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
           <td class="paramname"><em>stride</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; AbstractTensor &gt; &gt;&#160;</td>
+          <td class="paramtype">optional&lt; std::string &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>std::nullopt</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">uli&#160;</td>
           <td class="paramname"><em>group</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
@@ -228,86 +225,47 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ad813402f031fddba42a8f5b01e5ee27f" name="ad813402f031fddba42a8f5b01e5ee27f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad813402f031fddba42a8f5b01e5ee27f">&#9670;&#160;</a></span>ConvNode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ConvNode::ConvNode </td>
+          <td>(</td>
+          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a> from JSON. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>JSON object representing the Conv node. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a485148cf4bc1f2036d138205a18ba4ae" name="a485148cf4bc1f2036d138205a18ba4ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a485148cf4bc1f2036d138205a18ba4ae">&#9670;&#160;</a></span>areInputsFilled()</h2>
+<a id="a3c5e91966bd89a064c3f3e8784345a03" name="a3c5e91966bd89a064c3f3e8784345a03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c5e91966bd89a064c3f3e8784345a03">&#9670;&#160;</a></span>forward()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;::areInputsFilled </td>
+          <td class="memname">void ConvNode::forward </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the input(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the input(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a7b7feb041f1dbd99219f058e61744374">Node</a>.</p>
-
-</div>
-</div>
-<a id="aa2695a40b2d9ceffcfc27fc26032b0de" name="aa2695a40b2d9ceffcfc27fc26032b0de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2695a40b2d9ceffcfc27fc26032b0de">&#9670;&#160;</a></span>areOutputsFilled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;::areOutputsFilled </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the output(s) are filled. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the output(s) are filled, false otherwise. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a268f6ee57cb391b9ebe6b08a2d691429">Node</a>.</p>
-
-</div>
-</div>
-<a id="a6f96550ecec970dc406ff253f274657d" name="a6f96550ecec970dc406ff253f274657d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f96550ecec970dc406ff253f274657d">&#9670;&#160;</a></span>forward()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;::forward </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramname"><em>iomap</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -328,58 +286,23 @@ template&lt;typename T &gt; </div>
 <li><b>Store Result in Output <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a></b>: The final result of the convolution operation, after the optional bias addition, is stored in the output tensor <code>Y</code>, which represents the convolved feature maps. </li>
 </ol>
 
-<p>Implements <a class="el" href="classNode.html#a24e86cad9799a2157d1dd8b264537ef3">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 
 </div>
 </div>
-<a id="a15703ffcdf1b824790bf3eacc287095a" name="a15703ffcdf1b824790bf3eacc287095a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15703ffcdf1b824790bf3eacc287095a">&#9670;&#160;</a></span>getOutputs()</h2>
+<a id="a7359b13307360a9829329074ed0d19f9" name="a7359b13307360a9829329074ed0d19f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7359b13307360a9829329074ed0d19f9">&#9670;&#160;</a></span>getInputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; <a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;::getOutputs </td>
+          <td class="memname">std::vector&lt; std::string &gt; ConvNode::getInputs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the output of the node. </p>
-<dl class="section return"><dt>Returns</dt><dd>The output data. </dd></dl>
-
-<p>Implements <a class="el" href="classNode.html#a3bdab94a8251368e536260e433bb2628">Node</a>.</p>
-
-</div>
-</div>
-<a id="a205bec16482dd0a3140711e94842bd6d" name="a205bec16482dd0a3140711e94842bd6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a205bec16482dd0a3140711e94842bd6d">&#9670;&#160;</a></span>setInputs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classConvNode.html">ConvNode</a>&lt; T &gt;::setInputs </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; GeneralDataTypes &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -390,20 +313,46 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the input(s) for the node. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inputs</td><td>The input data to be set. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Get inputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the inputs to the node. </dd></dl>
 
-<p>Implements <a class="el" href="classNode.html#a785a6ce30e86fcdfe40897c78e31842b">Node</a>.</p>
+<p>Implements <a class="el" href="classNode.html#a8cb6c79059a25bc6ce17b3b269c18f46">Node</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/runner/work/modularml/modularml/src/include/<a class="el" href="conv__node_8hpp_source.html">conv_node.hpp</a></li>
+<a id="a358571537cc6539e9c661db13d9ca251" name="a358571537cc6539e9c661db13d9ca251"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a358571537cc6539e9c661db13d9ca251">&#9670;&#160;</a></span>getOutputs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; ConvNode::getOutputs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get outputs. </p>
+<dl class="section return"><dt>Returns</dt><dd>The names of the outputs to the node. </dd></dl>
+
+<p>Implements <a class="el" href="classNode.html#a45dcfb4f3bf9bd0199c8465464de75c6">Node</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/runner/work/modularml/modularml/src/include/nodes/<a class="el" href="conv_8hpp_source.html">conv.hpp</a></li>
+<li>/home/runner/work/modularml/modularml/src/nodes/<b>conv.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
