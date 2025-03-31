@@ -2,6 +2,7 @@
 # The header file can be put in the test directory of the library to test the model
 # against Pytorch's implementation.
 
+# Requires PyTorch and ONNX to be installed. ONNX viewer (VS Code extension) is recommended to visualize the model.
 
 import torch
 import torch.nn as nn
@@ -113,3 +114,35 @@ with open(header_file, "a") as f:
 # Log
 print("Header file 'test_LeNet.hpp' generated with all node outputs.")
 print("Predicted class:", predicted_class)
+
+# === Export to ONNX === #
+onnx_filename = "custom_lenet.onnx"
+
+# Wrapper forward method for ONNX export (no activations dictionary)
+class ONNXLeNetWrapper(nn.Module):
+    def __init__(self, base_model):
+        super().__init__()
+        self.base_model = base_model
+
+    def forward(self, x):
+        # Just run the forward pass without recording activations
+        return self.base_model(x, activations={})
+
+# Prepare the model and dummy input
+onnx_model = ONNXLeNetWrapper(model)
+onnx_model.eval()
+
+# Export to ONNX
+torch.onnx.export(
+    onnx_model,
+    example_tensor,                        # example input
+    onnx_filename,
+    export_params=True,
+    opset_version=11,
+    do_constant_folding=True,
+    input_names=["input"],
+    output_names=["output"],
+    dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
+)
+
+print(f"Model exported to ONNX format as '{onnx_filename}'.")
