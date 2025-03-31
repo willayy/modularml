@@ -2,7 +2,7 @@
 
 ![Coverage](https://raw.githubusercontent.com/willayy/modularml/gh-pages/docs/coverage-badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
-![Build](https://github.com/willayy/modularml/actions/workflows/ci_cd.yml/badge.svg)
+![Build](https://github.com/willayy/modularml/actions/workflows/ci_cd.yaml/badge.svg)
 ![GitHub Contributors](https://img.shields.io/github/contributors/willayy/modularml)
 
 <!-- 
