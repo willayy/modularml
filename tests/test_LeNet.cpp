@@ -93,6 +93,11 @@ class LeNetModel {
     // ReLU
     ReLUNode relu1("conv1_output", "relu1_output");
     relu1.forward(iomap);
+    auto conv1_output_tensor = std::get<std::shared_ptr<Tensor<T>>>(iomap["relu1_output"]);
+    auto refrence_tensor = tensor_mml_p<double>({CONV1_OUTPUT_SHAPE}, {CONV1_OUTPUT_DATA});
+    // Compare the output tensor with the expected output tensor.
+    std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
+    tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07);
 
     // Max Pooling
     MaxPoolingNode_mml maxpool1 = MaxPoolingNode_mml("relu1_output",
