@@ -1,3 +1,6 @@
+# Generates docs and the coverage badge, and pushes it to the gh-pages branch
+
+
 name: "Generate and Upload Documentation to Wiki"
 
 on:
