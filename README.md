@@ -25,17 +25,19 @@ The framework loads already trained models using the onnx format, the onnx file 
   - CMake `>= 3.20`  
 
 ### Install Dependencies
-The rest of the dependencies can be installed as follows.
+This command installs the neccessary dependencies needed to build the framework.
 ```sh
 make install
 ```
 
 ### Configure & Build The Framework
+This command will configure and build the framework.
 ```sh
 make all
 ```
 
 ### Run Tests
+This command will run all the unit and integration tests for the framework.
 ```sh
 make test
 ```
