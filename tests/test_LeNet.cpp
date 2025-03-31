@@ -77,7 +77,10 @@ class LeNetModel {
     relu1.forward(iomap);
 
     // Max Pooling
-    MaxPoolingNode_mml maxpool1("relu1_output", {"maxpool1_output"}, {2, 2}, {2, 2}, "VALID");
+    MaxPoolingNode_mml maxpool1 = MaxPoolingNode_mml("relu1_output",
+                                                     vector<string>{"maxpool1_output", "maxpool1_indices"},
+                                                     array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), "VALID", 0UL,
+                                                     array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
     maxpool1.forward(iomap);
 
     // Convolution 2
@@ -89,7 +92,12 @@ class LeNetModel {
     relu2.forward(iomap);
 
     // Max Pooling
-    MaxPoolingNode_mml maxpool2("relu2_output", {"maxpool2_output"}, {2, 2}, {2, 2}, "VALID");
+    MaxPoolingNode_mml maxpool2 = MaxPoolingNode_mml("relu2_output",
+      vector<string>{"maxpool2_output", "maxpool2_indices"},
+      array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), "VALID", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);    
+    
+    //MaxPoolingNode_mml maxpool2("relu2_output", {"maxpool2_output"}, {2, 2}, {2, 2}, "VALID");
     maxpool2.forward(iomap);
 
     // Convolution 3
