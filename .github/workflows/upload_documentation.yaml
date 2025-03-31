@@ -11,7 +11,7 @@ on:
   workflow_dispatch:  # Allows us to trigger workflow manually
 
 jobs:
-  build-docs:
+  build-docs-coverage:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Main Branch
