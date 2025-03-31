@@ -23,13 +23,4 @@ jobs:
     - name: Run tests
       run: make test
 
-    - name: Generate coverage report
-      run: make coverage
-  
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-details 
-        path: build/coverage_report/coverage_details.html # Contains the coverage of all files
-
     
