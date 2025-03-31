@@ -4,7 +4,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 ![Build](https://github.com/willayy/modularml/actions/workflows/ci_cd.yml/badge.svg)
 ![GitHub Contributors](https://img.shields.io/github/contributors/willayy/modularml)
-![Visitors](https://visitor-badge.glitch.me/badge?page_id=willayy.modularml)
+
+<!-- 
+Doesnt work currently issue with services but will try again later
+![Visitors](https://shields.io/badge/dynamic/json?label=Visitors&query=value&url=https://api.countapi.xyz/hit/willayy.modularml)
+-->
 
 
 ModularML is a machine learning framework with the aim to let users more easily load, explore and experiment with ML models as to foster a greater understanding behind the underlying processes that make machine learning possible. 
