@@ -2,7 +2,7 @@
 
 #include <modularml>
 #include <typeinfo>
-
+// Maxpool
 TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
       {1, 1, 4, 4}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
@@ -273,7 +273,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   ASSERT_EQ(*output_ptr, *exp_output);
   ASSERT_EQ(*indices_ptr, *exp_output_indices);
 }
-
+// Average Pooling
 TEST(test_mml_pooling, test_avg_pool_valid) {
   shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
@@ -287,7 +287,7 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
 
   AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
       input_string, vector<string>{output_string}, array_mml({2UL, 2UL}),
-      array_mml({1UL, 2UL}), "VALID", 1UL, array_mml({1UL, 1UL}),
+      array_mml({1UL, 2UL}), "VALID", 0UL, array_mml({1UL, 1UL}),
       array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward(iomap);
