@@ -99,9 +99,11 @@ class Tensor_mml : public Tensor<T> {
 };
 
 template <typename T>
+[[deprecated("Use TensorFactory instead")]]
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape);
 
 template <typename T>
+[[deprecated("Use TensorFactory instead")]]
 shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape, const initializer_list<T> data);
 
 #include "../datastructures/mml_tensor.tpp"
