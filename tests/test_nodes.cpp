@@ -246,6 +246,47 @@ TEST(test_node, test_Swish_float) {
   ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
 }
 
+TEST(test_node, test_Swish_double) {
+  /**
+   * @brief Expected Tensor after the Swish function is applied to each element.
+   */
+  auto b = tensor_mml_p<double>(
+      {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 0.7311f, -0.2384f,
+               1.7616f, -0.1423f, 2.8577f, 3.9281f, 0.0f});
+  auto original_X = tensor_mml_p<double>(
+      {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f,
+               -3.0f, 3.0f, 4.0f, -std::numeric_limits<double>::infinity()});
+
+  auto X = make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+      {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f,
+               -3.0f, 3.0f, 4.0f, -std::numeric_limits<double>::infinity()}));
+  auto Y = make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 3}));
+
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  // iomap[y_string] = Y; Not mapping to test auto creation of output tensor
+
+  SwishNode swishNode(x_string, y_string);
+  swishNode.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<double>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+
+  auto input_ptr = std::get<std::shared_ptr<Tensor<double>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
+  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+}
+
 TEST(test_node, test_reshape_basic) {
   /**
    * @brief Expected Tensor after the Reshape function is applied to the data
