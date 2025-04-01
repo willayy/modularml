@@ -1,7 +1,6 @@
 
-template <typename T>
-class ArrayFactory {
- public:
+template <typename T> class ArrayFactory {
+public:
   /**
    * @brief Get the instance of the ArrayFactory.
    * @return The instance of the ArrayFactory.

@@ -127,12 +127,12 @@ static bool mml_equals(const shared_ptr<Tensor<T>> a,
                        const shared_ptr<Tensor<T>> b);
 
 template <typename T>
-static void mml_elementwise(const shared_ptr<const Tensor<T>> a, 
+static void mml_elementwise(const shared_ptr<const Tensor<T>> a,
                             const function<T(T)> &f,
                             const shared_ptr<Tensor<T>> c);
 
 template <typename T>
-static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a, 
+static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a,
                                      const function<T(T)> &f);
 
 template <typename T>

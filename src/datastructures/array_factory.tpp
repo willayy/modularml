@@ -2,7 +2,7 @@
 
 template <typename T>
 array_mml<T> ArrayFactory<T>::random_array_mml_integral(uli lo_sz, uli hi_sz,
-                                                         T lo_v, T hi_v) const {
+                                                        T lo_v, T hi_v) const {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
@@ -19,7 +19,7 @@ array_mml<T> ArrayFactory<T>::random_array_mml_integral(uli lo_sz, uli hi_sz,
 
 template <typename T>
 array_mml<T> ArrayFactory<T>::random_array_mml_real(uli lo_sz, uli hi_sz,
-                                                     T lo_v, T hi_v) const {
+                                                    T lo_v, T hi_v) const {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);

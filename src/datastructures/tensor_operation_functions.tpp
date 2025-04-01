@@ -179,13 +179,16 @@ mml_onnx_gemm_inner_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                             optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({(uli) M, (uli) N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value()
+          ? *C
+          : TensorFactory<T>::get_instance().create_tensor({(uli)M, (uli)N});
   mml_gemm_inner_product(transA, transB, M, N, K, static_cast<T>(alpha), A, lda,
                          B, ldb, static_cast<T>(beta), C_p, ldc);
   return C_p;
@@ -198,13 +201,15 @@ mml_onnx_gemm_outer_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                             optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_outer_product(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta,
                          C_p, ldc);
   return C_p;
@@ -217,13 +222,15 @@ mml_onnx_gemm_row_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                                optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_row_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
   return C_p;
@@ -236,13 +243,15 @@ mml_onnx_gemm_col_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                                optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_col_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
   return C_p;
@@ -255,13 +264,15 @@ mml_onnx_gemm_blocked(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                       optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_blocked(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                    ldc);
   return C_p;
@@ -274,13 +285,15 @@ mml_onnx_gemm_avx(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha,
                   optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_avx(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p, ldc);
   return C_p;
 }
@@ -292,13 +305,15 @@ mml_onnx_gemm_avx512(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                      optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_avx512(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                   ldc);
   return C_p;
@@ -311,13 +326,15 @@ mml_onnx_gemm_intel_MKL(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
                         optional<shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
-  const int M = (int) shape_A[0];
-  const int N = (int) shape_B[1];
-  const int K = (int) shape_A[1];
+  const int M = (int)shape_A[0];
+  const int N = (int)shape_B[1];
+  const int K = (int)shape_A[1];
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p = C.has_value() ? *C : TensorFactory<T>::get_instance().create_tensor({M, N});
+  shared_ptr<Tensor<T>> C_p =
+      C.has_value() ? *C
+                    : TensorFactory<T>::get_instance().create_tensor({M, N});
   mml_gemm_intel(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                  ldc);
   return C_p;
