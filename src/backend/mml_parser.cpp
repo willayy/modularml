@@ -1,13 +1,22 @@
 #include "backend/mml_parser.hpp"
+#include "backend/mml_model.hpp"
+#include "nodes/add.hpp"
+#include "nodes/avg_pooling.hpp"
+#include "nodes/conv.hpp"
+#include "nodes/dropout.hpp"
+#include "nodes/elu.hpp"
+#include "nodes/flatten.hpp"
+#include "nodes/gelu.hpp"
+#include "nodes/gemm.hpp"
+#include "nodes/leaky_relu.hpp"
+#include "nodes/log_softmax.hpp"
+#include "nodes/lrn.hpp"
+#include "nodes/max_pooling.hpp"
 #include "nodes/relu.hpp"
+#include "nodes/reshape.hpp"
+#include "nodes/sigmoid.hpp"
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
-#include "nodes/gemm.hpp"
-#include "nodes/reshape.hpp"
-#include "nodes/flatten.hpp"
-#include "nodes/dropout.hpp"
-#include "nodes/conv.hpp"
-#include "backend/mml_model.hpp"
 
 // Helper function: to map the tensors
 std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) {
@@ -26,41 +35,42 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       array_mml shapeArray(dims);
 
       // Need to handle more data types
-      if (dataType == 1) {
-        if (init.contains("floatData")) {
-          std::vector<float> data = init["floatData"].get<std::vector<float>>();
-          array_mml dataArray(data);
-          tensorMap[initName] = std::make_shared<Tensor_mml<float>>(shapeArray, dataArray);
-        } else if (init.contains("rawData")) {
-          std::string rawData = init["rawData"].get<std::string>();
-          std::vector<float> data;
-          data.resize(rawData.size() / sizeof(float));
-          std::memcpy(data.data(), rawData.data(), rawData.size());
-          array_mml dataArray(data);
-          tensorMap[initName] = std::make_shared<Tensor_mml<float>>(shapeArray, dataArray);
-        } else {
-          throw std::runtime_error("No data field found for float tensor: " + initName);
-        }
-      } else if (dataType == 7) {
-        if (init.contains("int64Data")) {
-          std::vector<int64_t> data;
-          for (const auto& el : init["int64Data"]) {
-            data.push_back(std::stoll(el.get<std::string>()));
-          }
-          array_mml dataArray(data);
-          tensorMap[initName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray, dataArray);
-        } else if (init.contains("rawData")) {
-          std::string rawData = init["rawData"].get<std::string>();
-          std::vector<int64_t> data;
-          data.resize(rawData.size() / sizeof(int64_t));
-          std::memcpy(data.data(), rawData.data(), rawData.size());
-          array_mml dataArray(data);
-          tensorMap[initName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray, dataArray);
-        } else {
-          throw std::runtime_error("No data field found for int64 tensor: " + initName);
-        }
-      } else {
-        throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
+      switch (dataType) {
+        case 1:  // FLOAT
+          handleTensorData<float>(init, initName, shapeArray, tensorMap);
+          break;
+        case 2:  // UINT8
+          handleTensorData<uint8_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 3:  // INT8
+          handleTensorData<int8_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 4:  // UINT16
+          handleTensorData<uint16_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 5:  // INT16
+          handleTensorData<int16_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 6:  // INT32
+          handleTensorData<int32_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 7:  // INT64
+          handleTensorData<int64_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 9:  // BOOL
+          handleTensorData<bool>(init, initName, shapeArray, tensorMap);
+          break;
+        case 11: // DOUBLE
+          handleTensorData<double>(init, initName, shapeArray, tensorMap);
+          break;
+        case 12: // UINT32
+          handleTensorData<uint32_t>(init, initName, shapeArray, tensorMap);
+          break;
+        case 13: // UINT64
+          handleTensorData<uint64_t>(init, initName, shapeArray, tensorMap);
+          break;
+        default:
+          throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
       }
     }
   }
@@ -78,27 +88,46 @@ std::vector<shared_ptr<Node>> constructNodes(const json& graph) {
       std::string opType = node["opType"];
       
       // This will later be switched to a map
-      if (opType == "Relu") {
-        nodes.push_back(std::make_shared<ReLUNode>(node));
-      } else if (opType == "Tanh") {
-        nodes.push_back(std::make_shared<TanHNode>(node));
-      } else if (opType == "HardSwish") {
-        nodes.push_back(std::make_shared<SwishNode>(node));
-      } else if (opType == "Gemm") {
-        nodes.push_back(std::make_shared<GemmNode>(node));
-      } else if (opType == "Reshape") {
-        nodes.push_back(std::make_shared<reshapeNode>(node));
-      } else if (opType == "Flatten") {
-        nodes.push_back(std::make_shared<FlattenNode>(node));
-      } else if (opType == "Dropout") {
-        nodes.push_back(std::make_shared<DropoutNode>(node));
+      if (opType == "Add") {
+        nodes.push_back(std::make_shared<AddNode>(node));
+      } else if (opType == "AveragePool") {
+        nodes.push_back(std::make_shared<AvgPoolingNode_mml>(node));
       } else if (opType == "Conv") {
         nodes.push_back(std::make_shared<ConvNode>(node));
+      } else if (opType == "Dropout") {
+        nodes.push_back(std::make_shared<DropoutNode>(node));
+      } else if (opType == "Elu") {
+        nodes.push_back(std::make_shared<ELUNode>(node));
+      } else if (opType == "Flatten") {
+        nodes.push_back(std::make_shared<FlattenNode>(node));
+      } else if (opType == "Gelu") {
+        nodes.push_back(std::make_shared<GeluNode>(node));
+      } else if (opType == "Gemm") {
+        nodes.push_back(std::make_shared<GemmNode>(node));
+      } else if (opType == "LeakyRelu") {
+        nodes.push_back(std::make_shared<LeakyReLUNode>(node));
+      } else if (opType == "LogSoftmax") {
+        nodes.push_back(std::make_shared<LogSoftMaxNode>(node));
+      } else if (opType == "LRN") {
+        nodes.push_back(std::make_shared<LRNNode_mml>(node));
+      } else if (opType == "MaxPool") {
+        nodes.push_back(std::make_shared<MaxPoolingNode_mml>(node));
+      } else if (opType == "Relu") {
+        nodes.push_back(std::make_shared<ReLUNode>(node));
+      } else if (opType == "Reshape") {
+        nodes.push_back(std::make_shared<reshapeNode>(node));
+      } else if (opType == "Sigmoid") {
+        nodes.push_back(std::make_shared<SigmoidNode>(node));
+      } else if (opType == "Swish") {
+        nodes.push_back(std::make_shared<SwishNode>(node));
+      } else if (opType == "Tanh") {
+        nodes.push_back(std::make_shared<TanHNode>(node));
       } else {
         throw std::runtime_error("Currently unsupported operation type: " + opType);
       }
     }
   }
+  
 
   return nodes;
 }
