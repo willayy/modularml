@@ -3,7 +3,7 @@
 #include "globals.hpp"
 #include "tensor_operation_functions.hpp"
 
-#define ASSERT_ALLOWED_TYPES_AR(T)                                             \
+#define ASSERT_ALLOWED_TYPES_TOM(T)                                             \
   static_assert(std::is_arithmetic_v<T>,                                       \
                 "TensorOperationModule type must be arithmetic.")
 /**

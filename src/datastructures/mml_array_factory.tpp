@@ -1,4 +1,4 @@
-#include "datastructures/array_factory.hpp"
+#include "datastructures/mml_array_factory.hpp"
 
 template <typename T>
 array_mml<T> ArrayFactory<T>::random_array_mml_integral(uli lo_sz, uli hi_sz,

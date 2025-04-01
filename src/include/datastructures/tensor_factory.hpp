@@ -1,7 +1,7 @@
 #pragma once
 
 #include "a_tensor.hpp"
-#include "array_mml.hpp"
+#include "mml_array.hpp"
 #include "globals.hpp"
 #include "mml_tensor.hpp"
 #include "tensor_factory_functions.hpp"
