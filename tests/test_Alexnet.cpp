@@ -13,7 +13,7 @@
 //       make sure the weights and bias are loaded correctly.
 
 // TODO: Run the model with the input currently defined as TensorToProcess. Compare against the corrently defined refrence_output. These
-//       are the same as the pytorch input and output.
+//       are about the same as the pytorch input and output.
 
 // TODO: Run argMax to make sure that the refrence_predicted_class matches the expected class from the pytorch output.
 
