@@ -40,7 +40,8 @@ class CustomLeNet(nn.Module):
         x = F.relu(self.conv3(x))
         activations["conv3_output"] = x.clone()
 
-        x = x.view(x.size(0), -1)
+        x = x.view(-1, 120 * 2 * 2)
+
         activations["reshape1_output"] = x.clone()
 
         x = F.relu(self.fc1(x))
