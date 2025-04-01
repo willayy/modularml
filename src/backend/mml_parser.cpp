@@ -27,82 +27,38 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
 
       // Need to handle more data types
       if (dataType == 1) {
-        std::vector<float> data = init["floatData"].get<std::vector<float>>();
-        array_mml dataArray(data);
-        tensorMap[initName] = std::make_shared<Tensor_mml<float>>(shapeArray, dataArray);
-      } else if (dataType == 7) {
-        std::vector<int64_t> data;
-        for (const auto& el : init["int64Data"]) {
-          data.push_back(std::stoll(el.get<std::string>()));
+        if (init.contains("floatData")) {
+          std::vector<float> data = init["floatData"].get<std::vector<float>>();
+          array_mml dataArray(data);
+          tensorMap[initName] = std::make_shared<Tensor_mml<float>>(shapeArray, dataArray);
+        } else if (init.contains("rawData")) {
+          std::string rawData = init["rawData"].get<std::string>();
+          std::vector<float> data;
+          data.resize(rawData.size() / sizeof(float));
+          std::memcpy(data.data(), rawData.data(), rawData.size());
+          array_mml dataArray(data);
+          tensorMap[initName] = std::make_shared<Tensor_mml<float>>(shapeArray, dataArray);
+        } else {
+          throw std::runtime_error("No data field found for float tensor: " + initName);
         }
-        array_mml dataArray(data);
-        tensorMap[initName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray, dataArray);
-      } else {
-        throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
-      }
-    }
-  }
-
-  // Then look for inputs
-  if (graph.contains("input") && graph["input"].is_array()) {
-    for (const auto& input: graph["input"]) {
-      std::string inputName = input["name"];
-      int dataType = input["type"]["tensorType"]["elemType"];
-      
-      std::vector<uli> dims;
-      for (const auto& dim : input["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
-      }
-      array_mml shapeArray(dims);
-      
-      if (dataType == 1) {
-        tensorMap[inputName] = std::make_shared<Tensor_mml<float>>(shapeArray);
       } else if (dataType == 7) {
-        tensorMap[inputName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray);
-      } else {
-        throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
-      }
-    }
-  }
-
-  // Then look for outputs
-  if (graph.contains("output") && graph["output"].is_array()) {
-    for (const auto& output: graph["output"]) {
-      std::string outputName = output["name"];
-      int dataType = output["type"]["tensorType"]["elemType"];
-      
-      std::vector<uli> dims;
-      for (const auto& dim : output["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
-      }
-      array_mml shapeArray(dims);
-      
-      if (dataType == 1) {
-        tensorMap[outputName] = std::make_shared<Tensor_mml<float>>(shapeArray);
-      } else if (dataType == 7) {
-        tensorMap[outputName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray);
-      } else {
-        throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
-      }
-    }
-  }
-
-  // Then look for valueInfo
-  if (graph.contains("valueInfo") && graph["valueInfo"].is_array()) {
-    for (const auto& valueInfo: graph["valueInfo"]) {
-      std::string valueInfoName = valueInfo["name"];
-      int dataType = valueInfo["type"]["tensorType"]["elemType"];
-      
-      std::vector<uli> dims;
-      for (const auto& dim : valueInfo["type"]["tensorType"]["shape"]["dim"]) {
-        dims.push_back(static_cast<uli>(std::stoi(dim["dimValue"].get<std::string>())));
-      }
-      array_mml shapeArray(dims);
-      
-      if (dataType == 1) {
-        tensorMap[valueInfoName] = std::make_shared<Tensor_mml<float>>(shapeArray);
-      } else if (dataType == 7) {
-        tensorMap[valueInfoName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray);
+        if (init.contains("int64Data")) {
+          std::vector<int64_t> data;
+          for (const auto& el : init["int64Data"]) {
+            data.push_back(std::stoll(el.get<std::string>()));
+          }
+          array_mml dataArray(data);
+          tensorMap[initName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray, dataArray);
+        } else if (init.contains("rawData")) {
+          std::string rawData = init["rawData"].get<std::string>();
+          std::vector<int64_t> data;
+          data.resize(rawData.size() / sizeof(int64_t));
+          std::memcpy(data.data(), rawData.data(), rawData.size());
+          array_mml dataArray(data);
+          tensorMap[initName] = std::make_shared<Tensor_mml<int64_t>>(shapeArray, dataArray);
+        } else {
+          throw std::runtime_error("No data field found for int64 tensor: " + initName);
+        }
       } else {
         throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
       }
@@ -121,6 +77,7 @@ std::vector<shared_ptr<Node>> constructNodes(const json& graph) {
     for (const auto& node: graph["node"]) {
       std::string opType = node["opType"];
       
+      // This will later be switched to a map
       if (opType == "Relu") {
         nodes.push_back(std::make_shared<ReLUNode>(node));
       } else if (opType == "Tanh") {
