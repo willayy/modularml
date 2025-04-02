@@ -11,6 +11,8 @@
  *
  * @note This class is meant to be inherited; it does not contain any 
  *       member variables or functionality on its own.
+ * 
+ * @author Tim Carlsson (timca@chalmers.se)
  */
 struct DataLoaderConfig {
     /**
@@ -26,6 +28,8 @@ struct DataLoaderConfig {
  * This struct extends DataLoaderConfig to provide image-specific 
  * configuration options such as the image path and whether to 
  * include the alpha channel.
+ * 
+ * @author Tim Carlsson (timca@chalmers.se)
  */
 struct ImageLoaderConfig : public DataLoaderConfig {
     

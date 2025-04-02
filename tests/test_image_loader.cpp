@@ -23,10 +23,18 @@ TEST(test_image_loader, load_mnist_image_jpg_test) {
     EXPECT_EQ(array_mml({static_cast<unsigned long int>(1), static_cast<unsigned long int>(1), static_cast<unsigned long int>(28), static_cast<unsigned long int>(28)}), image_tensor->get_shape());
 
     // Use this to verify the tensor in the console
-    /* for (int i = 0; i < image_tensor->get_size(); i++) {
+    for (int i = 0; i < image_tensor->get_size(); i++) {
+        float num = (*image_tensor)[i];
+        char cs = '.';
+        if (num > 0.2) cs = ';';
+        if (num > 0.4) cs = '>';
+        if (num > 0.6) cs = '%';
+        if (num > 0.8) cs = '#';
         if (i % 28 == 0) std::cout << "\n";
-        std::cout << std::fixed << std::setprecision(1) << (*image_tensor)[i] << " ";
-    } */
+        std::cout << std::fixed << std::setprecision(1) << cs << " ";
+    }
+    std::cout << "\n";
+    EXPECT_EQ(1,2);
 }
 
 TEST(test_image_loader, load_rgb_image_png_test) {

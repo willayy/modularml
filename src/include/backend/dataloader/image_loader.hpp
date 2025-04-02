@@ -9,16 +9,13 @@
  * 
  * @author Tim Carlsson (timca@chalmers.se)
  */
-
 class ImageLoader : public DataLoader<float> {
    public:
     /**
-     * @brief Loads an image.
+     * @brief Loads an image according to the configuration and returns a shared pointer to a tensor representation of the original image.
      *
-     * Based on width and height the image is resized.
-     *
-     * @param config The relative path to the image
-     * @return A unique_ptr to a Tensor containing the loaded data.
+     * @param config The configuration object used to load the image
+     * @return A shared_ptr to a Tensor containing the loaded data.
      */
     std::shared_ptr<Tensor<float>> load(const DataLoaderConfig& config) const;
 };
