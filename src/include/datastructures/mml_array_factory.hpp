@@ -1,7 +1,6 @@
 
-template <typename T>
-class ArrayFactory {
- public:
+template <typename T> class ArrayFactory {
+public:
   /**
    * @brief Get the instance of the ArrayFactory.
    * @return The instance of the ArrayFactory.
@@ -38,4 +37,4 @@ class ArrayFactory {
                                      T hi_v = 100) const;
 }
 
-#include "../datastructure/array_factory.tpp"
+#include "../datastructure/mml_array_factory.tpp"

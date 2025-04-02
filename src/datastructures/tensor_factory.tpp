@@ -2,8 +2,7 @@
 
 #include "datastructures/tensor_factory.hpp"
 
-template <typename T>
-TensorFactory<T> &TensorFactory<T>::get_instance() {
+template <typename T> TensorFactory<T> &TensorFactory<T>::get_instance() {
   static TensorFactory instance;
   return instance;
 }
@@ -56,27 +55,32 @@ TensorFactory<T>::random_tensor(const array_mml<uli> &shape, T lo_v,
 }
 
 template <typename T>
-void TensorFactory<T>::set_tensor_constructor(string id, function<void()> constructor) {
+void TensorFactory<T>::set_tensor_constructor(string id,
+                                              function<void()> constructor) {
   if (id == "tensor_constructor_1") {
-    static_assert(std::is_same_v<decltype(constructor),
-                  void (*)(const array_mml<uli> &, const array_mml<T> &)>,
-                  "Function signature does not match tensor_constructor_1.");
+    static_assert(
+        std::is_same_v<decltype(constructor),
+                       void (*)(const array_mml<uli> &, const array_mml<T> &)>,
+        "Function signature does not match tensor_constructor_1.");
     tensor_constructor_1 = constructor;
   } else if (id == "tensor_constructor_2") {
-    static_assert(std::is_same_v<decltype(constructor),
-                  void (*)(const array_mml<uli> &)>,
-                  "Function signature does not match tensor_constructor_2.");
-    tensor_constructor_2 = (void (*)(const array_mml<long unsigned int>&)) (constructor);
+    static_assert(
+        std::is_same_v<decltype(constructor), void (*)(const array_mml<uli> &)>,
+        "Function signature does not match tensor_constructor_2.");
+    tensor_constructor_2 =
+        (void (*)(const array_mml<long unsigned int> &))(constructor);
   } else if (id == "tensor_constructor_3") {
-    static_assert(std::is_same_v<decltype(constructor),
-                  void (*)(initializer_list<uli> &, initializer_list<T> &)>,
-                  "Function signature does not match tensor_constructor_3.");
+    static_assert(
+        std::is_same_v<decltype(constructor), void (*)(initializer_list<uli> &,
+                                                       initializer_list<T> &)>,
+        "Function signature does not match tensor_constructor_3.");
     tensor_constructor_3 = constructor;
   } else if (id == "tensor_constructor_4") {
     static_assert(std::is_same_v<decltype(constructor),
-                  void (*)(initializer_list<uli> &)>,
+                                 void (*)(initializer_list<uli> &)>,
                   "Function signature does not match tensor_constructor_4.");
-    tensor_constructor_4 = (void (*)(initializer_list<long unsigned int>&)) (constructor);
+    tensor_constructor_4 =
+        (void (*)(initializer_list<long unsigned int> &))(constructor);
   } else {
     throw invalid_argument("Invalid constructor id.");
   }

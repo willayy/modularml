@@ -1,14 +1,13 @@
 #pragma once
 
 #include "a_tensor.hpp"
-#include "array_mml.hpp"
+#include "mml_array.hpp"
 #include "globals.hpp"
 #include "mml_tensor.hpp"
 #include "tensor_factory_functions.hpp"
 
-template <typename T> 
-class TensorFactory {
-  public:
+template <typename T> class TensorFactory {
+public:
   /**
    * @brief Get the instance of the TensorFactory.
    * @return The instance of the TensorFactory. */
@@ -66,11 +65,12 @@ private:
   }
 
   shared_ptr<Tensor<T>> (*tensor_constructor_1)(const array_mml<uli> &shape,
-                               const array_mml<T> &data);
+                                                const array_mml<T> &data);
   shared_ptr<Tensor<T>> (*tensor_constructor_2)(const array_mml<uli> &shape);
-  shared_ptr<Tensor<T>> (*tensor_constructor_3)(const initializer_list<uli> shape,
-                               const initializer_list<T> data);
-  shared_ptr<Tensor<T>> (*tensor_constructor_4)(const initializer_list<uli> shape);
+  shared_ptr<Tensor<T>> (*tensor_constructor_3)(
+      const initializer_list<uli> shape, const initializer_list<T> data);
+  shared_ptr<Tensor<T>> (*tensor_constructor_4)(
+      const initializer_list<uli> shape);
 };
 
 #include "../datastructures/tensor_factory.tpp"
