@@ -826,3 +826,37 @@ TEST(test_node, test_ELUNode_random_float) {
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
 }
+
+TEST(test_node, test_ELUNode_double) {
+
+  /**
+   * @brief Expected Tensor after the ELU function is applied to each element.
+   */
+
+  auto b =
+      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
+                                    -0.2f, 0.0f, -0.172933f, 1.0f, 4.0f});
+  auto X =
+      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
+                                    -std::numeric_limits<double>::infinity(),
+                                    0.0f, -2.0f, 1.0f, 4.0f});
+
+  auto Y = make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
+
+  ELUNode elu_node(x_string, y_string, 0.2f);
+  elu_node.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<double>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
+}
