@@ -137,5 +137,3 @@ static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a,
 
 template <typename T>
 static int mml_arg_max(const shared_ptr<const Tensor<T>> a);
-
-#include "../datastructures/tensor_operation_functions.tpp"
