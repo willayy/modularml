@@ -96,8 +96,8 @@ class LeNetModel {
     auto conv1_output_tensor = std::get<std::shared_ptr<Tensor<T>>>(iomap["relu1_output"]);
     auto refrence_tensor = tensor_mml_p<double>({CONV1_OUTPUT_SHAPE}, {CONV1_OUTPUT_DATA});
     // Compare the output tensor with the expected output tensor.
-    std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
-    tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07);
+    //std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
+    //tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07);
 
     // Max Pooling
     MaxPoolingNode_mml maxpool1 = MaxPoolingNode_mml("relu1_output",
@@ -172,8 +172,8 @@ TEST(test_LeNet, test_LeNet_forward) {
   auto expected_output = tensor_mml_p<double>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
-  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.07));
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.05));
 
   int max_index = Arithmetic_mml<double>().arg_max(output_tensor);
-  ASSERT_TRUE(max_index == 3);  // The expected output is 3.
+  ASSERT_TRUE(max_index == PREDICTED_CLASS);  // Compare against the predicted class.
 }
