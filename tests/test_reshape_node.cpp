@@ -1,3 +1,7 @@
+#include <gtest/gtest.h>
+
+#include <modularml>
+
 TEST(test_node, test_reshape_basic) {
   /**
    * @brief Expected Tensor after the Reshape function is applied to the data
