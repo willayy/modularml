@@ -2,21 +2,21 @@
 #include "datastructures/tensor_factory.hpp"
 
 template <typename T>
-shared_ptr<Tensor<T>> (*TensorFactory::tensor_constructor_1)(
-    const array_mml<uli> &shape, const array_mml<T> &data) = mml_constructor_1;
+std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape, const array_mml<T> &data)>
+    TensorFactory::tensor_constructor_1 = mml_constructor_1<T>;
 
 template <typename T>
-shared_ptr<Tensor<T>> (*TensorFactory::tensor_constructor_2)(
-    const array_mml<uli> &shape) = mml_constructor_2;
+std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape)>
+    TensorFactory::tensor_constructor_2 = mml_constructor_2<T>;
 
 template <typename T>
-shared_ptr<Tensor<T>> (*TensorFactory::tensor_constructor_3)(
-    const initializer_list<uli> shape, const initializer_list<T> data) =
-    mml_constructor_3;
+std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape,
+                                    const initializer_list<T> data)>
+    TensorFactory::tensor_constructor_3 = mml_constructor_3<T>;
 
 template <typename T>
-shared_ptr<Tensor<T>> (*TensorFactory::tensor_constructor_4)(
-    const initializer_list<uli> shape) = mml_constructor_4;
+std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape)>
+    TensorFactory::tensor_constructor_4 = mml_constructor_4<T>;
 
 template <typename T>
 shared_ptr<Tensor<T>>
@@ -27,8 +27,8 @@ TensorFactory::create_tensor(const array_mml<uli> &shape,
 
 template <typename T>
 void TensorFactory::set_tensor_constructor_1(
-    shared_ptr<Tensor<T>> (*tensor_constructor)(const array_mml<uli> &shape,
-                                                const array_mml<T> &data)) {
+    const std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape,
+                                              const array_mml<T> &data)> &tensor_constructor) {
   tensor_constructor_1<T> = tensor_constructor;
 }
 
@@ -40,7 +40,7 @@ TensorFactory::create_tensor(const array_mml<uli> &shape) {
 
 template <typename T>
 void TensorFactory::set_tensor_constructor_2(
-    shared_ptr<Tensor<T>> (*tensor_constructor)(const array_mml<uli> &shape)) {
+    const std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape)> &tensor_constructor) {
   tensor_constructor_2<T> = tensor_constructor;
 }
 
@@ -53,8 +53,8 @@ TensorFactory::create_tensor(const initializer_list<uli> shape,
 
 template <typename T>
 void TensorFactory::set_tensor_constructor_3(
-    shared_ptr<Tensor<T>> (*tensor_constructor)(const initializer_list<uli> shape,
-                                                const initializer_list<T> data)) {
+    const std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape,
+                                              const initializer_list<T> data)> &tensor_constructor) {
   tensor_constructor_3<T> = tensor_constructor;
 }
 
@@ -66,7 +66,7 @@ TensorFactory::create_tensor(const initializer_list<uli> shape) {
 
 template <typename T>
 void TensorFactory::set_tensor_constructor_4(
-    shared_ptr<Tensor<T>> (*tensor_constructor)(const initializer_list<uli> shape)) {
+    const std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape)> &tensor_constructor) {
   tensor_constructor_4<T> = tensor_constructor;
 }
 

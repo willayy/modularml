@@ -31,9 +31,9 @@ public:
    * @brief Set the pointer to the tensor constructor function for array_mml<uli> and array_mml<T>.
    * @param tensor_constructor The function pointer to the tensor constructor. */
   template <typename T>
-  static void set_tensor_constructor_1(
-      shared_ptr<Tensor<T>> (*tensor_constructor)(const array_mml<uli> &shape,
-                                                  const array_mml<T> &data));
+static void set_tensor_constructor_1(
+        const std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape,
+        const array_mml<T> &data)> &tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape.
@@ -46,8 +46,8 @@ public:
    * @brief Set the pointer to the tensor constructor function for array_mml<uli>.
    * @param tensor_constructor The function pointer to the tensor constructor. */
   template <typename T>
-  static void set_tensor_constructor_2(
-      shared_ptr<Tensor<T>> (*tensor_constructor)(const array_mml<uli> &shape));
+static void set_tensor_constructor_2(
+        const std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape)> &tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape and data.
@@ -62,10 +62,9 @@ public:
    * @brief Set the pointer to the tensor constructor function for initializer_list<uli> and initializer_list<T>.
    * @param tensor_constructor The function pointer to the tensor constructor. */
   template <typename T>
-  static void set_tensor_constructor_3(
-      shared_ptr<Tensor<T>> (*tensor_constructor)(
-          const initializer_list<uli> shape,
-          const initializer_list<T> data));
+static void set_tensor_constructor_3(
+        const std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape,
+               const initializer_list<T> data)> &tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape.
@@ -78,8 +77,8 @@ public:
    * @brief Set the pointer to the tensor constructor function for initializer_list<uli>.
    * @param tensor_constructor The function pointer to the tensor constructor. */
   template <typename T>
-  static void set_tensor_constructor_4(
-      shared_ptr<Tensor<T>> (*tensor_constructor)(const initializer_list<uli> shape));
+static void set_tensor_constructor_4(
+        const std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape)> &tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape and data.
@@ -97,19 +96,16 @@ private:
 
   // Pointers to the tensor constructor functions.
   template <typename T>
-  static shared_ptr<Tensor<T>> (*tensor_constructor_1)(const array_mml<uli> &shape,
-                                                const array_mml<T> &data);
+  static std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape, const array_mml<T> &data)> tensor_constructor_1;
 
   template <typename T>
-  static shared_ptr<Tensor<T>> (*tensor_constructor_2)(const array_mml<uli> &shape);
+  static std::function<shared_ptr<Tensor<T>>(const array_mml<uli> &shape)> tensor_constructor_2;
 
   template <typename T>
-  static shared_ptr<Tensor<T>> (*tensor_constructor_3)(
-      const initializer_list<uli> shape, const initializer_list<T> data);
+  static std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape, const initializer_list<T> data)> tensor_constructor_3;
 
   template <typename T>
-  static shared_ptr<Tensor<T>> (*tensor_constructor_4)(
-      const initializer_list<uli> shape);
+  static std::function<shared_ptr<Tensor<T>>(const initializer_list<uli> shape)> tensor_constructor_4;
 };
 
 #include "../datastructures/tensor_factory.tpp"
