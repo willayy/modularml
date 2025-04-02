@@ -2,6 +2,7 @@
 #include "a_tensor.hpp"
 #include "globals.hpp"
 #include "tensor_operation_functions.hpp"
+#include <functional>
 
 #define ASSERT_ALLOWED_TYPES_TOM(T)                                             \
   static_assert(std::is_arithmetic_v<T>,                                       \
@@ -134,54 +135,56 @@ public:
    * @param ptr Function pointer to the gemm implementation.
    */
   template <typename T>
-  static void set_gemm_ptr(void (*ptr)(int TA, int TB, int M, int N, int K,
-                                       T ALPHA, shared_ptr<Tensor<T>> A,
-                                       int lda, shared_ptr<Tensor<T>> B,
-                                       int ldb, T BETA, shared_ptr<Tensor<T>> C,
-                                       int ldc));
+  static void set_gemm_ptr(std::function<void(int TA, int TB, int M, int N, int K,
+                                              T ALPHA, shared_ptr<Tensor<T>> A,
+                                              int lda, shared_ptr<Tensor<T>> B,
+                                              int ldb, T BETA,
+                                              shared_ptr<Tensor<T>> C,
+                                              int ldc)> ptr);
 
   /**
    * @brief Sets the gemm_onnx function pointer.
    * @param ptr Function pointer to the gemm_onnx implementation.
    */
   template <typename T>
-  static void set_gemm_onnx_ptr(shared_ptr<Tensor<T>> (*ptr)(
+  static void set_gemm_onnx_ptr(std::function<shared_ptr<Tensor<T>>(
       shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha, float beta,
-      int transA, int transB, optional<shared_ptr<Tensor<T>>> C));
+      int transA, int transB, optional<shared_ptr<Tensor<T>>> C)> ptr);
 
   /**
    * @brief Sets the add function pointer.
    * @param ptr Function pointer to the add implementation.
    */
   template <typename T>
-  static void set_add_ptr(void (*ptr)(const shared_ptr<const Tensor<T>> a,
-                                      const shared_ptr<const Tensor<T>> b,
-                                      shared_ptr<Tensor<T>> c));
+  static void set_add_ptr(std::function<void(const shared_ptr<const Tensor<T>> a,
+                                             const shared_ptr<const Tensor<T>> b,
+                                             shared_ptr<Tensor<T>> c)> ptr);
 
   /**
    * @brief Sets the subtract function pointer.
    * @param ptr Function pointer to the subtract implementation.
    */
   template <typename T>
-  static void set_subtract_ptr(void (*ptr)(const shared_ptr<Tensor<T>> a,
-                                           const shared_ptr<Tensor<T>> b,
-                                           shared_ptr<Tensor<T>> c));
+  static void set_subtract_ptr(std::function<void(const shared_ptr<Tensor<T>> a,
+                                                  const shared_ptr<Tensor<T>> b,
+                                                  shared_ptr<Tensor<T>> c)> ptr);
 
   /**
    * @brief Sets the multiply function pointer.
    * @param ptr Function pointer to the multiply implementation.
    */
   template <typename T>
-  static void set_multiply_ptr(void (*ptr)(const shared_ptr<Tensor<T>> a,
-                                           const T b, shared_ptr<Tensor<T>> c));
+  static void set_multiply_ptr(std::function<void(const shared_ptr<Tensor<T>> a,
+                                                  const T b,
+                                                  shared_ptr<Tensor<T>> c)> ptr);
 
   /**
    * @brief Sets the equals function pointer.
    * @param ptr Function pointer to the equals implementation.
    */
   template <typename T>
-  static void set_equals_ptr(bool (*ptr)(const shared_ptr<Tensor<T>> a,
-                                         const shared_ptr<Tensor<T>> b));
+  static void set_equals_ptr(std::function<bool(const shared_ptr<Tensor<T>> a,
+                                                const shared_ptr<Tensor<T>> b)> ptr);
 
   /**
    * @brief Sets the elementwise function pointer.
@@ -189,9 +192,9 @@ public:
    */
   template <typename T>
   static void
-  set_elementwise_ptr(void (*ptr)(const shared_ptr<const Tensor<T>> a,
-                                  const function<T(T)> &f,
-                                  const shared_ptr<Tensor<T>> c));
+  set_elementwise_ptr(std::function<void(const shared_ptr<const Tensor<T>> a,
+                                         const function<T(T)> &f,
+                                         const shared_ptr<Tensor<T>> c)> ptr);
 
   /**
    * @brief Sets the elementwise_in_place function pointer.
@@ -199,14 +202,14 @@ public:
    */
   template <typename T>
   static void set_elementwise_in_place_ptr(
-      void (*ptr)(const shared_ptr<Tensor<T>> a, const function<T(T)> &f));
+      std::function<void(const shared_ptr<Tensor<T>> a, const function<T(T)> &f)> ptr);
 
   /**
    * @brief Sets the arg_max function pointer.
    * @param ptr Function pointer to the arg_max implementation.
    */
   template <typename T>
-  static void set_arg_max_ptr(int (*ptr)(const shared_ptr<const Tensor<T>> a));
+  static void set_arg_max_ptr(std::function<int(const shared_ptr<const Tensor<T>> a)> ptr);
 
 private:
   // Private constructor.
@@ -214,55 +217,61 @@ private:
 
   // Pointer to the gemm function.
   template <typename T>
-  static void (*gemm_ptr)(int TA, int TB, int M, int N, int K, T ALPHA,
-                          shared_ptr<Tensor<T>> A, int lda,
-                          shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                          shared_ptr<Tensor<T>> C,
-                          int ldc);
+  static std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
+                            shared_ptr<Tensor<T>> A, int lda,
+                            shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                            shared_ptr<Tensor<T>> C, int ldc)>
+      gemm_ptr;
 
   // Pointer to the gemm_onnx function.
   template <typename T>
-  static shared_ptr<Tensor<T>> (*gemm_onnx_ptr)(
+  static std::function<shared_ptr<Tensor<T>>(
       shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha, float beta,
-      int transA, int transB,
-      optional<shared_ptr<Tensor<T>>> C);
+      int transA, int transB, optional<shared_ptr<Tensor<T>>> C)>
+      gemm_onnx_ptr;
 
   // Pointer to the add function.
   template <typename T>
-  static void (*add_ptr)(const shared_ptr<const Tensor<T>> a,
-                         const shared_ptr<const Tensor<T>> b,
-                         shared_ptr<Tensor<T>> c);
+  static std::function<void(const shared_ptr<const Tensor<T>> a,
+                            const shared_ptr<const Tensor<T>> b,
+                            shared_ptr<Tensor<T>> c)>
+      add_ptr;
 
   // Pointer to the subtract function.
   template <typename T>
-  static void (*subtract_ptr)(const shared_ptr<Tensor<T>> a,
-                              const shared_ptr<Tensor<T>> b,
-                              shared_ptr<Tensor<T>> c);
+  static std::function<void(const shared_ptr<Tensor<T>> a,
+                            const shared_ptr<Tensor<T>> b,
+                            shared_ptr<Tensor<T>> c)>
+      subtract_ptr;
 
   // Pointer to the multiply function.
   template <typename T>
-  static void (*multiply_ptr)(const shared_ptr<Tensor<T>> a, const T b,
-                              shared_ptr<Tensor<T>> c);
+  static std::function<void(const shared_ptr<Tensor<T>> a, const T b,
+                            shared_ptr<Tensor<T>> c)>
+      multiply_ptr;
 
   // Pointer to the equals function.
   template <typename T>
-  static bool (*equals_ptr)(const shared_ptr<Tensor<T>> a,
-                            const shared_ptr<Tensor<T>> b);
+  static std::function<bool(const shared_ptr<Tensor<T>> a,
+                            const shared_ptr<Tensor<T>> b)>
+      equals_ptr;
 
   // Pointer to the elementwise function.
   template <typename T>
-  static void (*elementwise_ptr)(
-      const shared_ptr<const Tensor<T>> a, const function<T(T)> &f,
-      const shared_ptr<Tensor<T>> c);
+  static std::function<void(const shared_ptr<const Tensor<T>> a,
+                            const function<T(T)> &f,
+                            const shared_ptr<Tensor<T>> c)>
+      elementwise_ptr;
 
   // Pointer to the elementwise_in_place function.
   template <typename T>
-  static void (*elementwise_in_place_ptr)(const shared_ptr<Tensor<T>> a,
-                                          const function<T(T)> &f);
+  static std::function<void(const shared_ptr<Tensor<T>> a,
+                            const function<T(T)> &f)>
+      elementwise_in_place_ptr;
 
   // Pointer to the arg_max function.
   template <typename T>
-  static int (*arg_max_ptr)(const shared_ptr<const Tensor<T>> a);
+  static std::function<int(const shared_ptr<const Tensor<T>> a)> arg_max_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"
