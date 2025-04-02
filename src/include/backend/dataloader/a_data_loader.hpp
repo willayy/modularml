@@ -24,7 +24,7 @@ public:
      *
      * @return A unique_ptr to a Tensor containing the data.
      */
-    virtual unique_ptr<Tensor<T>> load(const DataLoaderConfig& config) const = 0;
+    virtual std::shared_ptr<Tensor<T>> load(const DataLoaderConfig& config) const = 0;
 
     /**
      * @brief Virtual destructor for the DataLoader class.
