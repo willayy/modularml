@@ -90,6 +90,12 @@ add_library(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC
+    ${CMAKE_BINARY_DIR}/_deps/stb-src
+)
+
 # ------------------- Testing ------------------------------ #
 
 enable_testing()

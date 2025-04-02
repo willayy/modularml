@@ -10,8 +10,8 @@
  * 
  * @author Tim Carlsson (timca@chalmers.se)
  */
-template <typename T>
-class ImageLoader : public DataLoader {
+
+class ImageLoader : public DataLoader<float> {
    public:
     /**
      * @brief Loads an image.
@@ -21,7 +21,7 @@ class ImageLoader : public DataLoader {
      * @param path The relative path to the image
      * @return A unique_ptr to a Tensor containing the loaded data.
      */
-    unique_ptr<Tensor<T>> load(const ImageLoaderConfig& config) const;
+    unique_ptr<Tensor<float>> load(const ImageLoaderConfig& config) const;
 
    private:
 };
