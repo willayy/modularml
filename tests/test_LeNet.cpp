@@ -38,7 +38,7 @@ class LeNetModel {
       std::mt19937 gen(42);
       auto W1 = make_shared<Tensor_mml<T>>(array_mml<uli>{6, 1, 5, 5});
       kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W1), 1, 5, gen);  // I have to cast it to double because of
-      iomap["W1"] = W1;                                                         // how the function is implemented.
+      iomap["W1"] = W1;                                                          // how the function is implemented.
 
       auto W2 = make_shared<Tensor_mml<T>>(array_mml<uli>{16, 6, 5, 5});
       kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W2), 6, 5, gen);
@@ -55,8 +55,7 @@ class LeNetModel {
       auto W_gemm2 = make_shared<Tensor_mml<T>>(array_mml<uli>{84, 10});
       kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W_gemm2), 84, 84, gen);
       iomap["W_gemm2"] = W_gemm2;
-    }
-    else{
+    } else {
       // Weights
       auto W1 = make_shared<Tensor_mml<double>>(array_mml<uli>{CONV1_WEIGHT_SHAPE}, array_mml<double>{CONV1_WEIGHT_DATA});
       iomap["W1"] = W1;
@@ -96,8 +95,8 @@ class LeNetModel {
     auto conv1_output_tensor = std::get<std::shared_ptr<Tensor<T>>>(iomap["relu1_output"]);
     auto refrence_tensor = tensor_mml_p<double>({CONV1_OUTPUT_SHAPE}, {CONV1_OUTPUT_DATA});
     // Compare the output tensor with the expected output tensor.
-    //std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
-    //tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07);
+    // std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
+    // tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07); // For some reason atm there is a bit of a deviation in the values here.
 
     // Max Pooling
     MaxPoolingNode_mml maxpool1 = MaxPoolingNode_mml("relu1_output",
