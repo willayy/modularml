@@ -16,6 +16,9 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(const DataLoaderConfig& config)
         throw std::invalid_argument("Failed to load image: " + image_config.image_path);
     }
 
+    // Trust
+    int output_channels = channels;
+
     int data_size = width * height * channels;
     float* float_image_data = new float[data_size];
     for (int i = 0; i < data_size; i++) {
@@ -23,7 +26,12 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(const DataLoaderConfig& config)
     }
 
     // Prepare output tensor
-    array_mml<unsigned long int> image_tensor_shape({1, static_cast<unsigned long int>(channels), static_cast<unsigned long int>(width), static_cast<unsigned long int>(height)});
+    
+    if (!image_config.include_alpha_channel && channels == 4) {
+        output_channels = 3;
+    }
+
+    array_mml<unsigned long int> image_tensor_shape({1, static_cast<unsigned long int>(output_channels), static_cast<unsigned long int>(width), static_cast<unsigned long int>(height)});
     array_mml<float> output_data(data_size);  // Fills with 0:s
     std::shared_ptr<Tensor_mml<float>> output = std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
 

@@ -9,5 +9,6 @@ struct DataLoaderConfig {
 
 struct ImageLoaderConfig : public DataLoaderConfig {
     std::string image_path;
-    explicit ImageLoaderConfig(const std::string& path) : image_path(path) {}
+    bool include_alpha_channel;
+    explicit ImageLoaderConfig(const std::string& path, bool include_alpha_channel = false) : image_path(path) {}
 };
