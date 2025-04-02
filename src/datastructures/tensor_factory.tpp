@@ -76,8 +76,8 @@ TensorFactory::random_tensor(const array_mml<uli> &shape, T lo_v,
                                 T hi_v) {
   uli n = 1;
 
-  for (uli i = 0; i < shape.size(); i++) {
-    n *= shape[i];
+  for (const auto &dim : shape) {
+    n *= dim;
   }
 
   if constexpr (std::is_integral_v<T>) {

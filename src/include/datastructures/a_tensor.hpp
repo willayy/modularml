@@ -36,8 +36,7 @@ public:
   /// @brief Check if this tensor is not equal to another tensor.
   /// @param other The tensor to compare with.
   /// @return True if the tensors are not equal, false otherwise.
-  virtual bool operator!=(const Tensor<T> &other)
-      const = 0; // NOSONAR - Fair point but, We choose this to enable different
+  virtual bool operator!=(const Tensor<T> &other) const = 0; // NOSONAR - Fair point but, We choose this to enable different
                  // tensor implementation but using the same interface.
 
   /// @brief Get an element from the tensor using multi-dimensional indices.
@@ -61,23 +60,20 @@ public:
   ///@brief Check if this tensor is equal to another tensor.
   ///@param other The tensor to compare with.
   ///@return True if the tensors are equal, false otherwise.*/
-  virtual bool operator==(const Tensor<T> &other)
-      const = 0; // NOSONAR - Fair point but, We choose this to enable different
+  virtual bool operator==(const Tensor<T> &other) const = 0; // NOSONAR - Fair point but, We choose this to enable different
                  // tensor implementation but using the same interface.
 
   ///@brief Move-Assignment operator.
   ///@param other The tensor to assign.
   ///@return The moved tensor.
-  virtual Tensor &operator=(
-      Tensor &&other) noexcept = 0; // NOSONAR - Fair point but, We choose this
+  virtual Tensor &operator=(Tensor &&other) noexcept = 0; // NOSONAR - Fair point but, We choose this
                                     // to enable different tensor implementation
                                     // but using the same interface.
 
   /// @brief (Deep) Copy-Assigment operator.
   /// @param other The tensor to assign.
   /// @return The copied tensor.
-  virtual Tensor &operator=(
-      const Tensor &other) = 0; // NOSONAR - Fair point but, We choose this to
+  virtual Tensor &operator=(const Tensor &other) = 0; // NOSONAR - Fair point but, We choose this to
                                 // enable different tensor implementation but
                                 // using the same interface.
 
