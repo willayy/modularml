@@ -17,9 +17,9 @@ torch.backends.cudnn.deterministic = True
 class CustomLeNet(nn.Module):
     def __init__(self):
         super(CustomLeNet, self).__init__()
-        self.conv1 = nn.Conv2d(1, 6, kernel_size=5, padding=2)
-        self.conv2 = nn.Conv2d(6, 16, kernel_size=5)
-        self.conv3 = nn.Conv2d(16, 120, kernel_size=5)
+        self.conv1 = nn.Conv2d(1, 6, kernel_size=5, padding=2, bias = False)
+        self.conv2 = nn.Conv2d(6, 16, kernel_size=5, bias = False)
+        self.conv3 = nn.Conv2d(16, 120, kernel_size=5, bias = False)
         self.fc1 = nn.Linear(120 * 2 * 2, 84)
         self.fc2 = nn.Linear(84, 10)
 
