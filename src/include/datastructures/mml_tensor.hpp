@@ -14,24 +14,28 @@ template <typename T> class Tensor_mml : public Tensor<T> {
 public:
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
+  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const initializer_list<uli> shape,
                       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
+  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const initializer_list<uli> shape,
                       const initializer_list<T> data,
                       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
+  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<uli> &shape,
                       optional<array_mml<uli>> slice_offsets = nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
+  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<uli> &shape, const array_mml<T> &data,
                       optional<array_mml<uli>> slice_offsets = nullopt);
 
