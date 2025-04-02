@@ -581,20 +581,21 @@ TEST(test_node, test_Gelu_float) {
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
 }
 
-TEST(test_node, test_Gelu_random_float) {
+TEST(test_node, test_Gelu_double) {
   /**
    * @brief Expected Tensor after the Gelu function is applied to each element.
    */
-  auto b = tensor_mml_p<float>(
-      {3, 2}, {-0.001011f, -0.169019f, 7.991757f, -0.036949f, 0.0f, 0.0f});
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {-3.436826f, -0.819629f, 7.991757f,
-                                   -2.107639f, -7.18764f, -6.513006f});
+  auto b = tensor_mml_p<double>(
+      {3, 2}, {-0.154286f, std::numeric_limits<double>::infinity(), 0.0f, 0.0f,
+               1.9546f, -0.114629f});
+  auto original_X = tensor_mml_p<double>(
+      {3, 2}, {-0.5f, std::numeric_limits<double>::infinity(),
+               -std::numeric_limits<double>::infinity(), 0.0f, 2.0f, -0.3f});
 
-  auto X = make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {-3.436826f, -0.819629f, 7.991757f, -2.107639f,
-                                 -7.18764f, -6.513006f}));
-  auto Y = make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+      {3, 2}, {-0.5f, std::numeric_limits<double>::infinity(),
+               -std::numeric_limits<double>::infinity(), 0.0f, 2.0f, -0.3f}));
+  auto Y = make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -602,20 +603,26 @@ TEST(test_node, test_Gelu_random_float) {
   iomap[x_string] = X;
   // iomap[y_string] = Y; Not mapping to test auto creation of output tensor
 
-  GeluNode geluNode(x_string, y_string, "none");
+  GeluNode geluNode(x_string, y_string, "tanh");
   geluNode.forward(iomap);
 
   auto y_it = iomap.find(y_string);
   ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
 
-  auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
+  auto result_ptr = std::get<std::shared_ptr<Tensor<double>>>(y_it->second);
   ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
 
   auto x_it = iomap.find(x_string);
   ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
 
-  auto input_ptr = std::get<std::shared_ptr<Tensor<float>>>(x_it->second);
+  auto input_ptr = std::get<std::shared_ptr<Tensor<double>>>(x_it->second);
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
+  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+
+  geluNode = GeluNode(x_string, y_string, "none");
+  geluNode.forward(iomap);
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
   ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
