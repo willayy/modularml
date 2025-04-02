@@ -1,7 +1,8 @@
 #pragma once
 
 #include "globals.hpp"
-#include "a_tensor.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "backend/dataloader/data_loader_config.hpp"
 
 /**
  * @class DataLoader
@@ -18,12 +19,12 @@ class DataLoader {
 public:
     /**
      * @brief Load external data and translate it to tensor.
-     *
+     * 
      * This is a pure virtual function that must be implemented by derived classes.
      *
      * @return A unique_ptr to a Tensor containing the data.
      */
-    virtual unique_ptr<Tensor<T>> load() const = 0;
+    virtual unique_ptr<Tensor<T>> load(const DataLoaderConfig& config) const = 0;
 
     /**
      * @brief Virtual destructor for the DataLoader class.
