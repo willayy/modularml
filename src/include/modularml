@@ -38,6 +38,7 @@
 #include "datastructures/tensor_operation_functions.hpp"
 #include "datastructures/tensor_factory_functions.hpp"
 #include "datastructures/mml_array.hpp"
+#include "datastructures/array_utility.hpp"
 
 #include "utility/profiler.hpp"
 
