@@ -710,6 +710,51 @@ TEST(test_node, test_leaky_relu_random_float) {
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
   ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
 }
+TEST(test_node, test_leaky_relu_double) {
+  /**
+   * @brief Expected Tensor after the LeakyReLU function is applied to each
+   * element.
+   */
+
+  auto b =
+      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
+                                    -std::numeric_limits<double>::infinity(),
+                                    0.0f, -0.03f, 1.0f, -0.000000003f});
+  auto original_X =
+      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
+                                    -std::numeric_limits<double>::infinity(),
+                                    0.0f, -1.0f, 1.0f, -0.0000001f});
+
+  auto X = make_shared<Tensor_mml<double>>(
+      Tensor_mml<double>({3, 2}, {std::numeric_limits<double>::infinity(),
+                                  -std::numeric_limits<double>::infinity(),
+                                  0.0f, -1.0f, 1.0f, -0.0000001f}));
+  auto Y = make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+  iomap[y_string] = Y;
+
+  LeakyReLUNode leakyReLU(x_string, y_string, 0.03);
+  leakyReLU.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<double>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+
+  auto x_it = iomap.find(x_string);
+  ASSERT_NE(x_it, iomap.end()) << "Y tensor was not created";
+
+  auto input_ptr = std::get<std::shared_ptr<Tensor<double>>>(x_it->second);
+  ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
+
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
+  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+}
 
 TEST(test_node, test_ELUNode_float) {
 
