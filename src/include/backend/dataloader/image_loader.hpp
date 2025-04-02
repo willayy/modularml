@@ -17,10 +17,8 @@ class ImageLoader : public DataLoader<float> {
      *
      * Based on width and height the image is resized.
      *
-     * @param path The relative path to the image
+     * @param config The relative path to the image
      * @return A unique_ptr to a Tensor containing the loaded data.
      */
-    std::shared_ptr<Tensor<float>> load(const ImageLoaderConfig& config) const;
-
-   private:
+    std::shared_ptr<Tensor<float>> load(const DataLoaderConfig& config) const;
 };

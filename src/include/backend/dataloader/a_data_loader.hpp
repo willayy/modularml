@@ -17,6 +17,9 @@
 template <typename T>
 class DataLoader {
 public:
+
+    DataLoader() = default;
+    
     /**
      * @brief Load external data and translate it to tensor.
      * 

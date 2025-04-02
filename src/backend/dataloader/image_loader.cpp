@@ -5,13 +5,15 @@
 #include "stb_image.h"
 
 
-std::shared_ptr<Tensor<float>> ImageLoader::load(const ImageLoaderConfig& config) const {
+std::shared_ptr<Tensor<float>> ImageLoader::load(const DataLoaderConfig& config) const {
+    const ImageLoaderConfig& image_config = dynamic_cast<const ImageLoaderConfig&>(config);
+
     int width, height, channels;
 
-    unsigned char* image_data = stbi_load(config.image_path.c_str(), &width, &height, &channels, 0);
+    unsigned char* image_data = stbi_load(image_config.image_path.c_str(), &width, &height, &channels, 0);
 
     if (!image_data) {
-        throw std::invalid_argument("Failed to load image: " + config.image_path);
+        throw std::invalid_argument("Failed to load image: " + image_config.image_path);
     }
 
     int data_size = width * height * channels;
@@ -21,7 +23,7 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(const ImageLoaderConfig& config
     }
 
     // Prepare output tensor
-    array_mml<int> image_tensor_shape({1, channels, width, height});
+    array_mml<unsigned long int> image_tensor_shape({1, static_cast<unsigned long int>(channels), static_cast<unsigned long int>(width), static_cast<unsigned long int>(height)});
     array_mml<float> output_data(data_size);  // Fills with 0:s
     std::shared_ptr<Tensor_mml<float>> output = std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
 
@@ -32,11 +34,11 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(const ImageLoaderConfig& config
             int index = (y * width + x) * channels;
             
             // This writes each pixel component to the correct slice in the tensor
-            for (unsigned long int c = 0; c < channels; c++) { //XD
+            for (unsigned long int c = 0; c < channels && c < 3; c++) { //XD
                 float pixel_component = float_image_data[index + c];
                 
-                // Write the pixel component value
-                (*output)[{1, c, y, x}] = pixel_component;
+                // Write the pixel component value, we assume that only a single image is loaded at a time currently
+                (*output)[{0, c, y, x}] = pixel_component;
             }
         }   
     }
