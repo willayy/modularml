@@ -50,6 +50,8 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(const DataLoaderConfig& config)
             }
         }   
     }
+    free(image_data);
+    free(float_image_data);
     return output; // Return the shared pointer
 }
 

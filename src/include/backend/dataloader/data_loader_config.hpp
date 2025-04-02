@@ -52,5 +52,5 @@ struct ImageLoaderConfig : public DataLoaderConfig {
      * @param path The path to the image file.
      * @param include_alpha_channel Whether to load the image with an alpha channel (default: `false`).
      */
-    explicit ImageLoaderConfig(const std::string& path, bool include_alpha_channel = false) : image_path(path) {}
+    explicit ImageLoaderConfig(const std::string& path, bool include_alpha_channel = false) : image_path(path), include_alpha_channel(include_alpha_channel) {}
 };
