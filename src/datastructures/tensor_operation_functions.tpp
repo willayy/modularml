@@ -1,5 +1,4 @@
 #pragma once
-
 #include "datastructures/tensor_operation_functions.hpp"
 
 template <typename T>
@@ -188,7 +187,7 @@ mml_onnx_gemm_inner_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   shared_ptr<Tensor<T>> C_p =
       C.has_value()
           ? *C
-          : TensorFactory::create_tensor({M, N});
+          : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_inner_product(transA, transB, M, N, K, static_cast<T>(alpha), A, lda,
                          B, ldb, static_cast<T>(beta), C_p, ldc);
   return C_p;
@@ -209,7 +208,7 @@ mml_onnx_gemm_outer_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_outer_product(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta,
                          C_p, ldc);
   return C_p;
@@ -230,7 +229,7 @@ mml_onnx_gemm_row_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_row_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
   return C_p;
@@ -251,7 +250,7 @@ mml_onnx_gemm_col_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_col_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
   return C_p;
@@ -272,7 +271,7 @@ mml_onnx_gemm_blocked(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_blocked(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                    ldc);
   return C_p;
@@ -293,7 +292,7 @@ mml_onnx_gemm_avx(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_avx(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p, ldc);
   return C_p;
 }
@@ -313,7 +312,7 @@ mml_onnx_gemm_avx512(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_avx512(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                   ldc);
   return C_p;
@@ -334,7 +333,7 @@ mml_onnx_gemm_intel_MKL(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int ldc = N;
   shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C
-                    : TensorFactory::create_tensor({M, N});
+                    : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_intel(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                  ldc);
   return C_p;

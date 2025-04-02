@@ -7,9 +7,8 @@
   static_assert(std::is_arithmetic_v<T>,                                       \
                 "TensorOperationModule type must be arithmetic.")
 /**
- *   A module for performing arithmetic operations on tensor structures. Your
- * modular toolbox for all operations on tensors.
- *    @param T the data type (arithmetic).
+ * A module for performing arithmetic operations on tensor structures. Your
+ * static modular toolbox for all operations on tensors.
  */
 class TensorOperationsModule {
 
@@ -211,7 +210,7 @@ public:
 
 private:
   // Private constructor.
-  TensorOperationsModule() {}
+  TensorOperationsModule() = default;
 
   // Pointer to the gemm function.
   template <typename T>
@@ -219,50 +218,51 @@ private:
                           shared_ptr<Tensor<T>> A, int lda,
                           shared_ptr<Tensor<T>> B, int ldb, T BETA,
                           shared_ptr<Tensor<T>> C,
-                          int ldc) = mml_gemm_inner_product;
+                          int ldc);
 
   // Pointer to the gemm_onnx function.
   template <typename T>
   static shared_ptr<Tensor<T>> (*gemm_onnx_ptr)(
       shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha, float beta,
       int transA, int transB,
-      optional<shared_ptr<Tensor<T>>> C) = mml_onnx_gemm_inner_product;
+      optional<shared_ptr<Tensor<T>>> C);
 
   // Pointer to the add function.
   template <typename T>
   static void (*add_ptr)(const shared_ptr<const Tensor<T>> a,
                          const shared_ptr<const Tensor<T>> b,
-                         shared_ptr<Tensor<T>> c) = mml_add;
+                         shared_ptr<Tensor<T>> c);
 
   // Pointer to the subtract function.
   template <typename T>
   static void (*subtract_ptr)(const shared_ptr<Tensor<T>> a,
                               const shared_ptr<Tensor<T>> b,
-                              shared_ptr<Tensor<T>> c) = mml_subtract;
+                              shared_ptr<Tensor<T>> c);
 
   // Pointer to the multiply function.
   template <typename T>
   static void (*multiply_ptr)(const shared_ptr<Tensor<T>> a, const T b,
-                              shared_ptr<Tensor<T>> c) = mml_multiply;
+                              shared_ptr<Tensor<T>> c);
 
   // Pointer to the equals function.
   template <typename T>
   static bool (*equals_ptr)(const shared_ptr<Tensor<T>> a,
-                            const shared_ptr<Tensor<T>> b) = mml_equals;
+                            const shared_ptr<Tensor<T>> b);
 
   // Pointer to the elementwise function.
   template <typename T>
   static void (*elementwise_ptr)(
       const shared_ptr<const Tensor<T>> a, const function<T(T)> &f,
-      const shared_ptr<Tensor<T>> c) = mml_elementwise;
+      const shared_ptr<Tensor<T>> c);
 
   // Pointer to the elementwise_in_place function.
   template <typename T>
   static void (*elementwise_in_place_ptr)(const shared_ptr<Tensor<T>> a,
-                                          const function<T(T)> &f) =
-      mml_elementwise_in_place;
+                                          const function<T(T)> &f);
 
   // Pointer to the arg_max function.
   template <typename T>
-  static int (*arg_max_ptr)(const shared_ptr<const Tensor<T>> a) = mml_arg_max;
+  static int (*arg_max_ptr)(const shared_ptr<const Tensor<T>> a);
 };
+
+#include "../datastructures/tensor_operations_module.tpp"

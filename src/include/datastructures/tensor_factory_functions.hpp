@@ -17,3 +17,5 @@ mml_constructor_3(const initializer_list<uli> dims,
 template <typename T>
 static shared_ptr<Tensor<T>>
 mml_constructor_4(const initializer_list<uli> dims);
+
+#include "../datastructures/tensor_factory_functions.tpp"

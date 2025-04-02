@@ -6,6 +6,11 @@
 #include "mml_tensor.hpp"
 #include "tensor_factory_functions.hpp"
 
+/**
+ * @brief A static utility factory class for creating tensors with different shapes and data.
+ * Using the setters you can set the function pointers to the tensor constructors. Allowing you to
+ * use different tensor implementations.
+ */
 class TensorFactory {
 public:
 
@@ -86,24 +91,25 @@ public:
   static shared_ptr<Tensor<T>> random_tensor(const array_mml<uli> &shape,
                                       T lo_v = T(0), T hi_v = T(1));
 
-  
-
 private:
   // Private constructor to prevent instantiation.
-  TensorFactory() {}
+  TensorFactory() = default;
 
+  // Pointers to the tensor constructor functions.
   template <typename T>
   static shared_ptr<Tensor<T>> (*tensor_constructor_1)(const array_mml<uli> &shape,
-                                                const array_mml<T> &data) = mml_constructor_1;
+                                                const array_mml<T> &data);
 
   template <typename T>
-  static shared_ptr<Tensor<T>> (*tensor_constructor_2)(const array_mml<uli> &shape) = mml_constructor_2;
+  static shared_ptr<Tensor<T>> (*tensor_constructor_2)(const array_mml<uli> &shape);
 
   template <typename T>
   static shared_ptr<Tensor<T>> (*tensor_constructor_3)(
-      const initializer_list<uli> shape, const initializer_list<T> data) = mml_constructor_3;
+      const initializer_list<uli> shape, const initializer_list<T> data);
 
   template <typename T>
   static shared_ptr<Tensor<T>> (*tensor_constructor_4)(
-      const initializer_list<uli> shape) = mml_constructor_4;
+      const initializer_list<uli> shape);
 };
+
+#include "../datastructures/tensor_factory.tpp"
