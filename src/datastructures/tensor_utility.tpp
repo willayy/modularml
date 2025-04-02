@@ -64,6 +64,7 @@ array_mml<T> generate_random_array_mml_real(uli lo_sz, uli hi_sz, T lo_v,
 }
 
 template <typename T>
+[[deprecated("Use TensorFactory instead.")]]
 static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
                                    T hi_v) {
   static_assert(
