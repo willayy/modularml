@@ -175,4 +175,18 @@ TEST(test_LeNet, test_LeNet_forward) {
 
   int max_index = Arithmetic_mml<double>().arg_max(output_tensor);
   ASSERT_TRUE(max_index == PREDICTED_CLASS);  // Compare against the predicted class.
+
+  // Do the entire thing again, but with a diffrent input tensor:
+
+  TensorToProcess = tensor_mml_p<double>({INPUT_TENSOR2_SHAPE}, {INPUT_TENSOR2_DATA});
+  LeNetModel<double> model2 = LeNetModel<double>(TensorToProcess, true);
+  model2.forward();
+  output_tensor = model2.getTensor();
+
+  expected_output = tensor_mml_p<double>({OUTPUT_TENSOR2_SHAPE}, {OUTPUT_TENSOR2_DATA});
+
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.05));
+
+  max_index = Arithmetic_mml<double>().arg_max(output_tensor);
+  ASSERT_TRUE(max_index == PREDICTED_CLASS2);  // Compare against the predicted class.
 }

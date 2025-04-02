@@ -116,6 +116,24 @@ with open(header_file, "a") as f:
 print("Header file 'test_LeNet.hpp' generated with all node outputs.")
 print("Predicted class:", predicted_class)
 
+# === Second Inference with Different Input === #
+torch.manual_seed(1100)
+example_tensor2 = torch.randn(1, 1, 32, 32)
+activations2 = {}
+output2 = model(example_tensor2, activations2)
+
+# Save second input and output
+append_tensor_to_header(example_tensor2, "INPUT_TENSOR2", header_file)
+append_tensor_to_header(output2, "OUTPUT_TENSOR2", header_file)
+
+# Predicted class for second input
+predicted_class2 = torch.argmax(output2, dim=1).item()
+with open(header_file, "a") as f:
+    f.write(f"#define PREDICTED_CLASS2 {predicted_class2}\n")
+
+print("Second inference complete.")
+print("Predicted class (second input):", predicted_class2)
+
 # === Export to ONNX === #
 onnx_filename = "custom_lenet.onnx"
 
