@@ -2,8 +2,13 @@
 
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
                          float beta, float bias)
-    : X(X), Y(Y), size(size), alpha(alpha), beta(beta) {
-  this->bias = std::max(bias, 0.001f);
+    : X(X), Y(Y), alpha(alpha), beta(beta) {
+  if (size < 1)
+    throw std::invalid_argument("Size must be at least 1.");
+  if (bias < 0.001)
+    throw std::invalid_argument("Bias must be at least 0.001.");
+  this->size = size;
+  this->bias = bias;
 };
 
 LRNNode_mml::LRNNode_mml(const json &node) {
@@ -22,13 +27,17 @@ LRNNode_mml::LRNNode_mml(const json &node) {
   if (node.contains("attribute") && node["attribute"].is_object()) {
     for (const auto &attr : node["attribute"]) {
       if (attr["name"] == "size") {
+        if (attr["name"].get<uli>() < 1)
+          throw std::invalid_argument("Size must be at least 1.");
         size = attr["i"];
       } else if (attr["name"] == "alpha") {
         alpha = attr["f"];
       } else if (attr["name"] == "beta") {
         beta = attr["f"];
       } else if (attr["name"] == "bias") {
-        this->bias = std::max(attr["f"].get<float>(), 0.001f);
+        if (attr["f"].get<float>() < 0.001)
+          throw std::invalid_argument("Bias must be >0.001.");
+        bias = attr["f"];
       }
     }
   }
@@ -89,11 +98,7 @@ void LRNNode_mml::forward(
                     square_sum +=
                         (*x_ptr)[{n, i, h, w}] * (*x_ptr)[{n, i, h, w}];
                   }
-                  std::cerr
-                      << "Square_sum: " << square_sum << ", Value: "
-                      << std::pow((bias + alpha / size * square_sum), beta)
-                      << std::endl
-                      << std::flush;
+
                   (*y_ptr)[{n, c, h, w}] =
                       (*x_ptr)[{n, c, h, w}] /
                       std::pow((bias + alpha / size * square_sum), beta);
