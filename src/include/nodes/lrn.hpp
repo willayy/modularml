@@ -20,26 +20,28 @@ public:
    * @param size (Required) The number of channels to sum over
    * @param alpha (default = 0.0001) Scaling parameter
    * @param beta (default = 0.75) The exponent
-   * @param bias (default = 1.0) Bias to avoid division with 0.
+   * @param bias (default = 1.0) Bias to avoid division with 0. If the value is
+   * set to below 0.001, the function will set it to 0.001 during propogation.
    *
    */
   LRNNode_mml(std::string X, std::string Y, uli size, float alpha = 0.0001f,
               float beta = 0.75f, float bias = 1.0f);
 
-  LRNNode_mml(const json& node);
+  LRNNode_mml(const json &node);
 
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
-   * 
+   *
    * @return The names of the inputs to the node.
    */
   std::vector<std::string> getInputs() override;
 
   /**
    * @brief Get outputs.
-   * 
+   *
    * @return The names of the outputs to the node.
    */
   std::vector<std::string> getOutputs() override;
