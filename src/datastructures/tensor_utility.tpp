@@ -19,7 +19,8 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
 
   for (uli i = 0; i < t1.get_size(); i++) {
     T diff = std::abs(t1[i] - t2[i]);
-    T tolerance_limit = std::max(static_cast<T>(0.00001), std::abs(tolerance * (t2[i])));
+    T tolerance_limit =
+        std::max(static_cast<T>(0.00001), std::abs(tolerance * (t2[i])));
 
     if (diff > tolerance_limit) {
       std::cerr << "Difference of " << diff << " found at (" << i
@@ -30,36 +31,6 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
   }
 
   return true;
-}
-
-template <typename T>
-array_mml<T> generate_random_array_mml_integral(uli lo_sz, uli hi_sz, T lo_v,
-                                                T hi_v) {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
-  uli n = size_dist(gen);
-  array_mml<T> arr = array_mml<T>(n);
-  std::uniform_int_distribution<T> int_dist(lo_v, hi_v);
-  for (uli i = 0; i < n; i++) {
-    arr[i] = int_dist(gen);
-  }
-  return arr;
-}
-
-template <typename T>
-array_mml<T> generate_random_array_mml_real(uli lo_sz, uli hi_sz, T lo_v,
-                                            T hi_v) {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
-  uli n = size_dist(gen);
-  array_mml<T> arr = array_mml<T>(n);
-  std::uniform_real_distribution<T> real_dist(lo_v, hi_v);
-  for (uli i = 0; i < n; i++) {
-    arr[i] = real_dist(gen);
-  }
-  return arr;
 }
 
 template <typename T>
@@ -89,8 +60,11 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
 
 // External Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size, std::mt19937& gen) {
-  static_assert(std::is_floating_point_v<T>, "Kaiming Uniform initialization requires a floating-point type.");
+void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
+                     std::mt19937 &gen) {
+  static_assert(
+      std::is_floating_point_v<T>,
+      "Kaiming Uniform initialization requires a floating-point type.");
 
   uli fan_in = in_channels * kernel_size * kernel_size;
   if (fan_in == 0) {
@@ -107,8 +81,9 @@ void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size, 
 
 // Internal Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size) {
+void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels,
+                     uli kernel_size) {
   std::random_device rd;
-  std::mt19937 gen(rd());  // seeded automatically
+  std::mt19937 gen(rd()); // seeded automatically
   kaiming_uniform(W, in_channels, kernel_size, gen);
 }

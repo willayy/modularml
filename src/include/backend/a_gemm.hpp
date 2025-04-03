@@ -11,15 +11,19 @@ template <typename T>
 class GemmModule {
  public:
   /// @brief Default constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   GemmModule() = default;
 
   /// @brief Copy constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   GemmModule(const GemmModule& other) = default;
 
   /// @brief Move constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   GemmModule(GemmModule&& other) noexcept = default;
 
   /// @brief Abstract destructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual ~GemmModule() = default;
 
   /**
@@ -43,6 +47,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
                                   shared_ptr<Tensor<T>> A, int lda,
                                   shared_ptr<Tensor<T>> B, int ldb,
@@ -70,6 +75,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
                                   shared_ptr<Tensor<T>> A, int lda,
                                   shared_ptr<Tensor<T>> B, int ldb,
@@ -97,6 +103,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_row_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
                                      shared_ptr<Tensor<T>> A, int lda,
                                      shared_ptr<Tensor<T>> B, int ldb,
@@ -124,6 +131,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_col_wise_product(int TA, int TB, int M, int N, int K, T ALPHA,
                                      shared_ptr<Tensor<T>> A, int lda,
                                      shared_ptr<Tensor<T>> B, int ldb,
@@ -151,6 +159,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                             shared_ptr<Tensor<T>> A, int lda,
                             shared_ptr<Tensor<T>> B, int ldb,
@@ -178,6 +187,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                         shared_ptr<Tensor<T>> A, int lda,
                         shared_ptr<Tensor<T>> B, int ldb,
@@ -205,6 +215,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                            shared_ptr<Tensor<T>> A, int lda,
                            shared_ptr<Tensor<T>> B, int ldb,
@@ -232,6 +243,7 @@ class GemmModule {
    * @param C 1D array containing the result matrix (can be initialized to non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C.
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual void gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
                               shared_ptr<Tensor<T>> A, int lda,
                               shared_ptr<Tensor<T>> B, int ldb,

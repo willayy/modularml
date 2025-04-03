@@ -51,5 +51,6 @@ using std::unordered_set;
 using std::variant;
 using std::vector;
 using std::visit;
+using std::function;
 
 using uli = unsigned long int;
