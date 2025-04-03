@@ -2,16 +2,14 @@
 
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
                          float beta, float bias)
-    : X(X), Y(Y), alpha(alpha) {
+    : X(X), Y(Y), alpha(alpha), beta(beta) {
   if (size < 1)
     throw std::invalid_argument("Size must be at least 1.");
   if (bias < 0.001)
     throw std::invalid_argument("Bias must be at least 0.001.");
-  if (beta < 0)
-    throw std::invalid_argument("Beta must be at least 0.");
+
   this->size = size;
   this->bias = bias;
-  this->beta = beta;
 };
 
 LRNNode_mml::LRNNode_mml(const json &node) {
@@ -36,8 +34,6 @@ LRNNode_mml::LRNNode_mml(const json &node) {
       } else if (attr["name"] == "alpha") {
         alpha = attr["f"];
       } else if (attr["name"] == "beta") {
-        if (attr["f"].get<float>() < 0)
-          throw std::invalid_argument("Beta must be >= 0");
         beta = attr["f"];
       } else if (attr["name"] == "bias") {
         if (attr["f"].get<float>() < 0.001)
