@@ -20,7 +20,7 @@ public:
    * @param size (Required) The number of channels to sum over. Must be at
    * least 1.
    * @param alpha (default = 0.0001) Scaling parameter
-   * @param beta (default = 0.75) The exponent
+   * @param beta (default = 0.75) The exponent. Must be at least 0.
    * @param bias (default = 1.0) Bias to avoid division with 0. Must be at least
    * 0.001.
    *
