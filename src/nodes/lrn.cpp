@@ -28,7 +28,7 @@ LRNNode_mml::LRNNode_mml(const json &node) {
       } else if (attr["name"] == "beta") {
         beta = attr["f"];
       } else if (attr["name"] == "bias") {
-        this->bias = std::max(attr["f"], 0.001f);
+        this->bias = std::max(attr["f"].get<float>(), 0.001f);
       }
     }
   }
