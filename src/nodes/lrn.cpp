@@ -2,7 +2,9 @@
 
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
                          float beta, float bias)
-    : X(X), Y(Y), size(size), alpha(alpha), beta(beta), bias(bias) {};
+    : X(X), Y(Y), size(size), alpha(alpha), beta(beta) {
+  this->bias = std::max(bias, 0.001f);
+};
 
 LRNNode_mml::LRNNode_mml(const json &node) {
   if (node.contains("input") && node["input"].is_array()) {
@@ -26,7 +28,7 @@ LRNNode_mml::LRNNode_mml(const json &node) {
       } else if (attr["name"] == "beta") {
         beta = attr["f"];
       } else if (attr["name"] == "bias") {
-        bias = attr["f"];
+        this->bias = std::max(attr["f"], 0.001f);
       }
     }
   }
@@ -37,10 +39,6 @@ void LRNNode_mml::forward(
   auto x_it = iomap.find(X);
   if (x_it == iomap.end()) {
     throw std::runtime_error("LRNNode_mml: Input tensor X not found in iomap");
-  }
-
-  if (bias < 0.001) {
-    this->bias = 0.001;
   }
 
   const GeneralDataTypes &x_tensor = x_it->second;

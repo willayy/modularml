@@ -21,7 +21,7 @@ public:
    * @param alpha (default = 0.0001) Scaling parameter
    * @param beta (default = 0.75) The exponent
    * @param bias (default = 1.0) Bias to avoid division with 0. If the value is
-   * set to below 0.001, the function will set it to 0.001 during propogation.
+   * set to below 0.001, it will default to 0.001.
    *
    */
   LRNNode_mml(std::string X, std::string Y, uli size, float alpha = 0.0001f,
