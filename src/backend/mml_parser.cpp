@@ -1,7 +1,9 @@
 #include "backend/mml_parser.hpp"
 #include "backend/mml_model.hpp"
+#include "utility/parser_helper.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pooling.hpp"
+#include "nodes/constant.hpp"
 #include "nodes/conv.hpp"
 #include "nodes/dropout.hpp"
 #include "nodes/elu.hpp"
@@ -27,47 +29,41 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
     for (const auto& init: graph["initializer"]) {
       std::string initName = init["name"];
       int dataType = init["dataType"];
-      
-      std::vector<uli> dims;
-      for (const auto& el : init["dims"]) {
-        dims.push_back(static_cast<uli>(std::stoi(el.get<std::string>())));
-      }
-      array_mml shapeArray(dims);
 
       // Need to handle more data types
       switch (dataType) {
         case 1:  // FLOAT
-          handleTensorData<float>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<float>(init);
           break;
         case 2:  // UINT8
-          handleTensorData<uint8_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<uint8_t>(init);
           break;
         case 3:  // INT8
-          handleTensorData<int8_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<int8_t>(init);
           break;
         case 4:  // UINT16
-          handleTensorData<uint16_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<uint16_t>(init);
           break;
         case 5:  // INT16
-          handleTensorData<int16_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<int16_t>(init);
           break;
         case 6:  // INT32
-          handleTensorData<int32_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<int32_t>(init);
           break;
         case 7:  // INT64
-          handleTensorData<int64_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<int64_t>(init);
           break;
         case 9:  // BOOL
-          handleTensorData<bool>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<bool>(init);
           break;
         case 11: // DOUBLE
-          handleTensorData<double>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<double>(init);
           break;
         case 12: // UINT32
-          handleTensorData<uint32_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<uint32_t>(init);
           break;
         case 13: // UINT64
-          handleTensorData<uint64_t>(init, initName, shapeArray, tensorMap);
+          tensorMap[initName] = parserHelper::handleTensor<uint64_t>(init);
           break;
         default:
           throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));
@@ -92,6 +88,8 @@ std::vector<shared_ptr<Node>> constructNodes(const json& graph) {
         nodes.push_back(std::make_shared<AddNode>(node));
       } else if (opType == "AveragePool") {
         nodes.push_back(std::make_shared<AvgPoolingNode_mml>(node));
+      } else if (opType == "Constant") {
+        nodes.push_back(std::make_shared<ConstantNode>(node));
       } else if (opType == "Conv") {
         nodes.push_back(std::make_shared<ConvNode>(node));
       } else if (opType == "Dropout") {

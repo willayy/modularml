@@ -72,7 +72,8 @@
           "/base_model/Relu_output_0"
         ],
         "output": [
-          "/base_model/MaxPool_output_0"
+          "/base_model/MaxPool_output_0",
+          "test1"
         ],
         "name": "/base_model/MaxPool",
         "opType": "MaxPool",
@@ -186,7 +187,8 @@
           "/base_model/Relu_1_output_0"
         ],
         "output": [
-          "/base_model/MaxPool_1_output_0"
+          "/base_model/MaxPool_1_output_0",
+          "test2"
         ],
         "name": "/base_model/MaxPool_1",
         "opType": "MaxPool",
@@ -296,16 +298,6 @@
         "opType": "Relu"
       },
       {
-        "input": [
-          "/base_model/Relu_2_output_0"
-        ],
-        "output": [
-          "/base_model/Shape_output_0"
-        ],
-        "name": "/base_model/Shape",
-        "opType": "Shape"
-      },
-      {
         "output": [
           "/base_model/Constant_output_0"
         ],
@@ -315,92 +307,20 @@
           {
             "name": "value",
             "t": {
-              "dataType": 7,
-              "rawData": "AAAAAAAAAAA="
-            },
-            "type": "TENSOR"
-          }
-        ]
-      },
-      {
-        "input": [
-          "/base_model/Shape_output_0",
-          "/base_model/Constant_output_0"
-        ],
-        "output": [
-          "/base_model/Gather_output_0"
-        ],
-        "name": "/base_model/Gather",
-        "opType": "Gather",
-        "attribute": [
-          {
-            "name": "axis",
-            "i": "0",
-            "type": "INT"
-          }
-        ]
-      },
-      {
-        "input": [
-          "/base_model/Gather_output_0"
-        ],
-        "output": [
-          "/base_model/Unsqueeze_output_0"
-        ],
-        "name": "/base_model/Unsqueeze",
-        "opType": "Unsqueeze",
-        "attribute": [
-          {
-            "name": "axes",
-            "ints": [
-              "0"
-            ],
-            "type": "INTS"
-          }
-        ]
-      },
-      {
-        "output": [
-          "/base_model/Constant_1_output_0"
-        ],
-        "name": "/base_model/Constant_1",
-        "opType": "Constant",
-        "attribute": [
-          {
-            "name": "value",
-            "t": {
               "dims": [
-                "1"
+                "2"
               ],
               "dataType": 7,
-              "rawData": "//////////8="
+              "rawData": "///////////gAQAAAAAAAA=="
             },
             "type": "TENSOR"
-          }
-        ]
-      },
-      {
-        "input": [
-          "/base_model/Unsqueeze_output_0",
-          "/base_model/Constant_1_output_0"
-        ],
-        "output": [
-          "/base_model/Concat_output_0"
-        ],
-        "name": "/base_model/Concat",
-        "opType": "Concat",
-        "attribute": [
-          {
-            "name": "axis",
-            "i": "0",
-            "type": "INT"
           }
         ]
       },
       {
         "input": [
           "/base_model/Relu_2_output_0",
-          "/base_model/Concat_output_0"
+          "/base_model/Constant_output_0"
         ],
         "output": [
           "/base_model/Reshape_output_0"

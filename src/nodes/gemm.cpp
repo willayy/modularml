@@ -25,16 +25,16 @@ GemmNode::GemmNode(const json& node) {
   beta = 1.0f;
   transA = 0;
   transB = 0;
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "alpha") {
         alpha = attr["f"];
       } else if (attr["name"] == "beta") {
         beta = attr["f"];
       } else if (attr["name"] == "transA") {
-        transA = attr["i"];
+        transA = std::stoi(attr["i"].get<std::string>());
       } else if (attr["name"] == "transB") {
-        transB = attr["i"];
+        transB = std::stoi(attr["i"].get<std::string>());
       }
     }
   }
@@ -61,18 +61,8 @@ void GemmNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     if constexpr (!is_in_variant_v<ValueTypeA, T> || !std::is_same_v<ValueTypeA, ValueTypeB>) {
       throw std::runtime_error("GemmNode: Unsupported data type for tensor A");
     } else {
-      auto y_it = iomap.find(Y);
-      if (y_it == iomap.end()) {
-        // Create output tensor if it doesn't exist
-        auto y_ptr = a_ptr->copy();
-        // No need to fill with zeros as the gemm_inner_product function will overwrite the values
-        iomap[Y] = y_ptr;
-        y_it = iomap.find(Y);
-      } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueTypeA>>>(y_it->second)) {
-        throw std::runtime_error("GemmNode: Output tensor Y has incorrect type");
-      }
-
-      auto y_ptr = std::get<std::shared_ptr<Tensor<ValueTypeA>>>(y_it->second);
+      auto y_ptr = a_ptr->copy();
+      iomap[Y] = y_ptr;
 
       auto shapeA = a_ptr->get_shape();
 

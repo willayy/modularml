@@ -13,7 +13,7 @@ ELUNode::ELUNode(const json& node) {
   }
 
   alpha = 1.0f;
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "alpha") {
         alpha = attr["f"];
