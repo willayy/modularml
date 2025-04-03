@@ -109,5 +109,5 @@ TEST(test_mml_tensor, test_parsing_and_running_lenet) {
     auto expected_output_tensor = tensor_mml_p<float>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
 
 
-    ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.15f));
+    ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
 }
