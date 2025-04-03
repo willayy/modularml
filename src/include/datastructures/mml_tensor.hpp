@@ -78,6 +78,9 @@ class Tensor_mml : public Tensor<T> {
   const T& operator[](uli index) const override;
   T& operator[](uli index) override;
   void fill(T value) override;
+  shared_ptr<Tensor<T>> transpose(std::optional<uli> dim0 = std::nullopt, std::optional<uli> dim1 = std::nullopt) const override;
+  bool is_broadcastable_to(const array_mml<uli>& target_shape) const override;
+  std::shared_ptr<Tensor<T>> broadcast_to(const array_mml<uli>& target_shape) const override;
 
  private:
   array_mml<T> data;

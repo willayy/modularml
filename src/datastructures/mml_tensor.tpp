@@ -307,19 +307,138 @@ void Tensor_mml<T>::fill(T value) {
 }
 
 template <typename T>
+shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(std::optional<uli> dim0, std::optional<uli> dim1) const {
+  uli rank = this->shape.size();
+  uli d0 = dim0.value_or(rank > 1 ? rank - 2 : 0);
+  uli d1 = dim1.value_or(rank > 1 ? rank - 1 : 0);
+
+  if (d0 >= rank || d1 >= rank) {
+    throw std::invalid_argument("Transpose dimensions out of range");
+  }
+
+  if (d0 == d1) {
+    return this->copy();
+  }
+
+  array_mml<uli> new_shape = this->shape;
+  std::swap(new_shape[d0], new_shape[d1]);
+
+  auto transposed = std::make_shared<Tensor_mml<T>>(new_shape);
+
+  if (rank == 2 && d0 == 0 && d1 == 1) {
+    // Optimize the common 2D matrix transpose case
+    for (uli i = 0; i < this->shape[0]; i++) {
+      for (uli j = 0; j < this->shape[1]; j++) {
+        (*transposed)[{j, i}] = (*this)[{i, j}];
+      }
+    }
+  } else {
+    std::function<void(array_mml<uli>&, uli)> transpose_recursive;
+    transpose_recursive = [&](array_mml<uli>& indices, uli dim) {
+      if (dim == rank) {
+        array_mml<uli> transposed_indices = indices;
+        std::swap(transposed_indices[d0], transposed_indices[d1]);
+        (*transposed)[transposed_indices] = (*this)[indices];
+        return;
+      }
+
+      for (uli i = 0; i < this->shape[dim]; ++i) {
+        indices[dim] = i;
+        transpose_recursive(indices, dim + 1);
+      }
+    };
+
+    array_mml<uli> indices(rank);
+    indices.fill(0);
+    transpose_recursive(indices, 0);
+  }
+
+  return transposed;
+};
+
+template <typename T>
+bool Tensor_mml<T>::is_broadcastable_to(const array_mml<uli>& target_shape) const { 
+  const array_mml<uli>& current_shape = this->shape;
+  
+  size_t i = current_shape.size();
+  size_t j = target_shape.size();
+  
+  while (i > 0 && j > 0) {
+    i--; j--;
+    // Dimensions must either be equal or one must be 1
+    if (current_shape[i] != target_shape[j] && 
+        current_shape[i] != 1 && target_shape[j] != 1) {
+      return false;
+    }
+  }
+  
+  // If the current tensor has remaining dimensions, they must all be 1
+  while (i > 0) {
+    i--;
+    if (current_shape[i] != 1) return false;
+  }
+  
+  return true;
+};
+
+template <typename T>
+std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_to(const array_mml<uli>& target_shape) const {
+  if (this->shape == target_shape) {
+    return this->copy();
+  }
+  
+  if (!is_broadcastable_to(target_shape)) {
+    throw std::invalid_argument("Cannot broadcast tensor to target shape");
+  }
+
+  auto result = std::make_shared<Tensor_mml<T>>(target_shape);
+  const array_mml<uli>& current_shape = this->shape;
+  uli rank_diff = target_shape.size() - current_shape.size();
+
+  array_mml<uli> target_indices(target_shape.size());
+  target_indices.fill(0);
+  
+  array_mml<uli> source_indices(current_shape.size());
+  source_indices.fill(0);
+
+  std::function<void(uli)> fill_broadcast = [&](uli dim) {
+    if (dim == target_shape.size()) {
+      for (uli i = 0; i < current_shape.size(); ++i) {
+        uli target_i = i + rank_diff;
+        source_indices[i] = (current_shape[i] == 1) ? 0 : target_indices[target_i];
+      }
+
+      (*result)[target_indices] = (*this)[source_indices];
+      return;
+    }
+
+    for (uli i = 0; i < target_shape[dim]; ++i) {
+      target_indices[dim] = i;
+      fill_broadcast(dim + 1);
+    }
+  };
+
+  fill_broadcast(0);
+  return result;
+};
+
+
+template <typename T>
 array_mml<uli> Tensor_mml<T>::compute_indices_offsets() const {
   const uli shape_size = this->shape.size();
-  auto computed_offsets = array_mml<uli>(shape_size);
-  computed_offsets.fill(1);
+  array_mml<uli> computed_offsets(shape_size);
 
-  // Special case if shape is 1D
-  if (shape_size == 1) { return computed_offsets; }
-  
-  // Compute offsets
-  uli i = shape_size - 2;
-  do {
+  if (shape_size == 0) {
+    // Scalar tensor: no offsets needed
+    return computed_offsets;
+  }
+
+  computed_offsets[shape_size - 1] = 1;
+
+  // Fill in offsets backwards
+  for (int i = static_cast<int>(shape_size) - 2; i >= 0; --i) {
     computed_offsets[i] = this->shape[i + 1] * computed_offsets[i + 1];
-  } while (i-- > 0);
+  }
 
   return computed_offsets;
 }
@@ -350,6 +469,10 @@ array_mml<uli> Tensor_mml<T>::compute_slice_offsets(array_mml<uli>& slice_indice
 
 template <typename T>
 uli Tensor_mml<T>::compute_size() const {
+  if (shape.size() == 0) {
+    return 1;  // Scalar tensor has 1 value
+  }
+
   return accumulate(this->shape.begin(), this->shape.end(), 1, multiplies<uli>());
 }
 
