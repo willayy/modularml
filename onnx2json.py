@@ -1,4 +1,4 @@
-# This file is orignially from https://github.com/PINTO0309/onnx2json
+# This file is originally from https://github.com/PINTO0309/onnx2json
 # MIT License
 
 # Copyright (c) 2021 Katsuya Hyodo

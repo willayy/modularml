@@ -12,9 +12,8 @@ public:
   /**
    * @brief Constructor for ConstantNode.
    *
-   * @param X Unique string key to the input tensor.
-   * @param Y Unique string key to the output tensor.
-   * @param alpha Coefficient of ELU.
+   * @param output Unique string key to the input tensor.
+   * @param value Tensor of variant GeneralDataTypes that will be assigned to output.
     */
     ConstantNode(std::string output, GeneralDataTypes value);
 
