@@ -14,15 +14,19 @@ template <typename T>
 class OnnxGemmModule {
  public:
   /// @brief Default constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   OnnxGemmModule() = default;
 
   /// @brief Copy constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   OnnxGemmModule(const OnnxGemmModule& other) = default;
 
   /// @brief Move constructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   OnnxGemmModule(OnnxGemmModule&& other) noexcept = default;
 
   /// @brief Abstract destructor for GEMM class.
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual ~OnnxGemmModule() = default;
 
   /**
@@ -39,6 +43,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_inner_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                                    float alpha = 1.0, float beta = 1.0,
                                                    int transA = 0, int transB = 0,
@@ -58,6 +63,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_outer_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                                    float alpha = 1.0, float beta = 1.0,
                                                    int transA = 0, int transB = 0,
@@ -77,6 +83,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_row_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                                       float alpha = 1.0, float beta = 1.0,
                                                       int transA = 0, int transB = 0,
@@ -96,6 +103,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_col_wise_product(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                                       float alpha = 1.0, float beta = 1.0,
                                                       int transA = 0, int transB = 0,
@@ -115,6 +123,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_blocked(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                              float alpha = 1.0, float beta = 1.0,
                                              int transA = 0, int transB = 0,
@@ -134,6 +143,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_avx(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                          float alpha = 1.0, float beta = 1.0,
                                          int transA = 0, int transB = 0,
@@ -153,6 +163,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_avx512(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                             float alpha = 1.0, float beta = 1.0,
                                             int transA = 0, int transB = 0,
@@ -172,6 +183,7 @@ class OnnxGemmModule {
    * @param C Optional input tensor C. If not specified, the computation is done as if C is a scalar 0. The shape of C should be unidirectional broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
+  [[deprecated("Use TensorOperationsModule instead")]]
   virtual shared_ptr<Tensor<T>> gemm_intel_MKL(shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
                                                float alpha = 1.0, float beta = 1.0,
                                                int transA = 0, int transB = 0,
