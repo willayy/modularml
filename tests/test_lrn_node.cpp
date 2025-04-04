@@ -102,6 +102,51 @@ TEST(test_lrn, test_lrn_node_square_sum_0) {
   ASSERT_TRUE(tensors_are_close(*result_ptr, *exp_output));
 }
 
+TEST(test_lrn, test_lrn_node_random_values) {
+
+  shared_ptr<Tensor<double>> X =
+      tensor_mml_p<double>({1, 4, 2, 2}, {
+                                             0.608746f,
+                                             9.412452f,
+                                             -5.879261f,
+                                             5.789683f,
+                                             -9.167872f,
+                                             -8.310365000000001f,
+                                             -2.689699f,
+                                             5.539192f,
+                                             9.300974f,
+                                             -6.686403f,
+                                             -0.36053500000000005f,
+                                             3.802501f,
+                                             -1.701825f,
+                                             -1.942637f,
+                                             7.586148f,
+                                             -6.068864f,
+                                         });
+
+  shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
+      {1, 4, 2, 2}, {0.6075f, 9.3755f, -5.8731f, 5.7804f, -9.1289f, -8.2686f,
+                     -2.6869f, 5.5283f, 9.2608f, -6.6668f, -0.3600f, 3.7947f,
+                     -1.6980f, -1.9403f, 7.5752f, -6.0611f});
+
+  std::string x_string = "X";
+  std::string y_string = "Y";
+  std::unordered_map<std::string, GeneralDataTypes> iomap;
+  iomap[x_string] = X;
+
+  LRNNode_mml lrn_node =
+      LRNNode_mml(x_string, y_string, 3, 0.0001f, 0.75f, 1.0f);
+
+  lrn_node.forward(iomap);
+
+  auto y_it = iomap.find(y_string);
+  ASSERT_NE(y_it, iomap.end()) << "Y tensor was not created";
+
+  auto result_ptr = std::get<std::shared_ptr<Tensor<double>>>(y_it->second);
+  ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
+  ASSERT_TRUE(tensors_are_close(*result_ptr, *exp_output));
+}
+
 TEST(test_lrn, test_lrn_node_invalid_arguments) {
   shared_ptr<Tensor<double>> X = tensor_mml_p<double>({1, 1, 1, 1});
 
