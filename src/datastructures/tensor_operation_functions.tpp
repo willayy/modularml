@@ -149,8 +149,7 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              shared_ptr<Tensor<T>> C, int ldc) {
   
-  std::cout << "running blocked gemm" << std::endl;
-  int block_size = 256; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
+  int block_size = 128; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
   for (int jj = 0; jj < N; jj += block_size) {
     for (int kk = 0; kk < K; kk += block_size) {
       for (int ii = 0; ii < M; ii += block_size) {
