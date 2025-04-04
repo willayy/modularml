@@ -17,4 +17,11 @@ template <typename T>
 array_mml<T> generate_random_array_mml_real(size_t lo_sz = 1, size_t hi_sz = 5,
                                             T lo_v = 1, T hi_v = 100);
 
+                                            
+template <typename T>
+array_mml<T> generate_array_random_content(uli size, T lower_bound, T upper_bound);
+
+template <typename T>
+array_mml<T> generate_array_random_content_real(uli size, T lower_bound, T upper_bound);
+
 #include "../datastructures/array_utility.tpp"

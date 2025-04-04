@@ -96,6 +96,21 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
+# ------------------- GEMM --------------------------------- #
+
+option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
+option(USE_BLOCKED_GEMM "Use default GEMM implementation" OFF)
+# Option here for AVX, ROCm, CUDA e.t.c. later
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    add_definitions(-DUSE_BLOCKED_GEMM)
+# elseif (AVX e.t.c.)
+else()
+    message(STATUS "Using default GEMM implementation")
+    add_definitions(-DUSE_DEFAULT_GEMM)
+endif()
+
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
