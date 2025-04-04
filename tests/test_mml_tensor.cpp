@@ -629,14 +629,14 @@ TEST(test_mml_tensor, broadcast_scalar_to_2D) {
 
 TEST(test_mml_tensor, is_broadcastable_positive) {
   auto tensor = tensor_mml_p<int>({1, 3});
-  auto result = tensor->is_broadcastable_to({2, 4, 3});
-  ASSERT_TRUE(result);
+  EXPECT_NO_THROW({
+    auto b = tensor->broadcast_to({2, 4, 3});
+  });
 }
 
 TEST(test_mml_tensor, is_broadcastable_negative) {
   auto tensor = tensor_mml_p<int>({2, 3});
-  auto result = tensor->is_broadcastable_to({2, 4, 3});
-  ASSERT_FALSE(result);  // Because 3 ≠ 4
+  EXPECT_THROW(tensor->broadcast_to({2, 4, 3}), std::invalid_argument);
 }
 
 TEST(test_mml_tensor, transpose_2D) {

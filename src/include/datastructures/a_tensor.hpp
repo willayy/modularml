@@ -155,9 +155,7 @@ public:
   virtual bool matrix_match(const Tensor<T> &other) const = 0;
 
   virtual shared_ptr<Tensor<T>> transpose(std::optional<uli> dim0 = std::nullopt, std::optional<uli> dim1 = std::nullopt) const = 0;
-
-  virtual bool is_broadcastable_to(const array_mml<uli>& target_shape) const = 0;
-
+  
   virtual std::shared_ptr<Tensor<T>> broadcast_to(const array_mml<uli>& target_shape) const = 0;
 
   /// @brief Method way to get a copy of the tensor.

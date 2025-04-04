@@ -1,7 +1,7 @@
 #pragma once
 
 #include "a_data_parser.hpp"
-#include "utility/base64.hpp"
+
 /**
  * @class Parser_mml
  * @brief A class for parsing JSON data of a model into a Model_mml object.

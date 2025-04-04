@@ -1,6 +1,6 @@
 #include "backend/mml_parser.hpp"
 #include "backend/mml_model.hpp"
-#include "utility/parser_helper.hpp"
+#include "backend/parser_helper.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pooling.hpp"
 #include "nodes/constant.hpp"
