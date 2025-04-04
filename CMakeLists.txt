@@ -96,6 +96,21 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
+# ------------------- GEMM --------------------------------- #
+
+option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
+option(USE_BLOCKED_GEMM "Use default GEMM implementation" OFF)
+# Option here for AVX, ROCm, CUDA e.t.c. later
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    add_definitions(-DUSE_BLOCKED_GEMM)
+# elseif (AVX e.t.c.)
+else()
+    message(STATUS "Using default GEMM implementation")
+    add_definitions(-DUSE_DEFAULT_GEMM)
+endif()
+
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
@@ -112,7 +127,16 @@ add_executable(
 )
 
 # Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path -Wfatal-errors -fmax-errors=1 -pedantic-errors)
+target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+    -g 
+    -fPIC 
+    --coverage 
+    -fprofile-abs-path 
+    -Wfatal-errors 
+    -fmax-errors=1 
+    -pedantic-errors
+)
+
 # Linker flags
 target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
 # Link the test executable with the main project executable
