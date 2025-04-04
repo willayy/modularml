@@ -15,19 +15,22 @@ ifeq ($(OS), Darwin) # MacOS
 	DEPENDENCIES := cmake g++ make graphviz gcovr doxygen
 endif
 
-.PHONY: all config build run clean
 
-all: config build
+.PHONY: all default_gemm blocked_gemm build run clean install test coverage docs
 
-config:
-	@echo "Configuring the project..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
+all: default_gemm
 
-build:
-	@echo "Building the project..."
+default_gemm:
+	@echo "Configuring the project with default GEMM implementation..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF 
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
-# Will install dependencies
+blocked_gemm:
+	@echo "Configuring the project with blocked GEMM implementation..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON 
+	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
+	
+
 install:
 	@echo "Detected OS: $(OS)"
 	@echo "Installing dependencies..."
@@ -39,7 +42,18 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
-test: all
+# Leaving this here for now
+test_default_gemm: all
+	@echo "Running tests...\n"
+	@if [ -n "$(TEST_NAME)" ]; then \
+		echo "Running test: $(TEST_NAME)"; \
+		cd ./build && ctest -R "$(TEST_NAME)" --output-on-failure; \
+	else \
+		echo "Running all tests..."; \
+		cd ./build && ctest --output-on-failure; \
+	fi
+
+test_blocked_gemm: blocked_gemm
 	@echo "Running tests...\n"
 	@if [ -n "$(TEST_NAME)" ]; then \
 		echo "Running test: $(TEST_NAME)"; \

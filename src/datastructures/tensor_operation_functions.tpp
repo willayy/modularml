@@ -144,7 +144,25 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> A, int lda,
                              shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              shared_ptr<Tensor<T>> C, int ldc) {
-  invalid_argument("Blocked GEMM not yet supported.");
+  
+  std::cout << "running blocked gemm" << std::endl;
+  int block_size = 256; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
+  for (int jj = 0; jj < N; jj += block_size) {
+    for (int kk = 0; kk < K; kk += block_size) {
+      for (int ii = 0; ii < M; ii += block_size) {
+        
+        for (int j = jj; j < std::min(jj + block_size, N); j++) {
+          for (int i = ii; i < std::min(ii + block_size, M); i++) {
+            T sum = 0;
+            for (int k = kk; k < std::min(k + block_size, K); k++) {
+              sum += (*A)[i * lda + k] * (*B)[k * ldb + j];
+            }
+            (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
+          }  
+        }
+      }
+    }
+  }
 }
 
 template <typename T>
