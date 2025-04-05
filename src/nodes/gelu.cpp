@@ -18,7 +18,7 @@ GeluNode::GeluNode(const json& node) {
   }
 
   approximate = "none";
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "approximate") {
         approximate = attr["s"];

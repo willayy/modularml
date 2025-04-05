@@ -14,10 +14,10 @@ FlattenNode::FlattenNode(const json& node) {
     }
 
     axis = 1;
-    if (node.contains("attribute") && node["attribute"].is_object()) {
+    if (node.contains("attribute") && node["attribute"].is_array()) {
         for (const auto& attr : node["attribute"]) {
             if (attr["name"] == "axis") {
-                axis = attr["i"];
+                axis = std::stoul(attr["i"].get<std::string>());
             }
         }
     }

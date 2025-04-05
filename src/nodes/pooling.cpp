@@ -35,34 +35,34 @@ PoolingNode_mml::PoolingNode_mml(const json& node) {
   ceil_mode = 0;
   dilations = {1, 1};
   pads = {0, 0, 0, 0};
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "kernel_shape") {
         std::vector<uli> values;
         for (const auto& val : attr["ints"]) {
-          values.push_back(static_cast<uli>(std::stoul(val.get<std::string>())));
+          values.push_back(std::stoul(val.get<std::string>()));
         }
         kernel_shape = array_mml<uli>(values);
       } else if (attr["name"] == "strides") {
         std::vector<uli> values;
         for (const auto& val : attr["ints"]) {
-          values.push_back(static_cast<uli>(std::stoul(val.get<std::string>())));
+          values.push_back(std::stoul(val.get<std::string>()));
         }
         strides = array_mml<uli>(values);
       } else if (attr["name"] == "auto_pad") {
         auto_pad = attr["s"];
       } else if (attr["name"] == "ceil_mode") {
-        ceil_mode = attr["i"];
+        ceil_mode = std::stoul(attr["i"].get<std::string>());
       } else if (attr["name"] == "dilations") {
         std::vector<uli> values;
         for (const auto& val : attr["ints"]) {
-          values.push_back(static_cast<uli>(std::stoul(val.get<std::string>())));
+          values.push_back(std::stoul(val.get<std::string>()));
         }
         dilations = array_mml<uli>(values);
       } else if (attr["name"] == "pads") {
         std::vector<uli> values;
         for (const auto& val : attr["ints"]) {
-          values.push_back(static_cast<uli>(std::stoul(val.get<std::string>())));
+          values.push_back(std::stoul(val.get<std::string>()));
         }
         pads = array_mml<uli>(values);
       }

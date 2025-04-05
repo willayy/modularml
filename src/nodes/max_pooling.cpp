@@ -1,10 +1,10 @@
 #include "nodes/max_pooling.hpp"
 
 MaxPoolingNode_mml::MaxPoolingNode_mml(const json& node) : PoolingNode_mml(node) {
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "storage_order") {
-        storage_order = attr["i"];
+        storage_order = std::stoul(attr["i"].get<std::string>());
       }
     }
   }

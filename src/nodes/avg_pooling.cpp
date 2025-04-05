@@ -2,10 +2,10 @@
 
 
 AvgPoolingNode_mml::AvgPoolingNode_mml(const json& node) : PoolingNode_mml(node) {
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "count_include_pad") {
-        count_include_pad = attr["i"];
+        count_include_pad = std::stoul(attr["i"].get<std::string>());
       }
     }
   }

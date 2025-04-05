@@ -45,22 +45,34 @@ ConvNode::ConvNode(const json& node) {
     }
 
     group = 1;
-    if (node.contains("attribute") && node["attribute"].is_object()) {
+    if (node.contains("attribute") && node["attribute"].is_array()) {
         for (const auto& attr : node["attribute"]) {
             if (attr["name"] == "dilations") {
-                std::vector<uli> dilations_vec = attr["ints"];
+                std::vector<uli> dilations_vec;
+                for (const auto& el : attr["ints"]) {
+                    dilations_vec.push_back(std::stoul(el.get<std::string>()));
+                }
                 dilations = array_mml<uli>(dilations_vec);
             } else if (attr["name"] == "pads") {
-                std::vector<uli> padding_vec = attr["ints"];
+                std::vector<uli> padding_vec;
+                for (const auto& el : attr["ints"]) {
+                    padding_vec.push_back(std::stoul(el.get<std::string>()));
+                }
                 padding = array_mml<uli>(padding_vec);
             } else if (attr["name"] == "kernel_shape") {
-                std::vector<uli> kernel_vec = attr["ints"];
+                std::vector<uli> kernel_vec;
+                for (const auto& el : attr["ints"]) {
+                    kernel_vec.push_back(std::stoul(el.get<std::string>()));
+                }
                 kernel_shape = array_mml<uli>(kernel_vec);
             } else if (attr["name"] == "strides") {
-                std::vector<uli> stride_vec = attr["ints"];
+                std::vector<uli> stride_vec;
+                for (const auto& el : attr["ints"]) {
+                    stride_vec.push_back(std::stoul(el.get<std::string>()));
+                }
                 stride = array_mml<uli>(stride_vec);
             } else if (attr["name"] == "group") {
-                group = attr["i"];
+                group = std::stoul(attr["i"].get<std::string>());
             }
         }
     }

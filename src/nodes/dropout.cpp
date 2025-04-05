@@ -23,14 +23,14 @@ DropoutNode::DropoutNode(const json& node) {
   ratio = 0.5;
   training_mode = false;
   seed = std::nullopt;
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "ratio") {
         ratio = attr["f"];
       } else if (attr["name"] == "training_mode") {
-        training_mode = attr["i"];
+        //training_mode;
       } else if (attr["name"] == "seed") {
-        seed = attr["i"];
+        seed = std::stoi(attr["i"].get<std::string>());
       }
     }
   }

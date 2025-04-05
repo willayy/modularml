@@ -2,7 +2,7 @@
 
 #include "nodes/a_node.hpp"
 
-class AddNode : Node {
+class AddNode : public Node {
  public:
   using T = std::variant<double, float, int32_t, int64_t>;
   using TensorT = TensorVariant<T>; // Gets std::variant<shared_ptr<tensor<T>>, ...> from T
