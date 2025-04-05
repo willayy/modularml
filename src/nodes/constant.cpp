@@ -21,37 +21,37 @@ ConstantNode::ConstantNode(const json &node) {
                 // Need to handle more data types
                 switch (dataType) {
                     case 1:  // FLOAT
-                        value = parserHelper::handleTensor<float>(t);
+                        value = ParserHelper::handle_tensor<float>(t);
                         break;
                     case 2:  // UINT8
-                        value = parserHelper::handleTensor<uint8_t>(t);
+                        value = ParserHelper::handle_tensor<uint8_t>(t);
                         break;
                     case 3:  // INT8
-                        value = parserHelper::handleTensor<int8_t>(t);
+                        value = ParserHelper::handle_tensor<int8_t>(t);
                         break;
                     case 4:  // UINT16
-                        value = parserHelper::handleTensor<uint16_t>(t);
+                        value = ParserHelper::handle_tensor<uint16_t>(t);
                         break;
                     case 5:  // INT16
-                        value = parserHelper::handleTensor<int16_t>(t);
+                        value = ParserHelper::handle_tensor<int16_t>(t);
                         break;
                     case 6:  // INT32
-                        value = parserHelper::handleTensor<int32_t>(t);
+                        value = ParserHelper::handle_tensor<int32_t>(t);
                         break;
                     case 7:  // INT64
-                        value = parserHelper::handleTensor<int64_t>(t);
+                        value = ParserHelper::handle_tensor<int64_t>(t);
                         break;
                     case 9:  // BOOL
-                        value = parserHelper::handleTensor<bool>(t);
+                        value = ParserHelper::handle_tensor<bool>(t);
                         break;
                     case 11: // DOUBLE
-                        value = parserHelper::handleTensor<double>(t);
+                        value = ParserHelper::handle_tensor<double>(t);
                         break;
                     case 12: // UINT32
-                        value = parserHelper::handleTensor<uint32_t>(t);
+                        value = ParserHelper::handle_tensor<uint32_t>(t);
                         break;
                     case 13: // UINT64
-                        value = parserHelper::handleTensor<uint64_t>(t);
+                        value = ParserHelper::handle_tensor<uint64_t>(t);
                         break;
                     default:
                         throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));

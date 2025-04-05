@@ -4,7 +4,7 @@
 #include "utility/base64.hpp"
 #include "datastructures/a_tensor.hpp"
 
-namespace parserHelper {
+namespace ParserHelper {
     /**
      * @brief Helper function to create a tensor from JSON data.
      *
@@ -14,7 +14,7 @@ namespace parserHelper {
      * @return A shared pointer to the created tensor.
      */
     template <typename T>
-    shared_ptr<Tensor<T>> handleTensor(const json& init) {
+    shared_ptr<Tensor<T>> handle_tensor(const json& init) {
         std::vector<uli> dims;
         for (const auto& el : init["dims"]) {
           dims.push_back(static_cast<uli>(std::stoi(el.get<std::string>())));
@@ -22,7 +22,7 @@ namespace parserHelper {
         array_mml shapeArray(dims);
     
         if (init.contains("rawData")) {
-            return std::make_shared<Tensor_mml<T>>(shapeArray, base64::decode<T>(init["rawData"].get<std::string>()));
+            return std::make_shared<Tensor_mml<T>>(shapeArray, Base64::decode<T>(init["rawData"].get<std::string>()));
         } else {
             std::string fieldName;
 

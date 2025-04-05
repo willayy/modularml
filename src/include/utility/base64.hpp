@@ -3,7 +3,7 @@
 #include "globals.hpp"
 #include "datastructures/mml_array.hpp"
 
-namespace base64 {
+namespace Base64 {
   static const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
   /**

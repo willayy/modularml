@@ -33,37 +33,37 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(const json& graph) 
       // Need to handle more data types
       switch (dataType) {
         case 1:  // FLOAT
-          tensorMap[initName] = parserHelper::handleTensor<float>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<float>(init);
           break;
         case 2:  // UINT8
-          tensorMap[initName] = parserHelper::handleTensor<uint8_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<uint8_t>(init);
           break;
         case 3:  // INT8
-          tensorMap[initName] = parserHelper::handleTensor<int8_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<int8_t>(init);
           break;
         case 4:  // UINT16
-          tensorMap[initName] = parserHelper::handleTensor<uint16_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<uint16_t>(init);
           break;
         case 5:  // INT16
-          tensorMap[initName] = parserHelper::handleTensor<int16_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<int16_t>(init);
           break;
         case 6:  // INT32
-          tensorMap[initName] = parserHelper::handleTensor<int32_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<int32_t>(init);
           break;
         case 7:  // INT64
-          tensorMap[initName] = parserHelper::handleTensor<int64_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<int64_t>(init);
           break;
         case 9:  // BOOL
-          tensorMap[initName] = parserHelper::handleTensor<bool>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<bool>(init);
           break;
         case 11: // DOUBLE
-          tensorMap[initName] = parserHelper::handleTensor<double>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<double>(init);
           break;
         case 12: // UINT32
-          tensorMap[initName] = parserHelper::handleTensor<uint32_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<uint32_t>(init);
           break;
         case 13: // UINT64
-          tensorMap[initName] = parserHelper::handleTensor<uint64_t>(init);
+          tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
           break;
         default:
           throw std::runtime_error("Currently unsupported data type: " + std::to_string(dataType));

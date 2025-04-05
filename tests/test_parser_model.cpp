@@ -35,7 +35,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
     array_mml<float> values({0.5f, -0.5f});
 
 
-    auto input_tensor = std::make_shared<Tensor_mml<float>>(shape, values);
+    auto input_tensor = TensorFactory::create_tensor<float>(shape, values);
     inputs["input"] = input_tensor;
 
     std::unordered_map<string, GeneralDataTypes> outputs;
@@ -88,7 +88,7 @@ TEST(test_mml_tensor, test_parsing_and_running_lenet) {
 
     std::unordered_map<string, GeneralDataTypes> inputs;
     
-    auto input_tensor = tensor_mml_p<float>({INPUT_TENSOR_SHAPE}, {INPUT_TENSOR_DATA});
+    auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE}, {INPUT_TENSOR_DATA});
     inputs["input"] = input_tensor;
 
     std::unordered_map<string, GeneralDataTypes> outputs;
@@ -106,7 +106,7 @@ TEST(test_mml_tensor, test_parsing_and_running_lenet) {
 
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-    auto expected_output_tensor = tensor_mml_p<float>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
+    auto expected_output_tensor = TensorFactory::create_tensor<float>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
 
 
     ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
