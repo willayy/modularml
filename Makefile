@@ -47,6 +47,10 @@ run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
 
+
+test: test_default_gemm
+
+
 # Leaving this here for now
 test_default_gemm: all
 	@echo "Running tests...\n"
