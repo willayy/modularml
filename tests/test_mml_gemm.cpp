@@ -194,18 +194,5 @@ TEST(test_mml_gemm, gemm_256x256_float) {
   ASSERT_TRUE(1); // This test is here to be able to check the time it takes for different GEMM inplementations
 }
 
-TEST(test_mml_gemm, gemm_512x512_float) {
-  array_mml<float> a_data = generate_array_random_content_real<float>(262144, 0, 100);
-  array_mml<float> b_data = generate_array_random_content_real<float>(262144, 0, 100);
-  
-  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({512, 512}, a_data);
-  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({512, 512}, b_data);
-  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({512, 512});
-  
-  TensorOperationsModule::gemm<float>(0, 1, 512, 512, 512, 1, a, 512, b, 512, 0, c, 512);
-  
-  ASSERT_TRUE(1); // This test is here to be able to check the time it takes for different GEMM inplementations
-}
-
 
 

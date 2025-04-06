@@ -148,7 +148,7 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              shared_ptr<Tensor<T>> C, int ldc) {
   
-  int block_size = 128; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
+  int block_size = 1024; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
   if (TA == 1)
   invalid_argument("Transpose A not yet supported.");
   if (TB == 1) {
@@ -221,12 +221,12 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
           // Multiply and accumulate
           sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
         }
-  
-          sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
-          sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
-  
-          // Store the result back in C (C is row-major)
-          _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
+        
+        sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
+        sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
+
+        // Store the result back in C (C is row-major)
+        _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
       }
       if constexpr (std::is_same<T, int>::value) {
         __m256i sum = _mm256_setzero_si256();
