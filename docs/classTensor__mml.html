@@ -200,6 +200,10 @@ const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;
 <tr class="memitem:a22f04e5cac4110d89a44300261a656b5" id="r_a22f04e5cac4110d89a44300261a656b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor__mml.html#a22f04e5cac4110d89a44300261a656b5">fill</a> (T value) override</td></tr>
 <tr class="memdesc:a22f04e5cac4110d89a44300261a656b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the tensor with a given value.  <br /></td></tr>
 <tr class="separator:a22f04e5cac4110d89a44300261a656b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f24c9eec923f73dd32f14f1590daa9f" id="r_a7f24c9eec923f73dd32f14f1590daa9f"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor__mml.html#a7f24c9eec923f73dd32f14f1590daa9f">transpose</a> (std::optional&lt; uli &gt; dim0=std::nullopt, std::optional&lt; uli &gt; dim1=std::nullopt) const override</td></tr>
+<tr class="separator:a7f24c9eec923f73dd32f14f1590daa9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe19d00bc41e41346e9d612c7d34acfb" id="r_afe19d00bc41e41346e9d612c7d34acfb"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor__mml.html#afe19d00bc41e41346e9d612c7d34acfb">broadcast_to</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;target_shape) const override</td></tr>
+<tr class="separator:afe19d00bc41e41346e9d612c7d34acfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classTensor"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classTensor')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classTensor.html">Tensor&lt; T &gt;</a></td></tr>
 <tr class="memitem:a116b0abb7c1ba0fbb396056844ef0910 inherit pub_methods_classTensor" id="r_a116b0abb7c1ba0fbb396056844ef0910"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>Tensor</b> ()=default</td></tr>
@@ -432,6 +436,36 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="afe19d00bc41e41346e9d612c7d34acfb" name="afe19d00bc41e41346e9d612c7d34acfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe19d00bc41e41346e9d612c7d34acfb">&#9670;&#160;</a></span>broadcast_to()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor__mml.html">Tensor_mml</a>&lt; T &gt;::broadcast_to </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramname"><em>target_shape</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classTensor.html">Tensor&lt; T &gt;</a>.</p>
+
+</div>
+</div>
 <a id="a078700ccefa073ad978c396ca0b27eb4" name="a078700ccefa073ad978c396ca0b27eb4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a078700ccefa073ad978c396ca0b27eb4">&#9670;&#160;</a></span>copy()</h2>
 
@@ -1256,6 +1290,46 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the tensor. </dd></dl>
 
 <p>Implements <a class="el" href="classTensor.html#a9f44984735679e35288a176b231db1cb">Tensor&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a7f24c9eec923f73dd32f14f1590daa9f" name="a7f24c9eec923f73dd32f14f1590daa9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f24c9eec923f73dd32f14f1590daa9f">&#9670;&#160;</a></span>transpose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor__mml.html">Tensor_mml</a>&lt; T &gt;::transpose </td>
+          <td>(</td>
+          <td class="paramtype">std::optional&lt; uli &gt;&#160;</td>
+          <td class="paramname"><em>dim0</em> = <code>std::nullopt</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; uli &gt;&#160;</td>
+          <td class="paramname"><em>dim1</em> = <code>std::nullopt</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classTensor.html">Tensor&lt; T &gt;</a>.</p>
 
 </div>
 </div>
