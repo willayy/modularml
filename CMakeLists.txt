@@ -105,10 +105,21 @@ option(USE_BLOCKED_GEMM "Use default GEMM implementation" OFF)
 if (USE_BLOCKED_GEMM)
     message(STATUS "Using blocked GEMM implementation")
     add_definitions(-DUSE_BLOCKED_GEMM)
-# elseif (AVX e.t.c.)
+
+elseif (USE_AVX_GEMM)
+    message(STATUS "Using AVX GEMM implementation")
+    add_definitions(-DUSE_AVX_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-mavx2)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
 else()
     message(STATUS "Using default GEMM implementation")
     add_definitions(-DUSE_DEFAULT_GEMM)
+
+
 endif()
 
 # ------------------- Testing ------------------------------ #
