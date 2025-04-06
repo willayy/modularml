@@ -148,54 +148,49 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              shared_ptr<Tensor<T>> C, int ldc) {
   
-  int block_size = 1024; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
+  int block_size = 64; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
+  int k_col;
+  int i_col_out;
+
   if (TA == 1)
-  invalid_argument("Transpose A not yet supported.");
-  if (TB == 1) {
-    auto mml_B = std::dynamic_pointer_cast<Tensor_mml<T>>(B);
-    auto t_B = mml_B->transpose();
+    invalid_argument("Transpose A not yet supported.");
+  if (TB == 1)
+    invalid_argument("Transpose B not yet supported.");
 
-    for (int jj = 0; jj < N; jj += block_size) {
-      for (int kk = 0; kk < K; kk += block_size) {
-        for (int ii = 0; ii < M; ii += block_size) {
-          
-          for (int j = jj; j < std::min(jj + block_size, N); j++) {
-            for (int i = ii; i < std::min(ii + block_size, M); i++) {
-              T sum = 0;
+  // Outer loops: Iterate over blocks of rows of C
+  for (int i_block = 0; i_block < M; i_block += block_size) {
+    int i_end = std::min(i_block + block_size, M);
 
-              T a_value, b_value;
-              for (int k = kk; k < std::min(k + block_size, K); k++) {  
-                a_value = (*A)[i * lda + k];
-                b_value = (*t_B)[j * ldb + k];
-                sum += a_value * b_value;
-              }
-              (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
-            }  
+    for (int j_block = 0; j_block < N; j_block += block_size) {
+      int j_end = std::min(j_block + block_size, N);
+
+      // Initialize the block of C with BETA scaling
+      for (int i = i_block; i < i_end; i++) {
+        i_col_out = i * ldc;
+        for (int j = j_block; j < j_end; j++) {
+          (*C)[i_col_out + j] = ((T)BETA) * (*C)[i_col_out + j];
+        }
+      }
+
+      // Inner loops: Iterate over blocks of A and B
+      for (int k_block = 0; k_block < K; k_block += block_size) {
+        int k_end = std::min(k_block + block_size, K);
+
+        // Multiply the A block and B block
+        for (int i = i_block; i < i_end; i++) {
+          i_col_out = i * ldc;
+          for (int k = k_block; k < k_end; k++) {
+            k_col = k * ldb;
+            for (int j = j_block; j < j_end; j++) {
+              (*C)[i_col_out + j] += ((T)ALPHA) * (*A)[i * lda + k] * (*B)[k_col + j];
+            }
           }
         }
       }
     }
   }
-                        
-  // Naive approach basically
-  else {
-    for (int jj = 0; jj < N; jj += block_size) {
-      for (int kk = 0; kk < K; kk += block_size) {
-        for (int ii = 0; ii < M; ii += block_size) {
-          
-          for (int j = jj; j < std::min(jj + block_size, N); j++) {
-            for (int i = ii; i < std::min(ii + block_size, M); i++) {
-              T sum = 0;
-              for (int k = kk; k < std::min(k + block_size, K); k++) {
-                sum += (*A)[i * lda + k] * (*B)[k * ldb + j];
-              }
-              (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
-            }  
-          }
-        }
-      }
-    }
-  }
+
+  return;
 }
   
 
@@ -221,7 +216,7 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
           // Multiply and accumulate
           sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
         }
-        
+
         sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
         sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
 
