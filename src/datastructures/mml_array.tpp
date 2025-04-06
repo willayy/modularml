@@ -7,7 +7,7 @@ array_mml<T>::array_mml(uli size)
     : d_size(size) {
 
 #ifdef ALIGN_TENSORS
-      size_t alignment = 128;
+      size_t alignment = 32;
 
       void* ptr = nullptr;
       if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
