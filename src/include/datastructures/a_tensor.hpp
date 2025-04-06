@@ -1,26 +1,9 @@
 #pragma once
 
 #include "datastructures/mml_array.hpp"
-
-#include <algorithm>
-#include <chrono>
-#include <cmath>
-#include <functional>
-#include <initializer_list>
-#include <iostream>
+#include "globals.hpp"
 #include <memory>
-#include <nlohmann/json.hpp>
-#include <numeric>
-#include <optional>
-#include <random>
-#include <stdexcept>
-#include <string>
-#include <tuple>
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <variant>
-#include <vector>
+#include <cstdlib>
 
 #define ASSERT_ALLOWED_TYPE_T(T)                                               \
   static_assert(std::is_arithmetic_v<T>,                                       \
