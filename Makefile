@@ -16,7 +16,7 @@ ifeq ($(OS), Darwin) # MacOS
 endif
 
 
-.PHONY: all default_gemm blocked_gemm build run clean install test coverage docs
+.PHONY: all default_gemm blocked_gemm avx_gemm build run clean install test coverage docs
 
 all: default_gemm
 
