@@ -76,6 +76,8 @@ public:
   const T &operator[](uli index) const override;
   T &operator[](uli index) override;
   void fill(T value) override;
+  shared_ptr<Tensor<T>> transpose(std::optional<uli> dim0 = std::nullopt, std::optional<uli> dim1 = std::nullopt) const override;
+  std::shared_ptr<Tensor<T>> broadcast_to(const array_mml<uli>& target_shape) const override;
 
 private:
   array_mml<T> data;
@@ -95,6 +97,7 @@ private:
   bool valid_slice_indices(const array_mml<uli> &slice_indices) const;
   uli indices_to_1d_index(array_mml<uli> indices) const;
   uli index_to_slice_index(uli index) const;
+  bool is_broadcastable_to(const array_mml<uli>& target_shape) const;
 };
 
 template <typename T>
