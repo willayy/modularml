@@ -1,6 +1,10 @@
 #pragma once
 #include "datastructures/tensor_operation_functions.hpp"
 
+#if defined(USE_AVX_GEMM)
+#include <immintrin.h>
+#endif
+
 template <typename T>
 static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
                                    std::shared_ptr<Tensor<T>> A, int lda,
@@ -170,10 +174,10 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
 
 template <typename T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                         std::shared_ptr<Tensor<T>> A, int lda,
-                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                         std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("AVX GEMM not yet supported.");
+                         shared_ptr<Tensor<T>> A, int lda,
+                         shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                         shared_ptr<Tensor<T>> C, int ldc) {
+  
 }
 
 template <typename T>
