@@ -1,9 +1,8 @@
 #pragma once
 #include "datastructures/tensor_operation_functions.hpp"
+#include "datastructures/mml_tensor.hpp"
 
-#if defined(USE_AVX_GEMM)
 #include <immintrin.h>
-#endif
 
 template <typename T>
 static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
@@ -150,30 +149,106 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> C, int ldc) {
   
   int block_size = 128; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
-  for (int jj = 0; jj < N; jj += block_size) {
-    for (int kk = 0; kk < K; kk += block_size) {
-      for (int ii = 0; ii < M; ii += block_size) {
-        
-        for (int j = jj; j < std::min(jj + block_size, N); j++) {
-          for (int i = ii; i < std::min(ii + block_size, M); i++) {
-            T sum = 0;
-            for (int k = kk; k < std::min(k + block_size, K); k++) {
-              sum += (*A)[i * lda + k] * (*B)[k * ldb + j];
-            }
-            (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
-          }  
+  if (TA == 1)
+  invalid_argument("Transpose A not yet supported.");
+  if (TB == 1) {
+    auto mml_B = std::dynamic_pointer_cast<Tensor_mml<T>>(B);
+    auto t_B = mml_B->transpose();
+
+    for (int jj = 0; jj < N; jj += block_size) {
+      for (int kk = 0; kk < K; kk += block_size) {
+        for (int ii = 0; ii < M; ii += block_size) {
+          
+          for (int j = jj; j < std::min(jj + block_size, N); j++) {
+            for (int i = ii; i < std::min(ii + block_size, M); i++) {
+              T sum = 0;
+
+              T a_value, b_value;
+              for (int k = kk; k < std::min(k + block_size, K); k++) {  
+                a_value = (*A)[i * lda + k];
+                b_value = (*t_B)[j * ldb + k];
+                sum += a_value * b_value;
+              }
+              (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
+            }  
+          }
+        }
+      }
+    }
+  }
+                        
+  // Naive approach basically
+  else {
+    for (int jj = 0; jj < N; jj += block_size) {
+      for (int kk = 0; kk < K; kk += block_size) {
+        for (int ii = 0; ii < M; ii += block_size) {
+          
+          for (int j = jj; j < std::min(jj + block_size, N); j++) {
+            for (int i = ii; i < std::min(ii + block_size, M); i++) {
+              T sum = 0;
+              for (int k = kk; k < std::min(k + block_size, K); k++) {
+                sum += (*A)[i * lda + k] * (*B)[k * ldb + j];
+              }
+              (*C)[i * ldc + j] += ALPHA * sum + BETA * (*C)[i * ldc + j];
+            }  
+          }
         }
       }
     }
   }
 }
+  
 
 template <typename T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          shared_ptr<Tensor<T>> A, int lda,
                          shared_ptr<Tensor<T>> B, int ldb, T BETA,
                          shared_ptr<Tensor<T>> C, int ldc) {
+  for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+
+      if constexpr (std::is_same<T, float>::value) {
+        __m256 c_val = _mm256_set1_ps((*C)[i * ldc + j]);
+        __m256 sum = _mm256_setzero_ps();
+        
+        for (int k = 0; k < K; k++) {
   
+          __m256 a_vals = _mm256_loadu_ps(&(*A)[i * lda + k]);
+  
+          // Load 8 elements from row k of B (row-major) but access by columns
+          __m256 b_vals = _mm256_loadu_ps(&(*B)[k * ldb + j]);
+  
+          // Multiply and accumulate
+          sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
+        }
+  
+          sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
+          sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
+  
+          // Store the result back in C (C is row-major)
+          _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
+      }
+      if constexpr (std::is_same<T, int>::value) {
+        __m256i sum = _mm256_setzero_si256();
+  
+        for (int k = 0; k < K; k++) {
+  
+          __m256i a_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*A)[i * lda + k]));
+          __m256i b_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*B)[k * ldb + j]));
+  
+          // Multiply and accumulate
+          __m256i product = _mm256_mullo_epi32(a_vals, b_vals);
+          sum = _mm256_add_epi32(sum, product);
+        }
+    
+        sum = _mm256_mullo_epi32(sum, _mm256_set1_epi32(ALPHA));
+        sum = _mm256_add_epi32(sum, _mm256_set1_epi32(BETA));
+    
+        // Store the result back into C
+        _mm256_storeu_si256(reinterpret_cast<__m256i*>(&(*C)[i * ldc + j]), sum);
+      }
+    }
+  }
 }
 
 template <typename T>

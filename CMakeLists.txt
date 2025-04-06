@@ -99,7 +99,8 @@ target_include_directories(
 # ------------------- GEMM --------------------------------- #
 
 option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use default GEMM implementation" OFF)
+option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
+option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
 # Option here for AVX, ROCm, CUDA e.t.c. later
 
 if (USE_BLOCKED_GEMM)
@@ -110,7 +111,7 @@ elseif (USE_AVX_GEMM)
     message(STATUS "Using AVX GEMM implementation")
     add_definitions(-DUSE_AVX_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2)
+        add_compile_options(-mavx2 -march=native)
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         add_compile_options(/arch:AVX2)
     endif()
@@ -146,6 +147,7 @@ target_compile_options(${PROJECT_NAME}_tests PRIVATE
     -Wfatal-errors 
     -fmax-errors=1 
     -pedantic-errors
+    -Wno-deprecated-declarations
 )
 
 # Linker flags
