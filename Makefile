@@ -67,6 +67,16 @@ test_blocked_gemm: blocked_gemm
 		echo "Running all tests..."; \
 		cd ./build && ctest --output-on-failure; \
 	fi
+
+test_avx: avx_gemm
+	@echo "Running tests...\n"
+	@if [ -n "$(TEST_NAME)" ]; then \
+		echo "Running test: $(TEST_NAME)"; \
+		cd ./build && ctest -R "$(TEST_NAME)" --output-on-failure; \
+	else \
+		echo "Running all tests..."; \
+		cd ./build && ctest --output-on-failure; \
+	fi
 	
 coverage:
 	@echo "Generating coverage...\n"

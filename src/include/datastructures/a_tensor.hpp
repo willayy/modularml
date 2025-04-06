@@ -2,6 +2,8 @@
 
 #include "datastructures/mml_array.hpp"
 #include "globals.hpp"
+#include <memory>
+#include <cstdlib>
 
 #define ASSERT_ALLOWED_TYPE_T(T)                                               \
   static_assert(std::is_arithmetic_v<T>,                                       \

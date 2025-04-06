@@ -96,7 +96,8 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
-# ------------------- GEMM --------------------------------- #
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
 
 option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
 option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
