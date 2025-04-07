@@ -104,6 +104,21 @@ docs:
 	@echo "Generating Doxygen documentation..."
 	@$(CMAKE) --build $(BUILD_DIR) --target docs
 
+check_backends:
+	@echo "Checking available backends for your system...\n"
+	@echo "Default GEMM: Available! (always)"
+	@echo "Blocked GEMM: Available! (always)"
+	@if lscpu | grep -q 'avx2'; then \
+		echo "AVX2: Available!"; \
+	else \
+		echo "AVX2: Not available!"; \
+	fi
+	@if lscpu | grep -q 'avx512'; then \
+		echo "AVX-512: Available!"; \
+	else \
+		echo "AVX-512: Not available!"; \
+	fi
+
 
 clean:
 	@echo "Cleaning up...\n"
