@@ -14,9 +14,9 @@ static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
   int i_col_out;
 
   if (TA == 1)
-    std::invalid_argument("Transpose A not yet supported.");
+    throw invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    std::invalid_argument("Transpose B not yet supported.");
+    throw invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -47,9 +47,9 @@ static void mml_gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
   int i_col_out;
 
   if (TA == 1)
-    std::invalid_argument("Transpose A not yet supported.");
+    throw invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    std::invalid_argument("Transpose B not yet supported.");
+    throw invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -87,9 +87,9 @@ static void mml_gemm_row_wise_product(int TA, int TB, int M, int N, int K,
   int i_col_out;
 
   if (TA == 1)
-    std::invalid_argument("Transpose A not yet supported.");
+    throw invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    std::invalid_argument("Transpose B not yet supported.");
+    throw invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col = i * lda;
@@ -122,9 +122,9 @@ static void mml_gemm_col_wise_product(int TA, int TB, int M, int N, int K,
   int i_col_out;
 
   if (TA == 1)
-    std::invalid_argument("Transpose A not yet supported.");
+    throw invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    std::invalid_argument("Transpose B not yet supported.");
+    throw invalid_argument("Transpose B not yet supported.");
 
   for (int j = 0; j < N; j++) {
     for (int i = 0; i < M; i++) {
@@ -157,9 +157,9 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
   int i_col_out;
 
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported.");
+    throw invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported.");
+    throw invalid_argument("Transpose B not yet supported.");
 
   for (int i_block = 0; i_block < M; i_block += block_size) {
     int i_end = std::min(i_block + block_size, M);
@@ -199,10 +199,15 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          shared_ptr<Tensor<T>> A, int lda,
                          shared_ptr<Tensor<T>> B, int ldb, T BETA,
                          shared_ptr<Tensor<T>> C, int ldc) {
+  if (TA == 1)
+    throw invalid_argument("Transpose A not yet supported for AVX2 GEMM.");
+  if (TB == 1)
+    throw invalid_argument("Transpose B not yet supported for AVX2 GEMM.");
+  
+  if constexpr (std::is_same<T, float>::value) {
   for (int i = 0; i < M; i++) {
-    for (int j = 0; j < N; j++) {
+    for (int j = 0; j < N; j += 8) {
 
-      if constexpr (std::is_same<T, float>::value) {
         __m256 c_val = _mm256_set1_ps((*C)[i * ldc + j]);
         __m256 sum = _mm256_setzero_ps();
         
@@ -210,20 +215,45 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
   
           __m256 a_vals = _mm256_loadu_ps(&(*A)[i * lda + k]);
   
-          // Load 8 elements from row k of B (row-major) but access by columns
           __m256 b_vals = _mm256_loadu_ps(&(*B)[k * ldb + j]);
   
-          // Multiply and accumulate
           sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
         }
 
         sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
         sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
 
-        // Store the result back in C (C is row-major)
         _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
       }
-      if constexpr (std::is_same<T, int>::value) {
+    }
+  }
+  else if constexpr (std::is_same<T, double>::value) {
+  for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j += 4) {
+
+        __m256d c_val = _mm256_set1_pd((*C)[i * ldc + j]);
+        __m256d sum = _mm256_setzero_pd();
+        
+        for (int k = 0; k < K; k++) {
+  
+          __m256d a_vals = _mm256_loadu_pd(&(*A)[i * lda + k]);
+  
+          __m256d b_vals = _mm256_loadu_pd(&(*B)[k * ldb + j]);
+  
+          sum = _mm256_fmadd_pd(a_vals, b_vals, sum);
+        }
+
+        sum = _mm256_fmadd_pd(sum, _mm256_set1_pd(ALPHA), c_val);
+        sum = _mm256_add_pd(sum, _mm256_set1_pd(BETA));
+
+        _mm256_storeu_pd(&(*C)[i * ldc + j], sum);
+      }
+    }
+  }
+  else if constexpr (std::is_same<T, int>::value) {
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j += 8) {
+
         __m256i sum = _mm256_setzero_si256();
   
         for (int k = 0; k < K; k++) {
@@ -231,7 +261,6 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
           __m256i a_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*A)[i * lda + k]));
           __m256i b_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*B)[k * ldb + j]));
   
-          // Multiply and accumulate
           __m256i product = _mm256_mullo_epi32(a_vals, b_vals);
           sum = _mm256_add_epi32(sum, product);
         }
@@ -239,11 +268,14 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
         sum = _mm256_mullo_epi32(sum, _mm256_set1_epi32(ALPHA));
         sum = _mm256_add_epi32(sum, _mm256_set1_epi32(BETA));
     
-        // Store the result back into C
         _mm256_storeu_si256(reinterpret_cast<__m256i*>(&(*C)[i * ldc + j]), sum);
       }
     }
   }
+  else {
+    throw runtime_error("AVX2 only suppports double, float or int");
+  }
+  return;
 }
 
 template <typename T>
@@ -251,6 +283,12 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                             shared_ptr<Tensor<T>> A, int lda,
                             shared_ptr<Tensor<T>> B, int ldb, T BETA,
                             shared_ptr<Tensor<T>> C, int ldc) {
+  if (TA == 1)
+    invalid_argument("Transpose A not yet supported for AVX-512 GEMM.");
+  if (TB == 1)
+    invalid_argument("Transpose B not yet supported for AVX-512 GEMM.");
+  
+  
   if constexpr(std::is_same<T, float>::value) {
     for (int i = 0; i < M; i++) {
       for (int j = 0; j < N; j += 16) {
@@ -260,7 +298,6 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
         for (int k = 0; k < K; k++) {
           __m512 a_vals = _mm512_set1_ps((*A)[i * lda + k]);
 
-          // Load 16 floats from B row `k`, columns j to j+15
           __m512 b_vals = _mm512_loadu_ps(&(*B)[k * ldb + j]);
 
           sum = _mm512_fmadd_ps(a_vals, b_vals, sum);
@@ -270,7 +307,27 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
         sum = _mm512_add_ps(sum, _mm512_set1_ps(BETA));
 
         _mm512_storeu_ps(&(*C)[i * ldc + j], sum);
-        return;
+      }
+    }
+  } 
+  else if constexpr(std::is_same<T, double>::value) {
+    for (int i = 0; i < M; i++) {
+      for (int j = 0; j < N; j += 8) {
+        __m512d c_val = _mm512_loadu_pd(&(*C)[i * ldc + j]);
+        __m512d sum = _mm512_setzero_pd();
+      
+        for (int k = 0; k < K; k++) {
+          __m512d a_vals = _mm512_set1_pd((*A)[i * lda + k]);
+
+          __m512d b_vals = _mm512_loadu_pd(&(*B)[k * ldb + j]);
+
+          sum = _mm512_fmadd_pd(a_vals, b_vals, sum);
+        }
+
+        sum = _mm512_fmadd_pd(_mm512_set1_pd(ALPHA), sum, c_val);
+        sum = _mm512_add_pd(sum, _mm512_set1_pd(BETA));
+
+        _mm512_storeu_pd(&(*C)[i * ldc + j], sum);
       }
     }
   } 
@@ -294,6 +351,9 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
         _mm512_storeu_si512(reinterpret_cast<void*>(&(*C)[i * ldc + j]), sum);
       }
     }
+  }
+  else {
+    throw runtime_error("AVX-512 only suppports double, float or int");
   }
 }
 

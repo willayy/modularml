@@ -31,7 +31,7 @@ blocked_gemm:
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 	
 avx_gemm:
-	@echo "Configuring the project with AVX GEMM implementation..."
+	@echo "Configuring the project with AVX2 GEMM implementation..."
 	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON -DUSE_AVX512_GEMM=OFF 
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 

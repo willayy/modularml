@@ -8,7 +8,7 @@ array_mml<T>::array_mml(uli size)
 
     
 #ifdef ALIGN_TENSORS
-  size_t alignment = MEMORY_ALIGNMENT; // Gets set during compilation
+  size_t alignment = MEMORY_ALIGNMENT; // Gets set during compilation based on GEMM impl.
 
   void* ptr = nullptr;
   if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
