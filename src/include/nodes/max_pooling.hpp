@@ -36,19 +36,22 @@ public:
    * be calculated as row or column major. 1 is row major and 0 is column major.
    * Defaults to row major.
    */
-  MaxPoolingNode_mml(std::string input, std::vector<std::string> outputs, array_mml<uli> kernel_shape, array_mml<uli> strides,
-                      string auto_pad = "NOTSET",
-                     uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
+  MaxPoolingNode_mml(std::string input, std::vector<std::string> outputs,
+                     array_mml<uli> kernel_shape, array_mml<uli> strides,
+                     std::string auto_pad = "NOTSET", uli ceil_mode = 0,
+                     array_mml<uli> dilations = {1, 1},
                      array_mml<uli> pads = {0, 0, 0, 0}, uli storage_order = 0)
-      : PoolingNode_mml(input, outputs, kernel_shape, strides, auto_pad, ceil_mode, dilations, pads), 
+      : PoolingNode_mml(input, outputs, kernel_shape, strides, auto_pad,
+                        ceil_mode, dilations, pads),
         storage_order(storage_order) {}
 
-  MaxPoolingNode_mml(const json& node);
+  MaxPoolingNode_mml(const nlohmann::json &node);
 
 private:
-  void pooling(const TensorT& t, array_mml<uli> input_shape,
-               array_mml<uli> output_shape,
-               array_mml<uli> effective_kernel_shape, uli pad_h, uli pad_w,
-               string auto_pad, std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  pooling(const TensorT &t, array_mml<uli> input_shape,
+          array_mml<uli> output_shape, array_mml<uli> effective_kernel_shape,
+          uli pad_h, uli pad_w, std::string auto_pad,
+          std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
   uli storage_order;
 };

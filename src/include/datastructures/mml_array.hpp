@@ -8,7 +8,7 @@
 template <typename T> class array_mml {
 public:
   /// @brief Default constructor for array_mml class.
-  array_mml() : data(make_unique<T[]>(0)), d_size(0) {}
+  array_mml() : data(std::make_unique<T[]>(0)), d_size(0) {}
 
   /// @brief Constructor for array_mml class.
   /// @param size The size of the array.
@@ -16,20 +16,20 @@ public:
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array as a initializer list.
-  array_mml(initializer_list<T> data);
+  array_mml(std::initializer_list<T> data);
 
   /// @brief Constructor for array_mml class.
   /// @param data The pointer to the data to set in the array.
   /// @param size The size of the data.
-  array_mml(shared_ptr<T[]> data, uli size);
+  array_mml(std::shared_ptr<T[]> data, uli size);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
-  explicit array_mml(vector<T> &data);
+  explicit array_mml(std::vector<T> &data);
 
-  /// @brief Copy constructor using a vector.
-  /// @param data The data to copy.
-  explicit array_mml(const vector<T> &data);
+  /// @brief Copy constructor using a std::vector.
+  /// @param data The data to std::copy.
+  explicit array_mml(const std::vector<T> &data);
 
   /// @brief Copy constructor using another array.
   array_mml(const array_mml &other);
@@ -52,12 +52,12 @@ public:
   const T &operator[](uli index) const;
 
   /// @brief Move assignment operator.
-  /// @param other The array to move.
+  /// @param other The array to std::move.
   /// @return The moved array.
   array_mml &operator=(array_mml &&other) noexcept = default;
 
   /// @brief Copy assignment operator.
-  /// @param other The array to copy.
+  /// @param other The array to std::copy.
   /// @return The copied array.
   array_mml &operator=(const array_mml &other);
 
@@ -69,16 +69,16 @@ public:
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
-  /// @return True if the arrays are equal, false otherwise.
+  /// @return True if the arrays are std::equal, false otherwise.
   bool operator==(const array_mml &other) const;
 
   /// @brief Inequality operator.
   /// @param other The array to compare with.
-  /// @return True if the arrays are not equal, false otherwise.
+  /// @return True if the arrays are not std::equal, false otherwise.
   bool operator!=(const array_mml &other) const;
 
-  /// @brief Convert the array to a string.
-  /// @return The string representation of the array.
+  /// @brief Convert the array to a std::string.
+  /// @return The std::string representation of the array.
   std::string to_string() const;
 
   /// @brief Output stream operator.
@@ -119,7 +119,7 @@ public:
   void fill(const T &value);
 
 private:
-  shared_ptr<T[]> data;
+  std::shared_ptr<T[]> data;
   uli d_size;
 };
 

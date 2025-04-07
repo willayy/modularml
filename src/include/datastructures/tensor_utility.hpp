@@ -7,10 +7,10 @@
  * @brief Compares two tensors element-wise to check if they are close within a
  * specified tolerance.
  *
- * This function iterates over each element of the given tensors and checks if
- * the absolute difference between corresponding elements is within the
+ * This std::function iterates over each element of the given tensors and checks
+ * if the absolute difference between corresponding elements is within the
  * specified tolerance. If any pair of elements differ by more than the
- * tolerance, the function returns false. Otherwise, it returns true.
+ * tolerance, the std::function returns false. Otherwise, it returns true.
  *
  * @tparam T The data type of the tensor elements (must be an arithmetic type).
  * @param t1 The first tensor to compare.
@@ -26,8 +26,8 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01));
 /**
  * @brief Generates a random tensor with the specified shape and value range.
  *
- * This function creates a tensor with random values within the specified range.
- * The type of the tensor elements must be an arithmetic type.
+ * This std::function creates a tensor with random values within the specified
+ * range. The type of the tensor elements must be an arithmetic type.
  *
  * @tparam T The data type of the tensor elements (must be an arithmetic type).
  * @param shape The shape of the tensor to generate.
@@ -46,9 +46,9 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0),
 /**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
  *
- * This function applies the Kaiming Uniform initialization to the given tensor.
- * It is commonly used for initializing weights in neural networks.
- * This version recives a seed as the final parameter.
+ * This std::function applies the Kaiming Uniform initialization to the given
+ * tensor. It is commonly used for initializing weights in neural networks. This
+ * version recives a seed as the final parameter.
  *
  * @tparam T The data type of the tensor elements (must be a floating-point
  * type).
@@ -58,15 +58,15 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0),
  * @param gen A random number generator.
  */
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
-                     std::mt19937 &gen);
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
+                     uli kernel_size, std::mt19937 &gen);
 
 /**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
  *
- * This function applies the Kaiming Uniform initialization to the given tensor.
- * It is commonly used for initializing weights in neural networks.
- * This version of the function uses an internal random number generator.
+ * This std::function applies the Kaiming Uniform initialization to the given
+ * tensor. It is commonly used for initializing weights in neural networks. This
+ * version of the std::function uses an internal random number generator.
  *
  * @tparam T The data type of the tensor elements (must be a floating-point
  * type).
@@ -75,6 +75,7 @@ void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
  * @param kernel_size The size of the kernel.
  */
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size);
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
+                     uli kernel_size);
 
 #include "../datastructures/tensor_utility.tpp"

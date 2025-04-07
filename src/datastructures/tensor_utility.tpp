@@ -55,13 +55,13 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
     }
   }
 
-  return move(tensor);
+  return std::move(tensor);
 }
 
 // External Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
-                     std::mt19937 &gen) {
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
+                     uli kernel_size, std::mt19937 &gen) {
   static_assert(
       std::is_floating_point_v<T>,
       "Kaiming Uniform initialization requires a floating-point type.");
@@ -81,7 +81,7 @@ void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
 
 // Internal Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels,
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
                      uli kernel_size) {
   std::random_device rd;
   std::mt19937 gen(rd()); // seeded automatically

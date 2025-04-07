@@ -35,20 +35,23 @@ public:
    * @param count_include_pad (OPTIONAL) Whether the padding should be included
    * when calculating the edges. 1 for yes and 0 for no. Defaults to no.
    */
-  AvgPoolingNode_mml(std::string input, std::vector<std::string> outputs, array_mml<uli> kernel_shape, 
-                    array_mml<uli> strides, string auto_pad = "NOTSET",
-                     uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
+  AvgPoolingNode_mml(std::string input, std::vector<std::string> outputs,
+                     array_mml<uli> kernel_shape, array_mml<uli> strides,
+                     std::string auto_pad = "NOTSET", uli ceil_mode = 0,
+                     array_mml<uli> dilations = {1, 1},
                      array_mml<uli> pads = {0, 0, 0, 0},
                      uli count_include_pad = 0)
-      : PoolingNode_mml(input, outputs, kernel_shape, strides, auto_pad, ceil_mode, dilations, pads), 
+      : PoolingNode_mml(input, outputs, kernel_shape, strides, auto_pad,
+                        ceil_mode, dilations, pads),
         count_include_pad(count_include_pad) {}
 
-  AvgPoolingNode_mml(const json& node);
+  AvgPoolingNode_mml(const nlohmann::json &node);
 
 private:
-  void pooling(const TensorT& t, array_mml<uli> input_shape,
-               array_mml<uli> output_shape,
-               array_mml<uli> effective_kernel_shape, uli pad_h, uli pad_w,
-               string auto_pad, std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  pooling(const TensorT &t, array_mml<uli> input_shape,
+          array_mml<uli> output_shape, array_mml<uli> effective_kernel_shape,
+          uli pad_h, uli pad_w, std::string auto_pad,
+          std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
   uli count_include_pad;
 };
