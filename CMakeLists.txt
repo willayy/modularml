@@ -150,9 +150,6 @@ add_executable(
 
 # Compiler flags
 target_compile_options(${PROJECT_NAME}_tests PRIVATE 
-    -O3
-    -funroll-loops
-    -march=native
     -g 
     -fPIC 
     --coverage 
@@ -160,7 +157,6 @@ target_compile_options(${PROJECT_NAME}_tests PRIVATE
     -Wfatal-errors 
     -fmax-errors=1 
     -pedantic-errors
-    -Wno-deprecated-declarations
 )
 
 # Linker flags
