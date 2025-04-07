@@ -17,6 +17,8 @@
 #include "nodes/max_pooling.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/a_node.hpp"
+#include "nodes/conv.hpp"
+
 
 #include "backend/a_arithmetic_module.hpp"
 #include "backend/a_data_parser.hpp"
