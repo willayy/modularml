@@ -3,6 +3,11 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
+# Check if macOS
+if(APPLE)
+    set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk")
+endif()
+
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
