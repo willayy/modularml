@@ -37,46 +37,46 @@ class LeNetModel {
     if (!PytorchWeights) {
       std::mt19937 gen(42);
       auto W1 = make_shared<Tensor_mml<T>>(array_mml<uli>{6, 1, 5, 5});
-      kaiming_uniform(std::static_pointer_cast<Tensor<float>>(W1), 1, 5, gen);  // I have to cast it to float because of
+      kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W1), 1, 5, gen);  // I have to cast it to double because of
       iomap["W1"] = W1;                                                          // how the function is implemented.
 
       auto W2 = make_shared<Tensor_mml<T>>(array_mml<uli>{16, 6, 5, 5});
-      kaiming_uniform(std::static_pointer_cast<Tensor<float>>(W2), 6, 5, gen);
+      kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W2), 6, 5, gen);
       iomap["W2"] = W2;
 
       auto W3 = make_shared<Tensor_mml<T>>(array_mml<uli>{120, 16, 5, 5});
-      kaiming_uniform(std::static_pointer_cast<Tensor<float>>(W3), 16, 5, gen);
+      kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W3), 16, 5, gen);
       iomap["W3"] = W3;
 
       auto W_gemm1 = make_shared<Tensor_mml<T>>(array_mml<uli>{480, 84});
-      kaiming_uniform(std::static_pointer_cast<Tensor<float>>(W_gemm1), 120, 480, gen);
+      kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W_gemm1), 120, 480, gen);
       iomap["W_gemm1"] = W_gemm1;
 
       auto W_gemm2 = make_shared<Tensor_mml<T>>(array_mml<uli>{84, 10});
-      kaiming_uniform(std::static_pointer_cast<Tensor<float>>(W_gemm2), 84, 84, gen);
+      kaiming_uniform(std::static_pointer_cast<Tensor<double>>(W_gemm2), 84, 84, gen);
       iomap["W_gemm2"] = W_gemm2;
     } else {
       // Weights
-      auto W1 = make_shared<Tensor_mml<float>>(array_mml<uli>{CONV1_WEIGHT_SHAPE}, array_mml<float>{CONV1_WEIGHT_DATA});
+      auto W1 = make_shared<Tensor_mml<double>>(array_mml<uli>{CONV1_WEIGHT_SHAPE}, array_mml<double>{CONV1_WEIGHT_DATA});
       iomap["W1"] = W1;
 
-      auto W2 = make_shared<Tensor_mml<float>>(array_mml<uli>{CONV2_WEIGHT_SHAPE}, array_mml<float>{CONV2_WEIGHT_DATA});
+      auto W2 = make_shared<Tensor_mml<double>>(array_mml<uli>{CONV2_WEIGHT_SHAPE}, array_mml<double>{CONV2_WEIGHT_DATA});
       iomap["W2"] = W2;
 
-      auto W3 = make_shared<Tensor_mml<float>>(array_mml<uli>{CONV3_WEIGHT_SHAPE}, array_mml<float>{CONV3_WEIGHT_DATA});
+      auto W3 = make_shared<Tensor_mml<double>>(array_mml<uli>{CONV3_WEIGHT_SHAPE}, array_mml<double>{CONV3_WEIGHT_DATA});
       iomap["W3"] = W3;
 
-      auto W_gemm1 = make_shared<Tensor_mml<float>>(array_mml<uli>{FC1_WEIGHT_SHAPE}, array_mml<float>{FC1_WEIGHT_DATA});
+      auto W_gemm1 = make_shared<Tensor_mml<double>>(array_mml<uli>{FC1_WEIGHT_SHAPE}, array_mml<double>{FC1_WEIGHT_DATA});
       iomap["W_gemm1"] = W_gemm1;
 
-      auto W_gemm2 = make_shared<Tensor_mml<float>>(array_mml<uli>{FC2_WEIGHT_SHAPE}, array_mml<float>{FC2_WEIGHT_DATA});
+      auto W_gemm2 = make_shared<Tensor_mml<double>>(array_mml<uli>{FC2_WEIGHT_SHAPE}, array_mml<double>{FC2_WEIGHT_DATA});
       iomap["W_gemm2"] = W_gemm2;
     }
     // Bias
-    auto B_gemm1 = make_shared<Tensor_mml<float>>(array_mml<uli>{FC1_BIAS_SHAPE}, array_mml<float>{FC1_BIAS_DATA});
+    auto B_gemm1 = make_shared<Tensor_mml<double>>(array_mml<uli>{FC1_BIAS_SHAPE}, array_mml<double>{FC1_BIAS_DATA});
     iomap["B_gemm1"] = B_gemm1;
 
-    auto B_gemm2 = make_shared<Tensor_mml<float>>(array_mml<uli>{FC2_BIAS_SHAPE}, array_mml<float>{FC2_BIAS_DATA});
+    auto B_gemm2 = make_shared<Tensor_mml<double>>(array_mml<uli>{FC2_BIAS_SHAPE}, array_mml<double>{FC2_BIAS_DATA});
     iomap["B_gemm2"] = B_gemm2;
   }
 
@@ -93,7 +93,7 @@ class LeNetModel {
     ReLUNode relu1("conv1_output", "relu1_output");
     relu1.forward(iomap);
     auto conv1_output_tensor = std::get<std::shared_ptr<Tensor<T>>>(iomap["relu1_output"]);
-    auto refrence_tensor = tensor_mml_p<float>({CONV1_OUTPUT_SHAPE}, {CONV1_OUTPUT_DATA});
+    auto refrence_tensor = tensor_mml_p<double>({CONV1_OUTPUT_SHAPE}, {CONV1_OUTPUT_DATA});
     // Compare the output tensor with the expected output tensor.
     // std::cout << "conv1_output_tensor data: " << *conv1_output_tensor << std::endl;
     // tensors_are_close(*conv1_output_tensor, *refrence_tensor, 0.07); // For some reason atm there is a bit of a deviation in the values here.
@@ -119,7 +119,6 @@ class LeNetModel {
                                                      array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), "VALID", 0UL,
                                                      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
-    // MaxPoolingNode_mml maxpool2("relu2_output", {"maxpool2_output"}, {2, 2}, {2, 2}, "VALID");
     maxpool2.forward(iomap);
 
     // Convolution 3
@@ -162,17 +161,17 @@ class LeNetModel {
  * I just want to make sure that the forward pass is working first.
  */
 TEST(test_LeNet, test_LeNet_forward) {
-  auto TensorToProcess = tensor_mml_p<float>({INPUT_TENSOR_SHAPE}, {INPUT_TENSOR_DATA});
-  LeNetModel<float> model(TensorToProcess, true);
+  auto TensorToProcess = tensor_mml_p<double>({INPUT_TENSOR_SHAPE}, {INPUT_TENSOR_DATA});
+  LeNetModel<double> model(TensorToProcess, true);
 
   model.forward();
   auto output_tensor = model.getTensor();
 
-  auto expected_output = tensor_mml_p<float>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
+  auto expected_output = tensor_mml_p<double>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
-  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.06f));
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.06));
 
-  int max_index = Arithmetic_mml<float>().arg_max(output_tensor);
+  int max_index = Arithmetic_mml<double>().arg_max(output_tensor);
   ASSERT_TRUE(max_index == PREDICTED_CLASS);  // Compare against the predicted class.
 }
