@@ -22,19 +22,23 @@ all: default_gemm
 
 default_gemm:
 	@echo "Configuring the project with default GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 blocked_gemm:
 	@echo "Configuring the project with blocked GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON -DUSE_AVX_GEMM=OFF
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 	
 avx_gemm:
 	@echo "Configuring the project with AVX GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON 
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON -DUSE_AVX512_GEMM=OFF 
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
-	
+
+avx512_gemm:
+	@echo "Configuring the project with AVX512 GEMM implementation..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=ON 
+	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 install:
 	@echo "Detected OS: $(OS)"
@@ -72,7 +76,17 @@ test_blocked_gemm: blocked_gemm
 		cd ./build && ctest --output-on-failure; \
 	fi
 
-test_avx: avx_gemm
+test_avx_gemm: avx_gemm
+	@echo "Running tests...\n"
+	@if [ -n "$(TEST_NAME)" ]; then \
+		echo "Running test: $(TEST_NAME)"; \
+		cd ./build && ctest -R "$(TEST_NAME)" --output-on-failure; \
+	else \
+		echo "Running all tests..."; \
+		cd ./build && ctest --output-on-failure; \
+	fi
+
+test_avx512_gemm: avx512_gemm
 	@echo "Running tests...\n"
 	@if [ -n "$(TEST_NAME)" ]; then \
 		echo "Running test: $(TEST_NAME)"; \
