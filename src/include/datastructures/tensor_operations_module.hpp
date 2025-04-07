@@ -1,8 +1,26 @@
 #pragma once
 #include "a_tensor.hpp"
-#include "globals.hpp"
 #include "tensor_operation_functions.hpp"
+#include "utility/uli.hpp"
+#include <algorithm>
+#include <chrono>
+#include <cmath>
 #include <functional>
+#include <initializer_list>
+#include <iostream>
+#include <memory>
+#include <nlohmann/json.hpp>
+#include <numeric>
+#include <optional>
+#include <random>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <variant>
+#include <vector>
 
 #define ASSERT_ALLOWED_TYPES_TOM(T)                                            \
   static_assert(std::is_arithmetic_v<T>,                                       \

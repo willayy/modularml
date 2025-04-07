@@ -5,10 +5,11 @@
 /**
  * @class PoolingNode_mml
  * @brief Base class for pooling nodes (e.g., MaxPooling, AveragePooling).
- * @details The PoolingNode_mml class is the base class for pooling operations
- * such as max pooling and average pooling. It performs a pooling operation on
- * the input tensor, reducing its spatial dimensions (height and width) while
- * retaining the essential features within the defined pooling window or filter.
+ * @details The PoolingNode_mml class is the base class for pooling
+ * operations such as max pooling and average pooling. It performs a pooling
+ * operation on the input tensor, reducing its spatial dimensions (height
+ * and width) while retaining the essential features within the defined
+ * pooling window or filter.
  */
 class PoolingNode_mml : public Node {
 public:

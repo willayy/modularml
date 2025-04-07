@@ -1,6 +1,25 @@
 #pragma once
 
-#include "globals.hpp"
+#include "../utility/uli.hpp"
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <functional>
+#include <initializer_list>
+#include <iostream>
+#include <memory>
+#include <nlohmann/json.hpp>
+#include <numeric>
+#include <optional>
+#include <random>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <variant>
+#include <vector>
 
 /// @brief A utility for profiling sections of code by measuring execution time.
 class Profiler {

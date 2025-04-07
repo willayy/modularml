@@ -1,7 +1,7 @@
 #pragma once
 
 #include "datastructures/a_tensor.hpp"
-#include "globals.hpp"
+
 
 #define GENERATE_RANDOM_ARRAY_INTEGRAL(T)                                      \
   (std::is_integral_v<T>, "Random array generation (integral) requires an "    \

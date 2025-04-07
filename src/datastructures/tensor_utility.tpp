@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <random>
-
 #include "datastructures/tensor_utility.hpp"
+#include "datastructures/mml_tensor.hpp"
 
 template <typename T>
 bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
