@@ -106,10 +106,12 @@ option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
 
 if (USE_BLOCKED_GEMM)
     message(STATUS "Using blocked GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_BLOCKED_GEMM)
 
 elseif (USE_AVX_GEMM)
     message(STATUS "Using AVX GEMM implementation")
+    SET(MEMORY_ALIGNMENT 32)
     add_definitions(-DUSE_AVX_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         add_compile_options(-mavx2 -march=native)
@@ -119,6 +121,7 @@ elseif (USE_AVX_GEMM)
 
 elseif (USE_AVX512_GEMM)
     message(STATUS "Using AVX512 GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
     add_definitions(-DUSE_AVX512_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
@@ -128,6 +131,7 @@ elseif (USE_AVX512_GEMM)
 
 else()
     message(STATUS "Using default GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
 
 

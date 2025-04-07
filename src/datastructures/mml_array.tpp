@@ -6,21 +6,22 @@ template <typename T>
 array_mml<T>::array_mml(uli size)
     : d_size(size) {
 
+    
 #ifdef ALIGN_TENSORS
-      size_t alignment = 32;
+  size_t alignment = MEMORY_ALIGNMENT; // Gets set during compilation
 
-      void* ptr = nullptr;
-      if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
-        throw std::bad_alloc();
-      }
+  void* ptr = nullptr;
+  if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
+    throw std::bad_alloc();
+  }
 
-      data = std::shared_ptr<T[]>(static_cast<T*>(ptr), [](T* ptr) {
-        free(ptr);
-      });
+  data = std::shared_ptr<T[]>(static_cast<T*>(ptr), [](T* ptr) {
+    free(ptr);
+  });
 #else
       data = std::shared_ptr<T[]>(new T[size]);
 #endif
-    } 
+} 
 
 template <typename T>
 array_mml<T>::array_mml(std::initializer_list<T> data)
