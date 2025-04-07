@@ -161,14 +161,12 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
   if (TB == 1)
     invalid_argument("Transpose B not yet supported.");
 
-  // Outer loops: Iterate over blocks of rows of C
   for (int i_block = 0; i_block < M; i_block += block_size) {
     int i_end = std::min(i_block + block_size, M);
 
     for (int j_block = 0; j_block < N; j_block += block_size) {
       int j_end = std::min(j_block + block_size, N);
 
-      // Initialize the block of C with BETA scaling
       for (int i = i_block; i < i_end; i++) {
         i_col_out = i * ldc;
         for (int j = j_block; j < j_end; j++) {
@@ -176,11 +174,9 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
         }
       }
 
-      // Inner loops: Iterate over blocks of A and B
       for (int k_block = 0; k_block < K; k_block += block_size) {
         int k_end = std::min(k_block + block_size, K);
 
-        // Multiply the A block and B block
         for (int i = i_block; i < i_end; i++) {
           i_col_out = i * ldc;
           for (int k = k_block; k < k_end; k++) {
@@ -252,10 +248,53 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
 
 template <typename T>
 static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                            std::shared_ptr<Tensor<T>> A, int lda,
-                            std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                            std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("AVX-512 GEMM not yet supported.");
+                            shared_ptr<Tensor<T>> A, int lda,
+                            shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                            shared_ptr<Tensor<T>> C, int ldc) {
+  if constexpr(std::is_same<T, float>::value) {
+    for (int i = 0; i < M; i++) {
+      for (int j = 0; j < N; j += 16) {
+        __m512 c_val = _mm512_loadu_ps(&(*C)[i * ldc + j]);
+        __m512 sum = _mm512_setzero_ps();
+      
+        for (int k = 0; k < K; k++) {
+          __m512 a_vals = _mm512_set1_ps((*A)[i * lda + k]);
+
+          // Load 16 floats from B row `k`, columns j to j+15
+          __m512 b_vals = _mm512_loadu_ps(&(*B)[k * ldb + j]);
+
+          sum = _mm512_fmadd_ps(a_vals, b_vals, sum);
+        }
+
+        sum = _mm512_fmadd_ps(_mm512_set1_ps(ALPHA), sum, c_val);
+        sum = _mm512_add_ps(sum, _mm512_set1_ps(BETA));
+
+        _mm512_storeu_ps(&(*C)[i * ldc + j], sum);
+        return;
+      }
+    }
+  } 
+  else if constexpr(std::is_same<T, int>::value) {
+    for (int i = 0; i < M; i++) {
+      for (int j = 0; j < N; j += 16) {
+        __m512i sum = _mm512_setzero_si512();
+
+        for (int k = 0; k < K; ++k) {
+          __m512i a_vals = _mm512_set1_epi32((*A)[i * lda + k]); // scalar broadcast
+
+          __m512i b_vals = _mm512_loadu_si512(reinterpret_cast<const void*>(&(*B)[k * ldb + j]));
+
+          __m512i product = _mm512_mullo_epi32(a_vals, b_vals);
+          sum = _mm512_add_epi32(sum, product);
+        }
+
+        sum = _mm512_mullo_epi32(_mm512_set1_epi32(ALPHA), sum);
+        sum = _mm512_add_epi32(sum, _mm512_set1_epi32(BETA));
+
+        _mm512_storeu_si512(reinterpret_cast<void*>(&(*C)[i * ldc + j]), sum);
+      }
+    }
+  }
 }
 
 template <typename T>
