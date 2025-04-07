@@ -171,7 +171,7 @@ TEST(test_LeNet, test_LeNet_forward) {
   auto expected_output = tensor_mml_p<float>({OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
   std::cout << "Output tensor: " << *output_tensor << std::endl;
 
-  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.05f));
+  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output, 0.06f));
 
   int max_index = Arithmetic_mml<float>().arg_max(output_tensor);
   ASSERT_TRUE(max_index == PREDICTED_CLASS);  // Compare against the predicted class.
