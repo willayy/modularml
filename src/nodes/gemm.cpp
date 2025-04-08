@@ -59,7 +59,7 @@ void GemmNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap)
     using ValueTypeB = std::decay_t<decltype(b_ptr)>::element_type::value_type;
     
     if constexpr (!is_in_variant_v<ValueTypeA, T> || !std::is_same_v<ValueTypeA, ValueTypeB>) {
-      throw std::runtime_error("GemmNode: Unsupported data type for tensor A");
+      throw std::runtime_error("GemmNode: Unsupported data type for tensor A or B");
     } else {
       if (!a_ptr->is_matrix() || !b_ptr->is_matrix()) {
         throw std::runtime_error("GemmNode: Input tensors must be 2D matrices");
