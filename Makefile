@@ -7,7 +7,7 @@ OS := $(shell uname -s)
 # There are slight variations in the dependencies between operating systems.
 ifeq ($(OS), Linux)
 	PKG_MANAGER := sudo apt-get install -y
-	DEPENDENCIES := cmake g++ make python3-pip graphviz gcovr doxygen include-what-you-use
+	DEPENDENCIES := cmake g++ make python3-pip graphviz gcovr doxygen
 endif
 
 ifeq ($(OS), Darwin) # MacOS
