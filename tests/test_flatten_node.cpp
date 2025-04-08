@@ -3,7 +3,7 @@
 #include "nodes/flatten.hpp"
 
 TEST(flatten_node_test, test_forward_3d_tensor) {
-  array_mml<uli> x_shape({2, 2, 3});
+  array_mml<size_t> x_shape({2, 2, 3});
   array_mml<float> x_values(
       {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f});
 
@@ -11,7 +11,7 @@ TEST(flatten_node_test, test_forward_3d_tensor) {
       std::make_shared<Tensor_mml<float>>(x_shape, x_values);
 
   // Shape doesnt matter for output
-  array_mml<uli> y_shape({1, 1, 1});
+  array_mml<size_t> y_shape({1, 1, 1});
 
   std::shared_ptr<Tensor_mml<float>> Y =
       std::make_shared<Tensor_mml<float>>(y_shape);
@@ -32,11 +32,11 @@ TEST(flatten_node_test, test_forward_3d_tensor) {
   auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
   ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
 
-  EXPECT_EQ(result_ptr->get_shape(), array_mml<uli>({2, 6}));
+  EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({2, 6}));
 }
 
 TEST(flatten_node_test, test_forward_4d_tensor) {
-  array_mml<uli> x_shape({2, 2, 3, 3});
+  array_mml<size_t> x_shape({2, 2, 3, 3});
   array_mml<float> x_values({1.0f, 2.0f, 3.0f, 4.0f,  5.0f,  6.0f,
                              7.0f, 8.0f, 9.0f, 10.0f, 11.0f,
 
@@ -52,7 +52,7 @@ TEST(flatten_node_test, test_forward_4d_tensor) {
       std::make_shared<Tensor_mml<float>>(x_shape, x_values);
 
   // Shape doesnt matter for output
-  array_mml<uli> y_shape({1, 1, 1});
+  array_mml<size_t> y_shape({1, 1, 1});
 
   std::shared_ptr<Tensor_mml<float>> Y =
       std::make_shared<Tensor_mml<float>>(y_shape);
@@ -74,5 +74,5 @@ TEST(flatten_node_test, test_forward_4d_tensor) {
   auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
   ASSERT_NE(result_ptr, nullptr) << "Failed to get Y tensor";
 
-  EXPECT_EQ(result_ptr->get_shape(), array_mml<uli>({4, 9}));
+  EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({4, 9}));
 }

@@ -66,9 +66,9 @@ void AddNode::forward(
           bool broadcast_comp = true;
 
           // Check if broadcasting is possible
-          for (uli i = 0; i < max_rank; i++) {
-            uli dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
-            uli dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+          for (size_t i = 0; i < max_rank; i++) {
+            size_t dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+            size_t dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
             // Valid if dimensions match or one of them is 1
             if (dim_A != dim_B && dim_A != 1 && dim_B != 1) {
@@ -110,11 +110,11 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
         auto max_rank = std::max(A_rank, B_rank);
 
         // Compute output shape based on broadcasting rules
-        array_mml<uli> output_shape(max_rank);
+        array_mml<size_t> output_shape(max_rank);
         std::fill(output_shape.begin(), output_shape.end(), 1);
-        for (uli i = 0; i < max_rank; i++) {
-          uli dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
-          uli dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
+        for (size_t i = 0; i < max_rank; i++) {
+          size_t dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
+          size_t dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
           switch ((dim_A == dim_B) ? 0
                   : (dim_A == 1)   ? 1
@@ -136,34 +136,34 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
 
         c_ptr->reshape(output_shape);
 
-        std::vector<uli> A_strides(A_rank, 1);
-        std::vector<uli> B_strides(B_rank, 1);
-        std::vector<uli> output_strides(max_rank, 1);
+        std::vector<size_t> A_strides(A_rank, 1);
+        std::vector<size_t> B_strides(B_rank, 1);
+        std::vector<size_t> output_strides(max_rank, 1);
 
         // Compute strides for each tensor
-        for (uli i = max_rank - 2; ((int)i) >= 0; --i) {
+        for (size_t i = max_rank - 2; ((int)i) >= 0; --i) {
           output_strides[i] = output_strides[i + 1] * output_shape[i + 1];
         }
-        for (uli i = A_rank - 2; ((int)i) >= 0; --i) {
+        for (size_t i = A_rank - 2; ((int)i) >= 0; --i) {
           A_strides[i] = A_strides[i + 1] * A_shape[i + 1];
         }
-        for (uli i = B_rank - 2; ((int)i) >= 0; --i) {
+        for (size_t i = B_rank - 2; ((int)i) >= 0; --i) {
           B_strides[i] = B_strides[i + 1] * B_shape[i + 1];
         }
 
         // Iterate through the output tensor
-        for (uli flat_idx = 0; flat_idx < c_ptr->get_size(); flat_idx++) {
-          uli A_idx = 0, B_idx = 0;
-          uli remaining = flat_idx;
+        for (size_t flat_idx = 0; flat_idx < c_ptr->get_size(); flat_idx++) {
+          size_t A_idx = 0, B_idx = 0;
+          size_t remaining = flat_idx;
 
           // Compute multi-dimensional indices on the fly
-          for (uli j = 0; j < max_rank; j++) {
-            uli coord =
+          for (size_t j = 0; j < max_rank; j++) {
+            size_t coord =
                 remaining / output_strides[j]; // Extract coordinate for dim j
             remaining %= output_strides[j];
 
-            uli dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
-            uli dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
+            size_t dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
+            size_t dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
 
             if (dim_A > 1)
               A_idx += coord * A_strides[j];

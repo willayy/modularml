@@ -22,7 +22,7 @@ public:
    * @param axis Integer representing along which axis LogSoftMax is applied to.
    * (default -1)
    */
-  LogSoftMaxNode(std::string X, std::string Y, uli axis = -1);
+  LogSoftMaxNode(std::string X, std::string Y, size_t axis = -1);
 
   /**
    * @brief Constructor for LogSoftMaxNode from JSON.
@@ -55,5 +55,5 @@ public:
 private:
   std::string X; // Input tensor X.
   std::string Y; // Output tensor Y.
-  uli axis;
+  size_t axis;
 };

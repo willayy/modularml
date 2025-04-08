@@ -1,6 +1,6 @@
 #include "nodes/log_softmax.hpp"
 
-LogSoftMaxNode::LogSoftMaxNode(std::string X, std::string Y, uli axis)
+LogSoftMaxNode::LogSoftMaxNode(std::string X, std::string Y, size_t axis)
     : X(X), Y(Y), axis(axis) {}
 
 LogSoftMaxNode::LogSoftMaxNode(const nlohmann::json &node) {
@@ -70,23 +70,23 @@ void LogSoftMaxNode::forward(
           auto input_copy = x_ptr->copy();
 
           // For each batch, in the input
-          for (uli b = 0; b < input_copy->get_shape()[0]; b++) {
+          for (size_t b = 0; b < input_copy->get_shape()[0]; b++) {
             // Find the maximum value in the row for numerical stability
             ValueTypeX max_val = -std::numeric_limits<ValueTypeX>::infinity();
-            for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+            for (size_t c = 0; c < input_copy->get_shape()[axis]; c++) {
               max_val = std::max(max_val, (*input_copy)[{b, c}]);
             }
 
             // Exponentiate and std::accumulate the sum
             ValueTypeX sum = 0;
             std::vector<ValueTypeX> exp_values(input_copy->get_shape()[axis]);
-            for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+            for (size_t c = 0; c < input_copy->get_shape()[axis]; c++) {
               ValueTypeX value = (*input_copy)[{b, c}] - max_val;
               exp_values[c] = std::exp(value);
               sum += exp_values[c];
             }
 
-            for (uli c = 0; c < input_copy->get_shape()[axis]; c++) {
+            for (size_t c = 0; c < input_copy->get_shape()[axis]; c++) {
               // Apply soft max and perform std::log on the result
               (*input_copy)[{b, c}] = std::log(exp_values[c] / sum);
             }

@@ -33,9 +33,9 @@ public:
    * into.
    */
   ConvNode(std::string X, std::string W, std::string Y,
-           array_mml<uli> dilations, array_mml<uli> padding,
-           array_mml<uli> kernel_shape, array_mml<uli> stride,
-           std::optional<std::string> B = std::nullopt, uli group = 1);
+           array_mml<size_t> dilations, array_mml<size_t> padding,
+           array_mml<size_t> kernel_shape, array_mml<size_t> stride,
+           std::optional<std::string> B = std::nullopt, size_t group = 1);
 
   /**
    * @brief Constructor for ConvNode from JSON.
@@ -137,7 +137,7 @@ private:
    * is typically [1, 1], meaning no dilation. Dilation increases the receptive
    * field of the kernel without increasing its size.
    */
-  array_mml<uli> dilations;
+  array_mml<size_t> dilations;
 
   /**
    * @brief Padding to be applied to the input tensor before performing the
@@ -147,7 +147,7 @@ private:
    * right]. Padding ensures that the convolution can be performed at the
    * borders of the input tensor.
    */
-  array_mml<uli> padding;
+  array_mml<size_t> padding;
 
   /**
    * @brief Shape of the kernel (filter).
@@ -156,7 +156,7 @@ private:
    * These dimensions determine the size of the region in the input tensor that
    * will be convolved at each step.
    */
-  array_mml<uli> kernel_shape;
+  array_mml<size_t> kernel_shape;
 
   /**
    * @brief Stride of the convolution operation.
@@ -165,7 +165,7 @@ private:
    * tensor. It is typically represented as [vertical_stride,
    * horizontal_stride].
    */
-  array_mml<uli> stride;
+  array_mml<size_t> stride;
 
   /**
    * @brief Number of groups for grouped convolution.
@@ -174,7 +174,7 @@ private:
    * input channels are divided into groups, and a grouped convolution is
    * performed. Grouped convolutions can reduce computational complexity.
    */
-  uli group;
+  size_t group;
 
   /**
    * @brief Height of the kernel (filter).
@@ -182,7 +182,7 @@ private:
    * Kernel height determines the vertical size of the region in the input
    * tensor to be convolved.
    */
-  uli kernel_height;
+  size_t kernel_height;
 
   /**
    * @brief Width of the kernel (filter).
@@ -190,14 +190,14 @@ private:
    * Kernel width determines the horizontal size of the region in the input
    * tensor to be convolved.
    */
-  uli kernel_width;
+  size_t kernel_width;
 
   /**
    * @brief Number of examples in the batch.
    *
    * The batch size represents how many input tensors will be processed at once.
    */
-  uli batch_size;
+  size_t batch_size;
 
   /**
    * @brief Number of input channels.
@@ -205,21 +205,21 @@ private:
    * The input channels correspond to the depth of the input tensor, typically 3
    * for RGB images.
    */
-  uli in_channels;
+  size_t in_channels;
 
   /**
    * @brief The height of the input tensor.
    *
    * This is the height of the input feature map(s).
    */
-  uli in_height;
+  size_t in_height;
 
   /**
    * @brief Width of the input tensor.
    *
    * This is the width of the input feature map(s).
    */
-  uli in_width;
+  size_t in_width;
 
   /**
    * @brief Number of output channels.
@@ -227,7 +227,7 @@ private:
    * The number of output channels corresponds to the number of filters used in
    * the convolution.
    */
-  uli out_channels;
+  size_t out_channels;
 
   /**
    * @brief Flips the content of each filter present in the weight kernel.
@@ -269,29 +269,29 @@ private:
   void add_bias(const TensorT &result_variant, const TensorT &bias_variant);
 
   // Getters for input tensor dimensions
-  uli get_batch_size() const;
-  uli get_in_channels() const;
-  uli get_in_height() const;
-  uli get_in_width() const;
+  size_t get_batch_size() const;
+  size_t get_in_channels() const;
+  size_t get_in_height() const;
+  size_t get_in_width() const;
 
   // Weight tensor getters
-  uli get_kernel_height() const;
-  uli get_kernel_width() const;
-  uli get_out_channels() const;
+  size_t get_kernel_height() const;
+  size_t get_kernel_width() const;
+  size_t get_out_channels() const;
 
   // Getters for the other parameters
-  uli get_stride_height() const;
-  uli get_stride_width() const;
+  size_t get_stride_height() const;
+  size_t get_stride_width() const;
 
   // Padding for each spatial direction
-  uli get_padding_top() const;
-  uli get_padding_bottom() const;
-  uli get_padding_left() const;
-  uli get_padding_right() const;
+  size_t get_padding_top() const;
+  size_t get_padding_bottom() const;
+  size_t get_padding_left() const;
+  size_t get_padding_right() const;
 
   // Getter for getting the output height and width
-  uli get_out_height();
-  uli get_out_width();
+  size_t get_out_height();
+  size_t get_out_width();
 
   // Checks the inputs to the convolution node
   void validate_inputs();
@@ -299,6 +299,6 @@ private:
   // Updates parameters based on the content of the input and weight tensor
   // This method is executed before forward so that we get the correct
   // parameters.
-  void update_parameters(const array_mml<uli> &input_shape,
-                         const array_mml<uli> &weight_shape);
+  void update_parameters(const array_mml<size_t> &input_shape,
+                         const array_mml<size_t> &weight_shape);
 };

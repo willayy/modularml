@@ -195,7 +195,7 @@ TEST(test_mml_gemm, test_transpose_1) {
 
 TEST(test_mml_gemm, test_gemm_properties) {
   for (int i = 0; i < 100; i++) {
-    array_mml<uli> shape = generate_random_array_mml_integral<uli>(2, 2);
+    array_mml<size_t> shape = generate_random_array_mml_integral<size_t>(2, 2);
     shape[0] = shape[1];
     const auto elements =
         std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "datastructures/mml_array.hpp"
-#include "utility/uli.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -63,19 +63,19 @@ public:
   /// @param indices A std::vector of integers representing the indices of the
   /// element.
   /// @return An element at the given indices.
-  virtual const T &operator[](std::initializer_list<uli> indices) const = 0;
+  virtual const T &operator[](std::initializer_list<size_t> indices) const = 0;
 
   /// @brief Set an element in the tensor using multi-dimensional indices.
   /// @param indices A std::vector of integers representing the indices of the
   /// element.
   /// @return An element at the given indices.
-  virtual T &operator[](std::initializer_list<uli> indices) = 0;
+  virtual T &operator[](std::initializer_list<size_t> indices) = 0;
 
   ///@brief Get an element from the tensor using multi-dimensional indices.
   ///@param indices A std::vector of integers representing the indices of the
   /// element.
   ///@return An element at the given indices.
-  virtual const T &operator[](array_mml<uli> &indices) const = 0;
+  virtual const T &operator[](array_mml<size_t> &indices) const = 0;
 
   ///@brief Check if this tensor is std::equal to another tensor.
   ///@param other The tensor to compare with.
@@ -103,18 +103,18 @@ public:
   ///@brief Get an element from the tensor using singel-dimensional index.
   ///@param index A single integer representing the index of the element.
   ///@return The element at the given indices.*/
-  virtual const T &operator[](uli index) const = 0;
+  virtual const T &operator[](size_t index) const = 0;
 
   ///@brief Set an element in the tensor using single-dimensional index.
   ///@param index A single integer representing the index of the element.
   ///@return The tensor with the element get_mutable_elem.*/
-  virtual T &operator[](uli index) = 0;
+  virtual T &operator[](size_t index) = 0;
 
   ///@brief Set an element in the tensor using multi-dimensional indices.
   ///@param indices A std::vector of integers representing the indices of the
   /// element.
   ///@return An element at the given indices.
-  virtual T &operator[](array_mml<uli> &indices) = 0;
+  virtual T &operator[](array_mml<size_t> &indices) = 0;
 
   /// @brief Get the shape as a std::string.
   /// @return A std::string representation of the shape. E.g. [2, 3, 4].
@@ -125,11 +125,11 @@ public:
 
   /// @brief Get the shape of the tensor.
   /// @return A std::vector of integers representing the shape.
-  virtual const array_mml<uli> &get_shape() const = 0;
+  virtual const array_mml<size_t> &get_shape() const = 0;
 
   /// @brief Get the the total number of elements in the tensor.
   /// @return The total number of elements in the tensor.
-  virtual uli get_size() const = 0;
+  virtual size_t get_size() const = 0;
 
   /// @brief Fills the tensor with a given value.
   /// @param value The value to fill the tensor with.
@@ -142,22 +142,23 @@ public:
   /// @param slice_indices The indices of the slice.
   /// @return A slice of the tensor.
   virtual std::shared_ptr<Tensor<T>>
-  slice(std::initializer_list<uli> slice_indices) = 0;
+  slice(std::initializer_list<size_t> slice_indices) = 0;
 
   /// @brief Get a mutable slice of the tensor.
   /// @param slice_indices The indices of the slice.
   /// @return A slice of the tensor.
-  virtual std::shared_ptr<Tensor<T>> slice(array_mml<uli> &slice_indices) = 0;
+  virtual std::shared_ptr<Tensor<T>>
+  slice(array_mml<size_t> &slice_indices) = 0;
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor expressed as a list of
   /// integers.
-  virtual void reshape(const array_mml<uli> &new_shape) = 0;
+  virtual void reshape(const array_mml<size_t> &new_shape) = 0;
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor expressed as a list of
   /// integers.
-  virtual void reshape(std::initializer_list<uli> new_shape) = 0;
+  virtual void reshape(std::initializer_list<size_t> new_shape) = 0;
 
   /// @brief Display the tensor.
   /// @return A std::string representation of the tensor.
@@ -175,11 +176,11 @@ public:
   virtual bool matrix_match(const Tensor<T> &other) const = 0;
 
   virtual std::shared_ptr<Tensor<T>>
-  transpose(std::optional<uli> dim0 = std::nullopt,
-            std::optional<uli> dim1 = std::nullopt) const = 0;
+  transpose(std::optional<size_t> dim0 = std::nullopt,
+            std::optional<size_t> dim1 = std::nullopt) const = 0;
 
   virtual std::shared_ptr<Tensor<T>>
-  broadcast_to(const array_mml<uli> &target_shape) const = 0;
+  broadcast_to(const array_mml<size_t> &target_shape) const = 0;
 
   /// @brief Method way to get a std::copy of the tensor.
   /// @return A shared pointer to the copied tensor.

@@ -3,7 +3,7 @@
 #include "datastructures/mml_array.hpp"
 
 template <typename T>
-array_mml<T>::array_mml(uli size)
+array_mml<T>::array_mml(size_t size)
     : data(std::make_shared<T[]>(size)), d_size(size) {}
 
 template <typename T>
@@ -25,7 +25,7 @@ array_mml<T>::array_mml(const std::vector<T> &data)
 }
 
 template <typename T>
-array_mml<T>::array_mml(std::shared_ptr<T[]> data, uli size)
+array_mml<T>::array_mml(std::shared_ptr<T[]> data, size_t size)
     : data(data), d_size(size) {}
 
 template <typename T>
@@ -41,9 +41,9 @@ array_mml<T>::array_mml(array_mml &&other) noexcept
   other.d_size = 0;
 }
 
-template <typename T> uli array_mml<T>::size() const { return this->d_size; }
+template <typename T> size_t array_mml<T>::size() const { return this->d_size; }
 
-template <typename T> T &array_mml<T>::operator[](uli index) {
+template <typename T> T &array_mml<T>::operator[](size_t index) {
   if (index >= this->d_size) {
     throw std::out_of_range("Invalid array_mml index");
   } else {
@@ -51,7 +51,7 @@ template <typename T> T &array_mml<T>::operator[](uli index) {
   }
 }
 
-template <typename T> const T &array_mml<T>::operator[](uli index) const {
+template <typename T> const T &array_mml<T>::operator[](size_t index) const {
   if (index >= this->d_size) {
     throw std::out_of_range("Invalid array_mml index");
   } else {
@@ -69,7 +69,7 @@ array_mml<T> &array_mml<T>::operator=(const array_mml &other) {
 }
 
 template <typename T>
-array_mml<T> array_mml<T>::subarray(uli start, uli end) const {
+array_mml<T> array_mml<T>::subarray(size_t start, size_t end) const {
   if (start >= this->d_size || end > this->d_size || start > end) {
     throw std::out_of_range("Invalid array_mml subarray index");
   }
@@ -96,19 +96,19 @@ template <typename T> std::string array_mml<T>::to_string() const {
   std::string str = "[";
   // if longer than 50 print first 10 then ... then last 10
   if (this->size() > 50) {
-    for (uli i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++) {
       str += std::to_string(this->data[i]);
       str += ", ";
     }
     str += "..., ";
-    for (uli i = this->size() - 10; i < this->size(); i++) {
+    for (size_t i = this->size() - 10; i < this->size(); i++) {
       str += std::to_string(this->data[i]);
       if (i != this->size() - 1) {
         str += ", ";
       }
     }
   } else {
-    for (uli i = 0; i < this->size(); i++) {
+    for (size_t i = 0; i < this->size(); i++) {
       str += std::to_string(this->data[i]);
       if (i != this->size() - 1) {
         str += ", ";

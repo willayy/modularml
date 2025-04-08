@@ -127,7 +127,7 @@ TEST(test_tensor_utility, test_generate_random_tensor_basic) {
 
   // 1. Test with integer type
   {
-    array_mml<uli> shape = {2, 3, 4}; // Total: 24 elements
+    array_mml<size_t> shape = {2, 3, 4}; // Total: 24 elements
     int lo = 10, hi = 20;
     auto tensor = generate_random_tensor<int>(shape, lo, hi);
 
@@ -155,7 +155,7 @@ TEST(test_tensor_utility, test_generate_random_tensor_basic) {
 
   // 2. Test with floating-point type
   {
-    array_mml<uli> shape = {5};
+    array_mml<size_t> shape = {5};
     float lo = -1.5f, hi = 2.5f;
     auto tensor = generate_random_tensor<float>(shape, lo, hi);
 

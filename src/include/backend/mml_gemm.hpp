@@ -1,7 +1,6 @@
 #pragma once
 
 #include "backend/a_gemm.hpp"
-#include "../utility/uli.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>

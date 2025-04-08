@@ -62,7 +62,7 @@ void FlattenNode::forward(
             throw std::invalid_argument("Flatten axis is out of range");
           }
 
-          uli height_2d, width_2d;
+          size_t height_2d, width_2d;
 
           if (get_axis() == 0) {
             // This gives a warning, but when get_size() returns int in the

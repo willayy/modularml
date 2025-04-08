@@ -76,24 +76,24 @@ void reshapeNode::forward(
 
           // Determine the size of the shape tensor (number of dimensions for
           // the new shape)
-          uli shape_size = shape_ptr->get_size();
+          size_t shape_size = shape_ptr->get_size();
 
           // Determine the total number of elements in the input data tensor
-          uli data_size = data_ptr->get_size();
+          size_t data_size = data_ptr->get_size();
 
           // Create an array to store the new shape values (initialized with
           // same size as shape tensor)
-          array_mml<uli> new_shape(shape_size);
+          array_mml<size_t> new_shape(shape_size);
 
           // Variables for handling inferred dimension (-1) and computing the
           // total number of elements
           int inferred_dim_index = -1; // Stores the index of -1 if present
-          uli computed_elements =
+          size_t computed_elements =
               1; // Tracks the product of explicitly defined shape dimensions
 
           // Iterate through the shape tensor to determine the new shape values
-          for (uli i = 0; i < shape_size; ++i) {
-            uli dim =
+          for (size_t i = 0; i < shape_size; ++i) {
+            size_t dim =
                 (*shape_ptr)[i]; // Extract the value for the current dimension
 
             // If dim == -1, mark it for inference (meaning this dimension

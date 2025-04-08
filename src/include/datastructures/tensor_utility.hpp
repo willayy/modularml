@@ -1,7 +1,6 @@
 #pragma once
 
 #include "datastructures/a_tensor.hpp"
-#include "../utility/uli.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -59,8 +58,8 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01));
                             "type (int, float, double, etc.).");
 template <typename T>
 [[deprecated("Use TensorFactory instead.")]]
-static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0),
-                                   T hi_v = T(1));
+static auto generate_random_tensor(const array_mml<size_t> &shape,
+                                   T lo_v = T(0), T hi_v = T(1));
 
 /**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
@@ -77,8 +76,8 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v = T(0),
  * @param gen A random number generator.
  */
 template <typename T>
-void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
-                     uli kernel_size, std::mt19937 &gen);
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
+                     size_t kernel_size, std::mt19937 &gen);
 
 /**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
@@ -94,7 +93,7 @@ void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
  * @param kernel_size The size of the kernel.
  */
 template <typename T>
-void kaiming_uniform(std::shared_ptr<Tensor<T>> W, uli in_channels,
-                     uli kernel_size);
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
+                     size_t kernel_size);
 
 #include "../datastructures/tensor_utility.tpp"
