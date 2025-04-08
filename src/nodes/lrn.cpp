@@ -25,12 +25,10 @@ LRNNode_mml::LRNNode_mml(const json &node) {
   alpha = 0.0001f;
   beta = 0.75f;
   bias = 1.0f;
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto &attr : node["attribute"]) {
       if (attr["name"] == "size") {
-        if (attr["name"].get<uli>() < 1)
-          throw std::invalid_argument("Size must be at least 1.");
-        size = attr["i"];
+        size = std::stoul(attr["i"].get<std::string>());
       } else if (attr["name"] == "alpha") {
         alpha = attr["f"];
       } else if (attr["name"] == "beta") {

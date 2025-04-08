@@ -1,29 +1,72 @@
 #include "backend/mml_model.hpp"
 #include <set>
 #include <queue>
+#include <iostream>
+#include <typeinfo>
 
 std::unordered_map<string, GeneralDataTypes> Model_mml::infer(const std::unordered_map<string, GeneralDataTypes>& inputs) {
+    std::cout << "==== Starting inference ====" << std::endl;
+    
     if (nodes.empty()) {
         throw runtime_error("ComputeGraph has no nodes.");
     }
 
     // Perform topological sort
     vector<vector<shared_ptr<Node>>> topoLayers = topologicalSort();
+    std::cout << "Topological layers: " << topoLayers.size() << std::endl;
 
     // Copy the iomap to avoid modifying the original
     std::unordered_map<string, GeneralDataTypes> local_iomap = iomap;
-
+    
     // Set input tensors
     for (const auto& [name, tensor] : inputs) {
+        std::cout << "Setting input: " << name << std::endl;
         local_iomap[name] = tensor;
     }
 
-    for (const auto& layer : topoLayers) {
-        for (const auto& node : layer) {
-            node->forward(local_iomap);
+    // Process each layer
+    try {
+        for (size_t layer_idx = 0; layer_idx < topoLayers.size(); ++layer_idx) {
+            const auto& layer = topoLayers[layer_idx];
+            std::cout << "Processing layer " << layer_idx << " with " << layer.size() << " nodes" << std::endl;
+            
+            for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
+                const auto& node = layer[node_idx];
+                std::string nodeType = typeid(*node).name(); // Get node type
+                std::cout << "  Processing node " << node_idx << " (type: " << nodeType << ")" << std::endl;
+                
+                try {
+                    node->forward(local_iomap);
+                    std::cout << "  Node " << node_idx << " processed successfully" << std::endl;
+                } catch (const std::out_of_range& e) {
+                    std::cerr << "*** Out of range error in node " << node_idx << " (type: " << nodeType << "): " << e.what() << std::endl;
+                    
+                    // Print node inputs and outputs
+                    std::cout << "  Node inputs: ";
+                    for (const auto& input : node->getInputs()) {
+                        std::cout << input << " ";
+                    }
+                    std::cout << std::endl;
+                    
+                    std::cout << "  Node outputs: ";
+                    for (const auto& output : node->getOutputs()) {
+                        std::cout << output << " ";
+                    }
+                    std::cout << std::endl;
+                    
+                    // Rethrow so the test catches it
+                    throw;
+                } catch (const std::exception& e) {
+                    std::cerr << "*** Error in node " << node_idx << " (type: " << nodeType << "): " << e.what() << std::endl;
+                    throw;
+                }
+            }
         }
+    } catch (const std::exception& e) {
+        std::cerr << "Exception during inference: " << e.what() << std::endl;
+        throw;
     }
- 
+    
     // Get output(s)
     std::unordered_map<string, GeneralDataTypes> returnMap;
     for (const auto& name: outputs) {
