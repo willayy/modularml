@@ -355,9 +355,9 @@
       -2.345233917236328, -2.3390109539031982, -2.247159957885742,             \
       -2.228898525238037
 
-TEST(test_mml_tensor, test_parsing_and_running_model) {
-  std::ifstream file("../test.nlohmann::json");
-  ASSERT_TRUE(file.is_open()) << "Failed to open test.nlohmann::json file";
+TEST(test_parser_model, test_parsing_and_running_model) {
+    std::ifstream file("../test.json");
+    ASSERT_TRUE(file.is_open()) << "Failed to open test.json file";
 
   nlohmann::json onnx_model;
   file >> onnx_model;
@@ -414,9 +414,9 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
   }
 }
 
-TEST(test_mml_tensor, test_parsing_and_running_lenet) {
-  std::ifstream file("../lenet.nlohmann::json");
-  ASSERT_TRUE(file.is_open()) << "Failed to open lenet.nlohmann::json file";
+TEST(test_parser_model, test_parsing_and_running_lenet) {
+  std::ifstream file("../lenet.json");
+  ASSERT_TRUE(file.is_open()) << "Failed to open lenet.json file";
 
   nlohmann::json onnx_model;
   file >> onnx_model;
