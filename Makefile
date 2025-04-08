@@ -41,8 +41,14 @@ run:
 
 test: all
 	@echo "Running tests...\n"
-	@cd ./build && ctest --output-on-failure
-
+	@if [ -n "$(TEST_NAME)" ]; then \
+		echo "Running test: $(TEST_NAME)"; \
+		cd ./build && ctest -R "$(TEST_NAME)" --output-on-failure; \
+	else \
+		echo "Running all tests..."; \
+		cd ./build && ctest --output-on-failure; \
+	fi
+	
 coverage:
 	@echo "Generating coverage...\n"
 	@$(CMAKE) --build $(BUILD_DIR) --target coverage_report

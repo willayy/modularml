@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <modularml>  // Assuming this header includes the definitions for array_mml, Tensor, Tensor_mml, GemmNode, and GeneralDataTypes
+#include "nodes/gemm.hpp"
 
 TEST(GemmNodeTest, ForwardMultiplication) {
   // Define dimensions: M = 2, K = 3, N = 2.

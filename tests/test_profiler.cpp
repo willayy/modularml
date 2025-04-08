@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <thread>
-#include "profiler.hpp"
+#include "utility/profiler.hpp"
 
 TEST(test_profiler, test_begin_end_timing) {
     using namespace std::chrono_literals;

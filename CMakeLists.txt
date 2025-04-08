@@ -3,6 +3,11 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
+# Check if macOS
+if(APPLE)
+    set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk")
+endif()
+
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
@@ -40,6 +45,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+# ==== Header-only library used to load images ==== #
+include(FetchContent)
+FetchContent_Declare(
+    stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG        master
+)
+FetchContent_MakeAvailable(stb)
+
+
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
@@ -65,10 +80,10 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
+file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
 
 # Glob all header files
-file(GLOB HEADERS ${INCLUDE_DIR}/*.hpp)
+file(GLOB_RECURSE HEADERS ${INCLUDE_DIR}/*.hpp)
 
 # Add library
 add_library(
@@ -79,6 +94,12 @@ add_library(
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC
+    ${CMAKE_BINARY_DIR}/_deps/stb-src
+)
 
 # ------------------- Testing ------------------------------ #
 
@@ -122,7 +143,7 @@ endif()
 # Create coverage target
 add_custom_target(coverage_report
     COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-    COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details --csv -o ${CMAKE_BINARY_DIR}/coverage_report/
 )
 
 # Add dependencies to the coverage report
