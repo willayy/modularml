@@ -1,6 +1,6 @@
 #include "nodes/lrn.hpp"
 
-LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
+LRNNode_mml::LRNNode_mml(std::string X, std::string Y, size_t size, float alpha,
                          float beta, float bias)
     : X(X), Y(Y), alpha(alpha), beta(beta) {
   if (size < 1)
@@ -12,7 +12,7 @@ LRNNode_mml::LRNNode_mml(std::string X, std::string Y, uli size, float alpha,
   this->bias = bias;
 };
 
-LRNNode_mml::LRNNode_mml(const json &node) {
+LRNNode_mml::LRNNode_mml(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {
     X = node["input"][0];
   }
@@ -75,29 +75,28 @@ void LRNNode_mml::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          array_mml<uli> shape = x_ptr->get_shape();
+          array_mml<size_t> shape = x_ptr->get_shape();
 
           /// Each batch element
-          for (uli n = 0; n < shape[0]; n++) {
+          for (size_t n = 0; n < shape[0]; n++) {
             /// Each channel
-            for (uli c = 0; c < shape[1]; c++) {
+            for (size_t c = 0; c < shape[1]; c++) {
               /// Each row
-              for (uli h = 0; h < shape[2]; h++) {
+              for (size_t h = 0; h < shape[2]; h++) {
                 /// Each column
-                for (uli w = 0; w < shape[3]; w++) {
+                for (size_t w = 0; w < shape[3]; w++) {
 
                   /// Region
-                  uli start = std::max(0UL, c - (size - 1) / 2);
-                  uli end = std::min(shape[1] - 1,
-                                     c + (size - 1) / 2 + ((size - 1) % 2));
+                  size_t start = std::max(0UL, c - (size - 1) / 2);
+                  size_t end = std::min(shape[1] - 1,
+                                        c + (size - 1) / 2 + ((size - 1) % 2));
 
                   /// Calculate square_sum
                   ValueTypeX square_sum = 0;
-                  for (uli i = start; i <= end; i++) {
+                  for (size_t i = start; i <= end; i++) {
                     square_sum +=
                         (*x_ptr)[{n, i, h, w}] * (*x_ptr)[{n, i, h, w}];
                   }
-
                   (*y_ptr)[{n, c, h, w}] =
                       (*x_ptr)[{n, c, h, w}] /
                       std::pow((bias + alpha / size * square_sum), beta);

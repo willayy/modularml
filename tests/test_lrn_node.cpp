@@ -5,10 +5,10 @@
 
 TEST(test_lrn, test_lrn_node_float) {
 
-  shared_ptr<Tensor<float>> X = tensor_mml_p<float>(
+  std::shared_ptr<Tensor<float>> X = tensor_mml_p<float>(
       {1, 4, 2, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-  shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>(
+  std::shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>(
       {1, 4, 2, 2},
       {0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258, 4.7047, 5.2795,
        5.8498, 6.4150, 6.9747, 7.6350, 8.2041, 8.7682, 9.3282});
@@ -32,10 +32,10 @@ TEST(test_lrn, test_lrn_node_float) {
 }
 TEST(test_lrn, test_lrn_node_double) {
 
-  shared_ptr<Tensor<double>> X = tensor_mml_p<double>(
+  std::shared_ptr<Tensor<double>> X = tensor_mml_p<double>(
       {1, 4, 2, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-  shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
+  std::shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
       {1, 4, 2, 2},
       {0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258, 4.7047, 5.2795,
        5.8498, 6.4150, 6.9747, 7.6350, 8.2041, 8.7682, 9.3282});
@@ -60,26 +60,26 @@ TEST(test_lrn, test_lrn_node_double) {
 
 TEST(test_lrn, test_lrn_node_square_sum_0) {
 
-  shared_ptr<Tensor<double>> X = tensor_mml_p<double>({1, 4, 2, 2}, {
-                                                                        0,
-                                                                        2,
-                                                                        3,
-                                                                        4,
-                                                                        0,
-                                                                        2,
-                                                                        3,
-                                                                        4,
-                                                                        0,
-                                                                        2,
-                                                                        3,
-                                                                        4,
-                                                                        0,
-                                                                        2,
-                                                                        3,
-                                                                        4,
-                                                                    });
+  std::shared_ptr<Tensor<double>> X = tensor_mml_p<double>({1, 4, 2, 2}, {
+                                                                             0,
+                                                                             2,
+                                                                             3,
+                                                                             4,
+                                                                             0,
+                                                                             2,
+                                                                             3,
+                                                                             4,
+                                                                             0,
+                                                                             2,
+                                                                             3,
+                                                                             4,
+                                                                             0,
+                                                                             2,
+                                                                             3,
+                                                                             4,
+                                                                         });
 
-  shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
+  std::shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
       {1, 4, 2, 2},
       {0.0f, 1.9997f, 2.9987f, 3.9970f, 0.0f, 1.9994f, 2.9980f, 3.9952f, 0.0f,
        1.9994f, 2.9980f, 3.9952f, 0.0f, 1.9997f, 2.9987f, 3.9970f});
@@ -104,7 +104,7 @@ TEST(test_lrn, test_lrn_node_square_sum_0) {
 
 TEST(test_lrn, test_lrn_node_random_values) {
 
-  shared_ptr<Tensor<double>> X =
+  std::shared_ptr<Tensor<double>> X =
       tensor_mml_p<double>({1, 4, 2, 2}, {
                                              0.608746f,
                                              9.412452f,
@@ -124,7 +124,7 @@ TEST(test_lrn, test_lrn_node_random_values) {
                                              -6.068864f,
                                          });
 
-  shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
+  std::shared_ptr<Tensor<double>> exp_output = tensor_mml_p<double>(
       {1, 4, 2, 2}, {0.6075f, 9.3755f, -5.8731f, 5.7804f, -9.1289f, -8.2686f,
                      -2.6869f, 5.5283f, 9.2608f, -6.6668f, -0.3600f, 3.7947f,
                      -1.6980f, -1.9403f, 7.5752f, -6.0611f});
@@ -148,7 +148,7 @@ TEST(test_lrn, test_lrn_node_random_values) {
 }
 
 TEST(test_lrn, test_lrn_node_invalid_arguments) {
-  shared_ptr<Tensor<double>> X = tensor_mml_p<double>({1, 1, 1, 1});
+  std::shared_ptr<Tensor<double>> X = tensor_mml_p<double>({1, 1, 1, 1});
 
   std::string x_string = "X";
   std::string y_string = "Y";
