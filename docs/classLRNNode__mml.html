@@ -194,10 +194,10 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>A shared pointer to the input tensor. </td></tr>
-    <tr><td class="paramname">size</td><td>(Required) The number of channels to sum over </td></tr>
+    <tr><td class="paramname">size</td><td>(Required) The number of channels to sum over. Must be at least 1. </td></tr>
     <tr><td class="paramname">alpha</td><td>(default = 0.0001) Scaling parameter </td></tr>
-    <tr><td class="paramname">beta</td><td>(default = 0.75) The exponent </td></tr>
-    <tr><td class="paramname">bias</td><td>(default = 1.0) Bias to avoid division with 0. </td></tr>
+    <tr><td class="paramname">beta</td><td>(default = 0.75) The exponent. Must be at least 0. </td></tr>
+    <tr><td class="paramname">bias</td><td>(default = 1.0) Bias to avoid division with 0. Must be at least 0.001. </td></tr>
   </table>
   </dd>
 </dl>
