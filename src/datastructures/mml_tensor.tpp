@@ -375,7 +375,7 @@ Tensor_mml<T>::transpose(std::optional<size_t> dim0,
 };
 
 template <typename T>
-bool Tensor_mml<T>::is_broadcastable_to(
+bool Tensor_mml<T>::valid_replicate_reshape_size(
     const array_mml<size_t> &target_shape) const {
   const array_mml<size_t> &current_shape = this->shape;
 
@@ -409,7 +409,7 @@ Tensor_mml<T>::replicate_reshape(const array_mml<size_t> &target_shape) const {
     return this->copy();
   }
 
-  if (!is_broadcastable_to(target_shape)) {
+  if (!valid_replicate_reshape_size(target_shape)) {
     throw std::invalid_argument("Cannot broadcast tensor to target shape");
   }
 

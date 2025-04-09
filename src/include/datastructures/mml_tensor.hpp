@@ -121,9 +121,9 @@ private:
   bool valid_indices(const array_mml<size_t> &indices) const;
   bool valid_index(size_t index) const;
   bool valid_slice_indices(const array_mml<size_t> &slice_indices) const;
+  bool valid_replicate_reshape_size(const array_mml<size_t> &target_shape) const;
   size_t indices_to_1d_index(array_mml<size_t> indices) const;
   size_t index_to_offset_1d_index(size_t index) const;
-  bool is_broadcastable_to(const array_mml<size_t> &target_shape) const;
 };
 
 template <typename T>
