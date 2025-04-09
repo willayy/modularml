@@ -17,10 +17,12 @@ public:
   /**
    * @brief Constructor for LRNNode_mml
    * @param input A shared pointer to the input tensor.
-   * @param size (Required) The number of channels to sum over
+   * @param size (Required) The number of channels to sum over. Must be at
+   * least 1.
    * @param alpha (default = 0.0001) Scaling parameter
-   * @param beta (default = 0.75) The exponent
-   * @param bias (default = 1.0) Bias to avoid division with 0.
+   * @param beta (default = 0.75) The exponent. Must be at least 0.
+   * @param bias (default = 1.0) Bias to avoid division with 0. Must be at least
+   * 0.001.
    *
    */
   LRNNode_mml(std::string X, std::string Y, size_t size, float alpha = 0.0001f,

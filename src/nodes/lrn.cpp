@@ -2,7 +2,15 @@
 
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, size_t size, float alpha,
                          float beta, float bias)
-    : X(X), Y(Y), size(size), alpha(alpha), beta(beta), bias(bias) {};
+    : X(X), Y(Y), alpha(alpha), beta(beta) {
+  if (size < 1)
+    throw std::invalid_argument("Size must be at least 1.");
+  if (bias < 0.001)
+    throw std::invalid_argument("Bias must be at least 0.001.");
+
+  this->size = size;
+  this->bias = bias;
+};
 
 LRNNode_mml::LRNNode_mml(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {
@@ -26,6 +34,8 @@ LRNNode_mml::LRNNode_mml(const nlohmann::json &node) {
       } else if (attr["name"] == "beta") {
         beta = attr["f"];
       } else if (attr["name"] == "bias") {
+        if (attr["f"].get<float>() < 0.001)
+          throw std::invalid_argument("Bias must be > 0.001.");
         bias = attr["f"];
       }
     }
