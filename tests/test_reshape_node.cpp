@@ -9,10 +9,11 @@ TEST(test_node, test_reshape_basic) {
    */
   auto b =
       tensor_mml_p<float>({2UL, 3UL}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
-  auto data = make_shared<Tensor_mml<float>>(
+  auto data = std::make_shared<Tensor_mml<float>>(
       Tensor_mml<float>({3UL, 2UL}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
   auto shape = tensor_mml_p<int64_t>({2}, {2, 3});
-  auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+  auto reshaped =
+      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";
@@ -43,11 +44,11 @@ TEST(test_node, test_reshape_high_dimensional) {
   auto b = tensor_mml_p<float>({2, 1, 3, 1},
                                {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
 
-  auto data = make_shared<Tensor_mml<float>>(
+  auto data = std::make_shared<Tensor_mml<float>>(
       Tensor_mml<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
   auto shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
   auto reshaped =
-      make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 1, 3, 1}));
+      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 1, 3, 1}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";
@@ -78,10 +79,11 @@ TEST(test_node, test_reshape_with_inferred_dimension) {
    */
   auto b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-  auto data = make_shared<Tensor_mml<float>>(
+  auto data = std::make_shared<Tensor_mml<float>>(
       Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
   auto shape = tensor_mml_p<int64_t>({2}, {-1, 3});
-  auto reshaped = make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+  auto reshaped =
+      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";

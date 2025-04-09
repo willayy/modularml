@@ -11,7 +11,7 @@
  * pass computation applying swish elementwise.
  */
 class SwishNode : public Node {
- public:
+public:
   using T = std::variant<double, float>;
   /**
    * @brief Constructor for SwishNode.
@@ -26,31 +26,32 @@ class SwishNode : public Node {
    *
    * @param node JSON object representing the Swish node.
    */
-  SwishNode(const json& node);
+  SwishNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation applying swish.
    */
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
-   * 
+   *
    * @return The names of the inputs to the node.
    */
   std::vector<std::string> getInputs() override;
 
   /**
    * @brief Get outputs.
-   * 
+   *
    * @return The names of the outputs to the node.
    */
   std::vector<std::string> getOutputs() override;
 
- private:
+private:
   // Input
-  std::string X;  // Input tensor X.
+  std::string X; // Input tensor X.
 
   // Output
-  std::string Y;  // Output tensor Y.
+  std::string Y; // Output tensor Y.
 };
