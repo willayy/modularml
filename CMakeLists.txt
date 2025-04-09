@@ -3,11 +3,6 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
-# Check if macOS
-if(APPLE)
-    set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk")
-endif()
-
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
@@ -19,7 +14,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang"))
     message(WARNING "WARNING: This project recommends GCC or Clang as the compiler.")
 endif()
 
@@ -116,10 +111,49 @@ add_executable(
     ${TEST_SOURCES}
 )
 
-# Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path -Wfatal-errors -fmax-errors=1 -pedantic-errors)
-# Linker flags
-target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    # Compiler flags
+    target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+    -g 
+    -O0 
+    -fPIC 
+    --coverage 
+    -fprofile-abs-path 
+    -Wfatal-errors 
+    -fmax-errors=1 
+    -pedantic-errors
+    )
+    # Linker flags
+    target_link_options(${PROJECT_NAME}_tests PRIVATE 
+    -g 
+    -O0 
+    -fPIC 
+    --coverage 
+    -fprofile-abs-path
+    )
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
+    # Compiler flags
+    target_compile_options(${PROJECT_NAME}_tests PRIVATE
+    -g
+    -O0
+    -fPIC
+    -fprofile-arcs
+    -ftest-coverage
+    -ferror-limit=1
+    -pedantic-errors
+    -Wfatal-errors
+    )
+    # Linker flags
+    target_link_options(${PROJECT_NAME}_tests PRIVATE
+    -g
+    -O0
+    -fPIC
+    -fprofile-arcs
+    -ftest-coverage
+    )
+
+endif()
+
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 # Link gtest
@@ -141,7 +175,7 @@ else()
 endif()
 
 # If on MacOS, gcovr --gcov-executable gcov-14
-if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr)
+if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     set(GCOVR_EXECUTABLE ${GCOVR_EXECUTABLE} --gcov-executable gcov-14)
 endif()
 
