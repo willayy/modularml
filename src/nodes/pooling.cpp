@@ -120,7 +120,8 @@ void PoolingNode_mml::forward(
 
                 output_shape[i] =
                     (input_shape[i] -
-                     (effective_kernel_shape[i - 2] - 1) * dilations[i - 2]) /
+                     ((effective_kernel_shape[i - 2] - 1) * dilations[i - 2] +
+                      1)) /
                         strides[i - 2] +
                     1;
               }
