@@ -35,7 +35,7 @@ public:
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(
       const std::initializer_list<size_t> shape,
-      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
+      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
@@ -44,14 +44,14 @@ public:
   explicit Tensor_mml(
       const std::initializer_list<size_t> shape,
       const std::initializer_list<T> data,
-      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
+      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(
       const array_mml<size_t> &shape,
-      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
+      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
@@ -59,7 +59,7 @@ public:
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(
       const array_mml<size_t> &shape, const array_mml<T> &data,
-      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
+      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
 
   /// @brief Destructor for Tensor_mml class.
   ~Tensor_mml() = default;
@@ -109,20 +109,20 @@ private:
   array_mml<T> data;
   array_mml<size_t> shape;
   array_mml<size_t> indices_offsets;
-  std::optional<array_mml<size_t>> slice_offsets;
+  std::optional<array_mml<size_t>> index_offsets;
   size_t size;
 
   // Helper methods
   size_t compute_size() const;
   array_mml<size_t> compute_indices_offsets() const;
-  array_mml<size_t> compute_slice_offsets(array_mml<size_t> &slice_indices_size,
+  array_mml<size_t> compute_index_offsets(array_mml<size_t> &slice_indices_size,
                                           array_mml<size_t> &slice_shape) const;
   bool valid_shape(const array_mml<size_t> &new_shape) const;
   bool valid_indices(const array_mml<size_t> &indices) const;
   bool valid_index(size_t index) const;
   bool valid_slice_indices(const array_mml<size_t> &slice_indices) const;
   size_t indices_to_1d_index(array_mml<size_t> indices) const;
-  size_t index_to_slice_index(size_t index) const;
+  size_t index_to_offset_1d_index(size_t index) const;
   bool is_broadcastable_to(const array_mml<size_t> &target_shape) const;
 };
 
