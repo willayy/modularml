@@ -583,3 +583,93 @@ TEST(test_mml_tensor, tensor_utility_tensors_are_close) {
   ASSERT_TRUE(tensors_are_close(*t1, *t2));
   ASSERT_FALSE(tensors_are_close(*t1, *t3));
 }
+
+TEST(test_mml_tensor, broadcast_1D_to_2D) {
+  // Given a 1D tensor of shape [3]
+  auto tensor1D = TensorFactory::create_tensor<float>({3}, {1.0f, 2.0f, 3.0f});
+
+  // Broadcast it to shape [2, 3]
+  auto broadcasted = tensor1D->broadcast_to({2, 3});
+
+  // Expected output: row-wise repetition
+  auto expected = TensorFactory::create_tensor<float>({2, 3}, {
+    1.0f, 2.0f, 3.0f,
+    1.0f, 2.0f, 3.0f
+  });
+
+  ASSERT_EQ(*broadcasted, *expected);
+}
+
+TEST(test_mml_tensor, broadcast_general_2D_to_3D) {
+  // Shape: [1, 3] → Target: [2, 4, 3]
+  auto tensor = TensorFactory::create_tensor<int>({1, 3}, {10, 20, 30});
+  auto broadcasted = tensor->broadcast_to({2, 4, 3});
+
+  auto expected = TensorFactory::create_tensor<int>({2, 4, 3}, {
+    10, 20, 30,  10, 20, 30,  10, 20, 30,  10, 20, 30,  // first batch
+    10, 20, 30,  10, 20, 30,  10, 20, 30,  10, 20, 30   // second batch
+  });
+
+  ASSERT_EQ(*broadcasted, *expected);
+}
+
+TEST(test_mml_tensor, broadcast_scalar_to_2D) {
+  std::cout << "1" << std::endl;
+  auto scalar = TensorFactory::create_tensor<float>({}, {42.0f});
+  std::cout << "2" << std::endl;
+  auto broadcasted = scalar->broadcast_to({2, 2});
+  std::cout << "3" << std::endl;
+  auto expected = TensorFactory::create_tensor<float>({2, 2}, {
+    42.0f, 42.0f,
+    42.0f, 42.0f
+  });
+  std::cout << "4" << std::endl;
+  ASSERT_EQ(*broadcasted, *expected);
+}
+
+TEST(test_mml_tensor, is_broadcastable_positive) {
+  auto tensor = TensorFactory::create_tensor<int>({1, 3});
+  EXPECT_NO_THROW({
+    auto b = tensor->broadcast_to({2, 4, 3});
+  });
+}
+
+TEST(test_mml_tensor, is_broadcastable_negative) {
+  auto tensor = TensorFactory::create_tensor<int>({2, 3});
+  EXPECT_THROW(tensor->broadcast_to({2, 4, 3}), std::invalid_argument);
+}
+
+TEST(test_mml_tensor, transpose_2D) {
+  auto tensor = TensorFactory::create_tensor<int>(
+    {2, 3},
+    {1, 2, 3,
+     4, 5, 6});
+
+  auto transposed = tensor->transpose();  // Should default to swapping last 2 dims
+
+  auto expected = TensorFactory::create_tensor<int>(
+    {3, 2},
+    {1, 4,
+     2, 5,
+     3, 6});
+
+  ASSERT_EQ(*transposed, *expected);
+}
+
+TEST(test_mml_tensor, transpose_high_rank_dims) {
+  auto tensor = TensorFactory::create_tensor<int>({2, 1, 3}, {
+    1, 2, 3,
+    4, 5, 6
+  });
+
+  // Swap dim 0 and dim 2 → expected shape: [3, 1, 2]
+  auto transposed = tensor->transpose(0, 2);
+
+  auto expected = TensorFactory::create_tensor<int>({3, 1, 2}, {
+    1, 4,
+    2, 5,
+    3, 6
+  });
+
+  ASSERT_EQ(*transposed, *expected);
+}

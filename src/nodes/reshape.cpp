@@ -18,10 +18,10 @@ reshapeNode::reshapeNode(const json& node) {
   }
 
   allowzero = 0;
-  if (node.contains("attribute") && node["attribute"].is_object()) {
+  if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto& attr : node["attribute"]) {
       if (attr["name"] == "allowzero") {
-        allowzero = attr["i"];
+        allowzero = std::stoi(attr["i"].get<std::string>());
       }
     }
   }
