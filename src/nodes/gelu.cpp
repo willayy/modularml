@@ -2,7 +2,7 @@
 
 GeluNode::GeluNode(std::string X, std::string Y, std::string approximate)
     : X(X), Y(Y) {
-  if (approximate == "none" || approximate == "std::tanh") {
+  if (approximate == "none" || approximate == "tanh") {
     this->approximate = approximate;
   } else {
     throw std::invalid_argument("Invalid value for argument approximate.");
