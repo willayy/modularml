@@ -1,9 +1,9 @@
 #pragma once
 
+#include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_utility.hpp"
 #include <iostream>
 #include <random>
-
-#include "datastructures/tensor_utility.hpp"
 
 template <typename T>
 bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
@@ -17,7 +17,7 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
     return false;
   }
 
-  for (uli i = 0; i < t1.get_size(); i++) {
+  for (size_t i = 0; i < t1.get_size(); i++) {
     T diff = std::abs(t1[i] - t2[i]);
     T tolerance_limit =
         std::max(static_cast<T>(0.00001), std::abs(tolerance * (t2[i])));
@@ -34,7 +34,7 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
 }
 
 template <typename T>
-static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
+static auto generate_random_tensor(const array_mml<size_t> &shape, T lo_v,
                                    T hi_v) {
   static_assert(
       std::is_arithmetic_v<T>,
@@ -55,18 +55,18 @@ static auto generate_random_tensor(const array_mml<uli> &shape, T lo_v,
     }
   }
 
-  return move(tensor);
+  return std::move(tensor);
 }
 
 // External Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
-                     std::mt19937 &gen) {
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
+                     size_t kernel_size, std::mt19937 &gen) {
   static_assert(
       std::is_floating_point_v<T>,
       "Kaiming Uniform initialization requires a floating-point type.");
 
-  uli fan_in = in_channels * kernel_size * kernel_size;
+  size_t fan_in = in_channels * kernel_size * kernel_size;
   if (fan_in == 0) {
     throw std::invalid_argument("fan_in must be greater than zero.");
   }
@@ -81,8 +81,8 @@ void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels, uli kernel_size,
 
 // Internal Random Number Generator Edition
 template <typename T>
-void kaiming_uniform(shared_ptr<Tensor<T>> W, uli in_channels,
-                     uli kernel_size) {
+void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
+                     size_t kernel_size) {
   std::random_device rd;
   std::mt19937 gen(rd()); // seeded automatically
   kaiming_uniform(W, in_channels, kernel_size, gen);

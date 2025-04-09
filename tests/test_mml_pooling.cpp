@@ -4,11 +4,11 @@
 #include <typeinfo>
 // Maxpool
 TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
-  shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
+  std::shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
       {1, 1, 4, 4}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 2, 2}, {6, 8, 14, 16});
-  shared_ptr<Tensor<int64_t>> exp_output_indices =
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
       tensor_mml_p<int64_t>({1, 1, 2, 2}, {5, 7, 13, 15});
 
   std::string input_string = "input";
@@ -18,7 +18,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), "NOTSET", 0UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
@@ -43,12 +43,12 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   ASSERT_EQ(*indices_ptr, *exp_output_indices);
 }
 
-TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_ceil_row) {
-  shared_ptr<Tensor<float>> input =
+TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
-  shared_ptr<Tensor<int64_t>> exp_output_indices =
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
       tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
@@ -58,7 +58,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_ceil_row) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 1UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
@@ -84,12 +84,12 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_ceil_row) {
 }
 
 TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_floor_dilation_col) {
-  shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
+  std::shared_ptr<Tensor<float>> input = tensor_mml_p<float>(
       {1, 1, 4, 5},
       {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
-  shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>(
+  std::shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>(
       {1, 1, 4, 3}, {1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20});
-  shared_ptr<Tensor<int64_t>> exp_output_indices = tensor_mml_p<int64_t>(
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices = tensor_mml_p<int64_t>(
       {1, 1, 4, 3}, {0, 8, 16, 1, 9, 17, 2, 10, 18, 3, 11, 19});
 
   std::string input_string = "input";
@@ -99,7 +99,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_floor_dilation_col) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
       array_mml({2UL, 2UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
 
@@ -125,11 +125,11 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_floor_dilation_col) {
 }
 
 TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {1, 3, 4, 6, 7, 9});
-  shared_ptr<Tensor<int64_t>> exp_output_indices =
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
       tensor_mml_p<int64_t>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
 
   std::string input_string = "input";
@@ -139,7 +139,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_LOWER", 1UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
@@ -165,11 +165,11 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
 }
 
 TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 2, 1}, {5, 8});
-  shared_ptr<Tensor<int64_t>> exp_output_indices =
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
       tensor_mml_p<int64_t>({1, 1, 2, 1}, {4, 7});
 
   std::string input_string = "input";
@@ -179,7 +179,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "VALID", 1UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
@@ -205,11 +205,11 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
 }
 
 TEST(test_mml_pooling, test_max_pool_custom_pad) {
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
-  shared_ptr<Tensor<int64_t>> exp_output_indices =
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
       tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
@@ -219,7 +219,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   iomap[input_string] = input;
 
   MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 1UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
 
@@ -250,7 +250,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   exp_output_indices = tensor_mml_p<int64_t>({1, 1, 3, 1}, {4, 7, 7});
 
   max_pool = MaxPoolingNode_mml(
-      input_string, vector<string>{output_string, indices_string},
+      input_string, std::vector<std::string>{output_string, indices_string},
       array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 0UL,
       array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
 
@@ -275,9 +275,9 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
 }
 // Average Pooling
 TEST(test_mml_pooling, test_avg_pool_valid) {
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 2, 1}, {3, 6});
 
   std::string input_string = "input";
@@ -286,9 +286,9 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
   iomap[input_string] = input;
 
   AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, vector<string>{output_string}, array_mml({2UL, 2UL}),
-      array_mml({1UL, 2UL}), "VALID", 0UL, array_mml({1UL, 1UL}),
-      array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "VALID", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward(iomap);
 
@@ -304,9 +304,9 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
 
 TEST(test_mml_pooling, test_avg_pool_same_upper) {
 
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 4.5, 6, 7.5, 7.5, 9});
 
   std::string input_string = "input";
@@ -315,9 +315,9 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   iomap[input_string] = input;
 
   AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, vector<string>{output_string}, array_mml({2UL, 2UL}),
-      array_mml({1UL, 2UL}), "SAME_UPPER", 1UL, array_mml({1UL, 1UL}),
-      array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward(iomap);
 
@@ -332,10 +332,10 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
 
   exp_output = tensor_mml_p<float>({1, 1, 3, 2}, {3, 4.5, 6, 7.5, 7.5, 9});
 
-  avg_pool = AvgPoolingNode_mml(input_string, vector<string>{output_string},
-                                array_mml({2UL, 2UL}), array_mml({1UL, 2UL}),
-                                "SAME_UPPER", 0UL, array_mml({1UL, 1UL}),
-                                array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  avg_pool = AvgPoolingNode_mml(
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward(iomap);
 
@@ -354,10 +354,10 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
-  avg_pool = AvgPoolingNode_mml(input_string, vector<string>{output_string},
-                                array_mml({2UL, 2UL}), array_mml({1UL, 2UL}),
-                                "SAME_UPPER", 0UL, array_mml({1UL, 1UL}),
-                                array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
+  avg_pool = AvgPoolingNode_mml(
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward(iomap);
 
@@ -373,9 +373,9 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
 
 TEST(test_mml_pooling, test_avg_pool_same_lower) {
 
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {1, 2.5, 2.5, 4, 5.5, 7});
 
   std::string input_string = "input";
@@ -384,9 +384,9 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
   iomap[input_string] = input;
 
   AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, vector<string>{output_string}, array_mml({2UL, 2UL}),
-      array_mml({1UL, 2UL}), "SAME_LOWER", 1UL, array_mml({1UL, 1UL}),
-      array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_LOWER", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
 
   avg_pool.forward(iomap);
 
@@ -402,9 +402,9 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
 
 TEST(test_mml_pooling, test_avg_pool_custom_pad) {
 
-  shared_ptr<Tensor<float>> input =
+  std::shared_ptr<Tensor<float>> input =
       tensor_mml_p<float>({1, 1, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-  shared_ptr<Tensor<float>> exp_output =
+  std::shared_ptr<Tensor<float>> exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
   std::string input_string = "input";
@@ -413,9 +413,9 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
   iomap[input_string] = input;
 
   AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, vector<string>{output_string}, array_mml({2UL, 2UL}),
-      array_mml({1UL, 2UL}), "NOTSET", 1UL, array_mml({1UL, 1UL}),
-      array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 1UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward(iomap);
 
@@ -435,10 +435,10 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
 
   iomap[input_string] = input;
 
-  avg_pool = AvgPoolingNode_mml(input_string, vector<string>{output_string},
-                                array_mml({2UL, 2UL}), array_mml({1UL, 2UL}),
-                                "NOTSET", 0UL, array_mml({1UL, 1UL}),
-                                array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
+  avg_pool = AvgPoolingNode_mml(
+      input_string, std::vector<std::string>{output_string},
+      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 0UL,
+      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
 
   avg_pool.forward(iomap);
 

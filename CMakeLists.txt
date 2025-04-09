@@ -133,7 +133,12 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
-find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
+find_program(GCOVR_EXECUTABLE gcovr)
+if(NOT GCOVR_EXECUTABLE)
+    message(WARNING "gcovr not found. Please install gcovr.")
+else()
+    message(STATUS "gcovr found at ${GCOVR_EXECUTABLE}")
+endif()
 
 # If on MacOS, gcovr --gcov-executable gcov-14
 if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr)
@@ -156,6 +161,12 @@ find_package(Doxygen
              REQUIRED dot
              OPTIONAL_COMPONENTS mscgen dia)
 
+if(DOXYGEN_FOUND)
+    message(STATUS "Doxygen found at ${DOXYGEN_EXECUTABLE}")
+else()
+    message(WARNING "Doxygen not found. Skipping documentation generation.")
+endif()
+
 # Set the input directory for Doxygen
 set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
 
@@ -177,3 +188,13 @@ add_custom_target(docs
     COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
 )
+
+# ------------------- Include-what-you-use --------------------- #
+# Check if include-what-you-use is installed
+find_program(iwyu include-what-you-use)
+if(iwyu)
+    message(STATUS "include-what-you-use found at ${iwyu}")
+    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+else()
+    message(WARNING "include-what-you-use not found. Skipping IWYU.")
+endif()

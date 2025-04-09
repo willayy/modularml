@@ -5,15 +5,18 @@
 /**
  * @class PoolingNode_mml
  * @brief Base class for pooling nodes (e.g., MaxPooling, AveragePooling).
- * @details The PoolingNode_mml class is the base class for pooling operations
- * such as max pooling and average pooling. It performs a pooling operation on
- * the input tensor, reducing its spatial dimensions (height and width) while
- * retaining the essential features within the defined pooling window or filter.
+ * @details The PoolingNode_mml class is the base class for pooling
+ * operations such as max pooling and average pooling. It performs a pooling
+ * operation on the input tensor, reducing its spatial dimensions (height
+ * and width) while retaining the essential features within the defined
+ * pooling window or filter.
  */
 class PoolingNode_mml : public Node {
 public:
   using T = std::variant<float, double, int32_t, int64_t>;
-  using TensorT = TensorVariant<T>; // Gets std::variant<shared_ptr<tensor<T>>, ...> from T
+  using TensorT =
+      TensorVariant<T>; // Gets std::variant<std::shared_ptr<tensor<T>>,
+                        // ...> from T
 
   /**
    * @brief Base constructor for PoolingNode.
@@ -31,25 +34,28 @@ public:
    * value {1,1}.
    * @param pads (NOT SUPPORTED)
    */
-  PoolingNode_mml(std::string input, std::vector<std::string> outputs, array_mml<uli> kernel_shape, 
-                  array_mml<uli> strides, string auto_pad = "NOTSET",
-                  uli ceil_mode = 0, array_mml<uli> dilations = {1, 1},
-                  array_mml<uli> pads = {0, 0, 0, 0, 0, 0, 0, 0});
+  PoolingNode_mml(std::string input, std::vector<std::string> outputs,
+                  array_mml<size_t> kernel_shape, array_mml<size_t> strides,
+                  std::string auto_pad = "NOTSET", size_t ceil_mode = 0,
+                  array_mml<size_t> dilations = {1, 1},
+                  array_mml<size_t> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
-  PoolingNode_mml(const json& node);
+  PoolingNode_mml(const nlohmann::json &node);
 
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
-  
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+
   std::vector<std::string> getInputs() override;
 
   std::vector<std::string> getOutputs() override;
 
 protected:
-  virtual void pooling(const TensorT& t,
-                       array_mml<uli> input_shape, array_mml<uli> output_shape,
-                       array_mml<uli> effective_kernel_shape, uli pad_h,
-                       uli pad_w, string auto_pad,
-                       std::unordered_map<std::string, GeneralDataTypes>& iomap) = 0;
+  virtual void
+  pooling(const TensorT &t, array_mml<size_t> input_shape,
+          array_mml<size_t> output_shape,
+          array_mml<size_t> effective_kernel_shape, size_t pad_h, size_t pad_w,
+          std::string auto_pad,
+          std::unordered_map<std::string, GeneralDataTypes> &iomap) = 0;
   //--------Inputs----------
 
   ///@brief Input tensor
@@ -59,16 +65,16 @@ protected:
 
   //--------Attributes------
   ///@brief A 2x2 array_mml of integers representing the filter/pooling window.
-  array_mml<uli> kernel_shape;
+  array_mml<size_t> kernel_shape;
   ///@brief A 2x2 array_mml of integers representing the stride of the window.
-  array_mml<uli> strides;
-  /// @brief A string representing the padding type applied by the layer.
+  array_mml<size_t> strides;
+  /// @brief A std::string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
-  string auto_pad;
+  std::string auto_pad;
 
-  uli ceil_mode;
+  size_t ceil_mode;
 
-  array_mml<uli> dilations;
-  array_mml<uli> pads;
+  array_mml<size_t> dilations;
+  array_mml<size_t> pads;
 };
