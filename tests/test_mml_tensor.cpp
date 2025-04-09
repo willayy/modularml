@@ -535,14 +535,10 @@ TEST(test_mml_tensor, broadcast_general_2D_to_3D) {
 }
 
 TEST(test_mml_tensor, broadcast_scalar_to_2D) {
-  std::cout << "1" << std::endl;
   auto scalar = TensorFactory::create_tensor<float>({}, {42.0f});
-  std::cout << "2" << std::endl;
   auto broadcasted = scalar->broadcast_to({2, 2});
-  std::cout << "3" << std::endl;
   auto expected =
       TensorFactory::create_tensor<float>({2, 2}, {42.0f, 42.0f, 42.0f, 42.0f});
-  std::cout << "4" << std::endl;
   ASSERT_EQ(*broadcasted, *expected);
 }
 
