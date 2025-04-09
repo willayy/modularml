@@ -110,30 +110,30 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~GemmModule</b> ()=default</td></tr>
 <tr class="memdesc:a1b3fa5eebe2a99813969a2a5884048b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract destructor for GEMM class. <br /></td></tr>
 <tr class="separator:a1b3fa5eebe2a99813969a2a5884048b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8d593a775a3830b36f60e94ebcf313e" id="r_ac8d593a775a3830b36f60e94ebcf313e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#ac8d593a775a3830b36f60e94ebcf313e">gemm_inner_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:ac8d593a775a3830b36f60e94ebcf313e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the inner product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:ac8d593a775a3830b36f60e94ebcf313e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbc76decab26a41eb1aa4d86a119c1cc" id="r_acbc76decab26a41eb1aa4d86a119c1cc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#acbc76decab26a41eb1aa4d86a119c1cc">gemm_outer_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:acbc76decab26a41eb1aa4d86a119c1cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the outer product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:acbc76decab26a41eb1aa4d86a119c1cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13cc385eb77e9c4be8f951a7d227ecc8" id="r_a13cc385eb77e9c4be8f951a7d227ecc8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a13cc385eb77e9c4be8f951a7d227ecc8">gemm_row_wise_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:a13cc385eb77e9c4be8f951a7d227ecc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:a13cc385eb77e9c4be8f951a7d227ecc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f38acdf98915f1d73b01ba77148cafb" id="r_a2f38acdf98915f1d73b01ba77148cafb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a2f38acdf98915f1d73b01ba77148cafb">gemm_col_wise_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:a2f38acdf98915f1d73b01ba77148cafb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:a2f38acdf98915f1d73b01ba77148cafb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa93dc497c4dfaf3201fb1d670cca2854" id="r_aa93dc497c4dfaf3201fb1d670cca2854"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#aa93dc497c4dfaf3201fb1d670cca2854">gemm_blocked</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:aa93dc497c4dfaf3201fb1d670cca2854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocked CPU implementation of GEMM. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:aa93dc497c4dfaf3201fb1d670cca2854"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4305d3b3e8ea07811dbd2ab485d40ee6" id="r_a4305d3b3e8ea07811dbd2ab485d40ee6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a4305d3b3e8ea07811dbd2ab485d40ee6">gemm_avx</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:a4305d3b3e8ea07811dbd2ab485d40ee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:a4305d3b3e8ea07811dbd2ab485d40ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42fa56929fe2bbf55063ad66eefe30c8" id="r_a42fa56929fe2bbf55063ad66eefe30c8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a42fa56929fe2bbf55063ad66eefe30c8">gemm_avx512</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:a42fa56929fe2bbf55063ad66eefe30c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX512 Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
-<tr class="separator:a42fa56929fe2bbf55063ad66eefe30c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cafd9f99c60e8557cb2ebd7c01ffa81" id="r_a5cafd9f99c60e8557cb2ebd7c01ffa81"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a5cafd9f99c60e8557cb2ebd7c01ffa81">gemm_intel_MKL</a> (int TA, int TB, int M, int N, int K, T ALPHA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
-<tr class="memdesc:a5cafd9f99c60e8557cb2ebd7c01ffa81"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMM using Intel's Math Kernel Library Performs operation C := alpha*op( A )*op( B ) + beta*C. More detailed info in <a href="https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/blas-level-3-routines/cblas-gemm.html#cblas-gemm">https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/blas-level-3-routines/cblas-gemm.html#cblas-gemm</a>.  <br /></td></tr>
-<tr class="separator:a5cafd9f99c60e8557cb2ebd7c01ffa81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba12c16c4a1722a67067a53f91fb7fc" id="r_a0ba12c16c4a1722a67067a53f91fb7fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a0ba12c16c4a1722a67067a53f91fb7fc">gemm_inner_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:a0ba12c16c4a1722a67067a53f91fb7fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the inner product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:a0ba12c16c4a1722a67067a53f91fb7fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af48da4fa20d2b08044cc15f0b6df3ce3" id="r_af48da4fa20d2b08044cc15f0b6df3ce3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#af48da4fa20d2b08044cc15f0b6df3ce3">gemm_outer_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:af48da4fa20d2b08044cc15f0b6df3ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the outer product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:af48da4fa20d2b08044cc15f0b6df3ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa061cd779f399b3c7cf94804552981" id="r_abaa061cd779f399b3c7cf94804552981"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#abaa061cd779f399b3c7cf94804552981">gemm_row_wise_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:abaa061cd779f399b3c7cf94804552981"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:abaa061cd779f399b3c7cf94804552981"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c64ea4c4713e345921302fc6867825" id="r_af0c64ea4c4713e345921302fc6867825"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#af0c64ea4c4713e345921302fc6867825">gemm_col_wise_product</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:af0c64ea4c4713e345921302fc6867825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:af0c64ea4c4713e345921302fc6867825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42d02efc36c86fb262c944d90fd0529a" id="r_a42d02efc36c86fb262c944d90fd0529a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a42d02efc36c86fb262c944d90fd0529a">gemm_blocked</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:a42d02efc36c86fb262c944d90fd0529a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocked CPU implementation of GEMM. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:a42d02efc36c86fb262c944d90fd0529a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47bc9e644a227d8332a15ae3936cf866" id="r_a47bc9e644a227d8332a15ae3936cf866"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a47bc9e644a227d8332a15ae3936cf866">gemm_avx</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:a47bc9e644a227d8332a15ae3936cf866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:a47bc9e644a227d8332a15ae3936cf866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f6cc99cc249fd4c7d49aba9b0f6600" id="r_aa6f6cc99cc249fd4c7d49aba9b0f6600"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#aa6f6cc99cc249fd4c7d49aba9b0f6600">gemm_avx512</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:aa6f6cc99cc249fd4c7d49aba9b0f6600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX512 Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html">https://netlib.org/lapack/explore-html/db/dc9/group__single__blas__level3_gafe51bacb54592ff5de056acabd83c260.html</a>.  <br /></td></tr>
+<tr class="separator:aa6f6cc99cc249fd4c7d49aba9b0f6600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7a37567e20de18c71eb3c587477500" id="r_a8f7a37567e20de18c71eb3c587477500"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmModule.html#a8f7a37567e20de18c71eb3c587477500">gemm_intel_MKL</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)=0</td></tr>
+<tr class="memdesc:a8f7a37567e20de18c71eb3c587477500"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMM using Intel's Math Kernel Library Performs operation C := alpha*op( A )*op( B ) + beta*C. More detailed info in <a href="https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/blas-level-3-routines/cblas-gemm.html#cblas-gemm">https://www.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/blas-level-3-routines/cblas-gemm.html#cblas-gemm</a>.  <br /></td></tr>
+<tr class="separator:a8f7a37567e20de18c71eb3c587477500"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -145,8 +145,8 @@ class GemmModule&lt; T &gt;</div><p>Abstract class for classes that contain stan
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4305d3b3e8ea07811dbd2ab485d40ee6" name="a4305d3b3e8ea07811dbd2ab485d40ee6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4305d3b3e8ea07811dbd2ab485d40ee6">&#9670;&#160;</a></span>gemm_avx()</h2>
+<a id="a47bc9e644a227d8332a15ae3936cf866" name="a47bc9e644a227d8332a15ae3936cf866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47bc9e644a227d8332a15ae3936cf866">&#9670;&#160;</a></span>gemm_avx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,7 +195,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -207,7 +207,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -225,7 +225,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -270,12 +270,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#ad1850b2dd97e936e3acc83030964d034">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#aeca6eff19e86975e7466ec4ba7cf8c16">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a42fa56929fe2bbf55063ad66eefe30c8" name="a42fa56929fe2bbf55063ad66eefe30c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42fa56929fe2bbf55063ad66eefe30c8">&#9670;&#160;</a></span>gemm_avx512()</h2>
+<a id="aa6f6cc99cc249fd4c7d49aba9b0f6600" name="aa6f6cc99cc249fd4c7d49aba9b0f6600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f6cc99cc249fd4c7d49aba9b0f6600">&#9670;&#160;</a></span>gemm_avx512()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,7 +324,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -336,7 +336,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -354,7 +354,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -399,12 +399,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#a753bd25c407076f77f4a52beb75a4567">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#a960d5850d4fe6f1b9cc0124d79ce2f62">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="aa93dc497c4dfaf3201fb1d670cca2854" name="aa93dc497c4dfaf3201fb1d670cca2854"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa93dc497c4dfaf3201fb1d670cca2854">&#9670;&#160;</a></span>gemm_blocked()</h2>
+<a id="a42d02efc36c86fb262c944d90fd0529a" name="a42d02efc36c86fb262c944d90fd0529a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42d02efc36c86fb262c944d90fd0529a">&#9670;&#160;</a></span>gemm_blocked()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -453,7 +453,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -465,7 +465,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -483,7 +483,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -528,12 +528,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#a967188d98aee5a814f59acc9b40468db">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#ac8c7ae414829cfcdab094892520164c1">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a2f38acdf98915f1d73b01ba77148cafb" name="a2f38acdf98915f1d73b01ba77148cafb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f38acdf98915f1d73b01ba77148cafb">&#9670;&#160;</a></span>gemm_col_wise_product()</h2>
+<a id="af0c64ea4c4713e345921302fc6867825" name="af0c64ea4c4713e345921302fc6867825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0c64ea4c4713e345921302fc6867825">&#9670;&#160;</a></span>gemm_col_wise_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -582,7 +582,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -594,7 +594,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -612,7 +612,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -657,12 +657,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#ae84e58cab29fded3433c5d16ce0fa129">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#a7b177f407a30bd748cd4ca9e534ad21a">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="ac8d593a775a3830b36f60e94ebcf313e" name="ac8d593a775a3830b36f60e94ebcf313e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8d593a775a3830b36f60e94ebcf313e">&#9670;&#160;</a></span>gemm_inner_product()</h2>
+<a id="a0ba12c16c4a1722a67067a53f91fb7fc" name="a0ba12c16c4a1722a67067a53f91fb7fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ba12c16c4a1722a67067a53f91fb7fc">&#9670;&#160;</a></span>gemm_inner_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,7 +711,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -723,7 +723,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -741,7 +741,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -786,12 +786,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#a9dd5ee87f60a3bafffac24bd62bc1915">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#a67a0c403dc5c43c0e78cbd2d6ba92c28">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a5cafd9f99c60e8557cb2ebd7c01ffa81" name="a5cafd9f99c60e8557cb2ebd7c01ffa81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cafd9f99c60e8557cb2ebd7c01ffa81">&#9670;&#160;</a></span>gemm_intel_MKL()</h2>
+<a id="a8f7a37567e20de18c71eb3c587477500" name="a8f7a37567e20de18c71eb3c587477500"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f7a37567e20de18c71eb3c587477500">&#9670;&#160;</a></span>gemm_intel_MKL()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -840,7 +840,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -852,7 +852,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -870,7 +870,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -915,12 +915,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#aa0bbc6f4811e92e16e349662158797d8">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#a46596ec3fe1a406e2cfca3a7ae5509d9">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="acbc76decab26a41eb1aa4d86a119c1cc" name="acbc76decab26a41eb1aa4d86a119c1cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbc76decab26a41eb1aa4d86a119c1cc">&#9670;&#160;</a></span>gemm_outer_product()</h2>
+<a id="af48da4fa20d2b08044cc15f0b6df3ce3" name="af48da4fa20d2b08044cc15f0b6df3ce3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af48da4fa20d2b08044cc15f0b6df3ce3">&#9670;&#160;</a></span>gemm_outer_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -969,7 +969,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -981,7 +981,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -999,7 +999,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -1044,12 +1044,12 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#ac5272159a8b110ab6b0a11d4684a1a05">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#aba06e92955ec498b3c7eee36747b19aa">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a13cc385eb77e9c4be8f951a7d227ecc8" name="a13cc385eb77e9c4be8f951a7d227ecc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13cc385eb77e9c4be8f951a7d227ecc8">&#9670;&#160;</a></span>gemm_row_wise_product()</h2>
+<a id="abaa061cd779f399b3c7cf94804552981" name="abaa061cd779f399b3c7cf94804552981"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa061cd779f399b3c7cf94804552981">&#9670;&#160;</a></span>gemm_row_wise_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1098,7 +1098,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
@@ -1110,7 +1110,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
@@ -1128,7 +1128,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>C</em>, </td>
         </tr>
         <tr>
@@ -1173,7 +1173,7 @@ William Norland (C++ implementation) </dd></dl>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classGemm__mml.html#a9ebde27e9b035d76dd41fde7b3e6432d">Gemm_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classGemm__mml.html#a2e103a70218df7988ba2e1de5cdceb27">Gemm_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>

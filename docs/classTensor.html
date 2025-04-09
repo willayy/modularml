@@ -117,19 +117,19 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Tensor</b> ()=def
 <tr class="memdesc:a5aec5b2d6582dc2eb3619158bc61f94c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a> class. <br /></td></tr>
 <tr class="separator:a5aec5b2d6582dc2eb3619158bc61f94c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a918a4f49cd2fdda7ea7e368be4e2647b" id="r_a918a4f49cd2fdda7ea7e368be4e2647b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a918a4f49cd2fdda7ea7e368be4e2647b">operator!=</a> (const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;other) const =0</td></tr>
-<tr class="memdesc:a918a4f49cd2fdda7ea7e368be4e2647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this tensor is not equal to another tensor.  <br /></td></tr>
+<tr class="memdesc:a918a4f49cd2fdda7ea7e368be4e2647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this tensor is not std::equal to another tensor.  <br /></td></tr>
 <tr class="separator:a918a4f49cd2fdda7ea7e368be4e2647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a097512485a0093f7a30cc0b5b402f831" id="r_a097512485a0093f7a30cc0b5b402f831"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a097512485a0093f7a30cc0b5b402f831">operator[]</a> (initializer_list&lt; uli &gt; indices) const =0</td></tr>
-<tr class="memdesc:a097512485a0093f7a30cc0b5b402f831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using multi-dimensional indices.  <br /></td></tr>
-<tr class="separator:a097512485a0093f7a30cc0b5b402f831"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2e6c74fabf13a32ab4f333231cd09a5" id="r_ac2e6c74fabf13a32ab4f333231cd09a5"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ac2e6c74fabf13a32ab4f333231cd09a5">operator[]</a> (initializer_list&lt; uli &gt; indices)=0</td></tr>
-<tr class="memdesc:ac2e6c74fabf13a32ab4f333231cd09a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using multi-dimensional indices.  <br /></td></tr>
-<tr class="separator:ac2e6c74fabf13a32ab4f333231cd09a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dc229b7118778873d0ea12be8e9a40c" id="r_a9dc229b7118778873d0ea12be8e9a40c"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a9dc229b7118778873d0ea12be8e9a40c">operator[]</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;indices) const =0</td></tr>
-<tr class="memdesc:a9dc229b7118778873d0ea12be8e9a40c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using multi-dimensional indices.  <br /></td></tr>
-<tr class="separator:a9dc229b7118778873d0ea12be8e9a40c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8dad76404279dcb5f15795cd077a40f" id="r_ab8dad76404279dcb5f15795cd077a40f"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ab8dad76404279dcb5f15795cd077a40f">operator[]</a> (std::initializer_list&lt; size_t &gt; indices) const =0</td></tr>
+<tr class="memdesc:ab8dad76404279dcb5f15795cd077a40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using multi-dimensional indices.  <br /></td></tr>
+<tr class="separator:ab8dad76404279dcb5f15795cd077a40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a476935031c125c151b0a16bf3566483f" id="r_a476935031c125c151b0a16bf3566483f"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a476935031c125c151b0a16bf3566483f">operator[]</a> (std::initializer_list&lt; size_t &gt; indices)=0</td></tr>
+<tr class="memdesc:a476935031c125c151b0a16bf3566483f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using multi-dimensional indices.  <br /></td></tr>
+<tr class="separator:a476935031c125c151b0a16bf3566483f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9852038429914a93df0b0e2191bed86c" id="r_a9852038429914a93df0b0e2191bed86c"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a9852038429914a93df0b0e2191bed86c">operator[]</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;indices) const =0</td></tr>
+<tr class="memdesc:a9852038429914a93df0b0e2191bed86c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using multi-dimensional indices.  <br /></td></tr>
+<tr class="separator:a9852038429914a93df0b0e2191bed86c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d5fbc33ba586793cfb9eaf2144964e8" id="r_a8d5fbc33ba586793cfb9eaf2144964e8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a8d5fbc33ba586793cfb9eaf2144964e8">operator==</a> (const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;other) const =0</td></tr>
-<tr class="memdesc:a8d5fbc33ba586793cfb9eaf2144964e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this tensor is equal to another tensor.  <br /></td></tr>
+<tr class="memdesc:a8d5fbc33ba586793cfb9eaf2144964e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this tensor is std::equal to another tensor.  <br /></td></tr>
 <tr class="separator:a8d5fbc33ba586793cfb9eaf2144964e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97aa9683aa264f9a5c2f3204a3fc45e7" id="r_a97aa9683aa264f9a5c2f3204a3fc45e7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classTensor.html">Tensor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a97aa9683aa264f9a5c2f3204a3fc45e7">operator=</a> (<a class="el" href="classTensor.html">Tensor</a> &amp;&amp;other) noexcept=0</td></tr>
 <tr class="memdesc:a97aa9683aa264f9a5c2f3204a3fc45e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-Assignment operator.  <br /></td></tr>
@@ -137,63 +137,63 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Tensor</b> ()=def
 <tr class="memitem:ae6851ee88818119813e753dc16ed0d9c" id="r_ae6851ee88818119813e753dc16ed0d9c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classTensor.html">Tensor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ae6851ee88818119813e753dc16ed0d9c">operator=</a> (const <a class="el" href="classTensor.html">Tensor</a> &amp;other)=0</td></tr>
 <tr class="memdesc:ae6851ee88818119813e753dc16ed0d9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Deep) Copy-Assigment operator.  <br /></td></tr>
 <tr class="separator:ae6851ee88818119813e753dc16ed0d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4b42d8e080d6a01f41304c230f6a93" id="r_a9c4b42d8e080d6a01f41304c230f6a93"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a9c4b42d8e080d6a01f41304c230f6a93">operator[]</a> (uli index) const =0</td></tr>
-<tr class="memdesc:a9c4b42d8e080d6a01f41304c230f6a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using singel-dimensional index.  <br /></td></tr>
-<tr class="separator:a9c4b42d8e080d6a01f41304c230f6a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2c2abe1ad72afbfc9d301ffd509bdc6" id="r_af2c2abe1ad72afbfc9d301ffd509bdc6"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#af2c2abe1ad72afbfc9d301ffd509bdc6">operator[]</a> (uli index)=0</td></tr>
-<tr class="memdesc:af2c2abe1ad72afbfc9d301ffd509bdc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using single-dimensional index.  <br /></td></tr>
-<tr class="separator:af2c2abe1ad72afbfc9d301ffd509bdc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c400def728f1c154e9585f748da3451" id="r_a5c400def728f1c154e9585f748da3451"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a5c400def728f1c154e9585f748da3451">operator[]</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;indices)=0</td></tr>
-<tr class="memdesc:a5c400def728f1c154e9585f748da3451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using multi-dimensional indices.  <br /></td></tr>
-<tr class="separator:a5c400def728f1c154e9585f748da3451"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af86c6f684abd2223ca96f8ae54fcc84e" id="r_af86c6f684abd2223ca96f8ae54fcc84e"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#af86c6f684abd2223ca96f8ae54fcc84e">get_shape</a> () const =0</td></tr>
-<tr class="memdesc:af86c6f684abd2223ca96f8ae54fcc84e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape of the tensor.  <br /></td></tr>
-<tr class="separator:af86c6f684abd2223ca96f8ae54fcc84e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3a0e1161af93964d622fa7478df4409" id="r_af3a0e1161af93964d622fa7478df4409"><td class="memItemLeft" align="right" valign="top">virtual uli&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#af3a0e1161af93964d622fa7478df4409">get_size</a> () const =0</td></tr>
-<tr class="memdesc:af3a0e1161af93964d622fa7478df4409"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the the total number of elements in the tensor.  <br /></td></tr>
-<tr class="separator:af3a0e1161af93964d622fa7478df4409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a588b565beb6f5cc4d2f4b305dafbba0f" id="r_a588b565beb6f5cc4d2f4b305dafbba0f"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a588b565beb6f5cc4d2f4b305dafbba0f">operator[]</a> (size_t index) const =0</td></tr>
+<tr class="memdesc:a588b565beb6f5cc4d2f4b305dafbba0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using singel-dimensional index.  <br /></td></tr>
+<tr class="separator:a588b565beb6f5cc4d2f4b305dafbba0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c5f25d859c9111c777344ecb3ba47fd" id="r_a0c5f25d859c9111c777344ecb3ba47fd"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a0c5f25d859c9111c777344ecb3ba47fd">operator[]</a> (size_t index)=0</td></tr>
+<tr class="memdesc:a0c5f25d859c9111c777344ecb3ba47fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using single-dimensional index.  <br /></td></tr>
+<tr class="separator:a0c5f25d859c9111c777344ecb3ba47fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834c359898ffd5e14451f59a2ecb7388" id="r_a834c359898ffd5e14451f59a2ecb7388"><td class="memItemLeft" align="right" valign="top">virtual T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a834c359898ffd5e14451f59a2ecb7388">operator[]</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;indices)=0</td></tr>
+<tr class="memdesc:a834c359898ffd5e14451f59a2ecb7388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an element in the tensor using multi-dimensional indices.  <br /></td></tr>
+<tr class="separator:a834c359898ffd5e14451f59a2ecb7388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7077657a8461c857e2b52d565eec5db" id="r_ac7077657a8461c857e2b52d565eec5db"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ac7077657a8461c857e2b52d565eec5db">get_shape</a> () const =0</td></tr>
+<tr class="memdesc:ac7077657a8461c857e2b52d565eec5db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape of the tensor.  <br /></td></tr>
+<tr class="separator:ac7077657a8461c857e2b52d565eec5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1835627e8601752f8d452e162d3e360" id="r_af1835627e8601752f8d452e162d3e360"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#af1835627e8601752f8d452e162d3e360">get_size</a> () const =0</td></tr>
+<tr class="memdesc:af1835627e8601752f8d452e162d3e360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the the total number of elements in the tensor.  <br /></td></tr>
+<tr class="separator:af1835627e8601752f8d452e162d3e360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa77d68280475cb5d11f17583601b4cdd" id="r_aa77d68280475cb5d11f17583601b4cdd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#aa77d68280475cb5d11f17583601b4cdd">fill</a> (T value)=0</td></tr>
 <tr class="memdesc:aa77d68280475cb5d11f17583601b4cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the tensor with a given value.  <br /></td></tr>
 <tr class="separator:aa77d68280475cb5d11f17583601b4cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f04eb146214ddf5bac14668e6ab3f5d" id="r_a3f04eb146214ddf5bac14668e6ab3f5d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a3f04eb146214ddf5bac14668e6ab3f5d">reverse_buffer</a> ()=0</td></tr>
 <tr class="memdesc:a3f04eb146214ddf5bac14668e6ab3f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverses the buffer of the tensor.  <br /></td></tr>
 <tr class="separator:a3f04eb146214ddf5bac14668e6ab3f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef96a7a2eccfc46a011f6f5f1255f1a" id="r_afef96a7a2eccfc46a011f6f5f1255f1a"><td class="memItemLeft" align="right" valign="top">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#afef96a7a2eccfc46a011f6f5f1255f1a">slice</a> (initializer_list&lt; uli &gt; slice_indices)=0</td></tr>
-<tr class="memdesc:afef96a7a2eccfc46a011f6f5f1255f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a mutable slice of the tensor.  <br /></td></tr>
-<tr class="separator:afef96a7a2eccfc46a011f6f5f1255f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83c6150713fb1698e2f6e3ae13d0ca7c" id="r_a83c6150713fb1698e2f6e3ae13d0ca7c"><td class="memItemLeft" align="right" valign="top">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a83c6150713fb1698e2f6e3ae13d0ca7c">slice</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;slice_indices)=0</td></tr>
-<tr class="memdesc:a83c6150713fb1698e2f6e3ae13d0ca7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a mutable slice of the tensor.  <br /></td></tr>
-<tr class="separator:a83c6150713fb1698e2f6e3ae13d0ca7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37975f318705bba0309687f4c9c17548" id="r_a37975f318705bba0309687f4c9c17548"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a37975f318705bba0309687f4c9c17548">reshape</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;new_shape)=0</td></tr>
-<tr class="memdesc:a37975f318705bba0309687f4c9c17548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reshape the tensor.  <br /></td></tr>
-<tr class="separator:a37975f318705bba0309687f4c9c17548"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33330b7d8694492d994f1a2d32c1dc8f" id="r_a33330b7d8694492d994f1a2d32c1dc8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a33330b7d8694492d994f1a2d32c1dc8f">reshape</a> (initializer_list&lt; uli &gt; new_shape)=0</td></tr>
-<tr class="memdesc:a33330b7d8694492d994f1a2d32c1dc8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reshape the tensor.  <br /></td></tr>
-<tr class="separator:a33330b7d8694492d994f1a2d32c1dc8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f44984735679e35288a176b231db1cb" id="r_a9f44984735679e35288a176b231db1cb"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a9f44984735679e35288a176b231db1cb">to_string</a> () const =0</td></tr>
-<tr class="memdesc:a9f44984735679e35288a176b231db1cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the tensor.  <br /></td></tr>
-<tr class="separator:a9f44984735679e35288a176b231db1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63a4d5e1742a7e4d6dcf22d44b43f431" id="r_a63a4d5e1742a7e4d6dcf22d44b43f431"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a63a4d5e1742a7e4d6dcf22d44b43f431">slice</a> (std::initializer_list&lt; size_t &gt; slice_indices)=0</td></tr>
+<tr class="memdesc:a63a4d5e1742a7e4d6dcf22d44b43f431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a mutable slice of the tensor.  <br /></td></tr>
+<tr class="separator:a63a4d5e1742a7e4d6dcf22d44b43f431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98b6c89221af54c99cd66b42eec10ff8" id="r_a98b6c89221af54c99cd66b42eec10ff8"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a98b6c89221af54c99cd66b42eec10ff8">slice</a> (<a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;slice_indices)=0</td></tr>
+<tr class="memdesc:a98b6c89221af54c99cd66b42eec10ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a mutable slice of the tensor.  <br /></td></tr>
+<tr class="separator:a98b6c89221af54c99cd66b42eec10ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f18fe31937513d52b295b3125aeb1b8" id="r_a7f18fe31937513d52b295b3125aeb1b8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a7f18fe31937513d52b295b3125aeb1b8">reshape</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;new_shape)=0</td></tr>
+<tr class="memdesc:a7f18fe31937513d52b295b3125aeb1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reshape the tensor.  <br /></td></tr>
+<tr class="separator:a7f18fe31937513d52b295b3125aeb1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db9d19680cf7f7535afebeaee4c7df8" id="r_a0db9d19680cf7f7535afebeaee4c7df8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a0db9d19680cf7f7535afebeaee4c7df8">reshape</a> (std::initializer_list&lt; size_t &gt; new_shape)=0</td></tr>
+<tr class="memdesc:a0db9d19680cf7f7535afebeaee4c7df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reshape the tensor.  <br /></td></tr>
+<tr class="separator:a0db9d19680cf7f7535afebeaee4c7df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef5fd66f71a113ff4e5e09c63fb9c5b4" id="r_aef5fd66f71a113ff4e5e09c63fb9c5b4"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#aef5fd66f71a113ff4e5e09c63fb9c5b4">to_string</a> () const =0</td></tr>
+<tr class="memdesc:aef5fd66f71a113ff4e5e09c63fb9c5b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the tensor.  <br /></td></tr>
+<tr class="separator:aef5fd66f71a113ff4e5e09c63fb9c5b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac06a9ab79cc2da13c2570c4e30955e9d" id="r_ac06a9ab79cc2da13c2570c4e30955e9d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ac06a9ab79cc2da13c2570c4e30955e9d">is_matrix</a> () const =0</td></tr>
 <tr class="memdesc:ac06a9ab79cc2da13c2570c4e30955e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the tensor is a matrix.  <br /></td></tr>
 <tr class="separator:ac06a9ab79cc2da13c2570c4e30955e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96071f07e594af2988f0677731c8381d" id="r_a96071f07e594af2988f0677731c8381d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a96071f07e594af2988f0677731c8381d">matrix_match</a> (const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;other) const =0</td></tr>
 <tr class="memdesc:a96071f07e594af2988f0677731c8381d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the tensor-matrix matches another matrix. Assumes the tensor is a matrix.  <br /></td></tr>
 <tr class="separator:a96071f07e594af2988f0677731c8381d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5b65097e0da87d44fd6e25e1d23b88d" id="r_af5b65097e0da87d44fd6e25e1d23b88d"><td class="memItemLeft" align="right" valign="top"><a id="af5b65097e0da87d44fd6e25e1d23b88d" name="af5b65097e0da87d44fd6e25e1d23b88d"></a>
-virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>transpose</b> (std::optional&lt; uli &gt; dim0=std::nullopt, std::optional&lt; uli &gt; dim1=std::nullopt) const =0</td></tr>
-<tr class="separator:af5b65097e0da87d44fd6e25e1d23b88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a504a5d0edfeeab9a557cf0e7883af42f" id="r_a504a5d0edfeeab9a557cf0e7883af42f"><td class="memItemLeft" align="right" valign="top"><a id="a504a5d0edfeeab9a557cf0e7883af42f" name="a504a5d0edfeeab9a557cf0e7883af42f"></a>
-virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>broadcast_to</b> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;target_shape) const =0</td></tr>
-<tr class="separator:a504a5d0edfeeab9a557cf0e7883af42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41e3526873e56fd2531ca72cdf4b2ed8" id="r_a41e3526873e56fd2531ca72cdf4b2ed8"><td class="memItemLeft" align="right" valign="top">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a41e3526873e56fd2531ca72cdf4b2ed8">copy</a> () const =0</td></tr>
-<tr class="memdesc:a41e3526873e56fd2531ca72cdf4b2ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method way to get a copy of the tensor.  <br /></td></tr>
-<tr class="separator:a41e3526873e56fd2531ca72cdf4b2ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab411dc378b0fd89be910784ab291a44e" id="r_ab411dc378b0fd89be910784ab291a44e"><td class="memItemLeft" align="right" valign="top"><a id="ab411dc378b0fd89be910784ab291a44e" name="ab411dc378b0fd89be910784ab291a44e"></a>
+virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>transpose</b> (std::optional&lt; size_t &gt; dim0=std::nullopt, std::optional&lt; size_t &gt; dim1=std::nullopt) const =0</td></tr>
+<tr class="separator:ab411dc378b0fd89be910784ab291a44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a939d92f2665c2f0106984f884fc8ed58" id="r_a939d92f2665c2f0106984f884fc8ed58"><td class="memItemLeft" align="right" valign="top"><a id="a939d92f2665c2f0106984f884fc8ed58" name="a939d92f2665c2f0106984f884fc8ed58"></a>
+virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>broadcast_to</b> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;target_shape) const =0</td></tr>
+<tr class="separator:a939d92f2665c2f0106984f884fc8ed58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34f03b4789ffbdd98e50c8b72b750af8" id="r_a34f03b4789ffbdd98e50c8b72b750af8"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a34f03b4789ffbdd98e50c8b72b750af8">copy</a> () const =0</td></tr>
+<tr class="memdesc:a34f03b4789ffbdd98e50c8b72b750af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method way to get a std::copy of the tensor.  <br /></td></tr>
+<tr class="separator:a34f03b4789ffbdd98e50c8b72b750af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a4a21cf69ee5345ee0a0c012808077959" id="r_a4a21cf69ee5345ee0a0c012808077959"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a4a21cf69ee5345ee0a0c012808077959">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;tensor)</td></tr>
-<tr class="memdesc:a4a21cf69ee5345ee0a0c012808077959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape as a string.  <br /></td></tr>
-<tr class="separator:a4a21cf69ee5345ee0a0c012808077959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52a6f6fa199db9b5f78852b4fc183b53" id="r_a52a6f6fa199db9b5f78852b4fc183b53"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a52a6f6fa199db9b5f78852b4fc183b53">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;tensor)</td></tr>
+<tr class="memdesc:a52a6f6fa199db9b5f78852b4fc183b53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the shape as a std::string.  <br /></td></tr>
+<tr class="separator:a52a6f6fa199db9b5f78852b4fc183b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -234,7 +234,7 @@ template&lt;typename T &gt; </div>
 <p>Copy constructor for <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The tensor to copy. </td></tr>
+    <tr><td class="paramname">other</td><td>The tensor to std::copy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -270,7 +270,7 @@ template&lt;typename T &gt; </div>
 <p>Move constructor for <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a> class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>The tensor to move. </td></tr>
+    <tr><td class="paramname">other</td><td>The tensor to std::move. </td></tr>
   </table>
   </dd>
 </dl>
@@ -278,8 +278,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a41e3526873e56fd2531ca72cdf4b2ed8" name="a41e3526873e56fd2531ca72cdf4b2ed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41e3526873e56fd2531ca72cdf4b2ed8">&#9670;&#160;</a></span>copy()</h2>
+<a id="a34f03b4789ffbdd98e50c8b72b750af8" name="a34f03b4789ffbdd98e50c8b72b750af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34f03b4789ffbdd98e50c8b72b750af8">&#9670;&#160;</a></span>copy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -290,7 +290,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::copy </td>
+          <td class="memname">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::copy </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -303,10 +303,10 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Method way to get a copy of the tensor. </p>
+<p>Method way to get a std::copy of the tensor. </p>
 <dl class="section return"><dt>Returns</dt><dd>A shared pointer to the copied tensor. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a078700ccefa073ad978c396ca0b27eb4">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#ab737ae1ce6d644ab404d0d011b1850d1">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -348,8 +348,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="af86c6f684abd2223ca96f8ae54fcc84e" name="af86c6f684abd2223ca96f8ae54fcc84e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af86c6f684abd2223ca96f8ae54fcc84e">&#9670;&#160;</a></span>get_shape()</h2>
+<a id="ac7077657a8461c857e2b52d565eec5db" name="ac7077657a8461c857e2b52d565eec5db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7077657a8461c857e2b52d565eec5db">&#9670;&#160;</a></span>get_shape()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -360,7 +360,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::get_shape </td>
+          <td class="memname">virtual const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::get_shape </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -374,14 +374,14 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Get the shape of the tensor. </p>
-<dl class="section return"><dt>Returns</dt><dd>A vector of integers representing the shape. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::vector of integers representing the shape. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#ad36da416e6c488dde2000bf97bf0c701">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#a54ca4cb79a57cbf20b63f5ea8c4992e5">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="af3a0e1161af93964d622fa7478df4409" name="af3a0e1161af93964d622fa7478df4409"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3a0e1161af93964d622fa7478df4409">&#9670;&#160;</a></span>get_size()</h2>
+<a id="af1835627e8601752f8d452e162d3e360" name="af1835627e8601752f8d452e162d3e360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1835627e8601752f8d452e162d3e360">&#9670;&#160;</a></span>get_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -392,7 +392,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual uli <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::get_size </td>
+          <td class="memname">virtual size_t <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::get_size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -408,7 +408,7 @@ template&lt;typename T &gt; </div>
 <p>Get the the total number of elements in the tensor. </p>
 <dl class="section return"><dt>Returns</dt><dd>The total number of elements in the tensor. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#ac7eff96176dd7278e341dfa7a09240f8">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#a9f7de61033d47a98e1ee6388886d97c1">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -509,14 +509,14 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Check if this tensor is not equal to another tensor. </p>
+<p>Check if this tensor is not std::equal to another tensor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">other</td><td>The tensor to compare with. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the tensors are not equal, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the tensors are not std::equal, false otherwise. </dd></dl>
 
 <p>Implemented in <a class="el" href="classTensor__mml.html#a52646455afe159ceb22ee98dff0e98e5">Tensor_mml&lt; T &gt;</a>.</p>
 
@@ -626,21 +626,21 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Check if this tensor is equal to another tensor. </p>
+<p>Check if this tensor is std::equal to another tensor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">other</td><td>The tensor to compare with. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the tensors are equal, false otherwise.*&zwj;/ </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the tensors are std::equal, false otherwise.*&zwj;/ </dd></dl>
 
 <p>Implemented in <a class="el" href="classTensor__mml.html#a1e45965328c7175044c46c00d99f3430">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a9dc229b7118778873d0ea12be8e9a40c" name="a9dc229b7118778873d0ea12be8e9a40c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dc229b7118778873d0ea12be8e9a40c">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/6]</span></h2>
+<a id="a9852038429914a93df0b0e2191bed86c" name="a9852038429914a93df0b0e2191bed86c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9852038429914a93df0b0e2191bed86c">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -653,7 +653,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual const T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>indices</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -668,18 +668,18 @@ template&lt;typename T &gt; </div>
 <p>Get an element from the tensor using multi-dimensional indices. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">indices</td><td>A vector of integers representing the indices of the element. </td></tr>
+    <tr><td class="paramname">indices</td><td>A std::vector of integers representing the indices of the element. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a675247b5af6070fecfd493454d336522">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#a022105f98f056b43a971640d5593abdd">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a5c400def728f1c154e9585f748da3451" name="a5c400def728f1c154e9585f748da3451"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c400def728f1c154e9585f748da3451">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/6]</span></h2>
+<a id="a834c359898ffd5e14451f59a2ecb7388" name="a834c359898ffd5e14451f59a2ecb7388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a834c359898ffd5e14451f59a2ecb7388">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -692,7 +692,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>indices</em></td><td>)</td>
           <td></td>
         </tr>
@@ -707,18 +707,18 @@ template&lt;typename T &gt; </div>
 <p>Set an element in the tensor using multi-dimensional indices. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">indices</td><td>A vector of integers representing the indices of the element. </td></tr>
+    <tr><td class="paramname">indices</td><td>A std::vector of integers representing the indices of the element. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a66f438bc3d04552684c6f66a54de95d3">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#a5063839f5a6aca33688388a0d62b4c52">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a097512485a0093f7a30cc0b5b402f831" name="a097512485a0093f7a30cc0b5b402f831"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a097512485a0093f7a30cc0b5b402f831">&#9670;&#160;</a></span>operator[]() <span class="overload">[3/6]</span></h2>
+<a id="a588b565beb6f5cc4d2f4b305dafbba0f" name="a588b565beb6f5cc4d2f4b305dafbba0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a588b565beb6f5cc4d2f4b305dafbba0f">&#9670;&#160;</a></span>operator[]() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -731,85 +731,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual const T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">initializer_list&lt; uli &gt;&#160;</td>
-          <td class="paramname"><em>indices</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get an element from the tensor using multi-dimensional indices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">indices</td><td>A vector of integers representing the indices of the element. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
-
-<p>Implemented in <a class="el" href="classTensor__mml.html#a1fdf902a08eb85cfa7c1f09e915d799c">Tensor_mml&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="ac2e6c74fabf13a32ab4f333231cd09a5" name="ac2e6c74fabf13a32ab4f333231cd09a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2e6c74fabf13a32ab4f333231cd09a5">&#9670;&#160;</a></span>operator[]() <span class="overload">[4/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
-          <td>(</td>
-          <td class="paramtype">initializer_list&lt; uli &gt;&#160;</td>
-          <td class="paramname"><em>indices</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set an element in the tensor using multi-dimensional indices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">indices</td><td>A vector of integers representing the indices of the element. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
-
-<p>Implemented in <a class="el" href="classTensor__mml.html#af6e6caeaec129b7c551c3ab592e45a2f">Tensor_mml&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a9c4b42d8e080d6a01f41304c230f6a93" name="a9c4b42d8e080d6a01f41304c230f6a93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c4b42d8e080d6a01f41304c230f6a93">&#9670;&#160;</a></span>operator[]() <span class="overload">[5/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
-          <td>(</td>
-          <td class="paramtype">uli&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -830,12 +752,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The element at the given indices.*&zwj;/ </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a7f996790065a55f065cb6c327d9513fd">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#aa579ecf2f499212b9a520ed2f9e17c13">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="af2c2abe1ad72afbfc9d301ffd509bdc6" name="af2c2abe1ad72afbfc9d301ffd509bdc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2c2abe1ad72afbfc9d301ffd509bdc6">&#9670;&#160;</a></span>operator[]() <span class="overload">[6/6]</span></h2>
+<a id="a0c5f25d859c9111c777344ecb3ba47fd" name="a0c5f25d859c9111c777344ecb3ba47fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c5f25d859c9111c777344ecb3ba47fd">&#9670;&#160;</a></span>operator[]() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -848,7 +770,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">uli&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td></td>
         </tr>
@@ -869,12 +791,90 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The tensor with the element get_mutable_elem.*&zwj;/ </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a1073d6a060adfa66d9636a0cf41e8f76">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#ae78168593c0bbace733f2c995fa74636">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a37975f318705bba0309687f4c9c17548" name="a37975f318705bba0309687f4c9c17548"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37975f318705bba0309687f4c9c17548">&#9670;&#160;</a></span>reshape() <span class="overload">[1/2]</span></h2>
+<a id="ab8dad76404279dcb5f15795cd077a40f" name="ab8dad76404279dcb5f15795cd077a40f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8dad76404279dcb5f15795cd077a40f">&#9670;&#160;</a></span>operator[]() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>indices</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get an element from the tensor using multi-dimensional indices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">indices</td><td>A std::vector of integers representing the indices of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
+
+<p>Implemented in <a class="el" href="classTensor__mml.html#ab94f11b2a140ca0d077d1c07607e32a4">Tensor_mml&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a476935031c125c151b0a16bf3566483f" name="a476935031c125c151b0a16bf3566483f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a476935031c125c151b0a16bf3566483f">&#9670;&#160;</a></span>operator[]() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual T &amp; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>indices</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set an element in the tensor using multi-dimensional indices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">indices</td><td>A std::vector of integers representing the indices of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An element at the given indices. </dd></dl>
+
+<p>Implemented in <a class="el" href="classTensor__mml.html#a4b7ca4b36a79d77801320f343fcbd472">Tensor_mml&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a7f18fe31937513d52b295b3125aeb1b8" name="a7f18fe31937513d52b295b3125aeb1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f18fe31937513d52b295b3125aeb1b8">&#9670;&#160;</a></span>reshape() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -887,7 +887,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::reshape </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>new_shape</em></td><td>)</td>
           <td></td>
         </tr>
@@ -907,12 +907,12 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#ad9aa06e9a7652e36669ee4a5a2bb2393">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#ac07ac809cb53b69abaea71af493e9b62">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a33330b7d8694492d994f1a2d32c1dc8f" name="a33330b7d8694492d994f1a2d32c1dc8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33330b7d8694492d994f1a2d32c1dc8f">&#9670;&#160;</a></span>reshape() <span class="overload">[2/2]</span></h2>
+<a id="a0db9d19680cf7f7535afebeaee4c7df8" name="a0db9d19680cf7f7535afebeaee4c7df8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0db9d19680cf7f7535afebeaee4c7df8">&#9670;&#160;</a></span>reshape() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -925,7 +925,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::reshape </td>
           <td>(</td>
-          <td class="paramtype">initializer_list&lt; uli &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>new_shape</em></td><td>)</td>
           <td></td>
         </tr>
@@ -945,7 +945,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a1e315d68e300a119c36f52fbb5b9c14f">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#aa4516598442262be63a9818bacf90bb7">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -980,8 +980,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a83c6150713fb1698e2f6e3ae13d0ca7c" name="a83c6150713fb1698e2f6e3ae13d0ca7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83c6150713fb1698e2f6e3ae13d0ca7c">&#9670;&#160;</a></span>slice() <span class="overload">[1/2]</span></h2>
+<a id="a98b6c89221af54c99cd66b42eec10ff8" name="a98b6c89221af54c99cd66b42eec10ff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b6c89221af54c99cd66b42eec10ff8">&#9670;&#160;</a></span>slice() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -992,9 +992,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::slice </td>
+          <td class="memname">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::slice </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>slice_indices</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1015,12 +1015,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A slice of the tensor. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a2a62535f7883d4ae35b4b9293e83bf22">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#a3c759e22765cde04b6351da3926c043a">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="afef96a7a2eccfc46a011f6f5f1255f1a" name="afef96a7a2eccfc46a011f6f5f1255f1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afef96a7a2eccfc46a011f6f5f1255f1a">&#9670;&#160;</a></span>slice() <span class="overload">[2/2]</span></h2>
+<a id="a63a4d5e1742a7e4d6dcf22d44b43f431" name="a63a4d5e1742a7e4d6dcf22d44b43f431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a4d5e1742a7e4d6dcf22d44b43f431">&#9670;&#160;</a></span>slice() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1031,9 +1031,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::slice </td>
+          <td class="memname">virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::slice </td>
           <td>(</td>
-          <td class="paramtype">initializer_list&lt; uli &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>slice_indices</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1054,12 +1054,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A slice of the tensor. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#ad77dde41574102c997d55486a2107aef">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#adaa827728344b54f59a0eae4dc5816a5">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a9f44984735679e35288a176b231db1cb" name="a9f44984735679e35288a176b231db1cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f44984735679e35288a176b231db1cb">&#9670;&#160;</a></span>to_string()</h2>
+<a id="aef5fd66f71a113ff4e5e09c63fb9c5b4" name="aef5fd66f71a113ff4e5e09c63fb9c5b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef5fd66f71a113ff4e5e09c63fb9c5b4">&#9670;&#160;</a></span>to_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1070,7 +1070,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual string <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::to_string </td>
+          <td class="memname">virtual std::string <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::to_string </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1084,15 +1084,15 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Display the tensor. </p>
-<dl class="section return"><dt>Returns</dt><dd>A string representation of the tensor. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::string representation of the tensor. </dd></dl>
 
-<p>Implemented in <a class="el" href="classTensor__mml.html#a6f945e94df01d21830a73eb2a00a9883">Tensor_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classTensor__mml.html#af6afdee5c9d1a8aa6ea164b62b9b6656">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
-<a id="a4a21cf69ee5345ee0a0c012808077959" name="a4a21cf69ee5345ee0a0c012808077959"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a21cf69ee5345ee0a0c012808077959">&#9670;&#160;</a></span>operator&lt;&lt;</h2>
+<a id="a52a6f6fa199db9b5f78852b4fc183b53" name="a52a6f6fa199db9b5f78852b4fc183b53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52a6f6fa199db9b5f78852b4fc183b53">&#9670;&#160;</a></span>operator&lt;&lt;</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1103,9 +1103,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ostream &amp; operator&lt;&lt; </td>
+          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
           <td>(</td>
-          <td class="paramtype">ostream &amp;&#160;</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>os</em>, </td>
         </tr>
         <tr>
@@ -1127,8 +1127,8 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Get the shape as a string. </p>
-<dl class="section return"><dt>Returns</dt><dd>A string representation of the shape. E.g. [2, 3, 4]. </dd></dl>
+<p>Get the shape as a std::string. </p>
+<dl class="section return"><dt>Returns</dt><dd>A std::string representation of the shape. E.g. [2, 3, 4]. </dd></dl>
 
 </div>
 </div>

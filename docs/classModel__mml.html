@@ -107,15 +107,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab13ce4bb2666865c8964036b3a8a561" id="r_aab13ce4bb2666865c8964036b3a8a561"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#aab13ce4bb2666865c8964036b3a8a561">Model_mml</a> ()=default</td></tr>
 <tr class="memdesc:aab13ce4bb2666865c8964036b3a8a561"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for <a class="el" href="classModel__mml.html" title="A class representing a modular machine learning model.">Model_mml</a>.  <br /></td></tr>
 <tr class="separator:aab13ce4bb2666865c8964036b3a8a561"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c5906723abc89e44ea0b077b9a41168" id="r_a5c5906723abc89e44ea0b077b9a41168"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#a5c5906723abc89e44ea0b077b9a41168">Model_mml</a> (vector&lt; shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; &gt; initialNodes, std::unordered_map&lt; string, GeneralDataTypes &gt; iomap, std::vector&lt; std::string &gt; inputs, std::vector&lt; std::string &gt; outputs)</td></tr>
-<tr class="memdesc:a5c5906723abc89e44ea0b077b9a41168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classModel__mml.html" title="A class representing a modular machine learning model.">Model_mml</a> with initial nodes.  <br /></td></tr>
-<tr class="separator:a5c5906723abc89e44ea0b077b9a41168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a558daf7814cb5862baed182bbadba339" id="r_a558daf7814cb5862baed182bbadba339"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#a558daf7814cb5862baed182bbadba339">addNode</a> (shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; node)</td></tr>
-<tr class="memdesc:a558daf7814cb5862baed182bbadba339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a node to the model graph.  <br /></td></tr>
-<tr class="separator:a558daf7814cb5862baed182bbadba339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad09dbcac28794c9979fb7975830cf08a" id="r_ad09dbcac28794c9979fb7975830cf08a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; string, GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#ad09dbcac28794c9979fb7975830cf08a">infer</a> (const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;inputs) override</td></tr>
-<tr class="memdesc:ad09dbcac28794c9979fb7975830cf08a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs inference on the graph.  <br /></td></tr>
-<tr class="separator:ad09dbcac28794c9979fb7975830cf08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c769627f2f4622fee3dd4767b75c75a" id="r_a6c769627f2f4622fee3dd4767b75c75a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#a6c769627f2f4622fee3dd4767b75c75a">Model_mml</a> (std::vector&lt; std::shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; &gt; initialNodes, std::unordered_map&lt; std::string, GeneralDataTypes &gt; iomap, std::vector&lt; std::string &gt; inputs, std::vector&lt; std::string &gt; outputs)</td></tr>
+<tr class="memdesc:a6c769627f2f4622fee3dd4767b75c75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classModel__mml.html" title="A class representing a modular machine learning model.">Model_mml</a> with initial nodes.  <br /></td></tr>
+<tr class="separator:a6c769627f2f4622fee3dd4767b75c75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65ecc2b388fff236097d6fc0ca9a0e35" id="r_a65ecc2b388fff236097d6fc0ca9a0e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#a65ecc2b388fff236097d6fc0ca9a0e35">addNode</a> (std::shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; node)</td></tr>
+<tr class="memdesc:a65ecc2b388fff236097d6fc0ca9a0e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a node to the model graph.  <br /></td></tr>
+<tr class="separator:a65ecc2b388fff236097d6fc0ca9a0e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac583db7aa62d9c3f82f8e8d6417b73e3" id="r_ac583db7aa62d9c3f82f8e8d6417b73e3"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel__mml.html#ac583db7aa62d9c3f82f8e8d6417b73e3">infer</a> (const std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;inputs) override</td></tr>
+<tr class="memdesc:ac583db7aa62d9c3f82f8e8d6417b73e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs inference on the graph.  <br /></td></tr>
+<tr class="separator:ac583db7aa62d9c3f82f8e8d6417b73e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classModel"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classModel')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classModel.html">Model</a></td></tr>
 <tr class="memitem:a2efbe4ec768191fa70ad86f260ec2fd6 inherit pub_methods_classModel" id="r_a2efbe4ec768191fa70ad86f260ec2fd6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">~Model</a> ()=default</td></tr>
 <tr class="memdesc:a2efbe4ec768191fa70ad86f260ec2fd6 inherit pub_methods_classModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> class.  <br /></td></tr>
@@ -153,8 +153,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5c5906723abc89e44ea0b077b9a41168" name="a5c5906723abc89e44ea0b077b9a41168"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c5906723abc89e44ea0b077b9a41168">&#9670;&#160;</a></span>Model_mml() <span class="overload">[2/2]</span></h2>
+<a id="a6c769627f2f4622fee3dd4767b75c75a" name="a6c769627f2f4622fee3dd4767b75c75a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c769627f2f4622fee3dd4767b75c75a">&#9670;&#160;</a></span>Model_mml() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -165,13 +165,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Model_mml::Model_mml </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; &gt;&#160;</td>
+          <td class="paramtype">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt; &gt;&#160;</td>
           <td class="paramname"><em>initialNodes</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::unordered_map&lt; string, GeneralDataTypes &gt;&#160;</td>
+          <td class="paramtype">std::unordered_map&lt; std::string, GeneralDataTypes &gt;&#160;</td>
           <td class="paramname"><em>iomap</em>, </td>
         </tr>
         <tr>
@@ -202,7 +202,7 @@ Public Member Functions</h2></td></tr>
 <p>Constructor for <a class="el" href="classModel__mml.html" title="A class representing a modular machine learning model.">Model_mml</a> with initial nodes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">initialNodes</td><td>A vector of shared pointers to <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> objects to initialize the model with. </td></tr>
+    <tr><td class="paramname">initialNodes</td><td>A std::vector of shared pointers to <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> objects to initialize the model with. </td></tr>
   </table>
   </dd>
 </dl>
@@ -210,8 +210,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a558daf7814cb5862baed182bbadba339" name="a558daf7814cb5862baed182bbadba339"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a558daf7814cb5862baed182bbadba339">&#9670;&#160;</a></span>addNode()</h2>
+<a id="a65ecc2b388fff236097d6fc0ca9a0e35" name="a65ecc2b388fff236097d6fc0ca9a0e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65ecc2b388fff236097d6fc0ca9a0e35">&#9670;&#160;</a></span>addNode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,7 +222,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void Model_mml::addNode </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classNode.html">Node</a> &gt;&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -244,8 +244,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad09dbcac28794c9979fb7975830cf08a" name="ad09dbcac28794c9979fb7975830cf08a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad09dbcac28794c9979fb7975830cf08a">&#9670;&#160;</a></span>infer()</h2>
+<a id="ac583db7aa62d9c3f82f8e8d6417b73e3" name="ac583db7aa62d9c3f82f8e8d6417b73e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac583db7aa62d9c3f82f8e8d6417b73e3">&#9670;&#160;</a></span>infer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,9 +254,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt; string, GeneralDataTypes &gt; Model_mml::infer </td>
+          <td class="memname">std::unordered_map&lt; std::string, GeneralDataTypes &gt; Model_mml::infer </td>
           <td>(</td>
-          <td class="paramtype">const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
           <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -277,7 +277,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>GeneralDataTypes The result of the inference. </dd></dl>
 
-<p>Implements <a class="el" href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">Model</a>.</p>
+<p>Implements <a class="el" href="classModel.html#a31f22e672cae2653caed41da3a699539">Model</a>.</p>
 
 </div>
 </div>

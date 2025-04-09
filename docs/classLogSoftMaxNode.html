@@ -111,14 +111,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acf537ca154fcdb3069bf3c1f55577b26" id="r_acf537ca154fcdb3069bf3c1f55577b26"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#acf537ca154fcdb3069bf3c1f55577b26">LogSoftMaxNode</a> (std::string X, std::string Y, uli axis=-1)</td></tr>
-<tr class="memdesc:acf537ca154fcdb3069bf3c1f55577b26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLogSoftMaxNode.html" title="A class representing a LogSoftMax node in a computational graph.">LogSoftMaxNode</a>.  <br /></td></tr>
-<tr class="separator:acf537ca154fcdb3069bf3c1f55577b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab573b0fc8cc6e68e0a703e2f8c4859f4" id="r_ab573b0fc8cc6e68e0a703e2f8c4859f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#ab573b0fc8cc6e68e0a703e2f8c4859f4">LogSoftMaxNode</a> (const json &amp;node)</td></tr>
-<tr class="memdesc:ab573b0fc8cc6e68e0a703e2f8c4859f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLogSoftMaxNode.html" title="A class representing a LogSoftMax node in a computational graph.">LogSoftMaxNode</a> from JSON.  <br /></td></tr>
-<tr class="separator:ab573b0fc8cc6e68e0a703e2f8c4859f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4fd61714843c2539b68cf45b163e7aa" id="r_ac4fd61714843c2539b68cf45b163e7aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#ac4fd61714843c2539b68cf45b163e7aa">LogSoftMaxNode</a> (std::string X, std::string Y, size_t axis=-1)</td></tr>
+<tr class="memdesc:ac4fd61714843c2539b68cf45b163e7aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLogSoftMaxNode.html" title="A class representing a LogSoftMax node in a computational graph.">LogSoftMaxNode</a>.  <br /></td></tr>
+<tr class="separator:ac4fd61714843c2539b68cf45b163e7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd8712ceedb33254d672a5884028bb29" id="r_afd8712ceedb33254d672a5884028bb29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#afd8712ceedb33254d672a5884028bb29">LogSoftMaxNode</a> (const nlohmann::json &amp;node)</td></tr>
+<tr class="memdesc:afd8712ceedb33254d672a5884028bb29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLogSoftMaxNode.html" title="A class representing a LogSoftMax node in a computational graph.">LogSoftMaxNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:afd8712ceedb33254d672a5884028bb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e78339e7238081725adb57c5eeecd82" id="r_a6e78339e7238081725adb57c5eeecd82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#a6e78339e7238081725adb57c5eeecd82">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
-<tr class="memdesc:a6e78339e7238081725adb57c5eeecd82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using LogSoftMax activation function.  <br /></td></tr>
+<tr class="memdesc:a6e78339e7238081725adb57c5eeecd82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using LogSoftMax activation std::function.  <br /></td></tr>
 <tr class="separator:a6e78339e7238081725adb57c5eeecd82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a549700e66b394a46b3c513376ecd70ff" id="r_a549700e66b394a46b3c513376ecd70ff"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLogSoftMaxNode.html#a549700e66b394a46b3c513376ecd70ff">getInputs</a> () override</td></tr>
 <tr class="memdesc:a549700e66b394a46b3c513376ecd70ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
@@ -135,8 +135,8 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A class representing a LogSoftMax node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents the LogSoftMax node in a computational graph. It performs the forward pass computation applying SoftMax and Logarithm along the specified axis. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="acf537ca154fcdb3069bf3c1f55577b26" name="acf537ca154fcdb3069bf3c1f55577b26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf537ca154fcdb3069bf3c1f55577b26">&#9670;&#160;</a></span>LogSoftMaxNode() <span class="overload">[1/2]</span></h2>
+<a id="ac4fd61714843c2539b68cf45b163e7aa" name="ac4fd61714843c2539b68cf45b163e7aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4fd61714843c2539b68cf45b163e7aa">&#9670;&#160;</a></span>LogSoftMaxNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,7 +156,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uli&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>axis</em> = <code>-1</code>&#160;</td>
         </tr>
         <tr>
@@ -179,8 +179,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab573b0fc8cc6e68e0a703e2f8c4859f4" name="ab573b0fc8cc6e68e0a703e2f8c4859f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab573b0fc8cc6e68e0a703e2f8c4859f4">&#9670;&#160;</a></span>LogSoftMaxNode() <span class="overload">[2/2]</span></h2>
+<a id="afd8712ceedb33254d672a5884028bb29" name="afd8712ceedb33254d672a5884028bb29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd8712ceedb33254d672a5884028bb29">&#9670;&#160;</a></span>LogSoftMaxNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +188,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">LogSoftMaxNode::LogSoftMaxNode </td>
           <td>(</td>
-          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramtype">const nlohmann::json &amp;&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -230,7 +230,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Perform the forward pass computation using LogSoftMax activation function. </p>
+<p>Perform the forward pass computation using LogSoftMax activation std::function. </p>
 
 <p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 

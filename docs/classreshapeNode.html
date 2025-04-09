@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a488451e054b91a2553039df8acc5997b" id="r_a488451e054b91a2553039df8acc5997b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#a488451e054b91a2553039df8acc5997b">reshapeNode</a> (std::string data, std::string shape, std::string reshaped, int allowzero=0)</td></tr>
 <tr class="memdesc:a488451e054b91a2553039df8acc5997b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a>.  <br /></td></tr>
 <tr class="separator:a488451e054b91a2553039df8acc5997b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab18f0f9cc806930d2a66916b636b79dc" id="r_ab18f0f9cc806930d2a66916b636b79dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#ab18f0f9cc806930d2a66916b636b79dc">reshapeNode</a> (const json &amp;node)</td></tr>
-<tr class="memdesc:ab18f0f9cc806930d2a66916b636b79dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a> from JSON.  <br /></td></tr>
-<tr class="separator:ab18f0f9cc806930d2a66916b636b79dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ae347606a9d1cc0b01af4fc8c288ea" id="r_ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#ae1ae347606a9d1cc0b01af4fc8c288ea">reshapeNode</a> (const nlohmann::json &amp;node)</td></tr>
+<tr class="memdesc:ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38d4c165dc7cbfd770ad8370641a2b70" id="r_a38d4c165dc7cbfd770ad8370641a2b70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#a38d4c165dc7cbfd770ad8370641a2b70">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
 <tr class="memdesc:a38d4c165dc7cbfd770ad8370641a2b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the forward pass of the reshape operation.  <br /></td></tr>
 <tr class="separator:a38d4c165dc7cbfd770ad8370641a2b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,8 +189,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab18f0f9cc806930d2a66916b636b79dc" name="ab18f0f9cc806930d2a66916b636b79dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab18f0f9cc806930d2a66916b636b79dc">&#9670;&#160;</a></span>reshapeNode() <span class="overload">[2/2]</span></h2>
+<a id="ae1ae347606a9d1cc0b01af4fc8c288ea" name="ae1ae347606a9d1cc0b01af4fc8c288ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ae347606a9d1cc0b01af4fc8c288ea">&#9670;&#160;</a></span>reshapeNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +198,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">reshapeNode::reshapeNode </td>
           <td>(</td>
-          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramtype">const nlohmann::json &amp;&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -241,7 +241,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Performs the forward pass of the reshape operation. </p>
-<p>This function reshapes the input tensor to the specified shape. It checks if the inputs are filled, casts the data and shape to the appropriate tensor types, and allocates the output tensor if necessary. It then extracts the shape values from the shape tensor, handles the special case where a dimension is set to -1 (inferred dimension), and computes the new shape. Finally, it copies the data from the input tensor to the reshaped output tensor and applies the reshape.</p>
+<p>This std::function reshapes the input tensor to the specified shape. It checks if the inputs are filled, casts the data and shape to the appropriate tensor types, and allocates the output tensor if necessary. It then extracts the shape values from the shape tensor, handles the special case where a dimension is set to -1 (inferred dimension), and computes the new shape. Finally, it copies the data from the input tensor to the reshaped output tensor and applies the reshape.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>if the inputs are not fully set, if the data or shape cannot be cast to the appropriate tensor types, if the output tensor is not allocated, if multiple -1 values are present in the shape tensor, or if the inferred dimension does not match the total elements. </td></tr>

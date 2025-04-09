@@ -111,12 +111,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a18521b96aeb84a7d2930bfe5e39e2e1e" id="r_a18521b96aeb84a7d2930bfe5e39e2e1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLRNNode__mml.html#a18521b96aeb84a7d2930bfe5e39e2e1e">LRNNode_mml</a> (std::string X, std::string Y, uli size, float alpha=0.0001f, float beta=0.75f, float bias=1.0f)</td></tr>
-<tr class="memdesc:a18521b96aeb84a7d2930bfe5e39e2e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLRNNode__mml.html" title="Performs Local Response Normalization.">LRNNode_mml</a>.  <br /></td></tr>
-<tr class="separator:a18521b96aeb84a7d2930bfe5e39e2e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa932c96978d4c111199103fdc1d1e1e2" id="r_aa932c96978d4c111199103fdc1d1e1e2"><td class="memItemLeft" align="right" valign="top"><a id="aa932c96978d4c111199103fdc1d1e1e2" name="aa932c96978d4c111199103fdc1d1e1e2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LRNNode_mml</b> (const json &amp;node)</td></tr>
-<tr class="separator:aa932c96978d4c111199103fdc1d1e1e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca91778bf629d458060d26fd7808a0b5" id="r_aca91778bf629d458060d26fd7808a0b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLRNNode__mml.html#aca91778bf629d458060d26fd7808a0b5">LRNNode_mml</a> (std::string X, std::string Y, size_t size, float alpha=0.0001f, float beta=0.75f, float bias=1.0f)</td></tr>
+<tr class="memdesc:aca91778bf629d458060d26fd7808a0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classLRNNode__mml.html" title="Performs Local Response Normalization.">LRNNode_mml</a>.  <br /></td></tr>
+<tr class="separator:aca91778bf629d458060d26fd7808a0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21ba22e7a9869804c6ae5241bb27ccdc" id="r_a21ba22e7a9869804c6ae5241bb27ccdc"><td class="memItemLeft" align="right" valign="top"><a id="a21ba22e7a9869804c6ae5241bb27ccdc" name="a21ba22e7a9869804c6ae5241bb27ccdc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>LRNNode_mml</b> (const nlohmann::json &amp;node)</td></tr>
+<tr class="separator:a21ba22e7a9869804c6ae5241bb27ccdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20eb27b99a4501750c021d0e6ead3b97" id="r_a20eb27b99a4501750c021d0e6ead3b97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLRNNode__mml.html#a20eb27b99a4501750c021d0e6ead3b97">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
 <tr class="memdesc:a20eb27b99a4501750c021d0e6ead3b97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation.  <br /></td></tr>
 <tr class="separator:a20eb27b99a4501750c021d0e6ead3b97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,8 +140,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a18521b96aeb84a7d2930bfe5e39e2e1e" name="a18521b96aeb84a7d2930bfe5e39e2e1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18521b96aeb84a7d2930bfe5e39e2e1e">&#9670;&#160;</a></span>LRNNode_mml()</h2>
+<a id="aca91778bf629d458060d26fd7808a0b5" name="aca91778bf629d458060d26fd7808a0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca91778bf629d458060d26fd7808a0b5">&#9670;&#160;</a></span>LRNNode_mml()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +161,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uli&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
@@ -230,7 +230,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform the forward pass computation. </p>
-<p>This pure virtual function must be overridden by derived classes to implement the specific forward pass logic. It modifies the output(s) in place. </p>
+<p>This pure virtual std::function must be overridden by derived classes to implement the specific forward pass logic. It modifies the output(s) in place. </p>
 <p>Each batch element</p>
 <p>Each channel</p>
 <p>Each row</p>

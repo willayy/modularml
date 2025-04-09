@@ -114,12 +114,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>TensorT</b> = Tensor
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac82719a3a08d244c04265ee4d863ced9" id="r_ac82719a3a08d244c04265ee4d863ced9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#ac82719a3a08d244c04265ee4d863ced9">ConvNode</a> (std::string X, std::string W, std::string Y, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; dilations, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; padding, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; kernel_shape, <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; stride, optional&lt; std::string &gt; B=std::nullopt, uli group=1)</td></tr>
-<tr class="memdesc:ac82719a3a08d244c04265ee4d863ced9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a>.  <br /></td></tr>
-<tr class="separator:ac82719a3a08d244c04265ee4d863ced9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad813402f031fddba42a8f5b01e5ee27f" id="r_ad813402f031fddba42a8f5b01e5ee27f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#ad813402f031fddba42a8f5b01e5ee27f">ConvNode</a> (const json &amp;node)</td></tr>
-<tr class="memdesc:ad813402f031fddba42a8f5b01e5ee27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a> from JSON.  <br /></td></tr>
-<tr class="separator:ad813402f031fddba42a8f5b01e5ee27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1dc16c0d6d9846e9392da95b0d41263" id="r_af1dc16c0d6d9846e9392da95b0d41263"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#af1dc16c0d6d9846e9392da95b0d41263">ConvNode</a> (std::string X, std::string W, std::string Y, <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; dilations, <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; padding, <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; kernel_shape, <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; stride, std::optional&lt; std::string &gt; B=std::nullopt, size_t group=1)</td></tr>
+<tr class="memdesc:af1dc16c0d6d9846e9392da95b0d41263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a>.  <br /></td></tr>
+<tr class="separator:af1dc16c0d6d9846e9392da95b0d41263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7863b72994d9e8c98ccf503ba1b19f46" id="r_a7863b72994d9e8c98ccf503ba1b19f46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a7863b72994d9e8c98ccf503ba1b19f46">ConvNode</a> (const nlohmann::json &amp;node)</td></tr>
+<tr class="memdesc:a7863b72994d9e8c98ccf503ba1b19f46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classConvNode.html" title="A class representing a Convolutional node in a computational graph.">ConvNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:a7863b72994d9e8c98ccf503ba1b19f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c5e91966bd89a064c3f3e8784345a03" id="r_a3c5e91966bd89a064c3f3e8784345a03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConvNode.html#a3c5e91966bd89a064c3f3e8784345a03">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
 <tr class="memdesc:a3c5e91966bd89a064c3f3e8784345a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the forward pass convolution operation.  <br /></td></tr>
 <tr class="separator:a3c5e91966bd89a064c3f3e8784345a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,8 +139,8 @@ Public Member Functions</h2></td></tr>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents a Conv node in a computational graph.</p>
 <dl class="section author"><dt>Author</dt><dd>Tim Carlsson (<a href="#" onclick="location.href='mai'+'lto:'+'tim'+'ca'+'@ch'+'al'+'mer'+'s.'+'se'; return false;">timca<span class="obfuscator">.nosp@m.</span>@cha<span class="obfuscator">.nosp@m.</span>lmers<span class="obfuscator">.nosp@m.</span>.se</a>) </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac82719a3a08d244c04265ee4d863ced9" name="ac82719a3a08d244c04265ee4d863ced9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac82719a3a08d244c04265ee4d863ced9">&#9670;&#160;</a></span>ConvNode() <span class="overload">[1/2]</span></h2>
+<a id="af1dc16c0d6d9846e9392da95b0d41263" name="af1dc16c0d6d9846e9392da95b0d41263"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1dc16c0d6d9846e9392da95b0d41263">&#9670;&#160;</a></span>ConvNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,37 +166,37 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>dilations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>padding</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>kernel_shape</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>stride</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; std::string &gt;&#160;</td>
+          <td class="paramtype">std::optional&lt; std::string &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>std::nullopt</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uli&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>group</em> = <code>1</code>&#160;</td>
         </tr>
         <tr>
@@ -225,8 +225,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad813402f031fddba42a8f5b01e5ee27f" name="ad813402f031fddba42a8f5b01e5ee27f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad813402f031fddba42a8f5b01e5ee27f">&#9670;&#160;</a></span>ConvNode() <span class="overload">[2/2]</span></h2>
+<a id="a7863b72994d9e8c98ccf503ba1b19f46" name="a7863b72994d9e8c98ccf503ba1b19f46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7863b72994d9e8c98ccf503ba1b19f46">&#9670;&#160;</a></span>ConvNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +234,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ConvNode::ConvNode </td>
           <td>(</td>
-          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramtype">const nlohmann::json &amp;&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
@@ -283,7 +283,7 @@ Public Member Functions</h2></td></tr>
 <li><b>Apply im2col Transformation</b>: The input tensor is transformed using the im2col operation. See explanation below. The transformed data is stored in a temporary tensor, ready for efficient matrix multiplication.</li>
 <li><b>Perform GEMM (General Matrix Multiply)</b>: The core of the convolution operation is carried out using GEMM, which efficiently performs matrix multiplication. The im2col-transformed input tensor is multiplied with the kernel weights, which are reshaped appropriately. This operation produces the convolution results in the output tensor, which contains the feature maps after applying the kernel.</li>
 <li><b>Add Bias (Optional)</b>: If a bias term is specified, it is added to the output of the GEMM operation. This bias is applied across the feature maps and is typically used to adjust the activation of the convolutional layer.</li>
-<li><b>Store Result in Output <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a></b>: The final result of the convolution operation, after the optional bias addition, is stored in the output tensor <code>Y</code>, which represents the convolved feature maps. </li>
+<li><b>Store Result in Output <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a></b>: The final result of the convolution operation, after the std::optional bias addition, is stored in the output tensor <code>Y</code>, which represents the convolved feature maps. </li>
 </ol>
 
 <p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>

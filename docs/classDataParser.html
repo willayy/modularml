@@ -94,9 +94,9 @@ Inheritance diagram for DataParser:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf6dd159bf32a2cc4d1eede918af93a6" id="r_adf6dd159bf32a2cc4d1eede918af93a6"><td class="memItemLeft" align="right" valign="top">virtual unique_ptr&lt; <a class="el" href="classModel.html">Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDataParser.html#adf6dd159bf32a2cc4d1eede918af93a6">parse</a> (const json &amp;data) const =0</td></tr>
-<tr class="memdesc:adf6dd159bf32a2cc4d1eede918af93a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses JSON data of a model into a <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> object.  <br /></td></tr>
-<tr class="separator:adf6dd159bf32a2cc4d1eede918af93a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada26e991dee47817b869c15da0b483e7" id="r_ada26e991dee47817b869c15da0b483e7"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classModel.html">Model</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDataParser.html#ada26e991dee47817b869c15da0b483e7">parse</a> (const nlohmann::json &amp;data) const =0</td></tr>
+<tr class="memdesc:ada26e991dee47817b869c15da0b483e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses JSON data of a model into a <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> object.  <br /></td></tr>
+<tr class="separator:ada26e991dee47817b869c15da0b483e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab217652610afa07a9c98431b1531185b" id="r_ab217652610afa07a9c98431b1531185b"><td class="memItemLeft" align="right" valign="top"><a id="ab217652610afa07a9c98431b1531185b" name="ab217652610afa07a9c98431b1531185b"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DataParser</b> ()=default</td></tr>
 <tr class="memdesc:ab217652610afa07a9c98431b1531185b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for cleanup. <br /></td></tr>
@@ -105,8 +105,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DataParser</b> ()
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract class for parsing JSON data of a model into a <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> Object. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="adf6dd159bf32a2cc4d1eede918af93a6" name="adf6dd159bf32a2cc4d1eede918af93a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf6dd159bf32a2cc4d1eede918af93a6">&#9670;&#160;</a></span>parse()</h2>
+<a id="ada26e991dee47817b869c15da0b483e7" name="ada26e991dee47817b869c15da0b483e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada26e991dee47817b869c15da0b483e7">&#9670;&#160;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -115,9 +115,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DataParser</b> ()
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual unique_ptr&lt; <a class="el" href="classModel.html">Model</a> &gt; DataParser::parse </td>
+          <td class="memname">virtual std::unique_ptr&lt; <a class="el" href="classModel.html">Model</a> &gt; DataParser::parse </td>
           <td>(</td>
-          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramtype">const nlohmann::json &amp;&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -137,7 +137,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~DataParser</b> ()
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classParser__mml.html#a342651b155dcd345cc5a37fd8031c07b">Parser_mml</a>.</p>
+<p>Implemented in <a class="el" href="classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2">Parser_mml</a>.</p>
 
 </div>
 </div>

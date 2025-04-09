@@ -8,7 +8,7 @@
 <area shape="poly" id="edge9_Node000000_Node000003" title=" " alt="" coords="32,386,34,335,45,269,68,200,85,168,108,139,134,122,137,127,111,143,90,171,72,202,50,270,40,336,37,387"/>
 <area shape="rect" id="Node000004" href="$classDropoutNode.html" title="A class representing a Dropout node in a computational graph." alt="" coords="126,153,234,179"/>
 <area shape="poly" id="edge10_Node000000_Node000004" title=" " alt="" coords="34,386,39,343,51,290,73,236,89,211,108,188,124,176,128,180,111,192,93,214,78,238,57,292,44,344,39,386"/>
-<area shape="rect" id="Node000005" href="$classELUNode.html" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function." alt="" coords="139,203,221,228"/>
+<area shape="rect" id="Node000005" href="$classELUNode.html" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function." alt="" coords="139,203,221,228"/>
 <area shape="poly" id="edge11_Node000000_Node000005" title=" " alt="" coords="36,386,45,353,58,313,79,273,108,237,122,227,138,220,140,225,125,232,111,241,83,275,63,315,50,354,42,387"/>
 <area shape="rect" id="Node000006" href="$classFlattenNode.html" title="A node that flattens an input tensor along a specified axis. Implements the Node interface." alt="" coords="129,252,231,277"/>
 <area shape="poly" id="edge12_Node000000_Node000006" title=" " alt="" coords="41,386,66,336,85,309,108,287,127,275,130,280,111,291,89,313,71,339,46,388"/>

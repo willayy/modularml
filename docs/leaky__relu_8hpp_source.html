@@ -93,25 +93,26 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <a class="code hl_class" href="classLeakyReLUNode.html">LeakyReLUNode</a>(std::string X, std::string Y, <span class="keywordtype">float</span> alpha = 0.01f);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <a class="code hl_class" href="classLeakyReLUNode.html">LeakyReLUNode</a>(<span class="keyword">const</span> json &amp;node);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <a class="code hl_class" href="classLeakyReLUNode.html">LeakyReLUNode</a>(<span class="keyword">const</span> nlohmann::json &amp;node);</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classLeakyReLUNode.html#a380e49012a4df29d2ce7aa2344dbc54e">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt;&amp; iomap) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classLeakyReLUNode.html#ab1d8e824573dcaeb8d552f480b8d2d5c">getInputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classLeakyReLUNode.html#a9170525278928e0da9dc04219428d36f">getOutputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  std::string X;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  std::string Y;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="keywordtype">float</span> alpha;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_function" href="classLeakyReLUNode.html#a380e49012a4df29d2ce7aa2344dbc54e">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt; &amp;iomap) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classLeakyReLUNode.html#ab1d8e824573dcaeb8d552f480b8d2d5c">getInputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classLeakyReLUNode.html#a9170525278928e0da9dc04219428d36f">getOutputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  std::string X;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  std::string Y;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keywordtype">float</span> alpha;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
 </div>
 <div class="ttc" id="aclassLeakyReLUNode_html"><div class="ttname"><a href="classLeakyReLUNode.html">LeakyReLUNode</a></div><div class="ttdoc">A class representing a LeakyReLU node in a computational graph.</div><div class="ttdef"><b>Definition</b> leaky_relu.hpp:13</div></div>
-<div class="ttc" id="aclassLeakyReLUNode_html_a380e49012a4df29d2ce7aa2344dbc54e"><div class="ttname"><a href="classLeakyReLUNode.html#a380e49012a4df29d2ce7aa2344dbc54e">LeakyReLUNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using LeakyReLUNode activation function.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:25</div></div>
-<div class="ttc" id="aclassLeakyReLUNode_html_a9170525278928e0da9dc04219428d36f"><div class="ttname"><a href="classLeakyReLUNode.html#a9170525278928e0da9dc04219428d36f">LeakyReLUNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:64</div></div>
-<div class="ttc" id="aclassLeakyReLUNode_html_ab1d8e824573dcaeb8d552f480b8d2d5c"><div class="ttname"><a href="classLeakyReLUNode.html#ab1d8e824573dcaeb8d552f480b8d2d5c">LeakyReLUNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:60</div></div>
-<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:58</div></div>
+<div class="ttc" id="aclassLeakyReLUNode_html_a380e49012a4df29d2ce7aa2344dbc54e"><div class="ttname"><a href="classLeakyReLUNode.html#a380e49012a4df29d2ce7aa2344dbc54e">LeakyReLUNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using LeakyReLUNode activation std::function.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:25</div></div>
+<div class="ttc" id="aclassLeakyReLUNode_html_a9170525278928e0da9dc04219428d36f"><div class="ttname"><a href="classLeakyReLUNode.html#a9170525278928e0da9dc04219428d36f">LeakyReLUNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:74</div></div>
+<div class="ttc" id="aclassLeakyReLUNode_html_ab1d8e824573dcaeb8d552f480b8d2d5c"><div class="ttname"><a href="classLeakyReLUNode.html#ab1d8e824573dcaeb8d552f480b8d2d5c">LeakyReLUNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> leaky_relu.cpp:72</div></div>
+<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

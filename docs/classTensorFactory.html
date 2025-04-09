@@ -78,7 +78,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A static utility factory class for creating tensors with different shapes and data. Using the setters you can set the function pointers to the tensor constructors. Allowing you to use different tensor implementations.  
+<p>A static utility factory class for creating tensors with different shapes and data. Using the setters you can set the std::function pointers to the tensor constructors. Allowing you to use different tensor implementations.  
  <a href="classTensorFactory.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tensor__factory_8hpp_source.html">tensor_factory.hpp</a>&gt;</code></p>
@@ -94,48 +94,48 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae712a527cfc4e295e0da550e7d0b15a5" id="r_ae712a527cfc4e295e0da550e7d0b15a5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ae712a527cfc4e295e0da550e7d0b15a5"><td class="memTemplItemLeft" align="right" valign="top">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#ae712a527cfc4e295e0da550e7d0b15a5">create_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)</td></tr>
-<tr class="memdesc:ae712a527cfc4e295e0da550e7d0b15a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
-<tr class="separator:ae712a527cfc4e295e0da550e7d0b15a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a108f20bfddb85689730b933c5d346e8e" id="r_a108f20bfddb85689730b933c5d346e8e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a108f20bfddb85689730b933c5d346e8e"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a108f20bfddb85689730b933c5d346e8e">set_tensor_constructor_1</a> (const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)&gt; &amp;tensor_constructor)</td></tr>
-<tr class="memdesc:a108f20bfddb85689730b933c5d346e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor function for <a class="el" href="classarray__mml.html">array_mml&lt;uli&gt;</a> and array_mml&lt;T&gt;.  <br /></td></tr>
-<tr class="separator:a108f20bfddb85689730b933c5d346e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ddc512ccafd13218329ee2111aa90b4" id="r_a5ddc512ccafd13218329ee2111aa90b4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5ddc512ccafd13218329ee2111aa90b4"><td class="memTemplItemLeft" align="right" valign="top">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a5ddc512ccafd13218329ee2111aa90b4">create_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape)</td></tr>
-<tr class="memdesc:a5ddc512ccafd13218329ee2111aa90b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape.  <br /></td></tr>
-<tr class="separator:a5ddc512ccafd13218329ee2111aa90b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36303aeae11f5798bfea593061d2ca61" id="r_a36303aeae11f5798bfea593061d2ca61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a36303aeae11f5798bfea593061d2ca61"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a36303aeae11f5798bfea593061d2ca61">set_tensor_constructor_2</a> (const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape)&gt; &amp;tensor_constructor)</td></tr>
-<tr class="memdesc:a36303aeae11f5798bfea593061d2ca61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor function for <a class="el" href="classarray__mml.html">array_mml&lt;uli&gt;</a>.  <br /></td></tr>
-<tr class="separator:a36303aeae11f5798bfea593061d2ca61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c351ebc49e4ba03b18f2c0c44a42f05" id="r_a5c351ebc49e4ba03b18f2c0c44a42f05"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5c351ebc49e4ba03b18f2c0c44a42f05"><td class="memTemplItemLeft" align="right" valign="top">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a5c351ebc49e4ba03b18f2c0c44a42f05">create_tensor</a> (const initializer_list&lt; uli &gt; shape, const initializer_list&lt; T &gt; data)</td></tr>
-<tr class="memdesc:a5c351ebc49e4ba03b18f2c0c44a42f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
-<tr class="separator:a5c351ebc49e4ba03b18f2c0c44a42f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a216b9f225e457781cf994759e283301a" id="r_a216b9f225e457781cf994759e283301a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a216b9f225e457781cf994759e283301a"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a216b9f225e457781cf994759e283301a">set_tensor_constructor_3</a> (const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const initializer_list&lt; uli &gt; shape, const initializer_list&lt; T &gt; data)&gt; &amp;tensor_constructor)</td></tr>
-<tr class="memdesc:a216b9f225e457781cf994759e283301a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor function for initializer_list&lt;uli&gt; and initializer_list&lt;T&gt;.  <br /></td></tr>
-<tr class="separator:a216b9f225e457781cf994759e283301a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff54e41cd3db5c44d9c66ef8b56b27da" id="r_aff54e41cd3db5c44d9c66ef8b56b27da"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aff54e41cd3db5c44d9c66ef8b56b27da"><td class="memTemplItemLeft" align="right" valign="top">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#aff54e41cd3db5c44d9c66ef8b56b27da">create_tensor</a> (const initializer_list&lt; uli &gt; shape)</td></tr>
-<tr class="memdesc:aff54e41cd3db5c44d9c66ef8b56b27da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape.  <br /></td></tr>
-<tr class="separator:aff54e41cd3db5c44d9c66ef8b56b27da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a" id="r_a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a">set_tensor_constructor_4</a> (const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const initializer_list&lt; uli &gt; shape)&gt; &amp;tensor_constructor)</td></tr>
-<tr class="memdesc:a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor function for initializer_list&lt;uli&gt;.  <br /></td></tr>
-<tr class="separator:a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a711eb1ee961799701d14f569c44003" id="r_a2a711eb1ee961799701d14f569c44003"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2a711eb1ee961799701d14f569c44003"><td class="memTemplItemLeft" align="right" valign="top">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a2a711eb1ee961799701d14f569c44003">random_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape, T lo_v=T(0), T hi_v=T(1))</td></tr>
-<tr class="memdesc:a2a711eb1ee961799701d14f569c44003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
-<tr class="separator:a2a711eb1ee961799701d14f569c44003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba339115830804f39fb5ae9279c64a6c" id="r_aba339115830804f39fb5ae9279c64a6c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aba339115830804f39fb5ae9279c64a6c"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#aba339115830804f39fb5ae9279c64a6c">create_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)</td></tr>
+<tr class="memdesc:aba339115830804f39fb5ae9279c64a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
+<tr class="separator:aba339115830804f39fb5ae9279c64a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad58a96688c932bd5c5762474b6e23197" id="r_ad58a96688c932bd5c5762474b6e23197"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad58a96688c932bd5c5762474b6e23197"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#ad58a96688c932bd5c5762474b6e23197">set_tensor_constructor_1</a> (const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)&gt; &amp;tensor_constructor)</td></tr>
+<tr class="memdesc:ad58a96688c932bd5c5762474b6e23197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor std::function for <a class="el" href="classarray__mml.html">array_mml&lt;size_t&gt;</a> and array_mml&lt;T&gt;.  <br /></td></tr>
+<tr class="separator:ad58a96688c932bd5c5762474b6e23197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad551e98856015c0fc8b7c07e01955cc8" id="r_ad551e98856015c0fc8b7c07e01955cc8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad551e98856015c0fc8b7c07e01955cc8"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#ad551e98856015c0fc8b7c07e01955cc8">create_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape)</td></tr>
+<tr class="memdesc:ad551e98856015c0fc8b7c07e01955cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape.  <br /></td></tr>
+<tr class="separator:ad551e98856015c0fc8b7c07e01955cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2419367b198f8157e46c30ecabe21b2e" id="r_a2419367b198f8157e46c30ecabe21b2e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2419367b198f8157e46c30ecabe21b2e"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a2419367b198f8157e46c30ecabe21b2e">set_tensor_constructor_2</a> (const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape)&gt; &amp;tensor_constructor)</td></tr>
+<tr class="memdesc:a2419367b198f8157e46c30ecabe21b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor std::function for <a class="el" href="classarray__mml.html">array_mml&lt;size_t&gt;</a>.  <br /></td></tr>
+<tr class="separator:a2419367b198f8157e46c30ecabe21b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add74c60106f04973f734aedff7c0625b" id="r_add74c60106f04973f734aedff7c0625b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:add74c60106f04973f734aedff7c0625b"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#add74c60106f04973f734aedff7c0625b">create_tensor</a> (const std::initializer_list&lt; size_t &gt; shape, const std::initializer_list&lt; T &gt; data)</td></tr>
+<tr class="memdesc:add74c60106f04973f734aedff7c0625b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
+<tr class="separator:add74c60106f04973f734aedff7c0625b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f815a01f09f2dc6454f93522775ae97" id="r_a8f815a01f09f2dc6454f93522775ae97"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8f815a01f09f2dc6454f93522775ae97"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a8f815a01f09f2dc6454f93522775ae97">set_tensor_constructor_3</a> (const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const std::initializer_list&lt; size_t &gt; shape, const std::initializer_list&lt; T &gt; data)&gt; &amp;tensor_constructor)</td></tr>
+<tr class="memdesc:a8f815a01f09f2dc6454f93522775ae97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor std::function for std::initializer_list&lt;size_t&gt; and std::initializer_list&lt;T&gt;.  <br /></td></tr>
+<tr class="separator:a8f815a01f09f2dc6454f93522775ae97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefb21daf0a1b725ee333e18fbb648340" id="r_aefb21daf0a1b725ee333e18fbb648340"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aefb21daf0a1b725ee333e18fbb648340"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#aefb21daf0a1b725ee333e18fbb648340">create_tensor</a> (const std::initializer_list&lt; size_t &gt; shape)</td></tr>
+<tr class="memdesc:aefb21daf0a1b725ee333e18fbb648340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape.  <br /></td></tr>
+<tr class="separator:aefb21daf0a1b725ee333e18fbb648340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280d1a28280917c5256b1c6ddf79710f" id="r_a280d1a28280917c5256b1c6ddf79710f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a280d1a28280917c5256b1c6ddf79710f"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a280d1a28280917c5256b1c6ddf79710f">set_tensor_constructor_4</a> (const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const std::initializer_list&lt; size_t &gt; shape)&gt; &amp;tensor_constructor)</td></tr>
+<tr class="memdesc:a280d1a28280917c5256b1c6ddf79710f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the pointer to the tensor constructor std::function for std::initializer_list&lt;size_t&gt;.  <br /></td></tr>
+<tr class="separator:a280d1a28280917c5256b1c6ddf79710f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f55e100fe8b0facc82c568b386ae8a" id="r_a28f55e100fe8b0facc82c568b386ae8a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a28f55e100fe8b0facc82c568b386ae8a"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorFactory.html#a28f55e100fe8b0facc82c568b386ae8a">random_tensor</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape, T lo_v=T(0), T hi_v=T(1))</td></tr>
+<tr class="memdesc:a28f55e100fe8b0facc82c568b386ae8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a tensor with the specified shape and data.  <br /></td></tr>
+<tr class="separator:a28f55e100fe8b0facc82c568b386ae8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A static utility factory class for creating tensors with different shapes and data. Using the setters you can set the function pointers to the tensor constructors. Allowing you to use different tensor implementations. </p>
+<div class="textblock"><p>A static utility factory class for creating tensors with different shapes and data. Using the setters you can set the std::function pointers to the tensor constructors. Allowing you to use different tensor implementations. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5ddc512ccafd13218329ee2111aa90b4" name="a5ddc512ccafd13218329ee2111aa90b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ddc512ccafd13218329ee2111aa90b4">&#9670;&#160;</a></span>create_tensor() <span class="overload">[1/4]</span></h2>
+<a id="ad551e98856015c0fc8b7c07e01955cc8" name="ad551e98856015c0fc8b7c07e01955cc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad551e98856015c0fc8b7c07e01955cc8">&#9670;&#160;</a></span>create_tensor() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,9 +146,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>shape</em></td><td>)</td>
           <td></td>
         </tr>
@@ -171,8 +171,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ae712a527cfc4e295e0da550e7d0b15a5" name="ae712a527cfc4e295e0da550e7d0b15a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae712a527cfc4e295e0da550e7d0b15a5">&#9670;&#160;</a></span>create_tensor() <span class="overload">[2/4]</span></h2>
+<a id="aba339115830804f39fb5ae9279c64a6c" name="aba339115830804f39fb5ae9279c64a6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba339115830804f39fb5ae9279c64a6c">&#9670;&#160;</a></span>create_tensor() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,9 +183,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>shape</em>, </td>
         </tr>
         <tr>
@@ -219,8 +219,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aff54e41cd3db5c44d9c66ef8b56b27da" name="aff54e41cd3db5c44d9c66ef8b56b27da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff54e41cd3db5c44d9c66ef8b56b27da">&#9670;&#160;</a></span>create_tensor() <span class="overload">[3/4]</span></h2>
+<a id="aefb21daf0a1b725ee333e18fbb648340" name="aefb21daf0a1b725ee333e18fbb648340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefb21daf0a1b725ee333e18fbb648340">&#9670;&#160;</a></span>create_tensor() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,9 +231,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
           <td>(</td>
-          <td class="paramtype">const initializer_list&lt; uli &gt;&#160;</td>
+          <td class="paramtype">const std::initializer_list&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>shape</em></td><td>)</td>
           <td></td>
         </tr>
@@ -256,8 +256,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a5c351ebc49e4ba03b18f2c0c44a42f05" name="a5c351ebc49e4ba03b18f2c0c44a42f05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c351ebc49e4ba03b18f2c0c44a42f05">&#9670;&#160;</a></span>create_tensor() <span class="overload">[4/4]</span></h2>
+<a id="add74c60106f04973f734aedff7c0625b" name="add74c60106f04973f734aedff7c0625b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add74c60106f04973f734aedff7c0625b">&#9670;&#160;</a></span>create_tensor() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,15 +268,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::create_tensor </td>
           <td>(</td>
-          <td class="paramtype">const initializer_list&lt; uli &gt;&#160;</td>
+          <td class="paramtype">const std::initializer_list&lt; size_t &gt;&#160;</td>
           <td class="paramname"><em>shape</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const initializer_list&lt; T &gt;&#160;</td>
+          <td class="paramtype">const std::initializer_list&lt; T &gt;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -304,8 +304,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a2a711eb1ee961799701d14f569c44003" name="a2a711eb1ee961799701d14f569c44003"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a711eb1ee961799701d14f569c44003">&#9670;&#160;</a></span>random_tensor()</h2>
+<a id="a28f55e100fe8b0facc82c568b386ae8a" name="a28f55e100fe8b0facc82c568b386ae8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28f55e100fe8b0facc82c568b386ae8a">&#9670;&#160;</a></span>random_tensor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -316,9 +316,9 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::random_tensor </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorFactory::random_tensor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>shape</em>, </td>
         </tr>
         <tr>
@@ -359,8 +359,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a108f20bfddb85689730b933c5d346e8e" name="a108f20bfddb85689730b933c5d346e8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a108f20bfddb85689730b933c5d346e8e">&#9670;&#160;</a></span>set_tensor_constructor_1()</h2>
+<a id="ad58a96688c932bd5c5762474b6e23197" name="ad58a96688c932bd5c5762474b6e23197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad58a96688c932bd5c5762474b6e23197">&#9670;&#160;</a></span>set_tensor_constructor_1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +373,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">static void TensorFactory::set_tensor_constructor_1 </td>
           <td>(</td>
-          <td class="paramtype">const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)&gt; &amp;&#160;</td>
+          <td class="paramtype">const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; T &gt; &amp;data)&gt; &amp;&#160;</td>
           <td class="paramname"><em>tensor_constructor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -385,18 +385,18 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the pointer to the tensor constructor function for <a class="el" href="classarray__mml.html">array_mml&lt;uli&gt;</a> and array_mml&lt;T&gt;. </p>
+<p>Set the pointer to the tensor constructor std::function for <a class="el" href="classarray__mml.html">array_mml&lt;size_t&gt;</a> and array_mml&lt;T&gt;. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tensor_constructor</td><td>The function pointer to the tensor constructor. </td></tr>
+    <tr><td class="paramname">tensor_constructor</td><td>The std::function pointer to the tensor constructor. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a36303aeae11f5798bfea593061d2ca61" name="a36303aeae11f5798bfea593061d2ca61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36303aeae11f5798bfea593061d2ca61">&#9670;&#160;</a></span>set_tensor_constructor_2()</h2>
+<a id="a2419367b198f8157e46c30ecabe21b2e" name="a2419367b198f8157e46c30ecabe21b2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2419367b198f8157e46c30ecabe21b2e">&#9670;&#160;</a></span>set_tensor_constructor_2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -409,7 +409,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">static void TensorFactory::set_tensor_constructor_2 </td>
           <td>(</td>
-          <td class="paramtype">const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; uli &gt; &amp;shape)&gt; &amp;&#160;</td>
+          <td class="paramtype">const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;shape)&gt; &amp;&#160;</td>
           <td class="paramname"><em>tensor_constructor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -421,18 +421,18 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the pointer to the tensor constructor function for <a class="el" href="classarray__mml.html">array_mml&lt;uli&gt;</a>. </p>
+<p>Set the pointer to the tensor constructor std::function for <a class="el" href="classarray__mml.html">array_mml&lt;size_t&gt;</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tensor_constructor</td><td>The function pointer to the tensor constructor. </td></tr>
+    <tr><td class="paramname">tensor_constructor</td><td>The std::function pointer to the tensor constructor. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a216b9f225e457781cf994759e283301a" name="a216b9f225e457781cf994759e283301a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a216b9f225e457781cf994759e283301a">&#9670;&#160;</a></span>set_tensor_constructor_3()</h2>
+<a id="a8f815a01f09f2dc6454f93522775ae97" name="a8f815a01f09f2dc6454f93522775ae97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f815a01f09f2dc6454f93522775ae97">&#9670;&#160;</a></span>set_tensor_constructor_3()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -445,7 +445,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">static void TensorFactory::set_tensor_constructor_3 </td>
           <td>(</td>
-          <td class="paramtype">const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const initializer_list&lt; uli &gt; shape, const initializer_list&lt; T &gt; data)&gt; &amp;&#160;</td>
+          <td class="paramtype">const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const std::initializer_list&lt; size_t &gt; shape, const std::initializer_list&lt; T &gt; data)&gt; &amp;&#160;</td>
           <td class="paramname"><em>tensor_constructor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -457,18 +457,18 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the pointer to the tensor constructor function for initializer_list&lt;uli&gt; and initializer_list&lt;T&gt;. </p>
+<p>Set the pointer to the tensor constructor std::function for std::initializer_list&lt;size_t&gt; and std::initializer_list&lt;T&gt;. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tensor_constructor</td><td>The function pointer to the tensor constructor. </td></tr>
+    <tr><td class="paramname">tensor_constructor</td><td>The std::function pointer to the tensor constructor. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a" name="a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b12bc1d3a0bc5bcbae5f5e5ac7b5b8a">&#9670;&#160;</a></span>set_tensor_constructor_4()</h2>
+<a id="a280d1a28280917c5256b1c6ddf79710f" name="a280d1a28280917c5256b1c6ddf79710f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a280d1a28280917c5256b1c6ddf79710f">&#9670;&#160;</a></span>set_tensor_constructor_4()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -481,7 +481,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">static void TensorFactory::set_tensor_constructor_4 </td>
           <td>(</td>
-          <td class="paramtype">const std::function&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const initializer_list&lt; uli &gt; shape)&gt; &amp;&#160;</td>
+          <td class="paramtype">const std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(const std::initializer_list&lt; size_t &gt; shape)&gt; &amp;&#160;</td>
           <td class="paramname"><em>tensor_constructor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -493,10 +493,10 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the pointer to the tensor constructor function for initializer_list&lt;uli&gt;. </p>
+<p>Set the pointer to the tensor constructor std::function for std::initializer_list&lt;size_t&gt;. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tensor_constructor</td><td>The function pointer to the tensor constructor. </td></tr>
+    <tr><td class="paramname">tensor_constructor</td><td>The std::function pointer to the tensor constructor. </td></tr>
   </table>
   </dd>
 </dl>

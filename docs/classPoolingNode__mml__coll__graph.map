@@ -1,9 +1,7 @@
 <map id="PoolingNode_mml" name="PoolingNode_mml">
-<area shape="rect" id="Node000001" title="Base class for pooling nodes (e.g., MaxPooling, AveragePooling)." alt="" coords="44,137,185,163"/>
+<area shape="rect" id="Node000001" title="Base class for pooling nodes (e.g., MaxPooling, AveragePooling)." alt="" coords="29,137,171,163"/>
 <area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="5,5,61,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="50,41,110,136,105,138,45,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="85,5,144,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,44,117,137,112,137,112,44"/>
-<area shape="rect" id="Node000004" href="$classarray__mml.html" title=" " alt="" coords="168,5,307,31"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="231,45,214,80,187,115,168,129,148,140,146,135,166,125,183,111,209,78,226,43"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="48,42,96,136,92,138,43,44"/>
+<area shape="rect" id="Node000003" href="$classarray__mml.html" title=" " alt="" coords="86,5,247,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,44,108,138,104,136,152,42"/>
 </map>

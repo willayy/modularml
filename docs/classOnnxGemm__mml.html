@@ -105,30 +105,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a0cd2841fbf53a83e47291aad8d4cb7" id="r_a7a0cd2841fbf53a83e47291aad8d4cb7"><td class="memItemLeft" align="right" valign="top"><a id="a7a0cd2841fbf53a83e47291aad8d4cb7" name="a7a0cd2841fbf53a83e47291aad8d4cb7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>OnnxGemm_mml</b> (<a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a> &amp;&amp;other) noexcept=default</td></tr>
 <tr class="separator:a7a0cd2841fbf53a83e47291aad8d4cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acae626373dec3eb62925f49fead3922a" id="r_acae626373dec3eb62925f49fead3922a"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#acae626373dec3eb62925f49fead3922a">gemm_inner_product</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:acae626373dec3eb62925f49fead3922a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the inner product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:acae626373dec3eb62925f49fead3922a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3faf398ed4099b05dce33f1d8358c5b0" id="r_a3faf398ed4099b05dce33f1d8358c5b0"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a3faf398ed4099b05dce33f1d8358c5b0">gemm_outer_product</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:a3faf398ed4099b05dce33f1d8358c5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the outer product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:a3faf398ed4099b05dce33f1d8358c5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3f142059952958d7c873efb67e93a56" id="r_ab3f142059952958d7c873efb67e93a56"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#ab3f142059952958d7c873efb67e93a56">gemm_row_wise_product</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:ab3f142059952958d7c873efb67e93a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:ab3f142059952958d7c873efb67e93a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53557812787788b08234eea01436a89e" id="r_a53557812787788b08234eea01436a89e"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a53557812787788b08234eea01436a89e">gemm_col_wise_product</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:a53557812787788b08234eea01436a89e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:a53557812787788b08234eea01436a89e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf1594dfba9732083f96a5cb6bd35087" id="r_abf1594dfba9732083f96a5cb6bd35087"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#abf1594dfba9732083f96a5cb6bd35087">gemm_blocked</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:abf1594dfba9732083f96a5cb6bd35087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocked CPU implementation of GEMM. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:abf1594dfba9732083f96a5cb6bd35087"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad64d8d3c2d62b4d217e48cf7ad4cea3" id="r_aad64d8d3c2d62b4d217e48cf7ad4cea3"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#aad64d8d3c2d62b4d217e48cf7ad4cea3">gemm_avx</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:aad64d8d3c2d62b4d217e48cf7ad4cea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:aad64d8d3c2d62b4d217e48cf7ad4cea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cfe716f94955ddd94460d804496328d" id="r_a9cfe716f94955ddd94460d804496328d"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a9cfe716f94955ddd94460d804496328d">gemm_avx512</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:a9cfe716f94955ddd94460d804496328d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX512. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:a9cfe716f94955ddd94460d804496328d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa541d2c4cf64b0e7fcc35f5f6c7ff551" id="r_aa541d2c4cf64b0e7fcc35f5f6c7ff551"><td class="memItemLeft" align="right" valign="top">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#aa541d2c4cf64b0e7fcc35f5f6c7ff551">gemm_intel_MKL</a> (shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=nullopt) override</td></tr>
-<tr class="memdesc:aa541d2c4cf64b0e7fcc35f5f6c7ff551"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMM using Intel's Math Kernel Library. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:aa541d2c4cf64b0e7fcc35f5f6c7ff551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07b6b0b3730386cbdb554ac8d350a610" id="r_a07b6b0b3730386cbdb554ac8d350a610"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a07b6b0b3730386cbdb554ac8d350a610">gemm_inner_product</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a07b6b0b3730386cbdb554ac8d350a610"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the inner product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a07b6b0b3730386cbdb554ac8d350a610"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac127bb22c7620ca154edc87d4ccb228a" id="r_ac127bb22c7620ca154edc87d4ccb228a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#ac127bb22c7620ca154edc87d4ccb228a">gemm_outer_product</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:ac127bb22c7620ca154edc87d4ccb228a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the outer product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:ac127bb22c7620ca154edc87d4ccb228a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788ad2eb9ee693102e70a63fb53f27a6" id="r_a788ad2eb9ee693102e70a63fb53f27a6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a788ad2eb9ee693102e70a63fb53f27a6">gemm_row_wise_product</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a788ad2eb9ee693102e70a63fb53f27a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a788ad2eb9ee693102e70a63fb53f27a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85aea5631b945ef9fccc28be5e4fc8d" id="r_ab85aea5631b945ef9fccc28be5e4fc8d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#ab85aea5631b945ef9fccc28be5e4fc8d">gemm_col_wise_product</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:ab85aea5631b945ef9fccc28be5e4fc8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:ab85aea5631b945ef9fccc28be5e4fc8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11c09e1ea41495bbb2196bec667de65a" id="r_a11c09e1ea41495bbb2196bec667de65a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a11c09e1ea41495bbb2196bec667de65a">gemm_blocked</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a11c09e1ea41495bbb2196bec667de65a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocked CPU implementation of GEMM. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a11c09e1ea41495bbb2196bec667de65a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27201ff1cefe8fb6fcb2ddb479561291" id="r_a27201ff1cefe8fb6fcb2ddb479561291"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a27201ff1cefe8fb6fcb2ddb479561291">gemm_avx</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a27201ff1cefe8fb6fcb2ddb479561291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a27201ff1cefe8fb6fcb2ddb479561291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbd02349a37226dcf8bd8afe83aacae" id="r_a5dbd02349a37226dcf8bd8afe83aacae"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a5dbd02349a37226dcf8bd8afe83aacae">gemm_avx512</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a5dbd02349a37226dcf8bd8afe83aacae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vectorized implementation of GEMM using SIMD thanks to AVX512. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a5dbd02349a37226dcf8bd8afe83aacae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59180ddf5bf859fd06d33678e999a926" id="r_a59180ddf5bf859fd06d33678e999a926"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOnnxGemm__mml.html#a59180ddf5bf859fd06d33678e999a926">gemm_intel_MKL</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt) override</td></tr>
+<tr class="memdesc:a59180ddf5bf859fd06d33678e999a926"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMM using Intel's Math Kernel Library. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a59180ddf5bf859fd06d33678e999a926"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classOnnxGemmModule"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classOnnxGemmModule')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classOnnxGemmModule.html">OnnxGemmModule&lt; T &gt;</a></td></tr>
 <tr class="memitem:aa0edfc6e2da94befc26a061fdde9c7ca inherit pub_methods_classOnnxGemmModule" id="r_aa0edfc6e2da94befc26a061fdde9c7ca"><td class="memItemLeft" align="right" valign="top">
 &#160;</td><td class="memItemRight" valign="bottom"><b>OnnxGemmModule</b> ()=default</td></tr>
@@ -148,8 +148,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~OnnxGemmModule</b
 <tr class="separator:ae4e6d9342ac2cf444bd57aab42802e37 inherit pub_methods_classOnnxGemmModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aad64d8d3c2d62b4d217e48cf7ad4cea3" name="aad64d8d3c2d62b4d217e48cf7ad4cea3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad64d8d3c2d62b4d217e48cf7ad4cea3">&#9670;&#160;</a></span>gemm_avx()</h2>
+<a id="a27201ff1cefe8fb6fcb2ddb479561291" name="a27201ff1cefe8fb6fcb2ddb479561291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27201ff1cefe8fb6fcb2ddb479561291">&#9670;&#160;</a></span>gemm_avx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,15 +160,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_avx </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_avx </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -198,8 +198,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -214,7 +214,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Vectorized implementation of GEMM using SIMD thanks to AVX. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Vectorized implementation of GEMM using SIMD thanks to AVX. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -229,12 +229,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#a242183d5bcb43975df51381076c35709">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#aa7b14b51505429fb5f730078ef88ccb1">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a9cfe716f94955ddd94460d804496328d" name="a9cfe716f94955ddd94460d804496328d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cfe716f94955ddd94460d804496328d">&#9670;&#160;</a></span>gemm_avx512()</h2>
+<a id="a5dbd02349a37226dcf8bd8afe83aacae" name="a5dbd02349a37226dcf8bd8afe83aacae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dbd02349a37226dcf8bd8afe83aacae">&#9670;&#160;</a></span>gemm_avx512()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,15 +245,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_avx512 </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_avx512 </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -283,8 +283,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -299,7 +299,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Vectorized implementation of GEMM using SIMD thanks to AVX512. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Vectorized implementation of GEMM using SIMD thanks to AVX512. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -314,12 +314,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#a2217dfa7fadbd2b71193e628360d939a">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a6431aca2976ad9b453783855d01ba8c7">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="abf1594dfba9732083f96a5cb6bd35087" name="abf1594dfba9732083f96a5cb6bd35087"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf1594dfba9732083f96a5cb6bd35087">&#9670;&#160;</a></span>gemm_blocked()</h2>
+<a id="a11c09e1ea41495bbb2196bec667de65a" name="a11c09e1ea41495bbb2196bec667de65a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11c09e1ea41495bbb2196bec667de65a">&#9670;&#160;</a></span>gemm_blocked()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -330,15 +330,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_blocked </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_blocked </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -368,8 +368,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -384,7 +384,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Blocked CPU implementation of GEMM. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Blocked CPU implementation of GEMM. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -399,12 +399,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#aee0f9cfba1695f2ea8b4cee637e349df">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a66f87218d36aa0037c37025bbbadf879">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a53557812787788b08234eea01436a89e" name="a53557812787788b08234eea01436a89e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53557812787788b08234eea01436a89e">&#9670;&#160;</a></span>gemm_col_wise_product()</h2>
+<a id="ab85aea5631b945ef9fccc28be5e4fc8d" name="ab85aea5631b945ef9fccc28be5e4fc8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab85aea5631b945ef9fccc28be5e4fc8d">&#9670;&#160;</a></span>gemm_col_wise_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -415,15 +415,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_col_wise_product </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_col_wise_product </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -453,8 +453,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -469,7 +469,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Basic CPU implementation of GEMM, with the col-wise product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -484,12 +484,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#aa3a925576327dfc2526aeb58cc06713e">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a4149164c8c131f1fd07ed8962c98957f">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="acae626373dec3eb62925f49fead3922a" name="acae626373dec3eb62925f49fead3922a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acae626373dec3eb62925f49fead3922a">&#9670;&#160;</a></span>gemm_inner_product()</h2>
+<a id="a07b6b0b3730386cbdb554ac8d350a610" name="a07b6b0b3730386cbdb554ac8d350a610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07b6b0b3730386cbdb554ac8d350a610">&#9670;&#160;</a></span>gemm_inner_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -500,15 +500,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_inner_product </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_inner_product </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -538,8 +538,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -554,7 +554,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Basic CPU implementation of GEMM, with the inner product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Basic CPU implementation of GEMM, with the inner product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -569,12 +569,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#a7342ceefd5ed92581a27c83d8e3b6cbf">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a25c0ad23ba44bfcf2492c735fba936b8">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="aa541d2c4cf64b0e7fcc35f5f6c7ff551" name="aa541d2c4cf64b0e7fcc35f5f6c7ff551"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa541d2c4cf64b0e7fcc35f5f6c7ff551">&#9670;&#160;</a></span>gemm_intel_MKL()</h2>
+<a id="a59180ddf5bf859fd06d33678e999a926" name="a59180ddf5bf859fd06d33678e999a926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59180ddf5bf859fd06d33678e999a926">&#9670;&#160;</a></span>gemm_intel_MKL()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -585,15 +585,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_intel_MKL </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_intel_MKL </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -623,8 +623,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -639,7 +639,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>GEMM using Intel's Math Kernel Library. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>GEMM using Intel's Math Kernel Library. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -654,12 +654,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#adafd51e5245dfb95100883d14689288a">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a3faef7daafa328ff756c82011f696ac2">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a3faf398ed4099b05dce33f1d8358c5b0" name="a3faf398ed4099b05dce33f1d8358c5b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3faf398ed4099b05dce33f1d8358c5b0">&#9670;&#160;</a></span>gemm_outer_product()</h2>
+<a id="ac127bb22c7620ca154edc87d4ccb228a" name="ac127bb22c7620ca154edc87d4ccb228a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac127bb22c7620ca154edc87d4ccb228a">&#9670;&#160;</a></span>gemm_outer_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -670,15 +670,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_outer_product </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_outer_product </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -708,8 +708,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -724,7 +724,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Basic CPU implementation of GEMM, with the outer product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Basic CPU implementation of GEMM, with the outer product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -739,12 +739,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#a5b0c209cb56bd7a14174b6cd94a012e8">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#a1e1d3203a01329443e9842d995ea0c9d">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="ab3f142059952958d7c873efb67e93a56" name="ab3f142059952958d7c873efb67e93a56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3f142059952958d7c873efb67e93a56">&#9670;&#160;</a></span>gemm_row_wise_product()</h2>
+<a id="a788ad2eb9ee693102e70a63fb53f27a6" name="a788ad2eb9ee693102e70a63fb53f27a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788ad2eb9ee693102e70a63fb53f27a6">&#9670;&#160;</a></span>gemm_row_wise_product()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -755,15 +755,15 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_row_wise_product </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; <a class="el" href="classOnnxGemm__mml.html">OnnxGemm_mml</a>&lt; T &gt;::gemm_row_wise_product </td>
           <td>(</td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>B</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
@@ -793,8 +793,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">optional&lt; shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
-          <td class="paramname"><em>C</em> = <code>nullopt</code>&#160;</td>
+          <td class="paramtype">std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>C</em> = <code>std::nullopt</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -809,7 +809,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation Y := alpha * A * B + beta * C (optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
+<p>Basic CPU implementation of GEMM, with the row-wise product approach. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>Input tensor A. The shape of A should be (M, K) if transA is 0, or (K, M) if transA is non-zero. </td></tr>
@@ -824,7 +824,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output tensor Y. Output tensor of shape (M, N). </dd></dl>
 
-<p>Implements <a class="el" href="classOnnxGemmModule.html#a0e9593465ce934664518b7c24efc709c">OnnxGemmModule&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="classOnnxGemmModule.html#ac69978f9125e3ee253c1cbf5ffa1e853">OnnxGemmModule&lt; T &gt;</a>.</p>
 
 </div>
 </div>

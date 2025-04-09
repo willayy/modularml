@@ -91,28 +91,28 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  <span class="keyword">using </span>T = std::variant&lt;double, float&gt;;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <a class="code hl_class" href="classGeluNode.html">GeluNode</a>(std::string X, std::string Y,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>           <span class="keywordtype">string</span> approximate = <span class="stringliteral">&quot;none&quot;</span>);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <a class="code hl_class" href="classGeluNode.html">GeluNode</a>(<span class="keyword">const</span> json &amp;node);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classGeluNode.html#a7a7fed305c2ec36eb8de95e16301c17f">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt;&amp; iomap) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classGeluNode.html#a89f115c9a2cdf54f54fc1f7778f1cf9d">getInputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classGeluNode.html#a6b10cbd34bb6f3b0f799102e7450327b">getOutputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  std::string X;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  std::string Y;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordtype">string</span> approximate;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <a class="code hl_class" href="classGeluNode.html">GeluNode</a>(std::string X, std::string Y, std::string approximate = <span class="stringliteral">&quot;none&quot;</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <a class="code hl_class" href="classGeluNode.html">GeluNode</a>(<span class="keyword">const</span> nlohmann::json &amp;node);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <a class="code hl_function" href="classGeluNode.html#a7a7fed305c2ec36eb8de95e16301c17f">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt; &amp;iomap) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classGeluNode.html#a89f115c9a2cdf54f54fc1f7778f1cf9d">getInputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classGeluNode.html#a6b10cbd34bb6f3b0f799102e7450327b">getOutputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  std::string X;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  std::string Y;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  std::string approximate;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
 </div>
 <div class="ttc" id="aclassGeluNode_html"><div class="ttname"><a href="classGeluNode.html">GeluNode</a></div><div class="ttdoc">A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph.</div><div class="ttdef"><b>Definition</b> gelu.hpp:14</div></div>
-<div class="ttc" id="aclassGeluNode_html_a6b10cbd34bb6f3b0f799102e7450327b"><div class="ttname"><a href="classGeluNode.html#a6b10cbd34bb6f3b0f799102e7450327b">GeluNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> gelu.cpp:75</div></div>
-<div class="ttc" id="aclassGeluNode_html_a7a7fed305c2ec36eb8de95e16301c17f"><div class="ttname"><a href="classGeluNode.html#a7a7fed305c2ec36eb8de95e16301c17f">GeluNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using Gelu activation function.</div><div class="ttdef"><b>Definition</b> gelu.cpp:30</div></div>
-<div class="ttc" id="aclassGeluNode_html_a89f115c9a2cdf54f54fc1f7778f1cf9d"><div class="ttname"><a href="classGeluNode.html#a89f115c9a2cdf54f54fc1f7778f1cf9d">GeluNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> gelu.cpp:71</div></div>
-<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:58</div></div>
+<div class="ttc" id="aclassGeluNode_html_a6b10cbd34bb6f3b0f799102e7450327b"><div class="ttname"><a href="classGeluNode.html#a6b10cbd34bb6f3b0f799102e7450327b">GeluNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> gelu.cpp:93</div></div>
+<div class="ttc" id="aclassGeluNode_html_a7a7fed305c2ec36eb8de95e16301c17f"><div class="ttname"><a href="classGeluNode.html#a7a7fed305c2ec36eb8de95e16301c17f">GeluNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using Gelu activation std::function.</div><div class="ttdef"><b>Definition</b> gelu.cpp:31</div></div>
+<div class="ttc" id="aclassGeluNode_html_a89f115c9a2cdf54f54fc1f7778f1cf9d"><div class="ttname"><a href="classGeluNode.html#a89f115c9a2cdf54f54fc1f7778f1cf9d">GeluNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> gelu.cpp:91</div></div>
+<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

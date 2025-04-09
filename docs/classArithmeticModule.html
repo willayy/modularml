@@ -110,27 +110,27 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ArithmeticModule</b> ()=default</td></tr>
 <tr class="memdesc:ab82c70e0a3dae495898177a939cb8dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract destructor for <a class="el" href="classArithmeticModule.html" title="A module for performing simple arithmetic operations on tensor structures.">ArithmeticModule</a> class. <br /></td></tr>
 <tr class="separator:ab82c70e0a3dae495898177a939cb8dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ca5e3c33f9d0c93f6b8fab91da869f3" id="r_a2ca5e3c33f9d0c93f6b8fab91da869f3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a2ca5e3c33f9d0c93f6b8fab91da869f3">add</a> (const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
-<tr class="memdesc:a2ca5e3c33f9d0c93f6b8fab91da869f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two tensor structures.  <br /></td></tr>
-<tr class="separator:a2ca5e3c33f9d0c93f6b8fab91da869f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a074017d519be48fba016c1ce0237ff2b" id="r_a074017d519be48fba016c1ce0237ff2b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a074017d519be48fba016c1ce0237ff2b">subtract</a> (const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
-<tr class="memdesc:a074017d519be48fba016c1ce0237ff2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract one tensor structure from another.  <br /></td></tr>
-<tr class="separator:a074017d519be48fba016c1ce0237ff2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c30d16aa23540f72c21ab3dead108c7" id="r_a8c30d16aa23540f72c21ab3dead108c7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a8c30d16aa23540f72c21ab3dead108c7">multiply</a> (const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
-<tr class="memdesc:a8c30d16aa23540f72c21ab3dead108c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply a tensor structure by a scalar.  <br /></td></tr>
-<tr class="separator:a8c30d16aa23540f72c21ab3dead108c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77239d4c3fb667d191316c6fe65a7ca1" id="r_a77239d4c3fb667d191316c6fe65a7ca1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a77239d4c3fb667d191316c6fe65a7ca1">equals</a> (const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b) const =0</td></tr>
-<tr class="memdesc:a77239d4c3fb667d191316c6fe65a7ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if two tensor structures are equal.  <br /></td></tr>
-<tr class="separator:a77239d4c3fb667d191316c6fe65a7ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0c1c35dab331708a6de733d0622f477" id="r_ad0c1c35dab331708a6de733d0622f477"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#ad0c1c35dab331708a6de733d0622f477">arg_max</a> (const shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a) const =0</td></tr>
-<tr class="memdesc:ad0c1c35dab331708a6de733d0622f477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the maximum value in a tensor (flattened).  <br /></td></tr>
-<tr class="separator:ad0c1c35dab331708a6de733d0622f477"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a879152dabd8cdb5af602468de669d385" id="r_a879152dabd8cdb5af602468de669d385"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a879152dabd8cdb5af602468de669d385">elementwise</a> (const shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, std::function&lt; T(T)&gt; f, const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
-<tr class="memdesc:a879152dabd8cdb5af602468de669d385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an element-wise operation to two tensor structures.  <br /></td></tr>
-<tr class="separator:a879152dabd8cdb5af602468de669d385"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f01ae782b6efc7056efb0f56261ea39" id="r_a4f01ae782b6efc7056efb0f56261ea39"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a4f01ae782b6efc7056efb0f56261ea39">elementwise_in_place</a> (const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, std::function&lt; T(T)&gt; f) const =0</td></tr>
-<tr class="memdesc:a4f01ae782b6efc7056efb0f56261ea39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an element-wise operation to a tensor structure in place.  <br /></td></tr>
-<tr class="separator:a4f01ae782b6efc7056efb0f56261ea39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2c11868849747d5c3c7ff76cc429dd9" id="r_ae2c11868849747d5c3c7ff76cc429dd9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#ae2c11868849747d5c3c7ff76cc429dd9">add</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
+<tr class="memdesc:ae2c11868849747d5c3c7ff76cc429dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two tensor structures.  <br /></td></tr>
+<tr class="separator:ae2c11868849747d5c3c7ff76cc429dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a325c4260a9c8c66510b92a88fd186ea2" id="r_a325c4260a9c8c66510b92a88fd186ea2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a325c4260a9c8c66510b92a88fd186ea2">subtract</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
+<tr class="memdesc:a325c4260a9c8c66510b92a88fd186ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract one tensor structure from another.  <br /></td></tr>
+<tr class="separator:a325c4260a9c8c66510b92a88fd186ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17a3b7ca8bf0261a1e014db5ede25ee5" id="r_a17a3b7ca8bf0261a1e014db5ede25ee5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a17a3b7ca8bf0261a1e014db5ede25ee5">multiply</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
+<tr class="memdesc:a17a3b7ca8bf0261a1e014db5ede25ee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply a tensor structure by a scalar.  <br /></td></tr>
+<tr class="separator:a17a3b7ca8bf0261a1e014db5ede25ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117a4ff0ccabec1998911c7783f9c217" id="r_a117a4ff0ccabec1998911c7783f9c217"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a117a4ff0ccabec1998911c7783f9c217">equals</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b) const =0</td></tr>
+<tr class="memdesc:a117a4ff0ccabec1998911c7783f9c217"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if two tensor structures are std::equal.  <br /></td></tr>
+<tr class="separator:a117a4ff0ccabec1998911c7783f9c217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f01096123521a421d62fc8bec7c3e6" id="r_a66f01096123521a421d62fc8bec7c3e6"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a66f01096123521a421d62fc8bec7c3e6">arg_max</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a) const =0</td></tr>
+<tr class="memdesc:a66f01096123521a421d62fc8bec7c3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the maximum value in a tensor (flattened).  <br /></td></tr>
+<tr class="separator:a66f01096123521a421d62fc8bec7c3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d1b99271307aa5e9986f6dd3c44d29f" id="r_a2d1b99271307aa5e9986f6dd3c44d29f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a2d1b99271307aa5e9986f6dd3c44d29f">elementwise</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, std::function&lt; T(T)&gt; f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c) const =0</td></tr>
+<tr class="memdesc:a2d1b99271307aa5e9986f6dd3c44d29f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an element-wise operation to two tensor structures.  <br /></td></tr>
+<tr class="separator:a2d1b99271307aa5e9986f6dd3c44d29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7fb0be2e940d9275d952ddca29a0d4" id="r_a3b7fb0be2e940d9275d952ddca29a0d4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArithmeticModule.html#a3b7fb0be2e940d9275d952ddca29a0d4">elementwise_in_place</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, std::function&lt; T(T)&gt; f) const =0</td></tr>
+<tr class="memdesc:a3b7fb0be2e940d9275d952ddca29a0d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply an element-wise operation to a tensor structure in place.  <br /></td></tr>
+<tr class="separator:a3b7fb0be2e940d9275d952ddca29a0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -142,8 +142,8 @@ class ArithmeticModule&lt; T &gt;</div><p>A module for performing simple arithme
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2ca5e3c33f9d0c93f6b8fab91da869f3" name="a2ca5e3c33f9d0c93f6b8fab91da869f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ca5e3c33f9d0c93f6b8fab91da869f3">&#9670;&#160;</a></span>add()</h2>
+<a id="ae2c11868849747d5c3c7ff76cc429dd9" name="ae2c11868849747d5c3c7ff76cc429dd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2c11868849747d5c3c7ff76cc429dd9">&#9670;&#160;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,19 +156,19 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::add </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
@@ -194,12 +194,12 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a4e8f44577b92bb1fedac35426c9e7ae9">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#a4b0b8499aa56543646afea27104a81fa">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="ad0c1c35dab331708a6de733d0622f477" name="ad0c1c35dab331708a6de733d0622f477"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0c1c35dab331708a6de733d0622f477">&#9670;&#160;</a></span>arg_max()</h2>
+<a id="a66f01096123521a421d62fc8bec7c3e6" name="a66f01096123521a421d62fc8bec7c3e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f01096123521a421d62fc8bec7c3e6">&#9670;&#160;</a></span>arg_max()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +212,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual int <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::arg_max </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -235,12 +235,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The flattened index (int) of the first occurrence of the maximum value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a44915fb375bbbeac0f720fca13c1c7ba">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#a9dceb9e762ca9c6bcee03480456d680e">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a879152dabd8cdb5af602468de669d385" name="a879152dabd8cdb5af602468de669d385"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a879152dabd8cdb5af602468de669d385">&#9670;&#160;</a></span>elementwise()</h2>
+<a id="a2d1b99271307aa5e9986f6dd3c44d29f" name="a2d1b99271307aa5e9986f6dd3c44d29f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1b99271307aa5e9986f6dd3c44d29f">&#9670;&#160;</a></span>elementwise()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +253,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::elementwise </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
@@ -265,7 +265,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
@@ -285,18 +285,18 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>The tensor structure. </td></tr>
-    <tr><td class="paramname">f</td><td>The function to apply element-wise. </td></tr>
+    <tr><td class="paramname">f</td><td>The std::function to apply element-wise. </td></tr>
     <tr><td class="paramname">c</td><td>The tensor structure to store the result. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a15ceb13b96034b9555c05f1fdc7f65e0">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#a0bbdeb2b0c1a96c28cb28b5f07d64f6f">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a4f01ae782b6efc7056efb0f56261ea39" name="a4f01ae782b6efc7056efb0f56261ea39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f01ae782b6efc7056efb0f56261ea39">&#9670;&#160;</a></span>elementwise_in_place()</h2>
+<a id="a3b7fb0be2e940d9275d952ddca29a0d4" name="a3b7fb0be2e940d9275d952ddca29a0d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b7fb0be2e940d9275d952ddca29a0d4">&#9670;&#160;</a></span>elementwise_in_place()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -309,7 +309,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::elementwise_in_place </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
@@ -335,17 +335,17 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>The tensor structure. </td></tr>
-    <tr><td class="paramname">f</td><td>The function to apply element-wise. </td></tr>
+    <tr><td class="paramname">f</td><td>The std::function to apply element-wise. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a60e7c9dc056f94adf0a0a43363cf847f">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#a8f1ec70640111d0c8ec49ba0afc1c16e">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a77239d4c3fb667d191316c6fe65a7ca1" name="a77239d4c3fb667d191316c6fe65a7ca1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77239d4c3fb667d191316c6fe65a7ca1">&#9670;&#160;</a></span>equals()</h2>
+<a id="a117a4ff0ccabec1998911c7783f9c217" name="a117a4ff0ccabec1998911c7783f9c217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a117a4ff0ccabec1998911c7783f9c217">&#9670;&#160;</a></span>equals()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,13 +358,13 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual bool <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::equals </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -380,7 +380,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Check if two tensor structures are equal. </p>
+<p>Check if two tensor structures are std::equal. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>The first tensor structure. </td></tr>
@@ -389,12 +389,12 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a3be7533dc241222b157f8df090ce72c8">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#afbfcc0ee41ea69be164ded20e2cdc886">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a8c30d16aa23540f72c21ab3dead108c7" name="a8c30d16aa23540f72c21ab3dead108c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c30d16aa23540f72c21ab3dead108c7">&#9670;&#160;</a></span>multiply()</h2>
+<a id="a17a3b7ca8bf0261a1e014db5ede25ee5" name="a17a3b7ca8bf0261a1e014db5ede25ee5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17a3b7ca8bf0261a1e014db5ede25ee5">&#9670;&#160;</a></span>multiply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,7 +407,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::multiply </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
@@ -419,7 +419,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
@@ -445,12 +445,12 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#a18b6d754f0bf93232e54d30373aefc4c">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#a961153f7ba85ee0606e0eeab0cf0dfa8">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<a id="a074017d519be48fba016c1ce0237ff2b" name="a074017d519be48fba016c1ce0237ff2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a074017d519be48fba016c1ce0237ff2b">&#9670;&#160;</a></span>subtract()</h2>
+<a id="a325c4260a9c8c66510b92a88fd186ea2" name="a325c4260a9c8c66510b92a88fd186ea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a325c4260a9c8c66510b92a88fd186ea2">&#9670;&#160;</a></span>subtract()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -463,19 +463,19 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="classArithmeticModule.html">ArithmeticModule</a>&lt; T &gt;::subtract </td>
           <td>(</td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>b</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
@@ -501,7 +501,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classArithmetic__mml.html#adf2f34678f6fcef3a0342111c59d96c5">Arithmetic_mml&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classArithmetic__mml.html#ae9f098ac54e2e23e5199d8d67662b387">Arithmetic_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>

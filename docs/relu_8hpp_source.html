@@ -86,31 +86,31 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;nodes/a_node.hpp&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classReLUNode.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="classReLUNode.html">ReLUNode</a> : <span class="keyword">public</span> <a class="code hl_class" href="classNode.html">Node</a> {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>  <span class="keyword">using </span>T = std::variant&lt;double, float, int16_t, int32_t, int64_t, int8_t&gt;;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_class" href="classReLUNode.html">ReLUNode</a>(std::string X, std::string Y);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <a class="code hl_class" href="classReLUNode.html">ReLUNode</a>(<span class="keyword">const</span> json&amp; node);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classReLUNode.html#aebc530bab26ae0e70db06bf434112eda">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt;&amp; iomap) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classReLUNode.html#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">getInputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classReLUNode.html#ac34beab53ab8a6dca5c0a723a2dab505">getOutputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  std::string X;  <span class="comment">// Input tensor X.</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  std::string Y;  <span class="comment">// Output tensor Y.</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classReLUNode.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classReLUNode.html">ReLUNode</a> : <span class="keyword">public</span> <a class="code hl_class" href="classNode.html">Node</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <span class="keyword">using </span>T = std::variant&lt;double, float, int16_t, int32_t, int64_t, int8_t&gt;;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_class" href="classReLUNode.html">ReLUNode</a>(std::string X, std::string Y);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <a class="code hl_class" href="classReLUNode.html">ReLUNode</a>(<span class="keyword">const</span> nlohmann::json &amp;node);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <a class="code hl_function" href="classReLUNode.html#aebc530bab26ae0e70db06bf434112eda">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt; &amp;iomap) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classReLUNode.html#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">getInputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classReLUNode.html#ac34beab53ab8a6dca5c0a723a2dab505">getOutputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  std::string X; <span class="comment">// Input tensor X.</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  std::string Y; <span class="comment">// Output tensor Y.</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
 </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:58</div></div>
-<div class="ttc" id="aclassReLUNode_html"><div class="ttname"><a href="classReLUNode.html">ReLUNode</a></div><div class="ttdoc">A class representing a ReLU node in a computational graph.</div><div class="ttdef"><b>Definition</b> relu.hpp:12</div></div>
-<div class="ttc" id="aclassReLUNode_html_ac34beab53ab8a6dca5c0a723a2dab505"><div class="ttname"><a href="classReLUNode.html#ac34beab53ab8a6dca5c0a723a2dab505">ReLUNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> relu.cpp:54</div></div>
-<div class="ttc" id="aclassReLUNode_html_ae8af8f7dcbcbae3ab7dc8d33e869a8b7"><div class="ttname"><a href="classReLUNode.html#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">ReLUNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> relu.cpp:50</div></div>
-<div class="ttc" id="aclassReLUNode_html_aebc530bab26ae0e70db06bf434112eda"><div class="ttname"><a href="classReLUNode.html#aebc530bab26ae0e70db06bf434112eda">ReLUNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using ReLU activation function.</div><div class="ttdef"><b>Definition</b> relu.cpp:15</div></div>
+<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:71</div></div>
+<div class="ttc" id="aclassReLUNode_html"><div class="ttname"><a href="classReLUNode.html">ReLUNode</a></div><div class="ttdoc">A class representing a ReLU node in a computational graph.</div><div class="ttdef"><b>Definition</b> relu.hpp:13</div></div>
+<div class="ttc" id="aclassReLUNode_html_ac34beab53ab8a6dca5c0a723a2dab505"><div class="ttname"><a href="classReLUNode.html#ac34beab53ab8a6dca5c0a723a2dab505">ReLUNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> relu.cpp:62</div></div>
+<div class="ttc" id="aclassReLUNode_html_ae8af8f7dcbcbae3ab7dc8d33e869a8b7"><div class="ttname"><a href="classReLUNode.html#ae8af8f7dcbcbae3ab7dc8d33e869a8b7">ReLUNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> relu.cpp:60</div></div>
+<div class="ttc" id="aclassReLUNode_html_aebc530bab26ae0e70db06bf434112eda"><div class="ttname"><a href="classReLUNode.html#aebc530bab26ae0e70db06bf434112eda">ReLUNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation using ReLU activation std::function.</div><div class="ttdef"><b>Definition</b> relu.cpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

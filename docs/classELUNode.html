@@ -78,7 +78,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A class that implements a tensor function for the ELU (Exponential Linear Unit) function.  
+<p>A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function.  
  <a href="classELUNode.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="elu_8hpp_source.html">elu.hpp</a>&gt;</code></p>
@@ -87,7 +87,7 @@ Inheritance diagram for ELUNode:</div>
 <div class="dyncontent">
 <div class="center"><img src="classELUNode__inherit__graph.png" border="0" usemap="#aELUNode_inherit__map" alt="Inheritance graph"/></div>
 <map name="aELUNode_inherit__map" id="aELUNode_inherit__map">
-<area shape="rect" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function." alt="" coords="5,79,87,104"/>
+<area shape="rect" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function." alt="" coords="5,79,87,104"/>
 <area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="18,5,74,31"/>
 <area shape="poly" title=" " alt="" coords="49,44,49,79,43,79,43,44"/>
 </map>
@@ -97,7 +97,7 @@ Collaboration diagram for ELUNode:</div>
 <div class="dyncontent">
 <div class="center"><img src="classELUNode__coll__graph.png" border="0" usemap="#aELUNode_coll__map" alt="Collaboration graph"/></div>
 <map name="aELUNode_coll__map" id="aELUNode_coll__map">
-<area shape="rect" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function." alt="" coords="5,79,87,104"/>
+<area shape="rect" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function." alt="" coords="5,79,87,104"/>
 <area shape="rect" href="classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="18,5,74,31"/>
 <area shape="poly" title=" " alt="" coords="49,44,49,79,43,79,43,44"/>
 </map>
@@ -112,13 +112,13 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6e69279595577c4e77e95d00917dfc59" id="r_a6e69279595577c4e77e95d00917dfc59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELUNode.html#a6e69279595577c4e77e95d00917dfc59">ELUNode</a> (std::string X, std::string Y, float alpha=1.0f)</td></tr>
-<tr class="memdesc:a6e69279595577c4e77e95d00917dfc59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function.">ELUNode</a>.  <br /></td></tr>
+<tr class="memdesc:a6e69279595577c4e77e95d00917dfc59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function.">ELUNode</a>.  <br /></td></tr>
 <tr class="separator:a6e69279595577c4e77e95d00917dfc59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f4e6e3cad4ff23598027cfa5d68e9da" id="r_a5f4e6e3cad4ff23598027cfa5d68e9da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELUNode.html#a5f4e6e3cad4ff23598027cfa5d68e9da">ELUNode</a> (const json &amp;node)</td></tr>
-<tr class="memdesc:a5f4e6e3cad4ff23598027cfa5d68e9da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function.">ELUNode</a> from JSON.  <br /></td></tr>
-<tr class="separator:a5f4e6e3cad4ff23598027cfa5d68e9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e15d6a97263527faf7cb4995dfe6a19" id="r_a5e15d6a97263527faf7cb4995dfe6a19"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELUNode.html#a5e15d6a97263527faf7cb4995dfe6a19">ELUNode</a> (const nlohmann::json &amp;node)</td></tr>
+<tr class="memdesc:a5e15d6a97263527faf7cb4995dfe6a19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function.">ELUNode</a> from JSON.  <br /></td></tr>
+<tr class="separator:a5e15d6a97263527faf7cb4995dfe6a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48ac3b79250b15bbf5faf7c7ff3be537" id="r_a48ac3b79250b15bbf5faf7c7ff3be537"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELUNode.html#a48ac3b79250b15bbf5faf7c7ff3be537">forward</a> (std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</td></tr>
-<tr class="memdesc:a48ac3b79250b15bbf5faf7c7ff3be537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using the ELU function.  <br /></td></tr>
+<tr class="memdesc:a48ac3b79250b15bbf5faf7c7ff3be537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the forward pass computation using the ELU std::function.  <br /></td></tr>
 <tr class="separator:a48ac3b79250b15bbf5faf7c7ff3be537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fdb1047181e26533fa80b550e369fe1" id="r_a0fdb1047181e26533fa80b550e369fe1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELUNode.html#a0fdb1047181e26533fa80b550e369fe1">getInputs</a> () override</td></tr>
 <tr class="memdesc:a0fdb1047181e26533fa80b550e369fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get inputs.  <br /></td></tr>
@@ -132,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abce703f211f6a577085b4b8ad68cbb19 inherit pub_methods_classNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A class that implements a tensor function for the ELU (Exponential Linear Unit) function. </p>
+<div class="textblock"><p>A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6e69279595577c4e77e95d00917dfc59" name="a6e69279595577c4e77e95d00917dfc59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e69279595577c4e77e95d00917dfc59">&#9670;&#160;</a></span>ELUNode() <span class="overload">[1/2]</span></h2>
@@ -166,11 +166,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function.">ELUNode</a>. </p>
+<p>Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function.">ELUNode</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">X</td><td>Unique string key to the input tensor. </td></tr>
-    <tr><td class="paramname">Y</td><td>Unique string key to the output tensor. </td></tr>
+    <tr><td class="paramname">X</td><td>Unique std::string key to the input tensor. </td></tr>
+    <tr><td class="paramname">Y</td><td>Unique std::string key to the output tensor. </td></tr>
     <tr><td class="paramname">alpha</td><td>Coefficient of ELU. </td></tr>
   </table>
   </dd>
@@ -178,8 +178,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5f4e6e3cad4ff23598027cfa5d68e9da" name="a5f4e6e3cad4ff23598027cfa5d68e9da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f4e6e3cad4ff23598027cfa5d68e9da">&#9670;&#160;</a></span>ELUNode() <span class="overload">[2/2]</span></h2>
+<a id="a5e15d6a97263527faf7cb4995dfe6a19" name="a5e15d6a97263527faf7cb4995dfe6a19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e15d6a97263527faf7cb4995dfe6a19">&#9670;&#160;</a></span>ELUNode() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,14 +187,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ELUNode::ELUNode </td>
           <td>(</td>
-          <td class="paramtype">const json &amp;&#160;</td>
+          <td class="paramtype">const nlohmann::json &amp;&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor function for the ELU (Exponential Linear Unit) function.">ELUNode</a> from JSON. </p>
+<p>Constructor for <a class="el" href="classELUNode.html" title="A class that implements a tensor std::function for the ELU (Exponential Linear Unit) std::function.">ELUNode</a> from JSON. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">node</td><td>JSON object representing the ELU node. </td></tr>
@@ -229,7 +229,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Perform the forward pass computation using the ELU function. </p>
+<p>Perform the forward pass computation using the ELU std::function. </p>
 
 <p>Implements <a class="el" href="classNode.html#a2bddc439cc3877b4caa7b7c6485f2cfe">Node</a>.</p>
 

@@ -94,9 +94,9 @@ Inheritance diagram for Model:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4d75c67361fc34ad02f180678bba57ab" id="r_a4d75c67361fc34ad02f180678bba57ab"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; string, GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a4d75c67361fc34ad02f180678bba57ab">infer</a> (const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;inputs)=0</td></tr>
-<tr class="memdesc:a4d75c67361fc34ad02f180678bba57ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the model with a single given input tensor.  <br /></td></tr>
-<tr class="separator:a4d75c67361fc34ad02f180678bba57ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f22e672cae2653caed41da3a699539" id="r_a31f22e672cae2653caed41da3a699539"><td class="memItemLeft" align="right" valign="top">virtual std::unordered_map&lt; std::string, GeneralDataTypes &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a31f22e672cae2653caed41da3a699539">infer</a> (const std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;inputs)=0</td></tr>
+<tr class="memdesc:a31f22e672cae2653caed41da3a699539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the model with a single given input tensor.  <br /></td></tr>
+<tr class="separator:a31f22e672cae2653caed41da3a699539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2efbe4ec768191fa70ad86f260ec2fd6" id="r_a2efbe4ec768191fa70ad86f260ec2fd6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModel.html#a2efbe4ec768191fa70ad86f260ec2fd6">~Model</a> ()=default</td></tr>
 <tr class="memdesc:a2efbe4ec768191fa70ad86f260ec2fd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the <a class="el" href="classModel.html" title="Abstract base class for machine learning models.">Model</a> class.  <br /></td></tr>
 <tr class="separator:a2efbe4ec768191fa70ad86f260ec2fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,8 +134,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4d75c67361fc34ad02f180678bba57ab" name="a4d75c67361fc34ad02f180678bba57ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d75c67361fc34ad02f180678bba57ab">&#9670;&#160;</a></span>infer()</h2>
+<a id="a31f22e672cae2653caed41da3a699539" name="a31f22e672cae2653caed41da3a699539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f22e672cae2653caed41da3a699539">&#9670;&#160;</a></span>infer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,9 +144,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unordered_map&lt; string, GeneralDataTypes &gt; Model::infer </td>
+          <td class="memname">virtual std::unordered_map&lt; std::string, GeneralDataTypes &gt; Model::infer </td>
           <td>(</td>
-          <td class="paramtype">const std::unordered_map&lt; string, GeneralDataTypes &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;&#160;</td>
           <td class="paramname"><em>inputs</em></td><td>)</td>
           <td></td>
         </tr>
@@ -159,7 +159,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Run the model with a single given input tensor. </p>
-<p>This is a pure virtual function that must be implemented by derived classes.</p>
+<p>This is a pure virtual std::function that must be implemented by derived classes.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inputs</td><td>The input data for the model. </td></tr>
@@ -168,7 +168,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result of the model inference. </dd></dl>
 
-<p>Implemented in <a class="el" href="classModel__mml.html#ad09dbcac28794c9979fb7975830cf08a">Model_mml</a>.</p>
+<p>Implemented in <a class="el" href="classModel__mml.html#ac583db7aa62d9c3f82f8e8d6417b73e3">Model_mml</a>.</p>
 
 </div>
 </div>
