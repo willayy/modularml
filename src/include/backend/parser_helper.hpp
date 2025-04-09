@@ -14,7 +14,7 @@ namespace ParserHelper {
      * @return A shared pointer to the created tensor.
      */
     template <typename T>
-    shared_ptr<Tensor<T>> handle_tensor(const json& init) {
+    inline shared_ptr<Tensor<T>> handle_tensor(const json& init) {
         std::vector<uli> dims;
         for (const auto& el : init["dims"]) {
           dims.push_back(static_cast<uli>(std::stoi(el.get<std::string>())));

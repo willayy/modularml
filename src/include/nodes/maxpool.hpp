@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nodes/a_node.hpp"
+#include "nodes/node_utils.hpp"
 
 class MaxPoolNode : public Node {
 public:

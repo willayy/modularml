@@ -15,7 +15,7 @@ namespace Base64 {
    * @throws std::runtime_error If input contains invalid characters or size doesn't align with T
    */
   template <typename T>
-  array_mml<T> decode(const std::string& input) {
+  inline array_mml<T> decode(const std::string& input) {
     std::vector<unsigned char> bytes;
     int val = 0, val_bits = -8;
     

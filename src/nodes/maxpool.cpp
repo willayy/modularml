@@ -18,12 +18,16 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
                 throw std::runtime_error("PoolNode: Input tensor must be at least NCL");
             }
 
-            array_mml<uli> output_shape = compute_output_shape(x_ptr->get_shape(), kernel_shape, strides, pads, dilations, ceil_mode);
+            NodeUtils::compute_pool_attributes(auto_pad, kernel_shape, strides, pads, dilations);
+
+            array_mml<uli> output_shape = NodeUtils::compute_pool_output_shape(x_ptr->get_shape(), auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
+
+            auto pad_pair = NodeUtils::compute_pool_pad_begin_end(x_ptr->get_shape(), auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
             auto output_ptr = std::make_shared<Tensor_mml<ValueType>>(output_shape);
             auto indices_ptr = std::make_shared<Tensor_mml<int64_t>>(output_shape);
 
-            Arithmetic_mml<ValueType>::apply_pooling(x_ptr, output_ptr, indices_ptr, kernel_shape, strides, pads, dilations, ceil_mode);
+            
             
             iomap[Y] = output_ptr;
             iomap[indices] = indices_ptr;
