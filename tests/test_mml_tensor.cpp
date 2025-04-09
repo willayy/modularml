@@ -510,7 +510,7 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
   auto tensor1D = TensorFactory::create_tensor<float>({3}, {1.0f, 2.0f, 3.0f});
 
   // Broadcast it to shape [2, 3]
-  auto broadcasted = tensor1D->broadcast_to({2, 3});
+  auto broadcasted = tensor1D->replicate_reshape({2, 3});
 
   // Expected output: row-wise repetition
   auto expected = TensorFactory::create_tensor<float>(
@@ -519,10 +519,10 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, broadcast_general_2D_to_3D) {
+TEST(test_mml_tensor, replicate_reshape_general_2D_to_3D) {
   // Shape: [1, 3] → Target: [2, 4, 3]
   auto tensor = TensorFactory::create_tensor<int>({1, 3}, {10, 20, 30});
-  auto broadcasted = tensor->broadcast_to({2, 4, 3});
+  auto broadcasted = tensor->replicate_reshape({2, 4, 3});
 
   auto expected = TensorFactory::create_tensor<int>(
       {2, 4, 3},
@@ -534,22 +534,22 @@ TEST(test_mml_tensor, broadcast_general_2D_to_3D) {
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, broadcast_scalar_to_2D) {
+TEST(test_mml_tensor, replicate_reshape_to_2D) {
   auto scalar = TensorFactory::create_tensor<float>({}, {42.0f});
-  auto broadcasted = scalar->broadcast_to({2, 2});
+  auto broadcasted = scalar->replicate_reshape({2, 2});
   auto expected =
       TensorFactory::create_tensor<float>({2, 2}, {42.0f, 42.0f, 42.0f, 42.0f});
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, is_broadcastable_positive) {
+TEST(test_mml_tensor, is_replicate_reshape_positive) {
   auto tensor = TensorFactory::create_tensor<int>({1, 3});
-  EXPECT_NO_THROW({ auto b = tensor->broadcast_to({2, 4, 3}); });
+  EXPECT_NO_THROW({ auto b = tensor->replicate_reshape({2, 4, 3}); });
 }
 
-TEST(test_mml_tensor, is_broadcastable_negative) {
+TEST(test_mml_tensor, is_replicate_reshape_negative) {
   auto tensor = TensorFactory::create_tensor<int>({2, 3});
-  EXPECT_THROW(tensor->broadcast_to({2, 4, 3}), std::invalid_argument);
+  EXPECT_THROW(tensor->replicate_reshape({2, 4, 3}), std::invalid_argument);
 }
 
 TEST(test_mml_tensor, transpose_2D) {

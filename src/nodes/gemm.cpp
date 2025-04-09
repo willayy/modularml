@@ -102,7 +102,7 @@ void GemmNode::forward(
             auto raw_c_ptr =
                 std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
                     ->copy();
-            new_c_ptr = raw_c_ptr->broadcast_to({M, N});
+            new_c_ptr = raw_c_ptr->replicate_reshape({M, N});
           } else {
             new_c_ptr = std::make_shared<Tensor_mml<ValueTypeA>>(
                 array_mml<size_t>{M, N});

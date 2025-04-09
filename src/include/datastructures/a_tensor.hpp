@@ -180,7 +180,7 @@ public:
             std::optional<size_t> dim1 = std::nullopt) const = 0;
 
   virtual std::shared_ptr<Tensor<T>>
-  broadcast_to(const array_mml<size_t> &target_shape) const = 0;
+  replicate_reshape(const array_mml<size_t> &target_shape) const = 0;
 
   /// @brief Method way to get a std::copy of the tensor.
   /// @return A shared pointer to the copied tensor.

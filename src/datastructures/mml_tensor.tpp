@@ -404,7 +404,7 @@ bool Tensor_mml<T>::is_broadcastable_to(
 
 template <typename T>
 std::shared_ptr<Tensor<T>>
-Tensor_mml<T>::broadcast_to(const array_mml<size_t> &target_shape) const {
+Tensor_mml<T>::replicate_reshape(const array_mml<size_t> &target_shape) const {
   if (this->shape == target_shape) {
     return this->copy();
   }

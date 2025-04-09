@@ -103,7 +103,7 @@ public:
   transpose(std::optional<size_t> dim0 = std::nullopt,
             std::optional<size_t> dim1 = std::nullopt) const override;
   std::shared_ptr<Tensor<T>>
-  broadcast_to(const array_mml<size_t> &target_shape) const override;
+  replicate_reshape(const array_mml<size_t> &target_shape) const override;
 
 private:
   array_mml<T> data;
