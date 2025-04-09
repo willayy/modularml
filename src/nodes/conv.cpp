@@ -1,9 +1,9 @@
 #include "nodes/conv.hpp"
 
 ConvNode::ConvNode(std::string X, std::string W, std::string Y,
-                   array_mml<uli> dilations, array_mml<uli> padding,
-                   array_mml<uli> kernel_shape, array_mml<uli> stride,
-                   std::optional<std::string> B, uli group)
+                   array_mml<size_t> dilations, array_mml<size_t> padding,
+                   array_mml<size_t> kernel_shape, array_mml<size_t> stride,
+                   std::optional<std::string> B, size_t group)
     : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding),
       kernel_shape(kernel_shape), stride(stride) {
   if (dilations.size() != 2) {
@@ -49,29 +49,29 @@ ConvNode::ConvNode(const nlohmann::json &node) {
   if (node.contains("attribute") && node["attribute"].is_array()) {
     for (const auto &attr : node["attribute"]) {
       if (attr["name"] == "dilations") {
-        std::vector<uli> dilations_vec;
+        std::vector<size_t> dilations_vec;
         for (const auto &el : attr["ints"]) {
           dilations_vec.push_back(std::stoul(el.get<std::string>()));
         }
-        dilations = array_mml<uli>(dilations_vec);
+        dilations = array_mml<size_t>(dilations_vec);
       } else if (attr["name"] == "pads") {
-        std::vector<uli> padding_vec;
+        std::vector<size_t> padding_vec;
         for (const auto &el : attr["ints"]) {
           padding_vec.push_back(std::stoul(el.get<std::string>()));
         }
-        padding = array_mml<uli>(padding_vec);
+        padding = array_mml<size_t>(padding_vec);
       } else if (attr["name"] == "kernel_shape") {
-        std::vector<uli> kernel_vec;
+        std::vector<size_t> kernel_vec;
         for (const auto &el : attr["ints"]) {
           kernel_vec.push_back(std::stoul(el.get<std::string>()));
         }
-        kernel_shape = array_mml<uli>(kernel_vec);
+        kernel_shape = array_mml<size_t>(kernel_vec);
       } else if (attr["name"] == "strides") {
-        std::vector<uli> stride_vec;
+        std::vector<size_t> stride_vec;
         for (const auto &el : attr["ints"]) {
           stride_vec.push_back(std::stoul(el.get<std::string>()));
         }
-        stride = array_mml<uli>(stride_vec);
+        stride = array_mml<size_t>(stride_vec);
       } else if (attr["name"] == "group") {
         group = std::stoul(attr["i"].get<std::string>());
       }
@@ -137,7 +137,7 @@ void ConvNode::forward(
           // Begin by flipping the weight kernel
           flip_kernel(w_ptr);
 
-          auto im2col_output_shape = array_mml<uli>(
+          auto im2col_output_shape = array_mml<size_t>(
               {get_in_channels() * get_kernel_height() * get_kernel_width(),
                get_batch_size() * get_out_height() * get_out_width()});
 
@@ -147,12 +147,12 @@ void ConvNode::forward(
           im2col(input_copy, im2col_output);
 
           // Flatten the weight tensor to prepare for GEMM
-          uli flattened_size =
+          size_t flattened_size =
               get_in_channels() * get_kernel_height() * get_kernel_width();
           w_ptr->reshape({get_out_channels(), flattened_size});
 
           // Prepare the result tensor
-          array_mml<uli> result_shape(
+          array_mml<size_t> result_shape(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
@@ -202,14 +202,14 @@ std::vector<std::string> ConvNode::getOutputs() { return {Y}; }
 void ConvNode::flip_kernel(const TensorT &weight_variant) {
   std::visit(
       [this](auto &weight) {
-        uli height = get_kernel_height();
-        uli width = get_kernel_width();
+        size_t height = get_kernel_height();
+        size_t width = get_kernel_width();
 
-        for (uli f = 0; f < get_out_channels(); f++) {
-          for (uli c = 0; c < get_in_channels(); c++) {
+        for (size_t f = 0; f < get_out_channels(); f++) {
+          for (size_t c = 0; c < get_in_channels(); c++) {
             // Flip horizontally
-            for (uli h = 0; h < height; h++) {
-              for (uli w = 0; w < width / 2; w++) {
+            for (size_t h = 0; h < height; h++) {
+              for (size_t w = 0; w < width / 2; w++) {
                 auto tmp = (*weight)[{f, c, h, w}];
                 (*weight)[{f, c, h, w}] = (*weight)[{f, c, h, width - 1 - w}];
                 (*weight)[{f, c, h, width - 1 - w}] = tmp;
@@ -217,8 +217,8 @@ void ConvNode::flip_kernel(const TensorT &weight_variant) {
             }
 
             // Flip vertically
-            for (uli w = 0; w < width; w++) {
-              for (uli h = 0; h < height / 2; h++) {
+            for (size_t w = 0; w < width; w++) {
+              for (size_t h = 0; h < height / 2; h++) {
                 auto tmp = (*weight)[{f, c, h, w}];
                 (*weight)[{f, c, h, w}] = (*weight)[{f, c, height - h - 1, w}];
                 (*weight)[{f, c, height - 1 - h, w}] = tmp;
@@ -235,15 +235,15 @@ void ConvNode::im2col(const TensorT &input_variant,
   std::visit(
       [this](auto &input, auto &output) {
         // Iterate over each image in the batch
-        for (uli n = 0; n < get_batch_size(); ++n) {
-          for (uli h = 0; h < get_out_height(); ++h) {
-            for (uli w = 0; w < get_out_width();
+        for (size_t n = 0; n < get_batch_size(); ++n) {
+          for (size_t h = 0; h < get_out_height(); ++h) {
+            for (size_t w = 0; w < get_out_width();
                  ++w) { // Traverse into each batch
 
-              uli col_index =
+              size_t col_index =
                   h * get_out_width() + w; // Column index in im2col matrix
 
-              for (uli c = 0; c < get_in_channels();
+              for (size_t c = 0; c < get_in_channels();
                    ++c) { // If the input has multiple channels, iterate over
                           // each one
 
@@ -253,11 +253,11 @@ void ConvNode::im2col(const TensorT &input_variant,
                 // extracted and stored in the output tensor. If the kernel
                 // extends beyond the boundaries of the input (due to padding or
                 // stride), zero padding is added instead of the input values.
-                for (uli kh = 0; kh < get_kernel_height(); ++kh) {
-                  for (uli kw = 0; kw < get_kernel_width(); ++kw) {
-                    uli input_h =
+                for (size_t kh = 0; kh < get_kernel_height(); ++kh) {
+                  for (size_t kw = 0; kw < get_kernel_width(); ++kw) {
+                    size_t input_h =
                         h * get_stride_height() - get_padding_top() + kh;
-                    uli input_w =
+                    size_t input_w =
                         w * get_stride_width() - get_padding_left() + kw;
 
                     if (input_h < 0 ||
@@ -266,18 +266,19 @@ void ConvNode::im2col(const TensorT &input_variant,
                         input_w >= get_in_width() + get_padding_right()) {
                       (*output)[col_index] = 0; // Padding
                     } else {
-                      uli row_index =
+                      size_t row_index =
                           c * get_kernel_height() * get_kernel_width() +
                           kh * get_kernel_width() + kw;
 
-                      uli output_index =
+                      size_t output_index =
                           row_index * (get_out_height() * get_out_width()) +
                           col_index;
 
-                      uli input_index = n * (get_in_channels() *
-                                             get_in_height() * get_in_width()) +
-                                        c * (get_in_height() * get_in_width()) +
-                                        input_h * get_in_width() + input_w;
+                      size_t input_index =
+                          n * (get_in_channels() * get_in_height() *
+                               get_in_width()) +
+                          c * (get_in_height() * get_in_width()) +
+                          input_h * get_in_width() + input_w;
 
                       // Check if input index is valid
                       if (input_index >= 0 &&
@@ -300,11 +301,11 @@ void ConvNode::add_bias(const TensorT &result_variant,
                         const TensorT &bias_variant) {
   std::visit(
       [this](auto &result, auto &bias) {
-        for (uli b = 0; b < get_batch_size(); b++) {
-          for (uli i = 0; i < get_out_channels(); ++i) {
-            for (uli h = 0; h < get_out_height(); ++h) {
-              for (uli w = 0; w < get_out_width(); ++w) {
-                uli index =
+        for (size_t b = 0; b < get_batch_size(); b++) {
+          for (size_t i = 0; i < get_out_channels(); ++i) {
+            for (size_t h = 0; h < get_out_height(); ++h) {
+              for (size_t w = 0; w < get_out_width(); ++w) {
+                size_t index =
                     ((b * get_out_channels() + i) * get_out_height() + h) *
                         get_out_width() +
                     w;
@@ -320,48 +321,48 @@ void ConvNode::add_bias(const TensorT &result_variant,
       result_variant, bias_variant);
 }
 
-uli ConvNode::get_batch_size() const { return batch_size; }
+size_t ConvNode::get_batch_size() const { return batch_size; }
 
-uli ConvNode::get_in_channels() const { return in_channels; }
+size_t ConvNode::get_in_channels() const { return in_channels; }
 
-uli ConvNode::get_in_height() const { return in_height; }
+size_t ConvNode::get_in_height() const { return in_height; }
 
-uli ConvNode::get_in_width() const { return in_width; }
+size_t ConvNode::get_in_width() const { return in_width; }
 
-uli ConvNode::get_kernel_height() const { return kernel_height; }
+size_t ConvNode::get_kernel_height() const { return kernel_height; }
 
-uli ConvNode::get_kernel_width() const { return kernel_width; }
+size_t ConvNode::get_kernel_width() const { return kernel_width; }
 
-uli ConvNode::get_out_channels() const { return out_channels; }
+size_t ConvNode::get_out_channels() const { return out_channels; }
 
-uli ConvNode::get_stride_height() const { return stride[0]; }
+size_t ConvNode::get_stride_height() const { return stride[0]; }
 
-uli ConvNode::get_stride_width() const { return stride[1]; }
+size_t ConvNode::get_stride_width() const { return stride[1]; }
 
-uli ConvNode::get_padding_top() const { return padding[0]; }
+size_t ConvNode::get_padding_top() const { return padding[0]; }
 
-uli ConvNode::get_padding_bottom() const { return padding[1]; }
+size_t ConvNode::get_padding_bottom() const { return padding[1]; }
 
-uli ConvNode::get_padding_left() const { return padding[2]; }
+size_t ConvNode::get_padding_left() const { return padding[2]; }
 
-uli ConvNode::get_padding_right() const { return padding[3]; }
+size_t ConvNode::get_padding_right() const { return padding[3]; }
 
-uli ConvNode::get_out_height() {
+size_t ConvNode::get_out_height() {
   return (get_in_height() + get_padding_top() + get_padding_bottom() -
           get_kernel_height()) /
              get_stride_height() +
          1;
 }
 
-uli ConvNode::get_out_width() {
+size_t ConvNode::get_out_width() {
   return (get_in_width() + get_padding_left() + get_padding_right() -
           get_kernel_width()) /
              get_stride_width() +
          1;
 }
 
-void ConvNode::update_parameters(const array_mml<uli> &input_shape,
-                                 const array_mml<uli> &weight_shape) {
+void ConvNode::update_parameters(const array_mml<size_t> &input_shape,
+                                 const array_mml<size_t> &weight_shape) {
   kernel_height = weight_shape[2];
   kernel_width = weight_shape[3];
   batch_size = input_shape[0];

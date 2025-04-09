@@ -23,7 +23,7 @@ public:
    * @param bias (default = 1.0) Bias to avoid division with 0.
    *
    */
-  LRNNode_mml(std::string X, std::string Y, uli size, float alpha = 0.0001f,
+  LRNNode_mml(std::string X, std::string Y, size_t size, float alpha = 0.0001f,
               float beta = 0.75f, float bias = 1.0f);
 
   LRNNode_mml(const nlohmann::json &node);
@@ -62,5 +62,5 @@ private:
   float bias;
 
   ///@brief Number of channels to sum over
-  uli size;
+  size_t size;
 };

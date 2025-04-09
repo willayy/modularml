@@ -1,7 +1,6 @@
 #pragma once
 
 #include "datastructures/a_tensor.hpp"
-#include "../utility/uli.hpp"
 #include "utility/base64.hpp"
 #include <algorithm>
 #include <chrono>
@@ -34,9 +33,9 @@ namespace ParserHelper {
  */
 template <typename T>
 std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
-  std::vector<uli> dims;
+  std::vector<size_t> dims;
   for (const auto &el : init["dims"]) {
-    dims.push_back(static_cast<uli>(std::stoi(el.get<std::string>())));
+    dims.push_back(static_cast<size_t>(std::stoi(el.get<std::string>())));
   }
   array_mml shapeArray(dims);
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "utility/uli.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -31,7 +30,7 @@ public:
 
   /// @brief Constructor for array_mml class.
   /// @param size The size of the array.
-  explicit array_mml(uli size);
+  explicit array_mml(size_t size);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array as a initializer list.
@@ -40,7 +39,7 @@ public:
   /// @brief Constructor for array_mml class.
   /// @param data The pointer to the data to set in the array.
   /// @param size The size of the data.
-  array_mml(std::shared_ptr<T[]> data, uli size);
+  array_mml(std::shared_ptr<T[]> data, size_t size);
 
   /// @brief Constructor for array_mml class.
   /// @param data The data to set in the array.
@@ -58,17 +57,17 @@ public:
 
   /// @brief Get the size of the array, the number of elements in the array.
   /// @return The size of the array.
-  uli size() const;
+  size_t size() const;
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  T &operator[](uli index);
+  T &operator[](size_t index);
 
   /// @brief Get an element from the array using a single-dimensional index.
   /// @param index The index of the element to get.
   /// @return The element at the given index.
-  const T &operator[](uli index) const;
+  const T &operator[](size_t index) const;
 
   /// @brief Move assignment operator.
   /// @param other The array to std::move.
@@ -84,7 +83,7 @@ public:
   /// @param start The start index of the subarray.
   /// @param end The end index of the subarray.
   /// @return The subarray.
-  array_mml subarray(uli start, uli end) const;
+  array_mml subarray(size_t start, size_t end) const;
 
   /// @brief Equality operator.
   /// @param other The array to compare with.
@@ -139,7 +138,7 @@ public:
 
 private:
   std::shared_ptr<T[]> data;
-  uli d_size;
+  size_t d_size;
 };
 
 #include "../datastructures/mml_array.tpp"

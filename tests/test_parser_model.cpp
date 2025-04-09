@@ -355,9 +355,9 @@
       -2.345233917236328, -2.3390109539031982, -2.247159957885742,             \
       -2.228898525238037
 
-TEST(test_mml_tensor, test_parsing_and_running_model) {
-  std::ifstream file("../test.nlohmann::json");
-  ASSERT_TRUE(file.is_open()) << "Failed to open test.nlohmann::json file";
+TEST(test_parser_model, test_parsing_and_running_model) {
+    std::ifstream file("../test.json");
+    ASSERT_TRUE(file.is_open()) << "Failed to open test.json file";
 
   nlohmann::json onnx_model;
   file >> onnx_model;
@@ -376,7 +376,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
 
   std::unordered_map<std::string, GeneralDataTypes> inputs;
 
-  array_mml<uli> shape({1, 2});
+  array_mml<size_t> shape({1, 2});
   array_mml<float> values({0.5f, -0.5f});
 
   auto input_tensor = TensorFactory::create_tensor<float>(shape, values);
@@ -398,7 +398,7 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
   auto output_tensor =
       std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-  EXPECT_EQ(output_tensor->get_shape(), array_mml<uli>({1, 3}));
+  EXPECT_EQ(output_tensor->get_shape(), array_mml<size_t>({1, 3}));
 
   // Dynamic cast to Tensor_mml<float> to access the data
   auto output_tensor_mml =
@@ -409,14 +409,14 @@ TEST(test_mml_tensor, test_parsing_and_running_model) {
   auto expected_output =
       array_mml<float>({-0.46211716f, -0.46211716f, -0.46211716f});
 
-  for (uli i = 0; i < output_tensor_mml->get_size(); i++) {
+  for (size_t i = 0; i < output_tensor_mml->get_size(); i++) {
     EXPECT_NEAR(output_tensor_mml->get_data()[i], expected_output[i], 1e-5);
   }
 }
 
-TEST(test_mml_tensor, test_parsing_and_running_lenet) {
-  std::ifstream file("../lenet.nlohmann::json");
-  ASSERT_TRUE(file.is_open()) << "Failed to open lenet.nlohmann::json file";
+TEST(test_parser_model, test_parsing_and_running_lenet) {
+  std::ifstream file("../lenet.json");
+  ASSERT_TRUE(file.is_open()) << "Failed to open lenet.json file";
 
   nlohmann::json onnx_model;
   file >> onnx_model;

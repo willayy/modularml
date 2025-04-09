@@ -4,9 +4,9 @@
 
 TEST(GemmNodeTest, ForwardMultiplication) {
   // Define dimensions: M = 2, K = 3, N = 2.
-  array_mml<uli> shapeA({2, 3});
-  array_mml<uli> shapeB({3, 2});
-  array_mml<uli> shapeY({2, 2}); // Output shape is [M, N]
+  array_mml<size_t> shapeA({2, 3});
+  array_mml<size_t> shapeB({3, 2});
+  array_mml<size_t> shapeY({2, 2}); // Output shape is [M, N]
 
   // Create tensor A with values: [1, 2, 3, 4, 5, 6] in row-major order.
   Tensor_mml<float> tensorA(shapeA);

@@ -79,13 +79,13 @@ void GemmNode::forward(
             new_b_ptr = b_ptr->transpose();
           }
 
-          array_mml<uli> a_shape = new_a_ptr->get_shape();
-          array_mml<uli> b_shape = new_b_ptr->get_shape();
+          array_mml<size_t> a_shape = new_a_ptr->get_shape();
+          array_mml<size_t> b_shape = new_b_ptr->get_shape();
 
-          uli M = a_shape[0];
-          uli K_a = a_shape[1];
-          uli K_b = b_shape[0];
-          uli N = b_shape[1];
+          size_t M = a_shape[0];
+          size_t K_a = a_shape[1];
+          size_t K_b = b_shape[0];
+          size_t N = b_shape[1];
 
           if (K_a != K_b) {
             throw std::runtime_error(
@@ -104,14 +104,14 @@ void GemmNode::forward(
                     ->copy();
             new_c_ptr = raw_c_ptr->broadcast_to({M, N});
           } else {
-            new_c_ptr =
-                std::make_shared<Tensor_mml<ValueTypeA>>(array_mml<uli>{M, N});
+            new_c_ptr = std::make_shared<Tensor_mml<ValueTypeA>>(
+                array_mml<size_t>{M, N});
             new_c_ptr->fill(static_cast<ValueTypeA>(0));
           }
 
-          uli lda = K_a;
-          uli ldb = N;
-          uli ldc = N;
+          size_t lda = K_a;
+          size_t ldb = N;
+          size_t ldc = N;
 
           Gemm_mml<ValueTypeA> gemm;
           gemm.gemm_inner_product(

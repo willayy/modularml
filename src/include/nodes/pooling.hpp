@@ -35,10 +35,10 @@ public:
    * @param pads (NOT SUPPORTED)
    */
   PoolingNode_mml(std::string input, std::vector<std::string> outputs,
-                  array_mml<uli> kernel_shape, array_mml<uli> strides,
-                  std::string auto_pad = "NOTSET", uli ceil_mode = 0,
-                  array_mml<uli> dilations = {1, 1},
-                  array_mml<uli> pads = {0, 0, 0, 0, 0, 0, 0, 0});
+                  array_mml<size_t> kernel_shape, array_mml<size_t> strides,
+                  std::string auto_pad = "NOTSET", size_t ceil_mode = 0,
+                  array_mml<size_t> dilations = {1, 1},
+                  array_mml<size_t> pads = {0, 0, 0, 0, 0, 0, 0, 0});
 
   PoolingNode_mml(const nlohmann::json &node);
 
@@ -51,9 +51,10 @@ public:
 
 protected:
   virtual void
-  pooling(const TensorT &t, array_mml<uli> input_shape,
-          array_mml<uli> output_shape, array_mml<uli> effective_kernel_shape,
-          uli pad_h, uli pad_w, std::string auto_pad,
+  pooling(const TensorT &t, array_mml<size_t> input_shape,
+          array_mml<size_t> output_shape,
+          array_mml<size_t> effective_kernel_shape, size_t pad_h, size_t pad_w,
+          std::string auto_pad,
           std::unordered_map<std::string, GeneralDataTypes> &iomap) = 0;
   //--------Inputs----------
 
@@ -64,16 +65,16 @@ protected:
 
   //--------Attributes------
   ///@brief A 2x2 array_mml of integers representing the filter/pooling window.
-  array_mml<uli> kernel_shape;
+  array_mml<size_t> kernel_shape;
   ///@brief A 2x2 array_mml of integers representing the stride of the window.
-  array_mml<uli> strides;
+  array_mml<size_t> strides;
   /// @brief A std::string representing the padding type applied by the layer.
   /// Can be either "valid" (no padding) or "same" (padding to preserve the
   /// input dimensions).
   std::string auto_pad;
 
-  uli ceil_mode;
+  size_t ceil_mode;
 
-  array_mml<uli> dilations;
-  array_mml<uli> pads;
+  array_mml<size_t> dilations;
+  array_mml<size_t> pads;
 };

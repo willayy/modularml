@@ -39,9 +39,8 @@
 #include "datastructures/tensor_operations_module.hpp"
 #include "datastructures/tensor_utility.hpp"
 
-#include "utility/profiler.hpp"
-#include "utility/uli.hpp"
 #include "utility/base64.hpp"
+#include "utility/profiler.hpp"
 
 #include <algorithm>
 #include <chrono>
