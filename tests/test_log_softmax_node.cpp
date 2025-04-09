@@ -9,9 +9,10 @@ TEST(test_log_softmax_node, test_forward_basic) {
 
   array_mml<uli> y_shape({3, 3});
 
-  shared_ptr<Tensor_mml<float>> X =
-      make_shared<Tensor_mml<float>>(x_shape, x_values);
-  shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor_mml<float>> X =
+      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor_mml<float>> Y =
+      std::make_shared<Tensor_mml<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -34,8 +35,9 @@ TEST(test_log_softmax_node, test_forward_basic) {
     float row_sum = 0;
 
     for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
-      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
-                                         // check that they sum to 1
+      row_sum +=
+          std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we
+                                           // can check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f, 1e-5); // Checks that each row sums to 1
   }
@@ -48,9 +50,10 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
 
   array_mml<uli> y_shape({3, 3});
 
-  shared_ptr<Tensor_mml<float>> X =
-      make_shared<Tensor_mml<float>>(x_shape, x_values);
-  shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor_mml<float>> X =
+      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor_mml<float>> Y =
+      std::make_shared<Tensor_mml<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -72,8 +75,9 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
     float row_sum = 0;
 
     for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
-      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
-                                         // check that they sum to 1
+      row_sum +=
+          std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we
+                                           // can check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
                 1e-5); // Checks that each row sums to 1 which it should
@@ -81,16 +85,17 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
 }
 
 TEST(test_log_softmax_node, test_forward_handle_zeros) {
-  // Should result in an equal distribution
+  // Should result in an std::equal distribution
   array_mml<uli> x_shape({3, 3});
   array_mml<float> x_values(
       {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f});
 
   array_mml<uli> y_shape({3, 3});
 
-  shared_ptr<Tensor_mml<float>> X =
-      make_shared<Tensor_mml<float>>(x_shape, x_values);
-  shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor_mml<float>> X =
+      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor_mml<float>> Y =
+      std::make_shared<Tensor_mml<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -112,8 +117,9 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
     float row_sum = 0;
 
     for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
-      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
-                                         // check that they sum to 1
+      row_sum +=
+          std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we
+                                           // can check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
                 1e-5); // Checks that each row sums to 1 which it should
@@ -128,9 +134,10 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
 
   array_mml<uli> y_shape({3, 3});
 
-  shared_ptr<Tensor_mml<float>> X =
-      make_shared<Tensor_mml<float>>(x_shape, x_values);
-  shared_ptr<Tensor_mml<float>> Y = make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor_mml<float>> X =
+      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor_mml<float>> Y =
+      std::make_shared<Tensor_mml<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -152,8 +159,9 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
     float row_sum = 0;
 
     for (uli c = 0; c < result_ptr->get_shape()[1]; c++) {
-      row_sum += std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we can
-                                         // check that they sum to 1
+      row_sum +=
+          std::exp((*result_ptr)[{b, c}]); // exponentiate the result so we
+                                           // can check that they sum to 1
     }
     EXPECT_NEAR(row_sum, 1.0f,
                 1e-5); // Checks that each row sums to 1 which it should

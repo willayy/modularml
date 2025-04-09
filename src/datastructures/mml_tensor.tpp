@@ -3,12 +3,13 @@
 #include "datastructures/mml_tensor.hpp"
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(const initializer_list<uli> shape,
-                          optional<array_mml<uli>> slice_offsets)
+Tensor_mml<T>::Tensor_mml(const std::initializer_list<uli> shape,
+                          std::optional<array_mml<uli>> slice_offsets)
     : Tensor<T>(), shape(shape) {
   bool has_value = slice_offsets.has_value();
   this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(slice_offsets.value()) : nullopt;
+      has_value ? std::optional<array_mml<uli>>(slice_offsets.value())
+                : std::nullopt;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->size);
@@ -16,24 +17,26 @@ Tensor_mml<T>::Tensor_mml(const initializer_list<uli> shape,
 }
 
 template <typename T>
-Tensor_mml<T>::Tensor_mml(const initializer_list<uli> shape,
-                          const initializer_list<T> data,
-                          optional<array_mml<uli>> slice_offsets)
+Tensor_mml<T>::Tensor_mml(const std::initializer_list<uli> shape,
+                          const std::initializer_list<T> data,
+                          std::optional<array_mml<uli>> slice_offsets)
     : Tensor<T>(), shape(shape), data(data) {
   bool has_value = slice_offsets.has_value();
   this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(slice_offsets.value()) : nullopt;
+      has_value ? std::optional<array_mml<uli>>(slice_offsets.value())
+                : std::nullopt;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
 }
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(const array_mml<uli> &shape,
-                          optional<array_mml<uli>> slice_offsets)
+                          std::optional<array_mml<uli>> slice_offsets)
     : Tensor<T>(), shape(shape) {
   bool has_value = slice_offsets.has_value();
   this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(slice_offsets.value()) : nullopt;
+      has_value ? std::optional<array_mml<uli>>(slice_offsets.value())
+                : std::nullopt;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->size);
@@ -42,26 +45,27 @@ Tensor_mml<T>::Tensor_mml(const array_mml<uli> &shape,
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(const array_mml<uli> &shape, const array_mml<T> &data,
-                          optional<array_mml<uli>> slice_offsets)
+                          std::optional<array_mml<uli>> slice_offsets)
     : Tensor<T>(), shape(shape), data(data) {
   bool has_value = slice_offsets.has_value();
   this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(slice_offsets.value()) : nullopt;
+      has_value ? std::optional<array_mml<uli>>(slice_offsets.value())
+                : std::nullopt;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
 }
 
 template <typename T>
 Tensor_mml<T>::Tensor_mml(Tensor_mml &&other) noexcept : Tensor<T>(other) {
-  this->shape = move(other.shape);
-  this->indices_offsets = move(other.indices_offsets);
+  this->shape = std::move(other.shape);
+  this->indices_offsets = std::move(other.indices_offsets);
   this->size = other.size;
 
   bool has_value = other.slice_offsets.has_value();
-  this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(move(other.slice_offsets.value()))
-                : nullopt;
-  this->data = move(other.data);
+  this->slice_offsets = has_value ? std::optional<array_mml<uli>>(
+                                        std::move(other.slice_offsets.value()))
+                                  : std::nullopt;
+  this->data = std::move(other.data);
 }
 
 template <typename T>
@@ -73,8 +77,8 @@ Tensor_mml<T>::Tensor_mml(const Tensor_mml &other) : Tensor<T>(other) {
 
   bool has_value = other.slice_offsets.has_value();
   this->slice_offsets =
-      has_value ? optional<array_mml<uli>>(other.slice_offsets.value())
-                : nullopt;
+      has_value ? std::optional<array_mml<uli>>(other.slice_offsets.value())
+                : std::nullopt;
 }
 
 template <typename T> const array_mml<T> &Tensor_mml<T>::get_data() const {
@@ -92,8 +96,9 @@ Tensor<T> &Tensor_mml<T>::operator=(const Tensor<T> &other) {
 
     bool has_value = other_cast.slice_offsets.has_value();
     this->slice_offsets =
-        has_value ? optional<array_mml<uli>>(other_cast.slice_offsets.value())
-                  : nullopt;
+        has_value
+            ? std::optional<array_mml<uli>>(other_cast.slice_offsets.value())
+            : std::nullopt;
   }
   return *this;
 }
@@ -101,31 +106,30 @@ Tensor<T> &Tensor_mml<T>::operator=(const Tensor<T> &other) {
 template <typename T>
 Tensor<T> &Tensor_mml<T>::operator=(Tensor<T> &&other) noexcept {
   if (this != &other) {
-    auto other_cast = dynamic_cast<Tensor_mml<T> &&>(move(other));
-    this->data = move(other_cast.data);
-    this->shape = move(other_cast.shape);
-    this->indices_offsets = move(other_cast.indices_offsets);
+    auto other_cast = dynamic_cast<Tensor_mml<T> &&>(std::move(other));
+    this->data = std::move(other_cast.data);
+    this->shape = std::move(other_cast.shape);
+    this->indices_offsets = std::move(other_cast.indices_offsets);
     this->size = other_cast.size;
 
     bool has_value = other_cast.slice_offsets.has_value();
-    this->slice_offsets =
-        has_value
-            ? optional<array_mml<uli>>(move(other_cast.slice_offsets.value()))
-            : nullopt;
+    this->slice_offsets = has_value ? std::optional<array_mml<uli>>(std::move(
+                                          other_cast.slice_offsets.value()))
+                                    : std::nullopt;
   }
   return *this;
 }
 
-template <typename T> string Tensor_mml<T>::to_string() const {
-  string base = string("Tensor_mml<") + typeid(T).name() + "> ";
-  string ptr_str =
+template <typename T> std::string Tensor_mml<T>::to_string() const {
+  std::string base = std::string("Tensor_mml<") + typeid(T).name() + "> ";
+  std::string ptr_str =
       "Pointer: " + std::to_string(reinterpret_cast<uintptr_t>(this));
-  string shape_str = "Shape: " + this->shape.to_string();
-  string size_str = "Size: " + std::to_string(this->size);
-  string data_str = "Data: ";
+  std::string shape_str = "Shape: " + this->shape.to_string();
+  std::string size_str = "Size: " + std::to_string(this->size);
+  std::string data_str = "Data: ";
   if (this->size > 30) {
-    string first_10 = "[";
-    string last_10 = "";
+    std::string first_10 = "[";
+    std::string last_10 = "";
     for (uli i = 0; i < 9; i++) {
       first_10 += std::to_string((*this)[i]) + ", ";
       last_10 += std::to_string((*this)[this->size - i - 1]) + ", ";
@@ -144,20 +148,21 @@ template <typename T> string Tensor_mml<T>::to_string() const {
   return base + ptr_str + ", " + shape_str + ", " + size_str + ", " + data_str;
 }
 
-template <typename T> shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
-  return make_shared<Tensor_mml<T>>(*this);
+template <typename T>
+std::shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
+  return std::make_shared<Tensor_mml<T>>(*this);
 }
 
 template <typename T>
 void Tensor_mml<T>::reshape(const array_mml<uli> &new_shape) {
   if (!valid_shape(new_shape))
-    throw invalid_argument("Invalid shape");
+    throw std::invalid_argument("Invalid shape");
   this->shape = array_mml<uli>(new_shape);
   this->indices_offsets = compute_indices_offsets();
 }
 
 template <typename T>
-void Tensor_mml<T>::reshape(initializer_list<uli> new_shape) {
+void Tensor_mml<T>::reshape(std::initializer_list<uli> new_shape) {
   reshape(array_mml<uli>(new_shape));
 }
 
@@ -174,16 +179,16 @@ template <typename T> void Tensor_mml<T>::reverse_buffer() {
 }
 
 template <typename T>
-shared_ptr<Tensor<T>>
-Tensor_mml<T>::slice(initializer_list<uli> slice_indices) {
+std::shared_ptr<Tensor<T>>
+Tensor_mml<T>::slice(std::initializer_list<uli> slice_indices) {
   auto slice_indices_array = array_mml<uli>(slice_indices);
   return slice(slice_indices_array);
 }
 
 template <typename T>
-shared_ptr<Tensor<T>> Tensor_mml<T>::slice(array_mml<uli> &slice_indices) {
+std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(array_mml<uli> &slice_indices) {
   if (!valid_slice_indices(slice_indices)) {
-    throw invalid_argument("Invalid slice indices");
+    throw std::invalid_argument("Invalid slice indices");
   }
 
   // Calculate and create the new shape for the sliced tensor.
@@ -205,15 +210,15 @@ shared_ptr<Tensor<T>> Tensor_mml<T>::slice(array_mml<uli> &slice_indices) {
     }
   }
 
-  // Create a shallow copy of the data that the sliced tensor will use.
-  shared_ptr<T[]> data_ptr(this->data.get(), [](T *) { /* noop */ });
+  // Create a shallow std::copy of the data that the sliced tensor will use.
+  std::shared_ptr<T[]> data_ptr(this->data.get(), [](T *) { /* noop */ });
   array_mml<T> data_shallow_copy = array_mml<T>(data_ptr, this->data.size());
   // Calculate the new indices offsets for the sliced tensor.
   array_mml<uli> new_slice_offsets =
       compute_slice_offsets(slice_indices, slice_shape);
 
-  // Return a new Tensor but with a shallow copy of the data.
-  shared_ptr<Tensor<T>> sliced_tensor = make_shared<Tensor_mml<T>>(
+  // Return a new Tensor but with a shallow std::copy of the data.
+  std::shared_ptr<Tensor<T>> sliced_tensor = std::make_shared<Tensor_mml<T>>(
       slice_shape, data_shallow_copy, new_slice_offsets);
 
   return sliced_tensor;
@@ -264,7 +269,7 @@ template <typename T> uli Tensor_mml<T>::get_size() const { return this->size; }
 template <typename T>
 const T &Tensor_mml<T>::operator[](array_mml<uli> &indices) const {
   if (!valid_indices(indices))
-    throw invalid_argument("Invalid Tensor indices");
+    throw std::invalid_argument("Invalid Tensor indices");
   if (this->slice_offsets.has_value())
     return this->data[index_to_slice_index(indices_to_1d_index(indices))];
   return this->data[indices_to_1d_index(indices)];
@@ -272,27 +277,27 @@ const T &Tensor_mml<T>::operator[](array_mml<uli> &indices) const {
 
 template <typename T> T &Tensor_mml<T>::operator[](array_mml<uli> &indices) {
   if (!valid_indices(indices))
-    throw invalid_argument("Invalid Tensor indices");
+    throw std::invalid_argument("Invalid Tensor indices");
   if (this->slice_offsets.has_value())
     return this->data[index_to_slice_index(indices_to_1d_index(indices))];
   return this->data[indices_to_1d_index(indices)];
 }
 
 template <typename T>
-const T &Tensor_mml<T>::operator[](initializer_list<uli> indices) const {
+const T &Tensor_mml<T>::operator[](std::initializer_list<uli> indices) const {
   auto indices_array = array_mml<uli>(indices);
   return (*this)[indices_array];
 }
 
 template <typename T>
-T &Tensor_mml<T>::operator[](initializer_list<uli> indices) {
+T &Tensor_mml<T>::operator[](std::initializer_list<uli> indices) {
   auto indices_array = array_mml<uli>(indices);
   return (*this)[indices_array];
 }
 
 template <typename T> const T &Tensor_mml<T>::operator[](uli index) const {
   if (!valid_index(index))
-    throw invalid_argument("Invalid Tensor index");
+    throw std::invalid_argument("Invalid Tensor index");
   if (this->slice_offsets.has_value())
     return this->data[index_to_slice_index(index)];
   return this->data[index];
@@ -300,7 +305,7 @@ template <typename T> const T &Tensor_mml<T>::operator[](uli index) const {
 
 template <typename T> T &Tensor_mml<T>::operator[](uli index) {
   if (!valid_index(index))
-    throw invalid_argument("Invalid Tensor index");
+    throw std::invalid_argument("Invalid Tensor index");
   if (this->slice_offsets.has_value())
     return this->data[index_to_slice_index(index)];
   return this->data[index];
@@ -311,7 +316,9 @@ template <typename T> void Tensor_mml<T>::fill(T value) {
 }
 
 template <typename T>
-shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(std::optional<uli> dim0, std::optional<uli> dim1) const {
+std::shared_ptr<Tensor<T>>
+Tensor_mml<T>::transpose(std::optional<uli> dim0,
+                         std::optional<uli> dim1) const {
   uli rank = this->shape.size();
   uli d0 = dim0.value_or(rank > 1 ? rank - 2 : 0);
   uli d1 = dim1.value_or(rank > 1 ? rank - 1 : 0);
@@ -337,8 +344,8 @@ shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(std::optional<uli> dim0, std::opt
       }
     }
   } else {
-    std::function<void(array_mml<uli>&, uli)> transpose_recursive;
-    transpose_recursive = [&](array_mml<uli>& indices, uli dim) {
+    std::function<void(array_mml<uli> &, uli)> transpose_recursive;
+    transpose_recursive = [&](array_mml<uli> &indices, uli dim) {
       if (dim == rank) {
         array_mml<uli> transposed_indices = indices;
         std::swap(transposed_indices[d0], transposed_indices[d1]);
@@ -361,47 +368,51 @@ shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(std::optional<uli> dim0, std::opt
 };
 
 template <typename T>
-bool Tensor_mml<T>::is_broadcastable_to(const array_mml<uli>& target_shape) const { 
-  const array_mml<uli>& current_shape = this->shape;
-  
+bool Tensor_mml<T>::is_broadcastable_to(
+    const array_mml<uli> &target_shape) const {
+  const array_mml<uli> &current_shape = this->shape;
+
   size_t i = current_shape.size();
   size_t j = target_shape.size();
-  
+
   while (i > 0 && j > 0) {
-    i--; j--;
-    // Dimensions must either be equal or one must be 1
-    if (current_shape[i] != target_shape[j] && 
-        current_shape[i] != 1 && target_shape[j] != 1) {
+    i--;
+    j--;
+    // Dimensions must either be std::equal or one must be 1
+    if (current_shape[i] != target_shape[j] && current_shape[i] != 1 &&
+        target_shape[j] != 1) {
       return false;
     }
   }
-  
+
   // If the current tensor has remaining dimensions, they must all be 1
   while (i > 0) {
     i--;
-    if (current_shape[i] != 1) return false;
+    if (current_shape[i] != 1)
+      return false;
   }
-  
+
   return true;
 };
 
 template <typename T>
-std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_to(const array_mml<uli>& target_shape) const {
+std::shared_ptr<Tensor<T>>
+Tensor_mml<T>::broadcast_to(const array_mml<uli> &target_shape) const {
   if (this->shape == target_shape) {
     return this->copy();
   }
-  
+
   if (!is_broadcastable_to(target_shape)) {
     throw std::invalid_argument("Cannot broadcast tensor to target shape");
   }
 
   auto result = std::make_shared<Tensor_mml<T>>(target_shape);
-  const array_mml<uli>& current_shape = this->shape;
+  const array_mml<uli> &current_shape = this->shape;
   uli rank_diff = target_shape.size() - current_shape.size();
 
   array_mml<uli> target_indices(target_shape.size());
   target_indices.fill(0);
-  
+
   array_mml<uli> source_indices(current_shape.size());
   source_indices.fill(0);
 
@@ -409,7 +420,8 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_to(const array_mml<uli>& tar
     if (dim == target_shape.size()) {
       for (uli i = 0; i < current_shape.size(); ++i) {
         uli target_i = i + rank_diff;
-        source_indices[i] = (current_shape[i] == 1) ? 0 : target_indices[target_i];
+        source_indices[i] =
+            (current_shape[i] == 1) ? 0 : target_indices[target_i];
       }
 
       (*result)[target_indices] = (*this)[source_indices];
@@ -425,7 +437,6 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_to(const array_mml<uli>& tar
   fill_broadcast(0);
   return result;
 };
-
 
 template <typename T>
 array_mml<uli> Tensor_mml<T>::compute_indices_offsets() const {
@@ -474,19 +485,19 @@ Tensor_mml<T>::compute_slice_offsets(array_mml<uli> &slice_indices,
   return array_mml<uli>({jump_rows, i_stride, i_add});
 }
 
-template <typename T>
-uli Tensor_mml<T>::compute_size() const {
+template <typename T> uli Tensor_mml<T>::compute_size() const {
   if (shape.size() == 0) {
-    return 1;  // Scalar tensor has 1 value
+    return 1; // Scalar tensor has 1 value
   }
 
-  return accumulate(this->shape.begin(), this->shape.end(), 1, multiplies<uli>());
+  return std::accumulate(this->shape.begin(), this->shape.end(), 1,
+                         std::multiplies<uli>());
 }
 
 template <typename T>
 bool Tensor_mml<T>::valid_shape(const array_mml<uli> &new_shape) const {
-  return accumulate(new_shape.begin(), new_shape.end(), 1, multiplies<uli>()) ==
-         this->get_size();
+  return std::accumulate(new_shape.begin(), new_shape.end(), 1,
+                         std::multiplies<uli>()) == this->get_size();
 }
 
 template <typename T> bool Tensor_mml<T>::valid_index(uli index) const {
@@ -517,7 +528,7 @@ uli Tensor_mml<T>::indices_to_1d_index(array_mml<uli> indices) const {
 
 template <typename T> uli Tensor_mml<T>::index_to_slice_index(uli index) const {
   if (!this->slice_offsets.has_value())
-    throw invalid_argument("No slice offsets available");
+    throw std::invalid_argument("No slice offsets available");
 
   uli jump_rows = this->slice_offsets
                       .value()[0]; // How many rows should we jump in 1d buffer
@@ -548,14 +559,15 @@ bool Tensor_mml<T>::valid_slice_indices(
 // Convenience initializers
 
 template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape) {
-  auto t = make_shared<Tensor_mml<T>>(shape);
+std::shared_ptr<Tensor<T>>
+tensor_mml_p(const std::initializer_list<uli> shape) {
+  auto t = std::make_shared<Tensor_mml<T>>(shape);
   return t;
 }
 
 template <typename T>
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape,
-                                   const initializer_list<T> data) {
-  auto t = make_shared<Tensor_mml<T>>(shape, data);
+std::shared_ptr<Tensor<T>> tensor_mml_p(const std::initializer_list<uli> shape,
+                                        const std::initializer_list<T> data) {
+  auto t = std::make_shared<Tensor_mml<T>>(shape, data);
   return t;
 }

@@ -6,12 +6,12 @@ TEST(GemmNodeTest, ForwardMultiplication) {
   // Define dimensions: M = 2, K = 3, N = 2.
   array_mml<uli> shapeA({2, 3});
   array_mml<uli> shapeB({3, 2});
-  array_mml<uli> shapeY({2, 2});  // Output shape is [M, N]
+  array_mml<uli> shapeY({2, 2}); // Output shape is [M, N]
 
   // Create tensor A with values: [1, 2, 3, 4, 5, 6] in row-major order.
   Tensor_mml<float> tensorA(shapeA);
   for (int i = 0; i < 6; i++) {
-    tensorA[i] = static_cast<float>(i + 1);  // 1, 2, ..., 6.
+    tensorA[i] = static_cast<float>(i + 1); // 1, 2, ..., 6.
   }
 
   // Create tensor B with values: [7, 8, 9, 10, 11, 12] in row-major order.
@@ -37,7 +37,7 @@ TEST(GemmNodeTest, ForwardMultiplication) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[a_string] = A_ptr;
   iomap[b_string] = B_ptr;
-  //iomap[y_string] = Y_ptr; Not mapping to test auto creation of output tensor
+  // iomap[y_string] = Y_ptr; Not mapping to test auto creation of output tensor
 
   // Construct the GemmNode with alpha=1.0, beta=0.0, no transposition
   GemmNode node(a_string, b_string, y_string, std::nullopt, 1.0f, 0.0f, 0, 0);
@@ -47,8 +47,9 @@ TEST(GemmNodeTest, ForwardMultiplication) {
 
   // Retrieve the result from iomap
   auto y_it = iomap.find(y_string);
-  ASSERT_NE(y_it, iomap.end()) << "Output tensor Y not found in iomap after forward pass";
-  
+  ASSERT_NE(y_it, iomap.end())
+      << "Output tensor Y not found in iomap after forward pass";
+
   // Extract the shared pointer to the output tensor
   auto result_ptr = std::get<std::shared_ptr<Tensor<float>>>(y_it->second);
 
@@ -65,6 +66,6 @@ TEST(GemmNodeTest, ForwardMultiplication) {
 
   // Compare each element of the result with the expected value.
   for (int i = 0; i < expected.get_size(); i++) {
-      EXPECT_FLOAT_EQ(expected[i], (*result_ptr)[i]);
+    EXPECT_FLOAT_EQ(expected[i], (*result_ptr)[i]);
   }
 }

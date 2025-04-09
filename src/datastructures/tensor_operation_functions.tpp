@@ -3,16 +3,17 @@
 
 template <typename T>
 static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                   shared_ptr<Tensor<T>> A, int lda,
-                                   shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                   shared_ptr<Tensor<T>> C, int ldc) {
+                                   std::shared_ptr<Tensor<T>> A, int lda,
+                                   std::shared_ptr<Tensor<T>> B, int ldb,
+                                   T BETA, std::shared_ptr<Tensor<T>> C,
+                                   int ldc) {
   int k_col;
   int i_col_out;
 
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported.");
+    std::invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported.");
+    std::invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -34,17 +35,18 @@ static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
 
 template <typename T>
 static void mml_gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
-                                   shared_ptr<Tensor<T>> A, int lda,
-                                   shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                   shared_ptr<Tensor<T>> C, int ldc) {
+                                   std::shared_ptr<Tensor<T>> A, int lda,
+                                   std::shared_ptr<Tensor<T>> B, int ldb,
+                                   T BETA, std::shared_ptr<Tensor<T>> C,
+                                   int ldc) {
   int i_col;
   int k_col;
   int i_col_out;
 
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported.");
+    std::invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported.");
+    std::invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -72,18 +74,19 @@ static void mml_gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
 
 template <typename T>
 static void mml_gemm_row_wise_product(int TA, int TB, int M, int N, int K,
-                                      T ALPHA, shared_ptr<Tensor<T>> A, int lda,
-                                      shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                      shared_ptr<Tensor<T>> C, int ldc) {
+                                      T ALPHA, std::shared_ptr<Tensor<T>> A,
+                                      int lda, std::shared_ptr<Tensor<T>> B,
+                                      int ldb, T BETA,
+                                      std::shared_ptr<Tensor<T>> C, int ldc) {
 
   int i_col;
   int k_col;
   int i_col_out;
 
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported.");
+    std::invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported.");
+    std::invalid_argument("Transpose B not yet supported.");
 
   for (int i = 0; i < M; i++) {
     i_col = i * lda;
@@ -107,17 +110,18 @@ static void mml_gemm_row_wise_product(int TA, int TB, int M, int N, int K,
 
 template <typename T>
 static void mml_gemm_col_wise_product(int TA, int TB, int M, int N, int K,
-                                      T ALPHA, shared_ptr<Tensor<T>> A, int lda,
-                                      shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                      shared_ptr<Tensor<T>> C, int ldc) {
+                                      T ALPHA, std::shared_ptr<Tensor<T>> A,
+                                      int lda, std::shared_ptr<Tensor<T>> B,
+                                      int ldb, T BETA,
+                                      std::shared_ptr<Tensor<T>> C, int ldc) {
   int i_col;
   int k_col;
   int i_col_out;
 
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported.");
+    std::invalid_argument("Transpose A not yet supported.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported.");
+    std::invalid_argument("Transpose B not yet supported.");
 
   for (int j = 0; j < N; j++) {
     for (int i = 0; i < M; i++) {
@@ -141,41 +145,42 @@ static void mml_gemm_col_wise_product(int TA, int TB, int M, int N, int K,
 
 template <typename T>
 static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
-                             shared_ptr<Tensor<T>> A, int lda,
-                             shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                             shared_ptr<Tensor<T>> C, int ldc) {
-  invalid_argument("Blocked GEMM not yet supported.");
+                             std::shared_ptr<Tensor<T>> A, int lda,
+                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                             std::shared_ptr<Tensor<T>> C, int ldc) {
+  std::invalid_argument("Blocked GEMM not yet supported.");
 }
 
 template <typename T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                         shared_ptr<Tensor<T>> A, int lda,
-                         shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                         shared_ptr<Tensor<T>> C, int ldc) {
-  invalid_argument("AVX GEMM not yet supported.");
+                         std::shared_ptr<Tensor<T>> A, int lda,
+                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                         std::shared_ptr<Tensor<T>> C, int ldc) {
+  std::invalid_argument("AVX GEMM not yet supported.");
 }
 
 template <typename T>
 static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                            shared_ptr<Tensor<T>> A, int lda,
-                            shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                            shared_ptr<Tensor<T>> C, int ldc) {
-  invalid_argument("AVX-512 GEMM not yet supported.");
+                            std::shared_ptr<Tensor<T>> A, int lda,
+                            std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                            std::shared_ptr<Tensor<T>> C, int ldc) {
+  std::invalid_argument("AVX-512 GEMM not yet supported.");
 }
 
 template <typename T>
 static void mml_gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
-                               shared_ptr<Tensor<T>> A, int lda,
-                               shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                               shared_ptr<Tensor<T>> C, int ldc) {
-  invalid_argument("Intel MKL GEMM not yet supported.");
+                               std::shared_ptr<Tensor<T>> A, int lda,
+                               std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                               std::shared_ptr<Tensor<T>> C, int ldc) {
+  std::invalid_argument("Intel MKL GEMM not yet supported.");
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_inner_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                            float alpha, float beta, int transA, int transB,
-                            optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_inner_product(std::shared_ptr<Tensor<T>> A,
+                            std::shared_ptr<Tensor<T>> B, float alpha,
+                            float beta, int transA, int transB,
+                            std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -184,7 +189,7 @@ mml_onnx_gemm_inner_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_inner_product(transA, transB, M, N, K, static_cast<T>(alpha), A, lda,
                          B, ldb, static_cast<T>(beta), C_p, ldc);
@@ -192,10 +197,11 @@ mml_onnx_gemm_inner_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_outer_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                            float alpha, float beta, int transA, int transB,
-                            optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_outer_product(std::shared_ptr<Tensor<T>> A,
+                            std::shared_ptr<Tensor<T>> B, float alpha,
+                            float beta, int transA, int transB,
+                            std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -204,7 +210,7 @@ mml_onnx_gemm_outer_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_outer_product(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta,
                          C_p, ldc);
@@ -212,10 +218,11 @@ mml_onnx_gemm_outer_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_row_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                               float alpha, float beta, int transA, int transB,
-                               optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_row_wise_product(std::shared_ptr<Tensor<T>> A,
+                               std::shared_ptr<Tensor<T>> B, float alpha,
+                               float beta, int transA, int transB,
+                               std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -224,7 +231,7 @@ mml_onnx_gemm_row_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_row_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
@@ -232,10 +239,11 @@ mml_onnx_gemm_row_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_col_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                               float alpha, float beta, int transA, int transB,
-                               optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_col_wise_product(std::shared_ptr<Tensor<T>> A,
+                               std::shared_ptr<Tensor<T>> B, float alpha,
+                               float beta, int transA, int transB,
+                               std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -244,7 +252,7 @@ mml_onnx_gemm_col_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_col_wise_product(transA, transB, M, N, K, alpha, A, lda, B, ldb,
                             beta, C_p, ldc);
@@ -252,10 +260,11 @@ mml_onnx_gemm_col_wise_product(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_blocked(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                      float alpha, float beta, int transA, int transB,
-                      optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_blocked(std::shared_ptr<Tensor<T>> A,
+                      std::shared_ptr<Tensor<T>> B, float alpha, float beta,
+                      int transA, int transB,
+                      std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -264,7 +273,7 @@ mml_onnx_gemm_blocked(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_blocked(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                    ldc);
@@ -272,10 +281,10 @@ mml_onnx_gemm_blocked(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_avx(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha,
-                  float beta, int transA, int transB,
-                  optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_avx(std::shared_ptr<Tensor<T>> A, std::shared_ptr<Tensor<T>> B,
+                  float alpha, float beta, int transA, int transB,
+                  std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -284,17 +293,17 @@ mml_onnx_gemm_avx(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B, float alpha,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_avx(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p, ldc);
   return C_p;
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_avx512(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_avx512(std::shared_ptr<Tensor<T>> A, std::shared_ptr<Tensor<T>> B,
                      float alpha, float beta, int transA, int transB,
-                     optional<shared_ptr<Tensor<T>>> C) {
+                     std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -303,7 +312,7 @@ mml_onnx_gemm_avx512(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_avx512(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                   ldc);
@@ -311,10 +320,11 @@ mml_onnx_gemm_avx512(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static shared_ptr<Tensor<T>>
-mml_onnx_gemm_intel_MKL(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
-                        float alpha, float beta, int transA, int transB,
-                        optional<shared_ptr<Tensor<T>>> C) {
+static std::shared_ptr<Tensor<T>>
+mml_onnx_gemm_intel_MKL(std::shared_ptr<Tensor<T>> A,
+                        std::shared_ptr<Tensor<T>> B, float alpha, float beta,
+                        int transA, int transB,
+                        std::optional<std::shared_ptr<Tensor<T>>> C) {
   const auto shape_A = A->get_shape();
   const auto shape_B = B->get_shape();
   const int M = (int)shape_A[0];
@@ -323,7 +333,7 @@ mml_onnx_gemm_intel_MKL(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
   const int lda = K;
   const int ldb = N;
   const int ldc = N;
-  shared_ptr<Tensor<T>> C_p =
+  std::shared_ptr<Tensor<T>> C_p =
       C.has_value() ? *C : TensorFactory::create_tensor<T>({M, N});
   mml_gemm_intel(transA, transB, M, N, K, alpha, A, lda, B, ldb, beta, C_p,
                  ldc);
@@ -331,9 +341,9 @@ mml_onnx_gemm_intel_MKL(shared_ptr<Tensor<T>> A, shared_ptr<Tensor<T>> B,
 }
 
 template <typename T>
-static void mml_add(const shared_ptr<const Tensor<T>> a,
-                    const shared_ptr<const Tensor<T>> b,
-                    shared_ptr<Tensor<T>> c) {
+static void mml_add(const std::shared_ptr<const Tensor<T>> a,
+                    const std::shared_ptr<const Tensor<T>> b,
+                    std::shared_ptr<Tensor<T>> c) {
   const auto size = a->get_size();
   for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] + (*b)[i];
@@ -341,9 +351,9 @@ static void mml_add(const shared_ptr<const Tensor<T>> a,
 }
 
 template <typename T>
-static void mml_subtract(const shared_ptr<Tensor<T>> a,
-                         const shared_ptr<Tensor<T>> b,
-                         shared_ptr<Tensor<T>> c) {
+static void mml_subtract(const std::shared_ptr<Tensor<T>> a,
+                         const std::shared_ptr<Tensor<T>> b,
+                         std::shared_ptr<Tensor<T>> c) {
   const auto size = a->get_size();
   for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] - (*b)[i];
@@ -351,8 +361,8 @@ static void mml_subtract(const shared_ptr<Tensor<T>> a,
 }
 
 template <typename T>
-static void mml_multiply(const shared_ptr<Tensor<T>> a, const T b,
-                         shared_ptr<Tensor<T>> c) {
+static void mml_multiply(const std::shared_ptr<Tensor<T>> a, const T b,
+                         std::shared_ptr<Tensor<T>> c) {
   const auto size = a->get_size();
   for (uli i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] * b;
@@ -360,8 +370,8 @@ static void mml_multiply(const shared_ptr<Tensor<T>> a, const T b,
 }
 
 template <typename T>
-static bool mml_equals(const shared_ptr<Tensor<T>> a,
-                       const shared_ptr<Tensor<T>> b) {
+static bool mml_equals(const std::shared_ptr<Tensor<T>> a,
+                       const std::shared_ptr<Tensor<T>> b) {
   if (a->get_size() != b->get_size() || a->get_shape() != b->get_shape()) {
     return false;
   } else {
@@ -376,9 +386,9 @@ static bool mml_equals(const shared_ptr<Tensor<T>> a,
 }
 
 template <typename T>
-static void mml_elementwise(const shared_ptr<const Tensor<T>> a,
-                            const function<T(T)> &f,
-                            const shared_ptr<Tensor<T>> c) {
+static void mml_elementwise(const std::shared_ptr<const Tensor<T>> a,
+                            const std::function<T(T)> &f,
+                            const std::shared_ptr<Tensor<T>> c) {
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
@@ -389,7 +399,7 @@ static void mml_elementwise(const shared_ptr<const Tensor<T>> a,
   const auto total_elements = a->get_size();
 
   for (uli linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
-    // Apply function `f` from `a` to `c`
+    // Apply std::function `f` from `a` to `c`
     (*c)[indices] = f((*a)[indices]);
 
     // Increment indices
@@ -404,8 +414,8 @@ static void mml_elementwise(const shared_ptr<const Tensor<T>> a,
 }
 
 template <typename T>
-static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a,
-                                     const function<T(T)> &f) {
+static void mml_elementwise_in_place(const std::shared_ptr<Tensor<T>> a,
+                                     const std::function<T(T)> &f) {
   const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
@@ -417,7 +427,7 @@ static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a,
   const auto total_elements = a->get_size();
 
   for (uli linear_idx = 0; linear_idx < total_elements; ++linear_idx) {
-    // Apply the function `f` to the current element
+    // Apply the std::function `f` to the current element
     (*a)[indices] = f((*a)[indices]);
 
     // Increment indices like a multi-dimensional counter
@@ -432,10 +442,10 @@ static void mml_elementwise_in_place(const shared_ptr<Tensor<T>> a,
 }
 
 template <typename T>
-static int mml_arg_max(const shared_ptr<const Tensor<T>> a) {
+static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a) {
   const auto size = a->get_size();
   if (size == 0) {
-    throw runtime_error("arg_max called on an empty tensor.");
+    throw std::runtime_error("arg_max called on an empty tensor.");
   }
 
   T max_value = (*a)[0];

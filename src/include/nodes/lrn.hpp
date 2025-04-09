@@ -26,20 +26,21 @@ public:
   LRNNode_mml(std::string X, std::string Y, uli size, float alpha = 0.0001f,
               float beta = 0.75f, float bias = 1.0f);
 
-  LRNNode_mml(const json& node);
+  LRNNode_mml(const nlohmann::json &node);
 
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
-   * 
+   *
    * @return The names of the inputs to the node.
    */
   std::vector<std::string> getInputs() override;
 
   /**
    * @brief Get outputs.
-   * 
+   *
    * @return The names of the outputs to the node.
    */
   std::vector<std::string> getOutputs() override;
