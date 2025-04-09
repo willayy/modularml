@@ -151,7 +151,6 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
     -fprofile-arcs
     -ftest-coverage
     )
-
 endif()
 
 # Link the test executable with the main project executable
@@ -169,7 +168,7 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 find_program(GCOVR_EXECUTABLE gcovr)
 if(NOT GCOVR_EXECUTABLE)
-    message(WARNING "gcovr not found. Please install gcovr.")
+    message(WARNING "gcovr not found. Skipping coverage report.")
 else()
     message(STATUS "gcovr found at ${GCOVR_EXECUTABLE}")
 endif()
