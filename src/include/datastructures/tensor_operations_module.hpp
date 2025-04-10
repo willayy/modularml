@@ -241,7 +241,8 @@ public:
                              const std::vector<int> &kernel_shape, const std::vector<int> &strides,
                              const std::vector<int> &dilations,
                              const std::vector<std::pair<int, int>> &pads,
-                             WindowOpFn<T> window_fn);
+                             const int storage_order,
+                             const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f);
   
   /**
    * @brief Sets the sliding_window function pointer.
@@ -255,7 +256,8 @@ public:
                                                         const std::vector<int> &strides,
                                                         const std::vector<int> &dilations,
                                                         const std::vector<std::pair<int, int>> &pads,
-                                                        WindowOpFn<T> window_fn)> ptr);
+                                                        const int storage_order,
+                                                        const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)> ptr);
 
 
 
@@ -330,7 +332,8 @@ private:
                             const std::vector<int>& strides,
                             const std::vector<int>& dilations,
                             const std::vector<std::pair<int, int>>& pads,
-                            WindowOpFn<T> window_fn)> sliding_window_ptr;
+                            const int storage_order,
+                            const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)> sliding_window_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

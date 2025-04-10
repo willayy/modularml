@@ -4,6 +4,8 @@
 #include "datastructures/mml_tensor.hpp"
 #include "backend/mml_gemm.hpp"
 #include "backend/mml_arithmetic.hpp"
+#include "nodes/node_utils.hpp"
+#include "datastructures/tensor_operations_module.hpp"
 
 #include "globals.hpp"
 

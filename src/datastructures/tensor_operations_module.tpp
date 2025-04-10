@@ -66,7 +66,8 @@ std::function<void(const std::shared_ptr<const Tensor<T>>& input,
                    const std::vector<int>& strides,
                    const std::vector<int>& dilations,
                    const std::vector<std::pair<int, int>>& pads,
-                   WindowOpFn<T> window_fn)>
+                   const int storage_order,
+                   const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)>
     TensorOperationsModule::sliding_window_ptr =
         mml_sliding_window<T>; // NOSONAR - Not a global variable
 
@@ -153,7 +154,8 @@ void TensorOperationsModule::set_sliding_window_ptr(
                        const std::vector<int>& strides,
                        const std::vector<int>& dilations,
                        const std::vector<std::pair<int, int>>& pads,
-                       WindowOpFn<T> window_fn)>
+                       const int storage_order,
+                       const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)>
         ptr) {
   sliding_window_ptr<T> = ptr;
 }
@@ -226,6 +228,7 @@ void TensorOperationsModule::sliding_window(const std::shared_ptr<const Tensor<T
                                             const std::vector<int>& strides,
                                             const std::vector<int>& dilations,
                                             const std::vector<std::pair<int, int>>& pads,
-                                            WindowOpFn<T> window_fn) {
-  return sliding_window_ptr<T>(input, output, indices_out, kernel_shape, strides, dilations, pads, window_fn);
+                                            const int storage_order,
+                                            const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f) {
+  return sliding_window_ptr<T>(input, output, indices_out, kernel_shape, strides, dilations, pads, storage_order, window_f);
 }

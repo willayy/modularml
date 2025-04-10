@@ -13,8 +13,8 @@
 #include "nodes/gemm.hpp"
 #include "nodes/lrn.hpp"
 #include "nodes/log_softmax.hpp"
-#include "nodes/avg_pooling.hpp"
-#include "nodes/max_pooling.hpp"
+#include "nodes/avg_pool.hpp"
+#include "nodes/max_pool.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/a_node.hpp"
 

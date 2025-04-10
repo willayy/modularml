@@ -1,7 +1,6 @@
 #pragma once
 
 #include "nodes/a_node.hpp"
-#include "nodes/node_utils.hpp"
 
 class MaxPoolNode : public Node {
 public:
@@ -12,7 +11,7 @@ public:
      * 
      * @param X Input tensor name.
      * @param Y Output tensor name.
-     * @param indices Indices tensor name.
+     * @param indices Optional indices tensor name (default: nullopt).
      * @param auto_pad Padding type (default: "NOTSET").
      * @param ceil_mode Ceil mode (default: 0).
      * @param kernel_shape Kernel shape.
@@ -20,11 +19,11 @@ public:
      * @param storage_order Storage order (default: 0).
      * @param strides Stride values.
      */
-    MaxPoolNode(std::string X, std::string Y, std::string indices,
-                std::string auto_pad = "NOTSET", int ceil_mode = 0,
-                std::vector<int> kernel_shape,
-                std::vector<int> pads,
-                int storage_order = 0, std::vector<int> strides);
+    MaxPoolNode(std::string X, std::string Y, std::vector<int> kernel_shape, 
+                std::optional<std::string> indices = std::nullopt,
+                std::string auto_pad = "NOTSET", int ceil_mode = 0, std::vector<int> dilations = {},
+                std::vector<int> pads = {},
+                int storage_order = 0, std::vector<int> strides = {});
 
     /**
      * @brief Constructor for MaxPoolNode.
@@ -58,7 +57,7 @@ private:
 
     // Outputs
     std::string Y;
-    std::string indices;
+    std::optional<std::string> indices;
 
     // Attributes
     std::string auto_pad;
