@@ -194,5 +194,33 @@ TEST(test_mml_gemm, gemm_256x256_float) {
   ASSERT_TRUE(1); // This test is here to be able to check the time it takes for different GEMM inplementations
 }
 
+TEST(test_mml_gemm, gemm_122x122_float) {
+  // Here we check that gemm still works when size is not divisiable by 8 just in case
+  array_mml<float> a_data = generate_random_array_mml_real<float>(122 * 122, 122 * 122, 0, 100);
+  array_mml<float> b_data = generate_random_array_mml_real<float>(122 * 122, 122 * 122, 0, 100);
+  
+  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({122, 122}, a_data);
+  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({122, 122}, b_data);
+  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({122, 122});
+  
+  TensorOperationsModule::gemm<float>(0, 0, 122, 122, 122, 1, a, 122, b, 122, 0, c, 122);
+  
+  ASSERT_TRUE(1); // This test is here to be able to check the time it takes for different GEMM inplementations
+}
+
+TEST(test_mml_gemm, gemm_250x250_float) {
+  // Here we check that gemm still works when size is not divisiable by 8 just in case
+  array_mml<float> a_data = generate_random_array_mml_real<float>(250 * 250, 250 * 250, 0, 100);
+  array_mml<float> b_data = generate_random_array_mml_real<float>(250 * 250, 250 * 250, 0, 100);
+  
+  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({250, 250}, a_data);
+  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({250, 250}, b_data);
+  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({250, 250});
+  
+  TensorOperationsModule::gemm<float>(0, 0, 250, 250, 250, 1, a, 250, b, 250, 0, c, 250);
+  
+  ASSERT_TRUE(1); // This test is here to be able to check the time it takes for different GEMM inplementations
+}
+
 
 
