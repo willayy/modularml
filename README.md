@@ -15,6 +15,21 @@ ModularML is a machine learning framework with the aim to let users more easily 
 
 The framework loads already trained models using the onnx format, the onnx file is then translated into JSON which the framework uses during runtime to construct the model internally. The user is then to run inference on the model by feeding the model some input data.
 
+
+### Backend Implementations
+Machine learning entails heavy use of **General Matrix Multiplication (GEMM)** to perform calculations. ModularML provides several interchangeable backend implementations for executing these efficiently.
+Current backend implementations include:
+
+- **Naive GEMM Backend**
+  A simple reference implementation. Good for understanding the computation step-by-step.
+- **Blocked GEMM Backend**
+  Optimized for cache locality by processing matrices in smaller blocks.
+- **AVX2 GEMM Backend**
+  Uses AVX2 SIMD intrinsics to faster computation on supported CPU:s.
+- **AVX512 GEMM Backend**
+  Uses AVX512 SIMD intrinsics to even faster computation on supported CPU:s.
+
+
 ### Requirements
 
 - **C++ Compiler**  
@@ -31,15 +46,27 @@ make install
 ```
 
 ### Configure & Build The Framework
-This command will configure and build the framework.
+This command will configure and build the framework using the default naive GEMM backend.
 ```sh
 make all
 ```
-
+To compile the framework using the blocked GEMM backend for example:
+```sh
+make blocked_gemm
+```
+To check which backends are available on your system:
+```sh
+make check_backends
+```
+This will show you a list of available and/or unavailable backends.
 ### Run Tests
-This command will run all the unit and integration tests for the framework.
+This command will run all the unit and integration tests for the framework using the default naive GEMM backend.
 ```sh
 make test
+```
+To compile and run the tests using the blocked GEMM backend for example:
+```sh
+make test_blocked_gemm
 ```
 
 ### Contributing

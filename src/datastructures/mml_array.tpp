@@ -4,7 +4,24 @@
 
 template <typename T>
 array_mml<T>::array_mml(size_t size)
-    : data(std::make_shared<T[]>(size)), d_size(size) {}
+    : d_size(size) {
+
+    
+#ifdef ALIGN_TENSORS
+  size_t alignment = MEMORY_ALIGNMENT; // Gets set during compilation based on GEMM impl.
+
+  void* ptr = nullptr;
+  if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
+    throw std::bad_alloc();
+  }
+
+  data = std::shared_ptr<T[]>(static_cast<T*>(ptr), [](T* ptr) {
+    free(ptr);
+  });
+#else
+      data = std::shared_ptr<T[]>(new T[size]);
+#endif
+} 
 
 template <typename T>
 array_mml<T>::array_mml(std::initializer_list<T> data)
