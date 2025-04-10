@@ -254,10 +254,12 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
   
         for (int k = 0; k < K; k++) {
   
-          __m256i a_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*A)[i * lda + k]));
+          int a_scalar = (*A)[i * lda + k]; 
+          __m256i a_broadcast = _mm256_set1_epi32(a_scalar);  
+
           __m256i b_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(&(*B)[k * ldb + j]));
-  
-          __m256i product = _mm256_mullo_epi32(a_vals, b_vals);
+          __m256i product = _mm256_mullo_epi32(a_broadcast, b_vals);
+
           sum = _mm256_add_epi32(sum, product);
         }
     
