@@ -8,8 +8,8 @@
  * computational graph.
  *
  * This class inherits from the Node class and represents the gaussian error
- * linear units function in a computational graph. The function is applied
- * elementwise.
+ * linear units std::function in a computational graph. The std::function is
+ * applied elementwise.
  */
 class GeluNode : public Node {
 public:
@@ -18,36 +18,37 @@ public:
   /**
    * @brief Constructor for GeluNode.
    *
-   * @param X Unique string key to the tensor X.
-   * @param Y Unique string key to the output tensor.
-   * @param approximate Gelu approximation algorithm. Accepts 'tanh' and 'none'.
-   * Default = 'none'.
+   * @param X Unique std::string key to the tensor X.
+   * @param Y Unique std::string key to the output tensor.
+   * @param approximate Gelu approximation algorithm. Accepts 'std::tanh' and
+   * 'none'. Default = 'none'.
    */
-  GeluNode(std::string X, std::string Y,
-           string approximate = "none");
+  GeluNode(std::string X, std::string Y, std::string approximate = "none");
 
   /**
    * @brief Constructor for GeluNode from JSON.
-   * 
+   *
    * @param node JSON object representing the Gelu node.
    */
-  GeluNode(const json &node);
+  GeluNode(const nlohmann::json &node);
 
   /**
-   * @brief Perform the forward pass computation using Gelu activation function.
+   * @brief Perform the forward pass computation using Gelu activation
+   * std::function.
    */
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
-   * 
+   *
    * @return The names of the inputs to the node.
    */
   std::vector<std::string> getInputs() override;
 
   /**
    * @brief Get outputs.
-   * 
+   *
    * @return The names of the outputs to the node.
    */
   std::vector<std::string> getOutputs() override;
@@ -58,5 +59,5 @@ private:
   ///@brief Pointer to output tensor
   std::string Y;
   ///@brief Gelu approximation algorithm
-  string approximate;
+  std::string approximate;
 };

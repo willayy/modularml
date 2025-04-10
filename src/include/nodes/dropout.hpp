@@ -7,10 +7,11 @@
  * @brief A class representing a Dropout node in a computational graph.
  *
  * This class inherits from the Node class and represents the Dropout node
- * in a computational graph. It performs dropout only if training is set to True.
+ * in a computational graph. It performs dropout only if training is set to
+ * True.
  */
 class DropoutNode : public Node {
- public:
+public:
   using T = std::variant<double, float>;
   using T2 = std::variant<bool>;
 
@@ -24,49 +25,48 @@ class DropoutNode : public Node {
    * @param training_mode Training mode, False by default.
    * @param seed Random seed, None by default.
    */
-  DropoutNode(std::string data,
-              std::string output,
-              optional<std::string> mask = std::nullopt,
-              float ratio = 0.5,
+  DropoutNode(std::string data, std::string output,
+              std::optional<std::string> mask = std::nullopt, float ratio = 0.5,
               bool training_mode = false,
-              optional<int> seed = std::nullopt);
-              
+              std::optional<int> seed = std::nullopt);
+
   /**
    * @brief Constructor for DropoutNode from JSON.
    *
    * @param node JSON object representing the Dropout node.
    */
-  DropoutNode(const json& node);
+  DropoutNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass using dropout.
    */
-  void forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) override;
+  void
+  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
-   * 
+   *
    * @return The names of the inputs to the node.
    */
   std::vector<std::string> getInputs() override;
 
   /**
    * @brief Get outputs.
-   * 
+   *
    * @return The names of the outputs to the node.
    */
   std::vector<std::string> getOutputs() override;
 
- private:
+private:
   // Inputs
-  std::string data;  // Input tensor.
+  std::string data; // Input tensor.
 
   // Outputs
-  std::string output;          // Output tensor.
-  optional<std::string> mask;  // Optional output tensor mask.
+  std::string output;              // Output tensor.
+  std::optional<std::string> mask; // Optional output tensor mask.
 
   // Attributes
-  float ratio;         // Dropout ratio.
-  bool training_mode;  // Training mode.
-  optional<int> seed;  // Random seed.
+  float ratio;             // Dropout ratio.
+  bool training_mode;      // Training mode.
+  std::optional<int> seed; // Random seed.
 };

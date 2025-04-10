@@ -1,7 +1,25 @@
 #pragma once
 
 #include "datastructures/a_tensor.hpp"
-#include "globals.hpp"
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <functional>
+#include <initializer_list>
+#include <iostream>
+#include <memory>
+#include <nlohmann/json.hpp>
+#include <numeric>
+#include <optional>
+#include <random>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <variant>
+#include <vector>
 
 /*!
  * @brief A Tensor<T> implementation using an underlying
@@ -15,29 +33,33 @@ public:
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(const initializer_list<uli> shape,
-                      optional<array_mml<uli>> slice_offsets = nullopt);
+  explicit Tensor_mml(
+      const std::initializer_list<size_t> shape,
+      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(const initializer_list<uli> shape,
-                      const initializer_list<T> data,
-                      optional<array_mml<uli>> slice_offsets = nullopt);
+  explicit Tensor_mml(
+      const std::initializer_list<size_t> shape,
+      const std::initializer_list<T> data,
+      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(const array_mml<uli> &shape,
-                      optional<array_mml<uli>> slice_offsets = nullopt);
+  explicit Tensor_mml(
+      const array_mml<size_t> &shape,
+      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(const array_mml<uli> &shape, const array_mml<T> &data,
-                      optional<array_mml<uli>> slice_offsets = nullopt);
+  explicit Tensor_mml(
+      const array_mml<size_t> &shape, const array_mml<T> &data,
+      std::optional<array_mml<size_t>> slice_offsets = std::nullopt);
 
   /// @brief Destructor for Tensor_mml class.
   ~Tensor_mml() = default;
@@ -55,58 +77,64 @@ public:
   /// Ovveridden methods from the base class
   Tensor<T> &operator=(const Tensor<T> &other) override;
   Tensor<T> &operator=(Tensor<T> &&other) noexcept override;
-  string to_string() const override;
-  shared_ptr<Tensor<T>> copy() const override;
+  std::string to_string() const override;
+  std::shared_ptr<Tensor<T>> copy() const override;
   void reverse_buffer() override;
-  shared_ptr<Tensor<T>> slice(initializer_list<uli> slice_indices) override;
-  shared_ptr<Tensor<T>> slice(array_mml<uli> &slice_indices) override;
-  void reshape(const array_mml<uli> &new_shape) override;
-  void reshape(initializer_list<uli> new_shape) override;
+  std::shared_ptr<Tensor<T>>
+  slice(std::initializer_list<size_t> slice_indices) override;
+  std::shared_ptr<Tensor<T>> slice(array_mml<size_t> &slice_indices) override;
+  void reshape(const array_mml<size_t> &new_shape) override;
+  void reshape(std::initializer_list<size_t> new_shape) override;
   bool is_matrix() const override;
   bool matrix_match(const Tensor<T> &other) const override;
   bool operator==(const Tensor<T> &other) const override;
   bool operator!=(const Tensor<T> &other) const override;
-  const array_mml<uli> &get_shape() const override;
-  const array_mml<uli> &get_offsets() const;
-  uli get_size() const override;
-  const T &operator[](array_mml<uli> &indices) const override;
-  T &operator[](array_mml<uli> &indices) override;
-  const T &operator[](initializer_list<uli> indices) const override;
-  T &operator[](initializer_list<uli> indices) override;
-  const T &operator[](uli index) const override;
-  T &operator[](uli index) override;
+  const array_mml<size_t> &get_shape() const override;
+  const array_mml<size_t> &get_offsets() const;
+  size_t get_size() const override;
+  const T &operator[](array_mml<size_t> &indices) const override;
+  T &operator[](array_mml<size_t> &indices) override;
+  const T &operator[](std::initializer_list<size_t> indices) const override;
+  T &operator[](std::initializer_list<size_t> indices) override;
+  const T &operator[](size_t index) const override;
+  T &operator[](size_t index) override;
   void fill(T value) override;
-  shared_ptr<Tensor<T>> transpose(std::optional<uli> dim0 = std::nullopt, std::optional<uli> dim1 = std::nullopt) const override;
-  std::shared_ptr<Tensor<T>> broadcast_to(const array_mml<uli>& target_shape) const override;
+  std::shared_ptr<Tensor<T>>
+  transpose(std::optional<size_t> dim0 = std::nullopt,
+            std::optional<size_t> dim1 = std::nullopt) const override;
+  std::shared_ptr<Tensor<T>>
+  broadcast_to(const array_mml<size_t> &target_shape) const override;
 
 private:
   array_mml<T> data;
-  array_mml<uli> shape;
-  array_mml<uli> indices_offsets;
-  optional<array_mml<uli>> slice_offsets;
-  uli size;
+  array_mml<size_t> shape;
+  array_mml<size_t> indices_offsets;
+  std::optional<array_mml<size_t>> slice_offsets;
+  size_t size;
 
   // Helper methods
-  uli compute_size() const;
-  array_mml<uli> compute_indices_offsets() const;
-  array_mml<uli> compute_slice_offsets(array_mml<uli> &slice_indices_size,
-                                       array_mml<uli> &slice_shape) const;
-  bool valid_shape(const array_mml<uli> &new_shape) const;
-  bool valid_indices(const array_mml<uli> &indices) const;
-  bool valid_index(uli index) const;
-  bool valid_slice_indices(const array_mml<uli> &slice_indices) const;
-  uli indices_to_1d_index(array_mml<uli> indices) const;
-  uli index_to_slice_index(uli index) const;
-  bool is_broadcastable_to(const array_mml<uli>& target_shape) const;
+  size_t compute_size() const;
+  array_mml<size_t> compute_indices_offsets() const;
+  array_mml<size_t> compute_slice_offsets(array_mml<size_t> &slice_indices_size,
+                                          array_mml<size_t> &slice_shape) const;
+  bool valid_shape(const array_mml<size_t> &new_shape) const;
+  bool valid_indices(const array_mml<size_t> &indices) const;
+  bool valid_index(size_t index) const;
+  bool valid_slice_indices(const array_mml<size_t> &slice_indices) const;
+  size_t indices_to_1d_index(array_mml<size_t> indices) const;
+  size_t index_to_slice_index(size_t index) const;
+  bool is_broadcastable_to(const array_mml<size_t> &target_shape) const;
 };
 
 template <typename T>
 [[deprecated("Use TensorFactory instead")]]
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape);
+std::shared_ptr<Tensor<T>>
+tensor_mml_p(const std::initializer_list<size_t> shape);
 
 template <typename T>
 [[deprecated("Use TensorFactory instead")]]
-shared_ptr<Tensor<T>> tensor_mml_p(const initializer_list<uli> shape,
-                                   const initializer_list<T> data);
+std::shared_ptr<Tensor<T>>
+tensor_mml_p(const std::initializer_list<size_t> shape,
+             const std::initializer_list<T> data);
 
 #include "../datastructures/mml_tensor.tpp"

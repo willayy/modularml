@@ -1,14 +1,12 @@
 #include "nodes/dropout.hpp"
 
-DropoutNode::DropoutNode(std::string data,
-                            std::string output,
-                            optional<std::string> mask,
-                            float ratio,
-                            bool training_mode,
-                            optional<int> seed)
-    : data(data), output(output), mask(mask), ratio(ratio), training_mode(training_mode), seed(seed) {}
+DropoutNode::DropoutNode(std::string data, std::string output,
+                         std::optional<std::string> mask, float ratio,
+                         bool training_mode, std::optional<int> seed)
+    : data(data), output(output), mask(mask), ratio(ratio),
+      training_mode(training_mode), seed(seed) {}
 
-DropoutNode::DropoutNode(const json& node) {
+DropoutNode::DropoutNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {
     data = node["input"][0];
   }
@@ -24,11 +22,11 @@ DropoutNode::DropoutNode(const json& node) {
   training_mode = false;
   seed = std::nullopt;
   if (node.contains("attribute") && node["attribute"].is_array()) {
-    for (const auto& attr : node["attribute"]) {
+    for (const auto &attr : node["attribute"]) {
       if (attr["name"] == "ratio") {
         ratio = attr["f"];
       } else if (attr["name"] == "training_mode") {
-        //training_mode;
+        // training_mode;
       } else if (attr["name"] == "seed") {
         seed = std::stoi(attr["i"].get<std::string>());
       }
@@ -36,51 +34,61 @@ DropoutNode::DropoutNode(const json& node) {
   }
 }
 
-void DropoutNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) {
+void DropoutNode::forward(
+    std::unordered_map<std::string, GeneralDataTypes> &iomap) {
   auto data_it = iomap.find(data);
   if (data_it == iomap.end()) {
-      throw std::runtime_error("ReshapeNode: Input tensor data not found in iomap");
+    throw std::runtime_error(
+        "ReshapeNode: Input tensor data not found in iomap");
   }
 
-  const GeneralDataTypes& data_tensor = data_it->second;
+  const GeneralDataTypes &data_tensor = data_it->second;
 
-  std::visit([&](const auto& data_ptr) {
-    using TensorPtr = std::decay_t<decltype(data_ptr)>;
-    using TensorType = typename TensorPtr::element_type;
-    using ValueType = typename TensorType::value_type;
+  std::visit(
+      [&](const auto &data_ptr) {
+        using TensorPtr = std::decay_t<decltype(data_ptr)>;
+        using TensorType = typename TensorPtr::element_type;
+        using ValueType = typename TensorType::value_type;
 
-    if constexpr (!is_in_variant_v<ValueType, T>) {
-      throw std::runtime_error("DropoutNode: Unsupported data type for tensor data");
-    } else {
-      auto output_it = iomap.find(output);
-      if (output_it == iomap.end()) {
-        // Create a new output tensor by copying the input tensor
-        auto output_ptr = data_ptr->copy();
-        // No need to fill with zeros as the dropout function will overwrite the values
-        iomap[output] = output_ptr;
-        output_it = iomap.find(output);
-      } else if (!std::holds_alternative<std::shared_ptr<Tensor<ValueType>>>(output_it->second)) {
-        throw std::runtime_error("DropoutNode: Output tensor has incorrect type");
-      }
+        if constexpr (!is_in_variant_v<ValueType, T>) {
+          throw std::runtime_error(
+              "DropoutNode: Unsupported data type for tensor data");
+        } else {
+          auto output_it = iomap.find(output);
+          if (output_it == iomap.end()) {
+            // Create a new output tensor by copying the input tensor
+            auto output_ptr = data_ptr->copy();
+            // No need to fill with zeros as the dropout std::function will
+            // overwrite the values
+            iomap[output] = output_ptr;
+            output_it = iomap.find(output);
+          } else if (!std::holds_alternative<
+                         std::shared_ptr<Tensor<ValueType>>>(
+                         output_it->second)) {
+            throw std::runtime_error(
+                "DropoutNode: Output tensor has incorrect type");
+          }
 
-      auto output_ptr = std::get<std::shared_ptr<Tensor<ValueType>>>(output_it->second);
+          auto output_ptr =
+              std::get<std::shared_ptr<Tensor<ValueType>>>(output_it->second);
 
-      if (data_ptr->get_shape().size() < 1) {
-        throw runtime_error("Tensor data must be at least 1D.");
-      }
+          if (data_ptr->get_shape().size() < 1) {
+            throw std::runtime_error("Tensor data must be at least 1D.");
+          }
 
-      if (training_mode) {
-        throw runtime_error("DropoutNode forward pass in training mode is not implemented yet.");
-      } else {
-        *output_ptr = *data_ptr;
-      }
-    }
-  }, data_tensor);
+          if (training_mode) {
+            throw std::runtime_error(
+                "DropoutNode forward pass in training mode is "
+                "not implemented yet.");
+          } else {
+            *output_ptr = *data_ptr;
+          }
+        }
+      },
+      data_tensor);
 }
 
-std::vector<std::string> DropoutNode::getInputs() {
-  return {data};
-}
+std::vector<std::string> DropoutNode::getInputs() { return {data}; }
 
 std::vector<std::string> DropoutNode::getOutputs() {
   if (mask.has_value()) {

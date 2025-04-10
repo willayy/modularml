@@ -14,7 +14,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 # Check if GCC is the compiler
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang"))
     message(WARNING "WARNING: This project recommends GCC or Clang as the compiler.")
 endif()
 
@@ -152,19 +152,49 @@ add_executable(
     ${TEST_SOURCES}
 )
 
-# Compiler flags
-target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    # Compiler flags
+    target_compile_options(${PROJECT_NAME}_tests PRIVATE 
     -g 
+    -O0 
     -fPIC 
     --coverage 
     -fprofile-abs-path 
     -Wfatal-errors 
     -fmax-errors=1 
     -pedantic-errors
-)
+    )
+    # Linker flags
+    target_link_options(${PROJECT_NAME}_tests PRIVATE 
+    -g 
+    -O0 
+    -fPIC 
+    --coverage 
+    -fprofile-abs-path
+    )
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
+    # Compiler flags
+    target_compile_options(${PROJECT_NAME}_tests PRIVATE
+    -g
+    -O0
+    -fPIC
+    -fprofile-arcs
+    -ftest-coverage
+    -ferror-limit=1
+    -pedantic-errors
+    -Wfatal-errors
+    )
+    # Linker flags
+    target_link_options(${PROJECT_NAME}_tests PRIVATE
+    -g
+    -O0
+    -fPIC
+    -fprofile-arcs
+    -ftest-coverage
+    )
 
-# Linker flags
-target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+endif()
+
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 # Link gtest
@@ -178,10 +208,15 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
-find_program(GCOVR_EXECUTABLE gcovr REQUIRED)
+find_program(GCOVR_EXECUTABLE gcovr)
+if(NOT GCOVR_EXECUTABLE)
+    message(WARNING "gcovr not found. Please install gcovr.")
+else()
+    message(STATUS "gcovr found at ${GCOVR_EXECUTABLE}")
+endif()
 
 # If on MacOS, gcovr --gcov-executable gcov-14
-if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr)
+if(${GCOVR_EXECUTABLE} STREQUAL /opt/homebrew/bin/gcovr AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     set(GCOVR_EXECUTABLE ${GCOVR_EXECUTABLE} --gcov-executable gcov-14)
 endif()
 
@@ -200,6 +235,12 @@ add_dependencies(coverage_report ${PROJECT_NAME}_tests)
 find_package(Doxygen
              REQUIRED dot
              OPTIONAL_COMPONENTS mscgen dia)
+
+if(DOXYGEN_FOUND)
+    message(STATUS "Doxygen found at ${DOXYGEN_EXECUTABLE}")
+else()
+    message(WARNING "Doxygen not found. Skipping documentation generation.")
+endif()
 
 # Set the input directory for Doxygen
 set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
@@ -222,3 +263,13 @@ add_custom_target(docs
     COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
 )
+
+# ------------------- Include-what-you-use --------------------- #
+# Check if include-what-you-use is installed
+find_program(iwyu include-what-you-use)
+if(iwyu)
+    message(STATUS "include-what-you-use found at ${iwyu}")
+    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+else()
+    message(WARNING "include-what-you-use not found. Skipping IWYU.")
+endif()

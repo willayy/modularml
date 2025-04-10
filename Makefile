@@ -12,7 +12,7 @@ endif
 
 ifeq ($(OS), Darwin) # MacOS
 	PKG_MANAGER := brew install
-	DEPENDENCIES := cmake g++ make graphviz gcovr doxygen
+	DEPENDENCIES := cmake g++ make graphviz gcovr doxygen include-what-you-use
 endif
 
 
