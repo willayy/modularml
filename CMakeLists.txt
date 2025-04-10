@@ -154,8 +154,6 @@ add_executable(
 
 # Compiler flags
 target_compile_options(${PROJECT_NAME}_tests PRIVATE 
-    -funroll-loops
-    -O3
     -g 
     -fPIC 
     --coverage 
