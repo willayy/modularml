@@ -35,27 +35,3 @@ array_mml<T> generate_random_array_mml_real(uli lo_sz, uli hi_sz, T lo_v,
   }
   return arr;
 }
-
-template <typename T>
-array_mml<T> generate_array_random_content(uli size, T lower_bound, T upper_bound) {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  array_mml<T> arr = array_mml<T>(size);
-  std::uniform_int_distribution<T> int_dist(lower_bound, upper_bound);
-  for (uli i = 0; i < size; i++) {
-    arr[i] = int_dist(gen);
-  }
-  return arr;
-}
-
-template <typename T>
-array_mml<T> generate_array_random_content_real(uli size, T lower_bound, T upper_bound) {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  array_mml<T> arr = array_mml<T>(size);
-  std::uniform_real_distribution<T> real_dist(lower_bound, upper_bound);
-  for (uli i = 0; i < size; i++) {
-    arr[i] = real_dist(gen);
-  }
-  return arr;
-}
