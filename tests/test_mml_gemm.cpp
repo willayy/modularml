@@ -238,9 +238,9 @@ TEST(test_mml_gemm, gemm_128x128_float) {
   array_mml<float> a_data = generate_random_array_mml_real<float>(16384, 16384, 0, 100);
   array_mml<float> b_data = generate_random_array_mml_real<float>(16384, 16384, 0, 100);
   
-  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({128, 128}, a_data);
-  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({128, 128}, b_data);
-  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({128, 128});
+  std::shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({128, 128}, a_data);
+  std::shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({128, 128}, b_data);
+  std::shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({128, 128});
   
   TensorOperationsModule::gemm<float>(0, 0, 128, 128, 128, 1, a, 128, b, 128, 0, c, 128);
   
@@ -251,9 +251,9 @@ TEST(test_mml_gemm, gemm_256x256_float) {
   array_mml<float> a_data = generate_random_array_mml_real<float>(65536, 65536, 0, 100);
   array_mml<float> b_data = generate_random_array_mml_real<float>(65536, 65536, 0, 100);
   
-  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({256, 256}, a_data);
-  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({256, 256}, b_data);
-  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({256, 256});
+  std::shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({256, 256}, a_data);
+  std::shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({256, 256}, b_data);
+  std::shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({256, 256});
   
   TensorOperationsModule::gemm<float>(0, 0, 256, 256, 256, 1, a, 256, b, 256, 0, c, 256);
   
@@ -265,9 +265,9 @@ TEST(test_mml_gemm, gemm_122x122_float) {
   array_mml<float> a_data = generate_random_array_mml_real<float>(122 * 122, 122 * 122, 0, 100);
   array_mml<float> b_data = generate_random_array_mml_real<float>(122 * 122, 122 * 122, 0, 100);
   
-  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({122, 122}, a_data);
-  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({122, 122}, b_data);
-  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({122, 122});
+  std::shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({122, 122}, a_data);
+  std::shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({122, 122}, b_data);
+  std::shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({122, 122});
   
   TensorOperationsModule::gemm<float>(0, 0, 122, 122, 122, 1, a, 122, b, 122, 0, c, 122);
   
@@ -279,9 +279,9 @@ TEST(test_mml_gemm, gemm_250x250_float) {
   array_mml<float> a_data = generate_random_array_mml_real<float>(250 * 250, 250 * 250, 0, 100);
   array_mml<float> b_data = generate_random_array_mml_real<float>(250 * 250, 250 * 250, 0, 100);
   
-  shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({250, 250}, a_data);
-  shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({250, 250}, b_data);
-  shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({250, 250});
+  std::shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({250, 250}, a_data);
+  std::shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({250, 250}, b_data);
+  std::shared_ptr<Tensor<float>> c = TensorFactory::create_tensor<float>({250, 250});
   
   TensorOperationsModule::gemm<float>(0, 0, 250, 250, 250, 1, a, 250, b, 250, 0, c, 250);
   

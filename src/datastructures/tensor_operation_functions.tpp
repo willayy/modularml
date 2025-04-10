@@ -176,11 +176,11 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
             }
         }
     } else if(TA && !TB) {
-        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
+        throw std::invalid_argument("Transposition not yet supported in GEMM blocked.");
     } else if(!TA && TB) {
-        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
+        throw std::invalid_argument("Transposition not yet supported in GEMM blocked.");
     } else {
-        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
+        throw std::invalid_argument("Transposition not yet supported in GEMM blocked.");
     }
     return;
 }
@@ -192,9 +192,9 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                          std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported for AVX2 GEMM.");
+    throw std::invalid_argument("Transpose A not yet supported for AVX2 GEMM.");
   if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported for AVX2 GEMM.");
+    throw std::invalid_argument("Transpose B not yet supported for AVX2 GEMM.");
   
   if constexpr (std::is_same<T, float>::value) {
     for (int i = 0; i < M; i++) {
@@ -267,7 +267,7 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
     }
   }
   else {
-    throw runtime_error("AVX2 only suppports double, float or int");
+    throw std::runtime_error("AVX2 only suppports double, float or int");
   }
   return;
 }
@@ -278,9 +278,9 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                             std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1)
-    invalid_argument("Transpose A not yet supported for AVX-512 GEMM.");
+    throw std::invalid_argument("Transpose A not yet supported for AVX-512 GEMM.");
   if (TB == 1)
-    invalid_argument("Transpose B not yet supported for AVX-512 GEMM.");
+    throw std::invalid_argument("Transpose B not yet supported for AVX-512 GEMM.");
   
   
   if constexpr(std::is_same<T, float>::value) {
@@ -347,7 +347,7 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
     }
   }
   else {
-    throw runtime_error("AVX-512 only suppports double, float or int");
+    throw std::runtime_error("AVX-512 only suppports double, float or int");
   }
 }
 
