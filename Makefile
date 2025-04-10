@@ -16,7 +16,7 @@ ifeq ($(OS), Darwin) # MacOS
 endif
 
 
-.PHONY: all default_gemm blocked_gemm avx_gemm build run clean install test coverage docs
+.PHONY: all default_gemm blocked_gemm blocked_gemm_parallel avx_gemm avx512 build run clean install test coverage docs
 
 all: default_gemm
 
@@ -29,7 +29,7 @@ blocked_gemm:
 	@echo "Configuring the project with blocked GEMM implementation..."
 	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
-	
+
 avx_gemm:
 	@echo "Configuring the project with AVX2 GEMM implementation..."
 	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON -DUSE_AVX512_GEMM=OFF 
