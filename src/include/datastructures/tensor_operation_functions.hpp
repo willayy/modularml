@@ -28,11 +28,6 @@
  */
 
 template <typename T>
-using WindowOpFn = std::function<T(
-    const std::vector<T>& windowValues,
-    std::optional<int64_t>& outIndex)>;
-
-template <typename T>
 static shared_ptr<Tensor<T>> mml_onnx_gemm_inner_product(
     shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
     float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
@@ -178,7 +173,8 @@ static void mml_sliding_window(
   const std::vector<int>& strides,
   const std::vector<int>& dilations,
   const std::vector<std::pair<int, int>>& pads,
-  WindowOpFn<T> window_fn
+  const int storage_order,
+  const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f
 );
 
 #include "../datastructures/tensor_operation_functions.tpp"

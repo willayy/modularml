@@ -2,7 +2,6 @@
 
 #include "nodes/a_node.hpp"
 #include "nodes/add.hpp"
-#include "nodes/avg_pooling.hpp"
 #include "nodes/dropout.hpp"
 #include "nodes/elu.hpp"
 #include "nodes/flatten.hpp"
@@ -11,12 +10,13 @@
 #include "nodes/leaky_relu.hpp"
 #include "nodes/log_softmax.hpp"
 #include "nodes/lrn.hpp"
-#include "nodes/max_pooling.hpp"
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/sigmoid.hpp"
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
+#include "nodes/avg_pool.hpp"
+#include "nodes/max_pool.hpp"
 
 #include "backend/a_arithmetic_module.hpp"
 #include "backend/a_data_parser.hpp"

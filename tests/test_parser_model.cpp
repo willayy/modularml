@@ -128,7 +128,7 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
   ASSERT_TRUE(max_index == PREDICTED_CLASS_LENET);
 }
 
-TEST(test_mml_tensor, test_parsing_and_running_alexnet) {
+TEST(test_parser_model, test_parsing_and_running_alexnet) {
     std::ifstream file("../alexnet.json");
     ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
 

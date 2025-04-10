@@ -17,10 +17,18 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({2UL, 2UL}), "NOTSET", 0UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "NOTSET",                     // auto_pad
+    0,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    0,                            // storage_order
+    {2, 2}                        // strides
+ );
 
   max_pool.forward(iomap);
 
@@ -57,10 +65,18 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "SAME_UPPER",                     // auto_pad
+    1,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    0,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -138,10 +154,18 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_LOWER", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "SAME_LOWER",                     // auto_pad
+    1,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    0,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -178,10 +202,18 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "VALID", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "VALID",                     // auto_pad
+    1,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    0,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -218,10 +250,18 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "NOTSET",                     // auto_pad
+    1,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 1, 0},                 // pads
+    0,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -248,11 +288,19 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
 
   exp_output = tensor_mml_p<float>({1, 1, 3, 1}, {5, 8, 8});
   exp_output_indices = tensor_mml_p<int64_t>({1, 1, 3, 1}, {4, 7, 7});
-
-  max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 0UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 0UL);
+ 
+  max_pool = MaxPoolNode (
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "NOTSET",                     // auto_pad
+    0,                            // ceil_mode
+    {1, 1},                       // dilations
+    {0, 0, 1, 0},                 // pads
+    0,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -285,10 +333,17 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "VALID", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  AvgPoolNode avg_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "VALID",                      // auto_pad
+    1,                            // ceil_mode
+    0,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -314,10 +369,17 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  AvgPoolNode avg_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "SAME_UPPER",                 // auto_pad
+    1,                            // ceil_mode
+    0,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -332,10 +394,17 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
 
   exp_output = tensor_mml_p<float>({1, 1, 3, 2}, {3, 4.5, 6, 7.5, 7.5, 9});
 
-  avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  avg_pool = AvgPoolNode(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "SAME_UPPER",                 // auto_pad
+    0,                            // ceil_mode
+    0,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -354,10 +423,17 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
   exp_output =
       tensor_mml_p<float>({1, 1, 3, 2}, {3, 2.25, 6, 3.75, 3.75, 2.25});
 
-  avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
+  avg_pool = AvgPoolNode(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "SAME_UPPER",                 // auto_pad
+    0,                            // ceil_mode
+    1,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -383,10 +459,17 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_LOWER", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 0UL);
+  AvgPoolNode avg_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "SAME_LOWER",                 // auto_pad
+    1,                            // ceil_mode
+    0,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 0, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -412,10 +495,17 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
 
-  AvgPoolingNode_mml avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 1UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
+  AvgPoolNode avg_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "NOTSET",                     // auto_pad
+    1,                            // ceil_mode
+    1,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 1, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 
@@ -435,10 +525,17 @@ TEST(test_mml_pooling, test_avg_pool_custom_pad) {
 
   iomap[input_string] = input;
 
-  avg_pool = AvgPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "NOTSET", 0UL,
-      array_mml({1UL, 1UL}), array_mml({0UL, 1UL, 0UL, 0UL}), 1UL);
+  avg_pool = AvgPoolNode(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    "NOTSET",                     // auto_pad
+    0,                            // ceil_mode
+    1,                            // count_include_pad
+    {1, 1},                       // dilations
+    {0, 0, 1, 0},                 // pads
+    {1, 2}                        // strides
+  );
 
   avg_pool.forward(iomap);
 

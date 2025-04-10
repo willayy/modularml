@@ -3,16 +3,17 @@
 #include "nodes/node_utils.hpp"
 
 template <typename T>
-WindowOpFn<T> max_pool_reducer() {
-    return [](const std::vector<T>& windowValues, std::optional<int64_t>& outIndex) -> T {
+function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> max_pool_reducer() {
+    return [](const std::vector<T>& windowValues, const std::vector<int64_t>& wi, int64_t& outIndex) -> T {
         if (windowValues.empty()) {
             return static_cast<T>(0);
         }
         T max_val = windowValues[0];
-        // Simple max selection.
+        outIndex = 0;
         for (size_t i = 1; i < windowValues.size(); ++i) {
             if (windowValues[i] > max_val) {
                 max_val = windowValues[i];
+                outIndex = static_cast<int64_t>(i);
             }
         }
         // We ignore 'outIndex' for now.
@@ -20,8 +21,8 @@ WindowOpFn<T> max_pool_reducer() {
     };
 }
 template <typename T>
-WindowOpFn<T> avg_pool_reducer() {
-    return [](const std::vector<float>& windowValues, std::optional<int64_t>& outIndex) -> float {
+function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> avg_pool_reducer() {
+    return [](const std::vector<float>& windowValues, const std::vector<int64_t>& wi, int64_t& outIndex) -> float {
         if (windowValues.empty()) {
             return 0.0f;
         }
@@ -76,6 +77,7 @@ TEST(test_sliding_window, max_pool_2d) {
         strides,
         dilations,
         pads,
+        0,
         max_pool_reducer<float>()
     );
 
@@ -108,7 +110,7 @@ TEST(test_sliding_window, max_pool_1d) {
 
     TensorOperationsModule::sliding_window<float>(
         input_tensor, output_tensor, std::nullopt,
-        kernel, strides, dilations, pads,
+        kernel, strides, dilations, pads, 0,
         max_pool_reducer<float>()
     );
 
@@ -138,7 +140,7 @@ TEST(test_sliding_window, max_pool_3d) {
 
     TensorOperationsModule::sliding_window<float>(
         input_tensor, output_tensor, std::nullopt,
-        kernel, strides, dilations, pads,
+        kernel, strides, dilations, pads, 0,
         max_pool_reducer<float>()
     );
 
@@ -186,7 +188,7 @@ TEST(test_sliding_window, max_pool_4d) {
     // Apply the sliding window operation
     TensorOperationsModule::sliding_window<float>(
         input_tensor, output_tensor, std::nullopt,
-        kernel, strides, dilations, pads,
+        kernel, strides, dilations, pads, 0,
         max_pool_reducer<float>()
     );
 
@@ -238,6 +240,7 @@ TEST(test_sliding_window, simulated_max_pool_with_node_utils) {
         strides,
         dilations,
         pad_pairs,
+        0,
         max_pool_reducer<float>()
     );
 
@@ -300,6 +303,7 @@ TEST(test_sliding_window, max_pool_with_asymmetric_dilations) {
         strides,
         dilations,
         pad_pairs,
+        0,
         max_pool_reducer<float>()
     );
 
@@ -380,6 +384,7 @@ TEST(test_sliding_window, max_pool_5d_with_complex_attributes) {
         strides,
         dilations,
         pad_pairs,
+        0,
         max_pool_reducer<float>()
     );
 
@@ -473,6 +478,7 @@ TEST(test_sliding_window, avg_pool_with_complex_parameters) {
         strides,
         dilations,
         pad_pairs,
+        0,
         avg_pool_reducer<float>()
     );
 
@@ -553,22 +559,6 @@ TEST(test_sliding_window, avg_pool_with_counting_and_edge_handling) {
     // Create output tensor
     auto output_tensor = TensorFactory::create_tensor<float>(output_shape);
     
-    // Define a more complex average pooling that counts only valid elements
-    auto avg_pool_with_count = [](const std::vector<float>& windowValues, std::optional<int64_t>& outIndex) -> float {
-        if (windowValues.empty()) {
-            return 0.0f; // Return 0 for empty windows
-        }
-        
-        float sum = 0.0f;
-        for (const auto& val : windowValues) {
-            sum += val;
-        }
-        
-        // Here we're calculating true average based on actual elements,
-        // not including the padding zeros which don't make it into windowValues
-        return sum / static_cast<float>(windowValues.size());
-    };
-    
     // Apply average pooling using sliding window
     TensorOperationsModule::sliding_window<float>(
         input_tensor,
@@ -578,7 +568,21 @@ TEST(test_sliding_window, avg_pool_with_counting_and_edge_handling) {
         strides,
         dilations,
         pad_pairs,
-        avg_pool_with_count
+        0,
+        [](const std::vector<float> windowValues, const std::vector<int64_t> w, int64_t outIndex) -> float {
+            if (windowValues.empty()) {
+                return 0.0f; // Return 0 for empty windows
+            }
+            
+            float sum = 0.0f;
+            for (const auto& val : windowValues) {
+                sum += val;
+            }
+            
+            // Here we're calculating true average based on actual elements,
+            // not including the padding zeros which don't make it into windowValues
+            return sum / static_cast<float>(windowValues.size());
+        }
     );
 
     // Check that the output shape matches expected shape
@@ -686,6 +690,7 @@ TEST(test_sliding_window, max_pool_high_dimensional_7d_tensor) {
         strides,
         dilations,
         pad_pairs,
+        0,
         max_pool_reducer<float>()
     );
 

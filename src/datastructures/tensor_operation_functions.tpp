@@ -654,7 +654,8 @@ static void mml_sliding_window(
   const std::vector<int>& strides,
   const std::vector<int>& dilations,
   const std::vector<std::pair<int, int>>& pads,
-  WindowOpFn<T> window_fn
+  const int storage_order,
+  const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f
 ) {
   const auto& in_shape = input->get_shape();
   const auto& out_shape = output->get_shape();
@@ -666,17 +667,17 @@ static void mml_sliding_window(
   std::function<void(uli)> recurse = [&](uli dim) {
       if (dim == total_rank) { // Depth reached
 
-        std::vector<T> windowValues;
+        std::vector<T> window_values;
+        std::vector<int64_t> window_indices;
         std::vector<int> kernel_pos(spatial_rank, 0);
         
         std::function<void(size_t)> kernel_recurse = [&](size_t kdim) {
             if (kdim == spatial_rank) { // Depth reached
               bool valid = true;
-
               std::vector<uli> in_idx(total_rank, 0);
+              in_idx[0] = out_idx[0]; // Batch
+              in_idx[1] = out_idx[1]; // Channel
 
-              in_idx[0] = out_idx[0];
-              in_idx[1] = out_idx[1];
               for (size_t i = 0; i < spatial_rank; ++i) {
                 int out_coord = static_cast<int>(out_idx[i + 2]);
                 int start = out_coord * strides[i] - pads[i].first;
@@ -689,10 +690,30 @@ static void mml_sliding_window(
                 }
                 in_idx[i + 2] = static_cast<uli>(pos);
               }
-              array_mml<uli> in_idx_array(in_idx);
 
               if (valid) {
-                  windowValues.push_back((*input)[in_idx_array]);
+                array_mml<uli> in_idx_array(in_idx);
+                window_values.push_back((*input)[in_idx_array]);
+
+                // Convert in_idx to flat index
+                int64_t flat_index = 0;
+                if (storage_order == 0) { // Row-major
+                  for (size_t i = 0; i < total_rank; ++i) {
+                    int64_t stride = 1;
+                    for (size_t j = i + 1; j < total_rank; ++j) {
+                        stride *= in_shape[j];
+                    }
+                    flat_index += in_idx[i] * stride;
+                  }
+                } else { // Column-major
+                  int64_t stride = 1;
+                  for (size_t i = 0; i < total_rank; ++i) {
+                      flat_index += in_idx[i] * stride;
+                      stride *= in_shape[i];
+                  }
+                }
+
+                window_indices.push_back(flat_index);
               }
               return;
             }
@@ -704,10 +725,13 @@ static void mml_sliding_window(
         };
         kernel_recurse(0);
 
-        std::optional<int64_t> dummy; 
-        T out_val = window_fn(windowValues, dummy);
+        int64_t selected_index = -1; // Default value
+        T out_val = window_f(window_values, window_indices, selected_index);
         array_mml<uli> out_idx_array(out_idx);
         (*output)[out_idx_array] = out_val;
+        if (indices_out.has_value()) {
+          (*indices_out.value())[out_idx_array] = selected_index;
+        }
         return;
       }
 
