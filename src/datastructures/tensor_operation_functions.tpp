@@ -153,44 +153,36 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              shared_ptr<Tensor<T>> C, int ldc) {
   
   int block_size = 64; // This depends on the CPU architecture - We can look into having the size of this be dynamically fetched
-  int k_col;
-  int i_col_out;
+  if(!TA && !TB) {
+        int i, j, jj, k, kk;
+        int i_col, k_col, i_col_out;
 
-  if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported.");
-  if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported.");
-
-  for (int i_block = 0; i_block < M; i_block += block_size) {
-    int i_end = std::min(i_block + block_size, M);
-
-    for (int j_block = 0; j_block < N; j_block += block_size) {
-      int j_end = std::min(j_block + block_size, N);
-
-      for (int i = i_block; i < i_end; i++) {
-        i_col_out = i * ldc;
-        for (int j = j_block; j < j_end; j++) {
-          (*C)[i_col_out + j] = ((T)BETA) * (*C)[i_col_out + j];
-        }
-      }
-
-      for (int k_block = 0; k_block < K; k_block += block_size) {
-        int k_end = std::min(k_block + block_size, K);
-
-        for (int i = i_block; i < i_end; i++) {
-          i_col_out = i * ldc;
-          for (int k = k_block; k < k_end; k++) {
-            k_col = k * ldb;
-            for (int j = j_block; j < j_end; j++) {
-              (*C)[i_col_out + j] += ((T)ALPHA) * (*A)[i * lda + k] * (*B)[k_col + j];
+        for (int jj = 0; jj < N; jj += block_size) {
+            for (int kk = 0; kk < K; kk += block_size) {
+                for (int i = 0; i < M; i++) {
+                    i_col     = i * lda;
+                    i_col_out = i * ldc;
+                    for (int j = jj; j < std::min(jj+block_size, N); j++) {
+                        T acc = BETA * (*C)[i_col_out  + j];
+                        for (int k = kk; k < std::min(kk+block_size, K); k++) {
+                            k_col = k * ldb;
+                            acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
+                        }
+                        (*C)[i_col_out + j] = acc;
+                    }
+                    
+                }
+                
             }
-          }
         }
-      }
+    } else if(TA && !TB) {
+        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
+    } else if(!TA && TB) {
+        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
+    } else {
+        throw invalid_argument("Transposition not yet supported in GEMM blocked.");
     }
-  }
-
-  return;
+    return;
 }
   
 
@@ -205,8 +197,8 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
     throw invalid_argument("Transpose B not yet supported for AVX2 GEMM.");
   
   if constexpr (std::is_same<T, float>::value) {
-  for (int i = 0; i < M; i++) {
-    for (int j = 0; j < N; j += 8) {
+    for (int i = 0; i < M; i++) {
+      for (int j = 0; j < N; j += 8) {
 
         __m256 c_val = _mm256_set1_ps((*C)[i * ldc + j]);
         __m256 sum = _mm256_setzero_ps();
@@ -228,8 +220,8 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
     }
   }
   else if constexpr (std::is_same<T, double>::value) {
-  for (int i = 0; i < M; i++) {
-    for (int j = 0; j < N; j += 4) {
+    for (int i = 0; i < M; i++) {
+      for (int j = 0; j < N; j += 4) {
 
         __m256d c_val = _mm256_set1_pd((*C)[i * ldc + j]);
         __m256d sum = _mm256_setzero_pd();
@@ -252,7 +244,7 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
   }
   else if constexpr (std::is_same<T, int>::value) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j += 8) {
+      for (int j = 0; j < N; j += 8) {
 
         __m256i sum = _mm256_setzero_si256();
   
