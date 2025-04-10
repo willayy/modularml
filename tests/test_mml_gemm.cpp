@@ -169,8 +169,8 @@ TEST(test_mml_gemm, test_gemm_properties) {
 }
 
 TEST(test_mml_gemm, gemm_128x128_float) {
-  array_mml<float> a_data = generate_array_random_content_real<float>(16384, 0, 100);
-  array_mml<float> b_data = generate_array_random_content_real<float>(16384, 0, 100);
+  array_mml<float> a_data = generate_random_array_mml_real<float>(16384, 16384, 0, 100);
+  array_mml<float> b_data = generate_random_array_mml_real<float>(16384, 16384, 0, 100);
   
   shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({128, 128}, a_data);
   shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({128, 128}, b_data);
@@ -182,8 +182,8 @@ TEST(test_mml_gemm, gemm_128x128_float) {
 }
 
 TEST(test_mml_gemm, gemm_256x256_float) {
-  array_mml<float> a_data = generate_array_random_content_real<float>(65536, 0, 100);
-  array_mml<float> b_data = generate_array_random_content_real<float>(65536, 0, 100);
+  array_mml<float> a_data = generate_random_array_mml_real<float>(65536, 65536, 0, 100);
+  array_mml<float> b_data = generate_random_array_mml_real<float>(65536, 65536, 0, 100);
   
   shared_ptr<Tensor<float>> a = TensorFactory::create_tensor<float>({256, 256}, a_data);
   shared_ptr<Tensor<float>> b = TensorFactory::create_tensor<float>({256, 256}, b_data);
