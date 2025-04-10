@@ -247,6 +247,42 @@ public:
   static void set_arg_max_ptr(
       std::function<int(const std::shared_ptr<const Tensor<T>> a)> ptr);
 
+  /**
+   * @brief Applies a sliding window operation to a tensor.
+   * @param input Input tensor.
+   * @param output Output tensor.
+   * @param indices_out Optional output tensor for indices.
+   * @param kernel_shape Shape of the kernel.
+   * @param strides Strides for the sliding window.
+   * @param dilations Dilations for the sliding window.
+   * @param pads Padding for the sliding window.
+   * @param window_fn Function to apply in the sliding window.
+   */
+  template <typename T>
+  static void sliding_window(const std::shared_ptr<const Tensor<T>> &input,
+                             std::shared_ptr<Tensor<T>> &output,
+                             const std::optional<std::shared_ptr<Tensor<int64_t>>> &indices_out,
+                             const std::vector<int> &kernel_shape, const std::vector<int> &strides,
+                             const std::vector<int> &dilations,
+                             const std::vector<std::pair<int, int>> &pads,
+                             WindowOpFn<T> window_fn);
+  
+  /**
+   * @brief Sets the sliding_window function pointer.
+   * @param ptr Function pointer to the sliding_window implementation.
+   */
+  template <typename T>
+  static void set_sliding_window_ptr(std::function<void(const std::shared_ptr<const Tensor<T>> &input,
+                                                        std::shared_ptr<Tensor<T>> &output,
+                                                        const std::optional<std::shared_ptr<Tensor<int64_t>>> &indices_out,
+                                                        const std::vector<int> &kernel_shape,
+                                                        const std::vector<int> &strides,
+                                                        const std::vector<int> &dilations,
+                                                        const std::vector<std::pair<int, int>> &pads,
+                                                        WindowOpFn<T> window_fn)> ptr);
+
+
+
 private:
   // Private constructor.
   TensorOperationsModule() = default;
@@ -308,8 +344,20 @@ private:
 
   // Pointer to the arg_max std::function.
   template <typename T>
-  static std::function<int(const std::shared_ptr<const Tensor<T>> a)>
+  static std::function<int(const shared_ptr<const Tensor<T>> a)> 
       arg_max_ptr;
+
+   // Pointer to the sliding_window function.
+  template <typename T>
+  static std::function<void(const std::shared_ptr<const Tensor<T>>& input,
+                            std::shared_ptr<Tensor<T>>& output,
+                            const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+                            const std::vector<int>& kernel_shape,
+                            const std::vector<int>& strides,
+                            const std::vector<int>& dilations,
+                            const std::vector<std::pair<int, int>>& pads,
+                            WindowOpFn<T> window_fn)> 
+      sliding_window_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

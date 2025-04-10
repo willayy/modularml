@@ -1,11 +1,12 @@
-#include "nodes/maxpool.hpp"
+/* #include "nodes/maxpool.hpp"
+#include "datastructures/tensor_operations_module.hpp"
 
 void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iomap) {
     auto x_it = iomap.find(X);
     if (x_it == iomap.end()) {
         throw std::runtime_error("MaxPoolNode: Input tensor X not found in iomap");
     }
-
+    
     const GeneralDataTypes& x_tensor = x_it->second;
 
     std::visit([&](const auto& x_ptr) {
@@ -27,10 +28,12 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
             auto output_ptr = std::make_shared<Tensor_mml<ValueType>>(output_shape);
             auto indices_ptr = std::make_shared<Tensor_mml<int64_t>>(output_shape);
 
-            
+            // Perform pooling operation
+            TensorOperationsModule::sliding_window<ValueType>(x_ptr, output_ptr, indices_ptr, kernel_shape, strides, dilations, pad_pair, );
             
             iomap[Y] = output_ptr;
-            iomap[indices] = indices_ptr;
+            //iomap[indices] = indices_ptr;
         }
     }, x_tensor);
-}
+} */
+

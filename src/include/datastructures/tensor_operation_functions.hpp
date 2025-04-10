@@ -28,11 +28,15 @@
  */
 
 template <typename T>
-static std::shared_ptr<Tensor<T>> mml_onnx_gemm_inner_product(
-    std::shared_ptr<Tensor<T>> A = nullptr,
-    std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0, float beta = 1.0,
-    int transA = 0, int transB = 0,
-    std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
+using WindowOpFn = std::function<T(
+    const std::vector<T>& windowValues,
+    std::optional<int64_t>& outIndex)>;
+
+template <typename T>
+static shared_ptr<Tensor<T>> mml_onnx_gemm_inner_product(
+    shared_ptr<Tensor<T>> A = nullptr, shared_ptr<Tensor<T>> B = nullptr,
+    float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+    optional<shared_ptr<Tensor<T>>> C = nullopt);
 
 template <typename T>
 static std::shared_ptr<Tensor<T>> mml_onnx_gemm_outer_product(
@@ -164,5 +168,17 @@ static void mml_elementwise_in_place(const std::shared_ptr<Tensor<T>> a,
 
 template <typename T>
 static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a);
+
+template <typename T>
+static void mml_sliding_window(
+  const std::shared_ptr<const Tensor<T>>& input,
+  std::shared_ptr<Tensor<T>>& output,
+  const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+  const std::vector<int>& kernel_shape,
+  const std::vector<int>& strides,
+  const std::vector<int>& dilations,
+  const std::vector<std::pair<int, int>>& pads,
+  WindowOpFn<T> window_fn
+);
 
 #include "../datastructures/tensor_operation_functions.tpp"

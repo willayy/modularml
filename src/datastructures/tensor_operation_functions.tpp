@@ -644,3 +644,78 @@ static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a) {
 
   return max_index;
 }
+
+template <typename T>
+static void mml_sliding_window(
+  const std::shared_ptr<const Tensor<T>>& input,
+  std::shared_ptr<Tensor<T>>& output,
+  const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+  const std::vector<int>& kernel_shape,
+  const std::vector<int>& strides,
+  const std::vector<int>& dilations,
+  const std::vector<std::pair<int, int>>& pads,
+  WindowOpFn<T> window_fn
+) {
+  const auto& in_shape = input->get_shape();
+  const auto& out_shape = output->get_shape();
+  size_t total_rank = out_shape.size();
+  size_t spatial_rank = kernel_shape.size();
+  
+  std::vector<uli> out_idx(total_rank, 0);
+  
+  std::function<void(uli)> recurse = [&](uli dim) {
+      if (dim == total_rank) { // Depth reached
+
+        std::vector<T> windowValues;
+        std::vector<int> kernel_pos(spatial_rank, 0);
+        
+        std::function<void(size_t)> kernel_recurse = [&](size_t kdim) {
+            if (kdim == spatial_rank) { // Depth reached
+              bool valid = true;
+
+              std::vector<uli> in_idx(total_rank, 0);
+
+              in_idx[0] = out_idx[0];
+              in_idx[1] = out_idx[1];
+              for (size_t i = 0; i < spatial_rank; ++i) {
+                int out_coord = static_cast<int>(out_idx[i + 2]);
+                int start = out_coord * strides[i] - pads[i].first;
+                int offset = kernel_pos[i] * dilations[i];
+                int pos = start + offset;
+
+                if (pos < 0 || pos >= static_cast<int>(in_shape[i + 2])) {
+                    valid = false;
+                    break;
+                }
+                in_idx[i + 2] = static_cast<uli>(pos);
+              }
+              array_mml<uli> in_idx_array(in_idx);
+
+              if (valid) {
+                  windowValues.push_back((*input)[in_idx_array]);
+              }
+              return;
+            }
+            
+            for (int k = 0; k < kernel_shape[kdim]; ++k) {
+              kernel_pos[kdim] = k;
+              kernel_recurse(kdim + 1);
+            }
+        };
+        kernel_recurse(0);
+
+        std::optional<int64_t> dummy; 
+        T out_val = window_fn(windowValues, dummy);
+        array_mml<uli> out_idx_array(out_idx);
+        (*output)[out_idx_array] = out_val;
+        return;
+      }
+
+      for (uli i = 0; i < out_shape[dim]; ++i) {
+        out_idx[dim] = i;
+        recurse(dim + 1);
+      }
+  };
+  
+  recurse(0);
+}
