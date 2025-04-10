@@ -86,7 +86,7 @@ namespace NodeUtils {
         const int ceil_mode,
         const std::vector<int>& dilations,
         const std::vector<int>& kernel_shape,
-        const std::vector<int>& pads = {},
+        const std::vector<int>& pads,
         const std::vector<int>& strides
     ) {
         size_t spatial_rank = kernel_shape.size();

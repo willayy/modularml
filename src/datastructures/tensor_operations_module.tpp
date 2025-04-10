@@ -58,6 +58,18 @@ std::function<int(const shared_ptr<const Tensor<T>> a)>
     TensorOperationsModule::arg_max_ptr =
         mml_arg_max<T>; // NOSONAR - Not a global variable
 
+template <typename T>
+std::function<void(const std::shared_ptr<const Tensor<T>>& input,
+                   std::shared_ptr<Tensor<T>>& output,
+                   const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+                   const std::vector<int>& kernel_shape,
+                   const std::vector<int>& strides,
+                   const std::vector<int>& dilations,
+                   const std::vector<std::pair<int, int>>& pads,
+                   WindowOpFn<T> window_fn)>
+    TensorOperationsModule::sliding_window_ptr =
+        mml_sliding_window<T>; // NOSONAR - Not a global variable
+
 // Setter implementations
 template <typename T>
 void TensorOperationsModule::set_add_ptr(
@@ -132,6 +144,20 @@ void TensorOperationsModule::set_arg_max_ptr(
   arg_max_ptr<T> = ptr;
 }
 
+template <typename T>
+void TensorOperationsModule::set_sliding_window_ptr(
+    std::function<void(const std::shared_ptr<const Tensor<T>>& input,
+                       std::shared_ptr<Tensor<T>>& output,
+                       const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+                       const std::vector<int>& kernel_shape,
+                       const std::vector<int>& strides,
+                       const std::vector<int>& dilations,
+                       const std::vector<std::pair<int, int>>& pads,
+                       WindowOpFn<T> window_fn)>
+        ptr) {
+  sliding_window_ptr<T> = ptr;
+}
+
 // Function implementations
 template <typename T>
 void TensorOperationsModule::add(const shared_ptr<const Tensor<T>> a,
@@ -190,4 +216,16 @@ shared_ptr<Tensor<T>> TensorOperationsModule::gemm_onnx(
 template <typename T>
 int TensorOperationsModule::arg_max(const shared_ptr<const Tensor<T>> a) {
   return arg_max_ptr<T>(a);
+}
+
+template <typename T>
+void TensorOperationsModule::sliding_window(const std::shared_ptr<const Tensor<T>>& input,
+                                            std::shared_ptr<Tensor<T>>& output,
+                                            const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+                                            const std::vector<int>& kernel_shape,
+                                            const std::vector<int>& strides,
+                                            const std::vector<int>& dilations,
+                                            const std::vector<std::pair<int, int>>& pads,
+                                            WindowOpFn<T> window_fn) {
+  return sliding_window_ptr<T>(input, output, indices_out, kernel_shape, strides, dilations, pads, window_fn);
 }
