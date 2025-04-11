@@ -37,7 +37,6 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   // Load the temporary resized image using ImageLoader:
   shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   auto image_tensor = loader->load(resized_config);
-  std::cout << image_tensor << std::endl;
 
   // Delete the temporary image file
   std::remove(temp_image_path.c_str());
