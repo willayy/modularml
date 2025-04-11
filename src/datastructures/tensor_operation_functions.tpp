@@ -14,9 +14,9 @@ static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,
   int i_col_out;
 
   if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported.");
+    A->transpose();
   if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported.");
+    B->transpose();
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -47,9 +47,9 @@ static void mml_gemm_outer_product(int TA, int TB, int M, int N, int K, T ALPHA,
   int i_col_out;
 
   if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported.");
+    A->transpose();
   if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported.");
+    B->transpose();
 
   for (int i = 0; i < M; i++) {
     i_col_out = i * ldc;
@@ -87,9 +87,9 @@ static void mml_gemm_row_wise_product(int TA, int TB, int M, int N, int K,
   int i_col_out;
 
   if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported.");
+    A->transpose();
   if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported.");
+    B->transpose();
 
   for (int i = 0; i < M; i++) {
     i_col = i * lda;
@@ -122,9 +122,9 @@ static void mml_gemm_col_wise_product(int TA, int TB, int M, int N, int K,
   int i_col_out;
 
   if (TA == 1)
-    throw invalid_argument("Transpose A not yet supported.");
+    A->transpose();
   if (TB == 1)
-    throw invalid_argument("Transpose B not yet supported.");
+    B->transpose();
 
   for (int j = 0; j < N; j++) {
     for (int i = 0; i < M; i++) {
@@ -185,7 +185,6 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
     return;
 }
   
-
 template <typename T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          shared_ptr<Tensor<T>> A, int lda,
