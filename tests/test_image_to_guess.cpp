@@ -5,6 +5,8 @@
 
 #include "backend/dataloader/image_loader.hpp"
 #include "backend/dataloader/normalizer.hpp"
+#include "backend/dataloader/resize_and_cropper.hpp"
+#include "stb_image_write.h"
 
 std::string getClassName(const std::string& filename, const std::string& id) {
   std::ifstream file(filename);
@@ -16,10 +18,29 @@ std::string getClassName(const std::string& filename, const std::string& id) {
 TEST(test_alexnet_image_to_guess, image_to_guess) {
   // Convert an input PNG to a tensor:
   string input_path = "tests/test_image_to_guess.png";
-  const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/beagle.png");
+  const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/foxhound.png");
+
+  // Resize and crop the image for Alexnet:
+  Image_resize_and_cropper resizer_and_cropper;
+  int out_width, out_height, out_channels;
+  unsigned char* resized_cropped_image = resizer_and_cropper.resize_and_crop_image(config, out_width, out_height, out_channels);
+  // Check the dimensions of the resized and cropped image
+  EXPECT_EQ(out_width, 224);
+  EXPECT_EQ(out_height, 224);
+  EXPECT_EQ(out_channels, 3);
+
+  // Save the resized and cropped image to a temporary file
+  std::string temp_image_path = "../tests/data/alexnet/alexnet_pictures/temp_test_image.png";
+  stbi_write_png(temp_image_path.c_str(), out_width, out_height, out_channels, resized_cropped_image, out_width * out_channels);
+  const ImageLoaderConfig resized_config(temp_image_path);
+
+  // Load the temporary resized image using ImageLoader:
   shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
-  auto image_tensor = loader->load(config);
+  auto image_tensor = loader->load(resized_config);
   std::cout << image_tensor << std::endl;
+
+  // Delete the temporary image file
+  std::remove(temp_image_path.c_str());
 
   // Normalize the image tensor:
   Normalize normalizer;
