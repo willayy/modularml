@@ -6,7 +6,7 @@ std::shared_ptr<Tensor<float>> Normalize::normalize(
     const std::array<float, 3>& std) const {
   auto shape = input->get_shape();
 
-  // Check for excpetions:
+  // Check for exceptions:
   if (shape.size() != 4) {
     throw std::invalid_argument("Input tensor must have 4 dimensions.");
   }
