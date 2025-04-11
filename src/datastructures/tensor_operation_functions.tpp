@@ -1,5 +1,8 @@
 #pragma once
-#include <immintrin.h>
+
+#if defined(USE_AVX_GEMM)
+  #include <immintrin.h>
+#endif
 
 #include "datastructures/mml_tensor.hpp"
 #include "datastructures/tensor_operation_functions.hpp"
@@ -139,9 +142,9 @@ static void mml_gemm_col_wise_product(int TA, int TB, int M, int N, int K,
 
 template <typename T>
 static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
-                             shared_ptr<Tensor<T>> A, int lda,
-                             shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                             shared_ptr<Tensor<T>> C, int ldc) {
+                             std::shared_ptr<Tensor<T>> A, int lda,
+                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                             std::shared_ptr<Tensor<T>> C, int ldc) {
   int block_size = 64;  // This depends on the CPU architecture - We can look
                         // into having the size of this be dynamically fetched
   if (!TA && !TB) {
@@ -177,11 +180,12 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
   return;
 }
 
+#if defined(USE_AVX_GEMM)
 template <typename T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                         shared_ptr<Tensor<T>> A, int lda,
-                         shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                         shared_ptr<Tensor<T>> C, int ldc) {
+                         std::shared_ptr<Tensor<T>> A, int lda,
+                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                         std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1) A->transpose();
   if (TB == 1) B->transpose();
 
@@ -253,12 +257,14 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
   }
   return;
 }
+#endif
 
+#if defined(USE_AVX512_GEMM)
 template <typename T>
 static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                            shared_ptr<Tensor<T>> A, int lda,
-                            shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                            shared_ptr<Tensor<T>> C, int ldc) {
+                            std::shared_ptr<Tensor<T>> A, int lda,
+                            std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                            std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1)
     throw std::invalid_argument(
         "Transpose A not yet supported for AVX-512 GEMM.");
@@ -332,6 +338,7 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
     throw std::runtime_error("AVX-512 only suppports double, float or int");
   }
 }
+#endif
 
 template <typename T>
 static void mml_gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,

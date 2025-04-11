@@ -65,8 +65,8 @@ std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
 #else  // Default naive gemm implementation
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
+                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperationsModule::gemm_ptr =
         mml_gemm_inner_product<T>;  // NOSONAR - Not a global variable
 #endif
