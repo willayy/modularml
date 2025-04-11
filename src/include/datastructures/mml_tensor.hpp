@@ -1,6 +1,5 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -21,6 +20,8 @@
 #include <variant>
 #include <vector>
 
+#include "datastructures/a_tensor.hpp"
+
 /*!
  * @brief A Tensor<T> implementation using an underlying
  * fixed size 1D array with row-major offsets for
@@ -28,8 +29,9 @@
  * @tparam T The type of the data contained in the tensor.
  * Allows for arithmetic types.
  */
-template <typename T> class Tensor_mml : public Tensor<T> {
-public:
+template <typename T>
+class Tensor_mml : public Tensor<T> {
+ public:
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
@@ -80,8 +82,8 @@ public:
   std::string to_string() const override;
   std::shared_ptr<Tensor<T>> copy() const override;
   void reverse_buffer() override;
-  std::shared_ptr<Tensor<T>>
-  slice(std::initializer_list<size_t> slice_indices) override;
+  std::shared_ptr<Tensor<T>> slice(
+      std::initializer_list<size_t> slice_indices) override;
   std::shared_ptr<Tensor<T>> slice(array_mml<size_t> &slice_indices) override;
   void reshape(const array_mml<size_t> &new_shape) override;
   void reshape(std::initializer_list<size_t> new_shape) override;
@@ -99,13 +101,13 @@ public:
   const T &operator[](size_t index) const override;
   T &operator[](size_t index) override;
   void fill(T value) override;
-  std::shared_ptr<Tensor<T>>
-  transpose(std::optional<size_t> dim0 = std::nullopt,
-            std::optional<size_t> dim1 = std::nullopt) const override;
-  std::shared_ptr<Tensor<T>>
-  replicate_reshape(const array_mml<size_t> &target_shape) const override;
+  std::shared_ptr<Tensor<T>> transpose(
+      std::optional<size_t> dim0 = std::nullopt,
+      std::optional<size_t> dim1 = std::nullopt) const override;
+  std::shared_ptr<Tensor<T>> replicate_reshape(
+      const array_mml<size_t> &target_shape) const override;
 
-private:
+ private:
   array_mml<T> data;
   array_mml<size_t> shape;
   array_mml<size_t> indices_offsets;
@@ -121,20 +123,21 @@ private:
   bool valid_indices(const array_mml<size_t> &indices) const;
   bool valid_index(size_t index) const;
   bool valid_slice_indices(const array_mml<size_t> &slice_indices) const;
-  bool valid_replicate_reshape_size(const array_mml<size_t> &target_shape) const;
+  bool valid_replicate_reshape_size(
+      const array_mml<size_t> &target_shape) const;
   size_t indices_to_1d_index(array_mml<size_t> indices) const;
   size_t index_to_offset_1d_index(size_t index) const;
 };
 
 template <typename T>
 [[deprecated("Use TensorFactory instead")]]
-std::shared_ptr<Tensor<T>>
-tensor_mml_p(const std::initializer_list<size_t> shape);
+std::shared_ptr<Tensor<T>> tensor_mml_p(
+    const std::initializer_list<size_t> shape);
 
 template <typename T>
 [[deprecated("Use TensorFactory instead")]]
-std::shared_ptr<Tensor<T>>
-tensor_mml_p(const std::initializer_list<size_t> shape,
-             const std::initializer_list<T> data);
+std::shared_ptr<Tensor<T>> tensor_mml_p(
+    const std::initializer_list<size_t> shape,
+    const std::initializer_list<T> data);
 
 #include "../datastructures/mml_tensor.tpp"
