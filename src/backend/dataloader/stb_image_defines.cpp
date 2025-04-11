@@ -1,4 +1,4 @@
-// Having this file this way is neccecary to avoid multiple definitions of the same functions
+// Having this file this way is necessary to avoid multiple definitions of the same functions
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
