@@ -4,7 +4,7 @@
 
 /**
  * @class Resize_and_cropper
- * @brief A class that resizes and crops an image acording to the given inputs.
+ * @brief A class that resizes and crops an image according to the given inputs.
  * 
  * @author Måns Bremer (@Breman402)
  */
