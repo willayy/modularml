@@ -30,7 +30,7 @@ public:
      * 
      * @param node JSON object representing the MaxPool node.
      */
-    MaxPoolNode(const json& node);
+    MaxPoolNode(const nlohmann::json& node);
 
     /**
      * @brief Perform the forward pass computation of MaxPool.

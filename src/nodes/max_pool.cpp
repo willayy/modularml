@@ -10,7 +10,7 @@ MaxPoolNode::MaxPoolNode(std::string X, std::string Y, std::vector<int> kernel_s
                          kernel_shape(kernel_shape), pads(pads),
                          storage_order(storage_order), strides(strides) {}
 
-MaxPoolNode::MaxPoolNode(const json& node) {
+MaxPoolNode::MaxPoolNode(const nlohmann::json& node) {
     if (node.contains("input") && node["input"].is_array()) {
         X = node["input"][0];
     }
@@ -80,8 +80,8 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
         if constexpr (!is_in_variant_v<ValueType, T>) {
             throw std::runtime_error("MaxPoolNode: Unsupported data type for tensor X");
         } else {
-            array_mml<uli> x_shape = x_ptr->get_shape();
-            uli total_rank = x_shape.size();
+            array_mml<size_t> x_shape = x_ptr->get_shape();
+            size_t total_rank = x_shape.size();
 
             if (total_rank < 3) {
                 throw std::runtime_error("MaxPoolNode: Input tensor must be at least NCL");
@@ -89,7 +89,7 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
 
             NodeUtils::compute_pool_attributes(auto_pad, kernel_shape, strides, pads, dilations);
 
-            array_mml<uli> output_shape = NodeUtils::compute_pool_output_shape(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
+            array_mml<size_t> output_shape = NodeUtils::compute_pool_output_shape(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
             auto pad_pair = NodeUtils::compute_pool_pad_begin_end(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
@@ -108,7 +108,7 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
                 strides,
                 dilations,
                 pad_pair,
-                [this, x_ptr, y_ptr, indices_ptr, x_shape, total_rank](const std::vector<std::vector<uli>>& window_in_idx, const std::vector<uli>& out_idx) -> void {
+                [this, x_ptr, y_ptr, indices_ptr, x_shape, total_rank](const std::vector<std::vector<size_t>>& window_in_idx, const std::vector<size_t>& out_idx) -> void {
                     if (window_in_idx.empty()) {
                         throw std::runtime_error("MaxPoolNode: Empty window values");
                     }
@@ -117,7 +117,7 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
                     int64_t max_idx = -1;
 
                     for (const auto& in_idx : window_in_idx) {
-                        array_mml<uli> curr_idx(in_idx);
+                        array_mml<size_t> curr_idx(in_idx);
                         ValueType curr_val = (*x_ptr)[curr_idx];
     
                         if (curr_val > max_val) {
@@ -144,7 +144,7 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
                         }
                     }
 
-                    array_mml<uli> out_idx_array(out_idx);
+                    array_mml<size_t> out_idx_array(out_idx);
                     (*y_ptr)[out_idx_array] = max_val;
                     if (indices_ptr.has_value()) {
                         (*indices_ptr.value())[out_idx_array] = max_idx;

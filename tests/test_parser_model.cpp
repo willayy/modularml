@@ -95,13 +95,9 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
   auto model = dynamic_cast<Model_mml *>(model_base.get());
   ASSERT_NE(model, nullptr) << "Model is not of type Model_mml";
 
-  std::unordered_map<string, GeneralDataTypes> inputs;
+  std::unordered_map<std::string, GeneralDataTypes> inputs;
     
   auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE_LENET}, {INPUT_TENSOR_DATA_LENET});
-  inputs["input"] = input_tensor;
-
-  auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE},
-                                                          {INPUT_TENSOR_DATA});
   inputs["input"] = input_tensor;
 
   std::unordered_map<std::string, GeneralDataTypes> outputs;
@@ -117,11 +113,9 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
       std::holds_alternative<std::shared_ptr<Tensor<float>>>(output_it->second))
       << "Output is not a float tensor";
 
+  auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+    
   auto expected_output_tensor = TensorFactory::create_tensor<float>({OUTPUT_TENSOR_SHAPE_LENET}, {OUTPUT_TENSOR_DATA_LENET});
-
-  auto expected_output_tensor = TensorFactory::create_tensor<float>(
-      {OUTPUT_TENSOR_SHAPE}, {OUTPUT_TENSOR_DATA});
-
 
   ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
   int max_index =  Arithmetic_mml<float>().arg_max(output_tensor);
@@ -132,7 +126,7 @@ TEST(test_parser_model, test_parsing_and_running_alexnet) {
     std::ifstream file("../alexnet.json");
     ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
 
-    json onnx_model;
+    nlohmann::json onnx_model;
     file >> onnx_model;
     file.close();
 
@@ -148,12 +142,12 @@ TEST(test_parser_model, test_parsing_and_running_alexnet) {
     auto model = dynamic_cast<Model_mml*>(model_base.get());
     ASSERT_NE(model, nullptr) << "Model is not of type Model_mml";
 
-    std::unordered_map<string, GeneralDataTypes> inputs;
+    std::unordered_map<std::string, GeneralDataTypes> inputs;
     
     auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE_ALEX}, {INPUT_TENSOR_DATA_ALEX});
     inputs["input"] = input_tensor;
 
-    std::unordered_map<string, GeneralDataTypes> outputs;
+    std::unordered_map<std::string, GeneralDataTypes> outputs;
     ASSERT_NO_THROW({
         outputs = model->infer(inputs);
     }) << "Inference failed on the parsed model";

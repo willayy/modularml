@@ -15,18 +15,18 @@ std::shared_ptr<Tensor<float>> Normalize::normalize(
   }
 
 
-  uli N = shape[0];
-  uli C = shape[1];
-  uli H = shape[2];
-  uli W = shape[3];
+  size_t N = shape[0];
+  size_t C = shape[1];
+  size_t H = shape[2];
+  size_t W = shape[3];
 
   auto output = tensor_mml_p<float>({N, C, H, W});
 
   // Normalize the input tensor:
-  for (uli n = 0; n < shape[0]; ++n) {
-    for (uli c = 0; c < shape[1]; ++c) {
-      for (uli h = 0; h < shape[2]; ++h) {
-        for (uli w = 0; w < shape[3]; ++w) {
+  for (size_t n = 0; n < shape[0]; ++n) {
+    for (size_t c = 0; c < shape[1]; ++c) {
+      for (size_t h = 0; h < shape[2]; ++h) {
+        for (size_t w = 0; w < shape[3]; ++w) {
           float v = (*input)[{n, c, h, w}];
           (*output)[{n, c, h, w}] = (v - mean[c]) / std[c];
         }

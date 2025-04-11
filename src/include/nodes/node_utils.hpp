@@ -1,6 +1,5 @@
 #pragma once
 
-#include "globals.hpp"
 #include "datastructures/mml_array.hpp"
 
 namespace NodeUtils {
@@ -27,8 +26,9 @@ namespace NodeUtils {
         }
     }
 
-    inline array_mml<uli> compute_pool_output_shape(
-        const array_mml<uli>& input_shape,
+    // Follows onnx specifications but onnxruntime does it differently.
+    inline array_mml<size_t> compute_pool_output_shape(
+        const array_mml<size_t>& input_shape,
         const std::string& auto_pad,
         const int ceil_mode,
         const std::vector<int>& dilations,
@@ -37,7 +37,7 @@ namespace NodeUtils {
         const std::vector<int>& strides
     ) {
         size_t spacial_rank = kernel_shape.size();
-        std::vector<uli> output_shape_vector = { input_shape[0], input_shape[1] };
+        std::vector<size_t> output_shape_vector = { input_shape[0], input_shape[1] };
 
         for (size_t i = 0; i < spacial_rank; ++i) {
             int input_dim = input_shape[i + 2];
@@ -47,7 +47,7 @@ namespace NodeUtils {
 
             int effective_kernel = (kernel - 1) * dilation + 1;
 
-            uli out_dim;
+            size_t out_dim;
             if (auto_pad == "SAME_UPPER" || auto_pad == "SAME_LOWER") {
                 if (ceil_mode) {
                     // output_spatial_shape[i] = ceil(input_spatial_shape[i] / strides_spatial_shape[i])
@@ -77,11 +77,12 @@ namespace NodeUtils {
 
             output_shape_vector.push_back(out_dim);
         }
-        return array_mml<uli>(output_shape_vector);
+        return array_mml<size_t>(output_shape_vector);
     }
 
+    // Follows onnx specifications but onnxruntime does it differently.
     inline std::vector<std::pair<int, int>> compute_pool_pad_begin_end(
-        const array_mml<uli>& input_shape,
+        const array_mml<size_t>& input_shape,
         const std::string& auto_pad,
         const int ceil_mode,
         const std::vector<int>& dilations,

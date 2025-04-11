@@ -1,7 +1,6 @@
 #pragma once
 
 #include "backend/dataloader/data_loader_config.hpp"
-#include "globals.hpp"
 
 /**
  * @class resize_and_crop

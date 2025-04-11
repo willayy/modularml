@@ -1,6 +1,6 @@
 #pragma once
 #include "a_tensor.hpp"
-#include "tensor_operation_functions.hpp"
+#include "datastructures/tensor_operation_functions.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -255,29 +255,29 @@ public:
    * @param strides Strides for the sliding window.
    * @param dilations Dilations for the sliding window.
    * @param pads Padding for the sliding window.
-   * @param window_fn Function to apply in the sliding window.
+   * @param window_f Function to apply in the sliding window.
    */
   template <typename T>
-  static void sliding_window(const array_mml<uli>& in_shape,
-                             const array_mml<uli>& out_shape,
+  static void sliding_window(const array_mml<size_t>& in_shape,
+                             const array_mml<size_t>& out_shape,
                              const std::vector<int>& kernel_shape,
                              const std::vector<int>& strides,
                              const std::vector<int>& dilations,
                              const std::vector<std::pair<int, int>>& pads,
-                             const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f);
+                             const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f);
   
   /**
    * @brief Sets the sliding_window function pointer.
    * @param ptr Function pointer to the sliding_window implementation.
    */
   template <typename T>
-  static void set_sliding_window_ptr(std::function<void(const array_mml<uli>& in_shape,
-                                                        const array_mml<uli>& out_shape,
+  static void set_sliding_window_ptr(std::function<void(const array_mml<size_t>& in_shape,
+                                                        const array_mml<size_t>& out_shape,
                                                         const std::vector<int>& kernel_shape,
                                                         const std::vector<int>& strides,
                                                         const std::vector<int>& dilations,
                                                         const std::vector<std::pair<int, int>>& pads,
-                                                        const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)> ptr);
+                                                        const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f)> ptr);
 
 
 
@@ -342,18 +342,18 @@ private:
 
   // Pointer to the arg_max std::function.
   template <typename T>
-  static std::function<int(const shared_ptr<const Tensor<T>> a)> 
+  static std::function<int(const std::shared_ptr<const Tensor<T>> a)> 
       arg_max_ptr;
 
    // Pointer to the sliding_window function.
   template <typename T>
-  static std::function<void(const array_mml<uli>& in_shape,
-                            const array_mml<uli>& out_shape,
+  static std::function<void(const array_mml<size_t>& in_shape,
+                            const array_mml<size_t>& out_shape,
                             const std::vector<int>& kernel_shape,
                             const std::vector<int>& strides,
                             const std::vector<int>& dilations,
                             const std::vector<std::pair<int, int>>& pads,
-                            const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)> sliding_window_ptr;
+                            const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f)> sliding_window_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

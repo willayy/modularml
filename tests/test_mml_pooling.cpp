@@ -73,7 +73,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
     "SAME_UPPER",                     // auto_pad
     1,                            // ceil_mode
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (Not used for auto_pad = "SAME_UPPER")
     0,                            // storage_order
     {1, 2}                        // strides
   );
@@ -104,20 +104,28 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_floor_dilation_col) {
       {1, 1, 4, 5},
       {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
   std::shared_ptr<Tensor<float>> exp_output = tensor_mml_p<float>(
-      {1, 1, 4, 3}, {1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20});
+      {1, 1, 4, 3}, {7, 9, 9, 12, 14, 14, 17, 19, 19, 12, 14, 14});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices = tensor_mml_p<int64_t>(
-      {1, 1, 4, 3}, {0, 8, 16, 1, 9, 17, 2, 10, 18, 3, 11, 19});
+      {1, 1, 4, 3}, {5, 13, 13, 6, 14, 14, 7, 15, 15, 6, 14, 14});
 
   std::string input_string = "input";
   std::string output_string = "output";
   std::string indices_string = "indices";
   std::unordered_map<std::string, GeneralDataTypes> iomap;
   iomap[input_string] = input;
-
-  MaxPoolingNode_mml max_pool = MaxPoolingNode_mml(
-      input_string, std::vector<std::string>{output_string, indices_string},
-      array_mml({2UL, 2UL}), array_mml({1UL, 2UL}), "SAME_UPPER", 0UL,
-      array_mml({2UL, 2UL}), array_mml({0UL, 0UL, 0UL, 0UL}), 1UL);
+  
+  MaxPoolNode max_pool(
+    input_string,                 // X
+    output_string,                // Y
+    {2, 2},                       // kernel_shape
+    indices_string,               // indices
+    "SAME_UPPER",                 // auto_pad
+    0,                            // ceil_mode
+    {2, 2},                       // dilations
+    {0, 0, 0, 0},                 // pads (Not used for auto_pad = "SAME_UPPER")
+    1,                            // storage_order
+    {1, 2}                        // strides
+  );
 
   max_pool.forward(iomap);
 
@@ -159,10 +167,10 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
     output_string,                // Y
     {2, 2},                       // kernel_shape
     indices_string,               // indices
-    "SAME_LOWER",                     // auto_pad
+    "SAME_LOWER",                 // auto_pad
     1,                            // ceil_mode
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (Not used for auto_pad = "SAME_LOWER")
     0,                            // storage_order
     {1, 2}                        // strides
   );
@@ -207,10 +215,10 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
     output_string,                // Y
     {2, 2},                       // kernel_shape
     indices_string,               // indices
-    "VALID",                     // auto_pad
+    "VALID",                      // auto_pad
     1,                            // ceil_mode
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (Not used for auto_pad = "VALID")
     0,                            // storage_order
     {1, 2}                        // strides
   );
@@ -341,7 +349,7 @@ TEST(test_mml_pooling, test_avg_pool_valid) {
     1,                            // ceil_mode
     0,                            // count_include_pad
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (not used for auto_pad = "VALID")
     {1, 2}                        // strides
   );
 
@@ -377,7 +385,7 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
     1,                            // ceil_mode
     0,                            // count_include_pad
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (not used for auto_pad = "SAME_UPPER")
     {1, 2}                        // strides
   );
 
@@ -402,7 +410,7 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
     0,                            // ceil_mode
     0,                            // count_include_pad
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (not used for auto_pad = "SAME_UPPER")
     {1, 2}                        // strides
   );
 
@@ -431,7 +439,7 @@ TEST(test_mml_pooling, test_avg_pool_same_upper) {
     0,                            // ceil_mode
     1,                            // count_include_pad
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (not used for auto_pad = "SAME_UPPER")
     {1, 2}                        // strides
   );
 
@@ -467,7 +475,7 @@ TEST(test_mml_pooling, test_avg_pool_same_lower) {
     1,                            // ceil_mode
     0,                            // count_include_pad
     {1, 1},                       // dilations
-    {0, 0, 0, 0},                 // pads
+    {0, 0, 0, 0},                 // pads (not used for auto_pad = "SAME_LOWER")
     {1, 2}                        // strides
   );
 

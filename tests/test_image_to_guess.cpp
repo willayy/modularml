@@ -32,7 +32,7 @@ std::string getClassName(const std::string& filename, const std::string& id) {
 
 TEST(test_alexnet_image_to_guess, image_to_guess) {
   // Image to be processed:
-  string input_path = "tests/test_image_to_guess.png";
+  std::string input_path = "tests/test_image_to_guess.png";
   const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/foxhound.png");
 
   // Resize and crop the image for Alexnet:
@@ -51,7 +51,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
 
   // Load the temporary resized image using ImageLoader
   // in order to create a tensor from it:
-  shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
+  std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   auto image_tensor = loader->load(resized_config);
 
   // Delete the temporary image file
@@ -64,7 +64,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   // Parse Alexnet:
   std::ifstream file("../alexnet.json");
   ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
-  json onnx_model;
+  nlohmann::json onnx_model;
   file >> onnx_model;
   file.close();
   Parser_mml parser;
@@ -74,11 +74,11 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   auto model = dynamic_cast<Model_mml*>(model_base.get());
 
   // Set the loaded image as an input to the model:
-  std::unordered_map<string, GeneralDataTypes> inputs;
+  std::unordered_map<std::string, GeneralDataTypes> inputs;
   inputs["input"] = normalized_tensor;
 
   // Perform inference:
-  std::unordered_map<string, GeneralDataTypes> outputs;
+  std::unordered_map<std::string, GeneralDataTypes> outputs;
   outputs = model->infer(inputs);
 
   // Handle the output:
@@ -96,7 +96,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
 
 TEST(test_alexnet_image_to_guess, image_to_guess2) {
   // Image to be processed:
-  string input_path = "tests/test_image_to_guess.png";
+  std::string input_path = "tests/test_image_to_guess.png";
   const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/American_egret.png");
 
   // Resize and crop the image for Alexnet:
@@ -115,7 +115,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
 
   // Load the temporary resized image using ImageLoader
   // in order to create a tensor from it:
-  shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
+  std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   auto image_tensor = loader->load(resized_config);
 
   // Delete the temporary image file
@@ -128,7 +128,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   // Parse Alexnet:
   std::ifstream file("../alexnet.json");
   ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
-  json onnx_model;
+  nlohmann::json onnx_model;
   file >> onnx_model;
   file.close();
   Parser_mml parser;
@@ -138,11 +138,11 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   auto model = dynamic_cast<Model_mml*>(model_base.get());
 
   // Set the loaded image as an input to the model:
-  std::unordered_map<string, GeneralDataTypes> inputs;
+  std::unordered_map<std::string, GeneralDataTypes> inputs;
   inputs["input"] = normalized_tensor;
 
   // Perform inference:
-  std::unordered_map<string, GeneralDataTypes> outputs;
+  std::unordered_map<std::string, GeneralDataTypes> outputs;
   outputs = model->infer(inputs);
 
   // Handle the output:
