@@ -16,7 +16,7 @@ std::string getClassName(const std::string& filename, const std::string& id) {
 }
 
 TEST(test_alexnet_image_to_guess, image_to_guess) {
-  // Convert an input PNG to a tensor:
+  // Image to be processed:
   string input_path = "tests/test_image_to_guess.png";
   const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/foxhound.png");
 
@@ -34,7 +34,8 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   stbi_write_png(temp_image_path.c_str(), out_width, out_height, out_channels, resized_cropped_image, out_width * out_channels);
   const ImageLoaderConfig resized_config(temp_image_path);
 
-  // Load the temporary resized image using ImageLoader:
+  // Load the temporary resized image using ImageLoader
+  // in order to create a tensor from it:
   shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   auto image_tensor = loader->load(resized_config);
 
