@@ -647,19 +647,15 @@ static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a) {
 
 template <typename T>
 static void mml_sliding_window(
-  const std::shared_ptr<const Tensor<T>>& input,
-  std::shared_ptr<Tensor<T>>& output,
-  const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+  const array_mml<uli>& in_shape,
+  const array_mml<uli>& out_shape,
   const std::vector<int>& kernel_shape,
   const std::vector<int>& strides,
   const std::vector<int>& dilations,
   const std::vector<std::pair<int, int>>& pads,
-  const int storage_order,
-  const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f
+  const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f
 ) {
-  const auto& in_shape = input->get_shape();
-  const auto& out_shape = output->get_shape();
-  size_t total_rank = out_shape.size();
+  size_t total_rank = in_shape.size();
   size_t spatial_rank = kernel_shape.size();
   
   std::vector<uli> out_idx(total_rank, 0);
@@ -667,8 +663,7 @@ static void mml_sliding_window(
   std::function<void(uli)> recurse = [&](uli dim) {
       if (dim == total_rank) { // Depth reached
 
-        std::vector<T> window_values;
-        std::vector<int64_t> window_indices;
+        std::vector<std::vector<uli>> window_in_idx;
         std::vector<int> kernel_pos(spatial_rank, 0);
         
         std::function<void(size_t)> kernel_recurse = [&](size_t kdim) {
@@ -692,28 +687,7 @@ static void mml_sliding_window(
               }
 
               if (valid) {
-                array_mml<uli> in_idx_array(in_idx);
-                window_values.push_back((*input)[in_idx_array]);
-
-                // Convert in_idx to flat index
-                int64_t flat_index = 0;
-                if (storage_order == 0) { // Row-major
-                  for (size_t i = 0; i < total_rank; ++i) {
-                    int64_t stride = 1;
-                    for (size_t j = i + 1; j < total_rank; ++j) {
-                        stride *= in_shape[j];
-                    }
-                    flat_index += in_idx[i] * stride;
-                  }
-                } else { // Column-major
-                  int64_t stride = 1;
-                  for (size_t i = 0; i < total_rank; ++i) {
-                      flat_index += in_idx[i] * stride;
-                      stride *= in_shape[i];
-                  }
-                }
-
-                window_indices.push_back(flat_index);
+                window_in_idx.push_back(in_idx);
               }
               return;
             }
@@ -725,13 +699,7 @@ static void mml_sliding_window(
         };
         kernel_recurse(0);
 
-        int64_t selected_index = -1; // Default value
-        T out_val = window_f(window_values, window_indices, selected_index);
-        array_mml<uli> out_idx_array(out_idx);
-        (*output)[out_idx_array] = out_val;
-        if (indices_out.has_value()) {
-          (*indices_out.value())[out_idx_array] = selected_index;
-        }
+        window_f(window_in_idx, out_idx);
         return;
       }
 

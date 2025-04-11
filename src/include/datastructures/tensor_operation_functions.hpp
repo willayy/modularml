@@ -166,15 +166,13 @@ static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a);
 
 template <typename T>
 static void mml_sliding_window(
-  const std::shared_ptr<const Tensor<T>>& input,
-  std::shared_ptr<Tensor<T>>& output,
-  const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
-  const std::vector<int>& kernel_shape,
-  const std::vector<int>& strides,
-  const std::vector<int>& dilations,
-  const std::vector<std::pair<int, int>>& pads,
-  const int storage_order,
-  const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f
+    const array_mml<uli>& in_shape,
+    const array_mml<uli>& out_shape,
+    const std::vector<int>& kernel_shape,
+    const std::vector<int>& strides,
+    const std::vector<int>& dilations,
+    const std::vector<std::pair<int, int>>& pads,
+    const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f
 );
 
 #include "../datastructures/tensor_operation_functions.tpp"

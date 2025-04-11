@@ -249,9 +249,8 @@ public:
 
   /**
    * @brief Applies a sliding window operation to a tensor.
-   * @param input Input tensor.
-   * @param output Output tensor.
-   * @param indices_out Optional output tensor for indices.
+   * @param in_shape Input shape.
+   * @param out_shape Output shape.
    * @param kernel_shape Shape of the kernel.
    * @param strides Strides for the sliding window.
    * @param dilations Dilations for the sliding window.
@@ -259,29 +258,26 @@ public:
    * @param window_fn Function to apply in the sliding window.
    */
   template <typename T>
-  static void sliding_window(const std::shared_ptr<const Tensor<T>> &input,
-                             std::shared_ptr<Tensor<T>> &output,
-                             const std::optional<std::shared_ptr<Tensor<int64_t>>> &indices_out,
-                             const std::vector<int> &kernel_shape, const std::vector<int> &strides,
-                             const std::vector<int> &dilations,
-                             const std::vector<std::pair<int, int>> &pads,
-                             const int storage_order,
-                             const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f);
+  static void sliding_window(const array_mml<uli>& in_shape,
+                             const array_mml<uli>& out_shape,
+                             const std::vector<int>& kernel_shape,
+                             const std::vector<int>& strides,
+                             const std::vector<int>& dilations,
+                             const std::vector<std::pair<int, int>>& pads,
+                             const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f);
   
   /**
    * @brief Sets the sliding_window function pointer.
    * @param ptr Function pointer to the sliding_window implementation.
    */
   template <typename T>
-  static void set_sliding_window_ptr(std::function<void(const std::shared_ptr<const Tensor<T>> &input,
-                                                        std::shared_ptr<Tensor<T>> &output,
-                                                        const std::optional<std::shared_ptr<Tensor<int64_t>>> &indices_out,
-                                                        const std::vector<int> &kernel_shape,
-                                                        const std::vector<int> &strides,
-                                                        const std::vector<int> &dilations,
-                                                        const std::vector<std::pair<int, int>> &pads,
-                                                        const int storage_order,
-                                                        const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)> ptr);
+  static void set_sliding_window_ptr(std::function<void(const array_mml<uli>& in_shape,
+                                                        const array_mml<uli>& out_shape,
+                                                        const std::vector<int>& kernel_shape,
+                                                        const std::vector<int>& strides,
+                                                        const std::vector<int>& dilations,
+                                                        const std::vector<std::pair<int, int>>& pads,
+                                                        const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)> ptr);
 
 
 
@@ -351,15 +347,13 @@ private:
 
    // Pointer to the sliding_window function.
   template <typename T>
-  static std::function<void(const std::shared_ptr<const Tensor<T>>& input,
-                            std::shared_ptr<Tensor<T>>& output,
-                            const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+  static std::function<void(const array_mml<uli>& in_shape,
+                            const array_mml<uli>& out_shape,
                             const std::vector<int>& kernel_shape,
                             const std::vector<int>& strides,
                             const std::vector<int>& dilations,
                             const std::vector<std::pair<int, int>>& pads,
-                            const int storage_order,
-                            const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)> sliding_window_ptr;
+                            const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)> sliding_window_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

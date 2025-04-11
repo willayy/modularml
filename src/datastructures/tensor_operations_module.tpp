@@ -86,15 +86,13 @@ std::function<int(const std::shared_ptr<const Tensor<T>> a)>
         mml_arg_max<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
-std::function<void(const std::shared_ptr<const Tensor<T>>& input,
-                   std::shared_ptr<Tensor<T>>& output,
-                   const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+std::function<void(const array_mml<uli>& in_shape,
+                   const array_mml<uli>& out_shape,
                    const std::vector<int>& kernel_shape,
                    const std::vector<int>& strides,
                    const std::vector<int>& dilations,
                    const std::vector<std::pair<int, int>>& pads,
-                   const int storage_order,
-                   const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)>
+                   const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)>
     TensorOperationsModule::sliding_window_ptr =
         mml_sliding_window<T>; // NOSONAR - Not a global variable
 
@@ -178,15 +176,13 @@ void TensorOperationsModule::set_arg_max_ptr(
 
 template <typename T>
 void TensorOperationsModule::set_sliding_window_ptr(
-    std::function<void(const std::shared_ptr<const Tensor<T>>& input,
-                       std::shared_ptr<Tensor<T>>& output,
-                       const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+    std::function<void(const array_mml<uli>& in_shape,
+                       const array_mml<uli>& out_shape,
                        const std::vector<int>& kernel_shape,
                        const std::vector<int>& strides,
                        const std::vector<int>& dilations,
                        const std::vector<std::pair<int, int>>& pads,
-                       const int storage_order,
-                       const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f)>
+                       const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f)>
         ptr) {
   sliding_window_ptr<T> = ptr;
 }
@@ -254,14 +250,12 @@ int TensorOperationsModule::arg_max(const std::shared_ptr<const Tensor<T>> a) {
 }
 
 template <typename T>
-void TensorOperationsModule::sliding_window(const std::shared_ptr<const Tensor<T>>& input,
-                                            std::shared_ptr<Tensor<T>>& output,
-                                            const std::optional<std::shared_ptr<Tensor<int64_t>>>& indices_out,
+void TensorOperationsModule::sliding_window(const array_mml<uli>& in_shape,
+                                            const array_mml<uli>& out_shape,
                                             const std::vector<int>& kernel_shape,
                                             const std::vector<int>& strides,
                                             const std::vector<int>& dilations,
                                             const std::vector<std::pair<int, int>>& pads,
-                                            const int storage_order,
-                                            const function<T(const std::vector<T>&, const std::vector<int64_t>&, int64_t&)> &window_f) {
-  return sliding_window_ptr<T>(input, output, indices_out, kernel_shape, strides, dilations, pads, storage_order, window_f);
+                                            const function<void(const std::vector<std::vector<uli>>&, const std::vector<uli>&)> &window_f) {
+  return sliding_window_ptr<T>(in_shape, out_shape, kernel_shape, strides, dilations, pads, window_f);
 }

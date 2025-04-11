@@ -80,17 +80,20 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
         if constexpr (!is_in_variant_v<ValueType, T>) {
             throw std::runtime_error("MaxPoolNode: Unsupported data type for tensor X");
         } else {
-            if (x_ptr->get_shape().size() < 3) {
+            array_mml<uli> x_shape = x_ptr->get_shape();
+            uli total_rank = x_shape.size();
+
+            if (total_rank < 3) {
                 throw std::runtime_error("MaxPoolNode: Input tensor must be at least NCL");
             }
 
             NodeUtils::compute_pool_attributes(auto_pad, kernel_shape, strides, pads, dilations);
 
-            array_mml<uli> output_shape = NodeUtils::compute_pool_output_shape(x_ptr->get_shape(), auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
+            array_mml<uli> output_shape = NodeUtils::compute_pool_output_shape(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
-            auto pad_pair = NodeUtils::compute_pool_pad_begin_end(x_ptr->get_shape(), auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
+            auto pad_pair = NodeUtils::compute_pool_pad_begin_end(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
-            auto output_ptr = TensorFactory::create_tensor<ValueType>(output_shape);
+            auto y_ptr = TensorFactory::create_tensor<ValueType>(output_shape);
 
             std::optional<std::shared_ptr<Tensor<int64_t>>> indices_ptr = std::nullopt;
             if (indices.has_value()) {
@@ -99,33 +102,57 @@ void MaxPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
 
             // Perform pooling operation
             TensorOperationsModule::sliding_window<ValueType>(
-                x_ptr,
-                output_ptr,
-                indices_ptr,
+                x_shape,
+                output_shape,
                 kernel_shape,
                 strides,
                 dilations,
                 pad_pair,
-                storage_order,
-                [](const std::vector<ValueType>& window_values, const std::vector<int64_t>& window_indices, int64_t& outIndex) -> ValueType {
-                    if (window_values.empty()) {
+                [this, x_ptr, y_ptr, indices_ptr, x_shape, total_rank](const std::vector<std::vector<uli>>& window_in_idx, const std::vector<uli>& out_idx) -> void {
+                    if (window_in_idx.empty()) {
                         throw std::runtime_error("MaxPoolNode: Empty window values");
                     }
-                    ValueType max_val = window_values[0];
-                    outIndex = window_indices[0];
 
-                    for (size_t i = 1; i < window_values.size(); ++i) {
-                        if (window_values[i] > max_val) {
-                            max_val = window_values[i];
-                            outIndex = window_indices[i];
+                    ValueType max_val = std::numeric_limits<ValueType>::lowest();
+                    int64_t max_idx = -1;
+
+                    for (const auto& in_idx : window_in_idx) {
+                        array_mml<uli> curr_idx(in_idx);
+                        ValueType curr_val = (*x_ptr)[curr_idx];
+    
+                        if (curr_val > max_val) {
+                            max_val = curr_val;
+
+                            // Convert in_idx to flat index
+                            int64_t flat_index = 0;
+                            if (storage_order == 0) { // Row-major
+                                for (size_t i = 0; i < total_rank; ++i) {
+                                    int64_t stride = 1;
+                                    for (size_t j = i + 1; j < total_rank; ++j) {
+                                        stride *= x_shape[j];
+                                    }
+                                    flat_index += in_idx[i] * stride;
+                                }
+                            } else { // Column-major
+                            int64_t stride = 1;
+                                for (size_t i = 0; i < total_rank; ++i) {
+                                    flat_index += in_idx[i] * stride;
+                                    stride *= x_shape[i];
+                                }
+                            }
+                            max_idx = flat_index;
                         }
                     }
 
-                    return max_val;
+                    array_mml<uli> out_idx_array(out_idx);
+                    (*y_ptr)[out_idx_array] = max_val;
+                    if (indices_ptr.has_value()) {
+                        (*indices_ptr.value())[out_idx_array] = max_idx;
+                    }
                 }
             );
             
-            iomap[Y] = output_ptr;
+            iomap[Y] = y_ptr;
             if (indices.has_value()) {
                 iomap[indices.value()] = indices_ptr.value();
             }
