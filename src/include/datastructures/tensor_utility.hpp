@@ -39,7 +39,8 @@
  * specified tolerance, false otherwise.
  */
 template <typename T>
-bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01));
+bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01),
+                       bool verbose = false);
 
 /**
  * @brief Generates a random tensor with the specified shape and value range.
