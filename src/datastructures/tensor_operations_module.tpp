@@ -8,7 +8,6 @@ std::function<void(const std::shared_ptr<const Tensor<T>> a,
                    std::shared_ptr<Tensor<T>> c)>
     TensorOperationsModule::add_ptr =
         mml_add<T>;  // NOSONAR - Not a global variable
-        mml_add<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
 std::function<void(const std::shared_ptr<Tensor<T>> a,
@@ -16,20 +15,17 @@ std::function<void(const std::shared_ptr<Tensor<T>> a,
                    std::shared_ptr<Tensor<T>> c)>
     TensorOperationsModule::subtract_ptr =
         mml_subtract<T>;  // NOSONAR - Not a global variable
-        mml_subtract<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
 std::function<void(const std::shared_ptr<Tensor<T>> a, const T b,
                    std::shared_ptr<Tensor<T>> c)>
     TensorOperationsModule::multiply_ptr =
         mml_multiply<T>;  // NOSONAR - Not a global variable
-        mml_multiply<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
 std::function<bool(const std::shared_ptr<Tensor<T>> a,
                    const std::shared_ptr<Tensor<T>> b)>
     TensorOperationsModule::equals_ptr =
-        mml_equals<T>;  // NOSONAR - Not a global variable
         mml_equals<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
@@ -38,13 +34,11 @@ std::function<void(const std::shared_ptr<const Tensor<T>> a,
                    const std::shared_ptr<Tensor<T>> c)>
     TensorOperationsModule::elementwise_ptr =
         mml_elementwise<T>;  // NOSONAR - Not a global variable
-        mml_elementwise<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
 std::function<void(const std::shared_ptr<Tensor<T>> a,
                    const std::function<T(T)> &f)>
     TensorOperationsModule::elementwise_in_place_ptr =
-        mml_elementwise_in_place<T>;  // NOSONAR - Not a global variable
         mml_elementwise_in_place<T>;  // NOSONAR - Not a global variable
 
 #if defined(USE_BLOCKED_GEMM)  // Use blocked gemm routine
@@ -84,12 +78,10 @@ std::function<std::shared_ptr<Tensor<T>>(
     std::optional<std::shared_ptr<Tensor<T>>> C)>
     TensorOperationsModule::gemm_onnx_ptr =
         mml_onnx_gemm_inner_product<T>;  // NOSONAR - Not a global variable
-        mml_onnx_gemm_inner_product<T>;  // NOSONAR - Not a global variable
 
 template <typename T>
 std::function<int(const std::shared_ptr<const Tensor<T>> a)>
     TensorOperationsModule::arg_max_ptr =
-        mml_arg_max<T>;  // NOSONAR - Not a global variable
         mml_arg_max<T>;  // NOSONAR - Not a global variable
 
 // Setter implementations
