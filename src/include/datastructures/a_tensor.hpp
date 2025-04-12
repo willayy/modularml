@@ -39,10 +39,7 @@ class Tensor {
   /// @brief Check if this tensor is not std::equal to another tensor.
   /// @param other The tensor to compare with.
   /// @return True if the tensors are not std::equal, false otherwise.
-  virtual bool operator!=(const Tensor<T> &other)
-      const = 0;  // NOSONAR - Fair point but, We choose this to enable
-                  // different tensor implementation but using the same
-                  // interface.
+  virtual bool operator!=(const Tensor<T> &other) const = 0;
 
   /// @brief Get an element from the tensor using multi-dimensional indices.
   /// @param indices A std::vector of integers representing the indices of the
@@ -65,27 +62,17 @@ class Tensor {
   ///@brief Check if this tensor is std::equal to another tensor.
   ///@param other The tensor to compare with.
   ///@return True if the tensors are std::equal, false otherwise.*/
-  virtual bool operator==(const Tensor<T> &other)
-      const = 0;  // NOSONAR - Fair point but, We choose this to enable
-                  // different tensor implementation but using the same
-                  // interface.
+  virtual bool operator==(const Tensor<T> &other) const = 0;
 
   ///@brief Move-Assignment operator.
   ///@param other The tensor to assign.
   ///@return The moved tensor.
-  virtual Tensor &operator=(
-      Tensor
-          &&other) noexcept = 0;  // NOSONAR - Fair point but, We choose this
-                                  // to enable different tensor implementation
-                                  // but using the same interface.
+  virtual Tensor &operator=(Tensor &&other) noexcept = 0;
 
   /// @brief (Deep) Copy-Assigment operator.
   /// @param other The tensor to assign.
   /// @return The copied tensor.
-  virtual Tensor &operator=(
-      const Tensor &other) = 0;  // NOSONAR - Fair point but, We choose this to
-                                 // enable different tensor implementation but
-                                 // using the same interface.
+  virtual Tensor &operator=(const Tensor &other) = 0;
 
   ///@brief Get an element from the tensor using singel-dimensional index.
   ///@param index A single integer representing the index of the element.
@@ -166,7 +153,7 @@ class Tensor {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const = 0;
 
-  virtual std::shared_ptr<Tensor<T>> replicate_reshape(
+  virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const = 0;
 
   /// @brief Method way to get a std::copy of the tensor.

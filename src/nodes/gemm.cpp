@@ -3,7 +3,13 @@
 GemmNode::GemmNode(std::string A, std::string B, std::string Y,
                    std::optional<std::string> C, float alpha, float beta,
                    int transA, int transB)
-    : A(A), B(B), C(C), Y(Y), alpha(alpha), beta(beta), transA(transA),
+    : A(A),
+      B(B),
+      C(C),
+      Y(Y),
+      alpha(alpha),
+      beta(beta),
+      transA(transA),
       transB(transB) {}
 
 GemmNode::GemmNode(const nlohmann::json &node) {
@@ -102,7 +108,7 @@ void GemmNode::forward(
             auto raw_c_ptr =
                 std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
                     ->copy();
-            new_c_ptr = raw_c_ptr->replicate_reshape({M, N});
+            new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
           } else {
             new_c_ptr = std::make_shared<Tensor_mml<ValueTypeA>>(
                 array_mml<size_t>{M, N});

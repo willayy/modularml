@@ -214,8 +214,8 @@ TEST(test_mml_tensor, test_reshape_2) {
         }
       }
     } else {
-      continue; // Skip odd-sized arrays testing with 200 iterations to get an
-                // average of 100 valid tests
+      continue;  // Skip odd-sized arrays testing with 200 iterations to get an
+                 // average of 100 valid tests
     }
   }
 }
@@ -266,11 +266,17 @@ TEST(test_mml_tensor, test_slicing_3) {
 TEST(test_mml_tensor, test_slicing_4) {
   std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
       {3, 3, 3},
-      {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
+      {1.0f,  2.0f,  3.0f, 
+       4.0f,  5.0f,  6.0f, 
+       7.0f,  8.0f,  9.0f,
 
-       10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,
+       10.0f, 11.0f, 12.0f, 
+       13.0f, 14.0f, 15.0f,
+       16.0f, 17.0f, 18.0f,
 
-       19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f, 25.0f, 26.0f, 27.0f});
+       19.0f, 20.0f, 21.0f, 
+       22.0f, 23.0f, 24.0f, 
+       25.0f, 26.0f, 27.0f});
 
   std::shared_ptr<Tensor<float>> t2 = t1->slice({0});
   std::shared_ptr<Tensor<float>> t3 = t1->slice({1});
@@ -293,11 +299,17 @@ TEST(test_mml_tensor, test_slicing_4) {
 TEST(test_mml_tensor, test_slicing_5) {
   std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
       {3, 3, 3},
-      {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
+      {1.0f,  2.0f,  3.0f,  
+       4.0f,  5.0f,  6.0f, 
+       7.0f,  8.0f,  9.0f,
 
-       10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,
+       10.0f, 11.0f, 12.0f,
+       13.0f, 14.0f, 15.0f,
+       16.0f, 17.0f, 18.0f,
 
-       19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f, 25.0f, 26.0f, 27.0f});
+       19.0f, 20.0f, 21.0f,
+       22.0f, 23.0f, 24.0f,
+       25.0f, 26.0f, 27.0f});
 
   std::shared_ptr<Tensor<float>> t2 = t1->slice({0, 0});
   std::shared_ptr<Tensor<float>> t3 = t1->slice({1, 0});
@@ -350,11 +362,17 @@ TEST(test_mml_tensor, test_slicing_5) {
 TEST(test_mml_tensor, test_slicing_6) {
   std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
       {3, 3, 3},
-      {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
+      {1.0f,  2.0f,  3.0f, 
+       4.0f,  5.0f,  6.0f, 
+       7.0f,  8.0f,  9.0f,
 
-       10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f,
+       10.0f, 11.0f, 12.0f,
+       13.0f, 14.0f, 15.0f,
+       16.0f, 17.0f, 18.0f,
 
-       19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f, 25.0f, 26.0f, 27.0f});
+       19.0f, 20.0f, 21.0f,
+       22.0f, 23.0f, 24.0f,
+       25.0f, 26.0f, 27.0f});
 
   // Slice once
   std::shared_ptr<Tensor<float>> t2 = t1->slice({0});
@@ -411,9 +429,11 @@ TEST(test_mml_tensor, test_slicing_6) {
 
 TEST(test_mml_tensor, test_slicing_7) {
   std::shared_ptr<Tensor<int>> t1 =
-      tensor_mml_p({2, 2, 5}, {1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+      tensor_mml_p({2, 2, 5}, {1,  2,  3,  4,  5,  
+                               6,  7,  8,  9,  10,
 
-                               11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+                               11, 12, 13, 14, 15,
+                               16, 17, 18, 19, 20});
 
   std::shared_ptr<Tensor<int>> t2 = t1->slice({0});
   std::shared_ptr<Tensor<int>> t3 = t1->slice({1});
@@ -510,7 +530,7 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
   auto tensor1D = TensorFactory::create_tensor<float>({3}, {1.0f, 2.0f, 3.0f});
 
   // Broadcast it to shape [2, 3]
-  auto broadcasted = tensor1D->replicate_reshape({2, 3});
+  auto broadcasted = tensor1D->broadcast_reshape({2, 3});
 
   // Expected output: row-wise repetition
   auto expected = TensorFactory::create_tensor<float>(
@@ -522,13 +542,13 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
 TEST(test_mml_tensor, replicate_reshape_general_2D_to_3D) {
   // Shape: [1, 3] → Target: [2, 4, 3]
   auto tensor = TensorFactory::create_tensor<int>({1, 3}, {10, 20, 30});
-  auto broadcasted = tensor->replicate_reshape({2, 4, 3});
+  auto broadcasted = tensor->broadcast_reshape({2, 4, 3});
 
   auto expected = TensorFactory::create_tensor<int>(
       {2, 4, 3},
       {
-          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30, // first batch
-          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30  // second batch
+          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30,  // first batch
+          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30   // second batch
       });
 
   ASSERT_EQ(*broadcasted, *expected);
@@ -536,7 +556,7 @@ TEST(test_mml_tensor, replicate_reshape_general_2D_to_3D) {
 
 TEST(test_mml_tensor, replicate_reshape_to_2D) {
   auto scalar = TensorFactory::create_tensor<float>({}, {42.0f});
-  auto broadcasted = scalar->replicate_reshape({2, 2});
+  auto broadcasted = scalar->broadcast_reshape({2, 2});
   auto expected =
       TensorFactory::create_tensor<float>({2, 2}, {42.0f, 42.0f, 42.0f, 42.0f});
   ASSERT_EQ(*broadcasted, *expected);
@@ -544,19 +564,19 @@ TEST(test_mml_tensor, replicate_reshape_to_2D) {
 
 TEST(test_mml_tensor, is_replicate_reshape_positive) {
   auto tensor = TensorFactory::create_tensor<int>({1, 3});
-  EXPECT_NO_THROW({ auto b = tensor->replicate_reshape({2, 4, 3}); });
+  EXPECT_NO_THROW({ auto b = tensor->broadcast_reshape({2, 4, 3}); });
 }
 
 TEST(test_mml_tensor, is_replicate_reshape_negative) {
   auto tensor = TensorFactory::create_tensor<int>({2, 3});
-  EXPECT_THROW(tensor->replicate_reshape({2, 4, 3}), std::invalid_argument);
+  EXPECT_THROW(tensor->broadcast_reshape({2, 4, 3}), std::invalid_argument);
 }
 
 TEST(test_mml_tensor, transpose_2D) {
   auto tensor = TensorFactory::create_tensor<int>({2, 3}, {1, 2, 3, 4, 5, 6});
 
   auto transposed =
-      tensor->transpose(); // Should default to swapping last 2 dims
+      tensor->transpose();  // Should default to swapping last 2 dims
 
   auto expected = TensorFactory::create_tensor<int>({3, 2}, {1, 4, 2, 5, 3, 6});
 
