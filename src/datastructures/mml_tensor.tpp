@@ -413,44 +413,30 @@ bool Tensor_mml<T>::valid_broadcast_reshape_size(
 template <typename T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_reshape(
     const array_mml<size_t> &target_shape) const {
-  if (this->shape == target_shape) {
-    return this->copy();
+  if (this->shape == target_shape) return this->copy();
+
+  if (!valid_broadcast_reshape_size(target_shape)) throw std::invalid_argument("Cannot broadcast tensor to target shape");
+
+  if (this->sliced) throw std::logic_error("Cannot broadcast a sliced tensor");
+  
+  // Caclulate how many times we should repeat the tensor
+  size_t tensor_size = this->data.size();
+  size_t target_size = std::accumulate(
+      target_shape.begin(), target_shape.end(), 1, std::multiplies<size_t>());
+  size_t repeat_count = target_size / tensor_size;
+
+  // Create the new buffer
+  auto broadcasted_buffer = array_mml<T>(this->data.size() * repeat_count);
+  for (size_t i = 0; i < repeat_count; i++) {
+    for (size_t j = 0; j < tensor_size; j++) {
+      broadcasted_buffer[i * tensor_size + j] = this->data[j];
+    }
   }
 
-  if (!valid_broadcast_reshape_size(target_shape)) {
-    throw std::invalid_argument("Cannot broadcast tensor to target shape");
-  }
-
-  auto result = std::make_shared<Tensor_mml<T>>(target_shape);
-  const array_mml<size_t> &current_shape = this->shape;
-  size_t rank_diff = target_shape.size() - current_shape.size();
-
-  array_mml<size_t> target_indices(target_shape.size());
-  target_indices.fill(0);
-
-  array_mml<size_t> source_indices(current_shape.size());
-  source_indices.fill(0);
-
-  std::function<void(size_t)> fill_broadcast = [&](size_t dim) {
-    if (dim == target_shape.size()) {
-      for (size_t i = 0; i < current_shape.size(); ++i) {
-        size_t target_i = i + rank_diff;
-        source_indices[i] =
-            (current_shape[i] == 1) ? 0 : target_indices[target_i];
-      }
-
-      (*result)[target_indices] = (*this)[source_indices];
-      return;
-    }
-
-    for (size_t i = 0; i < target_shape[dim]; ++i) {
-      target_indices[dim] = i;
-      fill_broadcast(dim + 1);
-    }
-  };
-
-  fill_broadcast(0);
-  return result;
+  // Create the new tensor
+  auto broadcasted_tensor =
+      std::make_shared<Tensor_mml<T>>(target_shape, broadcasted_buffer);
+  return broadcasted_tensor;
 };
 
 template <typename T>
