@@ -3,6 +3,11 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
+    message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
+    set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk")
+endif()
+
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
@@ -133,8 +138,6 @@ else()
     message(STATUS "Using default GEMM implementation")
     SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
-
-
 endif()
 
 # ------------------- Testing ------------------------------ #
