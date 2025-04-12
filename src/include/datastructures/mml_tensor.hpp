@@ -35,33 +35,37 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(
-      const std::initializer_list<size_t> shape,
-      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
+  explicit Tensor_mml(const std::initializer_list<size_t> shape,
+                      const size_t jump_indexes = 0,
+                      const size_t jump_columns = 0, const size_t jump_rows = 0,
+                      const bool sliced = false);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(
-      const std::initializer_list<size_t> shape,
-      const std::initializer_list<T> data,
-      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
+  explicit Tensor_mml(const std::initializer_list<size_t> shape,
+                      const std::initializer_list<T> data,
+                      const size_t jump_indexes = 0,
+                      const size_t jump_columns = 0, const size_t jump_rows = 0,
+                      const bool sliced = false);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(
-      const array_mml<size_t> &shape,
-      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
+  explicit Tensor_mml(const array_mml<size_t> &shape,
+                      const size_t jump_indexes = 0,
+                      const size_t jump_columns = 0, const size_t jump_rows = 0,
+                      const bool sliced = false);
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
   [[deprecated("Use TensorFactory instead")]]
-  explicit Tensor_mml(
-      const array_mml<size_t> &shape, const array_mml<T> &data,
-      std::optional<array_mml<size_t>> index_offsets = std::nullopt);
+  explicit Tensor_mml(const array_mml<size_t> &shape, const array_mml<T> &data,
+                      const size_t jump_indexes = 0,
+                      const size_t jump_columns = 0, const size_t jump_rows = 0,
+                      const bool sliced = false);
 
   /// @brief Destructor for Tensor_mml class.
   ~Tensor_mml() = default;
@@ -104,26 +108,27 @@ class Tensor_mml : public Tensor<T> {
   std::shared_ptr<Tensor<T>> transpose(
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const override;
-  std::shared_ptr<Tensor<T>> replicate_reshape(
+  std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const override;
 
  private:
   array_mml<T> data;
   array_mml<size_t> shape;
   array_mml<size_t> indices_offsets;
-  std::optional<array_mml<size_t>> index_offsets;
+  bool sliced;
+  size_t jump_indexes;
+  size_t jump_rows;
+  size_t jump_columns;
   size_t size;
 
   // Helper methods
   size_t compute_size() const;
   array_mml<size_t> compute_indices_offsets() const;
-  array_mml<size_t> compute_index_offsets(array_mml<size_t> &slice_indices_size,
-                                          array_mml<size_t> &slice_shape) const;
   bool valid_shape(const array_mml<size_t> &new_shape) const;
   bool valid_indices(const array_mml<size_t> &indices) const;
   bool valid_index(size_t index) const;
   bool valid_slice_indices(const array_mml<size_t> &slice_indices) const;
-  bool valid_replicate_reshape_size(
+  bool valid_broadcast_reshape_size(
       const array_mml<size_t> &target_shape) const;
   size_t indices_to_1d_index(array_mml<size_t> indices) const;
   size_t index_to_offset_1d_index(size_t index) const;
