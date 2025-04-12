@@ -394,7 +394,7 @@ bool Tensor_mml<T>::valid_broadcast_reshape_size(
   while (i > 0 && j > 0) {
     i--;
     j--;
-    // Dimensions must either be std::equal or one must be 1
+    // Dimensions must either be equal or one must be 1
     if (current_shape[i] != target_shape[j] && current_shape[i] != 1 &&
         target_shape[j] != 1) {
       return false;
