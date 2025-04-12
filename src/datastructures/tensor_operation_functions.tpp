@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(USE_AVX_GEMM)
+#if defined(USE_AVX_GEMM) || defined(USE_AVX512_GEMM)
   #include <immintrin.h>
 #endif
 
