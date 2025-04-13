@@ -3,7 +3,7 @@
 #include "backend/dataloader/data_loader_config.hpp"
 
 /**
- * @class resize_and_crop
+ * @class resizeAndCrop
  * @brief Abstract base class for image handling in preparation for machine learning models.
  *
  * This class resizes and crops images to a specified size.
@@ -11,9 +11,9 @@
  *
  * @author Måns Bremer (@Breman402)
  */
-class Resize_and_crop {
+class resizeAndCrop {
  public:
-  Resize_and_crop() = default;
+  resizeAndCrop() = default;
 
   /**
    * @brief Load external image data and resize/crop it to fit model input.
@@ -29,5 +29,5 @@ class Resize_and_crop {
    *
    * Ensures proper cleanup of derived class objects.
    */
-  virtual ~Resize_and_crop() = default;
+  virtual ~resizeAndCrop() = default;
 };

@@ -8,7 +8,7 @@
  * 
  * @author Måns Bremer (@Breman402)
  */
-class Image_resize_and_cropper : public Resize_and_crop {
+class Image_resize_and_cropper : public resizeAndCrop {
    public:
     /**
      * @brief Loads an image according to the configuration and returns a pointer to resized and cropped image data.
