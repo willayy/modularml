@@ -1,7 +1,4 @@
-#include <algorithm>
 #include <iostream>
-#include <memory>
-#include <vector>
 
 #include "backend/dataloader/resize_and_cropper.hpp"
 #include "stb_image.h"
