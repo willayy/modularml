@@ -3,6 +3,11 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
+    message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
+    set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk")
+endif()
+
 # ------------------- Compiler/Standards ------------------- #
 
 # Set C++ standard
@@ -133,8 +138,6 @@ else()
     message(STATUS "Using default GEMM implementation")
     SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
-
-
 endif()
 
 # ------------------- Testing ------------------------------ #
@@ -192,7 +195,6 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
     -fprofile-arcs
     -ftest-coverage
     )
-
 endif()
 
 # Link the test executable with the main project executable
@@ -210,7 +212,7 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 find_program(GCOVR_EXECUTABLE gcovr)
 if(NOT GCOVR_EXECUTABLE)
-    message(WARNING "gcovr not found. Please install gcovr.")
+    message(WARNING "gcovr not found. Skipping coverage report.")
 else()
     message(STATUS "gcovr found at ${GCOVR_EXECUTABLE}")
 endif()

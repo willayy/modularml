@@ -1,29 +1,12 @@
 #pragma once
 
+#include <cstdlib>
+#include <memory>
+
 #include "datastructures/mml_array.hpp"
 
-#include <algorithm>
-#include <chrono>
-#include <cmath>
-#include <functional>
-#include <initializer_list>
-#include <iostream>
-#include <memory>
-#include <nlohmann/json.hpp>
-#include <numeric>
-#include <optional>
-#include <random>
-#include <stdexcept>
-#include <string>
-#include <tuple>
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <variant>
-#include <vector>
-
-#define ASSERT_ALLOWED_TYPE_T(T)                                               \
-  static_assert(std::is_arithmetic_v<T>,                                       \
+#define ASSERT_ALLOWED_TYPE_T(T)         \
+  static_assert(std::is_arithmetic_v<T>, \
                 "Tensor must have an arithmetic type.");
 
 /*!
@@ -34,8 +17,9 @@
  * @tparam T the type of the data contained in the tensor. E.g. int, float,
  * double etc.
  */
-template <typename T> class Tensor {
-public:
+template <typename T>
+class Tensor {
+ public:
   using value_type = T;
 
   /// @brief Default constructor for Tensor class.
@@ -55,9 +39,7 @@ public:
   /// @brief Check if this tensor is not std::equal to another tensor.
   /// @param other The tensor to compare with.
   /// @return True if the tensors are not std::equal, false otherwise.
-  virtual bool operator!=(const Tensor<T> &other)
-      const = 0; // NOSONAR - Fair point but, We choose this to enable different
-                 // tensor implementation but using the same interface.
+  virtual bool operator!=(const Tensor<T> &other) const = 0;
 
   /// @brief Get an element from the tensor using multi-dimensional indices.
   /// @param indices A std::vector of integers representing the indices of the
@@ -80,25 +62,17 @@ public:
   ///@brief Check if this tensor is std::equal to another tensor.
   ///@param other The tensor to compare with.
   ///@return True if the tensors are std::equal, false otherwise.*/
-  virtual bool operator==(const Tensor<T> &other)
-      const = 0; // NOSONAR - Fair point but, We choose this to enable different
-                 // tensor implementation but using the same interface.
+  virtual bool operator==(const Tensor<T> &other) const = 0;
 
   ///@brief Move-Assignment operator.
   ///@param other The tensor to assign.
   ///@return The moved tensor.
-  virtual Tensor &operator=(
-      Tensor &&other) noexcept = 0; // NOSONAR - Fair point but, We choose this
-                                    // to enable different tensor implementation
-                                    // but using the same interface.
+  virtual Tensor &operator=(Tensor &&other) noexcept = 0;
 
   /// @brief (Deep) Copy-Assigment operator.
   /// @param other The tensor to assign.
   /// @return The copied tensor.
-  virtual Tensor &operator=(
-      const Tensor &other) = 0; // NOSONAR - Fair point but, We choose this to
-                                // enable different tensor implementation but
-                                // using the same interface.
+  virtual Tensor &operator=(const Tensor &other) = 0;
 
   ///@brief Get an element from the tensor using singel-dimensional index.
   ///@param index A single integer representing the index of the element.
@@ -141,14 +115,14 @@ public:
   /// @brief Get a mutable slice of the tensor.
   /// @param slice_indices The indices of the slice.
   /// @return A slice of the tensor.
-  virtual std::shared_ptr<Tensor<T>>
-  slice(std::initializer_list<size_t> slice_indices) = 0;
+  virtual std::shared_ptr<Tensor<T>> slice(
+      std::initializer_list<size_t> slice_indices) = 0;
 
   /// @brief Get a mutable slice of the tensor.
   /// @param slice_indices The indices of the slice.
   /// @return A slice of the tensor.
-  virtual std::shared_ptr<Tensor<T>>
-  slice(array_mml<size_t> &slice_indices) = 0;
+  virtual std::shared_ptr<Tensor<T>> slice(
+      array_mml<size_t> &slice_indices) = 0;
 
   /// @brief Reshape the tensor.
   /// @param new_shape The new shape of the tensor expressed as a list of
@@ -175,12 +149,12 @@ public:
   /// otherwise.
   virtual bool matrix_match(const Tensor<T> &other) const = 0;
 
-  virtual std::shared_ptr<Tensor<T>>
-  transpose(std::optional<size_t> dim0 = std::nullopt,
-            std::optional<size_t> dim1 = std::nullopt) const = 0;
+  virtual std::shared_ptr<Tensor<T>> transpose(
+      std::optional<size_t> dim0 = std::nullopt,
+      std::optional<size_t> dim1 = std::nullopt) const = 0;
 
-  virtual std::shared_ptr<Tensor<T>>
-  broadcast_to(const array_mml<size_t> &target_shape) const = 0;
+  virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
+      const array_mml<size_t> &target_shape) const = 0;
 
   /// @brief Method way to get a std::copy of the tensor.
   /// @return A shared pointer to the copied tensor.

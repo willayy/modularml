@@ -44,23 +44,22 @@ std::function<void(const std::shared_ptr<Tensor<T>> a,
 #if defined(USE_BLOCKED_GEMM)  // Use blocked gemm routine
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   std::shared_ptr<Tensor<T>> A, int lda,
-                   std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                   std::shared_ptr<Tensor<T>> C, int ldc)>
+                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperationsModule::gemm_ptr =
         mml_gemm_blocked<T>;  // NOSONAR - Not a global variable
 #elif defined(USE_AVX_GEMM)
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
+                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperationsModule::gemm_ptr =
         mml_gemm_avx<T>;  // NOSONAR - Not a global variable
 #elif defined(USE_AVX512_GEMM)
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
+                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperationsModule::gemm_ptr =
         mml_gemm_avx512<T>;  // NOSONAR - Not a global variable
 #else  // Default naive gemm implementation
@@ -104,6 +103,7 @@ void TensorOperationsModule::set_add_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     add_ptr<T> = ptr;
+    add_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -113,6 +113,7 @@ void TensorOperationsModule::set_subtract_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     subtract_ptr<T> = ptr;
+    subtract_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -121,6 +122,7 @@ void TensorOperationsModule::set_multiply_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     multiply_ptr<T> = ptr;
+    multiply_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -128,6 +130,7 @@ void TensorOperationsModule::set_equals_ptr(
     std::function<bool(const std::shared_ptr<Tensor<T>> a,
                        const std::shared_ptr<Tensor<T>> b)>
         ptr) {
+    equals_ptr<T> = ptr;
     equals_ptr<T> = ptr;
 }
 
@@ -138,6 +141,7 @@ void TensorOperationsModule::set_elementwise_ptr(
                        const std::shared_ptr<Tensor<T>> c)>
         ptr) {
     elementwise_ptr<T> = ptr;
+    elementwise_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -145,6 +149,7 @@ void TensorOperationsModule::set_elementwise_in_place_ptr(
     std::function<void(const std::shared_ptr<Tensor<T>> a,
                        const std::function<T(T)> &f)>
         ptr) {
+    elementwise_in_place_ptr<T> = ptr;
     elementwise_in_place_ptr<T> = ptr;
 }
 
@@ -156,6 +161,7 @@ void TensorOperationsModule::set_gemm_ptr(
                        std::shared_ptr<Tensor<T>> C, int ldc)>
         ptr) {
     gemm_ptr<T> = ptr;
+    gemm_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -165,6 +171,7 @@ void TensorOperationsModule::set_gemm_onnx_ptr(
         float beta, int transA, int transB,
         std::optional<std::shared_ptr<Tensor<T>>> C)>
         ptr) {
+    gemm_onnx_ptr<T> = ptr;
     gemm_onnx_ptr<T> = ptr;
 }
 
