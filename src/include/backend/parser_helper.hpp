@@ -32,7 +32,7 @@ namespace ParserHelper {
  * @return A shared pointer to the created tensor.
  */
 template <typename T>
-std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
+inline std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
   std::vector<size_t> dims;
   for (const auto &el : init["dims"]) {
     dims.push_back(static_cast<size_t>(std::stoi(el.get<std::string>())));

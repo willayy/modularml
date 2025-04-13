@@ -2,7 +2,7 @@
 #include "backend/mml_model.hpp"
 #include "backend/parser_helper.hpp"
 #include "nodes/add.hpp"
-#include "nodes/avg_pooling.hpp"
+#include "nodes/avg_pool.hpp"
 #include "nodes/constant.hpp"
 #include "nodes/conv.hpp"
 #include "nodes/dropout.hpp"
@@ -13,7 +13,7 @@
 #include "nodes/leaky_relu.hpp"
 #include "nodes/log_softmax.hpp"
 #include "nodes/lrn.hpp"
-#include "nodes/max_pooling.hpp"
+#include "nodes/max_pool.hpp"
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/sigmoid.hpp"
@@ -89,7 +89,7 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
       if (opType == "Add") {
         nodes.push_back(std::make_shared<AddNode>(node));
       } else if (opType == "AveragePool") {
-        nodes.push_back(std::make_shared<AvgPoolingNode_mml>(node));
+        nodes.push_back(std::make_shared<AvgPoolNode>(node));
       } else if (opType == "Constant") {
         nodes.push_back(std::make_shared<ConstantNode>(node));
       } else if (opType == "Conv") {
@@ -111,7 +111,7 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
       } else if (opType == "LRN") {
         nodes.push_back(std::make_shared<LRNNode_mml>(node));
       } else if (opType == "MaxPool") {
-        nodes.push_back(std::make_shared<MaxPoolingNode_mml>(node));
+        nodes.push_back(std::make_shared<MaxPoolNode>(node));
       } else if (opType == "Relu") {
         nodes.push_back(std::make_shared<ReLUNode>(node));
       } else if (opType == "Reshape") {

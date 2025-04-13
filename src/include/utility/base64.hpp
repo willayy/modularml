@@ -30,11 +30,12 @@ static const std::string base64_chars =
  *
  * @tparam T The target element type
  * @param input The base64-encoded std::string
- * @return array_mml<T> A array containing the decoded elements
+ * @return array_mml<T> array containing the decoded elements
  * @throws std::runtime_error If input contains invalid characters or size
  * doesn't align with T
  */
-template <typename T> array_mml<T> decode(const std::string &input) {
+template <typename T> 
+inline array_mml<T> decode(const std::string &input) {
   std::vector<unsigned char> bytes;
   int val = 0, val_bits = -8;
 

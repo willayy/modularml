@@ -38,7 +38,7 @@ public:
   GemmNode(const nlohmann::json &node);
 
   /**
-   * @brief Perform the forward pass computation using GEMM inner product.
+   * @brief Perform the forward pass computation of GEMM.
    *
    * This std::function performs the forward pass computation using the General
    * Matrix Multiply (GEMM) inner product.

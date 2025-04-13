@@ -4,6 +4,8 @@
 #include "backend/mml_gemm.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_tensor.hpp"
+#include "nodes/node_utils.hpp"
+#include "datastructures/tensor_operations_module.hpp"
 
 #include <algorithm>
 #include <chrono>
