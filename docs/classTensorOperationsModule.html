@@ -163,6 +163,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a28ce9170f59b3fc6da8bb2e84236464b"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a28ce9170f59b3fc6da8bb2e84236464b">set_arg_max_ptr</a> (std::function&lt; int(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)&gt; ptr)</td></tr>
 <tr class="memdesc:a28ce9170f59b3fc6da8bb2e84236464b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the arg_max std::function pointer.  <br /></td></tr>
 <tr class="separator:a28ce9170f59b3fc6da8bb2e84236464b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808d16ad9a19328548fc22cc3ff1ab77" id="r_a808d16ad9a19328548fc22cc3ff1ab77"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a808d16ad9a19328548fc22cc3ff1ab77"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a808d16ad9a19328548fc22cc3ff1ab77">sliding_window</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)</td></tr>
+<tr class="memdesc:a808d16ad9a19328548fc22cc3ff1ab77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a sliding window operation to a tensor.  <br /></td></tr>
+<tr class="separator:a808d16ad9a19328548fc22cc3ff1ab77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed341438ba1cd44ab27e4fa2718abe5" id="r_a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a5ed341438ba1cd44ab27e4fa2718abe5">set_sliding_window_ptr</a> (std::function&lt; void(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)&gt; ptr)</td></tr>
+<tr class="memdesc:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sliding_window function pointer.  <br /></td></tr>
+<tr class="separator:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A module for performing arithmetic operations on tensor structures. Your static modular toolbox for all operations on tensors. </p>
@@ -959,6 +967,42 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a5ed341438ba1cd44ab27e4fa2718abe5" name="a5ed341438ba1cd44ab27e4fa2718abe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed341438ba1cd44ab27e4fa2718abe5">&#9670;&#160;</a></span>set_sliding_window_ptr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void TensorOperationsModule::set_sliding_window_ptr </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)&gt;&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the sliding_window function pointer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>Function pointer to the sliding_window implementation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a777dd7bd7f72381616ba739a9bdc90e3" name="a777dd7bd7f72381616ba739a9bdc90e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a777dd7bd7f72381616ba739a9bdc90e3">&#9670;&#160;</a></span>set_subtract_ptr()</h2>
 
@@ -989,6 +1033,88 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ptr</td><td>Function pointer to the subtract implementation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a808d16ad9a19328548fc22cc3ff1ab77" name="a808d16ad9a19328548fc22cc3ff1ab77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a808d16ad9a19328548fc22cc3ff1ab77">&#9670;&#160;</a></span>sliding_window()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void TensorOperationsModule::sliding_window </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>in_shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>out_shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>kernel_shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>strides</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dilations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>pads</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>window_f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Applies a sliding window operation to a tensor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">in_shape</td><td>Input shape. </td></tr>
+    <tr><td class="paramname">out_shape</td><td>Output shape. </td></tr>
+    <tr><td class="paramname">kernel_shape</td><td>Shape of the kernel. </td></tr>
+    <tr><td class="paramname">strides</td><td>Strides for the sliding window. </td></tr>
+    <tr><td class="paramname">dilations</td><td>Dilations for the sliding window. </td></tr>
+    <tr><td class="paramname">pads</td><td>Padding for the sliding window. </td></tr>
+    <tr><td class="paramname">window_f</td><td>Function to apply in the sliding window. </td></tr>
   </table>
   </dd>
 </dl>

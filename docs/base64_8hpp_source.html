@@ -109,37 +109,38 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">static</span> <span class="keyword">const</span> std::string base64_chars =</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span>;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <a class="code hl_class" href="classarray__mml.html">array_mml&lt;T&gt;</a> decode(<span class="keyword">const</span> std::string &amp;input) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  std::vector&lt;unsigned char&gt; bytes;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">int</span> val = 0, val_bits = -8;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c : input) {</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;=&#39;</span>)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      <span class="keywordflow">break</span>; <span class="comment">// Padding character</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    std::size_t pos = base64_chars.find(c);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (pos == std::string::npos)</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid base64 character&quot;</span>);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    val = (val &lt;&lt; 6) + static_cast&lt;int&gt;(pos);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    val_bits += 6;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">if</span> (val_bits &gt;= 0) {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      bytes.push_back((val &gt;&gt; val_bits) &amp; 0xFF);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      val_bits -= 8;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  }</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keywordflow">if</span> (bytes.size() % <span class="keyword">sizeof</span>(T) != 0) {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">throw</span> std::runtime_error(</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="stringliteral">&quot;Decoded data size (&quot;</span> + std::to_string(bytes.size()) +</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="stringliteral">&quot; bytes) is not aligned with sizeof(&quot;</span> + <span class="keyword">typeid</span>(T).name() +</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="stringliteral">&quot;) = &quot;</span> + std::to_string(<span class="keyword">sizeof</span>(T)));</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">size_t</span> element_count = bytes.size() / <span class="keyword">sizeof</span>(T);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keyword">auto</span> data_ptr = std::make_shared&lt;T[]&gt;(element_count);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  std::memcpy(data_ptr.get(), bytes.data(), bytes.size());</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <span class="keywordflow">return</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;T&gt;</a>(data_ptr, element_count);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>} <span class="comment">// namespace Base64</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">inline</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;T&gt;</a> decode(<span class="keyword">const</span> std::string &amp;input) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  std::vector&lt;unsigned char&gt; bytes;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordtype">int</span> val = 0, val_bits = -8;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c : input) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;=&#39;</span>)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      <span class="keywordflow">break</span>; <span class="comment">// Padding character</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::size_t pos = base64_chars.find(c);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (pos == std::string::npos)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid base64 character&quot;</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    val = (val &lt;&lt; 6) + static_cast&lt;int&gt;(pos);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    val_bits += 6;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (val_bits &gt;= 0) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      bytes.push_back((val &gt;&gt; val_bits) &amp; 0xFF);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      val_bits -= 8;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordflow">if</span> (bytes.size() % <span class="keyword">sizeof</span>(T) != 0) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">throw</span> std::runtime_error(</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="stringliteral">&quot;Decoded data size (&quot;</span> + std::to_string(bytes.size()) +</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="stringliteral">&quot; bytes) is not aligned with sizeof(&quot;</span> + <span class="keyword">typeid</span>(T).name() +</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="stringliteral">&quot;) = &quot;</span> + std::to_string(<span class="keyword">sizeof</span>(T)));</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordtype">size_t</span> element_count = bytes.size() / <span class="keyword">sizeof</span>(T);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="keyword">auto</span> data_ptr = std::make_shared&lt;T[]&gt;(element_count);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  std::memcpy(data_ptr.get(), bytes.data(), bytes.size());</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="keywordflow">return</span> <a class="code hl_class" href="classarray__mml.html">array_mml&lt;T&gt;</a>(data_ptr, element_count);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>} <span class="comment">// namespace Base64</span></div>
 <div class="ttc" id="aclassarray__mml_html"><div class="ttname"><a href="classarray__mml.html">array_mml</a></div><div class="ttdoc">Array class mimicking the std::array class but without the size being a template parameter.</div><div class="ttdef"><b>Definition</b> mml_array.hpp:26</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

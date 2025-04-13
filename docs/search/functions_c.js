@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['random_5ftensor_0',['random_tensor',['../classTensorFactory.html#a28f55e100fe8b0facc82c568b386ae8a',1,'TensorFactory']]],
-  ['relunode_1',['relunode',['../classReLUNode.html#abe53d71b50e850e8144caf593288f64a',1,'ReLUNode::ReLUNode(std::string X, std::string Y)'],['../classReLUNode.html#ae31059c5a13d49c7cc00fa5c8a62ffbb',1,'ReLUNode::ReLUNode(const nlohmann::json &amp;node)']]],
-  ['reshape_2',['reshape',['../classTensor.html#a7f18fe31937513d52b295b3125aeb1b8',1,'Tensor::reshape(const array_mml&lt; size_t &gt; &amp;new_shape)=0'],['../classTensor.html#a0db9d19680cf7f7535afebeaee4c7df8',1,'Tensor::reshape(std::initializer_list&lt; size_t &gt; new_shape)=0'],['../classTensor__mml.html#ac07ac809cb53b69abaea71af493e9b62',1,'Tensor_mml::reshape(const array_mml&lt; size_t &gt; &amp;new_shape) override'],['../classTensor__mml.html#aa4516598442262be63a9818bacf90bb7',1,'Tensor_mml::reshape(std::initializer_list&lt; size_t &gt; new_shape) override']]],
-  ['reshapenode_3',['reshapenode',['../classreshapeNode.html#a488451e054b91a2553039df8acc5997b',1,'reshapeNode::reshapeNode(std::string data, std::string shape, std::string reshaped, int allowzero=0)'],['../classreshapeNode.html#ae1ae347606a9d1cc0b01af4fc8c288ea',1,'reshapeNode::reshapeNode(const nlohmann::json &amp;node)']]],
-  ['reverse_5fbuffer_4',['reverse_buffer',['../classTensor.html#a3f04eb146214ddf5bac14668e6ab3f5d',1,'Tensor::reverse_buffer()'],['../classTensor__mml.html#a325924bbd50d738e429725f04378bd06',1,'Tensor_mml::reverse_buffer()']]]
+  ['parse_0',['parse',['../classDataParser.html#ada26e991dee47817b869c15da0b483e7',1,'DataParser::parse()'],['../classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2',1,'Parser_mml::parse(const nlohmann::json &amp;data) const override']]],
+  ['parser_5fmml_1',['Parser_mml',['../classParser__mml.html#ac13664713c8482cae45627056706e6bf',1,'Parser_mml']]]
 ];

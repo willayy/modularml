@@ -1,0 +1,5 @@
+<map id="resizeAndCrop" name="resizeAndCrop">
+<area shape="rect" id="Node000001" title="Abstract base class for image preprocessing in machine learning pipelines." alt="" coords="39,5,155,31"/>
+<area shape="rect" id="Node000002" href="$classimageResizeAndCropper.html" title="A class that resizes and crops an image using shared ownership of image data." alt="" coords="5,79,188,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,44,99,79,94,79,94,44"/>
+</map>
