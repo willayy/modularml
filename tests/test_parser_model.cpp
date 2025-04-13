@@ -78,9 +78,7 @@ TEST(test_parser_model, test_parsing_and_running_model) {
 
 TEST(test_parser_model, test_parsing_and_running_lenet) {
   std::ifstream file("../lenet.json");
-  if (!file.is_open()) {
-    GTEST_SKIP() << "Skipping test as alexnet.json file is not found";
-  }
+  ASSERT_TRUE(file.is_open()) << "Failed to open lenet.json file";
 
   nlohmann::json onnx_model;
   file >> onnx_model;
@@ -126,7 +124,9 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
 
 TEST(test_parser_model, test_parsing_and_running_alexnet) {
     std::ifstream file("../alexnet.json");
-    ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
+    if (!file.is_open()) {
+        GTEST_SKIP() << "Skipping test as alexnet.json file is not found";
+    }
 
     nlohmann::json onnx_model;
     file >> onnx_model;
