@@ -1,7 +1,4 @@
 #include "backend/dataloader/image_loader.hpp"
-
-// Is needed to create the implementation
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 std::shared_ptr<Tensor<float>>
@@ -12,13 +9,16 @@ ImageLoader::load(const DataLoaderConfig &config) const {
   int width, height, channels;
 
   unsigned char *image_data =
-      stbi_load(image_config.image_path.c_str(), &width, &height, &channels, 0);
-
+  stbi_load(image_config.image_path.c_str(), &width, &height, &channels, 0);
+  
   if (!image_data) {
     throw std::invalid_argument("Failed to load image: " +
-                                image_config.image_path);
-  }
-
+      image_config.image_path);
+    }
+  std::cout << "width=" << width << ", "
+  << "height=" << height << ","
+  << "channels=" << channels << std::endl;
+  std::cout << "loading image done" << std::endl;
   // Trust
   int output_channels = channels;
 
@@ -38,8 +38,8 @@ ImageLoader::load(const DataLoaderConfig &config) const {
 
   array_mml<unsigned long int> image_tensor_shape(
       {1, static_cast<unsigned long int>(output_channels),
-       static_cast<unsigned long int>(width),
-       static_cast<unsigned long int>(height)});
+       static_cast<unsigned long int>(height),
+       static_cast<unsigned long int>(width)});
   array_mml<float> output_data(data_size); // Fills with 0:s
   std::shared_ptr<Tensor_mml<float>> output =
       std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
