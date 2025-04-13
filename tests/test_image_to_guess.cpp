@@ -19,7 +19,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   std::string input_path = "tests/test_image_to_guess.png";
   const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/foxhound.png");
 
-  Image_resize_and_cropper resizer_and_cropper;
+  imageResizeAndCropper resizer_and_cropper;
   int out_width, out_height, out_channels;
   std::shared_ptr<unsigned char> resized_image = resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 
@@ -80,7 +80,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   std::string input_path = "tests/test_image_to_guess.png";
   const ImageLoaderConfig config("../tests/data/alexnet/alexnet_pictures/American_egret.png");
 
-  Image_resize_and_cropper resizer_and_cropper;
+  imageResizeAndCropper resizer_and_cropper;
   int out_width, out_height, out_channels;
   std::shared_ptr<unsigned char> resized_image = resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 

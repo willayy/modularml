@@ -21,7 +21,7 @@ TEST(test_image_resizer_and_cropper, test_resize_and_crop) {
 
   // Load the image using ImageLoaderConfig
   ImageLoaderConfig config(temp_image_path);
-  Image_resize_and_cropper resizer_and_cropper;
+  imageResizeAndCropper resizer_and_cropper;
 
   int out_width, out_height, out_channels;
   std::shared_ptr<unsigned char> resized_image = resizer_and_cropper.resize(config, out_width, out_height, out_channels);

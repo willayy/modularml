@@ -14,7 +14,7 @@ auto stbi_deleter = [](unsigned char* data) {
 }  // namespace
 
 // Resize and return shared_ptr-managed image buffer
-std::shared_ptr<unsigned char> Image_resize_and_cropper::resize(const DataLoaderConfig& config, int& out_width, int& out_height, int& out_channels) const {
+std::shared_ptr<unsigned char> imageResizeAndCropper::resize(const DataLoaderConfig& config, int& out_width, int& out_height, int& out_channels) const {
   const ImageLoaderConfig& image_config = dynamic_cast<const ImageLoaderConfig&>(config);
 
   int width, height, channels;
@@ -61,7 +61,7 @@ std::shared_ptr<unsigned char> Image_resize_and_cropper::resize(const DataLoader
   return output;
 }
 
-std::shared_ptr<unsigned char> Image_resize_and_cropper::crop(
+std::shared_ptr<unsigned char> imageResizeAndCropper::crop(
     const std::shared_ptr<unsigned char>& resized_data,
     int width, int height, int channels, int crop_size) const {
   if (width < crop_size || height < crop_size) {

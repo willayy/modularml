@@ -3,7 +3,7 @@
 #include "backend/dataloader/a_image_resizer_and_cropper.hpp"
 
 /**
- * @class Image_resize_and_cropper
+ * @class imageResizeAndCropper
  * @brief A class that resizes and crops an image using shared ownership of image data.
  *
  * This class performs resizing and center-cropping on image data according to
@@ -12,7 +12,7 @@
  *
  * @author Måns Bremer (@Breman402)
  */
-class Image_resize_and_cropper : public resizeAndCrop {
+class imageResizeAndCropper : public resizeAndCrop {
  public:
   /**
    * @brief Loads and resizes an image according to the configuration.
