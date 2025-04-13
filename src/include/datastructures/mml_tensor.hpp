@@ -34,6 +34,12 @@ class Tensor_mml : public Tensor<T> {
  public:
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
+  /// @param jump_indexes The number of elements to skip when moving to the next
+  /// @param jump_columns The number of elements to skip when moving to the next
+  /// column.
+  /// @param jump_rows The number of elements to skip when moving to the next
+  /// row.
+  /// @param sliced Whether the tensor is sliced or not.
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const std::initializer_list<size_t> shape,
                       const size_t jump_indexes = 0,
@@ -43,6 +49,12 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
+  /// @param jump_indexes The number of elements to skip when moving to the next
+  /// @param jump_columns The number of elements to skip when moving to the next
+  /// column.
+  /// @param jump_rows The number of elements to skip when moving to the next
+  /// row.
+  /// @param sliced Whether the tensor is sliced or not.
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const std::initializer_list<size_t> shape,
                       const std::initializer_list<T> data,
@@ -52,6 +64,12 @@ class Tensor_mml : public Tensor<T> {
 
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
+  /// @param jump_indexes The number of elements to skip when moving to the next
+  /// @param jump_columns The number of elements to skip when moving to the next
+  /// column.
+  /// @param jump_rows The number of elements to skip when moving to the next
+  /// row.
+  /// @param sliced Whether the tensor is sliced or not.
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<size_t> &shape,
                       const size_t jump_indexes = 0,
@@ -61,6 +79,12 @@ class Tensor_mml : public Tensor<T> {
   /// @brief Constructor for Tensor_mml class.
   /// @param shape The shape of the tensor.
   /// @param data The data to set in the tensor.
+  /// @param jump_indexes The number of elements to skip when moving to the next
+  /// @param jump_columns The number of elements to skip when moving to the next
+  /// column.
+  /// @param jump_rows The number of elements to skip when moving to the next
+  /// row.
+  /// @param sliced Whether the tensor is sliced or not.
   [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<size_t> &shape, const array_mml<T> &data,
                       const size_t jump_indexes = 0,
@@ -71,9 +95,11 @@ class Tensor_mml : public Tensor<T> {
   ~Tensor_mml() = default;
 
   /// @brief Move constructor for Tensor_mml class.
+  /// @param other The tensor to move.
   Tensor_mml(Tensor_mml &&other) noexcept;
 
   /// @brief Copy constructor for Tensor_mml class.
+  /// @param other The tensor to copy.
   Tensor_mml(const Tensor_mml &other);
 
   /// @brief Get the raw 1D data of the tensor.
