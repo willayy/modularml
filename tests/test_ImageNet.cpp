@@ -44,7 +44,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   size_t success = 0;
   size_t failure = 0;
   std::string imagePath = "../tests/data/imagenet/images/";
-  std::string labelPath = "../tests/data/imagenet/labels.json";
+  std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   Parser_mml parser;
   Arithmetic_mml<float> arithmetic_instance;
@@ -64,11 +64,11 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   for (size_t i = startingindex; i < endingindex; ++i) {
     // format the string correctly
     std::string imageFile = "ILSVRC2012_val_" + padNumber(i) + ".JPEG";
-    std::string imageFilepath = imagePath + imageFile;
+    std::string imageFilePath = imagePath + imageFile;
     std::cout << "Processing image: " << imageFile << std::endl;
 
     // Turn the image into a tensor
-    const ImageLoaderConfig config(imageFile);
+    const ImageLoaderConfig config(imageFilePath);
     auto image_tensor = loader->load(config);
 
     // Normalize the image (?)
