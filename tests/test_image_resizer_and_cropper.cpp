@@ -1,8 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <fstream>
-#include <memory>
-
 #include "backend/dataloader/resize_and_cropper.hpp"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
