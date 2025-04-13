@@ -10,20 +10,20 @@
 
 /**
  * @brief Retrieves the human-readable class name from a JSON file.
- * 
+ *
  * This function reads a JSON file and extracts the class name associated
  * with a given identifier. The class name is expected to be the second
  * element in the array corresponding to the identifier in the JSON structure.
- * 
+ *
  * @param filename The path to the JSON file containing the class data.
  * @param id The identifier used to look up the class name in the JSON file.
  * @return A string representing the human-readable class name.
- * 
+ *
  * @throws std::ifstream::failure If the file cannot be opened or read.
  * @throws nlohmann::json::exception If the JSON parsing fails or the expected
  *         structure is not found.
  */
-std::string getClassName(const std::string& filename, const std::string& id) {
+std::string get_class_name(const std::string& filename, const std::string& id) {
   std::ifstream file(filename);
   nlohmann::json j;
   file >> j;
@@ -66,7 +66,6 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   if (!file.is_open()) {
     GTEST_SKIP() << "Skipping test as alexnet.json file is not found";
   }
-  ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
   nlohmann::json onnx_model;
   file >> onnx_model;
   file.close();
@@ -92,7 +91,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   Arithmetic_mml<float> arithmetic_instance;
   int result = arithmetic_instance.arg_max(output_tensor);
 
-  std::string class_name = getClassName("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
+  std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;
   ASSERT_TRUE(class_name == "English_foxhound") << "Predicted class does not match expected class";
 }
@@ -130,7 +129,9 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
 
   // Parse Alexnet:
   std::ifstream file("../alexnet.json");
-  ASSERT_TRUE(file.is_open()) << "Failed to open alexnet.json file";
+  if (!file.is_open()) {
+    GTEST_SKIP() << "Skipping test as alexnet.json file is not found";
+  }
   nlohmann::json onnx_model;
   file >> onnx_model;
   file.close();
@@ -156,7 +157,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   Arithmetic_mml<float> arithmetic_instance;
   int result = arithmetic_instance.arg_max(output_tensor);
 
-  std::string class_name = getClassName("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
+  std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;
   ASSERT_TRUE(class_name == "American_egret") << "Predicted class does not match expected class";
 }
