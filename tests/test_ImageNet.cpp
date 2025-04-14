@@ -106,7 +106,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     throw std::invalid_argument("Ending index must be less than 50000");
   } else if (startingindex <= 0) {
     throw std::invalid_argument("Starting index must be larger than 0");
-  } else if (endingindex < 0) {
+  } else if (endingindex == 0) {
     throw std::invalid_argument("Ending index must be larger than 0");
   }
 
