@@ -218,19 +218,18 @@ TEST(test_imageNet, imageNet_multithreaded) {
     GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
   }
 
-  const size_t min_intervall = 1;
-  const size_t max_intervall = 12;
+  const size_t min_interval = 1;
+  const size_t max_interval = 12;
 
-  const size_t total_images = max_intervall - min_intervall;
+  const size_t total_images = max_interval - min_interval;
   const unsigned int num_threads = std::thread::hardware_concurrency();
   const size_t images_per_thread = (total_images + num_threads - 1) / num_threads;  // ceiling division
 
   std::vector<std::future<std::pair<size_t, size_t>>> futures;
 
   for (unsigned int t = 0; t < num_threads; ++t) {
-    size_t start = min_intervall + t * images_per_thread;
-    size_t end = std::min(start + images_per_thread - 1, max_intervall);
-
+    size_t start = min_interval + t * images_per_thread;
+    size_t end = std::min(start + images_per_thread - 1, max_interval);
     if (start > end) continue;  // nothing to process
 
     futures.push_back(std::async(std::launch::async, imageNet, start, end));
