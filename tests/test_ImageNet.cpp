@@ -66,21 +66,21 @@ std::string padNumber(int num, int width = 8) {
 }
 
 /**
- * @brief Processes a range of ImageNet images, performs inference using a pre-trained model, 
+ * @brief Processes a range of ImageNet images, performs inference using a pre-trained model,
  *        and evaluates the predictions against ground truth labels.
- * 
+ *
  * @param startingindex The starting index of the images to process (inclusive). Must be > 0 and <= 50000.
  * @param endingindex The ending index of the images to process (inclusive). Must be >= startingindex and <= 50000.
- * @return std::pair<size_t, size_t> A pair containing the number of successful predictions (first) 
+ * @return std::pair<size_t, size_t> A pair containing the number of successful predictions (first)
  *         and the number of failed predictions (second).
- * 
+ *
  * @throws std::invalid_argument If:
  *         - endingindex < startingindex
  *         - startingindex > 50000
  *         - endingindex > 50000
  *         - startingindex <= 0
  *         - endingindex < 0
- * 
+ *
  * @details This function performs the following steps for each image in the specified range:
  *          1. Loads the image from the file system.
  *          2. Resizes and crops the image to the required dimensions.
@@ -89,12 +89,12 @@ std::string padNumber(int num, int width = 8) {
  *          5. Runs inference using a pre-trained AlexNet model.
  *          6. Compares the model's prediction with the ground truth label from a JSON file.
  *          7. Tracks the number of successful and failed predictions.
- * 
+ *
  * @note The function assumes the existence of specific file paths for images and labels:
  *       - Images are located in "../tests/data/imagenet/images/".
  *       - Ground truth labels are in "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json".
  *       - The AlexNet model is loaded from "../alexnet.json".
- * 
+ *
  * @warning Ensure that the file paths and required resources are correctly set up before calling this function.
  */
 std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endingindex) {
@@ -200,6 +200,10 @@ TEST(test_getCaffeLabel, getCaffeLabel) {
 TEST(test_imageNet, imageNet) {
   // Alexnet running imagenet should have a success rate of 57%
 
+  if (!std::ifstream("../alexnet.json").good()) {
+    GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
+  }
+
   auto result = imageNet(2, 10);
 
   float success_rate = static_cast<float>(result.first) / (result.first + result.second);
@@ -210,6 +214,10 @@ TEST(test_imageNet, imageNet) {
 }
 
 TEST(test_imageNet, imageNet_multithreaded) {
+  if (!std::ifstream("../alexnet.json").good()) {
+    GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
+  }
+
   const size_t min_intervall = 1;
   const size_t max_intervall = 12;
 
