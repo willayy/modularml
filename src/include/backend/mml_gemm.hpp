@@ -1,6 +1,5 @@
 #pragma once
 
-#include "backend/a_gemm.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,10 +18,13 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
-template <typename T> class Gemm_mml : public GemmModule<T> {
-public:
+#include "backend/a_gemm.hpp"
+
+template <typename T>
+class Gemm_mml : public GemmModule<T> {
+ public:
   /// @brief Default constructor for GEMM_mml class.
   [[deprecated("Use TensorOperationsModule instead")]]
   Gemm_mml() = default;

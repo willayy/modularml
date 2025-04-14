@@ -1,5 +1,10 @@
 #include "utility/profiler.hpp"
 
+#include <iostream>
+// IWYU pragma: no_include <__ostream/basic_ostream.h>
+#include <ostream>  // IWYU pragma: keep
+#include <ratio>
+
 std::unordered_map<std::string, std::chrono::high_resolution_clock::time_point>
     Profiler::times;
 

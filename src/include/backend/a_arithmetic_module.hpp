@@ -1,6 +1,5 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,17 +18,21 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
 
-#define ASSERT_ALLOWED_TYPES_AR(T)                                             \
-  static_assert(std::is_arithmetic_v<T>,                                       \
+#include "datastructures/a_tensor.hpp"
+
+#define ASSERT_ALLOWED_TYPES_AR(T)       \
+  static_assert(std::is_arithmetic_v<T>, \
                 "ArithmeticModule type must be arithmetic.")
 
 /// @brief A module for performing simple arithmetic operations on tensor
 /// structures.
 /// @tparam T the data type (numeric).
-template <typename T> class ArithmeticModule {
-public:
+template <typename T>
+class ArithmeticModule {
+ public:
   /// @brief Default constructor for ArithmeticModule class.
   [[deprecated("Use TensorOperationsModule instead")]]
   ArithmeticModule() = default;

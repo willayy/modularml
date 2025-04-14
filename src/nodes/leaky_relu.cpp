@@ -1,5 +1,18 @@
 #include "nodes/leaky_relu.hpp"
 
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/mml_arithmetic.hpp"
+#include "nlohmann/json.hpp"
+
 LeakyReLUNode::LeakyReLUNode(std::string X, std::string Y, float alpha)
     : X(X), Y(Y), alpha(alpha) {}
 

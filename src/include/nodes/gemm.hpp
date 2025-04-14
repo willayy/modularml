@@ -1,5 +1,12 @@
 #pragma once
 
+#include <stdint.h>
+
+#include <optional>
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -11,7 +18,7 @@
  * computation using the GEMM inner product.
  */
 class GemmNode : public Node {
-public:
+ public:
   using T = std::variant<double, float, int32_t, int64_t, uint32_t, uint64_t>;
 
   /**
@@ -43,8 +50,8 @@ public:
    * This std::function performs the forward pass computation using the General
    * Matrix Multiply (GEMM) inner product.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -60,18 +67,18 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   // Inputs
-  std::string A;                // Input tensor A.
-  std::string B;                // Input tensor B.
-  std::optional<std::string> C; // Optional tensor C.
+  std::string A;                 // Input tensor A.
+  std::string B;                 // Input tensor B.
+  std::optional<std::string> C;  // Optional tensor C.
 
   // Output
-  std::string Y; // Output tensor.
+  std::string Y;  // Output tensor.
 
   // Attributes
-  float alpha; // Scalar multiplier for A * B.
-  float beta;  // Scalar multiplier for C.
-  int transA;  // Whether to transpose A (0: no, non-zero: yes).
-  int transB;  // Whether to transpose B (0: no, non-zero: yes).
+  float alpha;  // Scalar multiplier for A * B.
+  float beta;   // Scalar multiplier for C.
+  int transA;   // Whether to transpose A (0: no, non-zero: yes).
+  int transB;   // Whether to transpose B (0: no, non-zero: yes).
 };

@@ -1,5 +1,13 @@
 #pragma once
 
+#include <stddef.h>
+
+#include <optional>
+#include <string>
+#include <variant>
+
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -12,11 +20,11 @@
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class ConvNode : public Node {
-public:
+ public:
   using T = std::variant<double, float>;
   using TensorT =
-      TensorVariant<T>; // Gets std::variant<std::shared_ptr<tensor<T>>,
-                        // ...> from T
+      TensorVariant<T>;  // Gets std::variant<std::shared_ptr<tensor<T>>,
+                         // ...> from T
 
   /**
    * @brief Constructor for ConvNode.
@@ -74,8 +82,8 @@ public:
    * operation, after the std::optional bias addition, is stored in the output
    * tensor `Y`, which represents the convolved feature maps.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -91,7 +99,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   // Inputs
   /**
    * @brief Input data tensor containing the feature map(s) for the convolution.

@@ -10,7 +10,7 @@
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class ImageLoader : public DataLoader<float> {
-public:
+ public:
   /**
    * @brief Loads an image according to the configuration and returns a shared
    * pointer to a tensor representation of the original image.

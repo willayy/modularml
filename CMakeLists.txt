@@ -269,9 +269,21 @@ add_custom_target(docs
 # ------------------- Include-what-you-use --------------------- #
 # Check if include-what-you-use is installed
 find_program(iwyu include-what-you-use)
+
+# Change this if you want to enable include-what-you-use
+option(USE_IWYU "Use include-what-you-use" OFF)
+
 if(iwyu)
     message(STATUS "include-what-you-use found at ${iwyu}")
-    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+    if (USE_IWYU)
+        if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+            message(WARNING "include-what-you-use is only supported with Clang or AppleClang")
+        endif()
+        message(STATUS "Using include-what-you-use")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+    else()
+        message(STATUS "Not using include-what-you-use (set to OFF)")
+    endif()
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()

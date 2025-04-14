@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -11,7 +15,7 @@
  * pass computation applying std::tanh elementwise.
  */
 class TanHNode : public Node {
-public:
+ public:
   using T = std::variant<double, float>;
 
   /**
@@ -32,8 +36,8 @@ public:
   /**
    * @brief Perform the forward pass computation applying std::tanh.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -49,10 +53,10 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   // Input
-  std::string X; // Input tensor X.
+  std::string X;  // Input tensor X.
 
   // Output
-  std::string Y; // Output tensor Y.
+  std::string Y;  // Output tensor Y.
 };

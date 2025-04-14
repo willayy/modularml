@@ -1,8 +1,15 @@
 #include "backend/mml_model.hpp"
+
+#include <stddef.h>
+
+#include <exception>
 #include <iostream>
+// IWYU pragma: no_include <__ostream/basic_ostream.h>
+#include <ostream>  // IWYU pragma: keep
 #include <queue>
-#include <set>
+#include <stdexcept>
 #include <typeinfo>
+#include <variant>
 
 std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     const std::unordered_map<std::string, GeneralDataTypes> &inputs) {
@@ -35,7 +42,7 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
 
       for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
         const auto &node = layer[node_idx];
-        std::string nodeType = typeid(*node).name(); // Get node type
+        std::string nodeType = typeid(*node).name();  // Get node type
         std::cout << "  Processing node " << node_idx << " (type: " << nodeType
                   << ")" << std::endl;
 
@@ -115,7 +122,7 @@ std::vector<std::vector<std::shared_ptr<Node>>> Model_mml::topologicalSort() {
       auto producerIt = producerMap.find(input);
       if (producerIt != producerMap.end()) {
         std::shared_ptr<Node> producerNode = producerIt->second;
-        if (producerNode != consumerNode) { // Avoid self-loops
+        if (producerNode != consumerNode) {  // Avoid self-loops
           adjacentMap[producerNode].push_back(consumerNode);
           inDegree[consumerNode]++;
         }

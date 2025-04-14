@@ -1,6 +1,13 @@
 #pragma once
 
+#include <stddef.h>
+
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
+
 
 /**
  * @class LRNNode_mml
@@ -11,7 +18,7 @@
  * @tparam The datatype i the tensor. Accepts float and double.
  */
 class LRNNode_mml : public Node {
-public:
+ public:
   using T = std::variant<float, double>;
 
   /**
@@ -30,8 +37,8 @@ public:
 
   LRNNode_mml(const nlohmann::json &node);
 
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -47,7 +54,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   ///@brief Shared pointer to the input tensor
   std::string X;
 

@@ -2,8 +2,9 @@
 
 #include "a_arithmetic_module.hpp"
 
-template <typename T> class Arithmetic_mml : public ArithmeticModule<T> {
-public:
+template <typename T>
+class Arithmetic_mml : public ArithmeticModule<T> {
+ public:
   [[deprecated("Use TensorOperationsModule instead")]]
   Arithmetic_mml();
   [[deprecated("Use TensorOperationsModule instead")]]

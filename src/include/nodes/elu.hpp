@@ -1,6 +1,11 @@
 #pragma once
 
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
+
 
 /**
  * @class ELUNode
@@ -8,7 +13,7 @@
  * (Exponential Linear Unit) std::function.
  */
 class ELUNode : public Node {
-public:
+ public:
   using T = std::variant<float, double>;
 
   /**
@@ -30,8 +35,8 @@ public:
   /**
    * @brief Perform the forward pass computation using the ELU std::function.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -47,7 +52,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   ///@brief Unique std::string key to input tensor
   std::string X;
   ///@brief Unique std::string key to output tensor

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "backend/a_model.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,14 +18,16 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/a_model.hpp"
 
 /**
  * @class DataParser
  * @brief Abstract class for parsing JSON data of a model into a Model Object.
  */
 class DataParser {
-public:
+ public:
   /**
    * @brief Parses JSON data of a model into a Model object.
    *

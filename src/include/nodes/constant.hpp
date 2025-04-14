@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -7,7 +10,7 @@
  * @brief A class representing a Constant node in a computational graph.
  */
 class ConstantNode : public Node {
-public:
+ public:
   /**
    * @brief Constructor for ConstantNode.
    *
@@ -27,8 +30,8 @@ public:
   /**§
    * @brief Perform the forward pass.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -44,7 +47,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   ///@brief Unique std::string key to output tensor
   std::string output;
   ///@brief Value of the constant

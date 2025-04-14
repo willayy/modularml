@@ -1,6 +1,5 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,16 +18,20 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
 
-#define ASSERT_ALLOWED_TYPES_GM(T)                                             \
-  static_assert(std::is_arithmetic_v<T>,                                       \
+#include "datastructures/a_tensor.hpp"
+
+#define ASSERT_ALLOWED_TYPES_GM(T)       \
+  static_assert(std::is_arithmetic_v<T>, \
                 "Data structure type must be an arithmetic type.")
 
 /// @brief Abstract class for classes that contain standard GEMM functions.
 /// @tparam T the type of the data that the GEMM functions will operate on.
-template <typename T> class GemmModule {
-public:
+template <typename T>
+class GemmModule {
+ public:
   /// @brief Default constructor for GEMM class.
   [[deprecated("Use TensorOperationsModule instead")]]
   GemmModule() = default;

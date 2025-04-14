@@ -1,6 +1,14 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
 #include "backend/a_model.hpp"
+#include "nodes/a_node.hpp"
 
 /**
  * @class Model_mml
@@ -11,7 +19,7 @@
  * graph and run inference on the graph.
  */
 class Model_mml : public Model {
-public:
+ public:
   /**
    * @brief Default constructor for Model_mml.
    *
@@ -29,8 +37,10 @@ public:
                      std::unordered_map<std::string, GeneralDataTypes> iomap,
                      std::vector<std::string> inputs,
                      std::vector<std::string> outputs)
-      : nodes(std::move(initialNodes)), iomap(std::move(iomap)),
-        inputs(std::move(inputs)), outputs(std::move(outputs)) {}
+      : nodes(std::move(initialNodes)),
+        iomap(std::move(iomap)),
+        inputs(std::move(inputs)),
+        outputs(std::move(outputs)) {}
 
   /**
    * @brief Adds a node to the model graph.
@@ -48,7 +58,7 @@ public:
   std::unordered_map<std::string, GeneralDataTypes> infer(
       const std::unordered_map<std::string, GeneralDataTypes> &inputs) override;
 
-private:
+ private:
   // Nodes in the graph
   std::vector<std::shared_ptr<Node>> nodes;
 

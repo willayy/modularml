@@ -1,6 +1,11 @@
 #pragma once
 
+#include <optional>
+#include <string>
+#include <variant>
+
 #include "nodes/a_node.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 /**
  * @class DropoutNode

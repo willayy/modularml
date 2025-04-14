@@ -1,6 +1,11 @@
 #pragma once
 
+#include <stdint.h>
+#include <string>
+#include <variant>
+
 #include "nodes/a_node.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 /**
  * @class reshapeNode
