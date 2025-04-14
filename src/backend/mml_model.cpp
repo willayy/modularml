@@ -1,4 +1,5 @@
 #include "backend/mml_model.hpp"
+
 #include <iostream>
 #include <queue>
 #include <set>
@@ -17,13 +18,24 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
       topologicalSort();
   std::cout << "Topological layers: " << topoLayers.size() << std::endl;
 
-  // Copy the iomap to avoid modifying the original
-  std::unordered_map<std::string, GeneralDataTypes> local_iomap = iomap;
+  // Create a deep copy of iomap
+  std::unordered_map<std::string, GeneralDataTypes> local_iomap;
+  for (const auto &[name, tensor] : iomap) {
+    std::visit([&](auto &&arg) {
+      // Deep copy
+      local_iomap[name] = arg->copy();
+    },
+               tensor);
+  }
 
   // Set input tensors
   for (const auto &[name, tensor] : inputs) {
     std::cout << "Setting input: " << name << std::endl;
-    local_iomap[name] = tensor;
+    std::visit([&](auto &&arg) {
+      // Deep copy
+      local_iomap[name] = arg->copy();
+    },
+               tensor);
   }
 
   // Process each layer
@@ -35,7 +47,7 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
 
       for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
         const auto &node = layer[node_idx];
-        std::string nodeType = typeid(*node).name(); // Get node type
+        std::string nodeType = typeid(*node).name();  // Get node type
         std::cout << "  Processing node " << node_idx << " (type: " << nodeType
                   << ")" << std::endl;
 
@@ -115,7 +127,7 @@ std::vector<std::vector<std::shared_ptr<Node>>> Model_mml::topologicalSort() {
       auto producerIt = producerMap.find(input);
       if (producerIt != producerMap.end()) {
         std::shared_ptr<Node> producerNode = producerIt->second;
-        if (producerNode != consumerNode) { // Avoid self-loops
+        if (producerNode != consumerNode) {  // Avoid self-loops
           adjacentMap[producerNode].push_back(consumerNode);
           inDegree[consumerNode]++;
         }
