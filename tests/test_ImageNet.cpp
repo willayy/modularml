@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 
 #include <fstream>
+#include <future>
 #include <modularml>
+#include <thread>
 
 #include "backend/dataloader/image_loader.hpp"
 #include "backend/dataloader/normalizer.hpp"
@@ -9,16 +11,16 @@
 
 /**
  * @brief Retrieves the CAFFE label for a given image key from a JSON file.
- * 
- * This function reads a JSON file, searches for the specified image key, 
- * and extracts the label associated with "CAFFE". If the file cannot be 
- * opened, the image key is not found, or no "CAFFE" label exists, an 
+ *
+ * This function reads a JSON file, searches for the specified image key,
+ * and extracts the label associated with "CAFFE". If the file cannot be
+ * opened, the image key is not found, or no "CAFFE" label exists, an
  * exception is thrown.
- * 
+ *
  * @param jsonPath The file path to the JSON file containing image labels.
  * @param imageKey The key corresponding to the image in the JSON file.
  * @return The CAFFE label as an integer.
- * 
+ *
  * @throws std::runtime_error If the JSON file cannot be opened.
  * @throws std::runtime_error If the image key is not found in the JSON file.
  * @throws std::runtime_error If no CAFFE label is found for the given image key.
@@ -49,10 +51,10 @@ int getCaffeLabel(const std::string& jsonPath, const std::string& imageKey) {
 
 /**
  * @brief Pads an integer with leading zeros to a specified width and returns it as a string.
- * 
+ *
  * This function takes an integer and converts it to a string, ensuring that the resulting
  * string has a minimum width by padding it with leading zeros if necessary.
- * 
+ *
  * @param num The integer to be padded.
  * @param width The minimum width of the resulting string. Defaults to 8 if not specified.
  * @return A string representation of the integer, padded with leading zeros to the specified width.
@@ -64,7 +66,7 @@ std::string padNumber(int num, int width = 8) {
 }
 
 std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endingindex) {
-  if (endingindex <= startingindex) {
+  if (endingindex < startingindex) {
     throw std::invalid_argument("Ending index must be larger than starting index");
   } else if (startingindex > 50000) {
     throw std::invalid_argument("Starting index must be less than 50000");
@@ -98,7 +100,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   std::unordered_map<std::string, GeneralDataTypes> outputs;
 
   // loop through images, load them, and run inference
-  for (size_t i = startingindex; i < endingindex; ++i) {
+  for (size_t i = startingindex; i <= endingindex; ++i) {
     // format the string correctly
     std::string imageFile = "ILSVRC2012_val_" + padNumber(i) + ".JPEG";
     std::string imageFilePath = imagePath + imageFile;
@@ -166,8 +168,48 @@ TEST(test_getCaffeLabel, getCaffeLabel) {
 TEST(test_imageNet, imageNet) {
   // Alexnet running imagenet should have a success rate of 57%
 
-  auto result = imageNet(3, 4);
+  auto result = imageNet(2, 10);
+
+  float success_rate = static_cast<float>(result.first) / (result.first + result.second);
+
   std::cout << "Success: " << result.first << ", Failure: " << result.second << std::endl;
-  EXPECT_EQ(result.first, 1);
-  EXPECT_EQ(result.second, 0);
+  std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
+  EXPECT_GE(success_rate, 0.50f);
+}
+
+TEST(test_imageNet, imageNet_multithreaded) {
+  const size_t min_intervall = 1;
+  const size_t max_intervall = 12;
+
+  const size_t total_images = max_intervall - min_intervall;
+  const unsigned int num_threads = std::thread::hardware_concurrency();
+  const size_t images_per_thread = (total_images + num_threads - 1) / num_threads;  // ceiling division
+
+  std::vector<std::future<std::pair<size_t, size_t>>> futures;
+
+  for (unsigned int t = 0; t < num_threads; ++t) {
+    size_t start = min_intervall + t * images_per_thread;
+    size_t end = std::min(start + images_per_thread - 1, max_intervall);
+
+    if (start > end) continue;  // nothing to process
+
+    futures.push_back(std::async(std::launch::async, imageNet, start, end));
+  }
+
+  size_t total_success = 0;
+  size_t total_failure = 0;
+
+  for (auto& future : futures) {
+    auto [success, failure] = future.get();
+    total_success += success;
+    total_failure += failure;
+  }
+
+  std::cout << "Total Success: " << total_success << ", Total Failure: " << total_failure << std::endl;
+
+  // Assert a rough expected success rate (optional)
+  float success_rate = static_cast<float>(total_success) / (total_success + total_failure);
+  std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
+
+  EXPECT_GE(success_rate, 0.50f);  // allow for some margin below 57%
 }
