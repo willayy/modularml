@@ -18,13 +18,14 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
 /// @brief Array class mimicking the std::array class but without the size being
 /// a template parameter.
 /// @tparam T the type of the array.
-template <typename T> class array_mml {
-public:
+template <typename T>
+class array_mml {
+ public:
   /// @brief Default constructor for array_mml class.
   array_mml() : data(std::make_unique<T[]>(0)), d_size(0) {}
 
@@ -136,7 +137,7 @@ public:
   /// @param value The value to fill the array with.
   void fill(const T &value);
 
-private:
+ private:
   std::shared_ptr<T[]> data;
   size_t d_size;
 };

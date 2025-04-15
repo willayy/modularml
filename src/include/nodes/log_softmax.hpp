@@ -1,5 +1,11 @@
 #pragma once
 
+#include <stddef.h>
+
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -11,7 +17,7 @@
  * SoftMax and Logarithm along the specified axis.
  */
 class LogSoftMaxNode : public Node {
-public:
+ public:
   using T = std::variant<float, double>;
 
   /**
@@ -35,8 +41,8 @@ public:
    * @brief Perform the forward pass computation using LogSoftMax activation
    * std::function.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -52,8 +58,8 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
-  std::string X; // Input tensor X.
-  std::string Y; // Output tensor Y.
+ private:
+  std::string X;  // Input tensor X.
+  std::string Y;  // Output tensor Y.
   size_t axis;
 };

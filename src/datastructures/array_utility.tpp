@@ -18,7 +18,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
 
 #include "datastructures/array_utility.hpp"
 

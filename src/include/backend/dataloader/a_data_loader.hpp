@@ -1,7 +1,5 @@
 #pragma once
 
-#include "backend/dataloader/data_loader_config.hpp"
-#include "datastructures/a_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,7 +18,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/dataloader/data_loader_config.hpp"
+#include "datastructures/a_tensor.hpp"
 
 /**
  * @class DataLoader
@@ -32,8 +33,9 @@
  * @author Tim Carlsson (timca@chalmers.se)
  */
 
-template <typename T> class DataLoader {
-public:
+template <typename T>
+class DataLoader {
+ public:
   DataLoader() = default;
 
   /**
@@ -44,8 +46,8 @@ public:
    *
    * @return A std::unique_ptr to a Tensor containing the data.
    */
-  virtual std::shared_ptr<Tensor<T>>
-  load(const DataLoaderConfig &config) const = 0;
+  virtual std::shared_ptr<Tensor<T>> load(
+      const DataLoaderConfig &config) const = 0;
 
   /**
    * @brief Virtual destructor for the DataLoader class.

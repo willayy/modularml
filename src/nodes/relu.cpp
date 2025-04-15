@@ -1,5 +1,18 @@
 #include "nodes/relu.hpp"
 
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/mml_arithmetic.hpp"
+#include "nlohmann/json.hpp"
+
 ReLUNode::ReLUNode(std::string X, std::string Y) : X(X), Y(Y) {}
 
 ReLUNode::ReLUNode(const nlohmann::json &node) {

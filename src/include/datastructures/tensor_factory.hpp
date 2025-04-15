@@ -1,9 +1,5 @@
 #pragma once
 
-#include "a_tensor.hpp"
-#include "mml_array.hpp"
-#include "mml_tensor.hpp"
-#include "tensor_factory_functions.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -22,7 +18,12 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "a_tensor.hpp"
+#include "mml_array.hpp"
+#include "mml_tensor.hpp"
+#include "tensor_factory_functions.hpp"
 
 /**
  * @brief A static utility factory class for creating tensors with different
@@ -31,7 +32,7 @@
  * implementations.
  */
 class TensorFactory {
-public:
+ public:
   // Delete std::copy constructor and assignment operator.
   TensorFactory(const TensorFactory &) = delete;
   TensorFactory &operator=(const TensorFactory &) = delete;
@@ -42,8 +43,8 @@ public:
    * @param data The data to fill the tensor with.
    * @return A tensor with the specified shape and data. */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  create_tensor(const array_mml<size_t> &shape, const array_mml<T> &data);
+  static std::shared_ptr<Tensor<T>> create_tensor(
+      const array_mml<size_t> &shape, const array_mml<T> &data);
 
   /**
    * @brief Set the pointer to the tensor constructor std::function for
@@ -62,8 +63,8 @@ public:
    * @param shape The shape of the tensor to create.
    * @return A tensor with the specified shape. */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  create_tensor(const array_mml<size_t> &shape);
+  static std::shared_ptr<Tensor<T>> create_tensor(
+      const array_mml<size_t> &shape);
 
   /**
    * @brief Set the pointer to the tensor constructor std::function for
@@ -82,9 +83,9 @@ public:
    * @param data The data to fill the tensor with.
    * @return A tensor with the specified shape and data. */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  create_tensor(const std::initializer_list<size_t> shape,
-                const std::initializer_list<T> data);
+  static std::shared_ptr<Tensor<T>> create_tensor(
+      const std::initializer_list<size_t> shape,
+      const std::initializer_list<T> data);
 
   /**
    * @brief Set the pointer to the tensor constructor std::function for
@@ -103,8 +104,8 @@ public:
    * @param shape The shape of the tensor to create.
    * @return A tensor with the specified shape. */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  create_tensor(const std::initializer_list<size_t> shape);
+  static std::shared_ptr<Tensor<T>> create_tensor(
+      const std::initializer_list<size_t> shape);
 
   /**
    * @brief Set the pointer to the tensor constructor std::function for
@@ -124,10 +125,10 @@ public:
    * @param hi_v The upper bound of the random values.
    * @return A tensor with the specified shape and data. */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  random_tensor(const array_mml<size_t> &shape, T lo_v = T(0), T hi_v = T(1));
+  static std::shared_ptr<Tensor<T>> random_tensor(
+      const array_mml<size_t> &shape, T lo_v = T(0), T hi_v = T(1));
 
-private:
+ private:
   // Private constructor to prevent instantiation.
   TensorFactory() = default;
 

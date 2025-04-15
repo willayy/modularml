@@ -1,6 +1,21 @@
 #include "backend/mml_parser.hpp"
+
+#include <stdint.h>
+
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <variant>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
 #include "backend/mml_model.hpp"
 #include "backend/parser_helper.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "nlohmann/json.hpp"
+#include "nodes/a_node.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pool.hpp"
 #include "nodes/constant.hpp"
@@ -17,12 +32,12 @@
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/sigmoid.hpp"
-#include "nodes/tanh.hpp"
 #include "nodes/swish.hpp"
+#include "nodes/tanh.hpp"
 
 // Helper std::function: to map the tensors
-std::unordered_map<std::string, GeneralDataTypes>
-mapTensors(const nlohmann::json &graph) {
+std::unordered_map<std::string, GeneralDataTypes> mapTensors(
+    const nlohmann::json &graph) {
   std::unordered_map<std::string, GeneralDataTypes> tensorMap;
 
   // First look for already initialized inputs
@@ -33,42 +48,42 @@ mapTensors(const nlohmann::json &graph) {
 
       // Need to handle more data types
       switch (dataType) {
-      case 1: // FLOAT
-        tensorMap[initName] = ParserHelper::handle_tensor<float>(init);
-        break;
-      case 2: // UINT8
-        tensorMap[initName] = ParserHelper::handle_tensor<uint8_t>(init);
-        break;
-      case 3: // INT8
-        tensorMap[initName] = ParserHelper::handle_tensor<int8_t>(init);
-        break;
-      case 4: // UINT16
-        tensorMap[initName] = ParserHelper::handle_tensor<uint16_t>(init);
-        break;
-      case 5: // INT16
-        tensorMap[initName] = ParserHelper::handle_tensor<int16_t>(init);
-        break;
-      case 6: // INT32
-        tensorMap[initName] = ParserHelper::handle_tensor<int32_t>(init);
-        break;
-      case 7: // INT64
-        tensorMap[initName] = ParserHelper::handle_tensor<int64_t>(init);
-        break;
-      case 9: // BOOL
-        tensorMap[initName] = ParserHelper::handle_tensor<bool>(init);
-        break;
-      case 11: // DOUBLE
-        tensorMap[initName] = ParserHelper::handle_tensor<double>(init);
-        break;
-      case 12: // UINT32
-        tensorMap[initName] = ParserHelper::handle_tensor<uint32_t>(init);
-        break;
-      case 13: // UINT64
-        tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
-        break;
-      default:
-        throw std::runtime_error("Currently unsupported data type: " +
-                                 std::to_string(dataType));
+        case 1:  // FLOAT
+          tensorMap[initName] = ParserHelper::handle_tensor<float>(init);
+          break;
+        case 2:  // UINT8
+          tensorMap[initName] = ParserHelper::handle_tensor<uint8_t>(init);
+          break;
+        case 3:  // INT8
+          tensorMap[initName] = ParserHelper::handle_tensor<int8_t>(init);
+          break;
+        case 4:  // UINT16
+          tensorMap[initName] = ParserHelper::handle_tensor<uint16_t>(init);
+          break;
+        case 5:  // INT16
+          tensorMap[initName] = ParserHelper::handle_tensor<int16_t>(init);
+          break;
+        case 6:  // INT32
+          tensorMap[initName] = ParserHelper::handle_tensor<int32_t>(init);
+          break;
+        case 7:  // INT64
+          tensorMap[initName] = ParserHelper::handle_tensor<int64_t>(init);
+          break;
+        case 9:  // BOOL
+          tensorMap[initName] = ParserHelper::handle_tensor<bool>(init);
+          break;
+        case 11:  // DOUBLE
+          tensorMap[initName] = ParserHelper::handle_tensor<double>(init);
+          break;
+        case 12:  // UINT32
+          tensorMap[initName] = ParserHelper::handle_tensor<uint32_t>(init);
+          break;
+        case 13:  // UINT64
+          tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
+          break;
+        default:
+          throw std::runtime_error("Currently unsupported data type: " +
+                                   std::to_string(dataType));
       }
     }
   }

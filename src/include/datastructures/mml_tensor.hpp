@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
 #include "datastructures/a_tensor.hpp"
 

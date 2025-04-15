@@ -1,10 +1,24 @@
 #include "nodes/dropout.hpp"
 
+#include <map>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
 DropoutNode::DropoutNode(std::string data, std::string output,
                          std::optional<std::string> mask, float ratio,
                          bool training_mode, std::optional<int> seed)
-    : data(data), output(output), mask(mask), ratio(ratio),
-      training_mode(training_mode), seed(seed) {}
+    : data(data),
+      output(output),
+      mask(mask),
+      ratio(ratio),
+      training_mode(training_mode),
+      seed(seed) {}
 
 DropoutNode::DropoutNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {

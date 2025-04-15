@@ -1,6 +1,5 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,10 +18,12 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
-#define ASSERT_ALLOWED_TYPES_ONNX_GM(T)                                        \
-  static_assert(std::is_arithmetic_v<T>,                                       \
+#include "datastructures/a_tensor.hpp"
+
+#define ASSERT_ALLOWED_TYPES_ONNX_GM(T)  \
+  static_assert(std::is_arithmetic_v<T>, \
                 "Data structure type must be an arithmetic type.")
 
 /// @brief Abstract class for classes that contain standard GEMM functions using
@@ -31,8 +32,9 @@
 /// GEMM: C := alpha * op( A ) * op( B ) + beta * C
 /// ONNX GEMM: Y := alpha * A * B + beta * C (std::optional)
 /// @tparam T the type of the data that the GEMM functions will operate on.
-template <typename T> class OnnxGemmModule {
-public:
+template <typename T>
+class OnnxGemmModule {
+ public:
   /// @brief Default constructor for GEMM class.
   [[deprecated("Use TensorOperationsModule instead")]]
   OnnxGemmModule() = default;
@@ -166,11 +168,11 @@ public:
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
   [[deprecated("Use TensorOperationsModule instead")]]
-  virtual std::shared_ptr<Tensor<T>>
-  gemm_blocked(std::shared_ptr<Tensor<T>> A = nullptr,
-               std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-               float beta = 1.0, int transA = 0, int transB = 0,
-               std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
+  virtual std::shared_ptr<Tensor<T>> gemm_blocked(
+      std::shared_ptr<Tensor<T>> A = nullptr,
+      std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
+      float beta = 1.0, int transA = 0, int transB = 0,
+      std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
 
   /**
    * @brief Vectorized implementation of GEMM using SIMD thanks to AVX.
@@ -191,11 +193,11 @@ public:
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
   [[deprecated("Use TensorOperationsModule instead")]]
-  virtual std::shared_ptr<Tensor<T>>
-  gemm_avx(std::shared_ptr<Tensor<T>> A = nullptr,
-           std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-           float beta = 1.0, int transA = 0, int transB = 0,
-           std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
+  virtual std::shared_ptr<Tensor<T>> gemm_avx(
+      std::shared_ptr<Tensor<T>> A = nullptr,
+      std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
+      float beta = 1.0, int transA = 0, int transB = 0,
+      std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
 
   /**
    * @brief Vectorized implementation of GEMM using SIMD thanks to AVX512.
@@ -216,11 +218,11 @@ public:
    * @return Output tensor Y. Output tensor of shape (M, N).
    */
   [[deprecated("Use TensorOperationsModule instead")]]
-  virtual std::shared_ptr<Tensor<T>>
-  gemm_avx512(std::shared_ptr<Tensor<T>> A = nullptr,
-              std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-              float beta = 1.0, int transA = 0, int transB = 0,
-              std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
+  virtual std::shared_ptr<Tensor<T>> gemm_avx512(
+      std::shared_ptr<Tensor<T>> A = nullptr,
+      std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
+      float beta = 1.0, int transA = 0, int transB = 0,
+      std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) = 0;
 
   /**
    * @brief GEMM using Intel's Math Kernel Library.

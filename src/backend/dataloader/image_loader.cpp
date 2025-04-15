@@ -1,23 +1,38 @@
 #include "backend/dataloader/image_loader.hpp"
+
+#include <stdlib.h>
+
+#include <algorithm>
+#include <iostream>
+#include <memory>
+// IWYU pragma: no_include <__ostream/basic_ostream.h>
+#include <ostream>  // IWYU pragma: keep
+#include <stdexcept>
+#include <string>
+
+#include "backend/dataloader/data_loader_config.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "datastructures/mml_array.hpp"
+#include "datastructures/mml_tensor.hpp"
 #include "stb_image.h"
 
-std::shared_ptr<Tensor<float>>
-ImageLoader::load(const DataLoaderConfig &config) const {
+std::shared_ptr<Tensor<float>> ImageLoader::load(
+    const DataLoaderConfig &config) const {
   const ImageLoaderConfig &image_config =
       dynamic_cast<const ImageLoaderConfig &>(config);
 
   int width, height, channels;
 
   unsigned char *image_data =
-  stbi_load(image_config.image_path.c_str(), &width, &height, &channels, 0);
-  
+      stbi_load(image_config.image_path.c_str(), &width, &height, &channels, 0);
+
   if (!image_data) {
     throw std::invalid_argument("Failed to load image: " +
-      image_config.image_path);
-    }
+                                image_config.image_path);
+  }
   std::cout << "width=" << width << ", "
-  << "height=" << height << ","
-  << "channels=" << channels << std::endl;
+            << "height=" << height << ","
+            << "channels=" << channels << std::endl;
   std::cout << "loading image done" << std::endl;
   // Trust
   int output_channels = channels;
@@ -27,7 +42,7 @@ ImageLoader::load(const DataLoaderConfig &config) const {
   for (int i = 0; i < data_size; i++) {
     float_image_data[i] =
         static_cast<float>(image_data[i]) /
-        255.0; // Here we normalize the RGB value to between 0.0 - 1.0.
+        255.0;  // Here we normalize the RGB value to between 0.0 - 1.0.
   }
 
   // Prepare output tensor
@@ -40,7 +55,7 @@ ImageLoader::load(const DataLoaderConfig &config) const {
       {1, static_cast<unsigned long int>(output_channels),
        static_cast<unsigned long int>(height),
        static_cast<unsigned long int>(width)});
-  array_mml<float> output_data(data_size); // Fills with 0:s
+  array_mml<float> output_data(data_size);  // Fills with 0:s
   std::shared_ptr<Tensor_mml<float>> output =
       std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
 
@@ -52,7 +67,7 @@ ImageLoader::load(const DataLoaderConfig &config) const {
       int index = (y * width + x) * channels;
 
       // This writes each pixel component to the correct slice in the tensor
-      for (unsigned long int c = 0; c < channels && c < 3; c++) { // XD
+      for (unsigned long int c = 0; c < channels && c < 3; c++) {  // XD
         float pixel_component = float_image_data[index + c];
 
         // Write the pixel component value, we assume that only a single image
@@ -63,5 +78,5 @@ ImageLoader::load(const DataLoaderConfig &config) const {
   }
   free(image_data);
   free(float_image_data);
-  return output; // Return the shared pointer
+  return output;  // Return the shared pointer
 }

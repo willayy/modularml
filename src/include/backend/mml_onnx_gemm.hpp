@@ -1,7 +1,5 @@
 #pragma once
 
-#include "backend/mml_gemm.hpp"
-#include "datastructures/mml_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,10 +18,14 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
-template <typename T> class OnnxGemm_mml : public OnnxGemmModule<T> {
-public:
+#include "backend/mml_gemm.hpp"
+#include "datastructures/mml_tensor.hpp"
+
+template <typename T>
+class OnnxGemm_mml : public OnnxGemmModule<T> {
+ public:
   [[deprecated("Use TensorOperationsModule instead")]]
   OnnxGemm_mml() = default;
   [[deprecated("Use TensorOperationsModule instead")]]
@@ -63,11 +65,11 @@ public:
       float beta = 1.0, int transA = 0, int transB = 0,
       std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) override;
   [[deprecated("Use TensorOperationsModule instead")]]
-  std::shared_ptr<Tensor<T>>
-  gemm_avx(std::shared_ptr<Tensor<T>> A = nullptr,
-           std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-           float beta = 1.0, int transA = 0, int transB = 0,
-           std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) override;
+  std::shared_ptr<Tensor<T>> gemm_avx(
+      std::shared_ptr<Tensor<T>> A = nullptr,
+      std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
+      float beta = 1.0, int transA = 0, int transB = 0,
+      std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt) override;
   [[deprecated("Use TensorOperationsModule instead")]]
   std::shared_ptr<Tensor<T>> gemm_avx512(
       std::shared_ptr<Tensor<T>> A = nullptr,

@@ -1,5 +1,24 @@
 #include "nodes/gelu.hpp"
 
+#include <algorithm>
+
+// IWYU pragma: no_include <__math/exponential_functions.h>
+// IWYU pragma: no_include <__math/hyperbolic_functions.h>
+// IWYU pragma: no_include <__math/roots.h>
+// IWYU pragma: no_include <__math/error_functions.h>
+#include <cmath>  // IWYU pragma: keep
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/mml_arithmetic.hpp"
+#include "nlohmann/json.hpp"
+
 GeluNode::GeluNode(std::string X, std::string Y, std::string approximate)
     : X(X), Y(Y) {
   if (approximate == "none" || approximate == "tanh") {

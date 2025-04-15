@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
 /**
  * @brief Base configuration for the DataLoader.
@@ -32,7 +32,6 @@ struct DataLoaderConfig {
  * @author Tim Carlsson (timca@chalmers.se)
  */
 struct ImageLoaderConfig : public DataLoaderConfig {
-
   /**
    * @brief Path to the image file to be loaded.
    */

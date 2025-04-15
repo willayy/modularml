@@ -1,13 +1,14 @@
 #pragma once
 
 #include "a_data_parser.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 /**
  * @class Parser_mml
  * @brief A class for parsing JSON data of a model into a Model_mml object.
  */
 class Parser_mml : public DataParser {
-public:
+ public:
   /**
    * @brief Default constructor for Parser_mml.
    */

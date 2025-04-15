@@ -1,7 +1,5 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
-#include "utility/base64.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,7 +18,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/a_tensor.hpp"
+#include "utility/base64.hpp"
 
 namespace ParserHelper {
 /**
@@ -117,4 +118,4 @@ inline std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
     }
   }
 }
-} // namespace ParserHelper
+}  // namespace ParserHelper

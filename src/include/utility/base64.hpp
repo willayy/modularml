@@ -1,6 +1,5 @@
 #pragma once
 
-#include "datastructures/mml_array.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,7 +18,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/mml_array.hpp"
 
 namespace Base64 {
 static const std::string base64_chars =
@@ -34,14 +36,13 @@ static const std::string base64_chars =
  * @throws std::runtime_error If input contains invalid characters or size
  * doesn't align with T
  */
-template <typename T> 
+template <typename T>
 inline array_mml<T> decode(const std::string &input) {
   std::vector<unsigned char> bytes;
   int val = 0, val_bits = -8;
 
   for (unsigned char c : input) {
-    if (c == '=')
-      break; // Padding character
+    if (c == '=') break;  // Padding character
     std::size_t pos = base64_chars.find(c);
     if (pos == std::string::npos)
       throw std::runtime_error("Invalid base64 character");
@@ -65,4 +66,4 @@ inline array_mml<T> decode(const std::string &input) {
   std::memcpy(data_ptr.get(), bytes.data(), bytes.size());
   return array_mml<T>(data_ptr, element_count);
 }
-} // namespace Base64
+}  // namespace Base64

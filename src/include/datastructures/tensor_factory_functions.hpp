@@ -1,6 +1,5 @@
 #pragma once
 
-#include "mml_tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,23 +18,25 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "mml_tensor.hpp"
 
 template <typename T>
-static std::shared_ptr<Tensor<T>>
-mml_constructor_1(const array_mml<size_t> &dims, const array_mml<T> &values);
+static std::shared_ptr<Tensor<T>> mml_constructor_1(
+    const array_mml<size_t> &dims, const array_mml<T> &values);
 
 template <typename T>
-static std::shared_ptr<Tensor<T>>
-mml_constructor_2(const array_mml<size_t> &dims);
+static std::shared_ptr<Tensor<T>> mml_constructor_2(
+    const array_mml<size_t> &dims);
 
 template <typename T>
-static std::shared_ptr<Tensor<T>>
-mml_constructor_3(const std::initializer_list<size_t> dims,
-                  const std::initializer_list<T> values);
+static std::shared_ptr<Tensor<T>> mml_constructor_3(
+    const std::initializer_list<size_t> dims,
+    const std::initializer_list<T> values);
 
 template <typename T>
-static std::shared_ptr<Tensor<T>>
-mml_constructor_4(const std::initializer_list<size_t> dims);
+static std::shared_ptr<Tensor<T>> mml_constructor_4(
+    const std::initializer_list<size_t> dims);
 
 #include "../datastructures/tensor_factory_functions.tpp"

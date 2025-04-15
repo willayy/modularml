@@ -1,5 +1,24 @@
 #include "nodes/gemm.hpp"
 
+#include <stddef.h>
+
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "backend/mml_gemm.hpp"
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+
+template <typename T>
+class Tensor_mml;
+
 GemmNode::GemmNode(std::string A, std::string B, std::string Y,
                    std::optional<std::string> C, float alpha, float beta,
                    int transA, int transB)

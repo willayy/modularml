@@ -1,9 +1,18 @@
+#include <stddef.h>
+
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
 #include "backend/dataloader/normalizer.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "datastructures/mml_array.hpp"
 
 std::shared_ptr<Tensor<float>> Normalize::normalize(
     const std::shared_ptr<Tensor<float>>& input,
-    const std::array<float, 3>& mean,
-    const std::array<float, 3>& std) const {
+    const std::array<float, 3>& mean, const std::array<float, 3>& std) const {
   auto shape = input->get_shape();
 
   // Check for exceptions:
@@ -13,7 +22,6 @@ std::shared_ptr<Tensor<float>> Normalize::normalize(
   if (shape[1] != 3) {
     throw std::invalid_argument("Input tensor must have 3 channels (C == 3).");
   }
-
 
   size_t N = shape[0];
   size_t C = shape[1];
