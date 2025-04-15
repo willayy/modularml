@@ -9,6 +9,7 @@
 #include "backend/dataloader/normalizer.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_array.hpp"
+#include "datastructures/tensor_factory.hpp"
 
 std::shared_ptr<Tensor<float>> Normalize::normalize(
     const std::shared_ptr<Tensor<float>>& input,
@@ -28,7 +29,7 @@ std::shared_ptr<Tensor<float>> Normalize::normalize(
   size_t H = shape[2];
   size_t W = shape[3];
 
-  auto output = tensor_mml_p<float>({N, C, H, W});
+  auto output = TensorFactory::create_tensor<float>({N, C, H, W});
 
   // Normalize the input tensor:
   for (size_t n = 0; n < shape[0]; ++n) {
