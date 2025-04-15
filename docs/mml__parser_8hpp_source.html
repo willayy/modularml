@@ -85,18 +85,19 @@ $(document).ready(function() { init_codefold(0); });
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;a_data_parser.hpp&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classParser__mml.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classParser__mml.html">Parser_mml</a> : <span class="keyword">public</span> <a class="code hl_class" href="classDataParser.html">DataParser</a> {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classParser__mml.html#ac13664713c8482cae45627056706e6bf">   14</a></span>  <a class="code hl_function" href="classParser__mml.html#ac13664713c8482cae45627056706e6bf">Parser_mml</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  std::unique_ptr&lt;Model&gt; <a class="code hl_function" href="classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2">parse</a>(<span class="keyword">const</span> nlohmann::json &amp;data) <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;nlohmann/json_fwd.hpp&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classParser__mml.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="classParser__mml.html">Parser_mml</a> : <span class="keyword">public</span> <a class="code hl_class" href="classDataParser.html">DataParser</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classParser__mml.html#ac13664713c8482cae45627056706e6bf">   15</a></span>  <a class="code hl_function" href="classParser__mml.html#ac13664713c8482cae45627056706e6bf">Parser_mml</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  std::unique_ptr&lt;Model&gt; <a class="code hl_function" href="classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2">parse</a>(<span class="keyword">const</span> nlohmann::json &amp;data) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
 </div>
-<div class="ttc" id="aclassDataParser_html"><div class="ttname"><a href="classDataParser.html">DataParser</a></div><div class="ttdoc">Abstract class for parsing JSON data of a model into a Model Object.</div><div class="ttdef"><b>Definition</b> a_data_parser.hpp:28</div></div>
-<div class="ttc" id="aclassParser__mml_html"><div class="ttname"><a href="classParser__mml.html">Parser_mml</a></div><div class="ttdoc">A class for parsing JSON data of a model into a Model_mml object.</div><div class="ttdef"><b>Definition</b> mml_parser.hpp:9</div></div>
-<div class="ttc" id="aclassParser__mml_html_abc25436aa7e8544b5c8909821b6f77f2"><div class="ttname"><a href="classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2">Parser_mml::parse</a></div><div class="ttdeci">std::unique_ptr&lt; Model &gt; parse(const nlohmann::json &amp;data) const override</div><div class="ttdoc">Parses JSON data of a model into a Model_mml object.</div><div class="ttdef"><b>Definition</b> mml_parser.cpp:161</div></div>
+<div class="ttc" id="aclassDataParser_html"><div class="ttname"><a href="classDataParser.html">DataParser</a></div><div class="ttdoc">Abstract class for parsing JSON data of a model into a Model Object.</div><div class="ttdef"><b>Definition</b> a_data_parser.hpp:29</div></div>
+<div class="ttc" id="aclassParser__mml_html"><div class="ttname"><a href="classParser__mml.html">Parser_mml</a></div><div class="ttdoc">A class for parsing JSON data of a model into a Model_mml object.</div><div class="ttdef"><b>Definition</b> mml_parser.hpp:10</div></div>
+<div class="ttc" id="aclassParser__mml_html_abc25436aa7e8544b5c8909821b6f77f2"><div class="ttname"><a href="classParser__mml.html#abc25436aa7e8544b5c8909821b6f77f2">Parser_mml::parse</a></div><div class="ttdeci">std::unique_ptr&lt; Model &gt; parse(const nlohmann::json &amp;data) const override</div><div class="ttdoc">Parses JSON data of a model into a Model_mml object.</div><div class="ttdef"><b>Definition</b> mml_parser.cpp:176</div></div>
 <div class="ttc" id="aclassParser__mml_html_ac13664713c8482cae45627056706e6bf"><div class="ttname"><a href="classParser__mml.html#ac13664713c8482cae45627056706e6bf">Parser_mml::Parser_mml</a></div><div class="ttdeci">Parser_mml()=default</div><div class="ttdoc">Default constructor for Parser_mml.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

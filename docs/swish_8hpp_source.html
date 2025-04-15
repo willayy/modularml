@@ -84,36 +84,40 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;nodes/a_node.hpp&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classSwishNode.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classSwishNode.html">SwishNode</a> : <span class="keyword">public</span> <a class="code hl_class" href="classNode.html">Node</a> {</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <span class="keyword">using </span>T = std::variant&lt;double, float&gt;;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_class" href="classSwishNode.html">SwishNode</a>(std::string X, std::string Y);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <a class="code hl_class" href="classSwishNode.html">SwishNode</a>(<span class="keyword">const</span> nlohmann::json &amp;node);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keywordtype">void</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <a class="code hl_function" href="classSwishNode.html#a80b19a68aa71783cf5e0e3c8eee7862c">forward</a>(std::unordered_map&lt;std::string, GeneralDataTypes&gt; &amp;iomap) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classSwishNode.html#aacad94dc65aceff066549048fba53f8e">getInputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classSwishNode.html#ae5f10934ce78c61d269ee22d94dd93f3">getOutputs</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="comment">// Input</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  std::string X; <span class="comment">// Input tensor X.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;variant&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;nlohmann/json_fwd.hpp&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;nodes/a_node.hpp&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classSwishNode.html">   17</a></span><span class="keyword">class </span><a class="code hl_class" href="classSwishNode.html">SwishNode</a> : <span class="keyword">public</span> <a class="code hl_class" href="classNode.html">Node</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <span class="keyword">using </span>T = std::variant&lt;double, float&gt;;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <a class="code hl_class" href="classSwishNode.html">SwishNode</a>(std::string X, std::string Y);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <a class="code hl_class" href="classSwishNode.html">SwishNode</a>(<span class="keyword">const</span> nlohmann::json &amp;node);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classSwishNode.html#a80b19a68aa71783cf5e0e3c8eee7862c">forward</a>(</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      std::unordered_map&lt;std::string, GeneralDataTypes&gt; &amp;iomap) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classSwishNode.html#aacad94dc65aceff066549048fba53f8e">getInputs</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classSwishNode.html#ae5f10934ce78c61d269ee22d94dd93f3">getOutputs</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="comment">// Output</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  std::string Y; <span class="comment">// Output tensor Y.</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="comment">// Input</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  std::string X;  <span class="comment">// Input tensor X.</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="comment">// Output</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  std::string Y;  <span class="comment">// Output tensor Y.</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
 </div>
-<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:73</div></div>
-<div class="ttc" id="aclassSwishNode_html"><div class="ttname"><a href="classSwishNode.html">SwishNode</a></div><div class="ttdoc">A class representing a Swish node in a computational graph.</div><div class="ttdef"><b>Definition</b> swish.hpp:13</div></div>
-<div class="ttc" id="aclassSwishNode_html_a80b19a68aa71783cf5e0e3c8eee7862c"><div class="ttname"><a href="classSwishNode.html#a80b19a68aa71783cf5e0e3c8eee7862c">SwishNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation applying swish.</div><div class="ttdef"><b>Definition</b> swish.cpp:15</div></div>
-<div class="ttc" id="aclassSwishNode_html_aacad94dc65aceff066549048fba53f8e"><div class="ttname"><a href="classSwishNode.html#aacad94dc65aceff066549048fba53f8e">SwishNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> swish.cpp:66</div></div>
-<div class="ttc" id="aclassSwishNode_html_ae5f10934ce78c61d269ee22d94dd93f3"><div class="ttname"><a href="classSwishNode.html#ae5f10934ce78c61d269ee22d94dd93f3">SwishNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> swish.cpp:68</div></div>
+<div class="ttc" id="aclassNode_html"><div class="ttname"><a href="classNode.html">Node</a></div><div class="ttdoc">Abstract base class representing a node in a computational graph.</div><div class="ttdef"><b>Definition</b> a_node.hpp:76</div></div>
+<div class="ttc" id="aclassSwishNode_html"><div class="ttname"><a href="classSwishNode.html">SwishNode</a></div><div class="ttdoc">A class representing a Swish node in a computational graph.</div><div class="ttdef"><b>Definition</b> swish.hpp:17</div></div>
+<div class="ttc" id="aclassSwishNode_html_a80b19a68aa71783cf5e0e3c8eee7862c"><div class="ttname"><a href="classSwishNode.html#a80b19a68aa71783cf5e0e3c8eee7862c">SwishNode::forward</a></div><div class="ttdeci">void forward(std::unordered_map&lt; std::string, GeneralDataTypes &gt; &amp;iomap) override</div><div class="ttdoc">Perform the forward pass computation applying swish.</div><div class="ttdef"><b>Definition</b> swish.cpp:30</div></div>
+<div class="ttc" id="aclassSwishNode_html_aacad94dc65aceff066549048fba53f8e"><div class="ttname"><a href="classSwishNode.html#aacad94dc65aceff066549048fba53f8e">SwishNode::getInputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getInputs() override</div><div class="ttdoc">Get inputs.</div><div class="ttdef"><b>Definition</b> swish.cpp:81</div></div>
+<div class="ttc" id="aclassSwishNode_html_ae5f10934ce78c61d269ee22d94dd93f3"><div class="ttname"><a href="classSwishNode.html#ae5f10934ce78c61d269ee22d94dd93f3">SwishNode::getOutputs</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getOutputs() override</div><div class="ttdoc">Get outputs.</div><div class="ttdef"><b>Definition</b> swish.cpp:83</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
