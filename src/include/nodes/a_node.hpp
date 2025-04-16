@@ -20,8 +20,6 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
-#include "backend/mml_gemm.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_tensor.hpp"
 #include "datastructures/tensor_operations_module.hpp"

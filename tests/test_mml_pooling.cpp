@@ -9,7 +9,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_NOTSET) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>({1, 1, 2, 2}, {6, 8, 14, 16});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices =
-      tensor_mml_p<int64_t>({1, 1, 2, 2}, {5, 7, 13, 15});
+      TensorFactory::create_tensor<int64_t>({1, 1, 2, 2}, {5, 7, 13, 15});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -56,7 +56,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices =
-      tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
+      TensorFactory::create_tensor<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -105,8 +105,9 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_UPPER_floor_dilation_col) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>(
           {1, 1, 4, 3}, {7, 9, 9, 12, 14, 14, 17, 19, 19, 12, 14, 14});
-  std::shared_ptr<Tensor<int64_t>> exp_output_indices = tensor_mml_p<int64_t>(
-      {1, 1, 4, 3}, {5, 13, 13, 6, 14, 14, 7, 15, 15, 6, 14, 14});
+  std::shared_ptr<Tensor<int64_t>> exp_output_indices =
+      TensorFactory::create_tensor<int64_t>(
+          {1, 1, 4, 3}, {5, 13, 13, 6, 14, 14, 7, 15, 15, 6, 14, 14});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -154,7 +155,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_SAME_LOWER) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>({1, 1, 3, 2}, {1, 3, 4, 6, 7, 9});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices =
-      tensor_mml_p<int64_t>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
+      TensorFactory::create_tensor<int64_t>({1, 1, 3, 2}, {0, 2, 3, 5, 6, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -202,7 +203,7 @@ TEST(test_mml_pooling, test_max_pool_auto_pad_VALID) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>({1, 1, 2, 1}, {5, 8});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices =
-      tensor_mml_p<int64_t>({1, 1, 2, 1}, {4, 7});
+      TensorFactory::create_tensor<int64_t>({1, 1, 2, 1}, {4, 7});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -249,7 +250,7 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   std::shared_ptr<Tensor<float>> exp_output =
       TensorFactory::create_tensor<float>({1, 1, 3, 2}, {5, 6, 8, 9, 8, 9});
   std::shared_ptr<Tensor<int64_t>> exp_output_indices =
-      tensor_mml_p<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
+      TensorFactory::create_tensor<int64_t>({1, 1, 3, 2}, {4, 5, 7, 8, 7, 8});
 
   std::string input_string = "input";
   std::string output_string = "output";
@@ -293,7 +294,8 @@ TEST(test_mml_pooling, test_max_pool_custom_pad) {
   iomap[input_string] = input;
 
   exp_output = TensorFactory::create_tensor<float>({1, 1, 3, 1}, {5, 8, 8});
-  exp_output_indices = tensor_mml_p<int64_t>({1, 1, 3, 1}, {4, 7, 7});
+  exp_output_indices =
+      TensorFactory::create_tensor<int64_t>({1, 1, 3, 1}, {4, 7, 7});
 
   max_pool = MaxPoolNode(input_string,    // X
                          output_string,   // Y

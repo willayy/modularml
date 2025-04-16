@@ -12,7 +12,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
 #include "nlohmann/json.hpp"
 
 ELUNode::ELUNode(std::string X, std::string Y, float alpha)
@@ -70,9 +69,7 @@ void ELUNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-
-          arithmetic.elementwise(
+          TensorOperations::elementwise<ValueTypeX>(
               x_ptr,
               [this](ValueTypeX val) -> ValueTypeX {
                 return val < 0 ? alpha * (std::exp(val) - 1) : val;

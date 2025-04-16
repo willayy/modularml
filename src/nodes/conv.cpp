@@ -183,8 +183,7 @@ void ConvNode::forward(
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
 
-          auto gemm = std::make_shared<Gemm_mml<ValueTypeX>>();
-          gemm->gemm_inner_product(
+          TensorOperations::gemm<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,

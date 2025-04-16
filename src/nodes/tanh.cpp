@@ -12,7 +12,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
 #include "nlohmann/json.hpp"
 
 TanHNode::TanHNode(std::string X, std::string Y) : X(X), Y(Y) {}
@@ -63,8 +62,7 @@ void TanHNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
-          Arithmetic_mml<ValueType> arithmetic;
-          arithmetic.elementwise(
+          TensorOperations::elementwise<ValueType>(
               x_ptr, [](ValueType x) -> ValueType { return std::tanh(x); },
               y_ptr);
         }

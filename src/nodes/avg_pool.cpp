@@ -123,7 +123,7 @@ void AvgPoolNode::forward(
           auto y_ptr = TensorFactory::create_tensor<ValueType>(output_shape);
 
           // Perform pooling operation
-          TensorOperationsModule::sliding_window<ValueType>(
+          TensorOperations::sliding_window<ValueType>(
               x_shape, output_shape, kernel_shape, strides, dilations, pad_pair,
               [this, x_ptr, y_ptr](
                   const std::vector<std::vector<size_t>>& window_in_idx,

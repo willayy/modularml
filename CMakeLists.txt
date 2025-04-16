@@ -1,7 +1,13 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
+
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
     message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
@@ -59,7 +65,6 @@ FetchContent_MakeAvailable(stb)
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
-
 # Use max 8 threads for building, improve build times
 find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 

@@ -138,7 +138,7 @@ void MaxPoolNode::forward(
           }
 
           // Perform pooling operation
-          TensorOperationsModule::sliding_window<ValueType>(
+          TensorOperations::sliding_window<ValueType>(
               x_shape, output_shape, kernel_shape, strides, dilations, pad_pair,
               [this, x_ptr, y_ptr, indices_ptr, x_shape, total_rank](
                   const std::vector<std::vector<size_t>>& window_in_idx,

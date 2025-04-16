@@ -129,23 +129,23 @@ TEST(test_tensor_utility, test_generate_random_tensor_basic) {
   {
     array_mml<size_t> shape = {2, 3, 4};  // Total: 24 elements
     int lo = 10, hi = 20;
-    auto tensor = generate_random_tensor<int>(shape, lo, hi);
+    auto tensor = TensorFactory::random_tensor<int>(shape, lo, hi);
 
-    ASSERT_EQ(tensor.get_shape(), shape);
-    ASSERT_EQ(tensor.get_size(), 24);
+    ASSERT_EQ(tensor->get_shape(), shape);
+    ASSERT_EQ(tensor->get_size(), 24);
 
     // Check range
-    for (size_t i = 0; i < tensor.get_size(); ++i) {
-      int val = tensor[i];
+    for (size_t i = 0; i < tensor->get_size(); ++i) {
+      int val = (*tensor)[i];
       ASSERT_GE(val, lo);
       ASSERT_LE(val, hi);
     }
 
     // Check not all same
-    int first = tensor[0];
+    int first = (*tensor)[0];
     bool all_same = true;
-    for (size_t i = 1; i < tensor.get_size(); ++i) {
-      if (tensor[i] != first) {
+    for (size_t i = 1; i < tensor->get_size(); ++i) {
+      if ((*tensor)[i] != first) {
         all_same = false;
         break;
       }

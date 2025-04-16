@@ -19,21 +19,15 @@
 #include <unordered_set>
 #include <variant>
 
-#include "backend/a_arithmetic_module.hpp"
 #include "backend/a_data_parser.hpp"
-#include "backend/a_gemm.hpp"
 #include "backend/a_model.hpp"
-#include "backend/a_onnx_gemm.hpp"
 #include "backend/dataloader/a_data_loader.hpp"
 #include "backend/dataloader/a_image_resizer_and_cropper.hpp"
 #include "backend/dataloader/a_normalizer.hpp"
 #include "backend/dataloader/data_loader_config.hpp"
 #include "backend/dataloader/image_loader.hpp"
 #include "backend/dataloader/normalizer.hpp"
-#include "backend/mml_arithmetic.hpp"
-#include "backend/mml_gemm.hpp"
 #include "backend/mml_model.hpp"
-#include "backend/mml_onnx_gemm.hpp"
 #include "backend/mml_parser.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/array_utility.hpp"

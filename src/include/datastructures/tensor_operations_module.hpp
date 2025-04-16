@@ -29,10 +29,10 @@
  * A module for performing arithmetic operations on tensor structures. Your
  * static modular toolbox for all operations on tensors.
  */
-class TensorOperationsModule {
+class TensorOperations {
  public:
-  TensorOperationsModule(const TensorOperationsModule&) = delete;
-  TensorOperationsModule& operator=(const TensorOperationsModule&) = delete;
+  TensorOperations(const TensorOperations&) = delete;
+  TensorOperations& operator=(const TensorOperations&) = delete;
 
   /**
    * @brief General matrix multiplication (GEMM) std::function.
@@ -282,7 +282,7 @@ class TensorOperationsModule {
 
  private:
   // Private constructor.
-  TensorOperationsModule() = default;
+  TensorOperations() = default;
 
   // Pointer to the gemm std::function.
   template <typename T>
