@@ -1,7 +1,7 @@
 #pragma once
 
 #include "backend/dataloader/a_data_loader.hpp"
-#include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor.hpp"
 
 /**
  * @class ImageLoader

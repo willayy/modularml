@@ -1,6 +1,6 @@
 #include "backend/mml_parser.hpp"
 #include "backend/mml_model.hpp"
-#include "backend/parser_helper.hpp"
+#include "backend/parser_utils.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pool.hpp"
 #include "nodes/constant.hpp"
@@ -34,37 +34,37 @@ mapTensors(const nlohmann::json &graph) {
       // Need to handle more data types
       switch (dataType) {
       case 1: // FLOAT
-        tensorMap[initName] = ParserHelper::handle_tensor<float>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<float>(init);
         break;
       case 2: // UINT8
-        tensorMap[initName] = ParserHelper::handle_tensor<uint8_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<uint8_t>(init);
         break;
       case 3: // INT8
-        tensorMap[initName] = ParserHelper::handle_tensor<int8_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<int8_t>(init);
         break;
       case 4: // UINT16
-        tensorMap[initName] = ParserHelper::handle_tensor<uint16_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<uint16_t>(init);
         break;
       case 5: // INT16
-        tensorMap[initName] = ParserHelper::handle_tensor<int16_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<int16_t>(init);
         break;
       case 6: // INT32
-        tensorMap[initName] = ParserHelper::handle_tensor<int32_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<int32_t>(init);
         break;
       case 7: // INT64
-        tensorMap[initName] = ParserHelper::handle_tensor<int64_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<int64_t>(init);
         break;
       case 9: // BOOL
-        tensorMap[initName] = ParserHelper::handle_tensor<bool>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<bool>(init);
         break;
       case 11: // DOUBLE
-        tensorMap[initName] = ParserHelper::handle_tensor<double>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<double>(init);
         break;
       case 12: // UINT32
-        tensorMap[initName] = ParserHelper::handle_tensor<uint32_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<uint32_t>(init);
         break;
       case 13: // UINT64
-        tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
+        tensorMap[initName] = ParserUtils::handle_tensor<uint64_t>(init);
         break;
       default:
         throw std::runtime_error("Currently unsupported data type: " +
@@ -158,7 +158,7 @@ std::vector<std::string> getOutputs(const nlohmann::json &graph) {
   return outputs;
 }
 
-std::unique_ptr<Model> Parser_mml::parse(const nlohmann::json &data) const {
+std::unique_ptr<Model> DataParser::parse(const nlohmann::json &data) {
   // Get the graph
   nlohmann::json graph = data["graph"];
 

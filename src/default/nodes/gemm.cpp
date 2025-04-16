@@ -104,7 +104,7 @@ void GemmNode::forward(
                     ->copy();
             new_c_ptr = raw_c_ptr->broadcast_to({M, N});
           } else {
-            new_c_ptr = std::make_shared<Tensor_mml<ValueTypeA>>(
+            new_c_ptr = std::make_shared<Tensor<ValueTypeA>>(
                 array_mml<size_t>{M, N});
             new_c_ptr->fill(static_cast<ValueTypeA>(0));
           }
@@ -112,9 +112,8 @@ void GemmNode::forward(
           size_t lda = K_a;
           size_t ldb = N;
           size_t ldc = N;
-
-          Gemm_mml<ValueTypeA> gemm;
-          gemm.gemm_inner_product(
+          
+          Gemm::inner_product<ValueTypeA>(
               0, 0, M, N, K_a, static_cast<ValueTypeA>(alpha), new_a_ptr, lda,
               new_b_ptr, ldb, static_cast<ValueTypeA>(beta), new_c_ptr, ldc);
 

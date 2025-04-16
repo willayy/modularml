@@ -9,10 +9,10 @@ TEST(test_log_softmax_node, test_forward_basic) {
 
   array_mml<size_t> y_shape({3, 3});
 
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
-  std::shared_ptr<Tensor_mml<float>> Y =
-      std::make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor<float>> X =
+      std::make_shared<Tensor<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor<float>> Y =
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -50,10 +50,10 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
 
   array_mml<size_t> y_shape({3, 3});
 
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
-  std::shared_ptr<Tensor_mml<float>> Y =
-      std::make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor<float>> X =
+      std::make_shared<Tensor<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor<float>> Y =
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -92,10 +92,10 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
 
   array_mml<size_t> y_shape({3, 3});
 
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
-  std::shared_ptr<Tensor_mml<float>> Y =
-      std::make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor<float>> X =
+      std::make_shared<Tensor<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor<float>> Y =
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -134,10 +134,10 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
 
   array_mml<size_t> y_shape({3, 3});
 
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(x_shape, x_values);
-  std::shared_ptr<Tensor_mml<float>> Y =
-      std::make_shared<Tensor_mml<float>>(y_shape);
+  std::shared_ptr<Tensor<float>> X =
+      std::make_shared<Tensor<float>>(x_shape, x_values);
+  std::shared_ptr<Tensor<float>> Y =
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";

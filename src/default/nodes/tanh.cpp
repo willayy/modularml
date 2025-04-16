@@ -48,8 +48,7 @@ void TanHNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
-          Arithmetic_mml<ValueType> arithmetic;
-          arithmetic.elementwise(
+          Arithmetic::elementwise<ValueType>(
               x_ptr, [](ValueType x) -> ValueType { return std::tanh(x); },
               y_ptr);
         }

@@ -1,7 +1,6 @@
-#pragma once
-
 #include "backend/mml_gemm.hpp"
 
+namespace {
 void static check_lda(int lda, int K) {
   if (lda < K) {
     throw std::invalid_argument("lda must be >= K.");
@@ -27,7 +26,7 @@ void static check_dimensions(int M, int N, int K) {
 }
 
 template <typename T>
-void static check_tensor_sizes(std::shared_ptr<Tensor<T>> A,
+void check_tensor_sizes(std::shared_ptr<Tensor<T>> A,
                                std::shared_ptr<Tensor<T>> B,
                                std::shared_ptr<Tensor<T>> C, int M, int N,
                                int K) {
@@ -43,7 +42,7 @@ void static check_tensor_sizes(std::shared_ptr<Tensor<T>> A,
 }
 
 template <typename T>
-void static check_tensor_properties(std::shared_ptr<Tensor<T>> A,
+void check_tensor_properties(std::shared_ptr<Tensor<T>> A,
                                     std::shared_ptr<Tensor<T>> B,
                                     std::shared_ptr<Tensor<T>> C) {
 
@@ -59,7 +58,7 @@ void static check_tensor_properties(std::shared_ptr<Tensor<T>> A,
 }
 
 template <typename T>
-void static check_matrix_match(std::shared_ptr<Tensor<T>> A,
+void check_matrix_match(std::shared_ptr<Tensor<T>> A,
                                std::shared_ptr<Tensor<T>> B, int TA, int TB) {
   if (!(*A).matrix_match((*B)) && !TA && !TB) {
     throw std::invalid_argument(
@@ -80,14 +79,14 @@ void static check_matrix_match(std::shared_ptr<Tensor<T>> A,
 }
 
 template <typename T>
-void static check_C_dimensions(std::shared_ptr<Tensor<T>> C, int M, int N) {
+void check_C_dimensions(std::shared_ptr<Tensor<T>> C, int M, int N) {
   if ((*C).get_shape()[0] != M || (*C).get_shape()[1] != N) {
     throw std::invalid_argument("C must have dimensions M x N.");
   }
 }
 
 template <typename T>
-void static check_inputs(int TA, std::shared_ptr<Tensor<T>> A, int TB,
+void check_inputs(int TA, std::shared_ptr<Tensor<T>> A, int TB,
                          std::shared_ptr<Tensor<T>> B,
                          std::shared_ptr<Tensor<T>> C, int M, int N, int K,
                          int lda, int ldb, int ldc) {
@@ -101,8 +100,10 @@ void static check_inputs(int TA, std::shared_ptr<Tensor<T>> A, int TB,
   check_C_dimensions(C, M, N);
 }
 
+}
+
 template <typename T>
-void Gemm_mml<T>::gemm_inner_product(int TA, int TB, int M, int N, int K,
+void Gemm::inner_product(int TA, int TB, int M, int N, int K,
                                      T ALPHA, std::shared_ptr<Tensor<T>> A,
                                      int lda, std::shared_ptr<Tensor<T>> B,
                                      int ldb, T BETA,
@@ -132,7 +133,7 @@ void Gemm_mml<T>::gemm_inner_product(int TA, int TB, int M, int N, int K,
 }
 
 template <typename T>
-void Gemm_mml<T>::gemm_outer_product(int TA, int TB, int M, int N, int K,
+void Gemm::outer_product(int TA, int TB, int M, int N, int K,
                                      T ALPHA, std::shared_ptr<Tensor<T>> A,
                                      int lda, std::shared_ptr<Tensor<T>> B,
                                      int ldb, T BETA,
@@ -169,7 +170,7 @@ void Gemm_mml<T>::gemm_outer_product(int TA, int TB, int M, int N, int K,
 }
 
 template <typename T>
-void Gemm_mml<T>::gemm_row_wise_product(int TA, int TB, int M, int N, int K,
+void Gemm::row_wise_product(int TA, int TB, int M, int N, int K,
                                         T ALPHA, std::shared_ptr<Tensor<T>> A,
                                         int lda, std::shared_ptr<Tensor<T>> B,
                                         int ldb, T BETA,
@@ -202,7 +203,7 @@ void Gemm_mml<T>::gemm_row_wise_product(int TA, int TB, int M, int N, int K,
 }
 
 template <typename T>
-void Gemm_mml<T>::gemm_col_wise_product(int TA, int TB, int M, int N, int K,
+void Gemm::col_wise_product(int TA, int TB, int M, int N, int K,
                                         T ALPHA, std::shared_ptr<Tensor<T>> A,
                                         int lda, std::shared_ptr<Tensor<T>> B,
                                         int ldb, T BETA,
@@ -234,32 +235,7 @@ void Gemm_mml<T>::gemm_col_wise_product(int TA, int TB, int M, int N, int K,
   return;
 }
 
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-template <typename T>
-void Gemm_mml<T>::gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
-                               std::shared_ptr<Tensor<T>> A, int lda,
-                               std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                               std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("Blocked GEMM not yet supported.");
-}
-template <typename T>
-void Gemm_mml<T>::gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                           std::shared_ptr<Tensor<T>> A, int lda,
-                           std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                           std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("AVX GEMM not yet supported.");
-}
-template <typename T>
-void Gemm_mml<T>::gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                              std::shared_ptr<Tensor<T>> A, int lda,
-                              std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                              std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("AVX-512 GEMM not yet supported.");
-}
-template <typename T>
-void Gemm_mml<T>::gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
-                                 std::shared_ptr<Tensor<T>> A, int lda,
-                                 std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                 std::shared_ptr<Tensor<T>> C, int ldc) {
-  std::invalid_argument("Intel MKL GEMM not yet supported.");
-}
+#define TYPE(DT) _GEMM(DT)
+#include "types_integer.txt"
+#include "types_real.txt"
+#undef TYPE

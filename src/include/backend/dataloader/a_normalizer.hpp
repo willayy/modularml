@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
+#include "datastructures/tensor.hpp"
 
 /**
  * @class Normalizer

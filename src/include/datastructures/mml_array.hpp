@@ -139,6 +139,7 @@ public:
 private:
   std::shared_ptr<T[]> data;
   size_t d_size;
+
 };
 
-#include "../datastructures/mml_array.tpp"
+#define _ARRAY_MML(DT) template class array_mml<DT>;

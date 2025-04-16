@@ -1,6 +1,6 @@
 #pragma once
 
-#include "a_node.hpp"
+#include "nodes/a_node.hpp"
 
 /**
  * @class FlattenNode

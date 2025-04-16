@@ -55,9 +55,7 @@ void ELUNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-
-          arithmetic.elementwise(
+          Arithmetic::elementwise<ValueTypeX>(
               x_ptr,
               [this](ValueTypeX val) -> ValueTypeX {
                 return val < 0 ? alpha * (std::exp(val) - 1) : val;

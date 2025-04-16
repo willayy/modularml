@@ -142,7 +142,7 @@ void ConvNode::forward(
                get_batch_size() * get_out_height() * get_out_width()});
 
           auto im2col_output =
-              std::make_shared<Tensor_mml<ValueTypeX>>(im2col_output_shape);
+              std::make_shared<Tensor<ValueTypeX>>(im2col_output_shape);
 
           im2col(input_copy, im2col_output);
 
@@ -155,10 +155,9 @@ void ConvNode::forward(
           array_mml<size_t> result_shape(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
           auto result_ptr =
-              std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
+              std::make_shared<Tensor<ValueTypeX>>(result_shape);
 
-          auto gemm = std::make_shared<Gemm_mml<ValueTypeX>>();
-          gemm->gemm_inner_product(
+          Gemm::inner_product<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,

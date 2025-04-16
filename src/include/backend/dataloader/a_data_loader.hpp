@@ -1,7 +1,7 @@
 #pragma once
 
 #include "backend/dataloader/data_loader_config.hpp"
-#include "datastructures/a_tensor.hpp"
+#include "datastructures/tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>

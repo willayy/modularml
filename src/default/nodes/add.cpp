@@ -76,15 +76,13 @@ void AddNode::forward(
             }
           }
 
-          Arithmetic_mml<ValueTypeA> arithmetic;
-
           // Valid case:
           if (A_shape == B_shape) {
             if (c_ptr->get_shape() != A_shape) {
               c_ptr->reshape(A_shape); // Reshape output tensor to be the same
                                        // as input tensors
             }
-            arithmetic.add(a_ptr, b_ptr, c_ptr);
+            Arithmetic::add<ValueTypeA>(a_ptr, b_ptr, c_ptr);
             // Broadcasting case:
           } else if (broadcast_comp) {
             broadcast_addition(a_ptr, b_ptr, c_ptr);

@@ -1,23 +1,19 @@
 #pragma once
 
-#include "a_data_parser.hpp"
+#include <memory>
+#include <nlohmann/json.hpp>
+#include "backend/a_model.hpp"
 
 /**
- * @class Parser_mml
- * @brief A class for parsing JSON data of a model into a Model_mml object.
+ * @namespace DataParser
+ * @brief Namespace for parsing JSON data of a model into a Model_mml object.
  */
-class Parser_mml : public DataParser {
-public:
-  /**
-   * @brief Default constructor for Parser_mml.
-   */
-  Parser_mml() = default;
-
+namespace DataParser {
   /**
    * @brief Parses JSON data of a model into a Model_mml object.
    *
    * @param data JSON data of a Model.
-   * @return The default representation of a model: Model_mml.
+  std::unique_ptr<Model> parse(const nlohmann::json &data);
    */
-  std::unique_ptr<Model> parse(const nlohmann::json &data) const override;
+  std::unique_ptr<Model> parse(const nlohmann::json &data);
 };

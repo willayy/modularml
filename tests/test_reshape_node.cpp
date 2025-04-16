@@ -8,12 +8,12 @@ TEST(test_node, test_reshape_basic) {
    * tensor.
    */
   auto b =
-      tensor_mml_p<float>({2UL, 3UL}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
-  auto data = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3UL, 2UL}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
-  auto shape = tensor_mml_p<int64_t>({2}, {2, 3});
+      std::make_shared<Tensor<float>>(array_mml<size_t>{2, 3}, array_mml<float>{1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto data = std::make_shared<Tensor<float>>(
+      Tensor<float>({3UL, 2UL}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+  auto shape = std::make_shared<Tensor<int64_t>>(array_mml<size_t>{2}, array_mml<int64_t>{2, 3});
   auto reshaped =
-      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+      std::make_shared<Tensor<float>>(Tensor<float>({2, 3}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";
@@ -41,14 +41,14 @@ TEST(test_node, test_reshape_high_dimensional) {
    * @brief Expected Tensor after the Reshape function is applied to the data
    * tensor.
    */
-  auto b = tensor_mml_p<float>({2, 1, 3, 1},
-                               {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
+  auto b = std::make_shared<Tensor<float>>(array_mml<size_t>{2, 1, 3, 1},
+                               array_mml<float>{7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f});
 
-  auto data = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
-  auto shape = tensor_mml_p<int64_t>({4}, {2, 1, 3, 1});
+  auto data = std::make_shared<Tensor<float>>(
+      Tensor<float>({3, 2}, {7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f}));
+  auto shape = std::make_shared<Tensor<int64_t>>(array_mml<size_t>{4}, array_mml<int64_t>{2, 1, 3, 1});
   auto reshaped =
-      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 1, 3, 1}));
+      std::make_shared<Tensor<float>>(Tensor<float>({2, 1, 3, 1}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";
@@ -77,13 +77,13 @@ TEST(test_node, test_reshape_with_inferred_dimension) {
    * @brief Expected Tensor after the Reshape function is applied to the data
    * tensor. This tests the automatic inference of one dimension using `-1`.
    */
-  auto b = tensor_mml_p<float>({2, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto b = std::make_shared<Tensor<float>>(array_mml<size_t>{2, 3}, array_mml<float>{1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-  auto data = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
-  auto shape = tensor_mml_p<int64_t>({2}, {-1, 3});
+  auto data = std::make_shared<Tensor<float>>(
+      Tensor<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
+  auto shape = std::make_shared<Tensor<int64_t>>(array_mml<size_t>{2}, array_mml<int64_t>{-1, 3});
   auto reshaped =
-      std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({2, 3}));
+      std::make_shared<Tensor<float>>(Tensor<float>({2, 3}));
 
   std::string data_string = "data";
   std::string shape_string = "shape";

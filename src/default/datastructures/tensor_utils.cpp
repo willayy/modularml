@@ -1,15 +1,15 @@
-#pragma once
-
-#include "datastructures/mml_tensor.hpp"
-#include "datastructures/tensor_utility.hpp"
+#include "datastructures/tensor.hpp"
+#include "datastructures/tensor_utils.hpp"
 #include <iostream>
 #include <random>
+
+namespace TensorUtils {
 
 template <typename T>
 bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
   static_assert(
-      std::is_arithmetic_v<T>,
-      "Tensor type must be an arithmetic type (int, float, double, etc.).");
+    std::is_arithmetic_v<T>,
+    "Tensor type must be an arithmetic type (int, float, double, etc.).");
 
   if (t1.get_shape() != t2.get_shape()) {
     std::cerr << "Error: Tensors have different shapes and cannot be compared!"
@@ -18,9 +18,23 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
   }
 
   for (size_t i = 0; i < t1.get_size(); i++) {
-    T diff = std::abs(t1[i] - t2[i]);
-    T tolerance_limit =
-        std::max(static_cast<T>(0.00001), std::abs(tolerance * (t2[i])));
+    // Handle different numeric types properly to avoid ambiguous abs()
+    T diff;
+    T tolerance_limit;
+    
+    if constexpr (std::is_unsigned_v<T>) {
+      // For unsigned types, use direct subtraction with checks to avoid underflow
+      diff = t1[i] > t2[i] ? t1[i] - t2[i] : t2[i] - t1[i];
+      
+      tolerance_limit = std::max(static_cast<T>(1), static_cast<T>(tolerance * t2[i]));
+    } else if constexpr (std::is_floating_point_v<T>) {
+      diff = std::abs(t1[i] - t2[i]);
+      tolerance_limit = std::max(static_cast<T>(0.00001), std::abs(tolerance * t2[i]));
+    } else {
+      // Avoid underflow for signed types
+      diff = std::abs(static_cast<long long>(t1[i]) - static_cast<long long>(t2[i]));
+      tolerance_limit = std::max(static_cast<T>(0), static_cast<T>(std::abs(tolerance * t2[i])));
+    }
 
     if (diff > tolerance_limit) {
       std::cerr << "Difference of " << diff << " found at (" << i
@@ -34,19 +48,23 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
 }
 
 template <typename T>
-static auto generate_random_tensor(const array_mml<size_t> &shape, T lo_v,
+Tensor<T> generate_random_tensor(const array_mml<size_t> &shape, T lo_v,
                                    T hi_v) {
-  static_assert(
-      std::is_arithmetic_v<T>,
-      "Tensor type must be an arithmetic type (int, float, double, etc.).");
-  Tensor_mml<T> tensor(shape);
+  Tensor<T> tensor(shape);
   std::random_device rd;
   std::mt19937 gen(rd());
 
   if constexpr (std::is_integral_v<T>) {
-    std::uniform_int_distribution<T> dist(lo_v, hi_v);
-    for (size_t i = 0; i < tensor.get_size(); i++) {
-      tensor[i] = dist(gen);
+    if constexpr (std::is_same_v<T, bool>) {
+      std::bernoulli_distribution dist(0.5); // 50% chance of true/false
+      for (size_t i = 0; i < tensor.get_size(); i++) {
+        tensor.operator[](i) = dist(gen);
+      }
+    } else {
+      std::uniform_int_distribution<T> dist(lo_v, hi_v);
+      for (size_t i = 0; i < tensor.get_size(); i++) {
+        tensor.operator[](i) = dist(gen);
+      }
     }
   } else if constexpr (std::is_floating_point_v<T>) {
     std::uniform_real_distribution<T> dist(lo_v, hi_v);
@@ -87,3 +105,14 @@ void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
   std::mt19937 gen(rd()); // seeded automatically
   kaiming_uniform(W, in_channels, kernel_size, gen);
 }
+
+}
+
+#define TYPE(DT) _TENSOR_UTILS(DT)
+#include "types_integer.txt"
+#include "types_real.txt"
+#undef TYPE
+
+#define TYPE(DT) _TENSOR_UTILS_REAL(DT)
+#include "types_real.txt"
+#undef TYPE

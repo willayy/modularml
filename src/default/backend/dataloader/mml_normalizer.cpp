@@ -20,7 +20,7 @@ std::shared_ptr<Tensor<float>> Normalize::normalize(
   size_t H = shape[2];
   size_t W = shape[3];
 
-  auto output = tensor_mml_p<float>({N, C, H, W});
+  auto output = std::make_shared<Tensor<float>>(array_mml<size_t>{N, C, H, W});
 
   // Normalize the input tensor:
   for (size_t n = 0; n < shape[0]; ++n) {

@@ -54,9 +54,9 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   file >> onnx_model;
   file.close();
 
-  Parser_mml parser;
+  
   std::unique_ptr<Model> model_base;
-  ASSERT_NO_THROW({ model_base = parser.parse(onnx_model); }) << "Parser failed to parse the JSON file";
+  ASSERT_NO_THROW({ model_base = DataParser::parse(onnx_model); }) << "Parser failed to parse the JSON file";
   auto model = dynamic_cast<Model_mml*>(model_base.get());
 
   std::unordered_map<std::string, GeneralDataTypes> inputs;
@@ -68,8 +68,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   auto output_it = outputs.find("output");
   auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-  Arithmetic_mml<float> arithmetic_instance;
-  int result = arithmetic_instance.arg_max(output_tensor);
+  int result = Arithmetic::arg_max<float>(output_tensor); 
 
   std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;
@@ -115,9 +114,8 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   file >> onnx_model;
   file.close();
 
-  Parser_mml parser;
   std::unique_ptr<Model> model_base;
-  ASSERT_NO_THROW({ model_base = parser.parse(onnx_model); }) << "Parser failed to parse the JSON file";
+  ASSERT_NO_THROW({ model_base = DataParser::parse(onnx_model); }) << "Parser failed to parse the JSON file";
   auto model = dynamic_cast<Model_mml*>(model_base.get());
 
   std::unordered_map<std::string, GeneralDataTypes> inputs;
@@ -128,9 +126,8 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
 
   auto output_it = outputs.find("output");
   auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
-
-  Arithmetic_mml<float> arithmetic_instance;
-  int result = arithmetic_instance.arg_max(output_tensor);
+  
+  int result = Arithmetic::arg_max<float>(output_tensor);
 
   std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;

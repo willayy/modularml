@@ -2,10 +2,8 @@
 
 #include "backend/mml_arithmetic.hpp"
 #include "backend/mml_gemm.hpp"
-#include "datastructures/a_tensor.hpp"
-#include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor.hpp"
 #include "nodes/node_utils.hpp"
-#include "datastructures/tensor_operations_module.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -57,9 +55,7 @@ using GeneralDataTypes = std::variant<
     std::shared_ptr<Tensor<int32_t>>, std::shared_ptr<Tensor<int64_t>>,
     std::shared_ptr<Tensor<int8_t>>, std::shared_ptr<Tensor<uint16_t>>,
     std::shared_ptr<Tensor<uint32_t>>,
-    std::shared_ptr<Tensor<uint64_t>>, // Think this is meant to be
-                                       // unsigned long long or uint64_t
-                                       // not unsigned long int
+    std::shared_ptr<Tensor<uint64_t>>,
     std::shared_ptr<Tensor<uint8_t>>>;
 
 /**

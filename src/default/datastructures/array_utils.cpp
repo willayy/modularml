@@ -1,5 +1,3 @@
-#pragma once
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,7 +18,9 @@
 #include <variant>
 #include <vector>
 
-#include "datastructures/array_utility.hpp"
+#include "datastructures/array_utils.hpp"
+
+namespace ArrayUtils {
 
 template <typename T>
 array_mml<T> generate_random_array_mml_integral(size_t lo_sz, size_t hi_sz,
@@ -30,10 +30,19 @@ array_mml<T> generate_random_array_mml_integral(size_t lo_sz, size_t hi_sz,
   std::uniform_int_distribution<size_t> size_dist(lo_sz, hi_sz);
   size_t n = size_dist(gen);
   array_mml<T> arr = array_mml<T>(n);
-  std::uniform_int_distribution<T> int_dist(lo_v, hi_v);
-  for (size_t i = 0; i < n; i++) {
-    arr[i] = int_dist(gen);
+
+  if constexpr (std::is_same_v<T, bool>) {
+    std::bernoulli_distribution bool_dist(0.5); // 50% chance of true/false
+    for (size_t i = 0; i < n; i++) {
+      arr[i] = bool_dist(gen);
+    }
+  } else {
+    std::uniform_int_distribution<T> int_dist(lo_v, hi_v);
+    for (size_t i = 0; i < n; i++) {
+      arr[i] = int_dist(gen);
+    }
   }
+
   return arr;
 }
 
@@ -50,4 +59,25 @@ array_mml<T> generate_random_array_mml_real(size_t lo_sz, size_t hi_sz, T lo_v,
     arr[i] = real_dist(gen);
   }
   return arr;
+  
 }
+
+}
+
+#define TYPE(DT) _ARRAY_UTILS_REAL(DT)
+#include "types_real.txt"
+#undef TYPE
+
+#define TYPE(DT) _ARRAY_UTILS_INTEGER(DT)
+TYPE(uint8_t)
+TYPE(uint16_t)
+TYPE(uint32_t)
+TYPE(uint64_t)
+TYPE(int8_t)
+TYPE(int16_t)
+TYPE(int32_t)
+TYPE(int64_t)
+#ifdef __APPLE__
+TYPE(size_t)
+#endif
+#undef TYPE

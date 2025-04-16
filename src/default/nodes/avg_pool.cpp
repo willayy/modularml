@@ -86,10 +86,10 @@ void AvgPoolNode::forward(std::unordered_map<std::string, GeneralDataTypes>& iom
 
             auto pad_pair = NodeUtils::compute_pool_pad_begin_end(x_shape, auto_pad, ceil_mode, dilations, kernel_shape, pads, strides);
 
-            auto y_ptr = TensorFactory::create_tensor<ValueType>(output_shape);
+            auto y_ptr = std::make_shared<Tensor<ValueType>>(output_shape);
 
             // Perform pooling operation
-            TensorOperationsModule::sliding_window<ValueType>(
+            Arithmetic::sliding_window(
                 x_shape,
                 output_shape,
                 kernel_shape,

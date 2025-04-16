@@ -9,26 +9,26 @@ TEST(GemmNodeTest, ForwardMultiplication) {
   array_mml<size_t> shapeY({2, 2}); // Output shape is [M, N]
 
   // Create tensor A with values: [1, 2, 3, 4, 5, 6] in row-major order.
-  Tensor_mml<float> tensorA(shapeA);
+  Tensor<float> tensorA(shapeA);
   for (int i = 0; i < 6; i++) {
     tensorA[i] = static_cast<float>(i + 1); // 1, 2, ..., 6.
   }
 
   // Create tensor B with values: [7, 8, 9, 10, 11, 12] in row-major order.
-  Tensor_mml<float> tensorB(shapeB);
+  Tensor<float> tensorB(shapeB);
   float valuesB[] = {7, 8, 9, 10, 11, 12};
   for (int i = 0; i < 6; i++) {
     tensorB[i] = valuesB[i];
   }
 
   // Create an output tensor Y with shape [2,2] and initialize to zero.
-  Tensor_mml<float> tensorY(shapeY);
+  Tensor<float> tensorY(shapeY);
   tensorY.fill(0.0f);
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = std::make_shared<Tensor_mml<float>>(tensorA);
-  auto B_ptr = std::make_shared<Tensor_mml<float>>(tensorB);
-  auto Y_ptr = std::make_shared<Tensor_mml<float>>(tensorY);
+  auto A_ptr = std::make_shared<Tensor<float>>(tensorA);
+  auto B_ptr = std::make_shared<Tensor<float>>(tensorB);
+  auto Y_ptr = std::make_shared<Tensor<float>>(tensorY);
 
   // Setup the iomap with tensor names
   std::string a_string = "A";
@@ -58,7 +58,7 @@ TEST(GemmNodeTest, ForwardMultiplication) {
   //            1*8 + 2*10 + 3*12 = 8 + 20 + 36 = 64.
   // Second row: 4*7 + 5*9 + 6*11 = 28 + 45 + 66 = 139,
   //             4*8 + 5*10 + 6*12 = 32 + 50 + 72 = 154.
-  Tensor_mml<float> expected(shapeY);
+  Tensor<float> expected(shapeY);
   expected[0] = 58.0f;
   expected[1] = 64.0f;
   expected[2] = 139.0f;

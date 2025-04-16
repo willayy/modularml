@@ -1,5 +1,3 @@
-#pragma once
-
 #include "datastructures/mml_array.hpp"
 
 template <typename T>
@@ -159,3 +157,8 @@ template <typename T> const T *array_mml<T>::get() const {
 template <typename T> void array_mml<T>::fill(const T &value) {
   std::ranges::fill(*this, value);
 }
+
+#define TYPE(DT) _ARRAY_MML(DT)
+#include "types_integer.txt"
+#include "types_real.txt"
+#undef TYPE

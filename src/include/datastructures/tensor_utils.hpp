@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datastructures/a_tensor.hpp"
+#include "datastructures/tensor.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,6 +20,8 @@
 #include <unordered_set>
 #include <variant>
 #include <vector>
+
+namespace TensorUtils {
 
 /**
  * @brief Compares two tensors element-wise to check if they are close within a
@@ -53,12 +55,8 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01));
  * @param hi_v The upper bound of the random values.
  * @return A tensor with random values within the specified range.
  */
-#define GENERATE_RANDOM_TENSOR(T)                                              \
-  (std::is_arithmetic_v<T>, "Random Tensor generation requires an arithmetic " \
-                            "type (int, float, double, etc.).");
 template <typename T>
-[[deprecated("Use TensorFactory instead.")]]
-static auto generate_random_tensor(const array_mml<size_t> &shape,
+Tensor<T> generate_random_tensor(const array_mml<size_t> &shape,
                                    T lo_v = T(0), T hi_v = T(1));
 
 /**
@@ -95,5 +93,13 @@ void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
 template <typename T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size);
+               
+}
 
-#include "../datastructures/tensor_utility.tpp"
+#define _TENSOR_UTILS(DT) \
+template bool TensorUtils::tensors_are_close<DT>(Tensor<DT>&, Tensor<DT>&, DT); \
+template Tensor<DT> TensorUtils::generate_random_tensor<DT>(const array_mml<size_t>&, DT, DT);
+
+#define _TENSOR_UTILS_REAL(DT) \
+template void TensorUtils::kaiming_uniform<DT>(std::shared_ptr<Tensor<DT>>, size_t, size_t, std::mt19937&); \
+template void TensorUtils::kaiming_uniform<DT>(std::shared_ptr<Tensor<DT>>, size_t, size_t);
