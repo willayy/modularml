@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['relunode_0',['ReLUNode',['../classReLUNode.html',1,'']]],
-  ['reshapenode_1',['reshapeNode',['../classreshapeNode.html',1,'']]],
-  ['resizeandcrop_2',['resizeAndCrop',['../classresizeAndCrop.html',1,'']]]
+  ['sigmoid_5fmml_0',['Sigmoid_mml',['../classSigmoid__mml.html',1,'']]],
+  ['sigmoidnode_1',['SigmoidNode',['../classSigmoidNode.html',1,'']]],
+  ['swishnode_2',['SwishNode',['../classSwishNode.html',1,'']]]
 ];

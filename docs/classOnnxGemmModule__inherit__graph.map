@@ -1,5 +1,0 @@
-<map id="OnnxGemmModule&lt; T &gt;" name="OnnxGemmModule&lt; T &gt;">
-<area shape="rect" id="Node000001" title="Abstract class for classes that contain standard GEMM functions using the ONNX GEMM format." alt="" coords="5,5,192,31"/>
-<area shape="rect" id="Node000002" href="$classOnnxGemm__mml.html" title=" " alt="" coords="11,79,186,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,44,101,79,96,79,96,44"/>
-</map>

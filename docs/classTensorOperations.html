@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ModularML: TensorOperationsModule Class Reference</title>
+<title>ModularML: TensorOperations Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,8 +73,8 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="classTensorOperationsModule-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">TensorOperationsModule Class Reference</div></div>
+<a href="classTensorOperations-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">TensorOperations Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -82,101 +82,101 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a85d7ae61ac582790803167fbd0a23d1f" id="r_a85d7ae61ac582790803167fbd0a23d1f"><td class="memItemLeft" align="right" valign="top"><a id="a85d7ae61ac582790803167fbd0a23d1f" name="a85d7ae61ac582790803167fbd0a23d1f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TensorOperationsModule</b> (const <a class="el" href="classTensorOperationsModule.html">TensorOperationsModule</a> &amp;)=delete</td></tr>
-<tr class="separator:a85d7ae61ac582790803167fbd0a23d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79924e29395b253afd4a03a3b7a45976" id="r_a79924e29395b253afd4a03a3b7a45976"><td class="memItemLeft" align="right" valign="top"><a id="a79924e29395b253afd4a03a3b7a45976" name="a79924e29395b253afd4a03a3b7a45976"></a>
-<a class="el" href="classTensorOperationsModule.html">TensorOperationsModule</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classTensorOperationsModule.html">TensorOperationsModule</a> &amp;)=delete</td></tr>
-<tr class="separator:a79924e29395b253afd4a03a3b7a45976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c4edc59d574030c6ba79d9f809be7af" id="r_a0c4edc59d574030c6ba79d9f809be7af"><td class="memItemLeft" align="right" valign="top"><a id="a0c4edc59d574030c6ba79d9f809be7af" name="a0c4edc59d574030c6ba79d9f809be7af"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TensorOperations</b> (const <a class="el" href="classTensorOperations.html">TensorOperations</a> &amp;)=delete</td></tr>
+<tr class="separator:a0c4edc59d574030c6ba79d9f809be7af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f07e004e805cde525901c78ed58a550" id="r_a3f07e004e805cde525901c78ed58a550"><td class="memItemLeft" align="right" valign="top"><a id="a3f07e004e805cde525901c78ed58a550" name="a3f07e004e805cde525901c78ed58a550"></a>
+<a class="el" href="classTensorOperations.html">TensorOperations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classTensorOperations.html">TensorOperations</a> &amp;)=delete</td></tr>
+<tr class="separator:a3f07e004e805cde525901c78ed58a550"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2227bed03de269f2cc23038299152edd" id="r_a2227bed03de269f2cc23038299152edd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2227bed03de269f2cc23038299152edd"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a2227bed03de269f2cc23038299152edd">gemm</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)</td></tr>
-<tr class="memdesc:a2227bed03de269f2cc23038299152edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">General matrix multiplication (GEMM) std::function. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://www.netlib.org/blas/">https://www.netlib.org/blas/</a>.  <br /></td></tr>
-<tr class="separator:a2227bed03de269f2cc23038299152edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82410ade93899a669b1ac65611b507a4" id="r_a82410ade93899a669b1ac65611b507a4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a82410ade93899a669b1ac65611b507a4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a82410ade93899a669b1ac65611b507a4">set_gemm_ptr</a> (std::function&lt; void(int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)&gt; ptr)</td></tr>
-<tr class="memdesc:a82410ade93899a669b1ac65611b507a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the gemm std::function pointer.  <br /></td></tr>
-<tr class="separator:a82410ade93899a669b1ac65611b507a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b054d2dae6fb0118f8bb209fa2dc363" id="r_a3b054d2dae6fb0118f8bb209fa2dc363"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3b054d2dae6fb0118f8bb209fa2dc363"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a3b054d2dae6fb0118f8bb209fa2dc363">gemm_onnx</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt)</td></tr>
-<tr class="memdesc:a3b054d2dae6fb0118f8bb209fa2dc363"><td class="mdescLeft">&#160;</td><td class="mdescRight">General matrix multiplication (GEMM) std::function using the ONNX standard. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
-<tr class="separator:a3b054d2dae6fb0118f8bb209fa2dc363"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdfda60e6f66cd321112180e64278924" id="r_afdfda60e6f66cd321112180e64278924"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:afdfda60e6f66cd321112180e64278924"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#afdfda60e6f66cd321112180e64278924">set_gemm_onnx_ptr</a> (std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, float alpha, float beta, int transA, int transB, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C)&gt; ptr)</td></tr>
-<tr class="memdesc:afdfda60e6f66cd321112180e64278924"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the gemm_onnx std::function pointer.  <br /></td></tr>
-<tr class="separator:afdfda60e6f66cd321112180e64278924"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac01c1be4ce75d0aa7e947ae9d700720b" id="r_ac01c1be4ce75d0aa7e947ae9d700720b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac01c1be4ce75d0aa7e947ae9d700720b"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#ac01c1be4ce75d0aa7e947ae9d700720b">add</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
-<tr class="memdesc:ac01c1be4ce75d0aa7e947ae9d700720b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds two tensors element-wise. Performs operation c = a + b.  <br /></td></tr>
-<tr class="separator:ac01c1be4ce75d0aa7e947ae9d700720b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a369fa87ecd2dc0bab89d4cf26209d56a" id="r_a369fa87ecd2dc0bab89d4cf26209d56a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a369fa87ecd2dc0bab89d4cf26209d56a"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a369fa87ecd2dc0bab89d4cf26209d56a">set_add_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
-<tr class="memdesc:a369fa87ecd2dc0bab89d4cf26209d56a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the add std::function pointer.  <br /></td></tr>
-<tr class="separator:a369fa87ecd2dc0bab89d4cf26209d56a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf7be0d6174a2e9df10c529898e55b75" id="r_acf7be0d6174a2e9df10c529898e55b75"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:acf7be0d6174a2e9df10c529898e55b75"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#acf7be0d6174a2e9df10c529898e55b75">subtract</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
-<tr class="memdesc:acf7be0d6174a2e9df10c529898e55b75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtracts two tensors element-wise. Performs operation c = a - b.  <br /></td></tr>
-<tr class="separator:acf7be0d6174a2e9df10c529898e55b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a777dd7bd7f72381616ba739a9bdc90e3" id="r_a777dd7bd7f72381616ba739a9bdc90e3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a777dd7bd7f72381616ba739a9bdc90e3"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a777dd7bd7f72381616ba739a9bdc90e3">set_subtract_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
-<tr class="memdesc:a777dd7bd7f72381616ba739a9bdc90e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the subtract std::function pointer.  <br /></td></tr>
-<tr class="separator:a777dd7bd7f72381616ba739a9bdc90e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac150fd28c38673812b615399b04d5770" id="r_ac150fd28c38673812b615399b04d5770"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac150fd28c38673812b615399b04d5770"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#ac150fd28c38673812b615399b04d5770">multiply</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
-<tr class="memdesc:ac150fd28c38673812b615399b04d5770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplies a tensor by a scalar. Performs operation c = a * b.  <br /></td></tr>
-<tr class="separator:ac150fd28c38673812b615399b04d5770"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00cbd22e095731a85c5f51bdc1849ba3" id="r_a00cbd22e095731a85c5f51bdc1849ba3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a00cbd22e095731a85c5f51bdc1849ba3"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a00cbd22e095731a85c5f51bdc1849ba3">set_multiply_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
-<tr class="memdesc:a00cbd22e095731a85c5f51bdc1849ba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the multiply std::function pointer.  <br /></td></tr>
-<tr class="separator:a00cbd22e095731a85c5f51bdc1849ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab084f946ab9269fa97cf70c87847f2d3" id="r_ab084f946ab9269fa97cf70c87847f2d3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab084f946ab9269fa97cf70c87847f2d3"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#ab084f946ab9269fa97cf70c87847f2d3">equals</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b)</td></tr>
-<tr class="memdesc:ab084f946ab9269fa97cf70c87847f2d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two tensors element-wise.  <br /></td></tr>
-<tr class="separator:ab084f946ab9269fa97cf70c87847f2d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b8a3a72f40c0aeaf433eb18dd8b5833" id="r_a9b8a3a72f40c0aeaf433eb18dd8b5833"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9b8a3a72f40c0aeaf433eb18dd8b5833"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a9b8a3a72f40c0aeaf433eb18dd8b5833">set_equals_ptr</a> (std::function&lt; bool(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b)&gt; ptr)</td></tr>
-<tr class="memdesc:a9b8a3a72f40c0aeaf433eb18dd8b5833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the equals std::function pointer.  <br /></td></tr>
-<tr class="separator:a9b8a3a72f40c0aeaf433eb18dd8b5833"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab94f55005ad454a83f8d4280502d7ab4" id="r_ab94f55005ad454a83f8d4280502d7ab4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab94f55005ad454a83f8d4280502d7ab4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#ab94f55005ad454a83f8d4280502d7ab4">elementwise</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
-<tr class="memdesc:ab94f55005ad454a83f8d4280502d7ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a std::function element-wise to a tensor.  <br /></td></tr>
-<tr class="separator:ab94f55005ad454a83f8d4280502d7ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49f2472c49ab622e7d041e75dacc11b2" id="r_a49f2472c49ab622e7d041e75dacc11b2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a49f2472c49ab622e7d041e75dacc11b2"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a49f2472c49ab622e7d041e75dacc11b2">set_elementwise_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
-<tr class="memdesc:a49f2472c49ab622e7d041e75dacc11b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elementwise std::function pointer.  <br /></td></tr>
-<tr class="separator:a49f2472c49ab622e7d041e75dacc11b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0889045eb6a312a6ce4fe2996e6b1b69" id="r_a0889045eb6a312a6ce4fe2996e6b1b69"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a0889045eb6a312a6ce4fe2996e6b1b69"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a0889045eb6a312a6ce4fe2996e6b1b69">elementwise_in_place</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; f)</td></tr>
-<tr class="memdesc:a0889045eb6a312a6ce4fe2996e6b1b69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a std::function element-wise to a tensor in place.  <br /></td></tr>
-<tr class="separator:a0889045eb6a312a6ce4fe2996e6b1b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a046b24d9b4e8d7fd21684044b1d908f8" id="r_a046b24d9b4e8d7fd21684044b1d908f8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a046b24d9b4e8d7fd21684044b1d908f8"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a046b24d9b4e8d7fd21684044b1d908f8">set_elementwise_in_place_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f)&gt; ptr)</td></tr>
-<tr class="memdesc:a046b24d9b4e8d7fd21684044b1d908f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elementwise_in_place std::function pointer.  <br /></td></tr>
-<tr class="separator:a046b24d9b4e8d7fd21684044b1d908f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eca29585fe3de903e0bee50fdc48e8d" id="r_a3eca29585fe3de903e0bee50fdc48e8d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3eca29585fe3de903e0bee50fdc48e8d"><td class="memTemplItemLeft" align="right" valign="top">static int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a3eca29585fe3de903e0bee50fdc48e8d">arg_max</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)</td></tr>
-<tr class="memdesc:a3eca29585fe3de903e0bee50fdc48e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum value of a tensor along a given axis.  <br /></td></tr>
-<tr class="separator:a3eca29585fe3de903e0bee50fdc48e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28ce9170f59b3fc6da8bb2e84236464b" id="r_a28ce9170f59b3fc6da8bb2e84236464b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a28ce9170f59b3fc6da8bb2e84236464b"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a28ce9170f59b3fc6da8bb2e84236464b">set_arg_max_ptr</a> (std::function&lt; int(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)&gt; ptr)</td></tr>
-<tr class="memdesc:a28ce9170f59b3fc6da8bb2e84236464b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the arg_max std::function pointer.  <br /></td></tr>
-<tr class="separator:a28ce9170f59b3fc6da8bb2e84236464b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a808d16ad9a19328548fc22cc3ff1ab77" id="r_a808d16ad9a19328548fc22cc3ff1ab77"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a808d16ad9a19328548fc22cc3ff1ab77"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a808d16ad9a19328548fc22cc3ff1ab77">sliding_window</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)</td></tr>
-<tr class="memdesc:a808d16ad9a19328548fc22cc3ff1ab77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a sliding window operation to a tensor.  <br /></td></tr>
-<tr class="separator:a808d16ad9a19328548fc22cc3ff1ab77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ed341438ba1cd44ab27e4fa2718abe5" id="r_a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperationsModule.html#a5ed341438ba1cd44ab27e4fa2718abe5">set_sliding_window_ptr</a> (std::function&lt; void(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)&gt; ptr)</td></tr>
-<tr class="memdesc:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sliding_window function pointer.  <br /></td></tr>
-<tr class="separator:a5ed341438ba1cd44ab27e4fa2718abe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4acbf03ede3c69bd2c758741a8ff805d" id="r_a4acbf03ede3c69bd2c758741a8ff805d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4acbf03ede3c69bd2c758741a8ff805d"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a4acbf03ede3c69bd2c758741a8ff805d">gemm</a> (int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)</td></tr>
+<tr class="memdesc:a4acbf03ede3c69bd2c758741a8ff805d"><td class="mdescLeft">&#160;</td><td class="mdescRight">General matrix multiplication (GEMM) std::function. Performs operation C := alpha*op( A )*op( B ) + beta*C More detailed info in <a href="https://www.netlib.org/blas/">https://www.netlib.org/blas/</a>.  <br /></td></tr>
+<tr class="separator:a4acbf03ede3c69bd2c758741a8ff805d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a277c23d179cd3ee67b029dbd5c52364f" id="r_a277c23d179cd3ee67b029dbd5c52364f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a277c23d179cd3ee67b029dbd5c52364f"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a277c23d179cd3ee67b029dbd5c52364f">set_gemm_ptr</a> (std::function&lt; void(int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)&gt; ptr)</td></tr>
+<tr class="memdesc:a277c23d179cd3ee67b029dbd5c52364f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the gemm std::function pointer.  <br /></td></tr>
+<tr class="separator:a277c23d179cd3ee67b029dbd5c52364f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d75d9f6ca71feef3a6e2ef216adca52" id="r_a8d75d9f6ca71feef3a6e2ef216adca52"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8d75d9f6ca71feef3a6e2ef216adca52"><td class="memTemplItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a8d75d9f6ca71feef3a6e2ef216adca52">gemm_onnx</a> (std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A=nullptr, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B=nullptr, float alpha=1.0, float beta=1.0, int transA=0, int transB=0, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C=std::nullopt)</td></tr>
+<tr class="memdesc:a8d75d9f6ca71feef3a6e2ef216adca52"><td class="mdescLeft">&#160;</td><td class="mdescRight">General matrix multiplication (GEMM) std::function using the ONNX standard. Performs operation Y := alpha * A * B + beta * C (std::optional) More detailed info in <a href="https://onnx.ai/onnx/operators/onnx__Gemm.html">https://onnx.ai/onnx/operators/onnx__Gemm.html</a>.  <br /></td></tr>
+<tr class="separator:a8d75d9f6ca71feef3a6e2ef216adca52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d1e32f352e6f5592c66fbe8d9500ed" id="r_ad6d1e32f352e6f5592c66fbe8d9500ed"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad6d1e32f352e6f5592c66fbe8d9500ed"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#ad6d1e32f352e6f5592c66fbe8d9500ed">set_gemm_onnx_ptr</a> (std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, float alpha, float beta, int transA, int transB, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C)&gt; ptr)</td></tr>
+<tr class="memdesc:ad6d1e32f352e6f5592c66fbe8d9500ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the gemm_onnx std::function pointer.  <br /></td></tr>
+<tr class="separator:ad6d1e32f352e6f5592c66fbe8d9500ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90e58c4cd0229ea2296b5f9b7d412615" id="r_a90e58c4cd0229ea2296b5f9b7d412615"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a90e58c4cd0229ea2296b5f9b7d412615"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a90e58c4cd0229ea2296b5f9b7d412615">add</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
+<tr class="memdesc:a90e58c4cd0229ea2296b5f9b7d412615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds two tensors element-wise. Performs operation c = a + b.  <br /></td></tr>
+<tr class="separator:a90e58c4cd0229ea2296b5f9b7d412615"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a593e381bc25662b996a6713c16a4ed20" id="r_a593e381bc25662b996a6713c16a4ed20"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a593e381bc25662b996a6713c16a4ed20"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a593e381bc25662b996a6713c16a4ed20">set_add_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
+<tr class="memdesc:a593e381bc25662b996a6713c16a4ed20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the add std::function pointer.  <br /></td></tr>
+<tr class="separator:a593e381bc25662b996a6713c16a4ed20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb8d321c2ac5601cc14e1c4b7393b91" id="r_adcb8d321c2ac5601cc14e1c4b7393b91"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:adcb8d321c2ac5601cc14e1c4b7393b91"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#adcb8d321c2ac5601cc14e1c4b7393b91">subtract</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
+<tr class="memdesc:adcb8d321c2ac5601cc14e1c4b7393b91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtracts two tensors element-wise. Performs operation c = a - b.  <br /></td></tr>
+<tr class="separator:adcb8d321c2ac5601cc14e1c4b7393b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab12323688735b8d495cca17d4ef73365" id="r_ab12323688735b8d495cca17d4ef73365"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab12323688735b8d495cca17d4ef73365"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#ab12323688735b8d495cca17d4ef73365">set_subtract_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
+<tr class="memdesc:ab12323688735b8d495cca17d4ef73365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the subtract std::function pointer.  <br /></td></tr>
+<tr class="separator:ab12323688735b8d495cca17d4ef73365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f2c2beab94d4b4ed3c9c80b3d9ccca2" id="r_a2f2c2beab94d4b4ed3c9c80b3d9ccca2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2f2c2beab94d4b4ed3c9c80b3d9ccca2"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a2f2c2beab94d4b4ed3c9c80b3d9ccca2">multiply</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
+<tr class="memdesc:a2f2c2beab94d4b4ed3c9c80b3d9ccca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiplies a tensor by a scalar. Performs operation c = a * b.  <br /></td></tr>
+<tr class="separator:a2f2c2beab94d4b4ed3c9c80b3d9ccca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a967de0430207aeecdb016d7f55884332" id="r_a967de0430207aeecdb016d7f55884332"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a967de0430207aeecdb016d7f55884332"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a967de0430207aeecdb016d7f55884332">set_multiply_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
+<tr class="memdesc:a967de0430207aeecdb016d7f55884332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the multiply std::function pointer.  <br /></td></tr>
+<tr class="separator:a967de0430207aeecdb016d7f55884332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e968a12122cea12492d329b2fe89954" id="r_a3e968a12122cea12492d329b2fe89954"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3e968a12122cea12492d329b2fe89954"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a3e968a12122cea12492d329b2fe89954">equals</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b)</td></tr>
+<tr class="memdesc:a3e968a12122cea12492d329b2fe89954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two tensors element-wise.  <br /></td></tr>
+<tr class="separator:a3e968a12122cea12492d329b2fe89954"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5b640351fe65aa1d7799e9e4caa2896" id="r_aa5b640351fe65aa1d7799e9e4caa2896"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa5b640351fe65aa1d7799e9e4caa2896"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#aa5b640351fe65aa1d7799e9e4caa2896">set_equals_ptr</a> (std::function&lt; bool(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b)&gt; ptr)</td></tr>
+<tr class="memdesc:aa5b640351fe65aa1d7799e9e4caa2896"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the equals std::function pointer.  <br /></td></tr>
+<tr class="separator:aa5b640351fe65aa1d7799e9e4caa2896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5848eaa343df9634115d1c4c070e25e8" id="r_a5848eaa343df9634115d1c4c070e25e8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a5848eaa343df9634115d1c4c070e25e8"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a5848eaa343df9634115d1c4c070e25e8">elementwise</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)</td></tr>
+<tr class="memdesc:a5848eaa343df9634115d1c4c070e25e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a std::function element-wise to a tensor.  <br /></td></tr>
+<tr class="separator:a5848eaa343df9634115d1c4c070e25e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8328972b54418a6869cf663ae9cb9a52" id="r_a8328972b54418a6869cf663ae9cb9a52"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a8328972b54418a6869cf663ae9cb9a52"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a8328972b54418a6869cf663ae9cb9a52">set_elementwise_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt; ptr)</td></tr>
+<tr class="memdesc:a8328972b54418a6869cf663ae9cb9a52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elementwise std::function pointer.  <br /></td></tr>
+<tr class="separator:a8328972b54418a6869cf663ae9cb9a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b7decb5c2500aee52e6275c9882b29" id="r_a01b7decb5c2500aee52e6275c9882b29"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a01b7decb5c2500aee52e6275c9882b29"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a01b7decb5c2500aee52e6275c9882b29">elementwise_in_place</a> (const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; f)</td></tr>
+<tr class="memdesc:a01b7decb5c2500aee52e6275c9882b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a std::function element-wise to a tensor in place.  <br /></td></tr>
+<tr class="separator:a01b7decb5c2500aee52e6275c9882b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a0a7553f4856c00ce7e17dcf10411b3" id="r_a2a0a7553f4856c00ce7e17dcf10411b3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2a0a7553f4856c00ce7e17dcf10411b3"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a2a0a7553f4856c00ce7e17dcf10411b3">set_elementwise_in_place_ptr</a> (std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f)&gt; ptr)</td></tr>
+<tr class="memdesc:a2a0a7553f4856c00ce7e17dcf10411b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elementwise_in_place std::function pointer.  <br /></td></tr>
+<tr class="separator:a2a0a7553f4856c00ce7e17dcf10411b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e422aaa8fbac890d0db08fe6a1279e6" id="r_a1e422aaa8fbac890d0db08fe6a1279e6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1e422aaa8fbac890d0db08fe6a1279e6"><td class="memTemplItemLeft" align="right" valign="top">static int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a1e422aaa8fbac890d0db08fe6a1279e6">arg_max</a> (const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)</td></tr>
+<tr class="memdesc:a1e422aaa8fbac890d0db08fe6a1279e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum value of a tensor along a given axis.  <br /></td></tr>
+<tr class="separator:a1e422aaa8fbac890d0db08fe6a1279e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329dd4c8aa1b206d0c3ebd1224074875" id="r_a329dd4c8aa1b206d0c3ebd1224074875"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a329dd4c8aa1b206d0c3ebd1224074875"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a329dd4c8aa1b206d0c3ebd1224074875">set_arg_max_ptr</a> (std::function&lt; int(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)&gt; ptr)</td></tr>
+<tr class="memdesc:a329dd4c8aa1b206d0c3ebd1224074875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the arg_max std::function pointer.  <br /></td></tr>
+<tr class="separator:a329dd4c8aa1b206d0c3ebd1224074875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f3ca526baff1a640d9078645d3e37fa" id="r_a7f3ca526baff1a640d9078645d3e37fa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a7f3ca526baff1a640d9078645d3e37fa"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#a7f3ca526baff1a640d9078645d3e37fa">sliding_window</a> (const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)</td></tr>
+<tr class="memdesc:a7f3ca526baff1a640d9078645d3e37fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a sliding window operation to a tensor.  <br /></td></tr>
+<tr class="separator:a7f3ca526baff1a640d9078645d3e37fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd2cf0d8cc18c37207770a042dceabe9" id="r_acd2cf0d8cc18c37207770a042dceabe9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:acd2cf0d8cc18c37207770a042dceabe9"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classTensorOperations.html#acd2cf0d8cc18c37207770a042dceabe9">set_sliding_window_ptr</a> (std::function&lt; void(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)&gt; ptr)</td></tr>
+<tr class="memdesc:acd2cf0d8cc18c37207770a042dceabe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sliding_window function pointer.  <br /></td></tr>
+<tr class="separator:acd2cf0d8cc18c37207770a042dceabe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A module for performing arithmetic operations on tensor structures. Your static modular toolbox for all operations on tensors. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac01c1be4ce75d0aa7e947ae9d700720b" name="ac01c1be4ce75d0aa7e947ae9d700720b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac01c1be4ce75d0aa7e947ae9d700720b">&#9670;&#160;</a></span>add()</h2>
+<a id="a90e58c4cd0229ea2296b5f9b7d412615" name="a90e58c4cd0229ea2296b5f9b7d412615"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90e58c4cd0229ea2296b5f9b7d412615">&#9670;&#160;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +187,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::add </td>
+          <td class="memname">static void TensorOperations::add </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -229,8 +229,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a3eca29585fe3de903e0bee50fdc48e8d" name="a3eca29585fe3de903e0bee50fdc48e8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3eca29585fe3de903e0bee50fdc48e8d">&#9670;&#160;</a></span>arg_max()</h2>
+<a id="a1e422aaa8fbac890d0db08fe6a1279e6" name="a1e422aaa8fbac890d0db08fe6a1279e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e422aaa8fbac890d0db08fe6a1279e6">&#9670;&#160;</a></span>arg_max()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +241,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static int TensorOperationsModule::arg_max </td>
+          <td class="memname">static int TensorOperations::arg_max </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
@@ -266,8 +266,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab94f55005ad454a83f8d4280502d7ab4" name="ab94f55005ad454a83f8d4280502d7ab4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab94f55005ad454a83f8d4280502d7ab4">&#9670;&#160;</a></span>elementwise()</h2>
+<a id="a5848eaa343df9634115d1c4c070e25e8" name="a5848eaa343df9634115d1c4c070e25e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5848eaa343df9634115d1c4c070e25e8">&#9670;&#160;</a></span>elementwise()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,7 +278,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::elementwise </td>
+          <td class="memname">static void TensorOperations::elementwise </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -320,8 +320,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0889045eb6a312a6ce4fe2996e6b1b69" name="a0889045eb6a312a6ce4fe2996e6b1b69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0889045eb6a312a6ce4fe2996e6b1b69">&#9670;&#160;</a></span>elementwise_in_place()</h2>
+<a id="a01b7decb5c2500aee52e6275c9882b29" name="a01b7decb5c2500aee52e6275c9882b29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01b7decb5c2500aee52e6275c9882b29">&#9670;&#160;</a></span>elementwise_in_place()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,7 +332,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::elementwise_in_place </td>
+          <td class="memname">static void TensorOperations::elementwise_in_place </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -367,8 +367,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab084f946ab9269fa97cf70c87847f2d3" name="ab084f946ab9269fa97cf70c87847f2d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab084f946ab9269fa97cf70c87847f2d3">&#9670;&#160;</a></span>equals()</h2>
+<a id="a3e968a12122cea12492d329b2fe89954" name="a3e968a12122cea12492d329b2fe89954"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e968a12122cea12492d329b2fe89954">&#9670;&#160;</a></span>equals()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +379,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool TensorOperationsModule::equals </td>
+          <td class="memname">static bool TensorOperations::equals </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -415,8 +415,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a2227bed03de269f2cc23038299152edd" name="a2227bed03de269f2cc23038299152edd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2227bed03de269f2cc23038299152edd">&#9670;&#160;</a></span>gemm()</h2>
+<a id="a4acbf03ede3c69bd2c758741a8ff805d" name="a4acbf03ede3c69bd2c758741a8ff805d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4acbf03ede3c69bd2c758741a8ff805d">&#9670;&#160;</a></span>gemm()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +427,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::gemm </td>
+          <td class="memname">static void TensorOperations::gemm </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>TA</em>, </td>
@@ -542,8 +542,8 @@ William Norland (C++ implementation) </dd></dl>
 
 </div>
 </div>
-<a id="a3b054d2dae6fb0118f8bb209fa2dc363" name="a3b054d2dae6fb0118f8bb209fa2dc363"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b054d2dae6fb0118f8bb209fa2dc363">&#9670;&#160;</a></span>gemm_onnx()</h2>
+<a id="a8d75d9f6ca71feef3a6e2ef216adca52" name="a8d75d9f6ca71feef3a6e2ef216adca52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d75d9f6ca71feef3a6e2ef216adca52">&#9670;&#160;</a></span>gemm_onnx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -554,7 +554,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorOperationsModule::gemm_onnx </td>
+          <td class="memname">static std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; TensorOperations::gemm_onnx </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>A</em> = <code>nullptr</code>, </td>
@@ -625,8 +625,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac150fd28c38673812b615399b04d5770" name="ac150fd28c38673812b615399b04d5770"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac150fd28c38673812b615399b04d5770">&#9670;&#160;</a></span>multiply()</h2>
+<a id="a2f2c2beab94d4b4ed3c9c80b3d9ccca2" name="a2f2c2beab94d4b4ed3c9c80b3d9ccca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f2c2beab94d4b4ed3c9c80b3d9ccca2">&#9670;&#160;</a></span>multiply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -637,7 +637,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::multiply </td>
+          <td class="memname">static void TensorOperations::multiply </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -679,8 +679,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a369fa87ecd2dc0bab89d4cf26209d56a" name="a369fa87ecd2dc0bab89d4cf26209d56a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a369fa87ecd2dc0bab89d4cf26209d56a">&#9670;&#160;</a></span>set_add_ptr()</h2>
+<a id="a593e381bc25662b996a6713c16a4ed20" name="a593e381bc25662b996a6713c16a4ed20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a593e381bc25662b996a6713c16a4ed20">&#9670;&#160;</a></span>set_add_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,7 +691,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_add_ptr </td>
+          <td class="memname">static void TensorOperations::set_add_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -715,8 +715,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a28ce9170f59b3fc6da8bb2e84236464b" name="a28ce9170f59b3fc6da8bb2e84236464b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28ce9170f59b3fc6da8bb2e84236464b">&#9670;&#160;</a></span>set_arg_max_ptr()</h2>
+<a id="a329dd4c8aa1b206d0c3ebd1224074875" name="a329dd4c8aa1b206d0c3ebd1224074875"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329dd4c8aa1b206d0c3ebd1224074875">&#9670;&#160;</a></span>set_arg_max_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -727,7 +727,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_arg_max_ptr </td>
+          <td class="memname">static void TensorOperations::set_arg_max_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; int(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -751,8 +751,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a046b24d9b4e8d7fd21684044b1d908f8" name="a046b24d9b4e8d7fd21684044b1d908f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a046b24d9b4e8d7fd21684044b1d908f8">&#9670;&#160;</a></span>set_elementwise_in_place_ptr()</h2>
+<a id="a2a0a7553f4856c00ce7e17dcf10411b3" name="a2a0a7553f4856c00ce7e17dcf10411b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a0a7553f4856c00ce7e17dcf10411b3">&#9670;&#160;</a></span>set_elementwise_in_place_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -763,7 +763,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_elementwise_in_place_ptr </td>
+          <td class="memname">static void TensorOperations::set_elementwise_in_place_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -787,8 +787,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a49f2472c49ab622e7d041e75dacc11b2" name="a49f2472c49ab622e7d041e75dacc11b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49f2472c49ab622e7d041e75dacc11b2">&#9670;&#160;</a></span>set_elementwise_ptr()</h2>
+<a id="a8328972b54418a6869cf663ae9cb9a52" name="a8328972b54418a6869cf663ae9cb9a52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8328972b54418a6869cf663ae9cb9a52">&#9670;&#160;</a></span>set_elementwise_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -799,7 +799,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_elementwise_ptr </td>
+          <td class="memname">static void TensorOperations::set_elementwise_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const std::shared_ptr&lt; const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::function&lt; T(T)&gt; &amp;f, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -823,8 +823,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a9b8a3a72f40c0aeaf433eb18dd8b5833" name="a9b8a3a72f40c0aeaf433eb18dd8b5833"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b8a3a72f40c0aeaf433eb18dd8b5833">&#9670;&#160;</a></span>set_equals_ptr()</h2>
+<a id="aa5b640351fe65aa1d7799e9e4caa2896" name="aa5b640351fe65aa1d7799e9e4caa2896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5b640351fe65aa1d7799e9e4caa2896">&#9670;&#160;</a></span>set_equals_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -835,7 +835,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_equals_ptr </td>
+          <td class="memname">static void TensorOperations::set_equals_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; bool(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -859,8 +859,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="afdfda60e6f66cd321112180e64278924" name="afdfda60e6f66cd321112180e64278924"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdfda60e6f66cd321112180e64278924">&#9670;&#160;</a></span>set_gemm_onnx_ptr()</h2>
+<a id="ad6d1e32f352e6f5592c66fbe8d9500ed" name="ad6d1e32f352e6f5592c66fbe8d9500ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d1e32f352e6f5592c66fbe8d9500ed">&#9670;&#160;</a></span>set_gemm_onnx_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -871,7 +871,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_gemm_onnx_ptr </td>
+          <td class="memname">static void TensorOperations::set_gemm_onnx_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;(std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, float alpha, float beta, int transA, int transB, std::optional&lt; std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; &gt; C)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -895,8 +895,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a82410ade93899a669b1ac65611b507a4" name="a82410ade93899a669b1ac65611b507a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82410ade93899a669b1ac65611b507a4">&#9670;&#160;</a></span>set_gemm_ptr()</h2>
+<a id="a277c23d179cd3ee67b029dbd5c52364f" name="a277c23d179cd3ee67b029dbd5c52364f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a277c23d179cd3ee67b029dbd5c52364f">&#9670;&#160;</a></span>set_gemm_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -907,7 +907,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_gemm_ptr </td>
+          <td class="memname">static void TensorOperations::set_gemm_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(int TA, int TB, int M, int N, int K, T ALPHA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; A, int lda, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; B, int ldb, T BETA, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; C, int ldc)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -931,8 +931,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a00cbd22e095731a85c5f51bdc1849ba3" name="a00cbd22e095731a85c5f51bdc1849ba3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00cbd22e095731a85c5f51bdc1849ba3">&#9670;&#160;</a></span>set_multiply_ptr()</h2>
+<a id="a967de0430207aeecdb016d7f55884332" name="a967de0430207aeecdb016d7f55884332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a967de0430207aeecdb016d7f55884332">&#9670;&#160;</a></span>set_multiply_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -943,7 +943,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_multiply_ptr </td>
+          <td class="memname">static void TensorOperations::set_multiply_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const T b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -967,8 +967,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a5ed341438ba1cd44ab27e4fa2718abe5" name="a5ed341438ba1cd44ab27e4fa2718abe5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ed341438ba1cd44ab27e4fa2718abe5">&#9670;&#160;</a></span>set_sliding_window_ptr()</h2>
+<a id="acd2cf0d8cc18c37207770a042dceabe9" name="acd2cf0d8cc18c37207770a042dceabe9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2cf0d8cc18c37207770a042dceabe9">&#9670;&#160;</a></span>set_sliding_window_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -979,7 +979,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_sliding_window_ptr </td>
+          <td class="memname">static void TensorOperations::set_sliding_window_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;in_shape, const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;out_shape, const std::vector&lt; int &gt; &amp;kernel_shape, const std::vector&lt; int &gt; &amp;strides, const std::vector&lt; int &gt; &amp;dilations, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pads, const std::function&lt; void(const std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;, const std::vector&lt; size_t &gt; &amp;)&gt; &amp;window_f)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -1003,8 +1003,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a777dd7bd7f72381616ba739a9bdc90e3" name="a777dd7bd7f72381616ba739a9bdc90e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a777dd7bd7f72381616ba739a9bdc90e3">&#9670;&#160;</a></span>set_subtract_ptr()</h2>
+<a id="ab12323688735b8d495cca17d4ef73365" name="ab12323688735b8d495cca17d4ef73365"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab12323688735b8d495cca17d4ef73365">&#9670;&#160;</a></span>set_subtract_ptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1015,7 +1015,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::set_subtract_ptr </td>
+          <td class="memname">static void TensorOperations::set_subtract_ptr </td>
           <td>(</td>
           <td class="paramtype">std::function&lt; void(const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; a, const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; b, std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt; c)&gt;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
@@ -1039,8 +1039,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a808d16ad9a19328548fc22cc3ff1ab77" name="a808d16ad9a19328548fc22cc3ff1ab77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a808d16ad9a19328548fc22cc3ff1ab77">&#9670;&#160;</a></span>sliding_window()</h2>
+<a id="a7f3ca526baff1a640d9078645d3e37fa" name="a7f3ca526baff1a640d9078645d3e37fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f3ca526baff1a640d9078645d3e37fa">&#9670;&#160;</a></span>sliding_window()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1051,7 +1051,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::sliding_window </td>
+          <td class="memname">static void TensorOperations::sliding_window </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classarray__mml.html">array_mml</a>&lt; size_t &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_shape</em>, </td>
@@ -1121,8 +1121,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="acf7be0d6174a2e9df10c529898e55b75" name="acf7be0d6174a2e9df10c529898e55b75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf7be0d6174a2e9df10c529898e55b75">&#9670;&#160;</a></span>subtract()</h2>
+<a id="adcb8d321c2ac5601cc14e1c4b7393b91" name="adcb8d321c2ac5601cc14e1c4b7393b91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb8d321c2ac5601cc14e1c4b7393b91">&#9670;&#160;</a></span>subtract()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1133,7 +1133,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void TensorOperationsModule::subtract </td>
+          <td class="memname">static void TensorOperations::subtract </td>
           <td>(</td>
           <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
