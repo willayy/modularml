@@ -1,6 +1,12 @@
 #pragma once
 
+#include <stdint.h>
+
+#include <string>
+#include <variant>
+
 #include "a_node.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 /**
  * @class FlattenNode
@@ -14,7 +20,7 @@
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class FlattenNode : public Node {
-public:
+ public:
   using T = std::variant<double, float, int16_t, int32_t, int64_t, int8_t,
                          uint16_t, uint32_t, uint64_t, uint8_t>;
 
@@ -46,8 +52,8 @@ public:
    *
    * Transforms the input tensor into a 2D tensor along the specified axis
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -63,7 +69,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   /**
    * @brief Input data tensor for the node.
    *

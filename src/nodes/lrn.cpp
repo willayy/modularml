@@ -1,12 +1,25 @@
 #include "nodes/lrn.hpp"
 
+// IWYU pragma: no_include <__math/exponential_functions.h>
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+
 LRNNode_mml::LRNNode_mml(std::string X, std::string Y, size_t size, float alpha,
                          float beta, float bias)
     : X(X), Y(Y), alpha(alpha), beta(beta) {
-  if (size < 1)
-    throw std::invalid_argument("Size must be at least 1.");
-  if (bias < 0.001)
-    throw std::invalid_argument("Bias must be at least 0.001.");
+  if (size < 1) throw std::invalid_argument("Size must be at least 1.");
+  if (bias < 0.001) throw std::invalid_argument("Bias must be at least 0.001.");
 
   this->size = size;
   this->bias = bias;
@@ -85,7 +98,6 @@ void LRNNode_mml::forward(
               for (size_t h = 0; h < shape[2]; h++) {
                 /// Each column
                 for (size_t w = 0; w < shape[3]; w++) {
-
                   /// Region
                   size_t start = std::max(0UL, c - (size - 1) / 2);
                   size_t end = std::min(shape[1] - 1,

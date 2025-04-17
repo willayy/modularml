@@ -1,7 +1,18 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
+
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
+
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
+    message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
+    set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk")
+endif()
 
 # ------------------- Compiler/Standards ------------------- #
 
@@ -54,7 +65,6 @@ FetchContent_MakeAvailable(stb)
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
-
 # Use max 8 threads for building, improve build times
 find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
@@ -133,8 +143,6 @@ else()
     message(STATUS "Using default GEMM implementation")
     SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
-
-
 endif()
 
 # ------------------- Testing ------------------------------ #
@@ -192,7 +200,6 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
     -fprofile-arcs
     -ftest-coverage
     )
-
 endif()
 
 # Link the test executable with the main project executable
@@ -210,7 +217,7 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 find_program(GCOVR_EXECUTABLE gcovr)
 if(NOT GCOVR_EXECUTABLE)
-    message(WARNING "gcovr not found. Please install gcovr.")
+    message(WARNING "gcovr not found. Skipping coverage report.")
 else()
     message(STATUS "gcovr found at ${GCOVR_EXECUTABLE}")
 endif()
@@ -267,9 +274,21 @@ add_custom_target(docs
 # ------------------- Include-what-you-use --------------------- #
 # Check if include-what-you-use is installed
 find_program(iwyu include-what-you-use)
+
+# Change this if you want to enable include-what-you-use
+option(USE_IWYU "Use include-what-you-use" OFF)
+
 if(iwyu)
     message(STATUS "include-what-you-use found at ${iwyu}")
-    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+    if (USE_IWYU)
+        if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+            message(WARNING "include-what-you-use is only supported with Clang or AppleClang")
+        endif()
+        message(STATUS "Using include-what-you-use")
+        set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_INCLUDE_WHAT_YOU_USE "${iwyu}")
+    else()
+        message(STATUS "Not using include-what-you-use (set to OFF)")
+    endif()
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()

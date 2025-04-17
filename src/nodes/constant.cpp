@@ -1,5 +1,16 @@
 #include "nodes/constant.hpp"
+
+#include <stdint.h>
+
+#include <map>
+#include <stdexcept>
+#include <unordered_map>
+#include <variant>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
 #include "backend/parser_helper.hpp"
+#include "nlohmann/json.hpp"
 
 ConstantNode::ConstantNode(std::string output, GeneralDataTypes value)
     : output(output), value(value) {}
@@ -20,42 +31,42 @@ ConstantNode::ConstantNode(const nlohmann::json &node) {
 
           // Need to handle more data types
           switch (dataType) {
-          case 1: // FLOAT
-            value = ParserHelper::handle_tensor<float>(t);
-            break;
-          case 2: // UINT8
-            value = ParserHelper::handle_tensor<uint8_t>(t);
-            break;
-          case 3: // INT8
-            value = ParserHelper::handle_tensor<int8_t>(t);
-            break;
-          case 4: // UINT16
-            value = ParserHelper::handle_tensor<uint16_t>(t);
-            break;
-          case 5: // INT16
-            value = ParserHelper::handle_tensor<int16_t>(t);
-            break;
-          case 6: // INT32
-            value = ParserHelper::handle_tensor<int32_t>(t);
-            break;
-          case 7: // INT64
-            value = ParserHelper::handle_tensor<int64_t>(t);
-            break;
-          case 9: // BOOL
-            value = ParserHelper::handle_tensor<bool>(t);
-            break;
-          case 11: // DOUBLE
-            value = ParserHelper::handle_tensor<double>(t);
-            break;
-          case 12: // UINT32
-            value = ParserHelper::handle_tensor<uint32_t>(t);
-            break;
-          case 13: // UINT64
-            value = ParserHelper::handle_tensor<uint64_t>(t);
-            break;
-          default:
-            throw std::runtime_error("Currently unsupported data type: " +
-                                     std::to_string(dataType));
+            case 1:  // FLOAT
+              value = ParserHelper::handle_tensor<float>(t);
+              break;
+            case 2:  // UINT8
+              value = ParserHelper::handle_tensor<uint8_t>(t);
+              break;
+            case 3:  // INT8
+              value = ParserHelper::handle_tensor<int8_t>(t);
+              break;
+            case 4:  // UINT16
+              value = ParserHelper::handle_tensor<uint16_t>(t);
+              break;
+            case 5:  // INT16
+              value = ParserHelper::handle_tensor<int16_t>(t);
+              break;
+            case 6:  // INT32
+              value = ParserHelper::handle_tensor<int32_t>(t);
+              break;
+            case 7:  // INT64
+              value = ParserHelper::handle_tensor<int64_t>(t);
+              break;
+            case 9:  // BOOL
+              value = ParserHelper::handle_tensor<bool>(t);
+              break;
+            case 11:  // DOUBLE
+              value = ParserHelper::handle_tensor<double>(t);
+              break;
+            case 12:  // UINT32
+              value = ParserHelper::handle_tensor<uint32_t>(t);
+              break;
+            case 13:  // UINT64
+              value = ParserHelper::handle_tensor<uint64_t>(t);
+              break;
+            default:
+              throw std::runtime_error("Currently unsupported data type: " +
+                                       std::to_string(dataType));
           }
         } else {
           throw std::runtime_error("Unsupported value type for Constant node");

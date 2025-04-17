@@ -1,19 +1,24 @@
 #pragma once
 
-#include "datastructures/mml_tensor.hpp"
-#include "datastructures/tensor_utility.hpp"
 #include <iostream>
 #include <random>
 
+#include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_utility.hpp"
+
 template <typename T>
-bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
+bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance,
+                       bool verbose) {
   static_assert(
       std::is_arithmetic_v<T>,
       "Tensor type must be an arithmetic type (int, float, double, etc.).");
 
   if (t1.get_shape() != t2.get_shape()) {
-    std::cerr << "Error: Tensors have different shapes and cannot be compared!"
-              << std::endl;
+    if (verbose) {
+      std::cerr
+          << "Error: Tensors have different shapes and cannot be compared!"
+          << std::endl;
+    }
     return false;
   }
 
@@ -23,39 +28,16 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance) {
         std::max(static_cast<T>(0.00001), std::abs(tolerance * (t2[i])));
 
     if (diff > tolerance_limit) {
-      std::cerr << "Difference of " << diff << " found at (" << i
-                << ") which is too large." << std::endl;
-      std::cerr << "Tolerance limit is " << tolerance_limit << std::endl;
+      if (verbose) {
+        std::cerr << "Difference of " << diff << " found at (" << i
+                  << ") which is too large." << std::endl;
+        std::cerr << "Tolerance limit is " << tolerance_limit << std::endl;
+      }
       return false;
     }
   }
 
   return true;
-}
-
-template <typename T>
-static auto generate_random_tensor(const array_mml<size_t> &shape, T lo_v,
-                                   T hi_v) {
-  static_assert(
-      std::is_arithmetic_v<T>,
-      "Tensor type must be an arithmetic type (int, float, double, etc.).");
-  Tensor_mml<T> tensor(shape);
-  std::random_device rd;
-  std::mt19937 gen(rd());
-
-  if constexpr (std::is_integral_v<T>) {
-    std::uniform_int_distribution<T> dist(lo_v, hi_v);
-    for (size_t i = 0; i < tensor.get_size(); i++) {
-      tensor[i] = dist(gen);
-    }
-  } else if constexpr (std::is_floating_point_v<T>) {
-    std::uniform_real_distribution<T> dist(lo_v, hi_v);
-    for (size_t i = 0; i < tensor.get_size(); i++) {
-      tensor.operator[](i) = dist(gen);
-    }
-  }
-
-  return std::move(tensor);
 }
 
 // External Random Number Generator Edition
@@ -84,6 +66,6 @@ template <typename T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size) {
   std::random_device rd;
-  std::mt19937 gen(rd()); // seeded automatically
+  std::mt19937 gen(rd());  // seeded automatically
   kaiming_uniform(W, in_channels, kernel_size, gen);
 }

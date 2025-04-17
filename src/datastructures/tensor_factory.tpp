@@ -1,5 +1,6 @@
 #pragma once
 #include "datastructures/tensor_factory.hpp"
+#include "datastructures/array_utility.hpp"
 
 template <typename T>
 std::function<std::shared_ptr<Tensor<T>>(const array_mml<size_t> &shape,
@@ -87,10 +88,10 @@ TensorFactory::random_tensor(const array_mml<size_t> &shape, T lo_v, T hi_v) {
   }
 
   if constexpr (std::is_integral_v<T>) {
-    array_mml<T> data = random_array_mml_integral(n, n, lo_v, hi_v);
+    array_mml<T> data = generate_random_array_mml_integral(n, n, lo_v, hi_v);
     return create_tensor(shape, data);
   } else if constexpr (std::is_floating_point_v<T>) {
-    array_mml<T> data = random_array_mml_real(n, n, lo_v, hi_v);
+    array_mml<T> data = generate_random_array_mml_real(n, n, lo_v, hi_v);
     return create_tensor(shape, data);
   }
 

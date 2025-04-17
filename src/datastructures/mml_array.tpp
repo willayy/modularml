@@ -3,25 +3,21 @@
 #include "datastructures/mml_array.hpp"
 
 template <typename T>
-array_mml<T>::array_mml(size_t size)
-    : d_size(size) {
-
-    
+array_mml<T>::array_mml(size_t size) : d_size(size) {
 #ifdef ALIGN_TENSORS
-  size_t alignment = MEMORY_ALIGNMENT; // Gets set during compilation based on GEMM impl.
+  size_t alignment =
+      MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
 
-  void* ptr = nullptr;
+  void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
     throw std::bad_alloc();
   }
 
-  data = std::shared_ptr<T[]>(static_cast<T*>(ptr), [](T* ptr) {
-    free(ptr);
-  });
+  data = std::shared_ptr<T[]>(static_cast<T *>(ptr), [](T *ptr) { free(ptr); });
 #else
-      data = std::shared_ptr<T[]>(new T[size]);
+  data = std::shared_ptr<T[]>(new T[size]);
 #endif
-} 
+}
 
 template <typename T>
 array_mml<T>::array_mml(std::initializer_list<T> data)
@@ -58,9 +54,13 @@ array_mml<T>::array_mml(array_mml &&other) noexcept
   other.d_size = 0;
 }
 
-template <typename T> size_t array_mml<T>::size() const { return this->d_size; }
+template <typename T>
+size_t array_mml<T>::size() const {
+  return this->d_size;
+}
 
-template <typename T> T &array_mml<T>::operator[](size_t index) {
+template <typename T>
+T &array_mml<T>::operator[](size_t index) {
   if (index >= this->d_size) {
     throw std::out_of_range("Invalid array_mml index");
   } else {
@@ -68,7 +68,8 @@ template <typename T> T &array_mml<T>::operator[](size_t index) {
   }
 }
 
-template <typename T> const T &array_mml<T>::operator[](size_t index) const {
+template <typename T>
+const T &array_mml<T>::operator[](size_t index) const {
   if (index >= this->d_size) {
     throw std::out_of_range("Invalid array_mml index");
   } else {
@@ -109,7 +110,8 @@ bool array_mml<T>::operator!=(const array_mml &other) const {
   return !(*this == other);
 }
 
-template <typename T> std::string array_mml<T>::to_string() const {
+template <typename T>
+std::string array_mml<T>::to_string() const {
   std::string str = "[";
   // if longer than 50 print first 10 then ... then last 10
   if (this->size() > 50) {
@@ -136,26 +138,37 @@ template <typename T> std::string array_mml<T>::to_string() const {
   return str;
 }
 
-template <typename T> T *array_mml<T>::begin() { return this->data.get(); }
-
-template <typename T> const T *array_mml<T>::begin() const {
+template <typename T>
+T *array_mml<T>::begin() {
   return this->data.get();
 }
 
-template <typename T> T *array_mml<T>::end() {
-  return this->data.get() + this->d_size;
-}
-
-template <typename T> const T *array_mml<T>::end() const {
-  return this->data.get() + this->d_size;
-}
-
-template <typename T> T *array_mml<T>::get() { return this->data.get(); }
-
-template <typename T> const T *array_mml<T>::get() const {
+template <typename T>
+const T *array_mml<T>::begin() const {
   return this->data.get();
 }
 
-template <typename T> void array_mml<T>::fill(const T &value) {
+template <typename T>
+T *array_mml<T>::end() {
+  return this->data.get() + this->d_size;
+}
+
+template <typename T>
+const T *array_mml<T>::end() const {
+  return this->data.get() + this->d_size;
+}
+
+template <typename T>
+T *array_mml<T>::get() {
+  return this->data.get();
+}
+
+template <typename T>
+const T *array_mml<T>::get() const {
+  return this->data.get();
+}
+
+template <typename T>
+void array_mml<T>::fill(const T &value) {
   std::ranges::fill(*this, value);
 }

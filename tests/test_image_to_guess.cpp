@@ -68,8 +68,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
   auto output_it = outputs.find("output");
   auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-  Arithmetic_mml<float> arithmetic_instance;
-  int result = arithmetic_instance.arg_max(output_tensor);
+  int result = TensorOperations::arg_max<float>(output_tensor);
 
   std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;
@@ -129,8 +128,7 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
   auto output_it = outputs.find("output");
   auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-  Arithmetic_mml<float> arithmetic_instance;
-  int result = arithmetic_instance.arg_max(output_tensor);
+  int result = TensorOperations::arg_max<float>(output_tensor);
 
   std::string class_name = get_class_name("../tests/data/alexnet/alexnet_ImageNet_labels.json", std::to_string(result));
   std::cout << "Predicted class: " << class_name << std::endl;

@@ -1,5 +1,17 @@
 #include "nodes/leaky_relu.hpp"
 
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
 LeakyReLUNode::LeakyReLUNode(std::string X, std::string Y, float alpha)
     : X(X), Y(Y), alpha(alpha) {}
 
@@ -56,9 +68,7 @@ void LeakyReLUNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-
-          arithmetic.elementwise(
+          TensorOperations::elementwise<ValueTypeX>(
               x_ptr,
               [this](ValueTypeX val) -> ValueTypeX {
                 return val < 0 ? alpha * val : val;

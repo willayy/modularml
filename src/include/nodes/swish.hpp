@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 /**
@@ -11,7 +15,7 @@
  * pass computation applying swish elementwise.
  */
 class SwishNode : public Node {
-public:
+ public:
   using T = std::variant<double, float>;
   /**
    * @brief Constructor for SwishNode.
@@ -31,8 +35,8 @@ public:
   /**
    * @brief Perform the forward pass computation applying swish.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -48,10 +52,10 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   // Input
-  std::string X; // Input tensor X.
+  std::string X;  // Input tensor X.
 
   // Output
-  std::string Y; // Output tensor Y.
+  std::string Y;  // Output tensor Y.
 };

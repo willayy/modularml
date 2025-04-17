@@ -4,9 +4,10 @@
 
 // Test the default constructors
 TEST(test_mml_tensor, test_default_constructor_1) {
-  std::shared_ptr<Tensor<int>> t1 = tensor_mml_p<int>({3, 3});
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor<int>({3, 3});
   auto expected_shape = array_mml<size_t>({3, 3});
-  auto expected_t1 = tensor_mml_p<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto expected_t1 =
+      TensorFactory::create_tensor<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto const &actual_shape = t1->get_shape();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ((*expected_t1), (*t1));
@@ -14,17 +15,18 @@ TEST(test_mml_tensor, test_default_constructor_1) {
 
 // Test the std::copy constructor
 TEST(test_mml_tensor, test_copy_constructor_1) {
-  std::shared_ptr<Tensor<int>> t1 = tensor_mml_p<int>({3, 3});
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor<int>({3, 3});
   std::shared_ptr<Tensor<int>> t2 = t1;
   ASSERT_EQ((*t1), (*t2));
 }
 
 // Test the std::move constructor
 TEST(test_mml_tensor, test_move_constructor_1) {
-  std::shared_ptr<Tensor<int>> t1 = tensor_mml_p<int>({3, 3});
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor<int>({3, 3});
   std::shared_ptr<Tensor<int>> t2 = std::move(t1);
   auto expected_shape = array_mml<size_t>({3, 3});
-  auto expected_t2 = tensor_mml_p<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto expected_t2 =
+      TensorFactory::create_tensor<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto const &actual_shape = t2->get_shape();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ((*expected_t2), (*t2));
@@ -32,19 +34,20 @@ TEST(test_mml_tensor, test_move_constructor_1) {
 
 // Test the std::copy assignment operator
 TEST(test_mml_tensor, test_copy_assignment_1) {
-  std::shared_ptr<Tensor<int>> t1 = tensor_mml_p<int>({3, 3});
-  std::shared_ptr<Tensor<int>> t2 = tensor_mml_p<int>({2, 2});
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor<int>({3, 3});
+  std::shared_ptr<Tensor<int>> t2 = TensorFactory::create_tensor<int>({2, 2});
   t2 = t1;
   ASSERT_EQ((*t1), (*t2));
 }
 
 // Test the std::move assignment operator
 TEST(test_mml_tensor, test_move_assignment_1) {
-  std::shared_ptr<Tensor<int>> t1 = tensor_mml_p<int>({3, 3});
-  std::shared_ptr<Tensor<int>> t2 = tensor_mml_p<int>({2, 2});
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor<int>({3, 3});
+  std::shared_ptr<Tensor<int>> t2 = TensorFactory::create_tensor<int>({2, 2});
   t2 = std::move(t1);
   auto expected_shape = array_mml<size_t>({3, 3});
-  auto expected_t2 = tensor_mml_p<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
+  auto expected_t2 =
+      TensorFactory::create_tensor<int>({3, 3}, {0, 0, 0, 0, 0, 0, 0, 0, 0});
   auto const &actual_shape = t2->get_shape();
   ASSERT_EQ(expected_shape, actual_shape);
   ASSERT_EQ((*expected_t2), (*t2));
@@ -53,9 +56,9 @@ TEST(test_mml_tensor, test_move_assignment_1) {
 // Test the std::move assignment using abstract class
 TEST(test_mml_tensor, test_move_assignment_2) {
   std::shared_ptr<Tensor<int>> t1 =
-      std::make_shared<Tensor_mml<int>>(array_mml<size_t>({3, 3}));
+      TensorFactory::create_tensor<int>(array_mml<size_t>({3, 3}));
   std::shared_ptr<Tensor<int>> t2 =
-      std::make_shared<Tensor_mml<int>>(array_mml<size_t>({2, 2}));
+      TensorFactory::create_tensor<int>(array_mml<size_t>({2, 2}));
   *t2 = std::move(*t1);
   auto expected_shape = array_mml<size_t>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -70,9 +73,9 @@ TEST(test_mml_tensor, test_move_assignment_2) {
 // Test the std::copy assignment using abstract class
 TEST(test_mml_tensor, test_copy_assignment_2) {
   std::shared_ptr<Tensor<int>> t1 =
-      std::make_shared<Tensor_mml<int>>(array_mml<size_t>({3, 3}));
+      TensorFactory::create_tensor<int>(array_mml<size_t>({3, 3}));
   std::shared_ptr<Tensor<int>> t2 =
-      std::make_shared<Tensor_mml<int>>(array_mml<size_t>({2, 2}));
+      TensorFactory::create_tensor<int>(array_mml<size_t>({2, 2}));
   *t2 = *t1;
   auto expected_shape = array_mml<size_t>({3, 3});
   auto expected_data = array_mml<int>({0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -94,7 +97,7 @@ TEST(test_mml_tensor, test_index_1) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
     for (int j = 0; j < (*t1).get_size(); j++) {
       (*t1)[j] = 101;
       ASSERT_EQ(101, (*t1)[j]);
@@ -110,7 +113,7 @@ TEST(test_mml_tensor, test_index_2) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
     for (int j = 0; j < (*t1).get_size(); j++) {
       ASSERT_EQ(data[j], (*t1)[j]);
     }
@@ -125,7 +128,7 @@ TEST(test_mml_tensor, test_indices_1) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
     for (int j = 0; j < t1->get_size(); j++) {
       array_mml<size_t> indices = array_mml<size_t>(shape.size());
       int k = j;
@@ -149,7 +152,7 @@ TEST(test_mml_tensor, test_indices_2) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
 
     auto indices = array_mml<size_t>(shape.size());
     indices.fill(0);
@@ -179,7 +182,7 @@ TEST(test_mml_tensor, test_reshape_1) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
     t1->reshape({elements});
     auto expected_shape = array_mml<size_t>({elements});
     auto actual_shape = t1->get_shape();
@@ -200,7 +203,7 @@ TEST(test_mml_tensor, test_reshape_2) {
     array_mml<int> data =
         generate_random_array_mml_integral<int>(elements, elements);
     std::shared_ptr<Tensor<int>> t1 =
-        std::make_shared<Tensor_mml<int>>(shape, data);
+        TensorFactory::create_tensor<int>(shape, data);
     if (shape[0] % 2 == 0) {
       size_t rows = shape[0] / 2;
       size_t cols = 2;
@@ -214,8 +217,8 @@ TEST(test_mml_tensor, test_reshape_2) {
         }
       }
     } else {
-      continue; // Skip odd-sized arrays testing with 200 iterations to get an
-                // average of 100 valid tests
+      continue;  // Skip odd-sized arrays testing with 200 iterations to get an
+                 // average of 100 valid tests
     }
   }
 }
@@ -223,37 +226,40 @@ TEST(test_mml_tensor, test_reshape_2) {
 // Test slicing Tensors
 TEST(test_mml_tensor, test_slicing_1) {
   std::shared_ptr<Tensor<int>> t1 =
-      tensor_mml_p({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+      TensorFactory::create_tensor({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
   std::shared_ptr<Tensor<int>> t2 = t1->slice({0});
   std::shared_ptr<Tensor<int>> t3 = t1->slice({1});
   std::shared_ptr<Tensor<int>> t4 = t1->slice({2});
-  std::shared_ptr<Tensor<int>> expected_t2 = tensor_mml_p({3}, {1, 4, 7});
-  std::shared_ptr<Tensor<int>> expected_t3 = tensor_mml_p({3}, {2, 5, 8});
-  std::shared_ptr<Tensor<int>> expected_t4 = tensor_mml_p({3}, {3, 6, 9});
+  std::shared_ptr<Tensor<int>> expected_t2 =
+      TensorFactory::create_tensor({3}, {1, 4, 7});
+  std::shared_ptr<Tensor<int>> expected_t3 =
+      TensorFactory::create_tensor({3}, {2, 5, 8});
+  std::shared_ptr<Tensor<int>> expected_t4 =
+      TensorFactory::create_tensor({3}, {3, 6, 9});
   ASSERT_EQ(*expected_t2, *t2);
   ASSERT_EQ(*expected_t3, *t3);
   ASSERT_EQ(*expected_t4, *t4);
 }
 
 TEST(test_mml_tensor, test_slicing_2) {
-  std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> t1 = TensorFactory::create_tensor(
       {3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
   std::shared_ptr<Tensor<float>> t2 = t1->slice({0});
   std::shared_ptr<Tensor<float>> t3 = t1->slice({1});
   std::shared_ptr<Tensor<float>> t4 = t1->slice({2});
   std::shared_ptr<Tensor<float>> expected_t2 =
-      tensor_mml_p({3}, {1.0f, 4.0f, 7.0f});
+      TensorFactory::create_tensor({3}, {1.0f, 4.0f, 7.0f});
   std::shared_ptr<Tensor<float>> expected_t3 =
-      tensor_mml_p({3}, {2.0f, 5.0f, 8.0f});
+      TensorFactory::create_tensor({3}, {2.0f, 5.0f, 8.0f});
   std::shared_ptr<Tensor<float>> expected_t4 =
-      tensor_mml_p({3}, {3.0f, 6.0f, 9.0f});
+      TensorFactory::create_tensor({3}, {3.0f, 6.0f, 9.0f});
   ASSERT_EQ(*expected_t2, *t2);
   ASSERT_EQ(*expected_t3, *t3);
   ASSERT_EQ(*expected_t4, *t4);
 }
 
 TEST(test_mml_tensor, test_slicing_3) {
-  std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> t1 = TensorFactory::create_tensor(
       {3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
 
   std::shared_ptr<Tensor<float>> t2 = t1->slice({2});
@@ -264,7 +270,7 @@ TEST(test_mml_tensor, test_slicing_3) {
 }
 
 TEST(test_mml_tensor, test_slicing_4) {
-  std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> t1 = TensorFactory::create_tensor(
       {3, 3, 3},
       {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
 
@@ -276,13 +282,13 @@ TEST(test_mml_tensor, test_slicing_4) {
   std::shared_ptr<Tensor<float>> t3 = t1->slice({1});
   std::shared_ptr<Tensor<float>> t4 = t1->slice({2});
 
-  std::shared_ptr<Tensor<float>> expected_t2 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> expected_t2 = TensorFactory::create_tensor(
       {3, 3}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f});
 
-  std::shared_ptr<Tensor<float>> expected_t3 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> expected_t3 = TensorFactory::create_tensor(
       {3, 3}, {10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f});
 
-  std::shared_ptr<Tensor<float>> expected_t4 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> expected_t4 = TensorFactory::create_tensor(
       {3, 3}, {19.0f, 20.0f, 21.0f, 22.0f, 23.0f, 24.0f, 25.0f, 26.0f, 27.0f});
 
   ASSERT_EQ(*expected_t2, *t2);
@@ -291,7 +297,7 @@ TEST(test_mml_tensor, test_slicing_4) {
 }
 
 TEST(test_mml_tensor, test_slicing_5) {
-  std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> t1 = TensorFactory::create_tensor(
       {3, 3, 3},
       {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
 
@@ -310,31 +316,31 @@ TEST(test_mml_tensor, test_slicing_5) {
   std::shared_ptr<Tensor<float>> t10 = t1->slice({2, 2});
 
   std::shared_ptr<Tensor<float>> expected_t2 =
-      tensor_mml_p({3}, {1.0f, 4.0f, 7.0f});
+      TensorFactory::create_tensor({3}, {1.0f, 4.0f, 7.0f});
 
   std::shared_ptr<Tensor<float>> expected_t3 =
-      tensor_mml_p({3}, {10.0f, 13.0f, 16.0f});
+      TensorFactory::create_tensor({3}, {10.0f, 13.0f, 16.0f});
 
   std::shared_ptr<Tensor<float>> expected_t4 =
-      tensor_mml_p({3}, {19.0f, 22.0f, 25.0f});
+      TensorFactory::create_tensor({3}, {19.0f, 22.0f, 25.0f});
 
   std::shared_ptr<Tensor<float>> expected_t5 =
-      tensor_mml_p({3}, {2.0f, 5.0f, 8.0f});
+      TensorFactory::create_tensor({3}, {2.0f, 5.0f, 8.0f});
 
   std::shared_ptr<Tensor<float>> expected_t6 =
-      tensor_mml_p({3}, {11.0f, 14.0f, 17.0f});
+      TensorFactory::create_tensor({3}, {11.0f, 14.0f, 17.0f});
 
   std::shared_ptr<Tensor<float>> expected_t7 =
-      tensor_mml_p({3}, {20.0f, 23.0f, 26.0f});
+      TensorFactory::create_tensor({3}, {20.0f, 23.0f, 26.0f});
 
   std::shared_ptr<Tensor<float>> expected_t8 =
-      tensor_mml_p({3}, {3.0f, 6.0f, 9.0f});
+      TensorFactory::create_tensor({3}, {3.0f, 6.0f, 9.0f});
 
   std::shared_ptr<Tensor<float>> expected_t9 =
-      tensor_mml_p({3}, {12.0f, 15.0f, 18.0f});
+      TensorFactory::create_tensor({3}, {12.0f, 15.0f, 18.0f});
 
   std::shared_ptr<Tensor<float>> expected_t10 =
-      tensor_mml_p({3}, {21.0f, 24.0f, 27.0f});
+      TensorFactory::create_tensor({3}, {21.0f, 24.0f, 27.0f});
 
   ASSERT_EQ(*expected_t2, *t2);
   ASSERT_EQ(*expected_t3, *t3);
@@ -348,7 +354,7 @@ TEST(test_mml_tensor, test_slicing_5) {
 }
 
 TEST(test_mml_tensor, test_slicing_6) {
-  std::shared_ptr<Tensor<float>> t1 = tensor_mml_p(
+  std::shared_ptr<Tensor<float>> t1 = TensorFactory::create_tensor(
       {3, 3, 3},
       {1.0f,  2.0f,  3.0f,  4.0f,  5.0f,  6.0f,  7.0f,  8.0f,  9.0f,
 
@@ -372,31 +378,31 @@ TEST(test_mml_tensor, test_slicing_6) {
   std::shared_ptr<Tensor<float>> t42 = t4->slice({2});
 
   std::shared_ptr<Tensor<float>> expected_t20 =
-      tensor_mml_p({3}, {1.0f, 4.0f, 7.0f});
+      TensorFactory::create_tensor({3}, {1.0f, 4.0f, 7.0f});
 
   std::shared_ptr<Tensor<float>> expected_t21 =
-      tensor_mml_p({3}, {2.0f, 5.0f, 8.0f});
+      TensorFactory::create_tensor({3}, {2.0f, 5.0f, 8.0f});
 
   std::shared_ptr<Tensor<float>> expected_t22 =
-      tensor_mml_p({3}, {3.0f, 6.0f, 9.0f});
+      TensorFactory::create_tensor({3}, {3.0f, 6.0f, 9.0f});
 
   std::shared_ptr<Tensor<float>> expected_t30 =
-      tensor_mml_p({3}, {10.0f, 13.0f, 16.0f});
+      TensorFactory::create_tensor({3}, {10.0f, 13.0f, 16.0f});
 
   std::shared_ptr<Tensor<float>> expected_t31 =
-      tensor_mml_p({3}, {11.0f, 14.0f, 17.0f});
+      TensorFactory::create_tensor({3}, {11.0f, 14.0f, 17.0f});
 
   std::shared_ptr<Tensor<float>> expected_t32 =
-      tensor_mml_p({3}, {12.0f, 15.0f, 18.0f});
+      TensorFactory::create_tensor({3}, {12.0f, 15.0f, 18.0f});
 
   std::shared_ptr<Tensor<float>> expected_t40 =
-      tensor_mml_p({3}, {19.0f, 22.0f, 25.0f});
+      TensorFactory::create_tensor({3}, {19.0f, 22.0f, 25.0f});
 
   std::shared_ptr<Tensor<float>> expected_t41 =
-      tensor_mml_p({3}, {20.0f, 23.0f, 26.0f});
+      TensorFactory::create_tensor({3}, {20.0f, 23.0f, 26.0f});
 
   std::shared_ptr<Tensor<float>> expected_t42 =
-      tensor_mml_p({3}, {21.0f, 24.0f, 27.0f});
+      TensorFactory::create_tensor({3}, {21.0f, 24.0f, 27.0f});
 
   ASSERT_EQ(*expected_t20, *t20);
   ASSERT_EQ(*expected_t21, *t21);
@@ -410,19 +416,19 @@ TEST(test_mml_tensor, test_slicing_6) {
 }
 
 TEST(test_mml_tensor, test_slicing_7) {
-  std::shared_ptr<Tensor<int>> t1 =
-      tensor_mml_p({2, 2, 5}, {1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+  std::shared_ptr<Tensor<int>> t1 = TensorFactory::create_tensor(
+      {2, 2, 5}, {1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
 
-                               11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+                  11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
 
   std::shared_ptr<Tensor<int>> t2 = t1->slice({0});
   std::shared_ptr<Tensor<int>> t3 = t1->slice({1});
 
   std::shared_ptr<Tensor<int>> expected_t2 =
-      tensor_mml_p({2, 5}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+      TensorFactory::create_tensor({2, 5}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
 
-  std::shared_ptr<Tensor<int>> expected_t3 =
-      tensor_mml_p({2, 5}, {11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+  std::shared_ptr<Tensor<int>> expected_t3 = TensorFactory::create_tensor(
+      {2, 5}, {11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
 
   ASSERT_EQ(*expected_t2, *t2);
   ASSERT_EQ(*expected_t3, *t3);
@@ -438,25 +444,35 @@ TEST(test_mml_tensor, test_slicing_7) {
   std::shared_ptr<Tensor<int>> t12 = t1->slice({0, 4});
   std::shared_ptr<Tensor<int>> t13 = t1->slice({1, 4});
 
-  std::shared_ptr<Tensor<int>> expected_t4 = tensor_mml_p({2}, {1, 6});
+  std::shared_ptr<Tensor<int>> expected_t4 =
+      TensorFactory::create_tensor({2}, {1, 6});
 
-  std::shared_ptr<Tensor<int>> expected_t5 = tensor_mml_p({2}, {11, 16});
+  std::shared_ptr<Tensor<int>> expected_t5 =
+      TensorFactory::create_tensor({2}, {11, 16});
 
-  std::shared_ptr<Tensor<int>> expected_t6 = tensor_mml_p({2}, {2, 7});
+  std::shared_ptr<Tensor<int>> expected_t6 =
+      TensorFactory::create_tensor({2}, {2, 7});
 
-  std::shared_ptr<Tensor<int>> expected_t7 = tensor_mml_p({2}, {12, 17});
+  std::shared_ptr<Tensor<int>> expected_t7 =
+      TensorFactory::create_tensor({2}, {12, 17});
 
-  std::shared_ptr<Tensor<int>> expected_t8 = tensor_mml_p({2}, {3, 8});
+  std::shared_ptr<Tensor<int>> expected_t8 =
+      TensorFactory::create_tensor({2}, {3, 8});
 
-  std::shared_ptr<Tensor<int>> expected_t9 = tensor_mml_p({2}, {13, 18});
+  std::shared_ptr<Tensor<int>> expected_t9 =
+      TensorFactory::create_tensor({2}, {13, 18});
 
-  std::shared_ptr<Tensor<int>> expected_t10 = tensor_mml_p({2}, {4, 9});
+  std::shared_ptr<Tensor<int>> expected_t10 =
+      TensorFactory::create_tensor({2}, {4, 9});
 
-  std::shared_ptr<Tensor<int>> expected_t11 = tensor_mml_p({2}, {14, 19});
+  std::shared_ptr<Tensor<int>> expected_t11 =
+      TensorFactory::create_tensor({2}, {14, 19});
 
-  std::shared_ptr<Tensor<int>> expected_t12 = tensor_mml_p({2}, {5, 10});
+  std::shared_ptr<Tensor<int>> expected_t12 =
+      TensorFactory::create_tensor({2}, {5, 10});
 
-  std::shared_ptr<Tensor<int>> expected_t13 = tensor_mml_p({2}, {15, 20});
+  std::shared_ptr<Tensor<int>> expected_t13 =
+      TensorFactory::create_tensor({2}, {15, 20});
 
   ASSERT_EQ(*expected_t4, *t4);
   ASSERT_EQ(*expected_t5, *t5);
@@ -472,12 +488,12 @@ TEST(test_mml_tensor, test_slicing_7) {
 
 TEST(test_mml_tensor, test_buffer_reverse_1) {
   std::shared_ptr<Tensor<int>> t1 =
-      tensor_mml_p({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+      TensorFactory::create_tensor({3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
 
   t1->reverse_buffer();
 
   std::shared_ptr<Tensor<int>> expected_t1 =
-      tensor_mml_p({3, 3}, {9, 8, 7, 6, 5, 4, 3, 2, 1});
+      TensorFactory::create_tensor({3, 3}, {9, 8, 7, 6, 5, 4, 3, 2, 1});
 
   ASSERT_EQ(*expected_t1, *t1);
 }
@@ -494,12 +510,12 @@ TEST(test_mml_tensor, test_to_string) {
 }
 
 TEST(test_mml_tensor, tensor_utility_tensors_are_close) {
-  const auto t1 =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.0f, -3.2f, 5.1f, 2.0f});
-  const auto t2 =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.000002f, -3.2f, 5.1f, 2.0f});
-  const auto t3 =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.3f, 0.00002f, -3.2f, 5.1f, 2.0f});
+  const auto t1 = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.3f, 0.0f, -3.2f, 5.1f, 2.0f});
+  const auto t2 = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.3f, 0.000002f, -3.2f, 5.1f, 2.0f});
+  const auto t3 = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.3f, 0.00002f, -3.2f, 5.1f, 2.0f});
 
   ASSERT_TRUE(tensors_are_close(*t1, *t2));
   ASSERT_FALSE(tensors_are_close(*t1, *t3));
@@ -510,7 +526,7 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
   auto tensor1D = TensorFactory::create_tensor<float>({3}, {1.0f, 2.0f, 3.0f});
 
   // Broadcast it to shape [2, 3]
-  auto broadcasted = tensor1D->broadcast_to({2, 3});
+  auto broadcasted = tensor1D->broadcast_reshape({2, 3});
 
   // Expected output: row-wise repetition
   auto expected = TensorFactory::create_tensor<float>(
@@ -519,48 +535,44 @@ TEST(test_mml_tensor, broadcast_1D_to_2D) {
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, broadcast_general_2D_to_3D) {
+TEST(test_mml_tensor, broadcast_reshape_general_2D_to_3D) {
   // Shape: [1, 3] → Target: [2, 4, 3]
   auto tensor = TensorFactory::create_tensor<int>({1, 3}, {10, 20, 30});
-  auto broadcasted = tensor->broadcast_to({2, 4, 3});
+  auto broadcasted = tensor->broadcast_reshape({2, 4, 3});
 
   auto expected = TensorFactory::create_tensor<int>(
       {2, 4, 3},
       {
-          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30, // first batch
-          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30  // second batch
+          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30,  // first batch
+          10, 20, 30, 10, 20, 30, 10, 20, 30, 10, 20, 30   // second batch
       });
 
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, broadcast_scalar_to_2D) {
-  std::cout << "1" << std::endl;
+TEST(test_mml_tensor, broadcast_reshape_to_2D) {
   auto scalar = TensorFactory::create_tensor<float>({}, {42.0f});
-  std::cout << "2" << std::endl;
-  auto broadcasted = scalar->broadcast_to({2, 2});
-  std::cout << "3" << std::endl;
+  auto broadcasted = scalar->broadcast_reshape({2, 2});
   auto expected =
       TensorFactory::create_tensor<float>({2, 2}, {42.0f, 42.0f, 42.0f, 42.0f});
-  std::cout << "4" << std::endl;
   ASSERT_EQ(*broadcasted, *expected);
 }
 
-TEST(test_mml_tensor, is_broadcastable_positive) {
+TEST(test_mml_tensor, is_broadcast_reshape_positive) {
   auto tensor = TensorFactory::create_tensor<int>({1, 3});
-  EXPECT_NO_THROW({ auto b = tensor->broadcast_to({2, 4, 3}); });
+  EXPECT_NO_THROW({ auto b = tensor->broadcast_reshape({2, 4, 3}); });
 }
 
-TEST(test_mml_tensor, is_broadcastable_negative) {
+TEST(test_mml_tensor, is_broadcast_reshape_negative) {
   auto tensor = TensorFactory::create_tensor<int>({2, 3});
-  EXPECT_THROW(tensor->broadcast_to({2, 4, 3}), std::invalid_argument);
+  EXPECT_THROW(tensor->broadcast_reshape({2, 4, 3}), std::invalid_argument);
 }
 
 TEST(test_mml_tensor, transpose_2D) {
   auto tensor = TensorFactory::create_tensor<int>({2, 3}, {1, 2, 3, 4, 5, 6});
 
   auto transposed =
-      tensor->transpose(); // Should default to swapping last 2 dims
+      tensor->transpose();  // Should default to swapping last 2 dims
 
   auto expected = TensorFactory::create_tensor<int>({3, 2}, {1, 4, 2, 5, 3, 6});
 

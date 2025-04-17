@@ -1,5 +1,20 @@
 #include "nodes/log_softmax.hpp"
 
+#include <algorithm>
+// IWYU pragma: no_include <__math/exponential_functions.h>
+// IWYU pragma: no_include <__math/logarithms.h>
+#include <cmath>  // IWYU pragma: keep
+#include <limits>
+#include <map>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
 LogSoftMaxNode::LogSoftMaxNode(std::string X, std::string Y, size_t axis)
     : X(X), Y(Y), axis(axis) {}
 
@@ -57,8 +72,7 @@ void LogSoftMaxNode::forward(
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
           // If axis is negative
-          if (((int)axis) < 0)
-            axis += x_ptr->get_shape().size();
+          if (((int)axis) < 0) axis += x_ptr->get_shape().size();
 
           if (axis >= x_ptr->get_shape().size())
             throw std::runtime_error("Invalid axis: " + std::to_string(axis));

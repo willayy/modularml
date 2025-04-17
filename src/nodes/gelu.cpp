@@ -1,5 +1,23 @@
 #include "nodes/gelu.hpp"
 
+#include <algorithm>
+
+// IWYU pragma: no_include <__math/exponential_functions.h>
+// IWYU pragma: no_include <__math/hyperbolic_functions.h>
+// IWYU pragma: no_include <__math/roots.h>
+// IWYU pragma: no_include <__math/error_functions.h>
+#include <cmath>  // IWYU pragma: keep
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
 GeluNode::GeluNode(std::string X, std::string Y, std::string approximate)
     : X(X), Y(Y) {
   if (approximate == "none" || approximate == "tanh") {
@@ -61,10 +79,8 @@ void GeluNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-
           if (approximate == "none") {
-            arithmetic.elementwise(
+            TensorOperations::elementwise<ValueTypeX>(
                 x_ptr,
                 [](ValueTypeX val) -> ValueTypeX {
                   return static_cast<ValueTypeX>(
@@ -72,7 +88,7 @@ void GeluNode::forward(
                 },
                 y_ptr);
           } else {
-            arithmetic.elementwise(
+            TensorOperations::elementwise<ValueTypeX>(
                 x_ptr,
                 [](ValueTypeX val) -> ValueTypeX {
                   return static_cast<ValueTypeX>(

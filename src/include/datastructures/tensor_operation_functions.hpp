@@ -1,7 +1,4 @@
 #pragma once
-#include "a_tensor.hpp"
-#include "tensor_factory.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,7 +17,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
+
+#include "a_tensor.hpp"
+#include "tensor_factory.hpp"
 
 /**
  * Standard Tensor operation functions that gets shipped with ModularML as
@@ -29,8 +29,9 @@
 
 template <typename T>
 static std::shared_ptr<Tensor<T>> mml_onnx_gemm_inner_product(
-    std::shared_ptr<Tensor<T>> A = nullptr, std::shared_ptr<Tensor<T>> B = nullptr,
-    float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0,
+    std::shared_ptr<Tensor<T>> A = nullptr,
+    std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0, float beta = 1.0,
+    int transA = 0, int transB = 0,
     std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
 
 template <typename T>
@@ -62,11 +63,11 @@ static std::shared_ptr<Tensor<T>> mml_onnx_gemm_blocked(
     std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
 
 template <typename T>
-static std::shared_ptr<Tensor<T>>
-mml_onnx_gemm_avx(std::shared_ptr<Tensor<T>> A = nullptr,
-                  std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-                  float beta = 1.0, int transA = 0, int transB = 0,
-                  std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
+static std::shared_ptr<Tensor<T>> mml_onnx_gemm_avx(
+    std::shared_ptr<Tensor<T>> A = nullptr,
+    std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0, float beta = 1.0,
+    int transA = 0, int transB = 0,
+    std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
 
 template <typename T>
 static std::shared_ptr<Tensor<T>> mml_onnx_gemm_avx512(
@@ -154,25 +155,23 @@ static bool mml_equals(const std::shared_ptr<Tensor<T>> a,
 
 template <typename T>
 static void mml_elementwise(const std::shared_ptr<const Tensor<T>> a,
-                            const std::function<T(T)> &f,
+                            const std::function<T(T)>& f,
                             const std::shared_ptr<Tensor<T>> c);
 
 template <typename T>
 static void mml_elementwise_in_place(const std::shared_ptr<Tensor<T>> a,
-                                     const std::function<T(T)> &f);
+                                     const std::function<T(T)>& f);
 
 template <typename T>
 static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a);
 
 template <typename T>
 static void mml_sliding_window(
-    const array_mml<size_t>& in_shape,
-    const array_mml<size_t>& out_shape,
-    const std::vector<int>& kernel_shape,
-    const std::vector<int>& strides,
+    const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
+    const std::vector<int>& kernel_shape, const std::vector<int>& strides,
     const std::vector<int>& dilations,
     const std::vector<std::pair<int, int>>& pads,
-    const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f
-);
+    const std::function<void(const std::vector<std::vector<size_t>>&,
+                             const std::vector<size_t>&)>& window_f);
 
 #include "../datastructures/tensor_operation_functions.tpp"

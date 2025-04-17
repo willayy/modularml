@@ -1,12 +1,5 @@
 #pragma once
 
-#include "backend/mml_arithmetic.hpp"
-#include "backend/mml_gemm.hpp"
-#include "datastructures/a_tensor.hpp"
-#include "datastructures/mml_tensor.hpp"
-#include "nodes/node_utils.hpp"
-#include "datastructures/tensor_operations_module.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -25,9 +18,15 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
-template <typename T, typename Variant> struct is_in_variant;
+#include "datastructures/a_tensor.hpp"
+#include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_operations_module.hpp"
+#include "nodes/node_utils.hpp"
+
+template <typename T, typename Variant>
+struct is_in_variant;
 
 // Specialization for std::variant types using a fold expression
 template <typename T, typename... Ts>
@@ -38,10 +37,12 @@ struct is_in_variant<T, std::variant<Ts...>>
 template <typename T, typename Variant>
 constexpr bool is_in_variant_v = is_in_variant<T, Variant>::value;
 
-template <typename Variant> struct TensorVariantMaker;
+template <typename Variant>
+struct TensorVariantMaker;
 
 // Specialization for std::variant types:
-template <typename... Ts> struct TensorVariantMaker<std::variant<Ts...>> {
+template <typename... Ts>
+struct TensorVariantMaker<std::variant<Ts...>> {
   using type = std::variant<std::shared_ptr<Tensor<Ts>>...>;
 };
 
@@ -57,9 +58,9 @@ using GeneralDataTypes = std::variant<
     std::shared_ptr<Tensor<int32_t>>, std::shared_ptr<Tensor<int64_t>>,
     std::shared_ptr<Tensor<int8_t>>, std::shared_ptr<Tensor<uint16_t>>,
     std::shared_ptr<Tensor<uint32_t>>,
-    std::shared_ptr<Tensor<uint64_t>>, // Think this is meant to be
-                                       // unsigned long long or uint64_t
-                                       // not unsigned long int
+    std::shared_ptr<Tensor<uint64_t>>,  // Think this is meant to be
+                                        // unsigned long long or uint64_t
+                                        // not unsigned long int
     std::shared_ptr<Tensor<uint8_t>>>;
 
 /**
@@ -71,7 +72,7 @@ using GeneralDataTypes = std::variant<
  * and checking the status of inputs and outputs.
  */
 class Node {
-public:
+ public:
   /**
    * @brief Perform the forward pass computation.
    *
@@ -79,8 +80,8 @@ public:
    * implement the specific forward pass logic. It modifies the output(s)
    * in place.
    */
-  virtual void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) = 0;
+  virtual void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) = 0;
 
   /**
    * @brief Get inputs.

@@ -1,7 +1,4 @@
 #pragma once
-#include "a_tensor.hpp"
-#include "datastructures/tensor_operation_functions.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -20,20 +17,22 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+#include <vector>  // IWYU pragma: keep
 
-#define ASSERT_ALLOWED_TYPES_TOM(T)                                            \
-  static_assert(std::is_arithmetic_v<T>,                                       \
+#include "a_tensor.hpp"
+#include "datastructures/tensor_operation_functions.hpp"
+
+#define ASSERT_ALLOWED_TYPES_TOM(T)      \
+  static_assert(std::is_arithmetic_v<T>, \
                 "TensorOperationModule type must be arithmetic.")
 /**
  * A module for performing arithmetic operations on tensor structures. Your
  * static modular toolbox for all operations on tensors.
  */
-class TensorOperationsModule {
-
-public:
-  TensorOperationsModule(const TensorOperationsModule &) = delete;
-  TensorOperationsModule &operator=(const TensorOperationsModule &) = delete;
+class TensorOperations {
+ public:
+  TensorOperations(const TensorOperations&) = delete;
+  TensorOperations& operator=(const TensorOperations&) = delete;
 
   /**
    * @brief General matrix multiplication (GEMM) std::function.
@@ -67,12 +66,12 @@ public:
    * @param ptr Function pointer to the gemm implementation.
    */
   template <typename T>
-  static void
-  set_gemm_ptr(std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                                  std::shared_ptr<Tensor<T>> A, int lda,
-                                  std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                                  std::shared_ptr<Tensor<T>> C, int ldc)>
-                   ptr);
+  static void set_gemm_ptr(
+      std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
+                         std::shared_ptr<Tensor<T>> A, int lda,
+                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
+                         std::shared_ptr<Tensor<T>> C, int ldc)>
+          ptr);
 
   /**
    * @brief General matrix multiplication (GEMM) std::function using the ONNX
@@ -91,11 +90,11 @@ public:
    * broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N). */
   template <typename T>
-  static std::shared_ptr<Tensor<T>>
-  gemm_onnx(std::shared_ptr<Tensor<T>> A = nullptr,
-            std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
-            float beta = 1.0, int transA = 0, int transB = 0,
-            std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
+  static std::shared_ptr<Tensor<T>> gemm_onnx(
+      std::shared_ptr<Tensor<T>> A = nullptr,
+      std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
+      float beta = 1.0, int transA = 0, int transB = 0,
+      std::optional<std::shared_ptr<Tensor<T>>> C = std::nullopt);
 
   /**
    * @brief Sets the gemm_onnx std::function pointer.
@@ -125,11 +124,11 @@ public:
    * @param ptr Function pointer to the add implementation.
    */
   template <typename T>
-  static void
-  set_add_ptr(std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                                 const std::shared_ptr<const Tensor<T>> b,
-                                 std::shared_ptr<Tensor<T>> c)>
-                  ptr);
+  static void set_add_ptr(
+      std::function<void(const std::shared_ptr<const Tensor<T>> a,
+                         const std::shared_ptr<const Tensor<T>> b,
+                         std::shared_ptr<Tensor<T>> c)>
+          ptr);
 
   /**
    * @brief Subtracts two tensors element-wise.
@@ -147,11 +146,11 @@ public:
    * @param ptr Function pointer to the subtract implementation.
    */
   template <typename T>
-  static void
-  set_subtract_ptr(std::function<void(const std::shared_ptr<Tensor<T>> a,
-                                      const std::shared_ptr<Tensor<T>> b,
-                                      std::shared_ptr<Tensor<T>> c)>
-                       ptr);
+  static void set_subtract_ptr(
+      std::function<void(const std::shared_ptr<Tensor<T>> a,
+                         const std::shared_ptr<Tensor<T>> b,
+                         std::shared_ptr<Tensor<T>> c)>
+          ptr);
 
   /**
    * @brief Multiplies a tensor by a scalar.
@@ -168,10 +167,10 @@ public:
    * @param ptr Function pointer to the multiply implementation.
    */
   template <typename T>
-  static void
-  set_multiply_ptr(std::function<void(const std::shared_ptr<Tensor<T>> a,
-                                      const T b, std::shared_ptr<Tensor<T>> c)>
-                       ptr);
+  static void set_multiply_ptr(
+      std::function<void(const std::shared_ptr<Tensor<T>> a, const T b,
+                         std::shared_ptr<Tensor<T>> c)>
+          ptr);
 
   /**
    * @brief Compares two tensors element-wise.
@@ -187,10 +186,10 @@ public:
    * @param ptr Function pointer to the equals implementation.
    */
   template <typename T>
-  static void
-  set_equals_ptr(std::function<bool(const std::shared_ptr<Tensor<T>> a,
-                                    const std::shared_ptr<Tensor<T>> b)>
-                     ptr);
+  static void set_equals_ptr(
+      std::function<bool(const std::shared_ptr<Tensor<T>> a,
+                         const std::shared_ptr<Tensor<T>> b)>
+          ptr);
 
   /**
    * @brief Applies a std::function element-wise to a tensor.
@@ -209,7 +208,7 @@ public:
   template <typename T>
   static void set_elementwise_ptr(
       std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                         const std::function<T(T)> &f,
+                         const std::function<T(T)>& f,
                          const std::shared_ptr<Tensor<T>> c)>
           ptr);
 
@@ -228,7 +227,7 @@ public:
   template <typename T>
   static void set_elementwise_in_place_ptr(
       std::function<void(const std::shared_ptr<Tensor<T>> a,
-                         const std::function<T(T)> &f)>
+                         const std::function<T(T)>& f)>
           ptr);
 
   /**
@@ -258,32 +257,32 @@ public:
    * @param window_f Function to apply in the sliding window.
    */
   template <typename T>
-  static void sliding_window(const array_mml<size_t>& in_shape,
-                             const array_mml<size_t>& out_shape,
-                             const std::vector<int>& kernel_shape,
-                             const std::vector<int>& strides,
-                             const std::vector<int>& dilations,
-                             const std::vector<std::pair<int, int>>& pads,
-                             const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f);
-  
+  static void sliding_window(
+      const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
+      const std::vector<int>& kernel_shape, const std::vector<int>& strides,
+      const std::vector<int>& dilations,
+      const std::vector<std::pair<int, int>>& pads,
+      const std::function<void(const std::vector<std::vector<size_t>>&,
+                               const std::vector<size_t>&)>& window_f);
+
   /**
    * @brief Sets the sliding_window function pointer.
    * @param ptr Function pointer to the sliding_window implementation.
    */
   template <typename T>
-  static void set_sliding_window_ptr(std::function<void(const array_mml<size_t>& in_shape,
-                                                        const array_mml<size_t>& out_shape,
-                                                        const std::vector<int>& kernel_shape,
-                                                        const std::vector<int>& strides,
-                                                        const std::vector<int>& dilations,
-                                                        const std::vector<std::pair<int, int>>& pads,
-                                                        const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f)> ptr);
+  static void set_sliding_window_ptr(
+      std::function<void(
+          const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
+          const std::vector<int>& kernel_shape, const std::vector<int>& strides,
+          const std::vector<int>& dilations,
+          const std::vector<std::pair<int, int>>& pads,
+          const std::function<void(const std::vector<std::vector<size_t>>&,
+                                   const std::vector<size_t>&)>& window_f)>
+          ptr);
 
-
-
-private:
+ private:
   // Private constructor.
-  TensorOperationsModule() = default;
+  TensorOperations() = default;
 
   // Pointer to the gemm std::function.
   template <typename T>
@@ -330,30 +329,31 @@ private:
   // Pointer to the elementwise std::function.
   template <typename T>
   static std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                            const std::function<T(T)> &f,
+                            const std::function<T(T)>& f,
                             const std::shared_ptr<Tensor<T>> c)>
       elementwise_ptr;
 
   // Pointer to the elementwise_in_place std::function.
   template <typename T>
   static std::function<void(const std::shared_ptr<Tensor<T>> a,
-                            const std::function<T(T)> &f)>
+                            const std::function<T(T)>& f)>
       elementwise_in_place_ptr;
 
   // Pointer to the arg_max std::function.
   template <typename T>
-  static std::function<int(const std::shared_ptr<const Tensor<T>> a)> 
+  static std::function<int(const std::shared_ptr<const Tensor<T>> a)>
       arg_max_ptr;
 
-   // Pointer to the sliding_window function.
+  // Pointer to the sliding_window function.
   template <typename T>
-  static std::function<void(const array_mml<size_t>& in_shape,
-                            const array_mml<size_t>& out_shape,
-                            const std::vector<int>& kernel_shape,
-                            const std::vector<int>& strides,
-                            const std::vector<int>& dilations,
-                            const std::vector<std::pair<int, int>>& pads,
-                            const std::function<void(const std::vector<std::vector<size_t>>&, const std::vector<size_t>&)> &window_f)> sliding_window_ptr;
+  static std::function<void(
+      const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
+      const std::vector<int>& kernel_shape, const std::vector<int>& strides,
+      const std::vector<int>& dilations,
+      const std::vector<std::pair<int, int>>& pads,
+      const std::function<void(const std::vector<std::vector<size_t>>&,
+                               const std::vector<size_t>&)>& window_f)>
+      sliding_window_ptr;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

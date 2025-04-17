@@ -1,9 +1,12 @@
 #include "backend/mml_model.hpp"
 
 #include <iostream>
+// IWYU pragma: no_include <__ostream/basic_ostream.h>
+#include <ostream>  // IWYU pragma: keep
 #include <queue>
-#include <set>
+#include <stdexcept>
 #include <typeinfo>
+#include <variant>
 
 std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     const std::unordered_map<std::string, GeneralDataTypes> &inputs) {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "nodes/a_node.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,7 +18,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nodes/a_node.hpp"
 
 /**
  * @class Model
@@ -29,7 +31,7 @@
  * providing a method for inference and a virtual destructor.
  */
 class Model {
-public:
+ public:
   /**
    * @brief Run the model with a single given input tensor.
    *
@@ -39,8 +41,8 @@ public:
    * @param inputs The input data for the model.
    * @return The result of the model inference.
    */
-  virtual std::unordered_map<std::string, GeneralDataTypes>
-  infer(const std::unordered_map<std::string, GeneralDataTypes> &inputs) = 0;
+  virtual std::unordered_map<std::string, GeneralDataTypes> infer(
+      const std::unordered_map<std::string, GeneralDataTypes> &inputs) = 0;
 
   /**
    * @brief Virtual destructor for the Model class.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -7,7 +8,6 @@
 #include <initializer_list>
 #include <iostream>
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <numeric>
 #include <optional>
 #include <random>
@@ -18,11 +18,12 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <variant>
-#include <vector>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
 
 /// @brief A utility for profiling sections of code by measuring execution time.
 class Profiler {
-public:
+ public:
   /**
    * @brief Starts the timer for a section
    *
@@ -42,7 +43,7 @@ public:
    */
   static void end_timing(const std::string &section_name);
 
-private:
+ private:
   /**
    * @brief A static map that stores the start time for each section
    *

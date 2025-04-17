@@ -1,11 +1,34 @@
 #include "nodes/conv.hpp"
 
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
+template <typename T>
+class Gemm_mml;
+template <typename T>
+class Tensor_mml;
+
 ConvNode::ConvNode(std::string X, std::string W, std::string Y,
                    array_mml<size_t> dilations, array_mml<size_t> padding,
                    array_mml<size_t> kernel_shape, array_mml<size_t> stride,
                    std::optional<std::string> B, size_t group)
-    : X(X), W(W), B(B), Y(Y), dilations(dilations), padding(padding),
-      kernel_shape(kernel_shape), stride(stride) {
+    : X(X),
+      W(W),
+      B(B),
+      Y(Y),
+      dilations(dilations),
+      padding(padding),
+      kernel_shape(kernel_shape),
+      stride(stride) {
   if (dilations.size() != 2) {
     throw std::invalid_argument(
         "Invalid dilations size. Expected a std::vector of size 2, but got: " +
@@ -13,9 +36,10 @@ ConvNode::ConvNode(std::string X, std::string W, std::string Y,
   }
 
   if (padding.size() != 4) {
-    throw std::invalid_argument("Invalid padding std::vector size. Expected a "
-                                "std::vector of size 4, but got: " +
-                                std::to_string(padding.size()) + ".");
+    throw std::invalid_argument(
+        "Invalid padding std::vector size. Expected a "
+        "std::vector of size 4, but got: " +
+        std::to_string(padding.size()) + ".");
   }
 
   if (kernel_shape.size() != 2) {
@@ -26,9 +50,10 @@ ConvNode::ConvNode(std::string X, std::string W, std::string Y,
   }
 
   if (stride.size() != 2) {
-    throw std::invalid_argument("Invalid stride std::vector size. Expected a "
-                                "std::vector of size 2, but got: " +
-                                std::to_string(stride.size()) + ".");
+    throw std::invalid_argument(
+        "Invalid stride std::vector size. Expected a "
+        "std::vector of size 2, but got: " +
+        std::to_string(stride.size()) + ".");
   }
 }
 
@@ -107,8 +132,9 @@ void ConvNode::forward(
               "ConvNode: Unsupported data type for tensor data");
         } else {
           if (x_ptr->get_shape().size() < 1) {
-            throw std::runtime_error("Input tensor must have 4 dimensions: "
-                                     "(Features x Channels x Height x Width).");
+            throw std::runtime_error(
+                "Input tensor must have 4 dimensions: "
+                "(Features x Channels x Height x Width).");
           }
 
           auto y_it = iomap.find(Y);
@@ -157,8 +183,7 @@ void ConvNode::forward(
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
 
-          auto gemm = std::make_shared<Gemm_mml<ValueTypeX>>();
-          gemm->gemm_inner_product(
+          TensorOperations::gemm<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,
@@ -238,14 +263,14 @@ void ConvNode::im2col(const TensorT &input_variant,
         for (size_t n = 0; n < get_batch_size(); ++n) {
           for (size_t h = 0; h < get_out_height(); ++h) {
             for (size_t w = 0; w < get_out_width();
-                 ++w) { // Traverse into each batch
+                 ++w) {  // Traverse into each batch
 
               size_t col_index =
-                  h * get_out_width() + w; // Column index in im2col matrix
+                  h * get_out_width() + w;  // Column index in im2col matrix
 
               for (size_t c = 0; c < get_in_channels();
-                   ++c) { // If the input has multiple channels, iterate over
-                          // each one
+                   ++c) {  // If the input has multiple channels, iterate over
+                           // each one
 
                 // Here we loop over the kernel's height and width, simulating
                 // how the kernel moves across the input tensor. For each
@@ -264,7 +289,7 @@ void ConvNode::im2col(const TensorT &input_variant,
                         input_h >= get_in_height() + get_padding_bottom() ||
                         input_w < 0 ||
                         input_w >= get_in_width() + get_padding_right()) {
-                      (*output)[col_index] = 0; // Padding
+                      (*output)[col_index] = 0;  // Padding
                     } else {
                       size_t row_index =
                           c * get_kernel_height() * get_kernel_width() +

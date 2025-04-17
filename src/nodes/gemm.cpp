@@ -1,9 +1,33 @@
 #include "nodes/gemm.hpp"
 
+#include <stddef.h>
+
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+
+template <typename T>
+class Tensor_mml;
+
 GemmNode::GemmNode(std::string A, std::string B, std::string Y,
                    std::optional<std::string> C, float alpha, float beta,
                    int transA, int transB)
-    : A(A), B(B), C(C), Y(Y), alpha(alpha), beta(beta), transA(transA),
+    : A(A),
+      B(B),
+      C(C),
+      Y(Y),
+      alpha(alpha),
+      beta(beta),
+      transA(transA),
       transB(transB) {}
 
 GemmNode::GemmNode(const nlohmann::json &node) {
@@ -102,7 +126,7 @@ void GemmNode::forward(
             auto raw_c_ptr =
                 std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
                     ->copy();
-            new_c_ptr = raw_c_ptr->broadcast_to({M, N});
+            new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
           } else {
             new_c_ptr = std::make_shared<Tensor_mml<ValueTypeA>>(
                 array_mml<size_t>{M, N});
@@ -113,8 +137,7 @@ void GemmNode::forward(
           size_t ldb = N;
           size_t ldc = N;
 
-          Gemm_mml<ValueTypeA> gemm;
-          gemm.gemm_inner_product(
+          TensorOperations::gemm<ValueTypeA>(
               0, 0, M, N, K_a, static_cast<ValueTypeA>(alpha), new_a_ptr, lda,
               new_b_ptr, ldb, static_cast<ValueTypeA>(beta), new_c_ptr, ldc);
 

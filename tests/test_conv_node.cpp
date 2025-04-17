@@ -1,39 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "nodes/conv.hpp"
-
-/* TEST(conv_node_test, test_constructor) {
-    std::cout << "My test" << std::endl;
-
-  array_mml<size_t> shapeW({1, 1, 2, 2});
-  array_mml<float> W_values({1.0f, 0.0f, 0.0, -1.0f});
-
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
-
-  array_mml<size_t> shapeY({1, 1, 2, 2});
-  array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
-  auto Y = std::make_shared<Tensor_mml<float>>(shapeY, Y_values);
-
-  array_mml<size_t> dilations = array_mml<size_t>({1, 1});
-  array_mml<size_t> padding = array_mml<size_t>({0, 0, 0, 0});
-  array_mml<size_t> kernel_shape = array_mml<size_t>({2, 2});
-  array_mml<size_t> stride = array_mml<size_t>({1, 1});
-
-  auto B = std::nullopt;
-
-  ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B, 1);
-
-    ConvNode<float> conv(X, W, Y, dilations, padding, kernel_shape, stride, B,
-1);
-
-    ASSERT_EQ(Y->get_shape()[0], 1);  // Batch size
-    ASSERT_EQ(Y->get_shape()[1], 1);  // Channels
-    ASSERT_EQ(Y->get_shape()[2], 2);  // Height
-    ASSERT_EQ(Y->get_shape()[3], 2);  // Width
-} */
+#include <modularml>
 
 TEST(conv_node_test, test_forward_simple) {
   // Define the input tensor shape and values
@@ -47,16 +14,16 @@ TEST(conv_node_test, test_forward_simple) {
   array_mml<float> W_values({1.0f, 1.0f, 1.0f, 1.0f});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Output tensor shape (after applying Conv)
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(shapeY, Y_values);
+  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -121,15 +88,15 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
   });
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(y_shape);
+  auto Y = TensorFactory::create_tensor<float>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -137,7 +104,7 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
   array_mml<size_t> kernel_shape = array_mml<size_t>({2, 2});
   array_mml<size_t> stride = array_mml<size_t>({1, 1});
 
-  auto B = std::nullopt; // No bias
+  auto B = std::nullopt;  // No bias
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -268,7 +235,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
   array_mml<size_t> shapeW({8, 3, 2, 2});
   array_mml<float> W_values(
       {// 8 filters, each with 3 input channels
-       1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, // These are the filters
+       1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1,  // These are the filters
        1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,
        0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,
        0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,
@@ -276,16 +243,16 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
        1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Set the size wrong intentionally to check that it gets reshapen correctly
   // within forward()
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(y_shape);
+  auto Y = TensorFactory::create_tensor<float>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -293,7 +260,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
   array_mml<size_t> kernel_shape = array_mml<size_t>({2, 2});
   array_mml<size_t> stride = array_mml<size_t>({1, 1});
 
-  auto B = std::nullopt; // No bias
+  auto B = std::nullopt;  // No bias
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -361,15 +328,15 @@ TEST(conv_node_test,
        -1, 1,  0,  -1, 0, 1,  -1, 1,  -1, 1,  0, -1, 1,  0, 1,  -1});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
   array_mml<size_t> y_shape({1, 8, 4, 4});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(y_shape);
+  auto Y = TensorFactory::create_tensor<float>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -377,7 +344,7 @@ TEST(conv_node_test,
   array_mml<size_t> kernel_shape = array_mml<size_t>({2, 2});
   array_mml<size_t> stride = array_mml<size_t>({1, 1});
 
-  auto B = std::nullopt; // No bias
+  auto B = std::nullopt;  // No bias
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -452,16 +419,16 @@ TEST(conv_node_test, test_bias_add) {
   array_mml<float> W_values({1.0f, 1.0f, 1.0f, 1.0f});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Output tensor shape (after applying Conv)
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(shapeY, Y_values);
+  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -472,7 +439,7 @@ TEST(conv_node_test, test_bias_add) {
   array_mml<size_t> shape_bias({1});
   array_mml<float> bias_values({10.0f});
 
-  auto B = std::make_shared<Tensor_mml<float>>(shape_bias, bias_values);
+  auto B = TensorFactory::create_tensor<float>(shape_bias, bias_values);
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -603,7 +570,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
   array_mml<size_t> shapeW({8, 3, 2, 2});
   array_mml<float> W_values(
       {// 8 filters, each with 3 input channels
-       1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, // These are the filters
+       1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1,  // These are the filters
        1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,
        0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,
        0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,
@@ -611,16 +578,16 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
        1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1, 1,  0,  0,  -1});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Set the size wrong intentionally to check that it gets reshapen correctly
   // within forward()
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(y_shape);
+  auto Y = TensorFactory::create_tensor<float>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -641,7 +608,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
       10.0f,
   });
 
-  auto B = std::make_shared<Tensor_mml<float>>(shape_bias, bias_values);
+  auto B = TensorFactory::create_tensor<float>(shape_bias, bias_values);
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -691,22 +658,22 @@ TEST(conv_node_test, TestPadding) {
   array_mml<float> W_values({1.0f, 1.0f, 1.0f, 1.0f});
 
   // Create input and weight tensors
-  std::shared_ptr<Tensor_mml<float>> X =
-      std::make_shared<Tensor_mml<float>>(shapeX, X_values);
-  std::shared_ptr<Tensor_mml<float>> W =
-      std::make_shared<Tensor_mml<float>>(shapeW, W_values);
+  std::shared_ptr<Tensor<float>> X =
+      TensorFactory::create_tensor<float>(shapeX, X_values);
+  std::shared_ptr<Tensor<float>> W =
+      TensorFactory::create_tensor<float>(shapeW, W_values);
 
   // Not correct, this gets reshaped in the call to forward
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(shapeY, Y_values);
+  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
   array_mml<size_t> padding = array_mml<size_t>(
-      {1, 1, 0, 0}); // Adds padding to all spatial directions essentially
-                     // making the input 5x5 in height and width
+      {1, 1, 0, 0});  // Adds padding to all spatial directions essentially
+                      // making the input 5x5 in height and width
   array_mml<size_t> kernel_shape = array_mml<size_t>({2, 2});
   array_mml<size_t> stride = array_mml<size_t>({1, 1});
 

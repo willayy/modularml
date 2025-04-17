@@ -1,5 +1,19 @@
 #include "nodes/tanh.hpp"
 
+// IWYU pramgma: no_include <__math/hyperbolic_functions.h>
+#include <algorithm>
+#include <cmath>  // IWYU pragma: keep
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "nlohmann/json.hpp"
+
 TanHNode::TanHNode(std::string X, std::string Y) : X(X), Y(Y) {}
 
 TanHNode::TanHNode(const nlohmann::json &node) {
@@ -48,8 +62,7 @@ void TanHNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
-          Arithmetic_mml<ValueType> arithmetic;
-          arithmetic.elementwise(
+          TensorOperations::elementwise<ValueType>(
               x_ptr, [](ValueType x) -> ValueType { return std::tanh(x); },
               y_ptr);
         }

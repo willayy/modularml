@@ -7,14 +7,14 @@ TEST(test_node, test_ReLU_float) {
    * @brief Expected Tensor after the ReLU std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<float>(
+  auto b = TensorFactory::create_tensor<float>(
       {3, 3}, {0.0f, 0.0f, 1.0f, 0.0f, 2.0f, 0.0f, 3.0f, 4.0f, 0.0f});
-  auto original_X = tensor_mml_p<float>(
+  auto original_X = TensorFactory::create_tensor<float>(
       {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>(
-      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -38,7 +38,7 @@ TEST(test_node, test_ReLU_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_EQ(*result_ptr, *b);
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_ReLU_int32) {
@@ -46,9 +46,10 @@ TEST(test_node, test_ReLU_int32) {
    * @brief Expected Tensor after the ReLU std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<int32_t>({3, 3}, {0, 5, 0, 10, 0, 15, 20, 0, 25});
-  auto original_X =
-      tensor_mml_p<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25});
+  auto b = TensorFactory::create_tensor<int32_t>(
+      {3, 3}, {0, 5, 0, 10, 0, 15, 20, 0, 25});
+  auto original_X = TensorFactory::create_tensor<int32_t>(
+      {3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25});
 
   auto X = std::make_shared<Tensor_mml<int32_t>>(
       Tensor_mml<int32_t>({3, 3}, {-7, 5, -3, 10, -2, 15, 20, -6, 25}));
@@ -76,29 +77,29 @@ TEST(test_node, test_ReLU_int32) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_EQ(*result_ptr, *b);
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_ReLU_double) {
   /**
    * @brief Expected Tensor after the ReLU function is applied to each element.
    */
-  auto b =
-      tensor_mml_p<double>({3, 3}, {0.0f, 0.0000000000000001f,
-                                    std::numeric_limits<double>::infinity(),
-                                    0.0f, 2.0f, 0.0f, 3.0f, 4.0f, 0.0f});
-  auto original_X = tensor_mml_p<double>(
+  auto b = TensorFactory::create_tensor<double>(
+      {3, 3},
+      {0.0f, 0.0000000000000001f, std::numeric_limits<double>::infinity(), 0.0f,
+       2.0f, 0.0f, 3.0f, 4.0f, 0.0f});
+  auto original_X = TensorFactory::create_tensor<double>(
       {3, 3}, {-999999999999999999999999999.0f, 0.0000000000000001f,
                std::numeric_limits<double>::infinity(),
                -std::numeric_limits<double>::infinity(), 2.0f, -3.0f, 3.0f,
                4.0f, -4.0f});
 
-  auto X = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+  auto X = TensorFactory::create_tensor<double>(
       {3, 3}, {-999999999999999999999999999.0f, 0.0000000000000001f,
                std::numeric_limits<double>::infinity(),
                -std::numeric_limits<double>::infinity(), 2.0f, -3.0f, 3.0f,
-               4.0f, -4.0f}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 3}));
+               4.0f, -4.0f});
+  auto Y = TensorFactory::create_tensor<double>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -122,7 +123,7 @@ TEST(test_node, test_ReLU_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_EQ(*result_ptr, *b);
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_TanH_float) {
@@ -130,16 +131,16 @@ TEST(test_node, test_TanH_float) {
    * @brief Expected Tensor after the TanH std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<float>(
+  auto b = TensorFactory::create_tensor<float>(
       {3, 3}, {-0.7615941559557649f, 0.0f, 0.7615941559557649f,
                -0.9640275800758169f, 0.9640275800758169f, -0.9950547536867305f,
                0.9950547536867305f, 0.999329299739067f, -0.999329299739067f});
-  auto original_X = tensor_mml_p<float>(
+  auto original_X = TensorFactory::create_tensor<float>(
       {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>(
-      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -163,27 +164,27 @@ TEST(test_node, test_TanH_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_EQ(*result_ptr, *b);
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_TanH_double) {
   /**
    * @brief Expected Tensor after the TanH function is applied to each element.
    */
-  auto b = tensor_mml_p<double>(
+  auto b = TensorFactory::create_tensor<double>(
       {3, 3}, {-1.0f, 0.0f, 0.7615941559557649f, -0.9640275800758169f,
                0.9640275800758169f, -0.9950547536867305f, 0.9950547536867305f,
                0.999329299739067f, 1.0f});
-  auto original_X =
-      tensor_mml_p<double>({3, 3}, {-std::numeric_limits<double>::infinity(),
-                                    0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f,
-                                    std::numeric_limits<double>::infinity()});
+  auto original_X = TensorFactory::create_tensor<double>(
+      {3, 3},
+      {-std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f, -3.0f,
+       3.0f, 4.0f, std::numeric_limits<double>::infinity()});
 
-  auto X = std::make_shared<Tensor_mml<double>>(
-      Tensor_mml<double>({3, 3}, {-std::numeric_limits<double>::infinity(),
-                                  0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f,
-                                  std::numeric_limits<double>::infinity()}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 3}));
+  auto X = TensorFactory::create_tensor<double>(
+      {3, 3},
+      {-std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f, -3.0f,
+       3.0f, 4.0f, std::numeric_limits<double>::infinity()});
+  auto Y = TensorFactory::create_tensor<double>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -207,7 +208,7 @@ TEST(test_node, test_TanH_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_Swish_float) {
@@ -215,15 +216,15 @@ TEST(test_node, test_Swish_float) {
    * @brief Expected Tensor after the Swish std::function is applied to each
    * element.
    */
-  auto b =
-      tensor_mml_p<float>({3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f,
-                                   -0.1423f, 2.8577f, 3.9281f, -0.0719f});
-  auto original_X = tensor_mml_p<float>(
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f, -0.1423f, 2.8577f,
+               3.9281f, -0.0719f});
+  auto original_X = TensorFactory::create_tensor<float>(
       {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>(
-      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 3}, {-1.0f, 0.0f, 1.0f, -2.0f, 2.0f, -3.0f, 3.0f, 4.0f, -4.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -247,24 +248,24 @@ TEST(test_node, test_Swish_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_Swish_double) {
   /**
    * @brief Expected Tensor after the Swish function is applied to each element.
    */
-  auto b = tensor_mml_p<double>(
+  auto b = TensorFactory::create_tensor<double>(
       {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 0.7311f, -0.2384f,
                1.7616f, -0.1423f, 2.8577f, 3.9281f, 0.0f});
-  auto original_X = tensor_mml_p<double>(
+  auto original_X = TensorFactory::create_tensor<double>(
       {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f,
                -3.0f, 3.0f, 4.0f, -std::numeric_limits<double>::infinity()});
 
-  auto X = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+  auto X = TensorFactory::create_tensor<double>(
       {3, 3}, {std::numeric_limits<double>::infinity(), 0.0f, 1.0f, -2.0f, 2.0f,
-               -3.0f, 3.0f, 4.0f, -std::numeric_limits<double>::infinity()}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 3}));
+               -3.0f, 3.0f, 4.0f, -std::numeric_limits<double>::infinity()});
+  auto Y = TensorFactory::create_tensor<double>({3, 3});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -288,7 +289,7 @@ TEST(test_node, test_Swish_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 //----------------/
@@ -297,11 +298,11 @@ TEST(test_node, test_Dropout_float) {
    * @brief If dropout is not in training mode, the output should be the same as
    * the input.
    */
-  auto data =
-      tensor_mml_p<float>({3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f,
-                                   -0.1423f, 2.8577f, 3.9281f, -0.0719f});
+  auto data = TensorFactory::create_tensor<float>(
+      {3, 3}, {-0.2689f, 0.0f, 0.7311f, -0.2384f, 1.7616f, -0.1423f, 2.8577f,
+               3.9281f, -0.0719f});
   auto reference = data;
-  auto output = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 3}));
+  auto output = TensorFactory::create_tensor<float>({3, 3});
 
   std::string data_string = "data";
   std::string output_string = "output";
@@ -328,10 +329,9 @@ TEST(test_node, test_Dropout_random_float) {
    */
   const array_mml<size_t> shape =
       generate_random_array_mml_integral<size_t>(3, 3, 3, 3);
-  auto data = std::make_shared<Tensor_mml<float>>(
-      generate_random_tensor<float>(shape, -5.0f, 5.0f));
+  auto data = TensorFactory::random_tensor<float>(shape, -5.0f, 5.0f);
   auto reference = data;
-  auto output = std::make_shared<Tensor_mml<float>>(shape);
+  auto output = TensorFactory::create_tensor<float>(shape);
 
   std::string data_string = "data";
   std::string output_string = "output";
@@ -357,14 +357,15 @@ TEST(test_node, test_Sigmoid_float) {
    * @brief Expected Tensor after the ReLU std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<float>({3, 2}, {0.731059f, 0.880797f, 0.952574f,
-                                        0.982014f, 0.993307f, 0.997527f});
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {0.731059f, 0.880797f, 0.952574f, 0.982014f, 0.993307f, 0.997527f});
+  auto original_X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -388,23 +389,23 @@ TEST(test_node, test_Sigmoid_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_Sigmoid_double) {
   /**
    * @brief Expected Tensor after the ReLU function is applied to each element.
    */
-  auto b = tensor_mml_p<double>(
+  auto b = TensorFactory::create_tensor<double>(
       {3, 2}, {1.0f, 0.880797f, 0.5f, 0.982014f, 0.993307f, 0.0f});
-  auto original_X = tensor_mml_p<double>(
+  auto original_X = TensorFactory::create_tensor<double>(
       {3, 2}, {std::numeric_limits<double>::infinity(), 2.0f, 0.0f, 4.0f, 5.0f,
                -std::numeric_limits<double>::infinity()});
 
-  auto X = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+  auto X = TensorFactory::create_tensor<double>(
       {3, 2}, {std::numeric_limits<double>::infinity(), 2.0f, 0.0f, 4.0f, 5.0f,
-               -std::numeric_limits<double>::infinity()}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+               -std::numeric_limits<double>::infinity()});
+  auto Y = TensorFactory::create_tensor<double>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -428,7 +429,7 @@ TEST(test_node, test_Sigmoid_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_Gelu_float) {
@@ -436,14 +437,15 @@ TEST(test_node, test_Gelu_float) {
    * @brief Expected Tensor after the Gelu std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<float>({3, 2}, {0.841344f, 1.954499f, 2.995950f,
-                                        -0.158655f, -0.0455003f, -0.004049f});
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {0.841344f, 1.954499f, 2.995950f, -0.158655f, -0.0455003f, -0.004049f});
+  auto original_X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -469,10 +471,11 @@ TEST(test_node, test_Gelu_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 
-  b = tensor_mml_p<float>({3, 2}, {0.841192f, 1.9546f, 2.99636f, -0.158808f,
-                                   -0.045402f, -0.003637f});
+  b = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {0.841192f, 1.9546f, 2.99636f, -0.158808f, -0.045402f, -0.003637f});
   geluNode = GeluNode(x_string, y_string, "tanh");
   geluNode.forward(iomap);
 
@@ -490,17 +493,17 @@ TEST(test_node, test_Gelu_double) {
    * @brief Expected Tensor after the Gelu std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<double>(
+  auto b = TensorFactory::create_tensor<double>(
       {3, 2}, {-0.154286f, std::numeric_limits<double>::infinity(), 0.0f, 0.0f,
                1.9546f, -0.114629f});
-  auto original_X = tensor_mml_p<double>(
+  auto original_X = TensorFactory::create_tensor<double>(
       {3, 2}, {-0.5f, std::numeric_limits<double>::infinity(),
                -std::numeric_limits<double>::infinity(), 0.0f, 2.0f, -0.3f});
 
-  auto X = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>(
+  auto X = TensorFactory::create_tensor<double>(
       {3, 2}, {-0.5f, std::numeric_limits<double>::infinity(),
-               -std::numeric_limits<double>::infinity(), 0.0f, 2.0f, -0.3f}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+               -std::numeric_limits<double>::infinity(), 0.0f, 2.0f, -0.3f});
+  auto Y = TensorFactory::create_tensor<double>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -524,13 +527,13 @@ TEST(test_node, test_Gelu_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 
   geluNode = GeluNode(x_string, y_string, "none");
   geluNode.forward(iomap);
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_leaky_relu_float) {
@@ -538,15 +541,15 @@ TEST(test_node, test_leaky_relu_float) {
    * @brief Expected Tensor after the LeakyReLU std::function is applied to each
    * element.
    */
-  auto b =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -0.02f, -0.04f, -0.06f});
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -0.02f, -0.04f, -0.06f});
 
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto original_X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -570,8 +573,8 @@ TEST(test_node, test_leaky_relu_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact //
-                                      // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact //
+                                       // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_leaky_relu_random_float) {
@@ -580,16 +583,17 @@ TEST(test_node, test_leaky_relu_random_float) {
    * element.
    */
 
-  auto b = tensor_mml_p<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f,
-                                        -0.224878f, -0.0481f, 7.324412f});
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f, -7.495929f,
-                                   -1.602100f, 7.324412f});
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {1.491582f, 3.279023f, 8.310189f, -0.224878f, -0.0481f, 7.324412f});
+  auto original_X = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {1.491582f, 3.279023f, 8.310189f, -7.495929f, -1.602100f, 7.324412f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.491582f, 3.279023f, 8.310189f, -7.495929f,
-                                 -1.602100f, 7.324412f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {1.491582f, 3.279023f, 8.310189f, -7.495929f, -1.602100f, 7.324412f});
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -613,7 +617,7 @@ TEST(test_node, test_leaky_relu_random_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 TEST(test_node, test_leaky_relu_double) {
   /**
@@ -621,20 +625,20 @@ TEST(test_node, test_leaky_relu_double) {
    * element.
    */
 
-  auto b =
-      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
-                                    -std::numeric_limits<double>::infinity(),
-                                    0.0f, -0.03f, 1.0f, -0.000000003f});
-  auto original_X =
-      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
-                                    -std::numeric_limits<double>::infinity(),
-                                    0.0f, -1.0f, 1.0f, -0.0000001f});
+  auto b = TensorFactory::create_tensor<double>(
+      {3, 2}, {std::numeric_limits<double>::infinity(),
+               -std::numeric_limits<double>::infinity(), 0.0f, -0.03f, 1.0f,
+               -0.000000003f});
+  auto original_X = TensorFactory::create_tensor<double>(
+      {3, 2}, {std::numeric_limits<double>::infinity(),
+               -std::numeric_limits<double>::infinity(), 0.0f, -1.0f, 1.0f,
+               -0.0000001f});
 
   auto X = std::make_shared<Tensor_mml<double>>(
       Tensor_mml<double>({3, 2}, {std::numeric_limits<double>::infinity(),
                                   -std::numeric_limits<double>::infinity(),
                                   0.0f, -1.0f, 1.0f, -0.0000001f}));
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+  auto Y = TensorFactory::create_tensor<double>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -658,24 +662,23 @@ TEST(test_node, test_leaky_relu_double) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_ELUNode_float) {
-
   /**
    * @brief Expected Tensor after the ELU std::function is applied to each
    * element.
    */
-  auto b = tensor_mml_p<float>(
+  auto b = TensorFactory::create_tensor<float>(
       {3, 2}, {1.0f, 2.0f, 3.0f, -1.264241f, -1.729329f, -1.900425f});
 
-  auto original_X =
-      tensor_mml_p<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto original_X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
 
-  auto X = std::make_shared<Tensor_mml<float>>(
-      Tensor_mml<float>({3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f}));
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2}, {1.0f, 2.0f, 3.0f, -1.0f, -2.0f, -3.0f});
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -699,22 +702,23 @@ TEST(test_node, test_ELUNode_float) {
   ASSERT_NE(input_ptr, nullptr) << "Failed to get Y tensor";
 
   ASSERT_TRUE(tensors_are_close(*result_ptr, *b));
-  ASSERT_EQ(*input_ptr, *original_X); // Ensure the input tensor is intact
+  ASSERT_EQ(*input_ptr, *original_X);  // Ensure the input tensor is intact
 }
 
 TEST(test_node, test_ELUNode_random_float) {
-
   /**
    * @brief Expected Tensor after the ELU std::function is applied to each
    * element.
    */
 
-  auto b = tensor_mml_p<float>({3, 2}, {-0.197959f, -0.199985f, -0.191696f,
-                                        -0.172574f, -0.199538f, 7.627019});
-  auto X = tensor_mml_p<float>({3, 2}, {-4.584662f, -9.531804f, -3.181585f,
-                                        -1.986814f, -6.069519f, 7.627019f});
+  auto b = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {-0.197959f, -0.199985f, -0.191696f, -0.172574f, -0.199538f, 7.627019});
+  auto X = TensorFactory::create_tensor<float>(
+      {3, 2},
+      {-4.584662f, -9.531804f, -3.181585f, -1.986814f, -6.069519f, 7.627019f});
 
-  auto Y = std::make_shared<Tensor_mml<float>>(Tensor_mml<float>({3, 2}));
+  auto Y = TensorFactory::create_tensor<float>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -735,20 +739,19 @@ TEST(test_node, test_ELUNode_random_float) {
 }
 
 TEST(test_node, test_ELUNode_double) {
-
   /**
    * @brief Expected Tensor after the ELU function is applied to each element.
    */
 
-  auto b =
-      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
-                                    -0.2f, 0.0f, -0.172933f, 1.0f, 4.0f});
-  auto X =
-      tensor_mml_p<double>({3, 2}, {std::numeric_limits<double>::infinity(),
-                                    -std::numeric_limits<double>::infinity(),
-                                    0.0f, -2.0f, 1.0f, 4.0f});
+  auto b = TensorFactory::create_tensor<double>(
+      {3, 2}, {std::numeric_limits<double>::infinity(), -0.2f, 0.0f, -0.172933f,
+               1.0f, 4.0f});
+  auto X = TensorFactory::create_tensor<double>(
+      {3, 2},
+      {std::numeric_limits<double>::infinity(),
+       -std::numeric_limits<double>::infinity(), 0.0f, -2.0f, 1.0f, 4.0f});
 
-  auto Y = std::make_shared<Tensor_mml<double>>(Tensor_mml<double>({3, 2}));
+  auto Y = TensorFactory::create_tensor<double>({3, 2});
 
   std::string x_string = "X";
   std::string y_string = "Y";

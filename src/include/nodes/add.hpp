@@ -1,13 +1,19 @@
 #pragma once
 
+#include <stdint.h>
+
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 class AddNode : public Node {
-public:
+ public:
   using T = std::variant<double, float, int32_t, int64_t>;
   using TensorT =
-      TensorVariant<T>; // Gets std::variant<std::shared_ptr<tensor<T>>,
-                        // ...> from T
+      TensorVariant<T>;  // Gets std::variant<std::shared_ptr<tensor<T>>,
+                         // ...> from T
 
   /**
    * @brief Constructor for AddNode.
@@ -29,8 +35,8 @@ public:
    * @brief Performs element-wise binary addition in the two input tensors and
    * stores the result in the output tensor.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -46,11 +52,11 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   // tensors
-  std::string A; // Input tensor A
-  std::string B; // Input tensor B
-  std::string C; // Output tensor C
+  std::string A;  // Input tensor A
+  std::string B;  // Input tensor B
+  std::string C;  // Output tensor C
 
   /**
    * @brief Helper std::function used when broadcasting addition is required.

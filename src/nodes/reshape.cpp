@@ -1,5 +1,18 @@
 #include "nodes/reshape.hpp"
 
+#include <stddef.h>
+
+#include <map>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+
 reshapeNode::reshapeNode(std::string data, std::string shape,
                          std::string reshaped, int allowzero)
     : data(data), shape(shape), reshaped(reshaped), allowzero(allowzero) {
@@ -87,14 +100,14 @@ void reshapeNode::forward(
 
           // Variables for handling inferred dimension (-1) and computing the
           // total number of elements
-          int inferred_dim_index = -1; // Stores the index of -1 if present
+          int inferred_dim_index = -1;  // Stores the index of -1 if present
           size_t computed_elements =
-              1; // Tracks the product of explicitly defined shape dimensions
+              1;  // Tracks the product of explicitly defined shape dimensions
 
           // Iterate through the shape tensor to determine the new shape values
           for (size_t i = 0; i < shape_size; ++i) {
             size_t dim =
-                (*shape_ptr)[i]; // Extract the value for the current dimension
+                (*shape_ptr)[i];  // Extract the value for the current dimension
 
             // If dim == -1, mark it for inference (meaning this dimension
             // should be computed)
@@ -106,17 +119,17 @@ void reshapeNode::forward(
                     "Invalid reshape: multiple -1 values in shape tensor.");
               }
               inferred_dim_index =
-                  i;             // Store the index of the inferred dimension
-              new_shape[i] = -1; // Placeholder for now (to be computed later)
+                  i;              // Store the index of the inferred dimension
+              new_shape[i] = -1;  // Placeholder for now (to be computed later)
 
               // If dim == 0 and allowzero flag is set, keep the original input
               // shape at this index
             } else if (dim == 0 && allowzero == 1) {
               new_shape[i] =
-                  data_ptr->get_shape()[i]; // Copy corresponding dimension from
-                                            // input tensor
+                  data_ptr->get_shape()[i];  // Copy corresponding dimension
+                                             // from input tensor
               computed_elements *=
-                  new_shape[i]; // Update total number of elements
+                  new_shape[i];  // Update total number of elements
             } else {
               // Otherwise, just assign the given dimension value
               new_shape[i] = dim;

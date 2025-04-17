@@ -1,5 +1,21 @@
 #include "nodes/add.hpp"
 
+#include <stddef.h>
+
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+#include "datastructures/tensor_operations_module.hpp"
+#include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+
 AddNode::AddNode(std::string A, std::string B, std::string C)
     : A(A), B(B), C(C) {}
 
@@ -72,19 +88,17 @@ void AddNode::forward(
 
             // Valid if dimensions match or one of them is 1
             if (dim_A != dim_B && dim_A != 1 && dim_B != 1) {
-              broadcast_comp = false; // Incompatible for broadcasting
+              broadcast_comp = false;  // Incompatible for broadcasting
             }
           }
-
-          Arithmetic_mml<ValueTypeA> arithmetic;
 
           // Valid case:
           if (A_shape == B_shape) {
             if (c_ptr->get_shape() != A_shape) {
-              c_ptr->reshape(A_shape); // Reshape output tensor to be the same
-                                       // as input tensors
+              c_ptr->reshape(A_shape);  // Reshape output tensor to be the same
+                                        // as input tensors
             }
-            arithmetic.add(a_ptr, b_ptr, c_ptr);
+            TensorOperations::add<ValueTypeA>(a_ptr, b_ptr, c_ptr);
             // Broadcasting case:
           } else if (broadcast_comp) {
             broadcast_addition(a_ptr, b_ptr, c_ptr);
@@ -120,17 +134,17 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
                   : (dim_A == 1)   ? 1
                   : (dim_B == 1)   ? 2
                                    : 3) {
-          case 0:
-            output_shape[max_rank - 1 - i] = dim_A;
-            break;
-          case 1:
-            output_shape[max_rank - 1 - i] = dim_B;
-            break;
-          case 2:
-            output_shape[max_rank - 1 - i] = dim_A;
-            break;
-          default:
-            throw std::runtime_error("Incompatible shapes for broadcasting.");
+            case 0:
+              output_shape[max_rank - 1 - i] = dim_A;
+              break;
+            case 1:
+              output_shape[max_rank - 1 - i] = dim_B;
+              break;
+            case 2:
+              output_shape[max_rank - 1 - i] = dim_A;
+              break;
+            default:
+              throw std::runtime_error("Incompatible shapes for broadcasting.");
           }
         }
 
@@ -159,16 +173,14 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
           // Compute multi-dimensional indices on the fly
           for (size_t j = 0; j < max_rank; j++) {
             size_t coord =
-                remaining / output_strides[j]; // Extract coordinate for dim j
+                remaining / output_strides[j];  // Extract coordinate for dim j
             remaining %= output_strides[j];
 
             size_t dim_A = (j < A_rank) ? A_shape[A_rank - max_rank + j] : 1;
             size_t dim_B = (j < B_rank) ? B_shape[B_rank - max_rank + j] : 1;
 
-            if (dim_A > 1)
-              A_idx += coord * A_strides[j];
-            if (dim_B > 1)
-              B_idx += coord * B_strides[j];
+            if (dim_A > 1) A_idx += coord * A_strides[j];
+            if (dim_B > 1) B_idx += coord * B_strides[j];
           }
 
           // Perform element-wise addition

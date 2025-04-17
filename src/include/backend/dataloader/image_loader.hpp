@@ -11,6 +11,7 @@
  */
 class ImageLoader : public DataLoader<float> {
  public:
+  
   /**
    * @struct RawImageBuffer
    * @brief Represents a raw image buffer containing image data and its properties.

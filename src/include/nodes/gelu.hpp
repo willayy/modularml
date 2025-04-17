@@ -1,6 +1,11 @@
 #pragma once
 
+#include <string>
+#include <variant>
+
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
+
 
 /**
  * @class GeluNode
@@ -12,7 +17,7 @@
  * applied elementwise.
  */
 class GeluNode : public Node {
-public:
+ public:
   using T = std::variant<double, float>;
 
   /**
@@ -36,8 +41,8 @@ public:
    * @brief Perform the forward pass computation using Gelu activation
    * std::function.
    */
-  void
-  forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -53,7 +58,7 @@ public:
    */
   std::vector<std::string> getOutputs() override;
 
-private:
+ private:
   ///@brief Pointer to the input tensor
   std::string X;
   ///@brief Pointer to output tensor
