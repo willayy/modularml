@@ -25,7 +25,7 @@ class ConstantNode : public Node {
    *
    * @param node JSON object representing the Constant node.
    */
-  explicit (const nlohmann::json &node);
+  explicit ConstantNode(const nlohmann::json &node);
 
   /**§
    * @brief Perform the forward pass.
