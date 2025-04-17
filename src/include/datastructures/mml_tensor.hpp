@@ -40,7 +40,6 @@ class Tensor_mml : public Tensor<T> {
   /// @param jump_rows The number of elements to skip when moving to the next
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
-  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const std::initializer_list<size_t> shape,
                       const size_t jump_indexes = 0,
                       const size_t jump_columns = 0, const size_t jump_rows = 0,
@@ -55,7 +54,6 @@ class Tensor_mml : public Tensor<T> {
   /// @param jump_rows The number of elements to skip when moving to the next
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
-  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const std::initializer_list<size_t> shape,
                       const std::initializer_list<T> data,
                       const size_t jump_indexes = 0,
@@ -70,7 +68,6 @@ class Tensor_mml : public Tensor<T> {
   /// @param jump_rows The number of elements to skip when moving to the next
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
-  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<size_t> &shape,
                       const size_t jump_indexes = 0,
                       const size_t jump_columns = 0, const size_t jump_rows = 0,
@@ -85,7 +82,6 @@ class Tensor_mml : public Tensor<T> {
   /// @param jump_rows The number of elements to skip when moving to the next
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
-  [[deprecated("Use TensorFactory instead")]]
   explicit Tensor_mml(const array_mml<size_t> &shape, const array_mml<T> &data,
                       const size_t jump_indexes = 0,
                       const size_t jump_columns = 0, const size_t jump_rows = 0,
@@ -159,16 +155,5 @@ class Tensor_mml : public Tensor<T> {
   size_t indices_to_1d_index(array_mml<size_t> indices) const;
   size_t index_to_offset_1d_index(size_t index) const;
 };
-
-template <typename T>
-[[deprecated("Use TensorFactory instead")]]
-std::shared_ptr<Tensor<T>> tensor_mml_p(
-    const std::initializer_list<size_t> shape);
-
-template <typename T>
-[[deprecated("Use TensorFactory instead")]]
-std::shared_ptr<Tensor<T>> tensor_mml_p(
-    const std::initializer_list<size_t> shape,
-    const std::initializer_list<T> data);
 
 #include "../datastructures/mml_tensor.tpp"

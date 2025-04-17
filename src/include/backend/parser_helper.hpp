@@ -41,7 +41,7 @@ inline std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
   array_mml shapeArray(dims);
 
   if (init.contains("rawData")) {
-    return std::make_shared<Tensor_mml<T>>(
+    return TensorFactory::create_tensor<T>(
         shapeArray, Base64::decode<T>(init["rawData"].get<std::string>()));
   } else {
     std::string fieldName;
@@ -111,7 +111,7 @@ inline std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
         }
       }
       array_mml<T> dataArray(data);
-      return std::make_shared<Tensor_mml<T>>(shapeArray, dataArray);
+      return TensorFactory::create_tensor<T>(shapeArray, dataArray);
     } else {
       throw std::runtime_error("No data field found for tensor: " +
                                init["name"].get<std::string>());

@@ -14,6 +14,7 @@
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_array.hpp"
 #include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_factory.hpp"
 #include "stb_image.h"
 
 std::shared_ptr<Tensor<float>> ImageLoader::load(
@@ -56,8 +57,8 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(
        static_cast<unsigned long int>(height),
        static_cast<unsigned long int>(width)});
   array_mml<float> output_data(data_size);  // Fills with 0:s
-  std::shared_ptr<Tensor_mml<float>> output =
-      std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
+  std::shared_ptr<Tensor<float>> output =
+      TensorFactory::create_tensor<float>(image_tensor_shape, output_data);
 
   // The data inside output_data is {R, G, B, R, G, B, ...}
   // So we iterate 3 steps each time and write the R G B for each pixel to the

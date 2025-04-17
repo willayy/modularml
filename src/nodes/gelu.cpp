@@ -16,7 +16,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
 #include "nlohmann/json.hpp"
 
 GeluNode::GeluNode(std::string X, std::string Y, std::string approximate)
@@ -80,10 +79,8 @@ void GeluNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-
           if (approximate == "none") {
-            arithmetic.elementwise(
+            TensorOperations::elementwise<ValueTypeX>(
                 x_ptr,
                 [](ValueTypeX val) -> ValueTypeX {
                   return static_cast<ValueTypeX>(
@@ -91,7 +88,7 @@ void GeluNode::forward(
                 },
                 y_ptr);
           } else {
-            arithmetic.elementwise(
+            TensorOperations::elementwise<ValueTypeX>(
                 x_ptr,
                 [](ValueTypeX val) -> ValueTypeX {
                   return static_cast<ValueTypeX>(

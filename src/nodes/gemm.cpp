@@ -12,7 +12,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_gemm.hpp"
 #include "datastructures/mml_array.hpp"
 #include "nlohmann/json.hpp"
 
@@ -138,8 +137,7 @@ void GemmNode::forward(
           size_t ldb = N;
           size_t ldc = N;
 
-          Gemm_mml<ValueTypeA> gemm;
-          gemm.gemm_inner_product(
+          TensorOperations::gemm<ValueTypeA>(
               0, 0, M, N, K_a, static_cast<ValueTypeA>(alpha), new_a_ptr, lda,
               new_b_ptr, ldb, static_cast<ValueTypeA>(beta), new_c_ptr, ldc);
 

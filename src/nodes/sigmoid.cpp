@@ -12,7 +12,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
 #include "nlohmann/json.hpp"
 
 SigmoidNode::SigmoidNode(std::string X, std::string Y) : X(X), Y(Y) {}
@@ -60,8 +59,7 @@ void SigmoidNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueTypeX>>>(y_it->second);
 
-          Arithmetic_mml<ValueTypeX> arithmetic;
-          arithmetic.elementwise(
+          TensorOperations::elementwise<ValueTypeX>(
               x_ptr,
               [](ValueTypeX x) -> ValueTypeX { return 1 / (1 + std::exp(-x)); },
               y_ptr);

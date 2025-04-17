@@ -44,27 +44,6 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01),
                        bool verbose = false);
 
 /**
- * @brief Generates a random tensor with the specified shape and value range.
- *
- * This std::function creates a tensor with random values within the specified
- * range. The type of the tensor elements must be an arithmetic type.
- *
- * @tparam T The data type of the tensor elements (must be an arithmetic type).
- * @param shape The shape of the tensor to generate.
- * @param lo_v The lower bound of the random values.
- * @param hi_v The upper bound of the random values.
- * @return A tensor with random values within the specified range.
- */
-#define GENERATE_RANDOM_TENSOR(T)                     \
-  (std::is_arithmetic_v<T>,                           \
-   "Random Tensor generation requires an arithmetic " \
-   "type (int, float, double, etc.).");
-template <typename T>
-[[deprecated("Use TensorFactory instead.")]]
-static auto generate_random_tensor(const array_mml<size_t> &shape,
-                                   T lo_v = T(0), T hi_v = T(1));
-
-/**
  * @brief Initializes a tensor using the Kaiming Uniform initialization method.
  *
  * This std::function applies the Kaiming Uniform initialization to the given

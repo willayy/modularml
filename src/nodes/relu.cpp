@@ -10,7 +10,6 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_arithmetic.hpp"
 #include "nlohmann/json.hpp"
 
 ReLUNode::ReLUNode(std::string X, std::string Y) : X(X), Y(Y) {}
@@ -61,10 +60,9 @@ void ReLUNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
-          Arithmetic_mml<ValueType> arithmetic;
-          arithmetic.elementwise(
-              x_ptr, [](ValueType x) -> ValueType { return x > 0 ? x : 0; },
-              y_ptr);
+          TensorOperations::elementwise<ValueType>(
+                  x_ptr, [](ValueType x) -> ValueType { return x > 0 ? x : 0; },
+                  y_ptr);
         }
       },
       x_tensor);

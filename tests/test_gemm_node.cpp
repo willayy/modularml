@@ -1,34 +1,19 @@
 #include <gtest/gtest.h>
 
-#include "nodes/gemm.hpp"
+#include <modularml>
 
 TEST(GemmNodeTest, ForwardMultiplication) {
   // Define dimensions: M = 2, K = 3, N = 2.
   array_mml<size_t> shapeA({2, 3});
   array_mml<size_t> shapeB({3, 2});
-  array_mml<size_t> shapeY({2, 2}); // Output shape is [M, N]
-
-  // Create tensor A with values: [1, 2, 3, 4, 5, 6] in row-major order.
-  Tensor_mml<float> tensorA(shapeA);
-  for (int i = 0; i < 6; i++) {
-    tensorA[i] = static_cast<float>(i + 1); // 1, 2, ..., 6.
-  }
-
-  // Create tensor B with values: [7, 8, 9, 10, 11, 12] in row-major order.
-  Tensor_mml<float> tensorB(shapeB);
-  float valuesB[] = {7, 8, 9, 10, 11, 12};
-  for (int i = 0; i < 6; i++) {
-    tensorB[i] = valuesB[i];
-  }
-
-  // Create an output tensor Y with shape [2,2] and initialize to zero.
-  Tensor_mml<float> tensorY(shapeY);
-  tensorY.fill(0.0f);
+  array_mml<size_t> shapeY({2, 2});  // Output shape is [M, N]
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = std::make_shared<Tensor_mml<float>>(tensorA);
-  auto B_ptr = std::make_shared<Tensor_mml<float>>(tensorB);
-  auto Y_ptr = std::make_shared<Tensor_mml<float>>(tensorY);
+  auto A_ptr = TensorFactory::create_tensor<float>(shapeA, {1, 2, 3, 4, 5, 6});
+  auto B_ptr =
+      TensorFactory::create_tensor<float>(shapeB, {7, 8, 9, 10, 11, 12});
+  auto Y_ptr = TensorFactory::create_tensor<float>(shapeY);
+  Y_ptr->fill(0.0f);  // Initialize Y to zero
 
   // Setup the iomap with tensor names
   std::string a_string = "A";

@@ -522,20 +522,3 @@ bool Tensor_mml<T>::valid_slice_indices(
   }
   return true;
 }
-
-// Convenience initializers
-
-template <typename T>
-std::shared_ptr<Tensor<T>> tensor_mml_p(
-    const std::initializer_list<size_t> shape) {
-  auto t = std::make_shared<Tensor_mml<T>>(shape);
-  return t;
-}
-
-template <typename T>
-std::shared_ptr<Tensor<T>> tensor_mml_p(
-    const std::initializer_list<size_t> shape,
-    const std::initializer_list<T> data) {
-  auto t = std::make_shared<Tensor_mml<T>>(shape, data);
-  return t;
-}
