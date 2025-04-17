@@ -33,7 +33,7 @@ class LeakyReLUNode : public Node {
    *
    * @param node JSON object representing the LeakyReLU node.
    */
-  LeakyReLUNode(const nlohmann::json &node);
+  explicit LeakyReLUNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using LeakyReLUNode activation

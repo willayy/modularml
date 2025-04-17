@@ -31,7 +31,7 @@ class TanHNode : public Node {
    *
    * @param node JSON object representing the TanH node.
    */
-  TanHNode(const nlohmann::json &node);
+  explicit TanHNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation applying std::tanh.

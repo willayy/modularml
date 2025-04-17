@@ -42,7 +42,7 @@ class GemmNode : public Node {
    *
    * @param node JSON object representing the Gemm node.
    */
-  GemmNode(const nlohmann::json &node);
+  explicit GemmNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation of GEMM.

@@ -35,7 +35,7 @@ class LogSoftMaxNode : public Node {
    *
    * @param node JSON object representing the LogSoftMax node.
    */
-  LogSoftMaxNode(const nlohmann::json &node);
+  explicit LogSoftMaxNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using LogSoftMax activation

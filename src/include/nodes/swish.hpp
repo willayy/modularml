@@ -30,7 +30,7 @@ class SwishNode : public Node {
    *
    * @param node JSON object representing the Swish node.
    */
-  SwishNode(const nlohmann::json &node);
+  explicit SwishNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation applying swish.

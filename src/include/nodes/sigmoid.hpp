@@ -29,7 +29,7 @@ class SigmoidNode : public Node {
    *
    * @param node JSON object representing the Sigmoid node.
    */
-  SigmoidNode(const nlohmann::json &node);
+  explicit SigmoidNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using the Sigmoid

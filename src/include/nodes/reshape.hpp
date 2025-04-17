@@ -38,7 +38,7 @@ public:
    *
    * @param node JSON object representing the reshape node.
    */
-  reshapeNode(const nlohmann::json &node);
+  explicit reshapeNode(const nlohmann::json &node);
 
   /**
    * @brief Performs the forward pass of the reshape operation.

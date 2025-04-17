@@ -35,7 +35,7 @@ class AvgPoolNode : public Node {
    *
    * @param node JSON object representing the MaxPool node.
    */
-  AvgPoolNode(const nlohmann::json& node);
+  explicit AvgPoolNode(const nlohmann::json& node);
 
   /**
    * @brief Perform the forward pass computation of AvgPoolNode.

@@ -45,7 +45,7 @@ class FlattenNode : public Node {
    *
    * @param node JSON object representing the Flatten node.
    */
-  FlattenNode(const nlohmann::json &node);
+  explicit FlattenNode(const nlohmann::json &node);
 
   /**
    * @brief Performs the flattening operation on the input tensor.

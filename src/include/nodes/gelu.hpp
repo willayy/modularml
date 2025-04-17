@@ -35,7 +35,7 @@ class GeluNode : public Node {
    *
    * @param node JSON object representing the Gelu node.
    */
-  GeluNode(const nlohmann::json &node);
+  explicit GeluNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using Gelu activation

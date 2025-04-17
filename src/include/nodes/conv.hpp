@@ -50,7 +50,7 @@ class ConvNode : public Node {
    *
    * @param node JSON object representing the Conv node.
    */
-  ConvNode(const nlohmann::json &node);
+  explicit ConvNode(const nlohmann::json &node);
 
   /**
    * @brief Performs the forward pass convolution operation.

@@ -30,7 +30,7 @@ class ELUNode : public Node {
    *
    * @param node JSON object representing the ELU node.
    */
-  ELUNode(const nlohmann::json &node);
+  explicit ELUNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using the ELU std::function.

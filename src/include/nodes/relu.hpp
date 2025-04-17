@@ -31,7 +31,7 @@ public:
    *
    * @param node JSON object representing the Relu node.
    */
-  ReLUNode(const nlohmann::json &node);
+  explicit ReLUNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using ReLU activation

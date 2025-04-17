@@ -29,7 +29,7 @@ class AddNode : public Node {
    *
    * @param node JSON object representing the Add node.
    */
-  AddNode(const nlohmann::json &node);
+  explicit AddNode(const nlohmann::json &node);
 
   /**
    * @brief Performs element-wise binary addition in the two input tensors and

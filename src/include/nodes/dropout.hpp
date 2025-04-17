@@ -40,7 +40,7 @@ public:
    *
    * @param node JSON object representing the Dropout node.
    */
-  DropoutNode(const nlohmann::json &node);
+  explicit DropoutNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass using dropout.
