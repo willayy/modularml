@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classTensorFactory.html" title="A static utility factory class for creating tensors with different shapes and data...." alt="" coords="5,5,116,31"/>
+<area shape="rect" id="Node000000" href="$classTensor.html" title="Abstract class representing a Tensor." alt="" coords="5,5,108,31"/>
+<area shape="rect" id="Node000001" href="$classTensor__mml.html" title="A Tensor&lt;T&gt; implementation using an underlying fixed size 1D array with row&#45;major offsets for multi&#45;d..." alt="" coords="156,5,295,31"/>
+<area shape="poly" id="edge26_Node000000_Node000001" title=" " alt="" coords="122,15,156,15,156,21,122,21"/>
 </map>
