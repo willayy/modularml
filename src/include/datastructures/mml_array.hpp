@@ -91,11 +91,6 @@ class array_mml {
   /// @return True if the arrays are std::equal, false otherwise.
   bool operator==(const array_mml &other) const;
 
-  /// @brief Inequality operator.
-  /// @param other The array to compare with.
-  /// @return True if the arrays are not std::equal, false otherwise.
-  bool operator!=(const array_mml &other) const;
-
   /// @brief Convert the array to a std::string.
   /// @return The std::string representation of the array.
   std::string to_string() const;
