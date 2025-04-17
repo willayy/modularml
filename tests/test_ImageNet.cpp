@@ -5,10 +5,6 @@
 #include <modularml>
 #include <thread>
 
-#include "backend/dataloader/image_loader.hpp"
-#include "backend/dataloader/normalizer.hpp"
-#include "backend/dataloader/resize_and_cropper.hpp"
-
 /**
  * @brief Retrieves the CAFFE label for a given image key from a JSON file.
  *

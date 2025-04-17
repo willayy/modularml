@@ -29,6 +29,7 @@
 #include "backend/dataloader/normalizer.hpp"
 #include "backend/mml_model.hpp"
 #include "backend/mml_parser.hpp"
+#include "backend/dataloader/resize_and_cropper.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/array_utility.hpp"
 #include "datastructures/mml_array.hpp"
