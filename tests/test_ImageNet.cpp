@@ -116,7 +116,6 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   Parser_mml parser;
-  Arithmetic_mml<float> arithmetic_instance;
   imageResizeAndCropper resizer_and_cropper;
   Normalize normalizer;
 
@@ -169,7 +168,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     // Get the output tensor & run arg_max
     auto output_it = outputs.find("output");
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
-    int result = arithmetic_instance.arg_max(output_tensor);
+    int result = TensorOperations::arg_max<float>(output_tensor);
 
     // Get the class number from the JSON file
     int expected_result = getCaffeLabel(labelPath, imageFile);
@@ -204,12 +203,13 @@ TEST(test_imageNet, imageNet) {
     GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
   }
 
-  auto result = imageNet(2, 10);
+  auto result = imageNet(1, 60);
 
   float success_rate = static_cast<float>(result.first) / (result.first + result.second);
 
   std::cout << "Success: " << result.first << ", Failure: " << result.second << std::endl;
   std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
+  GTEST_LOG_(INFO) << "Success Rate: " << success_rate * 100 << "%";
   EXPECT_GE(success_rate, 0.50f);
 }
 
@@ -218,18 +218,19 @@ TEST(test_imageNet, imageNet_multithreaded) {
     GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
   }
 
-  const size_t min_interval = 1;
-  const size_t max_interval = 12;
+  const size_t min_intervall = 1;
+  const size_t max_intervall = 60;
 
-  const size_t total_images = max_interval - min_interval;
+  const size_t total_images = max_intervall - min_intervall;
   const unsigned int num_threads = std::thread::hardware_concurrency();
   const size_t images_per_thread = (total_images + num_threads - 1) / num_threads;  // ceiling division
 
   std::vector<std::future<std::pair<size_t, size_t>>> futures;
 
   for (unsigned int t = 0; t < num_threads; ++t) {
-    size_t start = min_interval + t * images_per_thread;
-    size_t end = std::min(start + images_per_thread - 1, max_interval);
+    size_t start = min_intervall + t * images_per_thread;
+    size_t end = std::min(start + images_per_thread - 1, max_intervall);
+
     if (start > end) continue;  // nothing to process
 
     futures.push_back(std::async(std::launch::async, imageNet, start, end));
