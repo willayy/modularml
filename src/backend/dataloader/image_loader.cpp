@@ -81,3 +81,39 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(
   free(float_image_data);
   return output;  // Return the shared pointer
 }
+
+std::shared_ptr<Tensor<float>> ImageLoader::load(const RawImageBuffer& raw) const {
+  if (!raw.data) {
+    throw std::invalid_argument("ImageLoader: raw image data is null");
+  }
+
+  int data_size = raw.width * raw.height * raw.channels;
+  float* float_image_data = new float[data_size];
+
+  for (int i = 0; i < data_size; ++i) {
+    float_image_data[i] = static_cast<float>(raw.data.get()[i]) / 255.0f;
+  }
+
+  int output_channels = raw.channels == 4 ? 3 : raw.channels;
+  array_mml<unsigned long int> image_tensor_shape(
+      {1,
+       static_cast<unsigned long int>(output_channels),
+       static_cast<unsigned long int>(raw.height),
+       static_cast<unsigned long int>(raw.width)});
+  array_mml<float> output_data(data_size);
+  std::shared_ptr<Tensor_mml<float>> output =
+      std::make_shared<Tensor_mml<float>>(image_tensor_shape, output_data);
+
+  for (unsigned long int y = 0; y < raw.height; ++y) {
+    for (unsigned long int x = 0; x < raw.width; ++x) {
+      int index = (y * raw.width + x) * raw.channels;
+      for (unsigned long int c = 0; c < raw.channels && c < 3; ++c) {
+        float pixel_component = float_image_data[index + c];
+        (*output)[{0, c, y, x}] = pixel_component;
+      }
+    }
+  }
+
+  delete[] float_image_data;
+  return output;
+}
