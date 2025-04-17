@@ -113,7 +113,10 @@ void GemmNode::forward(
 
           if (K_a != K_b) {
             throw std::runtime_error(
-                "GemmNode: Inner dimensions of A and B must match");
+              "GemmNode: Inner dimensions of A and B must match: A is (" +
+              std::to_string(M) + "x" + std::to_string(K_a) + "), B is (" +
+              std::to_string(K_b) + "x" + std::to_string(N) + ")"
+            );
           }
 
           std::shared_ptr<Tensor<ValueTypeA>> new_c_ptr;

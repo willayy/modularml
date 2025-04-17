@@ -59,3 +59,7 @@ model_weights.bin
 
 #venv
 venv/
+
+perf*
+
+*.jpeg

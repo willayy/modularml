@@ -164,7 +164,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     # Compiler flags
     target_compile_options(${PROJECT_NAME}_tests PRIVATE 
     -g 
-    -O0 
+    -O3 
     -fPIC 
     --coverage 
     -fprofile-abs-path 
@@ -292,3 +292,12 @@ if(iwyu)
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()
+
+
+# ------------------- Executable --------------------- #
+
+set(EXECUTABLE_SRC ${SRC_DIR}/main.cpp)
+
+add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
+
+target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})

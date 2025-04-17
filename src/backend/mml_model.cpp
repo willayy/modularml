@@ -11,6 +11,9 @@
 #include <typeinfo>
 #include <variant>
 
+#include <thread>
+#include "utility/inference_progress_spinner.hpp"
+
 std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     const std::unordered_map<std::string, GeneralDataTypes> &inputs) {
   std::cout << "==== Starting inference ====" << std::endl;
@@ -22,34 +25,38 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
   // Perform topological sort
   std::vector<std::vector<std::shared_ptr<Node>>> topoLayers =
       topologicalSort();
-  std::cout << "Topological layers: " << topoLayers.size() << std::endl;
+  //std::cout << "Topological layers: " << topoLayers.size() << std::endl;
 
   // Copy the iomap to avoid modifying the original
   std::unordered_map<std::string, GeneralDataTypes> local_iomap = iomap;
 
   // Set input tensors
   for (const auto &[name, tensor] : inputs) {
-    std::cout << "Setting input: " << name << std::endl;
+    //std::cout << "Setting input: " << name << std::endl;
     local_iomap[name] = tensor;
   }
 
+  std::thread spinner(inference_spinner_function, topoLayers.size());
+  
   // Process each layer
   try {
     for (size_t layer_idx = 0; layer_idx < topoLayers.size(); ++layer_idx) {
       const auto &layer = topoLayers[layer_idx];
-      std::cout << "Processing layer " << layer_idx << " with " << layer.size()
-                << " nodes" << std::endl;
+      //std::cout << "Processing layer " << layer_idx << " with " << layer.size()
+      //          << " nodes" << std::endl;
+
+      current_layer_idx.store(layer_idx);
 
       for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
         const auto &node = layer[node_idx];
         std::string nodeType = typeid(*node).name();  // Get node type
-        std::cout << "  Processing node " << node_idx << " (type: " << nodeType
-                  << ")" << std::endl;
+        //std::cout << "  Processing node " << node_idx << " (type: " << nodeType
+        //          << ")" << std::endl;
 
         try {
           node->forward(local_iomap);
-          std::cout << "  Node " << node_idx << " processed successfully"
-                    << std::endl;
+          //std::cout << "  Node " << nodeType << " processed successfully"
+          //        << std::endl;
         } catch (const std::out_of_range &e) {
           std::cerr << "*** Out of range error in node " << node_idx
                     << " (type: " << nodeType << "): " << e.what() << std::endl;
@@ -88,6 +95,10 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
       returnMap[name] = local_iomap[name];
     }
   }
+  
+  // Stop progress bar thread
+  running_inference.store(false);
+  spinner.join();
 
   return returnMap;
 }

@@ -44,22 +44,22 @@ std::function<void(const std::shared_ptr<Tensor<T>> a,
 #if defined(USE_BLOCKED_GEMM)  // Use blocked gemm routine
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
+                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
         mml_gemm_blocked<T>;  // NOSONAR - Not a global variable
 #elif defined(USE_AVX_GEMM)
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
+                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
         mml_gemm_avx<T>;  // NOSONAR - Not a global variable
 #elif defined(USE_AVX512_GEMM)
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
+                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
         mml_gemm_avx512<T>;  // NOSONAR - Not a global variable
 #else  // Default naive gemm implementation
@@ -69,7 +69,7 @@ std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
                    int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
         mml_gemm_inner_product<T>;  // NOSONAR - Not a global variable
-#endif
+#endif  
 
 template <typename T>
 std::function<std::shared_ptr<Tensor<T>>(
