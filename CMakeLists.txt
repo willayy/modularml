@@ -64,6 +64,47 @@ FetchContent_MakeAvailable(stb)
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 
+
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+
+option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
+option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
+option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
+option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_BLOCKED_GEMM)
+
+elseif (USE_AVX_GEMM)
+    message(STATUS "Using AVX GEMM implementation")
+    SET(MEMORY_ALIGNMENT 32)
+    add_definitions(-DUSE_AVX_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-mavx2)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+elseif (USE_AVX512_GEMM)
+    message(STATUS "Using AVX512 GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
+    add_definitions(-DUSE_AVX512_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+else()
+    message(STATUS "Using default GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_DEFAULT_GEMM)
+endif()
+
+
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
 find_package(Threads REQUIRED)
@@ -106,44 +147,6 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
-# ------------------- GEMM & Optimizations ----------------- #
-option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
-
-option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
-option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
-option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
-
-if (USE_BLOCKED_GEMM)
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_BLOCKED_GEMM)
-
-elseif (USE_AVX_GEMM)
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    add_definitions(-DUSE_AVX_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2 -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_AVX512_GEMM)
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    add_definitions(-DUSE_AVX512_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_DEFAULT_GEMM)
-endif()
 
 # ------------------- Testing ------------------------------ #
 
@@ -160,47 +163,21 @@ add_executable(
     ${TEST_SOURCES}
 )
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    # Compiler flags
-    target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+# Compiler flags
+target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+    -funroll-loops
+    -O3
     -g 
-    -O3 
     -fPIC 
     --coverage 
     -fprofile-abs-path 
     -Wfatal-errors 
     -fmax-errors=1 
     -pedantic-errors
-    )
-    # Linker flags
-    target_link_options(${PROJECT_NAME}_tests PRIVATE 
-    -g 
-    -O0 
-    -fPIC 
-    --coverage 
-    -fprofile-abs-path
-    )
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
-    # Compiler flags
-    target_compile_options(${PROJECT_NAME}_tests PRIVATE
-    -g
-    -O0
-    -fPIC
-    -fprofile-arcs
-    -ftest-coverage
-    -ferror-limit=1
-    -pedantic-errors
-    -Wfatal-errors
-    )
-    # Linker flags
-    target_link_options(${PROJECT_NAME}_tests PRIVATE
-    -g
-    -O0
-    -fPIC
-    -fprofile-arcs
-    -ftest-coverage
-    )
-endif()
+)
+
+target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+
 
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
