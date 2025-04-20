@@ -34,6 +34,8 @@
 #include "nodes/sigmoid.hpp"
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
+#include "nodes/matmul.hpp"
+#include "nodes/transpose.hpp"
 
 // Helper std::function: to map the tensors
 std::unordered_map<std::string, GeneralDataTypes> mapTensors(
@@ -137,6 +139,10 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
         nodes.push_back(std::make_shared<SwishNode>(node));
       } else if (opType == "Tanh") {
         nodes.push_back(std::make_shared<TanHNode>(node));
+      } else if (opType == "MatMul") {
+        nodes.push_back(std::make_shared<MatMulNode>(node));
+      } else if (opType == "Transpose") {
+        nodes.push_back(std::make_shared<TransposeNode>(node));
       } else {
         throw std::runtime_error("Currently unsupported operation type: " +
                                  opType);
