@@ -54,7 +54,16 @@ TEST(TransposeNode_test, test_forward) {
     array_mml<size_t> shapeY({3, 2, 4});  // Output shape after transpose
     
     // Wrap each tensor in a shared pointer.
-    auto A_ptr = TensorFactory::create_tensor<int>(shapeA, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
+    auto A_ptr = TensorFactory::create_tensor<int>(shapeA, 
+        {1, 2, 3, 4, 
+         5, 6, 7, 8, 
+         9, 10, 11, 12, 
+         
+         13, 14, 15, 16, 
+         17, 18, 19, 20, 
+         21, 22, 23, 24
+    });
+
     auto Y_ptr = TensorFactory::create_tensor<int>(shapeY);
     Y_ptr->fill(0);  // Initialize Y to zero
     
@@ -83,16 +92,32 @@ TEST(TransposeNode_test, test_forward) {
     // Extract the shared pointer to the output tensor
     auto result_ptr = std::get<std::shared_ptr<Tensor<int>>>(y_it->second);
 
-    // Expected result based on the transpose operation (1, 2, 3, 4 swapped to 2, 1, 3, 4)
-    auto expected = TensorFactory::create_tensor<int>(shapeY, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
-    // Transpose the first two dimensions and verify
+    auto expected = TensorFactory::create_tensor<int>(shapeY);
+    
+    // Fill expected tensor by manually transposing A with perm {1, 0, 2}
+    const auto& A = *A_ptr;
+    auto& expected_tensor = *expected;
+
+    for (size_t i = 0; i < shapeA[0]; ++i) {
+        for (size_t j = 0; j < shapeA[1]; ++j) {
+            for (size_t k = 0; k < shapeA[2]; ++k) {
+                // Mapping original indices [i, j, k] to transposed indices
+                size_t transposed_i = j;  // Swap 0th and 1st dimensions
+                size_t transposed_j = i;
+                size_t transposed_k = k;  // 2nd dimension stays the same
+                size_t original_index = i * shapeA[1] * shapeA[2] + j * shapeA[2] + k;
+                size_t transposed_index = transposed_i * shapeY[1] * shapeY[2] + transposed_j * shapeY[2] + transposed_k;
+
+                expected_tensor[transposed_index] = A[original_index];
+            }
+        }
+    }
 
     // Verify
     for (int i = 0; i < expected->get_size(); i++) {
         if (i >= expected->get_size() || i >= result_ptr->get_size()) {
             std::cerr << "Index out of bounds! i: " << i << std::endl;
         }
-
         EXPECT_EQ((*expected)[i], (*result_ptr)[i]);
     }
 }
