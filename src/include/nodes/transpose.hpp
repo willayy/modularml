@@ -22,7 +22,7 @@ class TransposeNode : public Node {
   using T = std::variant<double, float, int32_t, int64_t, uint32_t, uint64_t>;
 
   /**
-   * @brief Constructor for GemmNode.
+   * @brief Constructor for TransposeNode.
    *
    * @param A Shared pointer to the tensor A.
    * @param Y Shared pointer to the output tensor.
@@ -59,13 +59,15 @@ class TransposeNode : public Node {
   std::vector<std::string> getOutputs() override;
 
  private:
-  // Inputs
-  std::string A;   // Input tensor A.
+  /**
+   * @brief Input tensor A.
+   */
+  std::string A;
 
-  // Output
-  std::string Y;  // Output tensor.
-
-  // Attributes
+  /**
+   * @brief Output tensor Y.
+   */
+  std::string Y;
 
   /**
    * @brief A list of integers. By default, reverse the dimensions, 

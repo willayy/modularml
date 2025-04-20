@@ -23,7 +23,6 @@ TEST(TransposeNode_test, test_forward) {
     // Attribute
     std::vector<int> perm = {1, 0}; // Reverse the axi
 
-    // Construct the GemmNode with alpha=1.0, beta=0.0, no transposition
     TransposeNode node(a_string, y_string, perm);
   
     // Run the forward pass
@@ -75,7 +74,6 @@ TEST(TransposeNode_test, test_forward) {
     iomap[a_string] = A_ptr;
     iomap[y_string] = Y_ptr;
     
-    // Permuting (0, 1, 2) to (1, 0, 2) swaps the first two dimensions
     std::vector<int> perm = {1, 0, 2};  // Transpose the first two dimensions
 
     // Construct the TransposeNode
