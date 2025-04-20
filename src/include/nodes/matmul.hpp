@@ -1,37 +1,35 @@
 #pragma once
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
-#include <optional>
-#include <string>
-#include <variant>
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stdexcept>
+#include <string>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
-
-#include "nlohmann/json_fwd.hpp"
-#include "nlohmann/json.hpp"
+#include <variant>
 
 #include "datastructures/mml_array.hpp"
+#include "nlohmann/json.hpp"
+#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-
-
 /**
  * @class MatMulNode
  * @brief A class representing a MatMul node in a computational graph.
  *
- * This class inherits from the Node class and represents a Matrix Multiplication
- * node in a computational graph. It performs the forward pass computation using GEMM inner product.
- * 
+ * This class inherits from the Node class and represents a Matrix
+ * Multiplication node in a computational graph. It performs the forward pass
+ * computation using GEMM inner product.
+ *
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class MatMulNode : public Node {
@@ -60,7 +58,8 @@ class MatMulNode : public Node {
    * This std::function performs the forward pass computation using the General
    * Matrix Multiply (GEMM) inner product.
    */
-  void forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
+  void forward(
+      std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
    * @brief Get inputs.
@@ -78,8 +77,8 @@ class MatMulNode : public Node {
 
  private:
   // Inputs
-  std::string A;                 // Input tensor A.
-  std::string B;                 // Input tensor B.
+  std::string A;  // Input tensor A.
+  std::string B;  // Input tensor B.
 
   // Output
   std::string Y;  // Output tensor.

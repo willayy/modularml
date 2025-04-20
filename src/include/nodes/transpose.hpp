@@ -13,8 +13,9 @@
  * @class TransposeNode
  * @brief A class representing a Transpose node in a computational graph.
  *
- * This class inherits from the Node class and represents a transpose operation as defined in onnx
- * 
+ * This class inherits from the Node class and represents a transpose operation
+ * as defined in onnx
+ *
  * @author Tim Carlsson (timca@chalmers.se)
  */
 class TransposeNode : public Node {
@@ -70,8 +71,8 @@ class TransposeNode : public Node {
   std::string Y;
 
   /**
-   * @brief A list of integers. By default, reverse the dimensions, 
-   * otherwise permute the axes according to the values given. 
+   * @brief A list of integers. By default, reverse the dimensions,
+   * otherwise permute the axes according to the values given.
    * Its length must be equal to the rank of the input.
    */
   std::vector<int> perm;

@@ -4,9 +4,7 @@ template <typename T>
 class Tensor_mml;
 
 MatMulNode::MatMulNode(std::string A, std::string B, std::string Y)
-    : A(A),
-      B(B),
-      Y(Y) {}
+    : A(A), B(B), Y(Y) {}
 
 MatMulNode::MatMulNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {
@@ -51,47 +49,43 @@ void MatMulNode::forward(
                 "MatMul: Input tensors must be 2D matrices");
           }
 
-        auto new_a_ptr = a_ptr->copy();
-        auto new_b_ptr = b_ptr->copy();
+          auto new_a_ptr = a_ptr->copy();
+          auto new_b_ptr = b_ptr->copy();
 
-        array_mml<size_t> a_shape = new_a_ptr->get_shape();
-        array_mml<size_t> b_shape = new_b_ptr->get_shape();
+          array_mml<size_t> a_shape = new_a_ptr->get_shape();
+          array_mml<size_t> b_shape = new_b_ptr->get_shape();
 
-        size_t M = a_shape[0];
-        size_t K_a = a_shape[1];
-        size_t K_b = b_shape[0];
-        size_t N = b_shape[1];
+          size_t M = a_shape[0];
+          size_t K_a = a_shape[1];
+          size_t K_b = b_shape[0];
+          size_t N = b_shape[1];
 
-        if (K_a != K_b) {
-        throw std::runtime_error(
-            "MatMul: Inner dimensions of A and B must match");
-        }
+          if (K_a != K_b) {
+            throw std::runtime_error(
+                "MatMul: Inner dimensions of A and B must match");
+          }
 
-        size_t lda = K_a;
-        size_t ldb = N;
-        size_t ldc = N;
-        
-        std::shared_ptr<Tensor<ValueTypeA>> new_c_ptr;
-        auto c_it = iomap.find(Y);
-        auto raw_c_ptr =
-            std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
-                ->copy();
-        new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
-    
-        TensorOperations::gemm<ValueTypeA>(
-            0, 0, M, N, K_a, 1.0, new_a_ptr, lda,
-            new_b_ptr, ldb, 0.0, new_c_ptr, ldc);
+          size_t lda = K_a;
+          size_t ldb = N;
+          size_t ldc = N;
 
-        iomap[Y] = new_c_ptr;
+          std::shared_ptr<Tensor<ValueTypeA>> new_c_ptr;
+          auto c_it = iomap.find(Y);
+          auto raw_c_ptr =
+              std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
+                  ->copy();
+          new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
+
+          TensorOperations::gemm<ValueTypeA>(0, 0, M, N, K_a, 1.0, new_a_ptr,
+                                             lda, new_b_ptr, ldb, 0.0,
+                                             new_c_ptr, ldc);
+
+          iomap[Y] = new_c_ptr;
         }
       },
       a_tensor, b_tensor);
 }
 
-std::vector<std::string> MatMulNode::getInputs() {
-    return {A, B};
-}
+std::vector<std::string> MatMulNode::getInputs() { return {A, B}; }
 
-std::vector<std::string> MatMulNode::getOutputs() { 
-    return {Y}; 
-}
+std::vector<std::string> MatMulNode::getOutputs() { return {Y}; }

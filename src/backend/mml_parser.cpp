@@ -28,13 +28,13 @@
 #include "nodes/leaky_relu.hpp"
 #include "nodes/log_softmax.hpp"
 #include "nodes/lrn.hpp"
+#include "nodes/matmul.hpp"
 #include "nodes/max_pool.hpp"
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/sigmoid.hpp"
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
-#include "nodes/matmul.hpp"
 #include "nodes/transpose.hpp"
 
 // Helper std::function: to map the tensors
