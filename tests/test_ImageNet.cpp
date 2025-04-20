@@ -200,7 +200,7 @@ TEST(test_imageNet, imageNet_alexnet) {
     GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
   }
 
-  auto result = imageNet(1, 1);
+  auto result = imageNet(1, 60);
 
   float success_rate = static_cast<float>(result.first) / (result.first + result.second);
 
@@ -257,7 +257,7 @@ TEST(test_imageNet, imageNet_resnet18) {
     GTEST_SKIP() << "Skipping test as ../resnet18.json is not found.";
   }
 
-  auto result = imageNet(1, 1, "../resnet18.json");
+  auto result = imageNet(1, 60, "../resnet18.json");
 
   float success_rate = static_cast<float>(result.first) / (result.first + result.second);
 
