@@ -72,5 +72,5 @@ class TransposeNode : public Node {
    * otherwise permute the axes according to the values given. 
    * Its length must be equal to the rank of the input.
    */
-  std::vector<int> perm; // 
+  std::vector<int> perm;
 };

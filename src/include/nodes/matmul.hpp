@@ -1,13 +1,29 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include <optional>
 #include <string>
 #include <variant>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
 
 #include "nlohmann/json_fwd.hpp"
+#include "nlohmann/json.hpp"
+
+#include "datastructures/mml_array.hpp"
 #include "nodes/a_node.hpp"
+
+// IWYU pragma: no_include <__vector/vector.h>
+#include <vector>  // IWYU pragma: keep
+
+
 
 /**
  * @class MatMulNode
@@ -15,6 +31,8 @@
  *
  * This class inherits from the Node class and represents a Matrix Multiplication
  * node in a computational graph. It performs the forward pass computation using GEMM inner product.
+ * 
+ * @author Tim Carlsson (timca@chalmers.se)
  */
 class MatMulNode : public Node {
  public:
@@ -32,7 +50,7 @@ class MatMulNode : public Node {
   /**
    * @brief Constructor for MatMul from JSON.
    *
-   * @param node JSON object representing the Gemm node.
+   * @param node JSON object representing the MatMul node.
    */
   MatMulNode(const nlohmann::json &node);
 

@@ -1,20 +1,5 @@
 #include "nodes/matmul.hpp"
 
-#include <stddef.h>
-
-#include <algorithm>
-#include <map>
-#include <memory>
-#include <stdexcept>
-#include <tuple>
-#include <type_traits>
-#include <unordered_map>
-// IWYU pragma: no_include <__vector/vector.h>
-#include <vector>  // IWYU pragma: keep
-
-#include "datastructures/mml_array.hpp"
-#include "nlohmann/json.hpp"
-
 template <typename T>
 class Tensor_mml;
 
@@ -107,4 +92,6 @@ std::vector<std::string> MatMulNode::getInputs() {
     return {A, B};
 }
 
-std::vector<std::string> MatMulNode::getOutputs() { return {Y}; }
+std::vector<std::string> MatMulNode::getOutputs() { 
+    return {Y}; 
+}
