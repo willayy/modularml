@@ -43,14 +43,10 @@ TEST(MatMulNode_test, test_forward) {
     //            1*8 + 2*10 + 3*12 = 8 + 20 + 36 = 64.
     // Second row: 4*7 + 5*9 + 6*11 = 28 + 45 + 66 = 139,
     //             4*8 + 5*10 + 6*12 = 32 + 50 + 72 = 154.
-    Tensor_mml<float> expected(shapeY);
-    expected[0] = 58.0f;
-    expected[1] = 64.0f;
-    expected[2] = 139.0f;
-    expected[3] = 154.0f;
-  
+    auto expected = TensorFactory::create_tensor<float>(shapeY, {58.0f, 64.0f, 139.0f, 154.0f});
+    
     // Compare each element of the result with the expected value.
-    for (int i = 0; i < expected.get_size(); i++) {
-      EXPECT_FLOAT_EQ(expected[i], (*result_ptr)[i]);
+    for (int i = 0; i < expected->get_size(); i++) {
+      EXPECT_FLOAT_EQ((*expected)[i], (*result_ptr)[i]);
     }
   }

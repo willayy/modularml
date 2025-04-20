@@ -55,8 +55,7 @@ void TransposeNode::forward(std::unordered_map<std::string, GeneralDataTypes> &i
                 ->copy();
         
         auto transposed_tensor = a_ptr->transpose(perm);
-        
-        iomap[Y] = new_c_ptr;
+        iomap[Y] = transposed_tensor;
     },
     a_tensor);
 }
