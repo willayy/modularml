@@ -384,6 +384,54 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
 };
 
 template <typename T>
+std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(std::vector<int>& perm) const {
+  if (perm.size() != this->shape.size()) {
+    throw std::invalid_argument("Transpose: perm size must be equal to tensor rank");
+  }
+
+  // Checks that the perm vector is valid
+  std::vector<bool> seen(perm.size(), false);
+  for (size_t p : perm) {
+    if (p >= perm.size() || seen[p]) {
+      throw std::invalid_argument("Transpose: invalid or duplicate entry in perm");
+    }
+    seen[p] = true;
+  }
+
+  array_mml<size_t> new_shape;
+  for (size_t i = 0; i < perm.size(); ++i) {
+    new_shape[i] = shape[perm[i]];
+  }
+
+  auto transposed = std::make_shared<Tensor_mml<T>>(new_shape);
+
+  // This recursive function remaps each element in the old tensor to the new permutation based in the perm vector
+  std::function<void(array_mml<size_t>&, size_t)> recurse;
+  recurse = [&](array_mml<size_t>& indices, size_t dim) {
+    if (dim == shape.size()) {
+      array_mml<size_t> transposed_indices;
+      for (size_t i = 0; i < perm.size(); ++i) {
+        transposed_indices[i] = indices[perm[i]];
+      }
+      (*transposed)[transposed_indices] = (*this)[indices];
+      return;
+    }
+
+    for (size_t i = 0; i < shape[dim]; ++i) {
+      indices[dim] = i;
+      recurse(indices, dim + 1);
+    }
+  };
+
+  array_mml<size_t> indices(shape.size());
+  indices.fill(0);
+  recurse(indices, 0);
+
+  return transposed;
+}
+
+
+template <typename T>
 bool Tensor_mml<T>::valid_broadcast_reshape_size(
     const array_mml<size_t> &target_shape) const {
   const array_mml<size_t> &current_shape = this->shape;
