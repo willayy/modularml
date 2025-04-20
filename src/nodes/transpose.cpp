@@ -34,7 +34,7 @@ TransposeNode::TransposeNode(const nlohmann::json &node) {
 void TransposeNode::forward(std::unordered_map<std::string, GeneralDataTypes> &iomap) {
     auto a_it = iomap.find(A);
     if (a_it == iomap.end()) {
-    throw std::runtime_error("MatMul: Input tensor A not found in iomap");
+    throw std::runtime_error("Transpose: Input tensor A not found in iomap");
     }
 
     const GeneralDataTypes &a_tensor = a_it->second;
@@ -43,7 +43,7 @@ void TransposeNode::forward(std::unordered_map<std::string, GeneralDataTypes> &i
         using ValueTypeA = std::decay_t<decltype(a_ptr)>::element_type::value_type;
 
         if constexpr (!is_in_variant_v<ValueTypeA, T>) {
-            throw std::runtime_error("MatMul: Unsupported data type for tensor A");
+            throw std::runtime_error("Transpose: Unsupported data type for tensor A");
         }
 
         auto new_a_ptr = a_ptr->copy();
@@ -53,7 +53,9 @@ void TransposeNode::forward(std::unordered_map<std::string, GeneralDataTypes> &i
         auto raw_c_ptr =
             std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)
                 ->copy();
-
+        
+        auto transposed_tensor = a_ptr->transpose(perm);
+        
         iomap[Y] = new_c_ptr;
     },
     a_tensor);
