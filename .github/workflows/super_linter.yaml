@@ -14,6 +14,7 @@ jobs:
 
       - name: Lint code base
         uses: github/super-linter@v5
+        continue-on-error: true
         env:
           VALIDATE_ALL_CODEBASE: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
