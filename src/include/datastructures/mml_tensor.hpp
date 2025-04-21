@@ -114,7 +114,6 @@ class Tensor_mml : public Tensor<T> {
   void reshape(const array_mml<size_t> &new_shape) override;
   void reshape(std::initializer_list<size_t> new_shape) override;
   bool is_matrix() const override;
-  bool matrix_match(const Tensor<T> &other) const override;
   bool operator==(const Tensor<T> &other) const override;
   const array_mml<size_t> &get_shape() const override;
   const array_mml<size_t> &get_offsets() const;

@@ -242,14 +242,6 @@ bool Tensor_mml<T>::is_matrix() const {
 }
 
 template <typename T>
-bool Tensor_mml<T>::matrix_match(const Tensor<T> &other) const {
-  if (!this->is_matrix() || !other.is_matrix()) {
-    return false;
-  }
-  return this->get_shape()[1] == other.get_shape()[0];
-}
-
-template <typename T>
 bool Tensor_mml<T>::operator==(const Tensor<T> &other) const {
   if (this->get_size() != other.get_size()) return false;
   if (this->get_shape() != other.get_shape()) return false;
