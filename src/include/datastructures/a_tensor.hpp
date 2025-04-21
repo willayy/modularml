@@ -36,11 +36,6 @@ class Tensor {
   /// @brief Destructor for Tensor class.
   virtual ~Tensor() = default;
 
-  /// @brief Check if this tensor is not std::equal to another tensor.
-  /// @param other The tensor to compare with.
-  /// @return True if the tensors are not std::equal, false otherwise.
-  virtual bool operator!=(const Tensor<T> &other) const = 0;
-
   /// @brief Get an element from the tensor using multi-dimensional indices.
   /// @param indices A std::vector of integers representing the indices of the
   /// element.

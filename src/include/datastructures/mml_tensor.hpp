@@ -116,7 +116,6 @@ class Tensor_mml : public Tensor<T> {
   bool is_matrix() const override;
   bool matrix_match(const Tensor<T> &other) const override;
   bool operator==(const Tensor<T> &other) const override;
-  bool operator!=(const Tensor<T> &other) const override;
   const array_mml<size_t> &get_shape() const override;
   const array_mml<size_t> &get_offsets() const;
   size_t get_size() const override;

@@ -263,11 +263,6 @@ bool Tensor_mml<T>::operator==(const Tensor<T> &other) const {
 }
 
 template <typename T>
-bool Tensor_mml<T>::operator!=(const Tensor<T> &other) const {
-  return !(*this == other);
-}
-
-template <typename T>
 const array_mml<size_t> &Tensor_mml<T>::get_shape() const {
   return this->shape;
 }
