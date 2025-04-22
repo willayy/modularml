@@ -20,11 +20,9 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "a_tensor.hpp"
-#include "datastructures/tensor_operation_functions.hpp"
+#include "tensor_default_operation_functions.hpp"
+#include "tensor_operation_function_types.hpp"
 
-#define ASSERT_ALLOWED_TYPES_TOM(T)      \
-  static_assert(std::is_arithmetic_v<T>, \
-                "TensorOperationModule type must be arithmetic.")
 /**
  * A module for performing arithmetic operations on tensor structures. Your
  * static modular toolbox for all operations on tensors.
@@ -65,28 +63,26 @@ class TensorOperations {
    * @brief Sets the gemm std::function pointer.
    * @param ptr Function pointer to the gemm implementation.
    */
-  template <typename T>
-  static void set_gemm_ptr(
-      std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                         std::shared_ptr<Tensor<T>> A, int lda,
-                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                         std::shared_ptr<Tensor<T>> C, int ldc)>
-          ptr);
+  template <typename... Ts>
+  static void set_gemm_ptr(toft::gemm_func<Ts>... ptr);
 
   /**
    * @brief General matrix multiplication (GEMM) std::function using the ONNX
-   * standard. Performs operation Y := alpha * A * B + beta * C (std::optional)
-   * More detailed info in https://onnx.ai/onnx/operators/onnx__Gemm.html
-   * @param A Input tensor A. The shape of A should be (M, K) if transA is 0, or
-   * (K, M) if transA is non-zero.
-   * @param B Input tensor B. The shape of B should be (K, N) if transB is 0, or
-   * (N, K) if transB is non-zero.
+   * standard. Performs operation Y := alpha * A * B + beta * C
+   * (std::optional) More detailed info in
+   * https://onnx.ai/onnx/operators/onnx__Gemm.html
+   * @param A Input tensor A. The shape of A should be (M, K) if transA is 0,
+   * or (K, M) if transA is non-zero.
+   * @param B Input tensor B. The shape of B should be (K, N) if transB is 0,
+   * or (N, K) if transB is non-zero.
    * @param alpha Float alpha.
    * @param beta Float beta.
-   * @param transA 0 if matrix A is not transposed, 1 if matrix A is transposed.
-   * @param transB 0 if matrix B is not transposed, 1 if matrix B is transposed.
-   * @param C Optional input tensor C. If not specified, the computation is done
-   * as if C is a scalar 0. The shape of C should be unidirectional
+   * @param transA 0 if matrix A is not transposed, 1 if matrix A is
+   * transposed.
+   * @param transB 0 if matrix B is not transposed, 1 if matrix B is
+   * transposed.
+   * @param C Optional input tensor C. If not specified, the computation is
+   * done as if C is a scalar 0. The shape of C should be unidirectional
    * broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N). */
   template <typename T>
@@ -100,13 +96,8 @@ class TensorOperations {
    * @brief Sets the gemm_onnx std::function pointer.
    * @param ptr Function pointer to the gemm_onnx implementation.
    */
-  template <typename T>
-  static void set_gemm_onnx_ptr(
-      std::function<std::shared_ptr<Tensor<T>>(
-          std::shared_ptr<Tensor<T>> A, std::shared_ptr<Tensor<T>> B,
-          float alpha, float beta, int transA, int transB,
-          std::optional<std::shared_ptr<Tensor<T>>> C)>
-          ptr);
+  template <typename... Ts>
+  static void set_gemm_onnx_ptr(toft::gemm_onnx_func<Ts>... ptr);
 
   /**
    * @brief Adds two tensors element-wise.
@@ -123,12 +114,8 @@ class TensorOperations {
    * @brief Sets the add std::function pointer.
    * @param ptr Function pointer to the add implementation.
    */
-  template <typename T>
-  static void set_add_ptr(
-      std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                         const std::shared_ptr<const Tensor<T>> b,
-                         std::shared_ptr<Tensor<T>> c)>
-          ptr);
+  template <typename... Ts>
+  static void set_add_ptr(toft::add_func<Ts>... ptr);
 
   /**
    * @brief Subtracts two tensors element-wise.
@@ -145,12 +132,8 @@ class TensorOperations {
    * @brief Sets the subtract std::function pointer.
    * @param ptr Function pointer to the subtract implementation.
    */
-  template <typename T>
-  static void set_subtract_ptr(
-      std::function<void(const std::shared_ptr<Tensor<T>> a,
-                         const std::shared_ptr<Tensor<T>> b,
-                         std::shared_ptr<Tensor<T>> c)>
-          ptr);
+  template <typename... Ts>
+  static void set_subtract_ptr(toft::subtract_func<Ts>... ptr);
 
   /**
    * @brief Multiplies a tensor by a scalar.
@@ -166,11 +149,8 @@ class TensorOperations {
    * @brief Sets the multiply std::function pointer.
    * @param ptr Function pointer to the multiply implementation.
    */
-  template <typename T>
-  static void set_multiply_ptr(
-      std::function<void(const std::shared_ptr<Tensor<T>> a, const T b,
-                         std::shared_ptr<Tensor<T>> c)>
-          ptr);
+  template <typename... Ts>
+  static void set_multiply_ptr(toft::multiply_func<Ts>... ptr);
 
   /**
    * @brief Compares two tensors element-wise.
@@ -185,11 +165,8 @@ class TensorOperations {
    * @brief Sets the equals std::function pointer.
    * @param ptr Function pointer to the equals implementation.
    */
-  template <typename T>
-  static void set_equals_ptr(
-      std::function<bool(const std::shared_ptr<Tensor<T>> a,
-                         const std::shared_ptr<Tensor<T>> b)>
-          ptr);
+  template <typename... Ts>
+  static void set_equals_ptr(toft::equals_func<Ts>... ptr);
 
   /**
    * @brief Applies a std::function element-wise to a tensor.
@@ -205,12 +182,8 @@ class TensorOperations {
    * @brief Sets the elementwise std::function pointer.
    * @param ptr Function pointer to the elementwise implementation.
    */
-  template <typename T>
-  static void set_elementwise_ptr(
-      std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                         const std::function<T(T)>& f,
-                         const std::shared_ptr<Tensor<T>> c)>
-          ptr);
+  template <typename... Ts>
+  static void set_elementwise_ptr(toft::elementwise_func<Ts>... ptr);
 
   /**
    * @brief Applies a std::function element-wise to a tensor in place.
@@ -224,11 +197,9 @@ class TensorOperations {
    * @brief Sets the elementwise_in_place std::function pointer.
    * @param ptr Function pointer to the elementwise_in_place implementation.
    */
-  template <typename T>
+  template <typename... Ts>
   static void set_elementwise_in_place_ptr(
-      std::function<void(const std::shared_ptr<Tensor<T>> a,
-                         const std::function<T(T)>& f)>
-          ptr);
+      toft::elementwise_in_place_func<Ts>... ptr);
 
   /**
    * @brief Gets the maximum value of a tensor along a given axis.
@@ -242,9 +213,8 @@ class TensorOperations {
    * @brief Sets the arg_max std::function pointer.
    * @param ptr Function pointer to the arg_max implementation.
    */
-  template <typename T>
-  static void set_arg_max_ptr(
-      std::function<int(const std::shared_ptr<const Tensor<T>> a)> ptr);
+  template <typename... Ts>
+  static void set_arg_max_ptr(toft::arg_max_func<Ts>... ptr);
 
   /**
    * @brief Applies a sliding window operation to a tensor.
@@ -269,91 +239,71 @@ class TensorOperations {
    * @brief Sets the sliding_window function pointer.
    * @param ptr Function pointer to the sliding_window implementation.
    */
-  template <typename T>
-  static void set_sliding_window_ptr(
-      std::function<void(
-          const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
-          const std::vector<int>& kernel_shape, const std::vector<int>& strides,
-          const std::vector<int>& dilations,
-          const std::vector<std::pair<int, int>>& pads,
-          const std::function<void(const std::vector<std::vector<size_t>>&,
-                                   const std::vector<size_t>&)>& window_f)>
-          ptr);
+  template <typename... Ts>
+  static void set_sliding_window_ptr(toft::sliding_window_func<Ts>... ptr);
 
  private:
   // Private constructor.
   TensorOperations() = default;
 
-  // Pointer to the gemm std::function.
-  template <typename T>
-  static std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                            std::shared_ptr<Tensor<T>> A, int lda,
-                            std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                            std::shared_ptr<Tensor<T>> C, int ldc)>
-      gemm_ptr;
+  const std::unordered_set<std::string> allowed_types = {
+      "float",   "int",     "double",  "bool",     "int8_t",   "int16_t",
+      "int32_t", "int64_t", "uint8_t", "uint16_t", "uint32_t", "uint64_t"};
 
-  // Pointer to the gemm_onnx std::function.
-  template <typename T>
-  static std::function<std::shared_ptr<Tensor<T>>(
-      std::shared_ptr<Tensor<T>> A, std::shared_ptr<Tensor<T>> B, float alpha,
-      float beta, int transA, int transB,
-      std::optional<std::shared_ptr<Tensor<T>>> C)>
-      gemm_onnx_ptr;
-
-  // Pointer to the add std::function.
-  template <typename T>
-  static std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                            const std::shared_ptr<const Tensor<T>> b,
-                            std::shared_ptr<Tensor<T>> c)>
-      add_ptr;
-
-  // Pointer to the subtract std::function.
-  template <typename T>
-  static std::function<void(const std::shared_ptr<Tensor<T>> a,
-                            const std::shared_ptr<Tensor<T>> b,
-                            std::shared_ptr<Tensor<T>> c)>
-      subtract_ptr;
-
-  // Pointer to the multiply std::function.
-  template <typename T>
-  static std::function<void(const std::shared_ptr<Tensor<T>> a, const T b,
-                            std::shared_ptr<Tensor<T>> c)>
-      multiply_ptr;
-
-  // Pointer to the equals std::function.
-  template <typename T>
-  static std::function<bool(const std::shared_ptr<Tensor<T>> a,
-                            const std::shared_ptr<Tensor<T>> b)>
-      equals_ptr;
-
-  // Pointer to the elementwise std::function.
-  template <typename T>
-  static std::function<void(const std::shared_ptr<const Tensor<T>> a,
-                            const std::function<T(T)>& f,
-                            const std::shared_ptr<Tensor<T>> c)>
-      elementwise_ptr;
-
-  // Pointer to the elementwise_in_place std::function.
-  template <typename T>
-  static std::function<void(const std::shared_ptr<Tensor<T>> a,
-                            const std::function<T(T)>& f)>
-      elementwise_in_place_ptr;
-
-  // Pointer to the arg_max std::function.
-  template <typename T>
-  static std::function<int(const std::shared_ptr<const Tensor<T>> a)>
-      arg_max_ptr;
+  bool is_allowed_type(const std::string& type) {
+    return allowed_types.contains(type);
+  }
 
   // Pointer to the sliding_window function.
   template <typename T>
-  static std::function<void(
-      const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
-      const std::vector<int>& kernel_shape, const std::vector<int>& strides,
-      const std::vector<int>& dilations,
-      const std::vector<std::pair<int, int>>& pads,
-      const std::function<void(const std::vector<std::vector<size_t>>&,
-                               const std::vector<size_t>&)>& window_f)>
-      sliding_window_ptr;
+  static inline toft::sliding_window_func<T> sliding_window_ptr = mml_sliding_window<T>;
+
+  // Pointer to the gemm std::function. Different defaults depending on compiler flags
+#if defined(USE_AVX_GEMM)
+  template <typename T>
+  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx<T>;
+#elif defined(USE_AVX512_GEMM)
+  template <typename T>
+  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx512<T>;
+#elif defined(USE_BLOCKED_GEMM)
+  template <typename T>
+  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_blocked<T>;
+#else
+  template <typename T>
+  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_inner_product<T>;
+#endif
+
+  // Pointer to the gemm_onnx std::function.
+  template <typename T>
+  static inline toft::gemm_onnx_func<T> gemm_onnx_ptr = mml_onnx_gemm_inner_product<T>;
+
+  // Pointer to the add std::function.
+  template <typename T>
+  static inline toft::add_func<T> add_ptr = mml_add<T>;
+
+  // Pointer to the subtract std::function.
+  template <typename T>
+  static inline toft::subtract_func<T> subtract_ptr = mml_subtract<T>;
+
+  // Pointer to the multiply std::function.
+  template <typename T>
+  static inline toft::multiply_func<T> multiply_ptr = mml_multiply<T>;
+
+  // Pointer to the equals std::function.
+  template <typename T>
+  static inline toft::equals_func<T> equals_ptr = mml_equals<T>;
+
+  // Pointer to the elementwise std::function.
+  template <typename T>
+  static inline toft::elementwise_func elementwise_ptr = mml_elementwise<T>;
+
+  // Pointer to the elementwise_in_place std::function.
+  template <typename T>
+  static inline toft::elementwise_in_place_func elementwise_in_place_ptr = mml_elementwise_in_place<T>;
+
+  // Pointer to the arg_max std::function.
+  template <typename T>
+  static inline toft::arg_max_func arg_max_ptr = mml_arg_max<T>;
 };
 
 #include "../datastructures/tensor_operations_module.tpp"

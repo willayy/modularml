@@ -118,24 +118,6 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              std::shared_ptr<Tensor<T>> C, int ldc);
 
 template <typename T>
-static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
-                         std::shared_ptr<Tensor<T>> A, int lda,
-                         std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                         std::shared_ptr<Tensor<T>> C, int ldc);
-
-template <typename T>
-static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
-                            std::shared_ptr<Tensor<T>> A, int lda,
-                            std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                            std::shared_ptr<Tensor<T>> C, int ldc);
-
-template <typename T>
-static void mml_gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
-                               std::shared_ptr<Tensor<T>> A, int lda,
-                               std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
-                               std::shared_ptr<Tensor<T>> C, int ldc);
-
-template <typename T>
 static void mml_add(const std::shared_ptr<const Tensor<T>> a,
                     const std::shared_ptr<const Tensor<T>> b,
                     std::shared_ptr<Tensor<T>> c);
@@ -174,4 +156,4 @@ static void mml_sliding_window(
     const std::function<void(const std::vector<std::vector<size_t>>&,
                              const std::vector<size_t>&)>& window_f);
 
-#include "../datastructures/tensor_operation_functions.tpp"
+#include "../datastructures/tensor_default_operation_functions.tpp"
