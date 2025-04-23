@@ -3,12 +3,6 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
-message(STATUS "CMake version: ${CMAKE_VERSION}")
-message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
-message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
-message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
-
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
     message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
     set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk")
@@ -208,7 +202,6 @@ target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
 # Link coverage
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
-
 # Add the test to gtest
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
@@ -250,7 +243,7 @@ else()
 endif()
 
 # Set the input directory for Doxygen
-set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
+set(DOXYGEN_INPUT_DIR "${CMAKE_SOURCE_DIR}/src")
 
 # Set the Doxygen input directory
 set(DOXYGEN_INPUT ${DOXYGEN_INPUT_DIR})
@@ -292,3 +285,23 @@ if(iwyu)
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()
+
+# ------------------- Cmake messages -------------------------------- #
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
+message(STATUS "CMake compiler: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "CMake compiler version: ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "CMake compiler flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMake compiler flags (debug): ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CMake compiler flags (release): ${CMAKE_CXX_FLAGS_RELEASE}")
+message(STATUS "CMake compiler flags (relwithdebinfo): ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+message(STATUS "CMake compiler flags (minsizerel): ${CMAKE_CXX_FLAGS_MINSIZEREL}")
+message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
+message(STATUS "CMake runtime output dir: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+message(STATUS "CMake library output dir: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message(STATUS "CMake archive output dir: ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+message(STATUS "CMake working directory: ${WORKING_DIRECTORY}")
