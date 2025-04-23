@@ -153,6 +153,8 @@ class Tensor {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const = 0;
 
+  virtual std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const = 0;
+  
   virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const = 0;
 

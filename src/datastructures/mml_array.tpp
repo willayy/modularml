@@ -62,7 +62,8 @@ size_t array_mml<T>::size() const {
 template <typename T>
 T &array_mml<T>::operator[](size_t index) {
   if (index >= this->d_size) {
-    throw std::out_of_range("Invalid array_mml index");
+    throw std::out_of_range("Invalid array_mml index: " + std::to_string(index) + 
+                            ". Array size: " + std::to_string(this->d_size));
   } else {
     return this->data[index];
   }
@@ -71,11 +72,13 @@ T &array_mml<T>::operator[](size_t index) {
 template <typename T>
 const T &array_mml<T>::operator[](size_t index) const {
   if (index >= this->d_size) {
-    throw std::out_of_range("Invalid array_mml index");
+    throw std::out_of_range("Invalid array_mml index: " + std::to_string(index) + 
+                            ". Array size: " + std::to_string(this->d_size));
   } else {
     return this->data[index];
   }
 }
+
 
 template <typename T>
 array_mml<T> &array_mml<T>::operator=(const array_mml &other) {
