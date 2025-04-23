@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "backend/dataloader/data_loader_config.hpp"
+#include "dataloader/data_loader_config.hpp"
 
 /**
  * @class resizeAndCrop

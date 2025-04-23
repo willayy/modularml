@@ -9,8 +9,8 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/dataloader/data_loader_config.hpp"
-#include "backend/dataloader/resize_and_cropper.hpp"
+#include "../include/dataloader/data_loader_config.hpp"
+#include "../include/dataloader/resize_and_cropper.hpp"
 #include "stb_image.h"
 #include "stb_image_resize2.h"
 

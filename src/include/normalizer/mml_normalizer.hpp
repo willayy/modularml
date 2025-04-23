@@ -1,6 +1,6 @@
 #pragma once
 
-#include "backend/dataloader/a_normalizer.hpp"
+#include "normalizer/a_normalizer.hpp"
 #include "datastructures/mml_tensor.hpp"
 
 /**
@@ -9,7 +9,7 @@
  *
  * @author Måns Bremer (@Breman402)
  */
-class Normalize : public Normalizer<float, float> {
+class Normalizer_mml : public Normalizer<float, float> {
  public:
   /**
    * @brief normalizes a tensor according to the inputs and returns a shared

@@ -7,7 +7,7 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/a_model.hpp"
+#include "model/a_model.hpp"
 #include "nodes/a_node.hpp"
 
 /**

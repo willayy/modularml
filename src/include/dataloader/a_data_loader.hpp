@@ -20,7 +20,7 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/dataloader/data_loader_config.hpp"
+#include "dataloader/data_loader_config.hpp"
 #include "datastructures/a_tensor.hpp"
 
 /**

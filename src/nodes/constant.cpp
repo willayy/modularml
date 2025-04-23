@@ -9,7 +9,7 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/parser_helper.hpp"
+#include "../include/parser/parser_helper.hpp"
 #include "nlohmann/json.hpp"
 
 ConstantNode::ConstantNode(std::string output, GeneralDataTypes value)

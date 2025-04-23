@@ -3,7 +3,7 @@
 #include <modularml>
 
 TEST(normalizer_test, test_normalize_valid_input) {
-  Normalize normalizer;
+  Normalizer_mml normalizer;
   // Input tensor shape: 1x3x2x2
   array_mml<size_t> input_shape({1, 3, 2, 2});
   array_mml<float> input_values({
@@ -47,7 +47,7 @@ TEST(normalizer_test, test_normalize_valid_input) {
 }
 
 TEST(normalizer_test, test_invalid_input_dimensions) {
-  Normalize normalizer;
+  Normalizer_mml normalizer;
   // Input tensor shape: 1x3x2 (invalid, not 4D)
   array_mml<size_t> input_shape({1, 3, 2});
   array_mml<float> input_values({1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
