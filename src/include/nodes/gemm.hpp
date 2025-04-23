@@ -33,7 +33,7 @@ class GemmNode : public Node {
    * @param transA Whether to transpose A (0 means false).
    * @param transB Whether to transpose B (0 means false).
    */
-  GemmNode(std::string A, std::string B, std::string Y,
+  GemmNode(const std::string &A, const std::string &B, const std::string &Y,
            std::optional<std::string> C = std::nullopt, float alpha = 1.0f,
            float beta = 1.0f, int transA = 0, int transB = 0);
 

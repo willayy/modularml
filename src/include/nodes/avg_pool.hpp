@@ -25,10 +25,10 @@ class AvgPoolNode : public Node {
    * @param storage_order Storage order (default: 0).
    * @param strides Stride values.
    */
-  AvgPoolNode(std::string X, std::string Y, std::vector<int> kernel_shape,
-              std::string auto_pad = "NOTSET", int ceil_mode = 0,
-              int count_include_pad = 0, std::vector<int> dilations = {},
-              std::vector<int> pads = {}, std::vector<int> strides = {});
+  AvgPoolNode(const std::string &X, const std::string &Y, const std::vector<int> &kernel_shape,
+              const std::string &auto_pad = "NOTSET", int ceil_mode = 0,
+              int count_include_pad = 0, const std::vector<int> &dilations = {},
+              const std::vector<int> &pads = {}, const std::vector<int> &strides = {});
 
   /**
    * @brief Constructor for AvgPoolNode.

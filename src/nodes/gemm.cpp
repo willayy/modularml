@@ -18,7 +18,7 @@
 template <typename T>
 class Tensor_mml;
 
-GemmNode::GemmNode(std::string A, std::string B, std::string Y,
+GemmNode::GemmNode(const std::string &A, const std::string &B, const std::string &Y,
                    std::optional<std::string> C, float alpha, float beta,
                    int transA, int transB)
     : A(A),
