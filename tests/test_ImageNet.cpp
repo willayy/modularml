@@ -21,7 +21,7 @@
  * @throws std::runtime_error If the image key is not found in the JSON file.
  * @throws std::runtime_error If no CAFFE label is found for the given image key.
  */
-int getCaffeLabel(const std::string& jsonPath, const std::string& imageKey) {
+int get_caffe_label(const std::string& jsonPath, const std::string& imageKey) {
   std::ifstream file(jsonPath);
   if (!file.is_open()) {
     throw std::runtime_error("Failed to open JSON file: " + jsonPath);
@@ -167,7 +167,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     int result = TensorOperations::arg_max<float>(output_tensor);
 
     // Get the class number from the JSON file
-    int expected_result = getCaffeLabel(labelPath, imageFile);
+    int expected_result = get_caffe_label(labelPath, imageFile);
 
     // Check if it matches the prediction
     // Increase success or failure
@@ -183,13 +183,13 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   return {success, failure};
 }
 
-TEST(test_getCaffeLabel, getCaffeLabel) {
+TEST(test_get_caffe_label, get_caffe_label) {
   std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   auto label1 = "ILSVRC2012_val_" + padNumber(1) + ".JPEG";
   auto label2 = "ILSVRC2012_val_" + padNumber(2) + ".JPEG";
 
-  EXPECT_EQ(getCaffeLabel(labelPath, label1), 65);
-  EXPECT_EQ(getCaffeLabel(labelPath, label2), 970);
+  EXPECT_EQ(get_caffe_label(labelPath, label1), 65);
+  EXPECT_EQ(get_caffe_label(labelPath, label2), 970);
 }
 
 TEST(test_imageNet, imageNet) {

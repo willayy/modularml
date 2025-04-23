@@ -7,9 +7,8 @@ std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
                    shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
                    int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
-        mml_gemm_blocked<T>;  // NOSONAR - Not a global variable
+        mml_gemm_blocked<T>;
 #endif
-
 
 // Setter implementations
 template <typename... Ts>
