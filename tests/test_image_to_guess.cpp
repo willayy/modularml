@@ -18,7 +18,9 @@ TEST(test_alexnet_image_to_guess, image_to_guess) {
       "../tests/data/alexnet/alexnet_pictures/foxhound.png");
 
   imageResizeAndCropper resizer_and_cropper;
-  int out_width, out_height, out_channels;
+  int out_width;
+  int out_height;
+  int out_channels;
   std::shared_ptr<unsigned char> resized_image =
       resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 
@@ -89,7 +91,9 @@ TEST(test_alexnet_image_to_guess, image_to_guess2) {
       "../tests/data/alexnet/alexnet_pictures/American_egret.png");
 
   imageResizeAndCropper resizer_and_cropper;
-  int out_width, out_height, out_channels;
+  int out_width;
+  int out_height;
+  int out_channels;
   std::shared_ptr<unsigned char> resized_image =
       resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 

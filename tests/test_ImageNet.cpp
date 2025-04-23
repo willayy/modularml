@@ -151,7 +151,9 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex,
 
     // resize and crop the image
     const ImageLoaderConfig config(imageFilePath);
-    int out_width, out_height, out_channels;
+    int out_width;
+    int out_height;
+    int out_channels;
     std::shared_ptr<unsigned char> resized_image =
         resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 

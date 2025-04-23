@@ -22,5 +22,5 @@ class Normalizer_mml : public Normalizer<float, float> {
    */
   std::shared_ptr<Tensor<float>> normalize(
       const std::shared_ptr<Tensor<float>>& input,
-      const std::array<float, 3>& mean, const std::array<float, 3>& std) const;
+      const std::array<float, 3>& mean, const std::array<float, 3>& std) const override;
 };
