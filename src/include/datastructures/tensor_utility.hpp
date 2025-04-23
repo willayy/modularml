@@ -21,6 +21,7 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "datastructures/a_tensor.hpp"
+#include "tensor_concept.hpp"
 
 /**
  * @brief Compares two tensors element-wise to check if they are close within a
@@ -39,7 +40,7 @@
  * @return true if all corresponding elements of the tensors are within the
  * specified tolerance, false otherwise.
  */
-template <typename T>
+template <TensorConcept::Types T>
 bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01),
                        bool verbose = false);
 
@@ -57,7 +58,7 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance = T(0.01),
  * @param kernel_size The size of the kernel.
  * @param gen A random number generator.
  */
-template <typename T>
+template <TensorConcept::Types T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size, std::mt19937 &gen);
 
@@ -74,7 +75,7 @@ void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
  * @param in_channels The number of input channels.
  * @param kernel_size The size of the kernel.
  */
-template <typename T>
+template <TensorConcept::Types T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size);
 

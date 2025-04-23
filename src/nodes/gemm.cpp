@@ -15,9 +15,6 @@
 #include "datastructures/mml_array.hpp"
 #include "nlohmann/json.hpp"
 
-template <typename T>
-class Tensor_mml;
-
 GemmNode::GemmNode(std::string A, std::string B, std::string Y,
                    std::optional<std::string> C, float alpha, float beta,
                    int transA, int transB)

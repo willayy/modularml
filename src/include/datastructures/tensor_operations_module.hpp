@@ -22,6 +22,7 @@
 #include "a_tensor.hpp"
 #include "tensor_default_operation_functions.hpp"
 #include "tensor_operation_function_types.hpp"
+#include "tensor_concept.hpp"
 
 /**
  * A module for performing arithmetic operations on tensor structures. Your
@@ -53,7 +54,7 @@ class TensorOperations {
    * @param C 1D array containing the result matrix (can be initialized to
    * non-zero for addition).
    * @param ldc Specifies the first dimension of matrix C. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void gemm(int TA, int TB, int M, int N, int K, T ALPHA,
                    std::shared_ptr<Tensor<T>> A, int lda,
                    std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
@@ -63,7 +64,7 @@ class TensorOperations {
    * @brief Sets the gemm std::function pointer.
    * @param ptr Function pointer to the gemm implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_gemm_ptr(toft::gemm_func<Ts>... ptr);
 
   /**
@@ -85,7 +86,7 @@ class TensorOperations {
    * done as if C is a scalar 0. The shape of C should be unidirectional
    * broadcastable to (M, N).
    * @return Output tensor Y. Output tensor of shape (M, N). */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> gemm_onnx(
       std::shared_ptr<Tensor<T>> A = nullptr,
       std::shared_ptr<Tensor<T>> B = nullptr, float alpha = 1.0,
@@ -96,7 +97,7 @@ class TensorOperations {
    * @brief Sets the gemm_onnx std::function pointer.
    * @param ptr Function pointer to the gemm_onnx implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_gemm_onnx_ptr(toft::gemm_onnx_func<Ts>... ptr);
 
   /**
@@ -105,7 +106,7 @@ class TensorOperations {
    * @param a First tensor.
    * @param b Second tensor.
    * @param c Output tensor. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void add(const std::shared_ptr<const Tensor<T>> a,
                   const std::shared_ptr<const Tensor<T>> b,
                   std::shared_ptr<Tensor<T>> c);
@@ -114,7 +115,7 @@ class TensorOperations {
    * @brief Sets the add std::function pointer.
    * @param ptr Function pointer to the add implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_add_ptr(toft::add_func<Ts>... ptr);
 
   /**
@@ -123,7 +124,7 @@ class TensorOperations {
    * @param a First tensor.
    * @param b Second tensor.
    * @param c Output tensor. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void subtract(const std::shared_ptr<Tensor<T>> a,
                        const std::shared_ptr<Tensor<T>> b,
                        std::shared_ptr<Tensor<T>> c);
@@ -132,7 +133,7 @@ class TensorOperations {
    * @brief Sets the subtract std::function pointer.
    * @param ptr Function pointer to the subtract implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_subtract_ptr(toft::subtract_func<Ts>... ptr);
 
   /**
@@ -141,7 +142,7 @@ class TensorOperations {
    * @param a Input tensor.
    * @param b Scalar.
    * @param c Output tensor. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void multiply(const std::shared_ptr<Tensor<T>> a, const T b,
                        std::shared_ptr<Tensor<T>> c);
 
@@ -149,7 +150,7 @@ class TensorOperations {
    * @brief Sets the multiply std::function pointer.
    * @param ptr Function pointer to the multiply implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_multiply_ptr(toft::multiply_func<Ts>... ptr);
 
   /**
@@ -157,7 +158,7 @@ class TensorOperations {
    * @param a First tensor.
    * @param b Second tensor.
    * @return True if the tensors are std::equal, false otherwise. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static bool equals(const std::shared_ptr<Tensor<T>> a,
                      const std::shared_ptr<Tensor<T>> b);
 
@@ -165,7 +166,7 @@ class TensorOperations {
    * @brief Sets the equals std::function pointer.
    * @param ptr Function pointer to the equals implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_equals_ptr(toft::equals_func<Ts>... ptr);
 
   /**
@@ -173,7 +174,7 @@ class TensorOperations {
    * @param a Input tensor.
    * @param f Function to apply.
    * @param c Output tensor. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void elementwise(const std::shared_ptr<const Tensor<T>> a,
                           const std::function<T(T)> f,
                           const std::shared_ptr<Tensor<T>> c);
@@ -182,14 +183,14 @@ class TensorOperations {
    * @brief Sets the elementwise std::function pointer.
    * @param ptr Function pointer to the elementwise implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_elementwise_ptr(toft::elementwise_func<Ts>... ptr);
 
   /**
    * @brief Applies a std::function element-wise to a tensor in place.
    * @param a Input tensor.
    * @param f Function to apply. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void elementwise_in_place(const std::shared_ptr<Tensor<T>> a,
                                    const std::function<T(T)> f);
 
@@ -197,7 +198,7 @@ class TensorOperations {
    * @brief Sets the elementwise_in_place std::function pointer.
    * @param ptr Function pointer to the elementwise_in_place implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_elementwise_in_place_ptr(
       toft::elementwise_in_place_func<Ts>... ptr);
 
@@ -206,14 +207,14 @@ class TensorOperations {
    * @param a Input tensor.
    * @return The maximum value along the specified axis.
    */
-  template <typename T>
+  template <TensorConcept::Types T>
   static int arg_max(const std::shared_ptr<const Tensor<T>> a);
 
   /**
    * @brief Sets the arg_max std::function pointer.
    * @param ptr Function pointer to the arg_max implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_arg_max_ptr(toft::arg_max_func<Ts>... ptr);
 
   /**
@@ -226,7 +227,7 @@ class TensorOperations {
    * @param pads Padding for the sliding window.
    * @param window_f Function to apply in the sliding window.
    */
-  template <typename T>
+  template <TensorConcept::Types T>
   static void sliding_window(
       const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
       const std::vector<int>& kernel_shape, const std::vector<int>& strides,
@@ -239,70 +240,66 @@ class TensorOperations {
    * @brief Sets the sliding_window function pointer.
    * @param ptr Function pointer to the sliding_window implementation.
    */
-  template <typename... Ts>
+  template <TensorConcept::Types... Ts>
   static void set_sliding_window_ptr(toft::sliding_window_func<Ts>... ptr);
 
  private:
   // Private constructor.
   TensorOperations() = default;
 
-  const std::unordered_set<std::string> allowed_types = {
-      "float",   "int",     "double",  "bool",     "int8_t",   "int16_t",
-      "int32_t", "int64_t", "uint8_t", "uint16_t", "uint32_t", "uint64_t"};
-
-  bool is_allowed_type(const std::string& type) {
-    return allowed_types.contains(type);
-  }
-
   // Pointer to the sliding_window function.
-  template <typename T>
-  static inline toft::sliding_window_func<T> sliding_window_ptr = mml_sliding_window<T>;
+  template <TensorConcept::Types T>
+  static inline toft::sliding_window_func<T> sliding_window_ptr =
+      mml_sliding_window<T>;
 
-  // Pointer to the gemm std::function. Different defaults depending on compiler flags
+  // Pointer to the gemm std::function. Different defaults depending on compiler
+  // flags
 #if defined(USE_AVX_GEMM)
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx<T>;
 #elif defined(USE_AVX512_GEMM)
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx512<T>;
 #elif defined(USE_BLOCKED_GEMM)
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::gemm_func<T> gemm_ptr = mml_gemm_blocked<T>;
 #else
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::gemm_func<T> gemm_ptr = mml_gemm_inner_product<T>;
 #endif
 
   // Pointer to the gemm_onnx std::function.
-  template <typename T>
-  static inline toft::gemm_onnx_func<T> gemm_onnx_ptr = mml_onnx_gemm_inner_product<T>;
+  template <TensorConcept::Types T>
+  static inline toft::gemm_onnx_func<T> gemm_onnx_ptr =
+      mml_onnx_gemm_inner_product<T>;
 
   // Pointer to the add std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::add_func<T> add_ptr = mml_add<T>;
 
   // Pointer to the subtract std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::subtract_func<T> subtract_ptr = mml_subtract<T>;
 
   // Pointer to the multiply std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::multiply_func<T> multiply_ptr = mml_multiply<T>;
 
   // Pointer to the equals std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::equals_func<T> equals_ptr = mml_equals<T>;
 
   // Pointer to the elementwise std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::elementwise_func elementwise_ptr = mml_elementwise<T>;
 
   // Pointer to the elementwise_in_place std::function.
-  template <typename T>
-  static inline toft::elementwise_in_place_func elementwise_in_place_ptr = mml_elementwise_in_place<T>;
+  template <TensorConcept::Types T>
+  static inline toft::elementwise_in_place_func elementwise_in_place_ptr =
+      mml_elementwise_in_place<T>;
 
   // Pointer to the arg_max std::function.
-  template <typename T>
+  template <TensorConcept::Types T>
   static inline toft::arg_max_func arg_max_ptr = mml_arg_max<T>;
 };
 
