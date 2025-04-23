@@ -22,14 +22,14 @@ class AddNode : public Node {
    * @param B String hash ID to the second input tensor.
    * @param C String hash ID to the output tensor.
    */
-  AddNode(std::string A, std::string B, std::string C);
+  AddNode(const std::string &A, const std::string &B, const std::string &C);
 
   /**
    * @brief Constructor for AddNode from JSON.
    *
    * @param node JSON object representing the Add node.
    */
-  AddNode(const nlohmann::json &node);
+  explicit AddNode(const nlohmann::json &node);
 
   /**
    * @brief Performs element-wise binary addition in the two input tensors and

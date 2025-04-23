@@ -34,7 +34,7 @@ class ImageLoader : public DataLoader<float> {
    * @param config The configuration object used to load the image
    * @return A std::shared_ptr to a Tensor containing the loaded data.
    */
-  std::shared_ptr<Tensor<float>> load(const DataLoaderConfig &config) const;
+  std::shared_ptr<Tensor<float>> load(const DataLoaderConfig &config) const override;
 
   /**
    * @brief Loads a raw image buffer into a tensor representation.

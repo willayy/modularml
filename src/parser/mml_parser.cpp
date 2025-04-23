@@ -81,8 +81,7 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(
           tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
           break;
         default:
-          throw std::runtime_error("Currently unsupported data type: " +
-                                   std::to_string(dataType));
+          throw std::runtime_error(std::format("Currently unsupported data type: {}", dataType));
       }
     }
   }

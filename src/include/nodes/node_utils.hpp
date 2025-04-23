@@ -50,27 +50,21 @@ namespace NodeUtils {
             size_t out_dim;
             if (auto_pad == "SAME_UPPER" || auto_pad == "SAME_LOWER") {
                 if (ceil_mode) {
-                    // output_spatial_shape[i] = ceil(input_spatial_shape[i] / strides_spatial_shape[i])
                     out_dim = std::ceil(static_cast<float>(input_dim) / stride);
                 } else {
-                    // output_spatial_shape[i] = floor((input_spatial_shape[i] - 1) / strides_spatial_shape[i]) + 1
                     out_dim = std::floor(static_cast<float>((input_dim - 1) / stride)) + 1;
                 }
             } else if (auto_pad == "VALID") {
                 if (ceil_mode) {
-                    // output_spatial_shape[i] = ceil((input_spatial_shape[i] - ((kernel_spatial_shape[i] - 1) * dilations[i] + 1) + 1) / strides_spatial_shape[i])
                     out_dim = std::ceil(static_cast<float>(input_dim - effective_kernel + 1) / stride);
                 } else {
-                    // output_spatial_shape[i] = floor((input_spatial_shape[i] - ((kernel_spatial_shape[i] - 1) * dilations[i] + 1)) / strides_spatial_shape[i]) + 1
                     out_dim = std::floor(static_cast<float>(input_dim - effective_kernel) / stride) + 1;
                 }
             } else {
                 int total_pad = pads[i] + pads[i + spacial_rank];
                 if (ceil_mode) {
-                    // output_spatial_shape[i] = ceil((input_spatial_shape[i] + pad_shape[i] - dilation[i] * (kernel_shape[i] - 1) - 1) / strides_spatial_shape[i] + 1)
                     out_dim = std::ceil(static_cast<float>(input_dim + total_pad - effective_kernel) / stride + 1);
                 } else {
-                    // output_spatial_shape[i] = floor((input_spatial_shape[i] + pad_shape[i] - dilation[i] * (kernel_shape[i] - 1) - 1) / strides_spatial_shape[i] + 1)
                     out_dim = std::floor(static_cast<float>(input_dim + total_pad - effective_kernel) / stride + 1);
                 }
             }
@@ -102,7 +96,6 @@ namespace NodeUtils {
             int effective_kernel = (kernel - 1) * dilation + 1;
     
             if (auto_pad == "SAME_UPPER" || auto_pad == "SAME_LOWER") {
-                // pad_shape[i] = (output_spatial_shape[i] - 1) * strides_spatial_shape[i] + ((kernel_spatial_shape[i] - 1) * dilations[i] + 1) - input_spatial_shape[i]
                 float out_dim = ceil_mode
                     ? std::ceil(static_cast<float>(input) / stride)
                     : std::floor(static_cast<float>(input - 1) / stride) + 1;

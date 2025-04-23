@@ -14,7 +14,7 @@
 
 #include "nlohmann/json.hpp"
 
-TanHNode::TanHNode(std::string X, std::string Y) : X(X), Y(Y) {}
+TanHNode::TanHNode(const std::string &X, const std::string &Y) : X(X), Y(Y) {}
 
 TanHNode::TanHNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {

@@ -12,11 +12,12 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "datastructures/tensor_operations_module.hpp"
 #include "datastructures/mml_array.hpp"
+#include "datastructures/tensor_operations_module.hpp"
 #include "nlohmann/json.hpp"
 
-AddNode::AddNode(std::string A, std::string B, std::string C)
+AddNode::AddNode(const std::string &A, const std::string &B,
+                 const std::string &C)
     : A(A), B(B), C(C) {}
 
 AddNode::AddNode(const nlohmann::json &node) {
@@ -125,15 +126,21 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
 
         // Compute output shape based on broadcasting rules
         array_mml<size_t> output_shape(max_rank);
-        std::fill(output_shape.begin(), output_shape.end(), 1);
+        std::ranges::fill(output_shape, 1);
         for (size_t i = 0; i < max_rank; i++) {
           size_t dim_A = (i < A_rank) ? A_shape[A_rank - 1 - i] : 1;
           size_t dim_B = (i < B_rank) ? B_shape[B_rank - 1 - i] : 1;
 
-          switch ((dim_A == dim_B) ? 0
-                  : (dim_A == 1)   ? 1
-                  : (dim_B == 1)   ? 2
-                                   : 3) {
+          int condition_result = 3;  // Default to 3 (incompatible shapes)
+          if (dim_A == dim_B) {
+            condition_result = 0;
+          } else if (dim_A == 1) {
+            condition_result = 1;
+          } else if (dim_B == 1) {
+            condition_result = 2;
+          }
+
+          switch (condition_result) {
             case 0:
               output_shape[max_rank - 1 - i] = dim_A;
               break;
@@ -167,7 +174,8 @@ void AddNode::broadcast_addition(const TensorT &a_ptr, const TensorT &b_ptr,
 
         // Iterate through the output tensor
         for (size_t flat_idx = 0; flat_idx < c_ptr->get_size(); flat_idx++) {
-          size_t A_idx = 0, B_idx = 0;
+          size_t A_idx = 0;
+          size_t B_idx = 0;
           size_t remaining = flat_idx;
 
           // Compute multi-dimensional indices on the fly
