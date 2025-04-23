@@ -26,7 +26,7 @@ class LeakyReLUNode : public Node {
    * @param Y Unique std::string key to the output tensor.
    * @param alpha Coefficient of leakage. Default = 0.01
    */
-  LeakyReLUNode(std::string X, std::string Y, float alpha = 0.01f);
+  LeakyReLUNode(const std::string &X, const std::string &Y, float alpha = 0.01f);
 
   /**
    * @brief Constructor for LeakyReLUNode from JSON.

@@ -12,7 +12,7 @@
 
 #include "nlohmann/json.hpp"
 
-ReLUNode::ReLUNode(std::string X, std::string Y) : X(X), Y(Y) {}
+ReLUNode::ReLUNode(const std::string &X, const std::string &Y) : X(X), Y(Y) {}
 
 ReLUNode::ReLUNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {

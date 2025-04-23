@@ -23,7 +23,7 @@ class SwishNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  SwishNode(std::string X, std::string Y);
+  SwishNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for SwishNode from JSON.

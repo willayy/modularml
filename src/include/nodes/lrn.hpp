@@ -32,7 +32,7 @@ class LRNNode_mml : public Node {
    * 0.001.
    *
    */
-  LRNNode_mml(std::string X, std::string Y, size_t size, float alpha = 0.0001f,
+  LRNNode_mml(const std::string &X, const std::string &Y, size_t size, float alpha = 0.0001f,
               float beta = 0.75f, float bias = 1.0f);
 
   explicit LRNNode_mml(const nlohmann::json &node);

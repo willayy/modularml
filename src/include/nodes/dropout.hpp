@@ -30,8 +30,8 @@ public:
    * @param training_mode Training mode, False by default.
    * @param seed Random seed, None by default.
    */
-  DropoutNode(std::string data, std::string output,
-              std::optional<std::string> mask = std::nullopt, float ratio = 0.5,
+  DropoutNode(const std::string &data, const std::string &output,
+              const std::optional<std::string> &mask = std::nullopt, float ratio = 0.5,
               bool training_mode = false,
               std::optional<int> seed = std::nullopt);
 

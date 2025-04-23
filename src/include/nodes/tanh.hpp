@@ -24,7 +24,7 @@ class TanHNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  TanHNode(std::string X, std::string Y);
+  TanHNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for TanHNode from JSON.

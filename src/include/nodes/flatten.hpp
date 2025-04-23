@@ -38,7 +38,7 @@ class FlattenNode : public Node {
    *             Defaults to 1 (collapsing all dimensions before this axis into
    * the first dimension).
    */
-  FlattenNode(std::string X, std::string Y, int axis = 1);
+  FlattenNode(const std::string &X, const std::string &Y, int axis = 1);
 
   /**
    * @brief Constructor for FlattenNode from JSON.

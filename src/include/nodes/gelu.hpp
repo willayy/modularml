@@ -28,7 +28,7 @@ class GeluNode : public Node {
    * @param approximate Gelu approximation algorithm. Accepts 'std::tanh' and
    * 'none'. Default = 'none'.
    */
-  GeluNode(std::string X, std::string Y, std::string approximate = "none");
+  GeluNode(const std::string &X, const std::string &Y, const std::string &approximate = "none");
 
   /**
    * @brief Constructor for GeluNode from JSON.

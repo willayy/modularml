@@ -24,7 +24,7 @@ public:
    * @param X Shared pointer to the tensor X.
    * @param Y Shared pointer to the output tensor.
    */
-  ReLUNode(std::string X, std::string Y);
+  ReLUNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for ReluNode from JSON.

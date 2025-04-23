@@ -23,7 +23,7 @@ class ELUNode : public Node {
    * @param Y Unique std::string key to the output tensor.
    * @param alpha Coefficient of ELU.
    */
-  ELUNode(std::string X, std::string Y, float alpha = 1.0f);
+  ELUNode(const std::string &X, const std::string &Y, float alpha = 1.0f);
 
   /**
    * @brief Constructor for ELUNode from JSON.

@@ -14,7 +14,7 @@
 
 #include "nlohmann/json.hpp"
 
-SigmoidNode::SigmoidNode(std::string X, std::string Y) : X(X), Y(Y) {}
+SigmoidNode::SigmoidNode(const std::string &X, const std::string &Y) : X(X), Y(Y) {}
 
 SigmoidNode::SigmoidNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {
