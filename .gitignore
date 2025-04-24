@@ -63,3 +63,8 @@ venv/
 perf*
 
 *.jpeg
+*.json
+*.out
+*.perf
+*.svg
+*.folded
