@@ -20,7 +20,8 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "datastructures/a_tensor.hpp"
+#include "a_tensor.hpp"
+#include "tensor_concept.hpp"
 
 /*!
  * @brief A Tensor<T> implementation using an underlying
@@ -29,7 +30,7 @@
  * @tparam T The type of the data contained in the tensor.
  * Allows for arithmetic types.
  */
-template <typename T>
+template <TensorConcept::Types T>
 class Tensor_mml : public Tensor<T> {
  public:
   /// @brief Constructor for Tensor_mml class.
@@ -128,6 +129,9 @@ class Tensor_mml : public Tensor<T> {
   std::shared_ptr<Tensor<T>> transpose(
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const override;
+
+  std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const override;
+
   std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const override;
 

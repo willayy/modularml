@@ -1,8 +1,9 @@
 #pragma once
 
 #include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_concept.hpp"
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
                           const size_t jump_indexes, const size_t jump_columns,
                           const size_t jump_rows, const bool sliced)
@@ -18,7 +19,7 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
   this->data.fill(T(0));
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
                           const std::initializer_list<T> data,
                           const size_t jump_indexes, const size_t jump_columns,
@@ -34,7 +35,7 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
   this->size = compute_size();
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
                           const size_t jump_indexes, const size_t jump_columns,
                           const size_t jump_rows, const bool sliced)
@@ -50,7 +51,7 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
   this->data.fill(T(0));
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
                           const array_mml<T> &data, const size_t jump_indexes,
                           const size_t jump_columns, const size_t jump_rows,
@@ -66,7 +67,7 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
   this->size = compute_size();
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(Tensor_mml &&other) noexcept : Tensor<T>(other) {
   this->shape = std::move(other.shape);
   this->indices_offsets = std::move(other.indices_offsets);
@@ -78,7 +79,7 @@ Tensor_mml<T>::Tensor_mml(Tensor_mml &&other) noexcept : Tensor<T>(other) {
   this->data = std::move(other.data);
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor_mml<T>::Tensor_mml(const Tensor_mml &other) : Tensor<T>(other) {
   this->shape = array_mml<size_t>(other.shape);
   this->indices_offsets = array_mml<size_t>(other.indices_offsets);
@@ -90,12 +91,12 @@ Tensor_mml<T>::Tensor_mml(const Tensor_mml &other) : Tensor<T>(other) {
   this->sliced = other.sliced;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const array_mml<T> &Tensor_mml<T>::get_data() const {
   return this->data;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor<T> &Tensor_mml<T>::operator=(const Tensor<T> &other) {
   if (this != &other) {
     auto other_cast = dynamic_cast<const Tensor_mml<T> &>(other);
@@ -111,7 +112,7 @@ Tensor<T> &Tensor_mml<T>::operator=(const Tensor<T> &other) {
   return *this;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 Tensor<T> &Tensor_mml<T>::operator=(Tensor<T> &&other) noexcept {
   if (this != &other) {
     auto other_cast = dynamic_cast<Tensor_mml<T> &&>(std::move(other));
@@ -127,7 +128,7 @@ Tensor<T> &Tensor_mml<T>::operator=(Tensor<T> &&other) noexcept {
   return *this;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 std::string Tensor_mml<T>::to_string() const {
   std::string base = std::string("Tensor_mml<") + typeid(T).name() + "> ";
   std::string ptr_str =
@@ -156,24 +157,24 @@ std::string Tensor_mml<T>::to_string() const {
   return base + ptr_str + ", " + shape_str + ", " + size_str + ", " + data_str;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
   return std::make_shared<Tensor_mml<T>>(*this);
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 void Tensor_mml<T>::reshape(const array_mml<size_t> &new_shape) {
   if (!valid_shape(new_shape)) throw std::invalid_argument("Invalid shape");
   this->shape = array_mml<size_t>(new_shape);
   this->indices_offsets = compute_indices_offsets();
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 void Tensor_mml<T>::reshape(std::initializer_list<size_t> new_shape) {
   reshape(array_mml<size_t>(new_shape));
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 void Tensor_mml<T>::reverse_buffer() {
   size_t i = 0;
   size_t j = this->size - 1;
@@ -186,17 +187,18 @@ void Tensor_mml<T>::reverse_buffer() {
   }
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
     std::initializer_list<size_t> slice_indices) {
   auto slice_indices_array = array_mml<size_t>(slice_indices);
   return slice(slice_indices_array);
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
     array_mml<size_t> &slice_indices) {
-  if (!valid_slice_indices(slice_indices)) throw std::invalid_argument("Invalid slice indices");
+  if (!valid_slice_indices(slice_indices))
+    throw std::invalid_argument("Invalid slice indices");
 
   // Find the value of jump indexes
   size_t slice_jump_indexes = this->sliced ? this->jump_indexes : 0;
@@ -208,7 +210,7 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
       slice_jump_indexes += this->indices_offsets[i] * slice_indices[i];
     } while (i++, i < slice_indices.size() - 1);
   }
-  
+
   // Create the buffer
   std::shared_ptr<T[]> data_ptr(this->data.get(), [](T *) { /* NOOP */ });
   auto shared_buffer = array_mml<T>(data_ptr, this->data.size());
@@ -236,12 +238,12 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
   return sliced_tensor;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::is_matrix() const {
   return this->shape.size() == 2;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::operator==(const Tensor<T> &other) const {
   if (this->get_size() != other.get_size()) return false;
   if (this->get_shape() != other.get_shape()) return false;
@@ -254,22 +256,22 @@ bool Tensor_mml<T>::operator==(const Tensor<T> &other) const {
   return true;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const array_mml<size_t> &Tensor_mml<T>::get_shape() const {
   return this->shape;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const array_mml<size_t> &Tensor_mml<T>::get_offsets() const {
   return this->indices_offsets;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 size_t Tensor_mml<T>::get_size() const {
   return this->size;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
   if (!valid_indices(indices))
     throw std::invalid_argument("Invalid Tensor indices");
@@ -278,7 +280,7 @@ const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
   return this->data[indices_to_1d_index(indices)];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) {
   if (!valid_indices(indices))
     throw std::invalid_argument("Invalid Tensor indices");
@@ -287,39 +289,39 @@ T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) {
   return this->data[indices_to_1d_index(indices)];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const T &Tensor_mml<T>::operator[](
     std::initializer_list<size_t> indices) const {
   auto indices_array = array_mml<size_t>(indices);
   return (*this)[indices_array];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 T &Tensor_mml<T>::operator[](std::initializer_list<size_t> indices) {
   auto indices_array = array_mml<size_t>(indices);
   return (*this)[indices_array];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 const T &Tensor_mml<T>::operator[](size_t index) const {
   if (!valid_index(index)) throw std::invalid_argument("Invalid Tensor index");
   if (this->sliced) return this->data[index_to_offset_1d_index(index)];
   return this->data[index];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 T &Tensor_mml<T>::operator[](size_t index) {
   if (!valid_index(index)) throw std::invalid_argument("Invalid Tensor index");
   if (this->sliced) return this->data[index_to_offset_1d_index(index)];
   return this->data[index];
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 void Tensor_mml<T>::fill(T value) {
   this->data.fill(value);
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
     std::optional<size_t> dim0, std::optional<size_t> dim1) const {
   size_t rank = this->shape.size();
@@ -370,7 +372,77 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
   return transposed;
 };
 
-template <typename T>
+template <TensorConcept::Types T>
+std::shared_ptr<Tensor<T>>
+Tensor_mml<T>::transpose(
+    const std::vector<int> &perm) const {
+  if (perm.size() != this->shape.size()) {
+    throw std::invalid_argument("Transpose: perm size must be equal to tensor rank");
+  }
+
+  // Checks that the perm vector is valid
+  std::vector<bool> seen(perm.size(), false);
+  for (size_t p : perm) {
+    if (p >= perm.size() || seen[p]) {
+      throw std::invalid_argument("Transpose: invalid or duplicate entry in perm");
+    }
+    seen[p] = true;
+  }
+
+  array_mml<size_t> new_shape(perm.size());
+  
+  for (size_t i = 0; i < perm.size(); ++i) {
+    size_t val = shape[perm[i]];
+    new_shape[i] = val;
+  }
+
+  auto transposed = std::make_shared<Tensor_mml<T>>(new_shape);
+  // This recursive function remaps each element in the old tensor to the new permutation based in the perm vector
+  std::function<void(array_mml<size_t>&, size_t)> recurse;
+  recurse = [&](array_mml<size_t>& indices, size_t dim) {
+    if (dim == shape.size()) {
+      array_mml<size_t> transposed_indices(perm.size());
+  
+      for (size_t i = 0; i < perm.size(); ++i) {
+        if (perm[i] >= indices.size()) {
+          std::cerr << "ERROR: perm[" << i << "] = " << perm[i]
+                    << " out of bounds for indices of size " << indices.size() << std::endl;
+          throw std::out_of_range("perm index out of bounds");
+        }
+        transposed_indices[i] = indices[perm[i]];
+      }
+
+
+      try {
+        auto val = (*this)[indices];
+        (*transposed)[transposed_indices] = val;
+      } catch (const std::exception& e) {
+        std::cerr << "Exception accessing tensor at ";
+        for (size_t idx : indices) std::cerr << idx << " ";
+        std::cerr << " or transposed at ";
+        for (size_t idx : transposed_indices) std::cerr << idx << " ";
+        std::cerr << ": " << e.what() << std::endl;
+        throw;
+      }
+  
+      return;
+    }
+  
+    for (size_t i = 0; i < shape[dim]; ++i) {
+      indices[dim] = i;
+      recurse(indices, dim + 1);
+    }
+  };
+  
+
+  array_mml<size_t> indices(shape.size());
+  indices.fill(0);
+  recurse(indices, 0);
+
+  return transposed;
+}
+
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_broadcast_reshape_size(
     const array_mml<size_t> &target_shape) const {
   const array_mml<size_t> &current_shape = this->shape;
@@ -397,19 +469,20 @@ bool Tensor_mml<T>::valid_broadcast_reshape_size(
   return true;
 };
 
-template <typename T>
+template <TensorConcept::Types T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_reshape(
     const array_mml<size_t> &target_shape) const {
   if (this->shape == target_shape) return this->copy();
 
-  if (!valid_broadcast_reshape_size(target_shape)) throw std::invalid_argument("Cannot broadcast tensor to target shape");
+  if (!valid_broadcast_reshape_size(target_shape))
+    throw std::invalid_argument("Cannot broadcast tensor to target shape");
 
   if (this->sliced) throw std::logic_error("Cannot broadcast a sliced tensor");
-  
+
   // Caclulate how many times we should repeat the tensor
   size_t tensor_size = this->data.size();
-  size_t target_size = std::accumulate(
-      target_shape.begin(), target_shape.end(), 1, std::multiplies<size_t>());
+  size_t target_size = std::accumulate(target_shape.begin(), target_shape.end(),
+                                       1, std::multiplies<size_t>());
   size_t repeat_count = target_size / tensor_size;
 
   // Create the new buffer
@@ -426,7 +499,7 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_reshape(
   return broadcasted_tensor;
 };
 
-template <typename T>
+template <TensorConcept::Types T>
 array_mml<size_t> Tensor_mml<T>::compute_indices_offsets() const {
   const size_t shape_size = this->shape.size();
   array_mml<size_t> computed_offsets(shape_size);
@@ -446,7 +519,7 @@ array_mml<size_t> Tensor_mml<T>::compute_indices_offsets() const {
   return computed_offsets;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 size_t Tensor_mml<T>::compute_size() const {
   if (shape.size() == 0) {
     return 1;  // Scalar tensor has 1 value
@@ -456,18 +529,18 @@ size_t Tensor_mml<T>::compute_size() const {
                          std::multiplies<size_t>());
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_shape(const array_mml<size_t> &new_shape) const {
   return std::accumulate(new_shape.begin(), new_shape.end(), 1,
                          std::multiplies<size_t>()) == this->get_size();
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_index(size_t index) const {
   return index < this->get_size();
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_indices(const array_mml<size_t> &indices) const {
   if (indices.size() != this->shape.size()) {
     return false;
@@ -480,7 +553,7 @@ bool Tensor_mml<T>::valid_indices(const array_mml<size_t> &indices) const {
   return true;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 size_t Tensor_mml<T>::indices_to_1d_index(array_mml<size_t> indices) const {
   auto index = 0;
   for (size_t i = 0; i < indices.size(); i++) {
@@ -489,13 +562,13 @@ size_t Tensor_mml<T>::indices_to_1d_index(array_mml<size_t> indices) const {
   return index;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 size_t Tensor_mml<T>::index_to_offset_1d_index(size_t index) const {
   if (!this->sliced) throw std::logic_error("Not a sliced tensor");
   return this->jump_indexes + index * this->jump_rows + this->jump_columns;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_slice_indices(
     const array_mml<size_t> &slice_indices) const {
   if (slice_indices.size() >= this->shape.size()) {

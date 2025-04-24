@@ -4,10 +4,7 @@
 #include <memory>
 
 #include "datastructures/mml_array.hpp"
-
-#define ASSERT_ALLOWED_TYPE_T(T)         \
-  static_assert(std::is_arithmetic_v<T>, \
-                "Tensor must have an arithmetic type.");
+#include "datastructures/tensor_concept.hpp"
 
 /*!
  * @brief Abstract class representing a Tensor.
@@ -17,7 +14,7 @@
  * @tparam T the type of the data contained in the tensor. E.g. int, float,
  * double etc.
  */
-template <typename T>
+template <TensorConcept::Types T>
 class Tensor {
  public:
   using value_type = T;
@@ -141,6 +138,8 @@ class Tensor {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const = 0;
 
+  virtual std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const = 0;
+  
   virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const = 0;
 
