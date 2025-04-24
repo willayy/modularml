@@ -28,7 +28,9 @@ std::shared_ptr<unsigned char> imageResizeAndCropper::resize(
   const ImageLoaderConfig& image_config =
       dynamic_cast<const ImageLoaderConfig&>(config);
 
-  int width, height, channels;
+  int width;
+  int height;
+  int channels;
   unsigned char* input = stbi_load(image_config.image_path.c_str(), &width,
                                    &height, &channels, 3);  // force RGB
   if (!input) {
@@ -37,24 +39,23 @@ std::shared_ptr<unsigned char> imageResizeAndCropper::resize(
   }
 
   const int resize_short = 256;
-  int new_width, new_height;
+  int new_width;
+  int new_height;
   if (width < height) {
     new_width = resize_short;
-    new_height =
-        static_cast<int>(height * (resize_short / static_cast<float>(width)));
+    new_height = static_cast<int>(static_cast<float>(height) *
+                                  (resize_short / static_cast<float>(width)));
   } else {
     new_height = resize_short;
-    new_width =
-        static_cast<int>(width * (resize_short / static_cast<float>(height)));
+    new_width = static_cast<int>(static_cast<float>(width) *
+                                 (resize_short / static_cast<float>(height)));
   }
 
   std::vector<unsigned char> resized(new_width * new_height * 3);
   int input_stride = width * 3;
-  int output_stride = new_width * 3;
-
-  if (!stbir_resize_uint8_linear(input, width, height, input_stride,
-                                 resized.data(), new_width, new_height,
-                                 output_stride, STBIR_RGB)) {
+  if (int output_stride = new_width * 3; !stbir_resize_uint8_linear(
+          input, width, height, input_stride, resized.data(), new_width,
+          new_height, output_stride, STBIR_RGB)) {
     std::cerr << "stbir_resize_uint8_linear failed\n";
     stbi_image_free(input);
     return nullptr;
@@ -67,7 +68,7 @@ std::shared_ptr<unsigned char> imageResizeAndCropper::resize(
   size_t num_bytes = resized.size();
   std::shared_ptr<unsigned char> output(new unsigned char[num_bytes],
                                         std::default_delete<unsigned char[]>());
-  std::copy(resized.begin(), resized.end(), output.get());
+  std::ranges::copy(resized, output.get());
 
   out_width = new_width;
   out_height = new_height;

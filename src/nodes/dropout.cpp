@@ -10,9 +10,10 @@
 
 #include "nlohmann/json.hpp"
 
-DropoutNode::DropoutNode(std::string data, std::string output,
-                         std::optional<std::string> mask, float ratio,
-                         bool training_mode, std::optional<int> seed)
+DropoutNode::DropoutNode(const std::string &data, const std::string &output,
+                         const std::optional<std::string> &mask,
+                         float ratio, bool training_mode,
+                         std::optional<int> seed)
     : data(data),
       output(output),
       mask(mask),

@@ -13,8 +13,8 @@
 #include "datastructures/mml_array.hpp"
 #include "nlohmann/json.hpp"
 
-reshapeNode::reshapeNode(std::string data, std::string shape,
-                         std::string reshaped, int allowzero)
+reshapeNode::reshapeNode(const std::string &data, const std::string &shape,
+                         const std::string &reshaped, int allowzero)
     : data(data), shape(shape), reshaped(reshaped), allowzero(allowzero) {
   if (allowzero != 0 && allowzero != 1)
     throw std::runtime_error("Invalid value for allowzero. Must be 0 or 1.");

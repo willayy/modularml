@@ -14,7 +14,7 @@
 
 #include "nlohmann/json.hpp"
 
-SwishNode::SwishNode(std::string X, std::string Y) : X(X), Y(Y) {}
+SwishNode::SwishNode(const std::string &X, const std::string &Y) : X(X), Y(Y) {}
 
 SwishNode::SwishNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {

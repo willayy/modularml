@@ -24,14 +24,14 @@ public:
    * @param X Shared pointer to the tensor X.
    * @param Y Shared pointer to the output tensor.
    */
-  ReLUNode(std::string X, std::string Y);
+  ReLUNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for ReluNode from JSON.
    *
    * @param node JSON object representing the Relu node.
    */
-  ReLUNode(const nlohmann::json &node);
+  explicit ReLUNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using ReLU activation

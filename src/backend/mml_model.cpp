@@ -1,8 +1,5 @@
 #include "backend/mml_model.hpp"
 
-#include <stddef.h>
-
-#include <exception>
 #include <iostream>
 // IWYU pragma: no_include <__ostream/basic_ostream.h>
 #include <ostream>  // IWYU pragma: keep
@@ -27,13 +24,24 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
       topologicalSort();
   //std::cout << "Topological layers: " << topoLayers.size() << std::endl;
 
-  // Copy the iomap to avoid modifying the original
-  std::unordered_map<std::string, GeneralDataTypes> local_iomap = iomap;
+  // Create a deep copy of iomap
+  std::unordered_map<std::string, GeneralDataTypes> local_iomap;
+  for (const auto &[name, tensor] : iomap) {
+    std::visit([&](auto &&arg) {
+      // Deep copy
+      local_iomap[name] = arg->copy();
+    },
+               tensor);
+  }
 
   // Set input tensors
   for (const auto &[name, tensor] : inputs) {
-    //std::cout << "Setting input: " << name << std::endl;
-    local_iomap[name] = tensor;
+    std::cout << "Setting input: " << name << std::endl;
+    std::visit([&](auto &&arg) {
+      // Deep copy
+      local_iomap[name] = arg->copy();
+    },
+               tensor);
   }
 
   std::thread spinner(inference_spinner_function, topoLayers.size());

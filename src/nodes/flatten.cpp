@@ -13,7 +13,7 @@
 #include "nlohmann/json.hpp"
 #include "nodes/a_node.hpp"
 
-FlattenNode::FlattenNode(std::string X, std::string Y, int axis)
+FlattenNode::FlattenNode(const std::string &X, const std::string &Y, int axis)
     : X(X), Y(Y), axis(axis) {}
 
 FlattenNode::FlattenNode(const nlohmann::json &node) {

@@ -103,7 +103,6 @@ void TensorOperations::set_add_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     add_ptr<T> = ptr;
-    add_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -113,7 +112,6 @@ void TensorOperations::set_subtract_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     subtract_ptr<T> = ptr;
-    subtract_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -122,7 +120,6 @@ void TensorOperations::set_multiply_ptr(
                        std::shared_ptr<Tensor<T>> c)>
         ptr) {
     multiply_ptr<T> = ptr;
-    multiply_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -130,7 +127,6 @@ void TensorOperations::set_equals_ptr(
     std::function<bool(const std::shared_ptr<Tensor<T>> a,
                        const std::shared_ptr<Tensor<T>> b)>
         ptr) {
-    equals_ptr<T> = ptr;
     equals_ptr<T> = ptr;
 }
 
@@ -141,7 +137,6 @@ void TensorOperations::set_elementwise_ptr(
                        const std::shared_ptr<Tensor<T>> c)>
         ptr) {
     elementwise_ptr<T> = ptr;
-    elementwise_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -149,7 +144,6 @@ void TensorOperations::set_elementwise_in_place_ptr(
     std::function<void(const std::shared_ptr<Tensor<T>> a,
                        const std::function<T(T)> &f)>
         ptr) {
-    elementwise_in_place_ptr<T> = ptr;
     elementwise_in_place_ptr<T> = ptr;
 }
 
@@ -161,7 +155,6 @@ void TensorOperations::set_gemm_ptr(
                        std::shared_ptr<Tensor<T>> C, int ldc)>
         ptr) {
     gemm_ptr<T> = ptr;
-    gemm_ptr<T> = ptr;
 }
 
 template <typename T>
@@ -171,7 +164,6 @@ void TensorOperations::set_gemm_onnx_ptr(
         float beta, int transA, int transB,
         std::optional<std::shared_ptr<Tensor<T>>> C)>
         ptr) {
-    gemm_onnx_ptr<T> = ptr;
     gemm_onnx_ptr<T> = ptr;
 }
 

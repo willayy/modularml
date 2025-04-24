@@ -22,14 +22,14 @@ class SigmoidNode : public Node {
    * @param X Unique std::string key to the input tensor
    * @param Y Unique std::string key to the output tensor
    */
-  SigmoidNode(std::string X, std::string Y);
+  SigmoidNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for SigmoidNode from JSON.
    *
    * @param node JSON object representing the Sigmoid node.
    */
-  SigmoidNode(const nlohmann::json &node);
+  explicit SigmoidNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using the Sigmoid

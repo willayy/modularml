@@ -28,6 +28,7 @@
 #include "nodes/leaky_relu.hpp"
 #include "nodes/log_softmax.hpp"
 #include "nodes/lrn.hpp"
+#include "nodes/matmul.hpp"
 #include "nodes/max_pool.hpp"
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
@@ -83,8 +84,7 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(
           tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
           break;
         default:
-          throw std::runtime_error("Currently unsupported data type: " +
-                                   std::to_string(dataType));
+          throw std::runtime_error(std::format("Currently unsupported data type: {}", dataType));
       }
     }
   }
@@ -138,6 +138,8 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
         nodes.push_back(std::make_shared<SwishNode>(node));
       } else if (opType == "Tanh") {
         nodes.push_back(std::make_shared<TanHNode>(node));
+      } else if (opType == "MatMul") {
+        nodes.push_back(std::make_shared<MatMulNode>(node));
       } else if (opType == "Transpose") {
         nodes.push_back(std::make_shared<TransposeNode>(node));
       } else {

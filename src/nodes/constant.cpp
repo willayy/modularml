@@ -12,7 +12,7 @@
 #include "backend/parser_helper.hpp"
 #include "nlohmann/json.hpp"
 
-ConstantNode::ConstantNode(std::string output, GeneralDataTypes value)
+ConstantNode::ConstantNode(const std::string &output, GeneralDataTypes value)
     : output(output), value(value) {}
 
 ConstantNode::ConstantNode(const nlohmann::json &node) {
