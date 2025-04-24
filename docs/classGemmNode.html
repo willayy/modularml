@@ -111,9 +111,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af01174d8a6d49e8f9c1bb548dfc4bc71" id="r_af01174d8a6d49e8f9c1bb548dfc4bc71"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmNode.html#af01174d8a6d49e8f9c1bb548dfc4bc71">GemmNode</a> (std::string A, std::string B, std::string Y, std::optional&lt; std::string &gt; C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)</td></tr>
-<tr class="memdesc:af01174d8a6d49e8f9c1bb548dfc4bc71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph.">GemmNode</a>.  <br /></td></tr>
-<tr class="separator:af01174d8a6d49e8f9c1bb548dfc4bc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25abbb61ea4ee6765db0f9890ef93194" id="r_a25abbb61ea4ee6765db0f9890ef93194"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmNode.html#a25abbb61ea4ee6765db0f9890ef93194">GemmNode</a> (const std::string &amp;A, const std::string &amp;B, const std::string &amp;Y, const std::optional&lt; std::string &gt; &amp;C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)</td></tr>
+<tr class="memdesc:a25abbb61ea4ee6765db0f9890ef93194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph.">GemmNode</a>.  <br /></td></tr>
+<tr class="separator:a25abbb61ea4ee6765db0f9890ef93194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82b28d5ddc1457fcec46e3b4486fcc9e" id="r_a82b28d5ddc1457fcec46e3b4486fcc9e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGemmNode.html#a82b28d5ddc1457fcec46e3b4486fcc9e">GemmNode</a> (const nlohmann::json &amp;node)</td></tr>
 <tr class="memdesc:a82b28d5ddc1457fcec46e3b4486fcc9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph.">GemmNode</a> from JSON.  <br /></td></tr>
 <tr class="separator:a82b28d5ddc1457fcec46e3b4486fcc9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +135,8 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A class representing a GEMM node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents a General Matrix Multiply (GEMM) node in a computational graph. It performs the forward pass computation using the GEMM inner product. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af01174d8a6d49e8f9c1bb548dfc4bc71" name="af01174d8a6d49e8f9c1bb548dfc4bc71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af01174d8a6d49e8f9c1bb548dfc4bc71">&#9670;&#160;</a></span>GemmNode() <span class="overload">[1/2]</span></h2>
+<a id="a25abbb61ea4ee6765db0f9890ef93194" name="a25abbb61ea4ee6765db0f9890ef93194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25abbb61ea4ee6765db0f9890ef93194">&#9670;&#160;</a></span>GemmNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,25 +144,25 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">GemmNode::GemmNode </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>Y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::optional&lt; std::string &gt;&#160;</td>
+          <td class="paramtype">const std::optional&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>C</em> = <code>std::nullopt</code>, </td>
         </tr>
         <tr>
@@ -219,6 +219,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">GemmNode::GemmNode </td>
@@ -228,6 +231,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Constructor for <a class="el" href="classGemmNode.html" title="A class representing a GEMM node in a computational graph.">GemmNode</a> from JSON. </p>

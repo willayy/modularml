@@ -116,9 +116,6 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Tensor</b> ()=default</td></tr>
 <tr class="memdesc:a5aec5b2d6582dc2eb3619158bc61f94c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="classTensor.html" title="Abstract class representing a Tensor.">Tensor</a> class. <br /></td></tr>
 <tr class="separator:a5aec5b2d6582dc2eb3619158bc61f94c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a918a4f49cd2fdda7ea7e368be4e2647b" id="r_a918a4f49cd2fdda7ea7e368be4e2647b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a918a4f49cd2fdda7ea7e368be4e2647b">operator!=</a> (const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;other) const =0</td></tr>
-<tr class="memdesc:a918a4f49cd2fdda7ea7e368be4e2647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this tensor is not std::equal to another tensor.  <br /></td></tr>
-<tr class="separator:a918a4f49cd2fdda7ea7e368be4e2647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8dad76404279dcb5f15795cd077a40f" id="r_ab8dad76404279dcb5f15795cd077a40f"><td class="memItemLeft" align="right" valign="top">virtual const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ab8dad76404279dcb5f15795cd077a40f">operator[]</a> (std::initializer_list&lt; size_t &gt; indices) const =0</td></tr>
 <tr class="memdesc:ab8dad76404279dcb5f15795cd077a40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an element from the tensor using multi-dimensional indices.  <br /></td></tr>
 <tr class="separator:ab8dad76404279dcb5f15795cd077a40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,9 +173,6 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Tensor</b> ()=def
 <tr class="memitem:ac06a9ab79cc2da13c2570c4e30955e9d" id="r_ac06a9ab79cc2da13c2570c4e30955e9d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#ac06a9ab79cc2da13c2570c4e30955e9d">is_matrix</a> () const =0</td></tr>
 <tr class="memdesc:ac06a9ab79cc2da13c2570c4e30955e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the tensor is a matrix.  <br /></td></tr>
 <tr class="separator:ac06a9ab79cc2da13c2570c4e30955e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96071f07e594af2988f0677731c8381d" id="r_a96071f07e594af2988f0677731c8381d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTensor.html#a96071f07e594af2988f0677731c8381d">matrix_match</a> (const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;other) const =0</td></tr>
-<tr class="memdesc:a96071f07e594af2988f0677731c8381d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the tensor-matrix matches another matrix. Assumes the tensor is a matrix.  <br /></td></tr>
-<tr class="separator:a96071f07e594af2988f0677731c8381d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab411dc378b0fd89be910784ab291a44e" id="r_ab411dc378b0fd89be910784ab291a44e"><td class="memItemLeft" align="right" valign="top"><a id="ab411dc378b0fd89be910784ab291a44e" name="ab411dc378b0fd89be910784ab291a44e"></a>
 virtual std::shared_ptr&lt; <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>transpose</b> (std::optional&lt; size_t &gt; dim0=std::nullopt, std::optional&lt; size_t &gt; dim1=std::nullopt) const =0</td></tr>
 <tr class="separator:ab411dc378b0fd89be910784ab291a44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -444,84 +438,6 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>True if the tensor is a matrix (has rank 2), false otherwise. </dd></dl>
 
 <p>Implemented in <a class="el" href="classTensor__mml.html#af7fd16c6e2dad8c4d2ec52bddc3558d2">Tensor_mml&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a96071f07e594af2988f0677731c8381d" name="a96071f07e594af2988f0677731c8381d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96071f07e594af2988f0677731c8381d">&#9670;&#160;</a></span>matrix_match()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::matrix_match </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if the tensor-matrix matches another matrix. Assumes the tensor is a matrix. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>The other matrix to compare with. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the tensor-matrix matches the other matrix, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classTensor__mml.html#a31eae4944695a67a4d98278ce9824ab5">Tensor_mml&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a918a4f49cd2fdda7ea7e368be4e2647b" name="a918a4f49cd2fdda7ea7e368be4e2647b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a918a4f49cd2fdda7ea7e368be4e2647b">&#9670;&#160;</a></span>operator!=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt;::operator!= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classTensor.html">Tensor</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check if this tensor is not std::equal to another tensor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>The tensor to compare with. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the tensors are not std::equal, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classTensor__mml.html#a52646455afe159ceb22ee98dff0e98e5">Tensor_mml&lt; T &gt;</a>.</p>
 
 </div>
 </div>

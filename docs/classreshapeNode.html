@@ -114,9 +114,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>ShapeDataType</b> = 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a488451e054b91a2553039df8acc5997b" id="r_a488451e054b91a2553039df8acc5997b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#a488451e054b91a2553039df8acc5997b">reshapeNode</a> (std::string data, std::string shape, std::string reshaped, int allowzero=0)</td></tr>
-<tr class="memdesc:a488451e054b91a2553039df8acc5997b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a>.  <br /></td></tr>
-<tr class="separator:a488451e054b91a2553039df8acc5997b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf881cfa8f67be4dd578f4eaecf4d3b0" id="r_abf881cfa8f67be4dd578f4eaecf4d3b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#abf881cfa8f67be4dd578f4eaecf4d3b0">reshapeNode</a> (const std::string &amp;data, const std::string &amp;shape, const std::string &amp;reshaped, int allowzero=0)</td></tr>
+<tr class="memdesc:abf881cfa8f67be4dd578f4eaecf4d3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a>.  <br /></td></tr>
+<tr class="separator:abf881cfa8f67be4dd578f4eaecf4d3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1ae347606a9d1cc0b01af4fc8c288ea" id="r_ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreshapeNode.html#ae1ae347606a9d1cc0b01af4fc8c288ea">reshapeNode</a> (const nlohmann::json &amp;node)</td></tr>
 <tr class="memdesc:ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a> from JSON.  <br /></td></tr>
 <tr class="separator:ae1ae347606a9d1cc0b01af4fc8c288ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,8 +138,8 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A class representing a reshape node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents the reshape node in a computational graph. It performs reshape after being given an input tensor and a shape tensor. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a488451e054b91a2553039df8acc5997b" name="a488451e054b91a2553039df8acc5997b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a488451e054b91a2553039df8acc5997b">&#9670;&#160;</a></span>reshapeNode() <span class="overload">[1/2]</span></h2>
+<a id="abf881cfa8f67be4dd578f4eaecf4d3b0" name="abf881cfa8f67be4dd578f4eaecf4d3b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf881cfa8f67be4dd578f4eaecf4d3b0">&#9670;&#160;</a></span>reshapeNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,19 +147,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">reshapeNode::reshapeNode </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>shape</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>reshaped</em>, </td>
         </tr>
         <tr>
@@ -194,6 +194,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">reshapeNode::reshapeNode </td>
@@ -203,6 +206,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Constructor for <a class="el" href="classreshapeNode.html" title="A class representing a reshape node in a computational graph.">reshapeNode</a> from JSON. </p>

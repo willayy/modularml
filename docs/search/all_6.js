@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['gelunode_0',['gelunode',['../classGeluNode.html#a5b4f59b88b7c62fb26a43bf28e631ff8',1,'GeluNode::GeluNode(std::string X, std::string Y, std::string approximate=&quot;none&quot;)'],['../classGeluNode.html#a6c60243f62759125a185e953af1dfc1e',1,'GeluNode::GeluNode(const nlohmann::json &amp;node)'],['../classGeluNode.html',1,'GeluNode']]],
+  ['gelunode_0',['gelunode',['../classGeluNode.html#a164af545a3823cb16ee2ff4c3d4c9dd1',1,'GeluNode::GeluNode(const std::string &amp;X, const std::string &amp;Y, const std::string &amp;approximate=&quot;none&quot;)'],['../classGeluNode.html#a6c60243f62759125a185e953af1dfc1e',1,'GeluNode::GeluNode(const nlohmann::json &amp;node)'],['../classGeluNode.html',1,'GeluNode']]],
   ['gemm_1',['gemm',['../classTensorOperations.html#a4acbf03ede3c69bd2c758741a8ff805d',1,'TensorOperations']]],
   ['gemm_5fmml_2',['Gemm_mml',['../classGemm__mml.html',1,'']]],
   ['gemm_5fonnx_3',['gemm_onnx',['../classTensorOperations.html#a8d75d9f6ca71feef3a6e2ef216adca52',1,'TensorOperations']]],
-  ['gemmnode_4',['gemmnode',['../classGemmNode.html',1,'GemmNode'],['../classGemmNode.html#af01174d8a6d49e8f9c1bb548dfc4bc71',1,'GemmNode::GemmNode(std::string A, std::string B, std::string Y, std::optional&lt; std::string &gt; C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)'],['../classGemmNode.html#a82b28d5ddc1457fcec46e3b4486fcc9e',1,'GemmNode::GemmNode(const nlohmann::json &amp;node)']]],
+  ['gemmnode_4',['gemmnode',['../classGemmNode.html',1,'GemmNode'],['../classGemmNode.html#a25abbb61ea4ee6765db0f9890ef93194',1,'GemmNode::GemmNode(const std::string &amp;A, const std::string &amp;B, const std::string &amp;Y, const std::optional&lt; std::string &gt; &amp;C=std::nullopt, float alpha=1.0f, float beta=1.0f, int transA=0, int transB=0)'],['../classGemmNode.html#a82b28d5ddc1457fcec46e3b4486fcc9e',1,'GemmNode::GemmNode(const nlohmann::json &amp;node)']]],
   ['get_5',['get',['../classarray__mml.html#a8feba4ef18c4def625b3a77856ef7791',1,'array_mml::get()'],['../classarray__mml.html#aa815f976ee12a290b50b7e10af3ff6c8',1,'array_mml::get() const']]],
   ['get_5fdata_6',['get_data',['../classTensor__mml.html#a1f61fb16d88dbbf8fef54c115feea759',1,'Tensor_mml']]],
   ['get_5fshape_7',['get_shape',['../classTensor__mml.html#a54ca4cb79a57cbf20b63f5ea8c4992e5',1,'Tensor_mml::get_shape()'],['../classTensor.html#ac7077657a8461c857e2b52d565eec5db',1,'Tensor::get_shape() const =0']]],

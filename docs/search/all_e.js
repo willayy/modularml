@@ -15,11 +15,11 @@ var searchData=
   ['set_5ftensor_5fconstructor_5f3_12',['set_tensor_constructor_3',['../classTensorFactory.html#a8f815a01f09f2dc6454f93522775ae97',1,'TensorFactory']]],
   ['set_5ftensor_5fconstructor_5f4_13',['set_tensor_constructor_4',['../classTensorFactory.html#a280d1a28280917c5256b1c6ddf79710f',1,'TensorFactory']]],
   ['sigmoid_5fmml_14',['Sigmoid_mml',['../classSigmoid__mml.html',1,'']]],
-  ['sigmoidnode_15',['sigmoidnode',['../classSigmoidNode.html#ae0c5779ec29777e0eaf8cc4a305ef9c4',1,'SigmoidNode::SigmoidNode()'],['../classSigmoidNode.html',1,'SigmoidNode'],['../classSigmoidNode.html#a5c4b205fb80b573e47a7c380a12bd98d',1,'SigmoidNode::SigmoidNode()']]],
+  ['sigmoidnode_15',['sigmoidnode',['../classSigmoidNode.html#ae0c5779ec29777e0eaf8cc4a305ef9c4',1,'SigmoidNode::SigmoidNode()'],['../classSigmoidNode.html',1,'SigmoidNode'],['../classSigmoidNode.html#a7dd8e534752d1834738dfd5ab9edb92b',1,'SigmoidNode::SigmoidNode()']]],
   ['size_16',['size',['../classarray__mml.html#af699c11e9f188cc913f7e5504565eb5e',1,'array_mml']]],
   ['slice_17',['slice',['../classTensor.html#a63a4d5e1742a7e4d6dcf22d44b43f431',1,'Tensor::slice(std::initializer_list&lt; size_t &gt; slice_indices)=0'],['../classTensor.html#a98b6c89221af54c99cd66b42eec10ff8',1,'Tensor::slice(array_mml&lt; size_t &gt; &amp;slice_indices)=0'],['../classTensor__mml.html#adaa827728344b54f59a0eae4dc5816a5',1,'Tensor_mml::slice(std::initializer_list&lt; size_t &gt; slice_indices) override'],['../classTensor__mml.html#a3c759e22765cde04b6351da3926c043a',1,'Tensor_mml::slice(array_mml&lt; size_t &gt; &amp;slice_indices) override']]],
   ['sliding_5fwindow_18',['sliding_window',['../classTensorOperations.html#a7f3ca526baff1a640d9078645d3e37fa',1,'TensorOperations']]],
   ['subarray_19',['subarray',['../classarray__mml.html#a9415bc07b85e360f22805c49d801425d',1,'array_mml']]],
   ['subtract_20',['subtract',['../classTensorOperations.html#adcb8d321c2ac5601cc14e1c4b7393b91',1,'TensorOperations']]],
-  ['swishnode_21',['swishnode',['../classSwishNode.html',1,'SwishNode'],['../classSwishNode.html#a3bd06ec1f0e0ff0ada1278f21f20aeea',1,'SwishNode::SwishNode(std::string X, std::string Y)'],['../classSwishNode.html#a8747238164d6fc8fed0c4828ed7f8e4d',1,'SwishNode::SwishNode(const nlohmann::json &amp;node)']]]
+  ['swishnode_21',['swishnode',['../classSwishNode.html',1,'SwishNode'],['../classSwishNode.html#aae8111e4f5c541b8c86ff20db3c2432c',1,'SwishNode::SwishNode(const std::string &amp;X, const std::string &amp;Y)'],['../classSwishNode.html#a8747238164d6fc8fed0c4828ed7f8e4d',1,'SwishNode::SwishNode(const nlohmann::json &amp;node)']]]
 ];

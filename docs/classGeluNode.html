@@ -111,9 +111,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>T</b> = std::variant
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5b4f59b88b7c62fb26a43bf28e631ff8" id="r_a5b4f59b88b7c62fb26a43bf28e631ff8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGeluNode.html#a5b4f59b88b7c62fb26a43bf28e631ff8">GeluNode</a> (std::string X, std::string Y, std::string approximate=&quot;none&quot;)</td></tr>
-<tr class="memdesc:a5b4f59b88b7c62fb26a43bf28e631ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGeluNode.html" title="A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph.">GeluNode</a>.  <br /></td></tr>
-<tr class="separator:a5b4f59b88b7c62fb26a43bf28e631ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164af545a3823cb16ee2ff4c3d4c9dd1" id="r_a164af545a3823cb16ee2ff4c3d4c9dd1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGeluNode.html#a164af545a3823cb16ee2ff4c3d4c9dd1">GeluNode</a> (const std::string &amp;X, const std::string &amp;Y, const std::string &amp;approximate=&quot;none&quot;)</td></tr>
+<tr class="memdesc:a164af545a3823cb16ee2ff4c3d4c9dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGeluNode.html" title="A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph.">GeluNode</a>.  <br /></td></tr>
+<tr class="separator:a164af545a3823cb16ee2ff4c3d4c9dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c60243f62759125a185e953af1dfc1e" id="r_a6c60243f62759125a185e953af1dfc1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGeluNode.html#a6c60243f62759125a185e953af1dfc1e">GeluNode</a> (const nlohmann::json &amp;node)</td></tr>
 <tr class="memdesc:a6c60243f62759125a185e953af1dfc1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classGeluNode.html" title="A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph.">GeluNode</a> from JSON.  <br /></td></tr>
 <tr class="separator:a6c60243f62759125a185e953af1dfc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +135,8 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph. </p>
 <p>This class inherits from the <a class="el" href="classNode.html" title="Abstract base class representing a node in a computational graph.">Node</a> class and represents the gaussian error linear units std::function in a computational graph. The std::function is applied elementwise. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5b4f59b88b7c62fb26a43bf28e631ff8" name="a5b4f59b88b7c62fb26a43bf28e631ff8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b4f59b88b7c62fb26a43bf28e631ff8">&#9670;&#160;</a></span>GeluNode() <span class="overload">[1/2]</span></h2>
+<a id="a164af545a3823cb16ee2ff4c3d4c9dd1" name="a164af545a3823cb16ee2ff4c3d4c9dd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a164af545a3823cb16ee2ff4c3d4c9dd1">&#9670;&#160;</a></span>GeluNode() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,19 +144,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">GeluNode::GeluNode </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>X</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>Y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>approximate</em> = <code>&quot;none&quot;</code>&#160;</td>
         </tr>
         <tr>
@@ -184,6 +184,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">GeluNode::GeluNode </td>
@@ -193,6 +196,11 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Constructor for <a class="el" href="classGeluNode.html" title="A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph.">GeluNode</a> from JSON. </p>
