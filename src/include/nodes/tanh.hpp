@@ -24,14 +24,14 @@ class TanHNode : public Node {
    * @param X Shared pointer to the input tensor X.
    * @param Y Shared pointer to the output tensor Y.
    */
-  TanHNode(std::string X, std::string Y);
+  TanHNode(const std::string &X, const std::string &Y);
 
   /**
    * @brief Constructor for TanHNode from JSON.
    *
    * @param node JSON object representing the TanH node.
    */
-  TanHNode(const nlohmann::json &node);
+  explicit TanHNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation applying std::tanh.

@@ -15,7 +15,7 @@
 #include "datastructures/mml_array.hpp"
 #include "nlohmann/json.hpp"
 
-LRNNode_mml::LRNNode_mml(std::string X, std::string Y, size_t size, float alpha,
+LRNNode_mml::LRNNode_mml(const std::string &X, const std::string &Y, size_t size, float alpha,
                          float beta, float bias)
     : X(X), Y(Y), alpha(alpha), beta(beta) {
   if (size < 1) throw std::invalid_argument("Size must be at least 1.");

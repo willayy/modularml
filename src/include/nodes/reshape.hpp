@@ -30,7 +30,7 @@ public:
    * @param allowzero =0 by default. allowzero=1 indicates that if any value in
    * the ‘shape’ input is set to zero, the zero value is honored
    */
-  reshapeNode(std::string data, std::string shape, std::string reshaped,
+  reshapeNode(const std::string &data, const std::string &shape, const std::string &reshaped,
               int allowzero = 0);
 
   /**
@@ -38,7 +38,7 @@ public:
    *
    * @param node JSON object representing the reshape node.
    */
-  reshapeNode(const nlohmann::json &node);
+  explicit reshapeNode(const nlohmann::json &node);
 
   /**
    * @brief Performs the forward pass of the reshape operation.

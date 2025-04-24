@@ -14,7 +14,7 @@
 
 #include "nlohmann/json.hpp"
 
-ELUNode::ELUNode(std::string X, std::string Y, float alpha)
+ELUNode::ELUNode(const std::string &X, const std::string &Y, float alpha)
     : X(X), Y(Y), alpha(alpha) {};
 
 ELUNode::ELUNode(const nlohmann::json &node) {

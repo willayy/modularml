@@ -15,7 +15,7 @@
 
 #include "nlohmann/json.hpp"
 
-LogSoftMaxNode::LogSoftMaxNode(std::string X, std::string Y, size_t axis)
+LogSoftMaxNode::LogSoftMaxNode(const std::string &X, const std::string &Y, size_t axis)
     : X(X), Y(Y), axis(axis) {}
 
 LogSoftMaxNode::LogSoftMaxNode(const nlohmann::json &node) {

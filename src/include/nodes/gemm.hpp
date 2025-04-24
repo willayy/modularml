@@ -33,8 +33,8 @@ class GemmNode : public Node {
    * @param transA Whether to transpose A (0 means false).
    * @param transB Whether to transpose B (0 means false).
    */
-  GemmNode(std::string A, std::string B, std::string Y,
-           std::optional<std::string> C = std::nullopt, float alpha = 1.0f,
+  GemmNode(const std::string &A, const std::string &B, const std::string &Y,
+           const std::optional<std::string> &C = std::nullopt, float alpha = 1.0f,
            float beta = 1.0f, int transA = 0, int transB = 0);
 
   /**
@@ -42,7 +42,7 @@ class GemmNode : public Node {
    *
    * @param node JSON object representing the Gemm node.
    */
-  GemmNode(const nlohmann::json &node);
+  explicit GemmNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation of GEMM.

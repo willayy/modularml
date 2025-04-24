@@ -17,10 +17,10 @@ class Gemm_mml;
 template <typename T>
 class Tensor_mml;
 
-ConvNode::ConvNode(std::string X, std::string W, std::string Y,
-                   array_mml<size_t> dilations, array_mml<size_t> padding,
-                   array_mml<size_t> kernel_shape, array_mml<size_t> stride,
-                   std::optional<std::string> B, size_t group)
+ConvNode::ConvNode(const std::string &X, const std::string &W, const std::string &Y,
+                   const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
+                   const array_mml<size_t> &kernel_shape, const array_mml<size_t> &stride,
+                   const std::optional<std::string> &B, size_t group)
     : X(X),
       W(W),
       B(B),

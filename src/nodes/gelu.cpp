@@ -18,7 +18,7 @@
 
 #include "nlohmann/json.hpp"
 
-GeluNode::GeluNode(std::string X, std::string Y, std::string approximate)
+GeluNode::GeluNode(const std::string &X, const std::string &Y, const std::string &approximate)
     : X(X), Y(Y) {
   if (approximate == "none" || approximate == "tanh") {
     this->approximate = approximate;

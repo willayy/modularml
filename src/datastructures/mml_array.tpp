@@ -109,11 +109,6 @@ bool array_mml<T>::operator==(const array_mml &other) const {
 }
 
 template <typename T>
-bool array_mml<T>::operator!=(const array_mml &other) const {
-  return !(*this == other);
-}
-
-template <typename T>
 std::string array_mml<T>::to_string() const {
   std::string str = "[";
   // if longer than 50 print first 10 then ... then last 10

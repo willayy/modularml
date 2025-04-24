@@ -23,14 +23,14 @@ class ELUNode : public Node {
    * @param Y Unique std::string key to the output tensor.
    * @param alpha Coefficient of ELU.
    */
-  ELUNode(std::string X, std::string Y, float alpha = 1.0f);
+  ELUNode(const std::string &X, const std::string &Y, float alpha = 1.0f);
 
   /**
    * @brief Constructor for ELUNode from JSON.
    *
    * @param node JSON object representing the ELU node.
    */
-  ELUNode(const nlohmann::json &node);
+  explicit ELUNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using the ELU std::function.
