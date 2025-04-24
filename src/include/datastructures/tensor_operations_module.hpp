@@ -252,21 +252,9 @@ class TensorOperations {
   static inline toft::sliding_window_func<T> sliding_window_ptr =
       mml_sliding_window<T>;
 
-  // Pointer to the gemm std::function. Different defaults depending on compiler
-  // flags
-#if defined(USE_AVX_GEMM)
-  template <TensorConcept::Types T>
-  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx<T>;
-#elif defined(USE_AVX512_GEMM)
-  template <TensorConcept::Types T>
-  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_avx512<T>;
-#elif defined(USE_BLOCKED_GEMM)
-  template <TensorConcept::Types T>
-  static inline toft::gemm_func<T> gemm_ptr = mml_gemm_blocked<T>;
-#else
+  // Pointer to the gemm std::function.
   template <TensorConcept::Types T>
   static inline toft::gemm_func<T> gemm_ptr = mml_gemm_inner_product<T>;
-#endif
 
   // Pointer to the gemm_onnx std::function.
   template <TensorConcept::Types T>
