@@ -12,11 +12,6 @@
 
 #include "nlohmann/json.hpp"
 
-template <typename T>
-class Gemm_mml;
-template <typename T>
-class Tensor_mml;
-
 ConvNode::ConvNode(const std::string &X, const std::string &W, const std::string &Y,
                    const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
                    const array_mml<size_t> &kernel_shape, const array_mml<size_t> &stride,

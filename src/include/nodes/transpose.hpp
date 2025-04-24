@@ -29,7 +29,8 @@ class TransposeNode : public Node {
    * @param Y Shared pointer to the output tensor.
    * @param perm A list of integers defining how to permute the axi
    */
-  TransposeNode(std::string A, std::string Y, const std::vector<int> perm);
+  TransposeNode(const std::string &A, const std::string &Y,
+                const std::vector<int> &perm);
 
   /**
    * @brief Constructor for TransposeNode from JSON.

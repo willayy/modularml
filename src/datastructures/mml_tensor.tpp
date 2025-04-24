@@ -372,8 +372,10 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
   return transposed;
 };
 
-template <typename T>
-std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(const std::vector<int>& perm) const {
+template <TensorConcept::Types T>
+std::shared_ptr<Tensor<T>>
+Tensor_mml<T>::transpose(
+    const std::vector<int> &perm) const {
   if (perm.size() != this->shape.size()) {
     throw std::invalid_argument("Transpose: perm size must be equal to tensor rank");
   }
@@ -440,8 +442,7 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(const std::vector<int>& perm
   return transposed;
 }
 
-
-template <typename T>
+template <TensorConcept::Types T>
 bool Tensor_mml<T>::valid_broadcast_reshape_size(
     const array_mml<size_t> &target_shape) const {
   const array_mml<size_t> &current_shape = this->shape;

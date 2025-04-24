@@ -1,10 +1,7 @@
 #include "nodes/transpose.hpp"
 
-template <typename T>
-class Tensor_mml;
-
-TransposeNode::TransposeNode(std::string A, std::string Y,
-                             const std::vector<int> perm)
+TransposeNode::TransposeNode(const std::string &A, const std::string &Y,
+                             const std::vector<int> &perm)
     : A(A), Y(Y), perm(perm) {}
 
 TransposeNode::TransposeNode(const nlohmann::json &node) {
