@@ -12,7 +12,7 @@
 
 #include "nlohmann/json.hpp"
 
-LeakyReLUNode::LeakyReLUNode(std::string X, std::string Y, float alpha)
+LeakyReLUNode::LeakyReLUNode(const std::string &X, const std::string &Y, float alpha)
     : X(X), Y(Y), alpha(alpha) {}
 
 LeakyReLUNode::LeakyReLUNode(const nlohmann::json &node) {

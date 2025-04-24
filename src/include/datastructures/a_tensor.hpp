@@ -33,11 +33,6 @@ class Tensor {
   /// @brief Destructor for Tensor class.
   virtual ~Tensor() = default;
 
-  /// @brief Check if this tensor is not std::equal to another tensor.
-  /// @param other The tensor to compare with.
-  /// @return True if the tensors are not std::equal, false otherwise.
-  virtual bool operator!=(const Tensor<T> &other) const = 0;
-
   /// @brief Get an element from the tensor using multi-dimensional indices.
   /// @param indices A std::vector of integers representing the indices of the
   /// element.
@@ -139,17 +134,12 @@ class Tensor {
   /// @return True if the tensor is a matrix (has rank 2), false otherwise.
   virtual bool is_matrix() const = 0;
 
-  /// @brief Check if the tensor-matrix matches another matrix. Assumes the
-  /// tensor is a matrix.
-  /// @param other The other matrix to compare with.
-  /// @return True if the tensor-matrix matches the other matrix, false
-  /// otherwise.
-  virtual bool matrix_match(const Tensor<T> &other) const = 0;
-
   virtual std::shared_ptr<Tensor<T>> transpose(
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const = 0;
 
+  virtual std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const = 0;
+  
   virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const = 0;
 

@@ -16,11 +16,11 @@
 #include "nlohmann/json.hpp"
 #include "nodes/node_utils.hpp"
 
-AvgPoolNode::AvgPoolNode(std::string X, std::string Y,
-                         std::vector<int> kernel_shape, std::string auto_pad,
+AvgPoolNode::AvgPoolNode(const std::string &X, const std::string &Y,
+                         const std::vector<int> &kernel_shape, const std::string &auto_pad,
                          int ceil_mode, int count_include_pad,
-                         std::vector<int> dilations, std::vector<int> pads,
-                         std::vector<int> strides)
+                         const std::vector<int> &dilations, const std::vector<int> &pads,
+                         const std::vector<int> &strides)
     : X(X),
       Y(Y),
       auto_pad(auto_pad),

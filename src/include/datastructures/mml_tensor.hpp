@@ -115,9 +115,7 @@ class Tensor_mml : public Tensor<T> {
   void reshape(const array_mml<size_t> &new_shape) override;
   void reshape(std::initializer_list<size_t> new_shape) override;
   bool is_matrix() const override;
-  bool matrix_match(const Tensor<T> &other) const override;
   bool operator==(const Tensor<T> &other) const override;
-  bool operator!=(const Tensor<T> &other) const override;
   const array_mml<size_t> &get_shape() const override;
   const array_mml<size_t> &get_offsets() const;
   size_t get_size() const override;
@@ -131,6 +129,9 @@ class Tensor_mml : public Tensor<T> {
   std::shared_ptr<Tensor<T>> transpose(
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const override;
+
+  std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const override;
+
   std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const override;
 

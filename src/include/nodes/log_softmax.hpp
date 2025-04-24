@@ -28,14 +28,14 @@ class LogSoftMaxNode : public Node {
    * @param axis Integer representing along which axis LogSoftMax is applied to.
    * (default -1)
    */
-  LogSoftMaxNode(std::string X, std::string Y, size_t axis = -1);
+  LogSoftMaxNode(const std::string &X, const std::string &Y, size_t axis = -1);
 
   /**
    * @brief Constructor for LogSoftMaxNode from JSON.
    *
    * @param node JSON object representing the LogSoftMax node.
    */
-  LogSoftMaxNode(const nlohmann::json &node);
+  explicit LogSoftMaxNode(const nlohmann::json &node);
 
   /**
    * @brief Perform the forward pass computation using LogSoftMax activation

@@ -145,12 +145,18 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
   int block_size = 64;  // This depends on the CPU architecture - We can look
                         // into having the size of this be dynamically fetched
   if (!TA && !TB) {
-    int i, j, jj, k, kk;
-    int i_col, k_col, i_col_out;
+    int i;
+    int j;
+    int jj;
+    int k;
+    int kk;
+    int i_col;
+    int k_col;
+    int i_col_out;
 
-    for (int jj = 0; jj < N; jj += block_size) {
-      for (int kk = 0; kk < K; kk += block_size) {
-        for (int i = 0; i < M; i++) {
+    for (jj = 0; jj < N; jj += block_size) {
+      for (kk = 0; kk < K; kk += block_size) {
+        for (i = 0; i < M; i++) {
           i_col = i * lda;
           i_col_out = i * ldc;
           for (int j = jj; j < std::min(jj + block_size, N); j++) {
