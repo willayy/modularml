@@ -6,52 +6,71 @@
 #include "nodes/a_node.hpp"
 
 /**
- * @class Constant Node
- * @brief A class representing a Constant node in a computational graph.
+ * @class ConstantNode
+ * @brief A node that outputs a constant tensor value in a computational graph.
+ *
+ * The ConstantNode represents a constant value in the computational graph. It
+ * has no inputs and produces a single output tensor with a predefined value
+ * that does not change during inference.
  */
 class ConstantNode : public Node {
  public:
   /**
-   * @brief Constructor for ConstantNode.
+   * @brief Constructor for ConstantNode with explicit value.
    *
-   * @param output Unique std::string key to the input tensor.
-   * @param value Tensor of std::variant GeneralDataTypes that will be assigned
-   * to output.
+   * @param output The name of the output tensor that will contain the constant
+   * value
+   * @param value The constant tensor value to be output by this node
    */
   ConstantNode(const std::string &output, GeneralDataTypes value);
 
   /**
-   * @brief Constructor for ConstantNode from JSON.
+   * @brief Constructor for ConstantNode from JSON representation.
    *
-   * @param node JSON object representing the Constant node.
+   * This constructor parses the JSON definition from an ONNX or similar model
+   * format to extract the constant value information.
+   *
+   * @param node JSON object representing the Constant node definition
    */
   explicit ConstantNode(const nlohmann::json &node);
 
-  /**§
-   * @brief Perform the forward pass.
+  /**
+   * @brief Performs the forward pass operation.
+   *
+   * In the case of a constant node, this simply makes the constant value
+   * available in the iomap under the output tensor name.
+   *
+   * @param iomap Map containing input and output tensors indexed by name
    */
   void forward(
       std::unordered_map<std::string, GeneralDataTypes> &iomap) override;
 
   /**
-   * @brief Get inputs.
+   * @brief Gets the names of input tensors required by this node.
    *
-   * @return The names of the inputs to the node.
+   * For a constant node, there are no inputs, so this returns an empty vector.
+   *
+   * @return An empty vector since constant nodes have no inputs
    */
   std::vector<std::string> getInputs() override;
 
   /**
-   * @brief Get outputs.
+   * @brief Gets the name of the output tensor produced by this node.
    *
-   * @return The names of the outputs to the node.
+   * @return A vector containing the single output tensor name
    */
   std::vector<std::string> getOutputs() override;
 
  private:
-  ///@brief Unique std::string key to output tensor
+  /**
+   * @brief The name of the output tensor
+   */
   std::string output;
-  ///@brief Value of the constant
-  GeneralDataTypes value;
 
-  // Should support more constant value attributes
+  /**
+   * @brief The constant value to be output
+   *
+   * This can be a tensor of any supported type in the GeneralDataTypes variant.
+   */
+  GeneralDataTypes value;
 };

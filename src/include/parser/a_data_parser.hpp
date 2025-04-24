@@ -24,17 +24,34 @@
 
 /**
  * @class DataParser
- * @brief Abstract class for parsing JSON data of a model into a Model Object.
+ * @brief Abstract base class for parsing model definitions from JSON format.
+ *
+ * This class defines the interface for parsers that convert model definitions
+ * from a serialized JSON format into executable Model objects. Different parser
+ * implementations can support various model definition formats (e.g., ONNX,
+ * TensorFlow, custom formats) by extending this class.
  */
 class DataParser {
  public:
   /**
-   * @brief Parses JSON data of a model into a Model object.
+   * @brief Parses a JSON model definition into an executable Model object.
    *
-   * @param data JSON data of a Model.
+   * This pure virtual function must be implemented by derived classes to define
+   * how specific model definition formats are parsed and converted into Model
+   * objects. The implementation should handle all aspects of model
+   * construction, including creating the appropriate nodes and establishing
+   * their connections.
+   *
+   * @param data JSON data containing the model definition
+   * @return A unique pointer to the constructed Model object
    */
   virtual std::unique_ptr<Model> parse(const nlohmann::json &data) const = 0;
 
-  /// @brief Virtual destructor for cleanup.
+  /**
+   * @brief Virtual destructor to ensure proper cleanup of derived classes.
+   *
+   * This allows safe polymorphic destruction of parser objects when
+   * accessed through a pointer to this base class.
+   */
   virtual ~DataParser() = default;
 };
