@@ -39,7 +39,8 @@ static const std::string base64_chars =
 template <typename T>
 inline array_mml<T> decode(const std::string &input) {
   std::vector<unsigned char> bytes;
-  int val = 0, val_bits = -8;
+  int val = 0;
+  int val_bits = -8;
 
   for (unsigned char c : input) {
     if (c == '=') break;  // Padding character
@@ -56,9 +57,8 @@ inline array_mml<T> decode(const std::string &input) {
 
   if (bytes.size() % sizeof(T) != 0) {
     throw std::runtime_error(
-        "Decoded data size (" + std::to_string(bytes.size()) +
-        " bytes) is not aligned with sizeof(" + typeid(T).name() +
-        ") = " + std::to_string(sizeof(T)));
+        std::format("Decoded data size ({} bytes) is not aligned with sizeof({}) = {}", 
+                    bytes.size(), typeid(T).name(), sizeof(T)));
   }
 
   size_t element_count = bytes.size() / sizeof(T);

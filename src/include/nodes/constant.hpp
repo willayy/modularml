@@ -18,14 +18,14 @@ class ConstantNode : public Node {
    * @param value Tensor of std::variant GeneralDataTypes that will be assigned
    * to output.
    */
-  ConstantNode(std::string output, GeneralDataTypes value);
+  ConstantNode(const std::string &output, GeneralDataTypes value);
 
   /**
    * @brief Constructor for ConstantNode from JSON.
    *
    * @param node JSON object representing the Constant node.
    */
-  ConstantNode(const nlohmann::json &node);
+  explicit ConstantNode(const nlohmann::json &node);
 
   /**§
    * @brief Perform the forward pass.

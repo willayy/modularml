@@ -40,17 +40,18 @@ class ConvNode : public Node {
    * @param group number of groups input channels and out channels are divided
    * into.
    */
-  ConvNode(std::string X, std::string W, std::string Y,
-           array_mml<size_t> dilations, array_mml<size_t> padding,
-           array_mml<size_t> kernel_shape, array_mml<size_t> stride,
-           std::optional<std::string> B = std::nullopt, size_t group = 1);
+  ConvNode(const std::string &X, const std::string &W, const std::string &Y,
+           const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
+           const array_mml<size_t> &kernel_shape,
+           const array_mml<size_t> &stride, const std::optional<std::string> &B,
+           size_t group = 1);
 
   /**
    * @brief Constructor for ConvNode from JSON.
    *
    * @param node JSON object representing the Conv node.
    */
-  ConvNode(const nlohmann::json &node);
+  explicit ConvNode(const nlohmann::json &node);
 
   /**
    * @brief Performs the forward pass convolution operation.
