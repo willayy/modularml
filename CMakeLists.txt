@@ -34,6 +34,10 @@ if(NOT (UNIX))
     message(WARNING "WARNING: This project is intended for Linux or MacOS.")
 endif()
 
+message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER}")
+message(STATUS "C++ compiler version: ${CMAKE_CXX_COMPILER_VERSION}")
+
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -103,6 +107,7 @@ else()
     SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
 endif()
+
 
 
 # ------------------- Binary ------------------------------- #

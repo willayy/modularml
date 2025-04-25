@@ -163,7 +163,11 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
 
 template <typename T>
 void Tensor_mml<T>::reshape(const array_mml<size_t> &new_shape) {
-  if (!valid_shape(new_shape)) throw std::invalid_argument("Invalid shape");
+  if (!valid_shape(new_shape)) {
+    std::cout << "Requested: " << new_shape << ", current shape: " << this->get_shape() << std::endl;
+    throw std::invalid_argument("Invalid shape");
+
+  } 
   this->shape = array_mml<size_t>(new_shape);
   this->indices_offsets = compute_indices_offsets();
 }
@@ -271,8 +275,11 @@ size_t Tensor_mml<T>::get_size() const {
 
 template <typename T>
 const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
-  if (!valid_indices(indices))
+  if (!valid_indices(indices)) {
+    std::cout << "Indices: " << indices << ", current shape: " << this->get_shape() << std::endl;
     throw std::invalid_argument("Invalid Tensor indices");
+  }
+
   if (this->sliced)
     return this->data[index_to_offset_1d_index(indices_to_1d_index(indices))];
   return this->data[indices_to_1d_index(indices)];
@@ -280,8 +287,10 @@ const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
 
 template <typename T>
 T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) {
-  if (!valid_indices(indices))
+  if (!valid_indices(indices)) {
+    std::cout << "Indices: " << indices << ", current shape: " << this->get_shape() << std::endl;
     throw std::invalid_argument("Invalid Tensor indices");
+  }
   if (this->sliced)
     return this->data[index_to_offset_1d_index(indices_to_1d_index(indices))];
   return this->data[indices_to_1d_index(indices)];
@@ -539,10 +548,14 @@ bool Tensor_mml<T>::valid_index(size_t index) const {
 template <typename T>
 bool Tensor_mml<T>::valid_indices(const array_mml<size_t> &indices) const {
   if (indices.size() != this->shape.size()) {
+    std::cout << "Mismatch in number of dimensions: indices.size() = " << indices.size()
+              << ", shape.size() = " << this->shape.size() << "\n";
     return false;
   }
   for (size_t i = 0; i < indices.size(); i++) {
     if (indices[i] >= this->shape[i]) {
+      std::cout << "Index " << indices[i] << " at position " << i
+                << " is out of bounds (dimension size: " << this->shape[i] << ")\n";
       return false;
     }
   }

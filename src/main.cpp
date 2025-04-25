@@ -149,6 +149,7 @@ int alexnet_demo(int argc, char* argv[]) {
         std::string image_path = argv[2];
         run_alexnet_inference(model, image_path);
     }
+
     // Just the json was provided, enter interactive mode
     else {
         std::string image_path;
@@ -288,7 +289,7 @@ int lenet_demo(int argc, char* argv[]) {
 
 
 int main(int argc, char* argv[]) {
-    alexnet_demo(argc, argv);
+    lenet_demo(argc, argv);
     
     return 0;
 }

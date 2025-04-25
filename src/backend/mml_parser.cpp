@@ -36,6 +36,7 @@
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
 #include "nodes/transpose.hpp"
+#include "nodes/softmax.hpp"
 
 // Helper std::function: to map the tensors
 std::unordered_map<std::string, GeneralDataTypes> mapTensors(
@@ -122,6 +123,8 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
         nodes.push_back(std::make_shared<GemmNode>(node));
       } else if (opType == "LeakyRelu") {
         nodes.push_back(std::make_shared<LeakyReLUNode>(node));
+      } else if (opType == "Softmax") {
+        nodes.push_back(std::make_shared<SoftMaxNode>(node));
       } else if (opType == "LogSoftmax") {
         nodes.push_back(std::make_shared<LogSoftMaxNode>(node));
       } else if (opType == "LRN") {
