@@ -6,7 +6,7 @@
 
 #if defined(USE_OPENBLAS_GEMM)
 #include <cblas.h>
-#include <openblas_config.h>  // For thread control
+#include <openblas_config.h>
 #include <thread>
 #endif
 
@@ -266,10 +266,6 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
 #endif
 
 #ifdef USE_OPENBLAS_GEMM
-#include <cblas.h>
-#include <openblas_config.h>
-#include <thread>
-
 template <typename T>
 static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
                           std::shared_ptr<Tensor<T>> A, int lda,
