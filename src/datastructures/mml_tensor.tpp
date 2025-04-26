@@ -12,7 +12,7 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
-  std::cout << "Allocating tensor with shape: [";
+  // std::cout << "Allocating tensor with shape: [";
   for (auto it = shape.begin(); it != shape.end(); ++it) {
     std::cout << *it;
     if (std::next(it) != shape.end()) {
@@ -38,7 +38,7 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
-  std::cout << "Allocating tensor with shape: [";
+  // std::cout << "Allocating tensor with shape: [";
   for (auto it = shape.begin(); it != shape.end(); ++it) {
     std::cout << *it;
     if (std::next(it) != shape.end()) {
@@ -60,7 +60,8 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
-  std::cout << "Allocating tensor with shape: " << shape.to_string() << std::endl;
+  // std::cout << "Allocating tensor with shape: " << shape.to_string() <<
+  // std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->size);
@@ -79,8 +80,8 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
-
-  std::cout << "Allocating tensor with shape: " << shape.to_string() << std::endl;
+  // std::cout << "Allocating tensor with shape: " << shape.to_string() <<
+  // std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
 }
@@ -183,10 +184,10 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::copy() const {
 template <typename T>
 void Tensor_mml<T>::reshape(const array_mml<size_t> &new_shape) {
   if (!valid_shape(new_shape)) {
-    std::cout << "Requested: " << new_shape << ", current shape: " << this->get_shape() << std::endl;
+    std::cout << "Requested: " << new_shape
+              << ", current shape: " << this->get_shape() << std::endl;
     throw std::invalid_argument("Invalid shape");
-
-  } 
+  }
   this->shape = array_mml<size_t>(new_shape);
   this->indices_offsets = compute_indices_offsets();
 }
@@ -219,7 +220,8 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
 template <typename T>
 std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
     array_mml<size_t> &slice_indices) {
-  if (!valid_slice_indices(slice_indices)) throw std::invalid_argument("Invalid slice indices");
+  if (!valid_slice_indices(slice_indices))
+    throw std::invalid_argument("Invalid slice indices");
 
   // Find the value of jump indexes
   size_t slice_jump_indexes = this->sliced ? this->jump_indexes : 0;
@@ -231,7 +233,7 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::slice(
       slice_jump_indexes += this->indices_offsets[i] * slice_indices[i];
     } while (i++, i < slice_indices.size() - 1);
   }
-  
+
   // Create the buffer
   std::shared_ptr<T[]> data_ptr(this->data.get(), [](T *) { /* NOOP */ });
   auto shared_buffer = array_mml<T>(data_ptr, this->data.size());
@@ -295,7 +297,8 @@ size_t Tensor_mml<T>::get_size() const {
 template <typename T>
 const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
   if (!valid_indices(indices)) {
-    std::cout << "Indices: " << indices << ", current shape: " << this->get_shape() << std::endl;
+    std::cout << "Indices: " << indices
+              << ", current shape: " << this->get_shape() << std::endl;
     throw std::invalid_argument("Invalid Tensor indices");
   }
 
@@ -307,7 +310,8 @@ const T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) const {
 template <typename T>
 T &Tensor_mml<T>::operator[](array_mml<size_t> &indices) {
   if (!valid_indices(indices)) {
-    std::cout << "Indices: " << indices << ", current shape: " << this->get_shape() << std::endl;
+    std::cout << "Indices: " << indices
+              << ", current shape: " << this->get_shape() << std::endl;
     throw std::invalid_argument("Invalid Tensor indices");
   }
   if (this->sliced)
@@ -399,48 +403,52 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
 };
 
 template <typename T>
-std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(const std::vector<int>& perm) const {
+std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(
+    const std::vector<int> &perm) const {
   if (perm.size() != this->shape.size()) {
-    throw std::invalid_argument("Transpose: perm size must be equal to tensor rank");
+    throw std::invalid_argument(
+        "Transpose: perm size must be equal to tensor rank");
   }
 
   // Checks that the perm vector is valid
   std::vector<bool> seen(perm.size(), false);
   for (size_t p : perm) {
     if (p >= perm.size() || seen[p]) {
-      throw std::invalid_argument("Transpose: invalid or duplicate entry in perm");
+      throw std::invalid_argument(
+          "Transpose: invalid or duplicate entry in perm");
     }
     seen[p] = true;
   }
 
   array_mml<size_t> new_shape(perm.size());
-  
+
   for (size_t i = 0; i < perm.size(); ++i) {
     size_t val = shape[perm[i]];
     new_shape[i] = val;
   }
 
   auto transposed = std::make_shared<Tensor_mml<T>>(new_shape);
-  // This recursive function remaps each element in the old tensor to the new permutation based in the perm vector
-  std::function<void(array_mml<size_t>&, size_t)> recurse;
-  recurse = [&](array_mml<size_t>& indices, size_t dim) {
+  // This recursive function remaps each element in the old tensor to the new
+  // permutation based in the perm vector
+  std::function<void(array_mml<size_t> &, size_t)> recurse;
+  recurse = [&](array_mml<size_t> &indices, size_t dim) {
     if (dim == shape.size()) {
       array_mml<size_t> transposed_indices(perm.size());
-  
+
       for (size_t i = 0; i < perm.size(); ++i) {
         if (perm[i] >= indices.size()) {
           std::cerr << "ERROR: perm[" << i << "] = " << perm[i]
-                    << " out of bounds for indices of size " << indices.size() << std::endl;
+                    << " out of bounds for indices of size " << indices.size()
+                    << std::endl;
           throw std::out_of_range("perm index out of bounds");
         }
         transposed_indices[i] = indices[perm[i]];
       }
 
-
       try {
         auto val = (*this)[indices];
         (*transposed)[transposed_indices] = val;
-      } catch (const std::exception& e) {
+      } catch (const std::exception &e) {
         std::cerr << "Exception accessing tensor at ";
         for (size_t idx : indices) std::cerr << idx << " ";
         std::cerr << " or transposed at ";
@@ -448,16 +456,15 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(const std::vector<int>& perm
         std::cerr << ": " << e.what() << std::endl;
         throw;
       }
-  
+
       return;
     }
-  
+
     for (size_t i = 0; i < shape[dim]; ++i) {
       indices[dim] = i;
       recurse(indices, dim + 1);
     }
   };
-  
 
   array_mml<size_t> indices(shape.size());
   indices.fill(0);
@@ -465,7 +472,6 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::transpose(const std::vector<int>& perm
 
   return transposed;
 }
-
 
 template <typename T>
 bool Tensor_mml<T>::valid_broadcast_reshape_size(
@@ -499,14 +505,15 @@ std::shared_ptr<Tensor<T>> Tensor_mml<T>::broadcast_reshape(
     const array_mml<size_t> &target_shape) const {
   if (this->shape == target_shape) return this->copy();
 
-  if (!valid_broadcast_reshape_size(target_shape)) throw std::invalid_argument("Cannot broadcast tensor to target shape");
+  if (!valid_broadcast_reshape_size(target_shape))
+    throw std::invalid_argument("Cannot broadcast tensor to target shape");
 
   if (this->sliced) throw std::logic_error("Cannot broadcast a sliced tensor");
-  
+
   // Caclulate how many times we should repeat the tensor
   size_t tensor_size = this->data.size();
-  size_t target_size = std::accumulate(
-      target_shape.begin(), target_shape.end(), 1, std::multiplies<size_t>());
+  size_t target_size = std::accumulate(target_shape.begin(), target_shape.end(),
+                                       1, std::multiplies<size_t>());
   size_t repeat_count = target_size / tensor_size;
 
   // Create the new buffer
@@ -567,14 +574,16 @@ bool Tensor_mml<T>::valid_index(size_t index) const {
 template <typename T>
 bool Tensor_mml<T>::valid_indices(const array_mml<size_t> &indices) const {
   if (indices.size() != this->shape.size()) {
-    std::cout << "Mismatch in number of dimensions: indices.size() = " << indices.size()
-              << ", shape.size() = " << this->shape.size() << "\n";
+    std::cout << "Mismatch in number of dimensions: indices.size() = "
+              << indices.size() << ", shape.size() = " << this->shape.size()
+              << "\n";
     return false;
   }
   for (size_t i = 0; i < indices.size(); i++) {
     if (indices[i] >= this->shape[i]) {
       std::cout << "Index " << indices[i] << " at position " << i
-                << " is out of bounds (dimension size: " << this->shape[i] << ")\n";
+                << " is out of bounds (dimension size: " << this->shape[i]
+                << ")\n";
       return false;
     }
   }

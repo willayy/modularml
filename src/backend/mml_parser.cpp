@@ -33,10 +33,10 @@
 #include "nodes/relu.hpp"
 #include "nodes/reshape.hpp"
 #include "nodes/sigmoid.hpp"
+#include "nodes/softmax.hpp"
 #include "nodes/swish.hpp"
 #include "nodes/tanh.hpp"
 #include "nodes/transpose.hpp"
-#include "nodes/softmax.hpp"
 
 // Helper std::function: to map the tensors
 std::unordered_map<std::string, GeneralDataTypes> mapTensors(
@@ -85,7 +85,8 @@ std::unordered_map<std::string, GeneralDataTypes> mapTensors(
           tensorMap[initName] = ParserHelper::handle_tensor<uint64_t>(init);
           break;
         default:
-          throw std::runtime_error(std::format("Currently unsupported data type: {}", dataType));
+          throw std::runtime_error(
+              std::format("Currently unsupported data type: {}", dataType));
       }
     }
   }
@@ -182,20 +183,31 @@ std::vector<std::string> getOutputs(const nlohmann::json &graph) {
 }
 
 std::unique_ptr<Model> Parser_mml::parse(const nlohmann::json &data) const {
+  std::cout << "==== Start parsing input model ====" << std::endl;
   // Get the graph
   nlohmann::json graph = data["graph"];
 
   // Get the tensors
+  std::cout << "Mapping tensors... " << std::flush;
   std::unordered_map<std::string, GeneralDataTypes> iomap = mapTensors(graph);
+  std::cout << "Done." << std::endl;
 
   // Construct the nodes
+  std::cout << "Constructing computational graph... " << std::flush;
   std::vector<std::shared_ptr<Node>> nodes = constructNodes(graph);
+  std::cout << "Done." << std::endl;
 
   // Get the inputs
+  std::cout << "Retrieving inputs... " << std::flush;
   std::vector<std::string> inputs = getInputs(graph);
+  std::cout << "Done." << std::endl;
 
   // Get the outputs
+  std::cout << "Retrieving outputs... " << std::flush;
   std::vector<std::string> outputs = getOutputs(graph);
+  std::cout << "Done." << std::endl;
+
+  std::cout << "\nParsing: Successful\n" << std::endl;
 
   // Create the model
   return std::make_unique<Model_mml>(nodes, iomap, inputs, outputs);

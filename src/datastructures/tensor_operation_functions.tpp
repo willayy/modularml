@@ -163,12 +163,13 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
           i_col = i * lda;
           i_col_out = i * ldc;
           for (int j = jj; j < std::min(jj + block_size, N); j++) {
-              T acc = (kk == 0 ? BETA * (*C)[i_col_out + j] : (*C)[i_col_out + j]);
-              for (int k = kk; k < std::min(kk + block_size, K); k++) {
-                  k_col = k * ldb;
-                  acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
-              }
-              (*C)[i_col_out + j] = acc;
+            T acc =
+                (kk == 0 ? BETA * (*C)[i_col_out + j] : (*C)[i_col_out + j]);
+            for (int k = kk; k < std::min(kk + block_size, K); k++) {
+              k_col = k * ldb;
+              acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
+            }
+            (*C)[i_col_out + j] = acc;
           }
         }
       }
@@ -648,6 +649,33 @@ static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a) {
   }
 
   return max_index;
+}
+
+template <typename T>
+static std::vector<int> mml_top_n_arg_max(
+    const std::shared_ptr<const Tensor<T>> a, int n) {
+  const auto size = a->get_size();
+  if (size == 0) {
+    throw std::runtime_error("top_n_argmax called on an empty tensor.");
+  }
+  if (n <= 0 || n > static_cast<int>(size)) {
+    throw std::invalid_argument("Requested n is out of valid range.");
+  }
+
+  std::vector<int> indices(size);
+  for (int i = 0; i < static_cast<int>(size); ++i) {
+    indices[i] = i;
+  }
+
+  // Sort the values and resize it to return n number of values in order.
+  std::partial_sort(indices.begin(), indices.begin() + n, indices.end(),
+                    [&a](int lhs, int rhs) {
+                      return (*a)[lhs] >
+                             (*a)[rhs];  // Greater values come first
+                    });
+
+  indices.resize(n);
+  return indices;
 }
 
 template <typename T>

@@ -247,6 +247,27 @@ class TensorOperations {
       std::function<int(const std::shared_ptr<const Tensor<T>> a)> ptr);
 
   /**
+   * @brief Returns a vector containing the n highest values in the input
+   * tensor.
+   * @param a Input tensor.
+   * @return A vector of size n, containing the highest values in the input
+   * tensor.
+   */
+  template <typename T>
+  static std::vector<int> top_n_arg_max(
+      const std::shared_ptr<const Tensor<T>> a, int n);
+
+  /**
+   * @brief Sets the top_n_arg_max std::function pointer.
+   * @param ptr Function pointer to the top_n_arg_max implementation.
+   */
+  template <typename T>
+  static void set_top_n_arg_max_ptr(
+      std::function<std::vector<int>(const std::shared_ptr<const Tensor<T>> a,
+                                     int n)>
+          ptr);
+
+  /**
    * @brief Applies a sliding window operation to a tensor.
    * @param in_shape Input shape.
    * @param out_shape Output shape.
@@ -343,6 +364,12 @@ class TensorOperations {
   template <typename T>
   static std::function<int(const std::shared_ptr<const Tensor<T>> a)>
       arg_max_ptr;
+
+  // Pointer to the arg_max std::function.
+  template <typename T>
+  static std::function<std::vector<int>(
+      const std::shared_ptr<const Tensor<T>> a, int n)>
+      top_n_arg_max_ptr;
 
   // Pointer to the sliding_window function.
   template <typename T>
