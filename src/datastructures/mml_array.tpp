@@ -4,7 +4,9 @@
 
 template <typename T>
 array_mml<T>::array_mml(size_t size) : d_size(size) {
-#ifdef ALIGN_TENSORS
+  std::cout << "Allocating tensor with size: " << size << std::endl;
+
+  #ifdef ALIGN_TENSORS
   size_t alignment =
       MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
 

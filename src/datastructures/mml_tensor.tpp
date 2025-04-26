@@ -12,6 +12,14 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
+  std::cout << "Allocating tensor with shape: [";
+  for (auto it = shape.begin(); it != shape.end(); ++it) {
+    std::cout << *it;
+    if (std::next(it) != shape.end()) {
+      std::cout << ", ";
+    }
+  }
+  std::cout << "]" << std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->size);
@@ -30,6 +38,14 @@ Tensor_mml<T>::Tensor_mml(const std::initializer_list<size_t> shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
+  std::cout << "Allocating tensor with shape: [";
+  for (auto it = shape.begin(); it != shape.end(); ++it) {
+    std::cout << *it;
+    if (std::next(it) != shape.end()) {
+      std::cout << ", ";
+    }
+  }
+  std::cout << "]" << std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
 }
@@ -44,6 +60,7 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
+  std::cout << "Allocating tensor with shape: " << shape.to_string() << std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
   this->data = array_mml<T>(this->size);
@@ -62,6 +79,8 @@ Tensor_mml<T>::Tensor_mml(const array_mml<size_t> &shape,
       jump_columns(jump_columns),
       jump_rows(jump_rows),
       sliced(sliced) {
+
+  std::cout << "Allocating tensor with shape: " << shape.to_string() << std::endl;
   this->indices_offsets = compute_indices_offsets();
   this->size = compute_size();
 }

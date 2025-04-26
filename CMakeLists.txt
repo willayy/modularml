@@ -56,7 +56,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 # ==== Header-only library used to load images ==== #
-include(FetchContent)
 FetchContent_Declare(
     stb
     GIT_REPOSITORY https://github.com/nothings/stb.git
@@ -67,48 +66,6 @@ FetchContent_MakeAvailable(stb)
 
 # Dependency directory
 set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
-
-
-# ------------------- GEMM & Optimizations ----------------- #
-option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
-
-option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
-option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
-option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
-
-if (USE_BLOCKED_GEMM)
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_BLOCKED_GEMM)
-
-elseif (USE_AVX_GEMM)
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    add_definitions(-DUSE_AVX_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_AVX512_GEMM)
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    add_definitions(-DUSE_AVX512_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_DEFAULT_GEMM)
-endif()
-
-
 
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
@@ -195,6 +152,71 @@ target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
+# ------------------- Executable --------------------- #
+
+set(EXECUTABLE_SRC ${SRC_DIR}/main.cpp)
+
+add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
+
+target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
+
+target_compile_options(${PROJECT_NAME}_exec PRIVATE 
+    -funroll-loops
+    -O3
+    -g 
+    -fPIC 
+    -fprofile-abs-path 
+    -Wfatal-errors 
+    -fmax-errors=1 
+    -pedantic-errors
+)
+
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+
+option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
+option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
+option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
+option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_BLOCKED_GEMM)
+
+elseif (USE_AVX_GEMM)
+    message(STATUS "Using AVX GEMM implementation")
+    SET(MEMORY_ALIGNMENT 32)
+    add_definitions(-DUSE_AVX_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx2 -mfma)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx2 -mfma)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx2 -mfma)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        target_compile_options(${PROJECT_NAME} PRIVATE -/arch:AVX2)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -/arch:AVX2)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -/arch:AVX2)
+    endif()
+
+elseif (USE_AVX512_GEMM)
+    message(STATUS "Using AVX512 GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
+    add_definitions(-DUSE_AVX512_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+else()
+    message(STATUS "Using default GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_DEFAULT_GEMM)
+endif()
+
+
 # ------------------- Coverage (gcovr) ---------------------- #
 
 find_program(GCOVR_EXECUTABLE gcovr)
@@ -276,10 +298,3 @@ else()
 endif()
 
 
-# ------------------- Executable --------------------- #
-
-set(EXECUTABLE_SRC ${SRC_DIR}/main.cpp)
-
-add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
-
-target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})

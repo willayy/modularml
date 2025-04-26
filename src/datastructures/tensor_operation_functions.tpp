@@ -163,12 +163,12 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
           i_col = i * lda;
           i_col_out = i * ldc;
           for (int j = jj; j < std::min(jj + block_size, N); j++) {
-            T acc = BETA * (*C)[i_col_out + j];
-            for (int k = kk; k < std::min(kk + block_size, K); k++) {
-              k_col = k * ldb;
-              acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
-            }
-            (*C)[i_col_out + j] = acc;
+              T acc = (kk == 0 ? BETA * (*C)[i_col_out + j] : (*C)[i_col_out + j]);
+              for (int k = kk; k < std::min(kk + block_size, K); k++) {
+                  k_col = k * ldb;
+                  acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
+              }
+              (*C)[i_col_out + j] = acc;
           }
         }
       }
