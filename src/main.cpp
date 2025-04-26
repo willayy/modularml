@@ -183,24 +183,9 @@ int run_lenet_inference(const std::unique_ptr<Model>& model, std::string image_p
         try {   
             const ImageLoaderConfig config(image_path);
             
-            imageResizeAndCropper resizer_and_cropper;
-            int out_width, out_height, out_channels;
-    
             ImageLoader loader;
-            std::shared_ptr<unsigned char> resized_image = resizer_and_cropper.resize(config, out_width, out_height, out_channels);
-            const int crop_size = 28;
-            std::shared_ptr<unsigned char> resized_cropped_image = resizer_and_cropper.crop(resized_image, out_width, out_height, out_channels, crop_size);
             
-            out_width = crop_size;
-            out_height = crop_size;
-            
-            std::string temp_image_path = "demo/temp_test_image.png";
-            stbi_write_png(temp_image_path.c_str(), out_width, out_height, out_channels, resized_cropped_image.get(), out_width * out_channels);
-            
-            const ImageLoaderConfig resized_config(temp_image_path);
-            
-            auto image_tensor = loader.load(resized_config);
-
+            auto image_tensor = loader.load(config);
             inputs["input"] = image_tensor;
             outputs = model->infer(inputs);
 
@@ -212,12 +197,15 @@ int run_lenet_inference(const std::unique_ptr<Model>& model, std::string image_p
             std::cerr << "Error: output empty" << std::endl;
             return 1;
         }
-    
-        auto prediction = outputs.find("output");
+        // Sequential is something i found during debug seems to be different key with different frameworks that export onnx
+        auto prediction = outputs.find("sequential");
+        
+        if (prediction == outputs.end()) {
+            throw std::runtime_error("Demo: Output tensor not found in iomap");
+        }
         auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(prediction->second);
         int max_index = TensorOperations::arg_max<float>(output_tensor);
-    
-        std::cout << "Prediction: " << get_class_name("demo/lenet_demo/lenet_labels.json", std::to_string(max_index)) << std::endl;
+        std::cout << "Prediction: " << max_index << std::endl;
         
         Profiler::end_timing("Performing Inference");
         return 0;
@@ -248,17 +236,16 @@ int lenet_demo(int argc, char* argv[]) {
     Parser_mml parser;
     std::unique_ptr<Model> model;
 
-    Profiler::begin_timing("Parsing LenNet");
+    Profiler::begin_timing("Parsing LeNet");
     // Try to parse the model provided
     try {
         model = parser.parse(json_model);
-        std::cout << "Successfully loaded model" << std::endl;
     }
     catch(const std::exception& e) {
         std::cerr << "Error occurred when trying to parse json: " << e.what() << '\n';
         return 1;
     }
-    Profiler::begin_timing("Parsing LenNet");
+    Profiler::begin_timing("Parsing LeNet");
 
     // Single prediction
     if (argc == 3) {

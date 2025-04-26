@@ -49,12 +49,6 @@ void TransposeNode::forward(
         }
 
         auto new_a_ptr = a_ptr->copy();
-
-        std::shared_ptr<Tensor<ValueTypeA>> new_c_ptr;
-        auto c_it = iomap.find(Y);
-        auto raw_c_ptr =
-            std::get<std::shared_ptr<Tensor<ValueTypeA>>>(c_it->second)->copy();
-
         auto transposed_tensor = a_ptr->transpose(perm);
         iomap[Y] = transposed_tensor;
       },

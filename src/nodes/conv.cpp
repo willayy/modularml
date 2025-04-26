@@ -159,11 +159,9 @@ void ConvNode::forward(
 
           // Create a std::copy of the input
           auto input_copy = x_ptr->copy();
-          std::cout << "input shape: " << input_copy->get_shape() << std::endl; 
           // Begin by flipping the weight kernel
           
           flip_kernel(w_ptr);
-          std::cout << "flip kernel done" << std::endl;
 
           auto im2col_output_shape = array_mml<size_t>(
               {get_in_channels() * get_kernel_height() * get_kernel_width(),
@@ -174,13 +172,11 @@ void ConvNode::forward(
 
             
           im2col(input_copy, im2col_output);
-          std::cout << "im2col done" << std::endl;
           
           // Flatten the weight tensor to prepare for GEMM
           size_t flattened_size =
               get_in_channels() * get_kernel_height() * get_kernel_width();
           w_ptr->reshape({get_out_channels(), flattened_size});
-          std::cout << "weigth reshaping done" << std::endl;
           
 
           // Prepare the result tensor
@@ -194,11 +190,9 @@ void ConvNode::forward(
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,
               result_ptr->get_shape()[1]);
 
-          std::cout << "gemm done" << std::endl;
 
           result_ptr->reshape({get_batch_size(), get_out_channels(),
                                get_out_height(), get_out_width()});
-          std::cout << "reshape done" << std::endl;
           
           // Provided a bias, add it to the result tensor across each output
           // feature
@@ -233,7 +227,6 @@ std::vector<std::string> ConvNode::getInputs() {
 std::vector<std::string> ConvNode::getOutputs() { return {Y}; }
 
 void ConvNode::flip_kernel(const TensorT &weight_variant) {
-  std::cout << "inside flip kernel" << std::endl;
   std::visit(
       [this](auto &weight) {
         size_t height = get_kernel_height();

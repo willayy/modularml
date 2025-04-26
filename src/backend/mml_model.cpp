@@ -13,7 +13,7 @@
 
 std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     const std::unordered_map<std::string, GeneralDataTypes> &inputs) {
-  std::cout << "==== Starting inference ====" << std::endl;
+  std::cout << "==== Starting Inference ====" << std::endl;
 
   if (nodes.empty()) {
     throw std::runtime_error("ComputeGraph has no nodes.");
@@ -36,7 +36,7 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
 
   // Set input tensors
   for (const auto &[name, tensor] : inputs) {
-    std::cout << "Setting input: " << name << std::endl;
+    //std::cout << "Setting input: " << name << std::endl;
     std::visit([&](auto &&arg) {
       // Deep copy
       local_iomap[name] = arg->copy();
@@ -50,21 +50,21 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
   try {
     for (size_t layer_idx = 0; layer_idx < topoLayers.size(); ++layer_idx) {
       const auto &layer = topoLayers[layer_idx];
-      std::cout << "Processing layer " << layer_idx << " with " << layer.size()
-                << " nodes" << std::endl;
+      //std::cout << "Processing layer " << layer_idx << " with " << layer.size()
+      //          << " nodes" << std::endl;
 
       current_layer_idx.store(layer_idx);
 
       for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
         const auto &node = layer[node_idx];
         std::string nodeType = typeid(*node).name();  // Get node type
-        std::cout << "  Processing node " << node_idx << " (type: " << nodeType
-                  << ")" << std::endl;
+        //std::cout << "  Processing node " << node_idx << " (type: " << nodeType
+        //          << ")" << std::endl;
 
         try {
           node->forward(local_iomap);
-          std::cout << "  Node " << nodeType << " processed successfully"
-                  << std::endl;
+          //std::cout << "  Node " << nodeType << " processed successfully"
+          //        << std::endl;
         } catch (const std::out_of_range &e) {
           std::cerr << "*** Out of range error in node " << node_idx
                     << " (type: " << nodeType << "): " << e.what() << std::endl;
