@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "datastructures/a_tensor.hpp"
-#include "tensor_concept.hpp"
+#include "datastructures/tensor_concept.hpp"
 
 /// @brief Tensor Operations Function Types
 namespace toft {

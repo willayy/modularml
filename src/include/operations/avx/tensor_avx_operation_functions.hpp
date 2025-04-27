@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "datastructures/a_tensor.hpp"
-#include "tensor_concept.hpp"
+#include "datastructures/tensor_concept.hpp"
 
 template <TensorConcept::Types T>
 static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
@@ -17,4 +17,4 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                             std::shared_ptr<Tensor<T>> C, int ldc);
 
-#include "../datastructures/tensor_avx_operation_functions.tpp"
+#include "../operations/avx/tensor_avx_operation_functions.tpp"

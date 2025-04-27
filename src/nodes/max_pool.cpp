@@ -15,7 +15,7 @@
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_array.hpp"
 #include "datastructures/tensor_factory.hpp"
-#include "datastructures/tensor_operations_module.hpp"
+#include "operations/tensor_operations_module.hpp"
 #include "nlohmann/json.hpp"
 #include "nodes/node_utils.hpp"
 

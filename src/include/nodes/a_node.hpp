@@ -22,8 +22,8 @@
 
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_tensor.hpp"
-#include "datastructures/tensor_operations_module.hpp"
 #include "nodes/node_utils.hpp"
+#include "operations/tensor_operations_module.hpp"
 
 /**
  * @struct is_in_variant

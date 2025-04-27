@@ -1,6 +1,6 @@
 #pragma once
 #include "datastructures/tensor_concept.hpp"
-#include "datastructures/tensor_operations_module.hpp"
+#include "operations/tensor_operations_module.hpp"
 
 // Setter implementations
 template <TensorConcept::Types... Ts>

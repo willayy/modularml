@@ -19,9 +19,9 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "a_tensor.hpp"
-#include "tensor_concept.hpp"
-#include "tensor_factory.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "datastructures/tensor_concept.hpp"
+#include "datastructures/tensor_factory.hpp"
 
 /**
  * Standard Tensor operation functions that gets shipped with ModularML as
@@ -157,4 +157,4 @@ static void mml_sliding_window(
     const std::function<void(const std::vector<std::vector<size_t>>&,
                              const std::vector<size_t>&)>& window_f);
 
-#include "../datastructures/tensor_default_operation_functions.tpp"
+#include "../operations/default/tensor_default_operation_functions.tpp"

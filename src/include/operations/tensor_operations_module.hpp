@@ -19,10 +19,10 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "a_tensor.hpp"
-#include "tensor_default_operation_functions.hpp"
+#include "datastructures/a_tensor.hpp"
+#include "default/tensor_default_operation_functions.hpp"
 #include "tensor_operation_function_types.hpp"
-#include "tensor_concept.hpp"
+#include "datastructures/tensor_concept.hpp"
 
 /**
  * A module for performing arithmetic operations on tensor structures. Your
@@ -291,4 +291,4 @@ class TensorOperations {
   static inline toft::arg_max_func arg_max_ptr = mml_arg_max<T>;
 };
 
-#include "../datastructures/tensor_operations_module.tpp"
+#include "../operations/tensor_operations_module.tpp"
