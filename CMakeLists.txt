@@ -78,6 +78,9 @@ set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
 # The source code directory
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
+# Set the test directory
+set(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
+
 # include the headers
 include_directories(${INCLUDE_DIR})
 
@@ -86,6 +89,9 @@ file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
 
 # Glob all header files
 file(GLOB_RECURSE HEADERS ${INCLUDE_DIR}/*.hpp)
+
+# Glob all test files
+file(GLOB_RECURSE TEST_SOURCES ${TEST_DIR}/*.cpp)
 
 # Add library
 add_library(
@@ -101,9 +107,6 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
     ${CMAKE_BINARY_DIR}/_deps/stb-src
-    ${CMAKE_SOURCE_DIR}/tests
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/src/include
 )
 
 # ------------------- GEMM & Optimizations ----------------- #
@@ -148,11 +151,6 @@ endif()
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
-
-set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
-
-# Get all test source files
-file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
 
 # Add the test executable
 add_executable(
