@@ -6,8 +6,8 @@ set(PROJECT_NAME "modularml")
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
-message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
+message(STATUS "CMake project source dir: ${PROJECT_SOURCE_DIR}")
+message(STATUS "CMake project binary dir: ${PROJECT_BINARY_DIR}")
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
     message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
@@ -59,7 +59,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(stb googletest nlohmann_json)
 
 # Dependency directory
-set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+set(PROJECT_DEPS ${PROJECT_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
@@ -67,19 +67,19 @@ find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # Library output directory
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # The header file directory
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/include)
 
 # The source code directory
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 
 # Set the test directory
-set(TEST_DIR ${CMAKE_SOURCE_DIR}/tests)
+set(TEST_DIR ${PROJECT_SOURCE_DIR}/tests)
 
 # include the headers
 include_directories(${INCLUDE_DIR})
@@ -106,7 +106,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
-    ${CMAKE_BINARY_DIR}/_deps/stb-src
+    ${PROJECT_BINARY_DIR}/_deps/stb-src
 )
 
 # ------------------- GEMM & Optimizations ----------------- #
@@ -227,8 +227,8 @@ endif()
 
 # Create coverage target
 add_custom_target(coverage_report
-    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-    COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details --csv -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND ${PROJECT_BINARY_DIR}/bin/modularml_tests
+    COMMAND ${GCOVR_EXECUTABLE} ${PROJECT_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${PROJECT_SOURCE_DIR}/src --html --html-details --csv -o ${PROJECT_BINARY_DIR}/coverage_report/
 )
 
 # Add dependencies to the coverage report
@@ -248,13 +248,13 @@ else()
 endif()
 
 # Set the input directory for Doxygen
-set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
+set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
 
 # Set the Doxygen input directory
 set(DOXYGEN_INPUT ${DOXYGEN_INPUT_DIR})
 
 # Define output directory for Doxygen
-set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
+set(DOXYGEN_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/docs)
 
 # Make doxygen extract all comments
 set(DOXYGEN_EXTRACT_ALL YES)
@@ -265,7 +265,7 @@ set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 # Create a custom target to generate docs
 add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
-    COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
+    COMMAND doxygen ${PROJECT_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
 )
 
