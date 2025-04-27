@@ -204,8 +204,6 @@ endif()
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 # Link gtest
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
-# Link coverage
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 
 # Add the test to gtest
 include(GoogleTest)
