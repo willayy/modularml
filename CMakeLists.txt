@@ -106,7 +106,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
-    ${CMAKE_CURRENT_BINARY_DIR}/_deps/stb-src
+    ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
 # ------------------- GEMM & Optimizations ----------------- #
