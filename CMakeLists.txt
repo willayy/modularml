@@ -110,6 +110,7 @@ option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
 option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
 option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
 option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
+option(USE_INTEL_MKL "Use Intel MKL GEMM implementation" OFF)
 
 if (USE_BLOCKED_GEMM)
     message(STATUS "Using blocked GEMM implementation")

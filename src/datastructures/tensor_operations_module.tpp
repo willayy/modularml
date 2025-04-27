@@ -2,15 +2,6 @@
 #include "datastructures/tensor_concept.hpp"
 #include "datastructures/tensor_operations_module.hpp"
 
-#if defined(USE_BLOCKED_GEMM)  // Use blocked gemm routine
-template <TensorConcept::Types T>
-std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
-                   shared_ptr<Tensor<T>> A, int lda, shared_ptr<Tensor<T>> B,
-                   int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
-    TensorOperations::gemm_ptr =
-        mml_gemm_blocked<T>;
-#endif
-
 // Setter implementations
 template <TensorConcept::Types... Ts>
 void TensorOperations::set_add_ptr(toft::add_func<Ts>... ptr) {
