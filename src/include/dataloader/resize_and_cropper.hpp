@@ -1,6 +1,6 @@
 #pragma once
 
-#include "backend/dataloader/a_image_resizer_and_cropper.hpp"
+#include "dataloader/a_image_resizer_and_cropper.hpp"
 
 /**
  * @class imageResizeAndCropper

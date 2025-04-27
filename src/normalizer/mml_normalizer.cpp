@@ -1,3 +1,5 @@
+#include "../include/normalizer/mml_normalizer.hpp"
+
 #include <stddef.h>
 
 #include <algorithm>
@@ -6,12 +8,11 @@
 #include <stdexcept>
 #include <string>
 
-#include "backend/dataloader/normalizer.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_array.hpp"
 #include "datastructures/tensor_factory.hpp"
 
-std::shared_ptr<Tensor<float>> Normalize::normalize(
+std::shared_ptr<Tensor<float>> Normalizer_mml::normalize(
     const std::shared_ptr<Tensor<float>>& input,
     const std::array<float, 3>& mean, const std::array<float, 3>& std) const {
   auto shape = input->get_shape();

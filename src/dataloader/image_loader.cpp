@@ -1,4 +1,4 @@
-#include "backend/dataloader/image_loader.hpp"
+#include "../include/dataloader/image_loader.hpp"
 
 #include <stdlib.h>
 
@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "backend/dataloader/data_loader_config.hpp"
+#include "../include/dataloader/data_loader_config.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/mml_array.hpp"
 #include "datastructures/mml_tensor.hpp"

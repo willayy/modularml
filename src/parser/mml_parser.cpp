@@ -1,5 +1,3 @@
-#include "backend/mml_parser.hpp"
-
 #include <stdint.h>
 
 #include <map>
@@ -11,8 +9,9 @@
 // IWYU pragma: no_include <__vector/vector.h>
 #include <vector>  // IWYU pragma: keep
 
-#include "backend/mml_model.hpp"
-#include "backend/parser_helper.hpp"
+#include "../include/parser/mml_parser.hpp"
+#include "../include/parser/parser_helper.hpp"
+#include "../include/model/mml_model.hpp"
 #include "datastructures/a_tensor.hpp"
 #include "nlohmann/json.hpp"
 #include "nodes/a_node.hpp"

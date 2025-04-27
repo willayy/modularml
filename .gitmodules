@@ -1,3 +1,3 @@
 [submodule "onnx2json"]
-	path = external/onnx2json
+	path = onnx2json
 	url = https://github.com/PINTO0309/onnx2json
