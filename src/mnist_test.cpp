@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdint>
 #include <stdexcept>
+#include <algorithm>
 
 #include <modularml>
 
@@ -68,11 +69,11 @@ std::vector<uint8_t> load_mnist_labels(std::string path) {
 }
 
 std::shared_ptr<Tensor<float>> image_to_tensor(std::vector<uint8_t> image) {
-    array_mml<unsigned long int> image_tensor_shape({1, 1, 28, 28 });
+    array_mml<unsigned long int> image_tensor_shape({1, 1, 28, 28});
     array_mml<float> output_data(28 * 28);
 
     for (int i=0; i < image.size(); i++) {
-        output_data[i] = static_cast<float>(image[i]) / 255.0;
+        output_data[i] = static_cast<float>(image[i]) / 255.0f;
     }
 
     std::shared_ptr<Tensor<float>> output = TensorFactory::create_tensor<float>(image_tensor_shape, output_data);
@@ -108,10 +109,9 @@ std::vector<int> run_lenet_inference(const std::unique_ptr<Model>& model, std::v
         throw std::runtime_error("Demo: Output tensor not found in iomap");
     }
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(prediction->second);
-    int max_index = TensorOperations::arg_max<float>(output_tensor);
-    std::cout << "Prediction: " << max_index << std::endl;
+    std::vector<int> predictions = TensorOperations::top_n_arg_max<float>(output_tensor, 5);
     
-    return std::vector<int>();
+    return predictions;
 }
 
 /**
@@ -141,7 +141,6 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<Model> model;
 
 
-    Profiler::begin_timing("Parsing AlexNet");
     // Try to parse the model provided
     try {
         model = parser.parse(json_model);
@@ -152,6 +151,33 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto prediction = run_lenet_inference(model, images[0]);
+    int top_one_predictions = 0;
+    int top_five_predictions = 0;
+
+    int num_validations = 10000;
+
+    Profiler::begin_timing("MNIST testing");
+    for (int i = 0; i < num_validations; i++) {
+        std::vector<int> prediction = run_lenet_inference(model, images[i]);
+        
+        int correct_prediction = static_cast<int>(labels[i]);
+        
+        // Update the prediction stats
+        if (prediction[0] == correct_prediction) {
+            top_one_predictions++;
+            top_five_predictions++;
+        } else if (std::find(prediction.begin(), prediction.end(), correct_prediction) != prediction.end()) {
+            top_five_predictions++;
+        }
+        
+        if (i % 100 == 0) {
+            std::cout << "Processed " << i << " / " << num_validations << " images..." << std::endl;
+        }
+    }
+    Profiler::end_timing("MNIST testing");
+
+    std::cout << "Top-1 accuracy: " << (static_cast<float>(top_one_predictions) / static_cast<float>(num_validations)) * 100 << " %"  << std::endl;
+    std::cout << "Top-5 accuracy: " << (static_cast<float>(top_five_predictions) / static_cast<float>(num_validations)) * 100 << " %" << std::endl;
+
     return 0;
 }

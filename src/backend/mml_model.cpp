@@ -13,8 +13,10 @@
 
 std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     const std::unordered_map<std::string, GeneralDataTypes> &inputs) {
+  
+#if defined(VERBOSE_INFERENCE)
   std::cout << "==== Starting Inference ====" << std::endl;
-
+#endif
   if (nodes.empty()) {
     throw std::runtime_error("ComputeGraph has no nodes.");
   }
@@ -43,9 +45,9 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     },
                tensor);
   }
-
+#if defined(VERBOSE_INFERENCE)
   std::thread spinner(inference_spinner_function, topoLayers.size());
-  
+#endif
   // Process each layer
   try {
     for (size_t layer_idx = 0; layer_idx < topoLayers.size(); ++layer_idx) {
@@ -104,9 +106,11 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
     }
   }
   
+#if defined(VERBOSE_INFERENCE)
   // Stop progress bar thread
   running_inference.store(false);
   spinner.join();
+#endif
 
   return returnMap;
 }

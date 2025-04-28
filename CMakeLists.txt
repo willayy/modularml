@@ -179,6 +179,7 @@ option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
 option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
 option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
 option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
+option(VERBOSE_INFERENCE "Verbose inference" OFF)
 
 if (USE_BLOCKED_GEMM)
     message(STATUS "Using blocked GEMM implementation")
