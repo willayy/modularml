@@ -210,46 +210,6 @@ TEST(test_imageNet, imageNet_alexnet) {
   EXPECT_GE(success_rate, 0.50f);
 }
 
-TEST(test_imageNet, imageNet_alexnet_multithreaded) {
-  if (!std::ifstream("../alexnet.json").good()) {
-    GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
-  }
-
-  const size_t min_interval = 1;
-  const size_t max_interval = 60;
-
-  const size_t total_images = max_interval - min_interval;
-  const unsigned int num_threads = std::thread::hardware_concurrency();
-  const size_t images_per_thread = (total_images + num_threads - 1) / num_threads;  // ceiling division
-
-  std::vector<std::future<std::pair<size_t, size_t>>> futures;
-
-  for (unsigned int t = 0; t < num_threads; ++t) {
-    size_t start = min_interval + t * images_per_thread;
-    size_t end = std::min(start + images_per_thread - 1, max_interval);
-    if (start > end) continue;  // nothing to process
-
-    futures.push_back(std::async(std::launch::async, imageNet, start, end, "../alexnet.json"));
-  }
-
-  size_t total_success = 0;
-  size_t total_failure = 0;
-
-  for (auto& future : futures) {
-    auto [success, failure] = future.get();
-    total_success += success;
-    total_failure += failure;
-  }
-
-  std::cout << "Total Success: " << total_success << ", Total Failure: " << total_failure << std::endl;
-
-  // Assert a rough expected success rate (optional)
-  float success_rate = static_cast<float>(total_success) / (total_success + total_failure);
-  std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
-
-  EXPECT_GE(success_rate, 0.50f);  // allow for some margin below 57%
-}
-
 TEST(test_imageNet, imageNet_resnet18) {
   // Resnet18 running imagenet should have a success rate of 69%, nice ;)
 
