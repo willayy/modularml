@@ -1,4 +1,4 @@
-#include "operations/avx/tensor_avx_operation_functions.hpp"
+#include "operations/tensor_avx_operation_functions.hpp"
 #include "datastructures/tensor_concept.hpp"
 
 #if defined(USE_AVX_GEMM) || defined(USE_AVX512_GEMM)

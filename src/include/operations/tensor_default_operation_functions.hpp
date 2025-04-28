@@ -157,4 +157,4 @@ static void mml_sliding_window(
     const std::function<void(const std::vector<std::vector<size_t>>&,
                              const std::vector<size_t>&)>& window_f);
 
-#include "../operations/default/tensor_default_operation_functions.tpp"
+#include "../operations/tensor_default_operation_functions.tpp"

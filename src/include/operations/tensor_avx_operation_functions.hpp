@@ -17,4 +17,4 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                             std::shared_ptr<Tensor<T>> C, int ldc);
 
-#include "../operations/avx/tensor_avx_operation_functions.tpp"
+#include "../operations/tensor_avx_operation_functions.tpp"
