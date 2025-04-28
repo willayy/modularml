@@ -154,7 +154,7 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 # ------------------- Executable --------------------- #
 
-set(EXECUTABLE_SRC ${SRC_DIR}/main.cpp)
+set(EXECUTABLE_SRC ${SRC_DIR}/mnist_test.cpp)
 
 add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
 
