@@ -1,6 +1,13 @@
 #include "datastructures/tensor_concept.hpp"
 #include "operations/blas_gemm.hpp"
 
+#if defined(USE_OPENBLAS_GEMM)
+#include <cblas.h>
+#include <openblas_config.h>
+
+#include <thread>
+#endif
+
 #ifdef USE_OPENBLAS_GEMM
 template <TensorConcept::Types T>
 static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,

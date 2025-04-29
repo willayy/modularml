@@ -48,7 +48,7 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
   std::remove(tmp);
 
   // Normalize with ImageNet mean/std
-  Normalize norm;
+  Normalizer_mml norm;
   return norm.normalize(img_tensor,
                         {0.485f, 0.456f, 0.406f},
                         {0.229f, 0.224f, 0.225f});
