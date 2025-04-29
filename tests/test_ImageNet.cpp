@@ -70,12 +70,11 @@ std::string padNumber(int num, int width = 8) {
  * @brief Processes a range of ImageNet images, performs inference using a
  * pre-trained model, and evaluates the predictions against ground truth labels.
  *
- * @param startingindex The starting index of the images to process (inclusive).
- * Must be > 0 and <= 50000.
- * @param endingindex The ending index of the images to process (inclusive).
- * Must be >= startingindex and <= 50000.
- * @return std::pair<size_t, size_t> A pair containing the number of successful
- * predictions (first) and the number of failed predictions (second).
+ * @param startingindex The starting index of the images to process (inclusive). Must be > 0 and <= 50000.
+ * @param endingindex The ending index of the images to process (inclusive). Must be >= startingindex and <= 50000.
+ * @param modelpath The path to the pre-trained model file (default: "../alexnet.json").
+ * @return std::pair<size_t, size_t> A pair containing the number of successful predictions (first)
+ *         and the number of failed predictions (second).
  *
  * @throws std::invalid_argument If:
  *         - endingindex < startingindex
@@ -106,8 +105,7 @@ std::string padNumber(int num, int width = 8) {
  * @warning Ensure that the file paths and required resources are correctly set
  * up before calling this function.
  */
-std::pair<size_t, size_t> imageNet(const size_t startingindex,
-                                   const size_t endingindex) {
+std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endingindex, const std::string& modelpath = "../alexnet.json") {
   if (endingindex < startingindex) {
     throw std::invalid_argument(
         "Ending index must be larger than starting index");
@@ -132,7 +130,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex,
   Normalizer_mml normalizer;
 
   // Parse and load AlexNet
-  std::ifstream file("../alexnet.json");
+  std::ifstream file(modelpath);
   nlohmann::json onnx_model;
   file >> onnx_model;
   file.close();
@@ -214,7 +212,7 @@ TEST(test_get_caffe_label, get_caffe_label) {
   EXPECT_EQ(get_caffe_label(labelPath, label2), 970);
 }
 
-TEST(test_imageNet, imageNet) {
+TEST(test_imageNet, imageNet_alexnet) {
   // Alexnet running imagenet should have a success rate of 57%
 
   if (!std::ifstream("../alexnet.json").good()) {
@@ -233,45 +231,19 @@ TEST(test_imageNet, imageNet) {
   EXPECT_GE(success_rate, 0.50f);
 }
 
-TEST(test_imageNet, imageNet_multithreaded) {
-  if (!std::ifstream("../alexnet.json").good()) {
-    GTEST_SKIP() << "Skipping test as ../alexnet.json is not found.";
+TEST(test_imageNet, imageNet_resnet18) {
+  // Resnet18 running imagenet should have a success rate of 69%, nice ;)
+
+  if (!std::ifstream("../resnet18.json").good()) {
+    GTEST_SKIP() << "Skipping test as ../resnet18.json is not found.";
   }
 
-  const size_t min_interval = 1;
-  const size_t max_interval = 60;
+  auto result = imageNet(1, 60, "../resnet18.json");
 
-  const size_t total_images = max_interval - min_interval;
-  const unsigned int num_threads = std::thread::hardware_concurrency();
-  const size_t images_per_thread =
-      (total_images + num_threads - 1) / num_threads;  // ceiling division
+  float success_rate = static_cast<float>(result.first) / (result.first + result.second);
 
-  std::vector<std::future<std::pair<size_t, size_t>>> futures;
-
-  for (unsigned int t = 0; t < num_threads; ++t) {
-    size_t start = min_interval + t * images_per_thread;
-    size_t end = std::min(start + images_per_thread - 1, max_interval);
-    if (start > end) continue;  // nothing to process
-
-    futures.push_back(std::async(std::launch::async, imageNet, start, end));
-  }
-
-  size_t total_success = 0;
-  size_t total_failure = 0;
-
-  for (auto& future : futures) {
-    auto [success, failure] = future.get();
-    total_success += success;
-    total_failure += failure;
-  }
-
-  std::cout << "Total Success: " << total_success
-            << ", Total Failure: " << total_failure << std::endl;
-
-  // Assert a rough expected success rate (optional)
-  float success_rate =
-      static_cast<float>(total_success) / (total_success + total_failure);
+  std::cout << "Success: " << result.first << ", Failure: " << result.second << std::endl;
   std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
-
-  EXPECT_GE(success_rate, 0.50f);  // allow for some margin below 57%
+  GTEST_LOG_(INFO) << "Success Rate: " << success_rate * 100 << "%";
+  EXPECT_GE(success_rate, 0.60f); // allow for some margin below 69%
 }

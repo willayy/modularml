@@ -27,19 +27,22 @@ default_gemm:
 
 blocked_gemm:
 	@echo "Configuring the project with blocked GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=ON -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF -DUSE_OPENBLAS_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 avx_gemm:
 	@echo "Configuring the project with AVX2 GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON -DUSE_AVX512_GEMM=OFF 
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=ON -DUSE_AVX512_GEMM=OFF -DUSE_OPENBLAS_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 avx512_gemm:
 	@echo "Configuring the project with AVX512 GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=ON 
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=ON -DUSE_OPENBLAS_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
-
+openblas_gemm:
+	@echo "Configuring the project with OpenBLAS GEMM implementation..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=OFF -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF -DUSE_OPENBLAS_GEMM=ON
+	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 install:
 	@echo "Detected OS: $(OS)"
 	@echo "Installing dependencies..."

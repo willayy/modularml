@@ -159,7 +159,7 @@ else()
     message(STATUS "Using default GEMM implementation")
     SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
-endif()
+    endif()
 
 # ------------------- Testing ------------------------------ #
 

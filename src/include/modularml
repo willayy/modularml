@@ -36,6 +36,7 @@
 #include "nodes/a_node.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pool.hpp"
+#include "nodes/global_avg_pool.hpp"
 #include "nodes/conv.hpp"
 #include "nodes/dropout.hpp"
 #include "nodes/elu.hpp"
