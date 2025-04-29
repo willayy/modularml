@@ -32,7 +32,9 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
   // Resize
   ImageLoaderConfig cfg(image_path);
   imageResizeAndCropper resizer;
-  int W, H, C;
+  int W;
+  int H;
+  int C;
   auto raw = resizer.resize(cfg, W, H, C);
 
   // Center-crop to 224×224
