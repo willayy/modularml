@@ -1,5 +1,5 @@
 #include "datastructures/tensor_concept.hpp"
-#include "datastructures/tensor_intel_operation_functions.hpp"
+#include "datastructures/intel_mkl_gemm.hpp"
 
 #if defined(USE_INTEL_MKL_GEMM)
 template <TensorConcept::Types T>

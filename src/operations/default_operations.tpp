@@ -2,7 +2,7 @@
 
 #include "datastructures/mml_tensor.hpp"
 #include "datastructures/tensor_concept.hpp"
-#include "operations/tensor_default_operation_functions.hpp"
+#include "operations/default_operations.hpp"
 
 template <TensorConcept::Types T>
 static void mml_gemm_inner_product(int TA, int TB, int M, int N, int K, T ALPHA,

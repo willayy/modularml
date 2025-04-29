@@ -21,8 +21,8 @@
 
 #include "datastructures/a_tensor.hpp"
 #include "datastructures/tensor_concept.hpp"
-#include "tensor_default_operation_functions.hpp"
-#include "tensor_operation_function_types.hpp"
+#include "default_operations.hpp"
+#include "operation_function_types.hpp"
 
 /**
  * A module for performing arithmetic operations on tensor structures. Your

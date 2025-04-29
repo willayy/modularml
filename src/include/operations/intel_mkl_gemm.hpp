@@ -10,5 +10,5 @@ static void mml_gemm_intel_MKL(int TA, int TB, int M, int N, int K, T ALPHA,
                                std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                                std::shared_ptr<Tensor<T>> C, int ldc);
 
-#include "../datastructures/tensor_intel_operation_functions.tpp"
+#include "../datastructures/intel_mkl_gemm.tpp"
 #endif
