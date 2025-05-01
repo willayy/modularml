@@ -52,21 +52,21 @@ std::unordered_map<std::string, GeneralDataTypes> Model_mml::infer(
   try {
     for (size_t layer_idx = 0; layer_idx < topoLayers.size(); ++layer_idx) {
       const auto &layer = topoLayers[layer_idx];
-      //std::cout << "Processing layer " << layer_idx << " with " << layer.size()
-      //          << " nodes" << std::endl;
+      std::cout << "Processing layer " << layer_idx << " with " << layer.size()
+                << " nodes" << std::endl;
 
       current_layer_idx.store(layer_idx);
 
       for (size_t node_idx = 0; node_idx < layer.size(); ++node_idx) {
         const auto &node = layer[node_idx];
         std::string nodeType = typeid(*node).name();  // Get node type
-        //std::cout << "  Processing node " << node_idx << " (type: " << nodeType
-        //          << ")" << std::endl;
+        std::cout << "  Processing node " << node_idx << " (type: " << nodeType
+                  << ")" << std::endl;
 
         try {
           node->forward(local_iomap);
-          //std::cout << "  Node " << nodeType << " processed successfully"
-          //        << std::endl;
+          std::cout << "  Node " << nodeType << " processed successfully"
+                  << std::endl;
         } catch (const std::out_of_range &e) {
           std::cerr << "*** Out of range error in node " << node_idx
                     << " (type: " << nodeType << "): " << e.what() << std::endl;

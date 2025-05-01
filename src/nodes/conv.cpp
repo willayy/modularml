@@ -207,6 +207,9 @@ void ConvNode::forward(
 
           // Write over the content of the output with the result of the
           // convolution
+
+          std::cout << "y_ptr address: " << y_ptr.get() << std::endl;
+          std::cout << "result_ptr address: " << result_ptr.get() << std::endl;
           *y_ptr = *result_ptr;
         }
       },
