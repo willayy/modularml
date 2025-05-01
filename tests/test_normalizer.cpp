@@ -12,8 +12,7 @@ TEST(normalizer_test, test_normalize_valid_input) {
       9.0f, 10.0f, 11.0f, 12.0f  // Channel 3
   });
 
-  auto input_tensor =
-      TensorFactory::create_tensor<float>(input_shape, input_values);
+  auto input_tensor = std::make_shared<Tensor<float>>(input_shape, input_values);
 
   // Mean and standard deviation for each channel
   std::array<float, 3> mean = {2.0f, 6.0f, 10.0f};
@@ -52,8 +51,7 @@ TEST(normalizer_test, test_invalid_input_dimensions) {
   array_mml<size_t> input_shape({1, 3, 2});
   array_mml<float> input_values({1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-  auto input_tensor =
-      TensorFactory::create_tensor<float>(input_shape, input_values);
+  auto input_tensor = std::make_shared<Tensor<float>>(input_shape, input_values);
 
   std::array<float, 3> mean = {2.0f, 6.0f, 10.0f};
   std::array<float, 3> std = {1.0f, 2.0f, 3.0f};

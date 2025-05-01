@@ -79,9 +79,9 @@ static std::string infer_and_get_class(const std::shared_ptr<Tensor<float>>& inp
   mf >> j;
   mf.close();
 
-  Parser_mml parser;
-  auto mb = parser.parse(j);  // may throw or assert
-  auto model = dynamic_cast<Model_mml*>(mb.get());
+  std::unique_ptr<Model> model_base;
+  ASSERT_NO_THROW({ model_base = DataParser::parse(onnx_model); }) << "Parser failed to parse the JSON file";
+  auto model = model_base.get();
 
   std::unordered_map<std::string, GeneralDataTypes> in{{"input", input}}, out;
   out = model->infer(in);

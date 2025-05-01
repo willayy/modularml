@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.30)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
@@ -34,6 +34,45 @@ if(NOT (UNIX))
     message(WARNING "WARNING: This project is intended for Linux or MacOS.")
 endif()
 
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+
+if (BUILD STREQUAL "blocked")
+    message(STATUS "Using blocked GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+
+elseif (BUILD STREQUAL "avx")
+    message(STATUS "Using AVX GEMM implementation")
+    SET(MEMORY_ALIGNMENT 32)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-mavx2 -march=native)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+elseif (BUILD STREQUAL "avx512")
+    message(STATUS "Using AVX512 GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+elseif (BUILD STREQUAL "cuda")
+    message(STATUS "Using CUDA GEMM implementation")
+    SET(MEMORY_ALIGNMENT 256)
+    enable_language(CUDA)
+    find_package(CUDAToolkit REQUIRED)
+    set(CMAKE_CUDA_STANDARD 20)
+    set(CMAKE_CUDA_STANDARD_REQUIRED True)
+
+else()
+    message(STATUS "Using default GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+endif()
+
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -62,33 +101,72 @@ FetchContent_MakeAvailable(stb)
 
 
 # Dependency directory
-set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+set(PROJECT_DEPS "${CMAKE_BINARY_DIR}/_deps")
 
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
+
 find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # Library output directory
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
-# The header file directory
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
+set(BUILD "default" CACHE STRING "Source variant to build")
 
-# The source code directory
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+# Define source and include paths
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
+set(BASE_DIR "${SRC_DIR}/default")
+set(VAR_DIR "${SRC_DIR}/${BUILD}")
+set(MAIN_FILE "${SRC_DIR}/main.cpp")
 
 # include the headers
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
+file(GLOB_RECURSE DEFAULT_SOURCES RELATIVE "${BASE_DIR}" "${BASE_DIR}/*.cpp")
 
 # Glob all header files
-file(GLOB_RECURSE HEADERS ${INCLUDE_DIR}/*.hpp)
+file(GLOB_RECURSE HEADERS "${INCLUDE_DIR}/*.hpp")
+
+# Supported extensions
+set(SUPPORTED_EXTS ".cpp" ".cu" ".metal" ".cl")
+
+foreach(REL_PATH IN LISTS DEFAULT_SOURCES)
+    string(REGEX REPLACE "\\.cpp$" "" REL_BASE "${REL_PATH}")
+
+    unset(VARIANT_MATCHES)
+    set(VARIANT_MATCHES "")
+    foreach(EXT IN LISTS SUPPORTED_EXTS)
+        file(GLOB MATCH RELATIVE "${VAR_DIR}" "${VAR_DIR}/${REL_BASE}${EXT}")
+        list(APPEND VARIANT_MATCHES ${MATCH})
+    endforeach()
+
+    if(VARIANT_MATCHES)
+        list(LENGTH VARIANT_MATCHES N)
+        if(N EQUAL 1)
+            list(GET VARIANT_MATCHES 0 MATCHED_REL)
+            list(APPEND SOURCES "${VAR_DIR}/${MATCHED_REL}")
+        else()
+            message(FATAL_ERROR
+                "Found ${N} files matching ${VAR_DIR}/${REL_BASE}.*; "
+                "expected exactly one variant file.")
+        endif()
+
+    else()
+        list(APPEND SOURCES "${BASE_DIR}/${REL_PATH}")
+    endif()
+endforeach()
+
+# Show the final list of source files (for debugging)
+message(STATUS "Compiling with variant: ${BUILD}")
+foreach(SOURCE_FILE IN LISTS SOURCES)
+    message(STATUS "  -> ${SOURCE_FILE}")
+endforeach()
 
 # Add library
 add_library(
@@ -165,10 +243,10 @@ else()
 
 enable_testing()
 
-set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
+set(TESTS_DIR "${CMAKE_SOURCE_DIR}/tests")
 
 # Get all test source files
-file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
+file(GLOB TEST_SOURCES "${TESTS_DIR}/*.cpp")
 
 # Add the test executable
 add_executable(

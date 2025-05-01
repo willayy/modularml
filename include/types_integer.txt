@@ -1,0 +1,12 @@
+TYPE(bool)
+TYPE(uint8_t)
+TYPE(uint16_t)
+TYPE(uint32_t)
+TYPE(uint64_t)
+TYPE(int8_t)
+TYPE(int16_t)
+TYPE(int32_t)
+TYPE(int64_t)
+#ifdef __APPLE__
+TYPE(size_t)
+#endif

@@ -112,7 +112,6 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   std::string imagePath = "../tests/data/imagenet/images/";
   std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
-  Parser_mml parser;
   imageResizeAndCropper resizer_and_cropper;
   Normalize normalizer;
 
@@ -122,8 +121,8 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   file >> onnx_model;
   file.close();
   std::unique_ptr<Model> model_base;
-  model_base = parser.parse(onnx_model);
-  auto model = dynamic_cast<Model_mml*>(model_base.get());
+  model_base = DataParser::parse(onnx_model);
+  auto model = model_base.get();
   std::unordered_map<std::string, GeneralDataTypes> inputs;
   std::unordered_map<std::string, GeneralDataTypes> outputs;
 
@@ -165,7 +164,7 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     // Get the output tensor & run arg_max
     auto output_it = outputs.find("output");
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
-    int result = TensorOperations::arg_max<float>(output_tensor);
+    int result = TensorOperations<float>::arg_max(output_tensor);
 
     // Get the class number from the JSON file
     int expected_result = getCaffeLabel(labelPath, imageFile);

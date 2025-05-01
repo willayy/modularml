@@ -8,13 +8,13 @@ TEST(flatten_node_test, test_forward_3d_tensor) {
       {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f});
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
 
   // Shape doesnt matter for output
   array_mml<size_t> y_shape({1, 1, 1});
 
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -49,13 +49,13 @@ TEST(flatten_node_test, test_forward_4d_tensor) {
   });
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
 
   // Shape doesnt matter for output
   array_mml<size_t> y_shape({1, 1, 1});
 
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";

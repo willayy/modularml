@@ -10,9 +10,9 @@ TEST(test_log_softmax_node, test_forward_basic) {
   array_mml<size_t> y_shape({3, 3});
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -50,9 +50,9 @@ TEST(test_log_softmax_node, test_forward_large_range_of_values) {
   array_mml<size_t> y_shape({3, 3});
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -92,9 +92,9 @@ TEST(test_log_softmax_node, test_forward_handle_zeros) {
   array_mml<size_t> y_shape({3, 3});
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -134,9 +134,9 @@ TEST(test_log_softmax_node, test_forward_maxfloat_minfloat_values) {
   array_mml<size_t> y_shape({3, 3});
 
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(x_shape, x_values);
+      std::make_shared<Tensor<float>>(x_shape, x_values);
   std::shared_ptr<Tensor<float>> Y =
-      TensorFactory::create_tensor<float>(y_shape);
+      std::make_shared<Tensor<float>>(y_shape);
 
   std::string x_string = "X";
   std::string y_string = "Y";
