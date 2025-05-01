@@ -62,6 +62,15 @@ std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
                    int ldb, T BETA, shared_ptr<Tensor<T>> C, int ldc)>
     TensorOperations::gemm_ptr =
         mml_gemm_avx512<T>;  // NOSONAR - Not a global variable
+#elif defined(USE_OPENBLAS_GEMM)
+template <typename T>
+std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,
+                   std::shared_ptr<Tensor<T>> A, int lda, std::shared_ptr<Tensor<T>> B,
+                   int ldb, T BETA, std::shared_ptr<Tensor<T>> C, int ldc)>
+        TensorOperations::gemm_ptr =
+            mml_gemm_blas<T>;  // NOSONAR - Not a global variable
+        
+
 #else  // Default naive gemm implementation
 template <typename T>
 std::function<void(int TA, int TB, int M, int N, int K, T ALPHA,

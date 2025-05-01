@@ -160,9 +160,6 @@ void ConvNode::forward(
           // Create a std::copy of the input
           auto input_copy = x_ptr->copy();
 
-          // Begin by flipping the weight kernel
-          flip_kernel(w_ptr);
-
           auto im2col_output_shape = array_mml<size_t>(
               {get_in_channels() * get_kernel_height() * get_kernel_width(),
                get_batch_size() * get_out_height() * get_out_width()});
@@ -223,37 +220,6 @@ std::vector<std::string> ConvNode::getInputs() {
 }
 
 std::vector<std::string> ConvNode::getOutputs() { return {Y}; }
-
-void ConvNode::flip_kernel(const TensorT &weight_variant) {
-  std::visit(
-      [this](auto &weight) {
-        size_t height = get_kernel_height();
-        size_t width = get_kernel_width();
-
-        for (size_t f = 0; f < get_out_channels(); f++) {
-          for (size_t c = 0; c < get_in_channels(); c++) {
-            // Flip horizontally
-            for (size_t h = 0; h < height; h++) {
-              for (size_t w = 0; w < width / 2; w++) {
-                auto tmp = (*weight)[{f, c, h, w}];
-                (*weight)[{f, c, h, w}] = (*weight)[{f, c, h, width - 1 - w}];
-                (*weight)[{f, c, h, width - 1 - w}] = tmp;
-              }
-            }
-
-            // Flip vertically
-            for (size_t w = 0; w < width; w++) {
-              for (size_t h = 0; h < height / 2; h++) {
-                auto tmp = (*weight)[{f, c, h, w}];
-                (*weight)[{f, c, h, w}] = (*weight)[{f, c, height - h - 1, w}];
-                (*weight)[{f, c, height - 1 - h, w}] = tmp;
-              }
-            }
-          }
-        }
-      },
-      weight_variant);
-}
 
 void ConvNode::im2col(const TensorT &input_variant,
                       const TensorT &output_variant) {
