@@ -18,6 +18,7 @@
 #include "nodes/a_node.hpp"
 #include "nodes/add.hpp"
 #include "nodes/avg_pool.hpp"
+#include "nodes/global_avg_pool.hpp"
 #include "nodes/constant.hpp"
 #include "nodes/conv.hpp"
 #include "nodes/dropout.hpp"
@@ -142,6 +143,8 @@ std::vector<std::shared_ptr<Node>> constructNodes(const nlohmann::json &graph) {
         nodes.push_back(std::make_shared<SwishNode>(node));
       } else if (opType == "Tanh") {
         nodes.push_back(std::make_shared<TanHNode>(node));
+      } else if (opType == "GlobalAveragePool") {
+        nodes.push_back(std::make_shared<GlobalAvgPoolNode>(node));
       } else if (opType == "MatMul") {
         nodes.push_back(std::make_shared<MatMulNode>(node));
       } else if (opType == "Transpose") {

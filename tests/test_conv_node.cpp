@@ -134,11 +134,8 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
   // dynamic cast to Tensor_mml<float> to access the data
   auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
 
-  // All values should be 6 as the distance from the first value in the kernel
-  // compared to the next is 6 for each stride This additionally checks that the
-  // kernel was flipped correctly as the expected value otherwise would be -6
   for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], 6.0f, 1e-5);
+    EXPECT_NEAR(result->get_data()[i], -6.0f, 1e-5);
   }
 }
 
@@ -291,9 +288,9 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
   auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
 
   // This time as we have 3 in_channels
-  // The value after applying the filter should be 6 + 6 + 6 = 18
+  // The value after applying the filter should be -6 + -6 + -6 = -18
   for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], 18.0f, 1e-5);
+    EXPECT_NEAR(result->get_data()[i], -18.0f, 1e-5);
   }
 }
 
@@ -377,30 +374,41 @@ TEST(conv_node_test,
   // Expected values (8 extracted feature maps each 4x4)
   // These were calculated using SciPy convolve2d std::function with the same
   // parameters as above
-  std::vector<float> expected_values(
-      {6.0,  9.0,  6.0,   9.0,  9.0,   6.0,   9.0,   6.0,
-       6.0,  9.0,  6.0,   9.0,  9.0,   6.0,   9.0,   6.0,
+  std::vector<float> expected_values({
+    -8.0f, -5.0f, -8.0f, -5.0f,
+    -5.0f, -8.0f, -5.0f, -8.0f,
+    -8.0f, -5.0f, -8.0f, -5.0f,
+    -5.0f, -8.0f, -5.0f, -8.0f,
+    9.0f, 11.0f, 11.0f, 13.0f,
+    16.0f, 16.0f, 18.0f, 18.0f,
+    21.0f, 23.0f, 23.0f, 25.0f,
+    28.0f, 28.0f, 30.0f, 30.0f,
+    -5.0f, -7.0f, -3.0f, -5.0f,
+    -4.0f, 0.0f, -2.0f, 2.0f,
+    3.0f, 1.0f, 5.0f, 3.0f,
+    4.0f, 8.0f, 6.0f, 10.0f,
+    10.0f, 14.0f, 12.0f, 16.0f,
+    17.0f, 15.0f, 19.0f, 17.0f,
+    18.0f, 22.0f, 20.0f, 24.0f,
+    25.0f, 23.0f, 27.0f, 25.0f,
+    2.0f, 0.0f, 4.0f, 2.0f,
+    3.0f, 7.0f, 5.0f, 9.0f,
+    10.0f, 8.0f, 12.0f, 10.0f,
+    11.0f, 15.0f, 13.0f, 17.0f,
+    -6.0f, -4.0f, -8.0f, -6.0f,
+    -7.0f, -11.0f, -9.0f, -13.0f,
+    -14.0f, -12.0f, -16.0f, -14.0f,
+    -15.0f, -19.0f, -17.0f, -21.0f,
+    7.0f, 5.0f, 9.0f, 7.0f,
+    10.0f, 14.0f, 12.0f, 16.0f,
+    19.0f, 17.0f, 21.0f, 19.0f,
+    22.0f, 26.0f, 24.0f, 28.0f,
+    2.0f, 2.0f, 4.0f, 4.0f,
+    5.0f, 7.0f, 7.0f, 9.0f,
+    10.0f, 10.0f, 12.0f, 12.0f,
+    13.0f, 15.0f, 15.0f, 17.0f
+  });
 
-       0.0,  2.0,  2.0,   4.0,  7.0,   7.0,   9.0,   9.0,
-       12.0, 14.0, 14.0,  16.0, 19.0,  19.0,  21.0,  21.0,
-
-       14.0, 12.0, 16.0,  14.0, 15.0,  19.0,  17.0,  21.0,
-       22.0, 20.0, 24.0,  22.0, 23.0,  27.0,  25.0,  29.0,
-
-       -7.0, -3.0, -5.0,  -1.0, 0.0,   -2.0,  2.0,   0.0,
-       1.0,  5.0,  3.0,   7.0,  8.0,   6.0,   10.0,  8.0,
-
-       7.0,  5.0,  9.0,   7.0,  8.0,   12.0,  10.0,  14.0,
-       15.0, 13.0, 17.0,  15.0, 16.0,  20.0,  18.0,  22.0,
-
-       -1.0, 1.0,  -3.0,  -1.0, -2.0,  -6.0,  -4.0,  -8.0,
-       -9.0, -7.0, -11.0, -9.0, -10.0, -14.0, -12.0, -16.0,
-
-       6.0,  4.0,  8.0,   6.0,  9.0,   13.0,  11.0,  15.0,
-       18.0, 16.0, 20.0,  18.0, 21.0,  25.0,  23.0,  27.0,
-
-       5.0,  5.0,  7.0,   7.0,  8.0,   10.0,  10.0,  12.0,
-       13.0, 13.0, 15.0,  15.0, 16.0,  18.0,  18.0,  20.0});
 
   for (int i = 0; i < result->get_size(); i++) {
     EXPECT_NEAR(result->get_data()[i], expected_values.at(i), 1e-5);
@@ -638,11 +646,12 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
 
   // dynamic cast to Tensor_mml<float> to access the data
   auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
+  
   // This time as we have 3 in_channels
-  // The value after applying the filter should be 6 + 6 + 6 = 18
+  // With no kernel flip: each channel produces (1*1 + 0*2 + 0*6 + -1*7) = -6,
+  // so sum = -6 + -6 + -6 = -18, plus bias 10 ⇒ –8
   for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], 28.0f, 1e-5);
+      EXPECT_NEAR(result->get_data()[i], -8.0f, 1e-5);
   }
 }
 

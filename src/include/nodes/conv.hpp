@@ -239,14 +239,6 @@ class ConvNode : public Node {
   size_t out_channels;
 
   /**
-   * @brief Flips the content of each filter present in the weight kernel.
-   *
-   * This is done to perform the convolution correctly, otherwise the node would
-   * perform a cross-correlation computation
-   */
-  void flip_kernel(const TensorT &weight_variant);
-
-  /**
    * @brief Performs the im2col transformation on the input tensor.
    *
    * This method extracts patches from the input tensor and flattens them into
