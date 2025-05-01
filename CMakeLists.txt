@@ -143,7 +143,7 @@ target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprof
 
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
-# Link gtest
+# Link gtest 
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
 # Link coverage
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
@@ -154,14 +154,13 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 # ------------------- Executable --------------------- #
 
-set(EXECUTABLE_SRC ${SRC_DIR}/mnist_test.cpp)
-
+set(EXECUTABLE_SRC ${SRC_DIR}/imagenet_test.cpp)
+ 
 add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
 
 target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
 
 target_compile_options(${PROJECT_NAME}_exec PRIVATE 
-    -funroll-loops
     -O3
     -g 
     -fPIC 

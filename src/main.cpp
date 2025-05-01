@@ -82,7 +82,7 @@ int run_alexnet_inference(const std::unique_ptr<Model>& model,
                        std::to_string(max_indices.at(i)));
     float prediction_percentage = (*output_tensor)[max_indices.at(i)];
 
-    std::cout << i + 1 << ": " << prediction_name << "  (" << std::fixed
+    std::cout << i + 1 << ": " << prediction_name << ", index: " << max_indices.at(i) << " (" << std::fixed
               << std::setprecision(4) << prediction_percentage << " %)"
               << std::endl;
   }
@@ -305,7 +305,7 @@ int lenet_demo(int argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-  lenet_demo(argc, argv);
+  alexnet_demo(argc, argv);
 
   return 0;
 }

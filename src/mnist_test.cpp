@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
     int top_one_predictions = 0;
     int top_five_predictions = 0;
 
-    int num_validations = 10000;
+    int num_validations = 10;
 
     Profiler::begin_timing("MNIST testing");
     for (int i = 0; i < num_validations; i++) {
