@@ -161,6 +161,7 @@ add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
 target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
 
 target_compile_options(${PROJECT_NAME}_exec PRIVATE 
+    -funroll-loops
     -O3
     -g 
     -fPIC 
