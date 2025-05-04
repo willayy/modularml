@@ -128,7 +128,7 @@ add_executable(
 # Compiler flags
 target_compile_options(${PROJECT_NAME}_tests PRIVATE 
     -funroll-loops
-    -O3
+    -O0
     -g 
     -fPIC 
     --coverage 
@@ -162,7 +162,7 @@ target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
 
 target_compile_options(${PROJECT_NAME}_exec PRIVATE 
     -funroll-loops
-    -O3
+    -O0
     -g 
     -fPIC 
     -fprofile-abs-path 
@@ -181,14 +181,27 @@ option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
 option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
 option(VERBOSE_INFERENCE "Verbose inference" OFF)
 
+if (ALIGN_TENSORS)
+    add_definitions(-DALIGN_TENSORS)
+    if (USE_BLOCKED_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=16)
+    elseif(USE_AVX_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=32)
+    elseif(USE_AVX512_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    elseif(USE_OPENBLAS_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    else()
+        add_definitions(-DMEMORY_ALIGNMENT=16)
+    endif()
+endif()
+
 if (USE_BLOCKED_GEMM)
     message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_BLOCKED_GEMM)
 
 elseif (USE_AVX_GEMM)
     message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
     add_definitions(-DUSE_AVX_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -mavx2 -mfma)
@@ -202,7 +215,6 @@ elseif (USE_AVX_GEMM)
 
 elseif (USE_AVX512_GEMM)
     message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
     add_definitions(-DUSE_AVX512_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
@@ -214,7 +226,6 @@ elseif (USE_AVX512_GEMM)
 
 elseif (USE_OPENBLAS_GEMM)
     message(STATUS "Using OpenBLAS GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         add_compile_options(-march=native)
     endif()
@@ -229,7 +240,6 @@ elseif (USE_OPENBLAS_GEMM)
 
 else()
     message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
     add_definitions(-DUSE_DEFAULT_GEMM)
     endif()
 

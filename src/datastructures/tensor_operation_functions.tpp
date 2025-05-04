@@ -7,6 +7,7 @@
 #if defined(USE_OPENBLAS_GEMM)
 #include <cblas.h>
 #include <openblas_config.h>
+
 #include <thread>
 #endif
 
@@ -186,67 +187,75 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
   if (TA == 1) A->transpose();
   if (TB == 1) B->transpose();
 
+  int i, j, k;
+  int i_col, k_col, i_col_out;
+  __m256 a_s, b_s, c_vals;
+
+  int simd = (256 / 8) / sizeof(T);
+  int elem_left = N % simd;
+
+  __m256i mask =
+      _mm256_set_epi32(0, (7 > elem_left) ? 0 : -1, (6 > elem_left) ? 0 : -1,
+                       (5 > elem_left) ? 0 : -1, (4 > elem_left) ? 0 : -1,
+                       (3 > elem_left) ? 0 : -1, (2 > elem_left) ? 0 : -1,
+                       (1 > elem_left) ? 0 : -1);
+
+  int N_s = elem_left ? N - simd : N;
+
   if constexpr (std::is_same<T, float>::value) {
+    __m256 beta_s = _mm256_broadcast_ss(&BETA);
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 8) {
-        __m256 c_val = _mm256_set1_ps((*C)[i * ldc + j]);
-        __m256 sum = _mm256_setzero_ps();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (int j = 0; j < N; j += simd) {
+        c_vals = _mm256_loadu_ps(&(*C)[i * ldc + j]);
+        c_vals = _mm256_mul_ps(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          __m256 a_vals = _mm256_loadu_ps(&(*A)[i * lda + k]);
+          k_col = k * ldb;
+          float a = ALPHA * (*A)[i_col + k];
+          __m256 a_vals = _mm256_broadcast_ss(&a);
+          __m256 b_vals = _mm256_loadu_ps(&(*B)[k_col + j]);
 
-          __m256 b_vals = _mm256_loadu_ps(&(*B)[k * ldb + j]);
-
-          sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
+          c_vals = _mm256_fmadd_ps(a_vals, b_vals, c_vals);
         }
-
-        sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
-        sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
-
-        _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
+        _mm256_storeu_ps(&(*C)[i * ldc + j], c_vals);
       }
-    }
-  } else if constexpr (std::is_same<T, double>::value) {
-    for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 4) {
-        __m256d c_val = _mm256_set1_pd((*C)[i * ldc + j]);
-        __m256d sum = _mm256_setzero_pd();
 
-        for (int k = 0; k < K; k++) {
-          __m256d a_vals = _mm256_loadu_pd(&(*A)[i * lda + k]);
+      if (elem_left) {
+        float c_temp[8] = {0};
+        float b_temp[8] = {0};
 
-          __m256d b_vals = _mm256_loadu_pd(&(*B)[k * ldb + j]);
-
-          sum = _mm256_fmadd_pd(a_vals, b_vals, sum);
+        // Copy only valid elements from C
+        for (int n = 0; n < elem_left; ++n) {
+          c_temp[n] = (*C)[i_col_out + j + n];
         }
 
-        sum = _mm256_fmadd_pd(sum, _mm256_set1_pd(ALPHA), c_val);
-        sum = _mm256_add_pd(sum, _mm256_set1_pd(BETA));
+        // Load masked values safely from buffer
+        c_vals = _mm256_maskload_ps(c_temp, mask);
+        c_vals = _mm256_mul_ps(beta_s, c_vals);
 
-        _mm256_storeu_pd(&(*C)[i * ldc + j], sum);
-      }
-    }
-  } else if constexpr (std::is_same<T, int>::value) {
-    for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 8) {
-        __m256i sum = _mm256_setzero_si256();
+        for (k = 0; k < K; ++k) {
+          k_col = k * ldb;
+          float a = ALPHA * (*A)[i_col + k];
+          __m256 a_vals = _mm256_broadcast_ss(&a);
 
-        for (int k = 0; k < K; k++) {
-          int a_scalar = (*A)[i * lda + k];
-          __m256i a_broadcast = _mm256_set1_epi32(a_scalar);
+          // Copy only valid elements from B
+          for (int n = 0; n < elem_left; ++n) {
+            b_temp[n] = (*B)[k_col + j + n];
+          }
 
-          __m256i b_vals = _mm256_loadu_si256(
-              reinterpret_cast<const __m256i *>(&(*B)[k * ldb + j]));
-          __m256i product = _mm256_mullo_epi32(a_broadcast, b_vals);
+          __m256 b_vals = _mm256_maskload_ps(b_temp, mask);
 
-          sum = _mm256_add_epi32(sum, product);
+          c_vals = _mm256_fmadd_ps(a_vals, b_vals, c_vals);
         }
 
-        sum = _mm256_mullo_epi32(sum, _mm256_set1_epi32(ALPHA));
-        sum = _mm256_add_epi32(sum, _mm256_set1_epi32(BETA));
-
-        _mm256_storeu_si256(reinterpret_cast<__m256i *>(&(*C)[i * ldc + j]),
-                            sum);
+        // Store result safely back into C
+        _mm256_maskstore_ps(c_temp, mask, c_vals);
+        for (int n = 0; n < elem_left; ++n) {
+          (*C)[i_col_out + j + n] = c_temp[n];
+        }
       }
     }
   } else {
@@ -263,7 +272,8 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
                           std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                           std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1 || TB == 1) {
-    throw std::invalid_argument("BLAS GEMM only supports non-transposed A/B in this wrapper.");
+    throw std::invalid_argument(
+        "BLAS GEMM only supports non-transposed A/B in this wrapper.");
   }
 
   int num_threads = std::thread::hardware_concurrency();
@@ -298,23 +308,11 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
   }
 
   if constexpr (std::is_same<T, float>::value) {
-    cblas_sgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else if constexpr (std::is_same<T, double>::value) {
-    cblas_dgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else {
     throw std::runtime_error("BLAS GEMM only supports float and double types.");
   }
@@ -327,8 +325,6 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
   }
 }
 #endif
-
-
 
 #ifdef USE_AVX512_GEMM
 template <typename T>
