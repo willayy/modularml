@@ -3,9 +3,6 @@
 #include <fstream>
 #include <modularml>
 
-#include "backend/dataloader/image_loader.hpp"
-#include "backend/dataloader/normalizer.hpp"
-#include "backend/dataloader/resize_and_cropper.hpp"
 #include "stb_image_write.h"
 
 /**
@@ -35,7 +32,9 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
   // Resize
   ImageLoaderConfig cfg(image_path);
   imageResizeAndCropper resizer;
-  int W, H, C;
+  int W;
+  int H;
+  int C;
   auto raw = resizer.resize(cfg, W, H, C);
 
   // Center-crop to 224×224
@@ -51,7 +50,7 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
   std::remove(tmp);
 
   // Normalize with ImageNet mean/std
-  Normalize norm;
+  Normalizer_mml norm;
   return norm.normalize(img_tensor,
                         {0.485f, 0.456f, 0.406f},
                         {0.229f, 0.224f, 0.225f});

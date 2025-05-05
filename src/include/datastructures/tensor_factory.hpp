@@ -21,8 +21,11 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "a_tensor.hpp"
+#include "datastructures/tensor_concept.hpp"
 #include "mml_array.hpp"
 #include "mml_tensor.hpp"
+#include "tensor_factory_function_types.hpp"
+#include "tensor_concept.hpp"
 #include "tensor_factory_functions.hpp"
 
 /**
@@ -42,7 +45,7 @@ class TensorFactory {
    * @param shape The shape of the tensor to create.
    * @param data The data to fill the tensor with.
    * @return A tensor with the specified shape and data. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> create_tensor(
       const array_mml<size_t> &shape, const array_mml<T> &data);
 
@@ -52,17 +55,15 @@ class TensorFactory {
    * @param tensor_constructor The std::function pointer to the tensor
    * constructor.
    */
-  template <typename T>
+  template <TensorConcept::Types... Ts>
   static void set_tensor_constructor_1(
-      const std::function<std::shared_ptr<Tensor<T>>(
-          const array_mml<size_t> &shape, const array_mml<T> &data)>
-          &tensor_constructor);
+      tfft::tensor_constructor_func_1<Ts>... tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape.
    * @param shape The shape of the tensor to create.
    * @return A tensor with the specified shape. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> create_tensor(
       const array_mml<size_t> &shape);
 
@@ -72,17 +73,16 @@ class TensorFactory {
    * @param tensor_constructor The std::function pointer to the tensor
    * constructor.
    */
-  template <typename T>
+  template <TensorConcept::Types... Ts>
   static void set_tensor_constructor_2(
-      const std::function<std::shared_ptr<Tensor<T>>(
-          const array_mml<size_t> &shape)> &tensor_constructor);
+      tfft::tensor_constructor_func_2<Ts>... tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape and data.
    * @param shape The shape of the tensor to create.
    * @param data The data to fill the tensor with.
    * @return A tensor with the specified shape and data. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> create_tensor(
       const std::initializer_list<size_t> shape,
       const std::initializer_list<T> data);
@@ -93,17 +93,15 @@ class TensorFactory {
    * @param tensor_constructor The std::function pointer to the tensor
    * constructor.
    */
-  template <typename T>
+  template <TensorConcept::Types... Ts>
   static void set_tensor_constructor_3(
-      const std::function<std::shared_ptr<Tensor<T>>(
-          const std::initializer_list<size_t> shape,
-          const std::initializer_list<T> data)> &tensor_constructor);
+      tfft::tensor_constructor_func_3<Ts>... tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape.
    * @param shape The shape of the tensor to create.
    * @return A tensor with the specified shape. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> create_tensor(
       const std::initializer_list<size_t> shape);
 
@@ -113,10 +111,8 @@ class TensorFactory {
    * @param tensor_constructor The std::function pointer to the tensor
    * constructor.
    */
-  template <typename T>
-  static void set_tensor_constructor_4(
-      const std::function<std::shared_ptr<Tensor<T>>(
-          const std::initializer_list<size_t> shape)> &tensor_constructor);
+  template <TensorConcept::Types... Ts>
+  static void set_tensor_constructor_4(tfft::tensor_constructor_func_4<Ts>... tensor_constructor);
 
   /**
    * @brief Creates a tensor with the specified shape and data.
@@ -124,7 +120,7 @@ class TensorFactory {
    * @param lo_v The lower bound of the random values.
    * @param hi_v The upper bound of the random values.
    * @return A tensor with the specified shape and data. */
-  template <typename T>
+  template <TensorConcept::Types T>
   static std::shared_ptr<Tensor<T>> random_tensor(
       const array_mml<size_t> &shape, T lo_v = T(0), T hi_v = T(1));
 
@@ -133,26 +129,26 @@ class TensorFactory {
   TensorFactory() = default;
 
   // Pointers to the tensor constructor functions.
-  template <typename T>
-  static std::function<std::shared_ptr<Tensor<T>>(
+  template <TensorConcept::Types T>
+  static inline std::function<std::shared_ptr<Tensor<T>>(
       const array_mml<size_t> &shape, const array_mml<T> &data)>
-      tensor_constructor_1;
+      tensor_constructor_1 = mml_constructor_1<T>;
 
-  template <typename T>
-  static std::function<std::shared_ptr<Tensor<T>>(
+  template <TensorConcept::Types T>
+  static inline std::function<std::shared_ptr<Tensor<T>>(
       const array_mml<size_t> &shape)>
-      tensor_constructor_2;
+      tensor_constructor_2 = mml_constructor_2<T>;
 
-  template <typename T>
-  static std::function<std::shared_ptr<Tensor<T>>(
+  template <TensorConcept::Types T>
+  static inline std::function<std::shared_ptr<Tensor<T>>(
       const std::initializer_list<size_t> shape,
       const std::initializer_list<T> data)>
-      tensor_constructor_3;
+      tensor_constructor_3 = mml_constructor_3<T>;
 
-  template <typename T>
-  static std::function<std::shared_ptr<Tensor<T>>(
+  template <TensorConcept::Types T>
+  static inline std::function<std::shared_ptr<Tensor<T>>(
       const std::initializer_list<size_t> shape)>
-      tensor_constructor_4;
+      tensor_constructor_4 = mml_constructor_4<T>;
 };
 
 #include "../datastructures/tensor_factory.tpp"

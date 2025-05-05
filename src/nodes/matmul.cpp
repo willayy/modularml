@@ -1,9 +1,6 @@
 #include "nodes/matmul.hpp"
 
-template <typename T>
-class Tensor_mml;
-
-MatMulNode::MatMulNode(std::string A, std::string B, std::string Y)
+MatMulNode::MatMulNode(const std::string &A, const std::string &B, const std::string &Y)
     : A(A), B(B), Y(Y) {}
 
 MatMulNode::MatMulNode(const nlohmann::json &node) {

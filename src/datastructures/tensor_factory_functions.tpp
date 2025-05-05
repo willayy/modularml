@@ -1,7 +1,8 @@
 #pragma once
+#include "datastructures/tensor_concept.hpp"
 #include "datastructures/tensor_factory_functions.hpp"
 
-template <typename T>
+template <TensorConcept::Types T>
 static std::shared_ptr<Tensor<T>>
 mml_constructor_1(const array_mml<size_t> &dims, const array_mml<T> &values) {
   auto tensor = Tensor_mml<T>(dims, values);
@@ -9,7 +10,7 @@ mml_constructor_1(const array_mml<size_t> &dims, const array_mml<T> &values) {
   return ptr;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 static std::shared_ptr<Tensor<T>>
 mml_constructor_2(const array_mml<size_t> &dims) {
   auto tensor = Tensor_mml<T>(dims);
@@ -17,7 +18,7 @@ mml_constructor_2(const array_mml<size_t> &dims) {
   return ptr;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 static std::shared_ptr<Tensor<T>>
 mml_constructor_3(const std::initializer_list<size_t> dims,
                   const std::initializer_list<T> values) {
@@ -26,7 +27,7 @@ mml_constructor_3(const std::initializer_list<size_t> dims,
   return ptr;
 }
 
-template <typename T>
+template <TensorConcept::Types T>
 static std::shared_ptr<Tensor<T>>
 mml_constructor_4(const std::initializer_list<size_t> dims) {
   auto tensor = Tensor_mml<T>(dims);

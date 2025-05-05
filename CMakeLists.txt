@@ -3,12 +3,6 @@ project(ModularML)
 
 set(PROJECT_NAME "modularml")
 
-message(STATUS "CMake version: ${CMAKE_VERSION}")
-message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
-message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "CMake source dir: ${CMAKE_SOURCE_DIR}")
-message(STATUS "CMake binary dir: ${CMAKE_BINARY_DIR}")
-
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND (APPLE))
     message(STATUS "Setting macOS SDK path, this fixes a bug with macosx sdk 15.4")
     set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk")
@@ -42,27 +36,24 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/nlohmann/json.git
     GIT_TAG v3.11.3  # Use the latest version available
 )
-FetchContent_MakeAvailable(nlohmann_json)
 
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
   GIT_TAG v1.16.0
 )
-FetchContent_MakeAvailable(googletest)
 
 # ==== Header-only library used to load images ==== #
-include(FetchContent)
 FetchContent_Declare(
     stb
     GIT_REPOSITORY https://github.com/nothings/stb.git
     GIT_TAG        master
 )
-FetchContent_MakeAvailable(stb)
 
+FetchContent_MakeAvailable(stb googletest nlohmann_json)
 
 # Dependency directory
-set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+set(PROJECT_DEPS ${PROJECT_BINARY_DIR}/_deps)
 
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
@@ -70,16 +61,19 @@ find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # Library output directory
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # The header file directory
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/src/include)
 
 # The source code directory
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+
+# Set the test directory
+set(TEST_DIR ${PROJECT_SOURCE_DIR}/tests)
 
 # include the headers
 include_directories(${INCLUDE_DIR})
@@ -89,6 +83,9 @@ file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
 
 # Glob all header files
 file(GLOB_RECURSE HEADERS ${INCLUDE_DIR}/*.hpp)
+
+# Glob all test files
+file(GLOB_RECURSE TEST_SOURCES ${TEST_DIR}/*.cpp)
 
 # Add library
 add_library(
@@ -106,69 +103,9 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
-# ------------------- GEMM & Optimizations ----------------- #
-option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
-
-option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
-option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
-option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
-option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
-
-if (USE_BLOCKED_GEMM)
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_BLOCKED_GEMM)
-
-elseif (USE_AVX_GEMM)
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    add_definitions(-DUSE_AVX_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2 -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_AVX512_GEMM)
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    add_definitions(-DUSE_AVX512_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_OPENBLAS_GEMM)
-    message(STATUS "Using OpenBLAS GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-march=native)
-    endif()
-    add_definitions(-DUSE_OPENBLAS_GEMM)
-    find_library(OPENBLAS_LIB openblas REQUIRED)
-    if(OPENBLAS_LIB)
-        message(STATUS "Found OpenBLAS at ${OPENBLAS_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENBLAS_LIB})
-    else()
-        message(FATAL_ERROR "OpenBLAS not found!")
-    endif()
-
-else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_DEFAULT_GEMM)
-    endif()
-
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
-
-set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
-
-# Get all test source files
-file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
 
 # Add the test executable
 add_executable(
@@ -178,7 +115,7 @@ add_executable(
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     # Compiler flags
-    target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+    target_compile_options(${PROJECT_NAME}_tests PRIVATE
     -g 
     -O0 
     -fPIC 
@@ -189,7 +126,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     -pedantic-errors
     )
     # Linker flags
-    target_link_options(${PROJECT_NAME}_tests PRIVATE 
+    target_link_options(${PROJECT_NAME}_tests PRIVATE
     -g 
     -O0 
     -fPIC 
@@ -222,12 +159,59 @@ endif()
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
 # Link gtest
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
-# Link coverage
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 
 # Add the test to gtest
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
+
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
+option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
+option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
+option(USE_OPENBLAS_GEMM "Use OpenBLAS GEMM implementation" OFF)
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_BLOCKED_GEMM)
+elseif (USE_AVX_GEMM)
+    message(STATUS "Using AVX GEMM implementation")
+    SET(MEMORY_ALIGNMENT 32)
+    add_definitions(-DUSE_AVX_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx2 -mfma)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx2 -mfma)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        target_compile_options(${PROJECT_NAME} PRIVATE -/arch:AVX2)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -/arch:AVX2)
+    endif()
+elseif (USE_AVX512_GEMM)
+    message(STATUS "Using AVX512 GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
+    add_definitions(-DUSE_AVX512_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+elseif (USE_OPENBLAS_GEMM)
+    message(STATUS "Using OpenBLAS GEMM implementation")
+    SET(MEMORY_ALIGNMENT 64)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -march=native)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -march=native)
+    endif()
+    add_definitions(-DUSE_OPENBLAS_GEMM)
+    find_package(BLAS REQUIRED) 
+    message(STATUS "Found BLAS libraries at ${BLAS_LIBRARIES}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${BLAS_LIBRARIES})
+else()
+    message(STATUS "Using default GEMM implementation")
+    SET(MEMORY_ALIGNMENT 16)
+    add_definitions(-DUSE_DEFAULT_GEMM)
+endif()
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
@@ -245,8 +229,8 @@ endif()
 
 # Create coverage target
 add_custom_target(coverage_report
-    COMMAND ${CMAKE_BINARY_DIR}/bin/modularml_tests
-    COMMAND ${GCOVR_EXECUTABLE} ${CMAKE_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${CMAKE_SOURCE_DIR}/src --html --html-details --csv -o ${CMAKE_BINARY_DIR}/coverage_report/
+    COMMAND ${PROJECT_BINARY_DIR}/bin/modularml_tests
+    COMMAND ${GCOVR_EXECUTABLE} ${PROJECT_BINARY_DIR}/CMakeFiles/modularml_tests.dir/tests -r ${PROJECT_SOURCE_DIR}/src --html --html-details --csv -o ${PROJECT_BINARY_DIR}/coverage_report/
 )
 
 # Add dependencies to the coverage report
@@ -266,13 +250,13 @@ else()
 endif()
 
 # Set the input directory for Doxygen
-set(DOXYGEN_INPUT_DIR ${CMAKE_SOURCE_DIR}/src)
+set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
 
 # Set the Doxygen input directory
 set(DOXYGEN_INPUT ${DOXYGEN_INPUT_DIR})
 
 # Define output directory for Doxygen
-set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
+set(DOXYGEN_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/docs)
 
 # Make doxygen extract all comments
 set(DOXYGEN_EXTRACT_ALL YES)
@@ -283,7 +267,7 @@ set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_DEPS}/*)
 # Create a custom target to generate docs
 add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
-    COMMAND doxygen ${CMAKE_SOURCE_DIR}/Doxyfile
+    COMMAND doxygen ${PROJECT_SOURCE_DIR}/Doxyfile
     COMMENT "Generating Doxygen documentation"
 )
 
@@ -308,3 +292,25 @@ if(iwyu)
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()
+
+# ------------------- Cmake messages -------------------------------- #
+message(STATUS "CMake version: ${CMAKE_VERSION}")
+message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMake project source dir: ${PROJECT_SOURCE_DIR}")
+message(STATUS "CMake project binary dir: ${PROJECT_BINARY_DIR}")
+message(STATUS "CMake runtime output dir: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+message(STATUS "CMake library output dir: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message(STATUS "CMake archive output dir: ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+message(STATUS "CMake working directory: ${WORKING_DIRECTORY}")
+message(STATUS "CMake compiler: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "CMake compiler version: ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "CMake compiler flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMake compiler flags (debug): ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CMake compiler flags (release): ${CMAKE_CXX_FLAGS_RELEASE}")
+message(STATUS "CMake compiler flags (relwithdebinfo): ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+message(STATUS "CMake compiler flags (minsizerel): ${CMAKE_CXX_FLAGS_MINSIZEREL}")
+get_target_property(MODULARML_FLAGS modularml COMPILE_OPTIONS)
+message(STATUS "CMake compiler flags (modularml): ${MODULARML_FLAGS}")
+get_target_property(MODULARML_TEST_FLAGS modularml_tests COMPILE_OPTIONS)
+message(STATUS "CMake compiler flags (modularml_tests): ${MODULARML_TEST_FLAGS}")

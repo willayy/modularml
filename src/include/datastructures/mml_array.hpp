@@ -26,6 +26,10 @@
 template <typename T>
 class array_mml {
  public:
+
+  static_assert(std::is_arithmetic_v<T>,
+                "array_mml must have an arithmetic type.");
+
   /// @brief Default constructor for array_mml class.
   array_mml() : data(std::make_unique<T[]>(0)), d_size(0) {}
 

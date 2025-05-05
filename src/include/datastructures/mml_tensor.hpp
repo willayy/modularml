@@ -20,7 +20,8 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
-#include "datastructures/a_tensor.hpp"
+#include "a_tensor.hpp"
+#include "tensor_concept.hpp"
 
 /*!
  * @brief A Tensor<T> implementation using an underlying
@@ -29,7 +30,7 @@
  * @tparam T The type of the data contained in the tensor.
  * Allows for arithmetic types.
  */
-template <typename T>
+template <TensorConcept::Types T>
 class Tensor_mml : public Tensor<T> {
  public:
   /// @brief Constructor for Tensor_mml class.

@@ -13,7 +13,7 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "datastructures/mml_array.hpp"
-#include "datastructures/tensor_operations_module.hpp"
+#include "operations/tensor_operations_module.hpp"
 #include "nlohmann/json.hpp"
 
 AddNode::AddNode(const std::string &A, const std::string &B,

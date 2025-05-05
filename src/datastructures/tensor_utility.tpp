@@ -4,9 +4,10 @@
 #include <random>
 
 #include "datastructures/mml_tensor.hpp"
+#include "datastructures/tensor_concept.hpp"
 #include "datastructures/tensor_utility.hpp"
 
-template <typename T>
+template <TensorConcept::Types T>
 bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance,
                        bool verbose) {
   static_assert(
@@ -41,7 +42,7 @@ bool tensors_are_close(Tensor<T> &t1, Tensor<T> &t2, T tolerance,
 }
 
 // External Random Number Generator Edition
-template <typename T>
+template <TensorConcept::Types T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size, std::mt19937 &gen) {
   static_assert(
@@ -62,7 +63,7 @@ void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
 }
 
 // Internal Random Number Generator Edition
-template <typename T>
+template <TensorConcept::Types T>
 void kaiming_uniform(std::shared_ptr<Tensor<T>> W, size_t in_channels,
                      size_t kernel_size) {
   std::random_device rd;
