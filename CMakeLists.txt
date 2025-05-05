@@ -37,6 +37,9 @@ endif()
 # ------------------- GEMM & Optimizations ----------------- #
 option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
 
+# default memory alignment
+Set(MEMORY_ALIGNMENT 16)
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -135,8 +138,7 @@ foreach(SOURCE_FILE IN LISTS SOURCES)
     message(STATUS "  -> ${SOURCE_FILE}")
 endforeach()
 
-
-# ------------------- Compiler flags ----------------------- #
+# ------------------- Compiler configuration options ----------------------- #
 
 if(EXISTS "${VAR_DIR}/CMakeLists.txt")
     message(STATUS "Found CMakeLists.txt in ${VAR_DIR}")
