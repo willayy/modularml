@@ -37,42 +37,6 @@ endif()
 # ------------------- GEMM & Optimizations ----------------- #
 option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
 
-if (BUILD STREQUAL "blocked")
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-
-elseif (BUILD STREQUAL "avx")
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2 -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (BUILD STREQUAL "avx512")
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (BUILD STREQUAL "cuda")
-    message(STATUS "Using CUDA GEMM implementation")
-    SET(MEMORY_ALIGNMENT 256)
-    enable_language(CUDA)
-    find_package(CUDAToolkit REQUIRED)
-    set(CMAKE_CUDA_STANDARD 20)
-    set(CMAKE_CUDA_STANDARD_REQUIRED True)
-
-else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-endif()
-
-
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -114,6 +78,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # Library output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+
+
+# ------------------- Source files ------------------------- #
 
 set(BUILD "default" CACHE STRING "Source variant to build")
 
@@ -167,6 +134,18 @@ message(STATUS "Compiling with variant: ${BUILD}")
 foreach(SOURCE_FILE IN LISTS SOURCES)
     message(STATUS "  -> ${SOURCE_FILE}")
 endforeach()
+
+
+# ------------------- Compiler flags ----------------------- #
+
+if(EXISTS "${VAR_DIR}/CMakeLists.txt")
+    message(STATUS "Found CMakeLists.txt in ${VAR_DIR}")
+    include("${VAR_DIR}/CMakeLists.txt")
+else()
+    message(STATUS "No CMakeLists.txt found in ${VAR_DIR}")
+endif()
+
+# ------------------- Add/link Library ------------------------------ #
 
 # Add library
 add_library(
