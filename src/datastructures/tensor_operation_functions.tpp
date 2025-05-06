@@ -184,8 +184,16 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          std::shared_ptr<Tensor<T>> A, int lda,
                          std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                          std::shared_ptr<Tensor<T>> C, int ldc) {
+  if (!A || !B || !C) {
+    throw std::invalid_argument("GEMM received null tensor(s)");
+  }
   if (TA == 1) A->transpose();
   if (TB == 1) B->transpose();
+
+  // Get the pointers to the raw data
+  T *a_data = A->get_raw_data().get();
+  T *b_data = B->get_raw_data().get();
+  T *c_data = C->get_raw_data().get();
 
   int i, j, k;
   int i_col, k_col, i_col_out;
@@ -209,52 +217,29 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
       i_col_out = i * ldc;
 
       for (int j = 0; j < N; j += simd) {
-        c_vals = _mm256_loadu_ps(&(*C)[i * ldc + j]);
+        c_vals = _mm256_loadu_ps(c_data + i * ldc + j);
         c_vals = _mm256_mul_ps(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
           k_col = k * ldb;
-          float a = ALPHA * (*A)[i_col + k];
+          float a = ALPHA * a_data[i_col + k];
           __m256 a_vals = _mm256_broadcast_ss(&a);
-          __m256 b_vals = _mm256_loadu_ps(&(*B)[k_col + j]);
-
+          __m256 b_vals = _mm256_loadu_ps(b_data + k_col + j);
           c_vals = _mm256_fmadd_ps(a_vals, b_vals, c_vals);
         }
-        _mm256_storeu_ps(&(*C)[i * ldc + j], c_vals);
+        _mm256_storeu_ps(c_data + i * ldc + j, c_vals);
       }
 
+      // Naive for the elements remaining
       if (elem_left) {
-        float c_temp[8] = {0};
-        float b_temp[8] = {0};
-
-        // Copy only valid elements from C
-        for (int n = 0; n < elem_left; ++n) {
-          c_temp[n] = (*C)[i_col_out + j + n];
-        }
-
-        // Load masked values safely from buffer
-        c_vals = _mm256_maskload_ps(c_temp, mask);
-        c_vals = _mm256_mul_ps(beta_s, c_vals);
-
-        for (k = 0; k < K; ++k) {
-          k_col = k * ldb;
-          float a = ALPHA * (*A)[i_col + k];
-          __m256 a_vals = _mm256_broadcast_ss(&a);
-
-          // Copy only valid elements from B
-          for (int n = 0; n < elem_left; ++n) {
-            b_temp[n] = (*B)[k_col + j + n];
+        for (int jj = 0; jj < elem_left; jj++) {
+          float c_val = BETA * c_data[i_col_out + j + jj];
+          for (int k = 0; k < K; k++) {
+            float a_val = ALPHA * a_data[i_col + k];
+            float b_val = b_data[k * ldb + j + jj];
+            c_val += a_val * b_val;
           }
-
-          __m256 b_vals = _mm256_maskload_ps(b_temp, mask);
-
-          c_vals = _mm256_fmadd_ps(a_vals, b_vals, c_vals);
-        }
-
-        // Store result safely back into C
-        _mm256_maskstore_ps(c_temp, mask, c_vals);
-        for (int n = 0; n < elem_left; ++n) {
-          (*C)[i_col_out + j + n] = c_temp[n];
+          c_data[i_col_out + j + jj] = c_val;
         }
       }
     }

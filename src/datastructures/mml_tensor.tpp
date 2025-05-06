@@ -116,6 +116,11 @@ const array_mml<T> &Tensor_mml<T>::get_data() const {
 }
 
 template <typename T>
+array_mml<T> &Tensor_mml<T>::get_raw_data() {
+  return this->data;
+}
+
+template <typename T>
 Tensor<T> &Tensor_mml<T>::operator=(const Tensor<T> &other) {
   if (this != &other) {
     auto other_cast = dynamic_cast<const Tensor_mml<T> &>(other);
@@ -334,14 +339,24 @@ T &Tensor_mml<T>::operator[](std::initializer_list<size_t> indices) {
 
 template <typename T>
 const T &Tensor_mml<T>::operator[](size_t index) const {
-  if (!valid_index(index)) throw std::invalid_argument("Invalid Tensor index");
+  if (!valid_index(index)) {
+    std::cout << "Error: requested index: " << index
+              << ", for tensor with shape: " << this->get_shape()
+              << ", and size: " << this->get_size() << std::endl;
+    throw std::invalid_argument("Invalid Tensor index");
+  }
   if (this->sliced) return this->data[index_to_offset_1d_index(index)];
   return this->data[index];
 }
 
 template <typename T>
 T &Tensor_mml<T>::operator[](size_t index) {
-  if (!valid_index(index)) throw std::invalid_argument("Invalid Tensor index");
+  if (!valid_index(index)) {
+    std::cout << "Error: requested index: " << index
+              << ", for tensor with shape: " << this->get_shape()
+              << ", and size: " << this->get_size() << std::endl;
+    throw std::invalid_argument("Invalid Tensor index");
+  }
   if (this->sliced) return this->data[index_to_offset_1d_index(index)];
   return this->data[index];
 }

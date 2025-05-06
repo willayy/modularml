@@ -8,17 +8,18 @@ array_mml<T>::array_mml(size_t size) : d_size(size) {
 
 #ifdef ALIGN_TENSORS
   size_t alignment =
-      MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
+      MEMORY_ALIGNMENT;  // Set during compilation based on GEMM impl.
 
   void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
     throw std::bad_alloc();
   }
 
+  // Use a shared_ptr with a custom deleter to handle free
   data = std::shared_ptr<T[]>(static_cast<T *>(ptr), [](T *ptr) { free(ptr); });
 #else
   if (d_size != 0) {
-    data = std::shared_ptr<T[]>(new T[d_size]);
+    data = std::make_shared<T[]>(d_size);
   } else {
     std::cerr << "trying to allocate array_mml with size 0" << std::endl;
     data = nullptr;
@@ -31,6 +32,7 @@ array_mml<T>::array_mml(std::initializer_list<T> init_list)
     : d_size(init_list.size()) {
 #ifdef ALIGN_TENSORS
   size_t alignment = MEMORY_ALIGNMENT;
+
   if (d_size != 0) {
     void *ptr = nullptr;
     if (posix_memalign(&ptr, alignment, d_size * sizeof(T)) != 0) {
@@ -42,7 +44,7 @@ array_mml<T>::array_mml(std::initializer_list<T> init_list)
     data = nullptr;
   }
 #else
-  data = std::shared_ptr<T[]>(new T[d_size]);
+  data = std::make_shared<T[]>(d_size);
 #endif
 
   // Copy the data from the initializer_list into the allocated memory
@@ -52,7 +54,7 @@ array_mml<T>::array_mml(std::initializer_list<T> init_list)
 template <typename T>
 array_mml<T>::array_mml(std::vector<T> &data) : d_size(data.size()) {
 #ifdef ALIGN_TENSORS
-  size_t alignment = MEMORY_ALIGNMENT;  // Set during compilation
+  size_t alignment = MEMORY_ALIGNMENT;
 
   void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, d_size * sizeof(T)) != 0) {
@@ -74,8 +76,7 @@ array_mml<T>::array_mml(std::vector<T> &data) : d_size(data.size()) {
 template <typename T>
 array_mml<T>::array_mml(const std::vector<T> &data) : d_size(data.size()) {
 #ifdef ALIGN_TENSORS
-  size_t alignment =
-      MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
+  size_t alignment = MEMORY_ALIGNMENT;  // Set during compilation
 
   void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, d_size * sizeof(T)) != 0) {
