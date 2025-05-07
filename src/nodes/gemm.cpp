@@ -14,13 +14,14 @@
 
 #include "datastructures/mml_array.hpp"
 #include "nlohmann/json.hpp"
+#include "utility/profiler.hpp"
 
 template <typename T>
 class Tensor_mml;
 
-GemmNode::GemmNode(const std::string &A, const std::string &B, const std::string &Y,
-                   const std::optional<std::string> &C, float alpha, float beta,
-                   int transA, int transB)
+GemmNode::GemmNode(const std::string &A, const std::string &B,
+                   const std::string &Y, const std::optional<std::string> &C,
+                   float alpha, float beta, int transA, int transB)
     : A(A),
       B(B),
       C(C),
@@ -100,7 +101,8 @@ void GemmNode::forward(
             new_a_ptr = a_ptr->transpose();
           }
           if (transB == 1) {
-            new_b_ptr = b_ptr->transpose();
+            std::vector<int> perm = {1, 0};
+            new_b_ptr = b_ptr->transpose(perm);
           }
 
           array_mml<size_t> a_shape = new_a_ptr->get_shape();
@@ -113,10 +115,9 @@ void GemmNode::forward(
 
           if (K_a != K_b) {
             throw std::runtime_error(
-              "GemmNode: Inner dimensions of A and B must match: A is (" +
-              std::to_string(M) + "x" + std::to_string(K_a) + "), B is (" +
-              std::to_string(K_b) + "x" + std::to_string(N) + ")"
-            );
+                "GemmNode: Inner dimensions of A and B must match: A is (" +
+                std::to_string(M) + "x" + std::to_string(K_a) + "), B is (" +
+                std::to_string(K_b) + "x" + std::to_string(N) + ")");
           }
 
           std::shared_ptr<Tensor<ValueTypeA>> new_c_ptr;
@@ -139,10 +140,11 @@ void GemmNode::forward(
           size_t lda = K_a;
           size_t ldb = N;
           size_t ldc = N;
-
+          // Profiler::begin_timing("gemm node gemm call");
           TensorOperations::gemm<ValueTypeA>(
               0, 0, M, N, K_a, static_cast<ValueTypeA>(alpha), new_a_ptr, lda,
               new_b_ptr, ldb, static_cast<ValueTypeA>(beta), new_c_ptr, ldc);
+          // Profiler::end_timing("gemm node gemm call");
 
           iomap[Y] = new_c_ptr;
         }

@@ -92,6 +92,8 @@ class Tensor {
     return os;
   }
 
+  virtual array_mml<T> &get_raw_data() = 0;
+
   /// @brief Get the shape of the tensor.
   /// @return A std::vector of integers representing the shape.
   virtual const array_mml<size_t> &get_shape() const = 0;
@@ -141,8 +143,9 @@ class Tensor {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const = 0;
 
-  virtual std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const = 0;
-  
+  virtual std::shared_ptr<Tensor<T>> transpose(
+      const std::vector<int> &perm) const = 0;
+
   virtual std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const = 0;
 

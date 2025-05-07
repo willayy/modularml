@@ -11,15 +11,18 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "nlohmann/json.hpp"
+#include "utility/profiler.hpp"
 
 template <typename T>
 class Gemm_mml;
 template <typename T>
 class Tensor_mml;
 
-ConvNode::ConvNode(const std::string &X, const std::string &W, const std::string &Y,
-                   const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
-                   const array_mml<size_t> &kernel_shape, const array_mml<size_t> &stride,
+ConvNode::ConvNode(const std::string &X, const std::string &W,
+                   const std::string &Y, const array_mml<size_t> &dilations,
+                   const array_mml<size_t> &padding,
+                   const array_mml<size_t> &kernel_shape,
+                   const array_mml<size_t> &stride,
                    const std::optional<std::string> &B, size_t group)
     : X(X),
       W(W),
@@ -167,20 +170,19 @@ void ConvNode::forward(
           auto im2col_output =
               std::make_shared<Tensor_mml<ValueTypeX>>(im2col_output_shape);
 
-            
           im2col(input_copy, im2col_output);
-          
+
           // Flatten the weight tensor to prepare for GEMM
           size_t flattened_size =
               get_in_channels() * get_kernel_height() * get_kernel_width();
           w_ptr->reshape({get_out_channels(), flattened_size});
-          
 
           // Prepare the result tensor
           array_mml<size_t> result_shape(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
+          result_ptr->fill(0);
           TensorOperations::gemm<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
@@ -190,7 +192,7 @@ void ConvNode::forward(
 
           result_ptr->reshape({get_batch_size(), get_out_channels(),
                                get_out_height(), get_out_width()});
-          
+
           // Provided a bias, add it to the result tensor across each output
           // feature
           if (B.has_value()) {
@@ -207,6 +209,10 @@ void ConvNode::forward(
 
           // Write over the content of the output with the result of the
           // convolution
+
+          // std::cout << "y_ptr address: " << y_ptr.get() << std::endl;
+          // std::cout << "result_ptr address: " << result_ptr.get() <<
+          // std::endl;
           *y_ptr = *result_ptr;
         }
       },

@@ -2,11 +2,14 @@
 
 #if defined(USE_AVX_GEMM) || defined(USE_AVX512_GEMM)
 #include <immintrin.h>
+
+#include "utility/avx_mask_helper.hpp"
 #endif
 
 #if defined(USE_OPENBLAS_GEMM)
 #include <cblas.h>
 #include <openblas_config.h>
+
 #include <thread>
 #endif
 
@@ -151,46 +154,30 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              std::shared_ptr<Tensor<T>> A, int lda,
                              std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              std::shared_ptr<Tensor<T>> C, int ldc) {
-  int block_size = 64;  // This depends on the CPU architecture - We can look
-                        // into having the size of this be dynamically fetched
-  if (!TA && !TB) {
-    int i;
-    int j;
-    int jj;
-    int k;
-    int kk;
-    int i_col;
-    int k_col;
-    int i_col_out;
+  int block_size = 32;  // Can be tuned or made adaptive later
 
-    for (jj = 0; jj < N; jj += block_size) {
-      for (kk = 0; kk < K; kk += block_size) {
-        for (i = 0; i < M; i++) {
-          i_col = i * lda;
-          i_col_out = i * ldc;
-          for (int j = jj; j < std::min(jj + block_size, N); j++) {
-            T acc =
-                (kk == 0 ? BETA * (*C)[i_col_out + j] : (*C)[i_col_out + j]);
-            for (int k = kk; k < std::min(kk + block_size, K); k++) {
-              k_col = k * ldb;
-              acc += ALPHA * (*A)[i_col + k] * (*B)[k_col + j];
+  if (!TA && !TB) {
+    for (int ii = 0; ii < M; ii += block_size) {
+      for (int kk = 0; kk < K; kk += block_size) {
+        for (int jj = 0; jj < N; jj += block_size) {
+          for (int i = ii; i < std::min(ii + block_size, M); i++) {
+            int i_col_A = i * lda;
+            int i_col_C = i * ldc;
+            for (int j = jj; j < std::min(jj + block_size, N); j++) {
+              T acc = (kk == 0 ? BETA * (*C)[i_col_C + j] : (*C)[i_col_C + j]);
+              for (int k = kk; k < std::min(kk + block_size, K); k++) {
+                // Access B row-wise now: B[k * ldb + j]
+                acc += ALPHA * (*A)[i_col_A + k] * (*B)[k * ldb + j];
+              }
+              (*C)[i_col_C + j] = acc;
             }
-            (*C)[i_col_out + j] = acc;
           }
         }
       }
     }
-  } else if (TA && !TB) {
-    throw std::invalid_argument(
-        "Transposition not yet supported in GEMM blocked.");
-  } else if (!TA && TB) {
-    throw std::invalid_argument(
-        "Transposition not yet supported in GEMM blocked.");
   } else {
-    throw std::invalid_argument(
-        "Transposition not yet supported in GEMM blocked.");
+    throw std::invalid_argument("Transposition not supported in blocked GEMM.");
   }
-  return;
 }
 
 #ifdef USE_AVX_GEMM
@@ -199,74 +186,141 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                          std::shared_ptr<Tensor<T>> A, int lda,
                          std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                          std::shared_ptr<Tensor<T>> C, int ldc) {
+  if (!A || !B || !C) {
+    throw std::invalid_argument("GEMM received null tensor(s)");
+  }
   if (TA == 1) A->transpose();
   if (TB == 1) B->transpose();
 
+  // Get the pointers to the raw data
+  T *a_data = A->get_raw_data().get();
+  T *b_data = B->get_raw_data().get();
+  T *c_data = C->get_raw_data().get();
+
+  int i, j, k;
+  int i_col, k_col, i_col_out;
+
+  int simd = (256 / 8) / sizeof(T);
+  int elem_left = N % simd;
+
+  int N_s = elem_left ? N - simd : N;
   if constexpr (std::is_same<T, float>::value) {
+    __m256 a_s, b_s, c_vals;
+
+    __m256i mask = make_avx2_mask<T>(elem_left);
+    __m256 beta_s = _mm256_broadcast_ss(&BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 8) {
-        __m256 c_val = _mm256_set1_ps((*C)[i * ldc + j]);
-        __m256 sum = _mm256_setzero_ps();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm256_loadu_ps(c_data + i * ldc + j);
+        c_vals = _mm256_mul_ps(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          __m256 a_vals = _mm256_loadu_ps(&(*A)[i * lda + k]);
-
-          __m256 b_vals = _mm256_loadu_ps(&(*B)[k * ldb + j]);
-
-          sum = _mm256_fmadd_ps(a_vals, b_vals, sum);
+          k_col = k * ldb;
+          float a = ALPHA * a_data[i_col + k];
+          __m256 a_vals = _mm256_broadcast_ss(&a);
+          __m256 b_vals = _mm256_loadu_ps(b_data + k_col + j);
+          c_vals = _mm256_fmadd_ps(a_vals, b_vals, c_vals);
         }
-
-        sum = _mm256_fmadd_ps(sum, _mm256_set1_ps(ALPHA), c_val);
-        sum = _mm256_add_ps(sum, _mm256_set1_ps(BETA));
-
-        _mm256_storeu_ps(&(*C)[i * ldc + j], sum);
+        _mm256_storeu_ps(c_data + i * ldc + j, c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm256_loadu_ps(c_data + i_col_out + j);
+        c_vals = _mm256_mul_ps(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          float a = ALPHA * a_data[i_col + k];
+          a_s = _mm256_broadcast_ss(&a);
+          b_s = _mm256_loadu_ps(b_data + k_col + j);
+          c_vals = _mm256_fmadd_ps(a_s, b_s, c_vals);
+        }
+        _mm256_maskstore_ps(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, double>::value) {
+    __m256d a_s, b_s, c_vals;
+
+    __m256i mask = make_avx2_mask<T>(elem_left);
+    __m256d beta_s = _mm256_broadcast_sd(&BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 4) {
-        __m256d c_val = _mm256_set1_pd((*C)[i * ldc + j]);
-        __m256d sum = _mm256_setzero_pd();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm256_loadu_pd(c_data + i * ldc + j);
+        c_vals = _mm256_mul_pd(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          __m256d a_vals = _mm256_loadu_pd(&(*A)[i * lda + k]);
-
-          __m256d b_vals = _mm256_loadu_pd(&(*B)[k * ldb + j]);
-
-          sum = _mm256_fmadd_pd(a_vals, b_vals, sum);
+          k_col = k * ldb;
+          double a = ALPHA * a_data[i_col + k];
+          __m256d a_vals = _mm256_broadcast_sd(&a);
+          __m256d b_vals = _mm256_loadu_pd(b_data + k_col + j);
+          c_vals = _mm256_fmadd_pd(a_vals, b_vals, c_vals);
         }
-
-        sum = _mm256_fmadd_pd(sum, _mm256_set1_pd(ALPHA), c_val);
-        sum = _mm256_add_pd(sum, _mm256_set1_pd(BETA));
-
-        _mm256_storeu_pd(&(*C)[i * ldc + j], sum);
+        _mm256_storeu_pd(c_data + i * ldc + j, c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm256_loadu_pd(c_data + i_col_out + j);
+        c_vals = _mm256_mul_pd(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          double a = ALPHA * a_data[i_col + k];
+          a_s = _mm256_broadcast_sd(&a);
+          b_s = _mm256_loadu_pd(b_data + k_col + j);
+          c_vals = _mm256_fmadd_pd(a_s, b_s, c_vals);
+        }
+        _mm256_maskstore_pd(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, int>::value) {
+    __m256i a_s, b_s, c_vals;
+
+    __m256i mask = make_avx2_mask<T>(elem_left);
+    __m256i beta_s = _mm256_set1_epi32(BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 8) {
-        __m256i sum = _mm256_setzero_si256();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm256_loadu_si256(
+            reinterpret_cast<const __m256i *>(c_data + i * ldc + j));
+        c_vals = _mm256_mullo_epi32(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          int a_scalar = (*A)[i * lda + k];
-          __m256i a_broadcast = _mm256_set1_epi32(a_scalar);
-
-          __m256i b_vals = _mm256_loadu_si256(
-              reinterpret_cast<const __m256i *>(&(*B)[k * ldb + j]));
-          __m256i product = _mm256_mullo_epi32(a_broadcast, b_vals);
-
-          sum = _mm256_add_epi32(sum, product);
+          k_col = k * ldb;
+          int a = ALPHA * a_data[i_col + k];
+          a_s = _mm256_set1_epi32(a);
+          b_s = _mm256_loadu_si256(
+              reinterpret_cast<const __m256i *>(b_data + k_col + j));
+          __m256i mul = _mm256_mullo_epi32(a_s, b_s);
+          c_vals = _mm256_add_epi32(mul, c_vals);
         }
-
-        sum = _mm256_mullo_epi32(sum, _mm256_set1_epi32(ALPHA));
-        sum = _mm256_add_epi32(sum, _mm256_set1_epi32(BETA));
-
-        _mm256_storeu_si256(reinterpret_cast<__m256i *>(&(*C)[i * ldc + j]),
-                            sum);
+        _mm256_storeu_si256(reinterpret_cast<__m256i *>(c_data + i * ldc + j),
+                            c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm256_loadu_si256(
+            reinterpret_cast<const __m256i *>(c_data + i * ldc + j));
+        c_vals = _mm256_mul_epi32(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          int a = ALPHA * a_data[i_col + k];
+          a_s = _mm256_set1_epi32(a);
+          b_s = _mm256_loadu_si256(
+              reinterpret_cast<const __m256i *>(b_data + k_col + j));
+          __m256i mul = _mm256_mullo_epi32(a_s, b_s);
+          c_vals = _mm256_add_epi32(mul, c_vals);
+        }
+        _mm256_maskstore_epi32(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else {
-    throw std::runtime_error("AVX2 only suppports double, float or int");
+    throw std::runtime_error("AVX2 only suppports float, double and int");
   }
   return;
 }
@@ -279,7 +333,8 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
                           std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                           std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1 || TB == 1) {
-    throw std::invalid_argument("BLAS GEMM only supports non-transposed A/B in this wrapper.");
+    throw std::invalid_argument(
+        "BLAS GEMM only supports non-transposed A/B in this wrapper.");
   }
 
   int num_threads = std::thread::hardware_concurrency();
@@ -314,23 +369,11 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
   }
 
   if constexpr (std::is_same<T, float>::value) {
-    cblas_sgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else if constexpr (std::is_same<T, double>::value) {
-    cblas_dgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else {
     throw std::runtime_error("BLAS GEMM only supports float and double types.");
   }
@@ -344,86 +387,149 @@ static void mml_gemm_blas(int TA, int TB, int M, int N, int K, T ALPHA,
 }
 #endif
 
-
-
 #ifdef USE_AVX512_GEMM
 template <typename T>
 static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
                             std::shared_ptr<Tensor<T>> A, int lda,
                             std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                             std::shared_ptr<Tensor<T>> C, int ldc) {
-  if (TA == 1)
-    throw std::invalid_argument(
-        "Transpose A not yet supported for AVX-512 GEMM.");
-  if (TB == 1)
-    throw std::invalid_argument(
-        "Transpose B not yet supported for AVX-512 GEMM.");
+  if (!A || !B || !C) {
+    throw std::invalid_argument("GEMM received null tensor(s)");
+  }
+  if (TA == 1) A->transpose();
+  if (TB == 1) B->transpose();
 
+  // Get the pointers to the raw data
+  T *a_data = A->get_raw_data().get();
+  T *b_data = B->get_raw_data().get();
+  T *c_data = C->get_raw_data().get();
+
+  int i, j, k;
+  int i_col, k_col, i_col_out;
+
+  int simd = (512 / 8) / sizeof(T);
+  int elem_left = N % simd;
+
+  int N_s = elem_left ? N - simd : N;
   if constexpr (std::is_same<T, float>::value) {
+    __m512 a_s, b_s, c_vals;
+
+    auto mask = make_avx512_mask<T>(elem_left);
+    __m512 beta_s = _mm512_set1_ps(BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 16) {
-        __m512 c_val = _mm512_loadu_ps(&(*C)[i * ldc + j]);
-        __m512 sum = _mm512_setzero_ps();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm512_loadu_ps(c_data + i * ldc + j);
+        c_vals = _mm512_mul_ps(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          __m512 a_vals = _mm512_set1_ps((*A)[i * lda + k]);
-
-          __m512 b_vals = _mm512_loadu_ps(&(*B)[k * ldb + j]);
-
-          sum = _mm512_fmadd_ps(a_vals, b_vals, sum);
+          k_col = k * ldb;
+          float a = ALPHA * a_data[i_col + k];
+          __m512 a_vals = _mm512_set1_ps(a);
+          __m512 b_vals = _mm512_loadu_ps(b_data + k_col + j);
+          c_vals = _mm512_fmadd_ps(a_vals, b_vals, c_vals);
         }
-
-        sum = _mm512_fmadd_ps(_mm512_set1_ps(ALPHA), sum, c_val);
-        sum = _mm512_add_ps(sum, _mm512_set1_ps(BETA));
-
-        _mm512_storeu_ps(&(*C)[i * ldc + j], sum);
+        _mm512_storeu_ps(c_data + i * ldc + j, c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm512_loadu_ps(c_data + i_col_out + j);
+        c_vals = _mm512_mul_ps(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          float a = ALPHA * a_data[i_col + k];
+          a_s = _mm512_set1_ps(a);
+          b_s = _mm512_loadu_ps(b_data + k_col + j);
+          c_vals = _mm512_fmadd_ps(a_s, b_s, c_vals);
+        }
+        _mm512_mask_storeu_ps(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, double>::value) {
+    __m512d a_s, b_s, c_vals;
+
+    auto mask = make_avx512_mask<T>(elem_left);
+    __m512d beta_s = _mm512_set1_pd(BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 8) {
-        __m512d c_val = _mm512_loadu_pd(&(*C)[i * ldc + j]);
-        __m512d sum = _mm512_setzero_pd();
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm512_loadu_pd(c_data + i * ldc + j);
+        c_vals = _mm512_mul_pd(beta_s, c_vals);
 
         for (int k = 0; k < K; k++) {
-          __m512d a_vals = _mm512_set1_pd((*A)[i * lda + k]);
-
-          __m512d b_vals = _mm512_loadu_pd(&(*B)[k * ldb + j]);
-
-          sum = _mm512_fmadd_pd(a_vals, b_vals, sum);
+          k_col = k * ldb;
+          double a = ALPHA * a_data[i_col + k];
+          __m512d a_vals = _mm512_set1_pd(a);
+          __m512d b_vals = _mm512_loadu_pd(b_data + k_col + j);
+          c_vals = _mm512_fmadd_pd(a_vals, b_vals, c_vals);
         }
-
-        sum = _mm512_fmadd_pd(_mm512_set1_pd(ALPHA), sum, c_val);
-        sum = _mm512_add_pd(sum, _mm512_set1_pd(BETA));
-
-        _mm512_storeu_pd(&(*C)[i * ldc + j], sum);
+        _mm512_storeu_pd(c_data + i * ldc + j, c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm512_loadu_pd(c_data + i_col_out + j);
+        c_vals = _mm512_mul_pd(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          double a = ALPHA * a_data[i_col + k];
+          a_s = _mm512_set1_pd(a);
+          b_s = _mm512_loadu_pd(b_data + k_col + j);
+          c_vals = _mm512_fmadd_pd(a_s, b_s, c_vals);
+        }
+        _mm512_mask_storeu_pd(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, int>::value) {
+    __m512i a_s, b_s, c_vals;
+
+    auto mask = make_avx512_mask<T>(elem_left);
+    __m512i beta_s = _mm512_set1_epi32(BETA);
+
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < N; j += 16) {
-        __m512i sum = _mm512_setzero_si512();
+      i_col = i * lda;
+      i_col_out = i * ldc;
 
-        for (int k = 0; k < K; ++k) {
-          __m512i a_vals =
-              _mm512_set1_epi32((*A)[i * lda + k]);  // scalar broadcast
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm512_loadu_si512(
+            reinterpret_cast<const __m512i *>(c_data + i * ldc + j));
+        c_vals = _mm512_mullo_epi32(beta_s, c_vals);
 
-          __m512i b_vals = _mm512_loadu_si512(
-              reinterpret_cast<const void *>(&(*B)[k * ldb + j]));
-
-          __m512i product = _mm512_mullo_epi32(a_vals, b_vals);
-          sum = _mm512_add_epi32(sum, product);
+        for (int k = 0; k < K; k++) {
+          k_col = k * ldb;
+          int a = ALPHA * a_data[i_col + k];
+          a_s = _mm512_set1_epi32(a);
+          b_s = _mm512_loadu_si512(
+              reinterpret_cast<const __m512i *>(b_data + k_col + j));
+          __m512i mul = _mm512_mullo_epi32(a_s, b_s);
+          c_vals = _mm512_add_epi32(mul, c_vals);
         }
-
-        sum = _mm512_mullo_epi32(_mm512_set1_epi32(ALPHA), sum);
-        sum = _mm512_add_epi32(sum, _mm512_set1_epi32(BETA));
-
-        _mm512_storeu_si512(reinterpret_cast<void *>(&(*C)[i * ldc + j]), sum);
+        _mm512_storeu_si512(reinterpret_cast<__m512i *>(c_data + i * ldc + j),
+                            c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm512_loadu_si512(
+            reinterpret_cast<const __m512i *>(c_data + i * ldc + j));
+        c_vals = _mm512_mul_epi32(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+          k_col = k * ldb;
+          int a = ALPHA * a_data[i_col + k];
+          a_s = _mm512_set1_epi32(a);
+          b_s = _mm512_loadu_si512(
+              reinterpret_cast<const __m512i *>(b_data + k_col + j));
+          __m512i mul = _mm512_mullo_epi32(a_s, b_s);
+          c_vals = _mm512_add_epi32(mul, c_vals);
+        }
+        _mm512_mask_storeu_epi32(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else {
-    throw std::runtime_error("AVX-512 only suppports double, float or int");
+    throw std::runtime_error("AVX512 only suppports float, double and int");
   }
+  return;
 }
 #endif
 

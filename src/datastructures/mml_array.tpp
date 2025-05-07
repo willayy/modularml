@@ -4,48 +4,68 @@
 
 template <typename T>
 array_mml<T>::array_mml(size_t size) : d_size(size) {
-  // std::cout << "Allocating tensor with size: " << size << std::endl;
-
 #ifdef ALIGN_TENSORS
-  size_t alignment =
-      MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
-
-  void *ptr = nullptr;
-  if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
-    throw std::bad_alloc();
-  }
-
-  data = std::shared_ptr<T[]>(static_cast<T *>(ptr), [](T *ptr) { free(ptr); });
+  this->data = alloc_aligned_memory<T>(d_size);
 #else
-  data = std::shared_ptr<T[]>(new T[size]);
+  this->data = std::make_shared<T[]>(d_size);
 #endif
 }
 
 template <typename T>
-array_mml<T>::array_mml(std::initializer_list<T> data)
-    : data(std::make_shared<T[]>(data.size())), d_size(data.size()) {
-  std::ranges::copy(data, this->data.get());
+array_mml<T>::array_mml(std::initializer_list<T> init_list)
+    : d_size(init_list.size()) {
+#ifdef ALIGN_TENSORS
+  this->data = alloc_aligned_memory<T>(d_size);
+#else
+  this->data = std::make_shared<T[]>(d_size);
+#endif
+
+  // Copy the data from the initializer_list into the allocated memory
+  std::copy(init_list.begin(), init_list.end(), data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(std::vector<T> &data)
-    : data(std::make_shared<T[]>(data.size())), d_size(data.size()) {
-  std::ranges::copy(data, this->data.get());
+array_mml<T>::array_mml(std::vector<T> &data) : d_size(data.size()) {
+#ifdef ALIGN_TENSORS
+  this->data = alloc_aligned_memory<T>(d_size);
+#else
+  this->data = std::make_shared<T[]>(d_size);
+#endif
+
+  // Copy the data from the vector to the shared pointer array
+  std::copy(data.begin(), data.end(), this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(const std::vector<T> &data)
-    : data(std::make_shared<T[]>(data.size())), d_size(data.size()) {
-  std::ranges::copy(data, this->data.get());
+array_mml<T>::array_mml(const std::vector<T> &data) : d_size(data.size()) {
+#ifdef ALIGN_TENSORS
+  this->data = alloc_aligned_memory<T>(d_size);
+#else
+  this->data = std::make_shared<T[]>(d_size);
+#endif
+
+  // Copy the data from the vector to the shared pointer array
+  std::copy(data.begin(), data.end(), this->data.get());
 }
 
 template <typename T>
-array_mml<T>::array_mml(std::shared_ptr<T[]> data, size_t size)
-    : data(data), d_size(size) {}
+array_mml<T>::array_mml(std::shared_ptr<T[]> shared_data, size_t size)
+    : data(shared_data), d_size(size) {
+#ifdef ALIGN_TENSORS
+  // Check if the passed memory is aligned, and if not, handle it
+  if (reinterpret_cast<uintptr_t>(data.get()) % MEMORY_ALIGNMENT != 0) {
+    throw std::runtime_error("Data is not aligned correctly.");
+  }
+#endif
+}
 
 template <typename T>
-array_mml<T>::array_mml(const array_mml &other)
-    : data(std::make_shared<T[]>(other.d_size)), d_size(other.d_size) {
+array_mml<T>::array_mml(const array_mml &other) : d_size(other.d_size) {
+#ifdef ALIGN_TENSORS
+  this->data = alloc_aligned_memory<T>(d_size);
+#else
+  this->data = std::make_shared<T[]>(d_size);
+#endif
   std::copy(other.data.get(), other.data.get() + other.d_size,
             this->data.get());
 }
