@@ -1,8 +1,8 @@
 #include "nodes/gemm.hpp"
 
-GemmNode::GemmNode(const std::string &A, const std::string &B, const std::string &Y,
-                   const std::optional<std::string> &C, float alpha, float beta,
-                   int transA, int transB)
+GemmNode::GemmNode(const std::string &A, const std::string &B,
+                   const std::string &Y, const std::optional<std::string> &C,
+                   float alpha, float beta, int transA, int transB)
     : A(A),
       B(B),
       C(C),
@@ -110,8 +110,8 @@ void GemmNode::forward(
                     ->copy();
             new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
           } else {
-            new_c_ptr = std::make_shared<Tensor<ValueTypeA>>(
-                array_mml<size_t>{M, N});
+            new_c_ptr =
+                std::make_shared<Tensor<ValueTypeA>>(array_mml<size_t>{M, N});
             new_c_ptr->fill(static_cast<ValueTypeA>(0));
           }
 
@@ -120,10 +120,9 @@ void GemmNode::forward(
           size_t ldc = N;
 
           TensorOperations<ValueTypeA>::gemm(
-              0, 0, M, N, K_a, 
-              static_cast<ValueTypeA>(alpha), static_cast<ValueTypeA>(beta), 
-              new_a_ptr, lda,
-              new_b_ptr, ldb, new_c_ptr, ldc);
+              0, 0, M, N, K_a, static_cast<ValueTypeA>(alpha),
+              static_cast<ValueTypeA>(beta), new_a_ptr, lda, new_b_ptr, ldb,
+              new_c_ptr, ldc);
 
           iomap[Y] = new_c_ptr;
         }

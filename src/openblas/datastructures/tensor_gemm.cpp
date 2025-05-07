@@ -1,5 +1,6 @@
 #include <cblas.h>
 #include <openblas_config.h>
+
 #include <thread>
 
 #include "datastructures/tensor_operations.hpp"
@@ -10,7 +11,8 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
                                std::shared_ptr<Tensor<T>> B, int ldb,
                                std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1 || TB == 1) {
-    throw std::invalid_argument("BLAS GEMM only supports non-transposed A/B in this wrapper.");
+    throw std::invalid_argument(
+        "BLAS GEMM only supports non-transposed A/B in this wrapper.");
   }
 
   int num_threads = std::thread::hardware_concurrency();
@@ -45,23 +47,11 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
   }
 
   if constexpr (std::is_same<T, float>::value) {
-    cblas_sgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else if constexpr (std::is_same<T, double>::value) {
-    cblas_dgemm(
-        CblasRowMajor, CblasNoTrans, CblasNoTrans,
-        M, N, K,
-        ALPHA,
-        a_raw.data(), K,
-        b_raw.data(), N,
-        BETA,
-        c_raw.data(), N);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, M, N, K, ALPHA,
+                a_raw.data(), K, b_raw.data(), N, BETA, c_raw.data(), N);
   } else {
     throw std::runtime_error("BLAS GEMM only supports float and double types.");
   }

@@ -1,8 +1,8 @@
 #include <stddef.h>
 
 #include "backend/dataloader/normalizer.hpp"
-#include "datastructures/tensor.hpp"
 #include "datastructures/mml_array.hpp"
+#include "datastructures/tensor.hpp"
 
 std::shared_ptr<Tensor<float>> Normalize::normalize(
     const std::shared_ptr<Tensor<float>>& input,

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "nodes/a_node.hpp"
-
 #include <queue>
+
+#include "nodes/a_node.hpp"
 
 /**
  * @class Model
@@ -28,9 +28,9 @@ class Model {
    * initialize the model with.
    */
   explicit Model(std::vector<std::shared_ptr<Node>> initialNodes,
-                     std::unordered_map<std::string, GeneralDataTypes> iomap,
-                     std::vector<std::string> inputs,
-                     std::vector<std::string> outputs)
+                 std::unordered_map<std::string, GeneralDataTypes> iomap,
+                 std::vector<std::string> inputs,
+                 std::vector<std::string> outputs)
       : nodes(std::move(initialNodes)),
         iomap(std::move(iomap)),
         inputs(std::move(inputs)),

@@ -8,7 +8,8 @@ TEST(TransposeNode_test, test_forward) {
   array_mml<size_t> shapeY({3, 2});  // Output shape is [M, N]
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = std::make_shared<Tensor<int>>(shapeA, array_mml<int>{1, 2, 3, 4, 5, 6});
+  auto A_ptr =
+      std::make_shared<Tensor<int>>(shapeA, array_mml<int>{1, 2, 3, 4, 5, 6});
   auto Y_ptr = std::make_shared<Tensor<int>>(shapeY);
   Y_ptr->fill(0.0f);  // Initialize Y to zero
 
@@ -36,7 +37,8 @@ TEST(TransposeNode_test, test_forward) {
   // Extract the shared pointer to the output tensor
   auto result_ptr = std::get<std::shared_ptr<Tensor<int>>>(y_it->second);
 
-  auto expected = std::make_shared<Tensor<int>>(shapeY, array_mml<int>{1, 4, 2, 5, 3, 6});
+  auto expected =
+      std::make_shared<Tensor<int>>(shapeY, array_mml<int>{1, 4, 2, 5, 3, 6});
 
   // Verify
   for (int i = 0; i < expected->get_size(); i++) {

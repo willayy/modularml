@@ -73,9 +73,8 @@ void MatMulNode::forward(
                   ->copy();
           new_c_ptr = raw_c_ptr->broadcast_reshape({M, N});
 
-          TensorOperations<ValueTypeA>::gemm(0, 0, M, N, K_a, 1.0, 0.0, 
-                                             new_a_ptr, lda, 
-                                             new_b_ptr, ldb, 
+          TensorOperations<ValueTypeA>::gemm(0, 0, M, N, K_a, 1.0, 0.0,
+                                             new_a_ptr, lda, new_b_ptr, ldb,
                                              new_c_ptr, ldc);
 
           iomap[Y] = new_c_ptr;

@@ -8,7 +8,8 @@ TEST(test_tensor_utils, test_kaiming_uniform_basic) {
   const int kernel_size = 3;
   const size_t num_elements = 27;
 
-  auto tensor = std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
+  auto tensor =
+      std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
   std::mt19937 gen(42);  // fixed seed for reproducibility
 
   TensorUtils::kaiming_uniform<double>(tensor, in_channels, kernel_size, gen);
@@ -35,7 +36,8 @@ TEST(test_tensor_utils, test_kaiming_uniform_basic) {
   ASSERT_FALSE(all_same);
 
   // Try generating another tensor with the same seed
-  auto tensor2 = std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
+  auto tensor2 =
+      std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
   gen.seed(42);  // Reset the generator to the same initial state
   TensorUtils::kaiming_uniform<double>(tensor2, in_channels, kernel_size, gen);
   ASSERT_EQ(*tensor, *tensor2);
@@ -49,7 +51,8 @@ TEST(test_tensor_utils, test_kaiming_uniform_empty_tensor) {
   auto tensor = std::make_shared<Tensor<double>>(array_mml<size_t>{0});
 
   // Should not throw or crash
-  ASSERT_NO_THROW(TensorUtils::kaiming_uniform<double>(tensor, in_channels, kernel_size));
+  ASSERT_NO_THROW(
+      TensorUtils::kaiming_uniform<double>(tensor, in_channels, kernel_size));
   ASSERT_EQ(tensor->get_size(), 0);  // Still zero
 }
 
@@ -61,8 +64,9 @@ TEST(test_tensor_utils, test_kaiming_uniform_zero_fan_in) {
   auto tensor = std::make_shared<Tensor<double>>(array_mml<size_t>{3, 3});
 
   // Should throw
-  ASSERT_THROW(TensorUtils::kaiming_uniform<double>(tensor, in_channels, kernel_size),
-               std::invalid_argument);
+  ASSERT_THROW(
+      TensorUtils::kaiming_uniform<double>(tensor, in_channels, kernel_size),
+      std::invalid_argument);
 }
 
 TEST(test_tensor_utils, test_kaiming_external_vs_internal) {
@@ -74,14 +78,17 @@ TEST(test_tensor_utils, test_kaiming_external_vs_internal) {
       std::sqrt(6.0 / (in_channels * kernel_size * kernel_size));
 
   // Tensor with external RNG (fixed seed)
-  auto tensor_ext = std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
+  auto tensor_ext =
+      std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
   std::mt19937 gen(42);
-  TensorUtils::kaiming_uniform<double>(tensor_ext, in_channels, kernel_size, gen);
+  TensorUtils::kaiming_uniform<double>(tensor_ext, in_channels, kernel_size,
+                                       gen);
 
   // Tensor with internal RNG (random seed)
-  auto tensor_int = std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
+  auto tensor_int =
+      std::make_shared<Tensor<double>>(array_mml<size_t>{num_elements});
   TensorUtils::kaiming_uniform<double>(tensor_int, in_channels,
-                  kernel_size);  // overload with no gen
+                                       kernel_size);  // overload with no gen
 
   // 1. Both tensors should have values within [-limit, limit]
   for (size_t i = 0; i < num_elements; ++i) {
@@ -131,13 +138,15 @@ TEST(test_tensor_utils, test_tensors_are_close_equal) {
 TEST(test_tensor_utils, test_tensors_are_close_within_tolerance) {
   Tensor<float> a({3}, {1.0f, 2.01f, 2.98f});
   Tensor<float> b({3}, {1.0f, 2.0f, 3.0f});
-  ASSERT_TRUE(TensorUtils::tensors_are_close(a, b, 0.01f));  // within 1% tolerance
+  ASSERT_TRUE(
+      TensorUtils::tensors_are_close(a, b, 0.01f));  // within 1% tolerance
 }
 
 TEST(test_tensor_utils, test_tensors_are_close_exceeds_tolerance) {
   Tensor<float> a({3}, {1.0f, 2.2f, 3.1f});
   Tensor<float> b({3}, {1.0f, 2.0f, 3.0f});
-  ASSERT_FALSE(TensorUtils::tensors_are_close(a, b, 0.01f));  // exceeds tolerance
+  ASSERT_FALSE(
+      TensorUtils::tensors_are_close(a, b, 0.01f));  // exceeds tolerance
 }
 
 TEST(test_tensor_utils, test_tensors_are_close_different_shapes) {
@@ -155,7 +164,8 @@ TEST(test_tensor_utils, test_tensors_are_close_zero_tolerance) {
 TEST(test_tensor_utils, test_tensors_are_close_integers_exact) {
   Tensor<int> a({3}, {1, 2, 3});
   Tensor<int> b({3}, {1, 2, 3});
-  ASSERT_TRUE(TensorUtils::tensors_are_close(a, b, 0));  // exact match for integers
+  ASSERT_TRUE(
+      TensorUtils::tensors_are_close(a, b, 0));  // exact match for integers
 }
 
 TEST(test_tensor_utils, test_tensors_are_close_integers_fail) {
@@ -167,7 +177,8 @@ TEST(test_tensor_utils, test_tensors_are_close_integers_fail) {
 TEST(test_tensor_utils, test_tensors_are_close_with_negatives) {
   Tensor<float> a({3}, {-1.0f, -2.01f, -3.0f});
   Tensor<float> b({3}, {-1.0f, -2.0f, -3.0f});
-  ASSERT_TRUE(TensorUtils::tensors_are_close(a, b, 0.01f));  // relative tolerance should still apply
+  ASSERT_TRUE(TensorUtils::tensors_are_close(
+      a, b, 0.01f));  // relative tolerance should still apply
 }
 
 TEST(test_tensor_utils, test_tensors_are_close_zero_reference_value) {

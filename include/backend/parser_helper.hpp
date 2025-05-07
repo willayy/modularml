@@ -22,7 +22,7 @@ inline std::shared_ptr<Tensor<T>> handle_tensor(const nlohmann::json &init) {
 
   if (init.contains("rawData")) {
     return std::make_shared<Tensor<T>>(
-      shapeArray, Base64::decode<T>(init["rawData"].get<std::string>()));
+        shapeArray, Base64::decode<T>(init["rawData"].get<std::string>()));
   } else {
     std::string fieldName;
 

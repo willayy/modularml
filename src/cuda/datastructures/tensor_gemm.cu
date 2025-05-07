@@ -28,29 +28,40 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
   const auto A_shape = A->get_shape();
   const auto B_shape = B->get_shape();
   const auto C_shape = C->get_shape();
-  
+
   if (C_shape[0] != M || C_shape[1] != N) {
     throw std::invalid_argument("Output matrix C dimensions don't match M×N");
   }
-  
+
   if (!TA && !TB) {
-    if (A_shape[0] != M || A_shape[1] != K || B_shape[0] != K || B_shape[1] != N) {
-      throw std::invalid_argument("Input matrix dimensions don't match for multiplication");
+    if (A_shape[0] != M || A_shape[1] != K || B_shape[0] != K ||
+        B_shape[1] != N) {
+      throw std::invalid_argument(
+          "Input matrix dimensions don't match for multiplication");
     }
   } else if (TA && !TB) {
-    if (A_shape[0] != K || A_shape[1] != M || B_shape[0] != K || B_shape[1] != N) {
-      throw std::invalid_argument("Input matrix dimensions don't match for multiplication with A transposed");
+    if (A_shape[0] != K || A_shape[1] != M || B_shape[0] != K ||
+        B_shape[1] != N) {
+      throw std::invalid_argument(
+          "Input matrix dimensions don't match for multiplication with A "
+          "transposed");
     }
   } else if (!TA && TB) {
-    if (A_shape[0] != M || A_shape[1] != K || B_shape[0] != N || B_shape[1] != K) {
-      throw std::invalid_argument("Input matrix dimensions don't match for multiplication with B transposed");
+    if (A_shape[0] != M || A_shape[1] != K || B_shape[0] != N ||
+        B_shape[1] != K) {
+      throw std::invalid_argument(
+          "Input matrix dimensions don't match for multiplication with B "
+          "transposed");
     }
   } else {
-    if (A_shape[0] != K || A_shape[1] != M || B_shape[0] != N || B_shape[1] != K) {
-      throw std::invalid_argument("Input matrix dimensions don't match for multiplication with both matrices transposed");
+    if (A_shape[0] != K || A_shape[1] != M || B_shape[0] != N ||
+        B_shape[1] != K) {
+      throw std::invalid_argument(
+          "Input matrix dimensions don't match for multiplication with both "
+          "matrices transposed");
     }
   }
-  
+
   if (TA) A = A->transpose();
   if (TB) B = B->transpose();
 

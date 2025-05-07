@@ -1,9 +1,8 @@
 #include "nodes/dropout.hpp"
 
 DropoutNode::DropoutNode(const std::string &data, const std::string &output,
-                         const std::optional<std::string> &mask,
-                         float ratio, bool training_mode,
-                         std::optional<int> seed)
+                         const std::optional<std::string> &mask, float ratio,
+                         bool training_mode, std::optional<int> seed)
     : data(data),
       output(output),
       mask(mask),

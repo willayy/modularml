@@ -1,10 +1,10 @@
 #include "datastructures/tensor_operations.hpp"
 
 template <typename T>
-void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA, T BETA, 
-          std::shared_ptr<Tensor<T>> A, int lda,
-          std::shared_ptr<Tensor<T>> B, int ldb,
-          std::shared_ptr<Tensor<T>> C, int ldc) {
+void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
+                               T BETA, std::shared_ptr<Tensor<T>> A, int lda,
+                               std::shared_ptr<Tensor<T>> B, int ldb,
+                               std::shared_ptr<Tensor<T>> C, int ldc) {
   int k_col;
   int i_col_out;
 

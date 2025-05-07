@@ -9,7 +9,8 @@
 #include "stb_image_write.h"
 
 /**
- * @brief Reads the class name corresponding to the given index from a JSON labels file.
+ * @brief Reads the class name corresponding to the given index from a JSON
+ * labels file.
  *
  * @param labels_file Path to the JSON file containing label mappings.
  * @param idx         The stringified class index to look up.
@@ -24,8 +25,9 @@ static std::string get_class_name(const std::string& labels_file,
 }
 
 /**
- * @brief Loads an image, resizes and center-crops it to 224×224, writes it temporarily to disk,
- *        then loads it back as a tensor and normalizes it using ImageNet statistics.
+ * @brief Loads an image, resizes and center-crops it to 224×224, writes it
+ * temporarily to disk, then loads it back as a tensor and normalizes it using
+ * ImageNet statistics.
  *
  * @param image_path Path to the input image file.
  * @return A normalized [1×3×224×224] tensor ready for model input.
@@ -52,14 +54,14 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
 
   // Normalize with ImageNet mean/std
   Normalize norm;
-  return norm.normalize(img_tensor,
-                        {0.485f, 0.456f, 0.406f},
+  return norm.normalize(img_tensor, {0.485f, 0.456f, 0.406f},
                         {0.229f, 0.224f, 0.225f});
 }
 
 /**
  * @brief Runs inference on the provided input tensor using a parsed ONNX model,
- *        then returns the predicted class name by taking argmax and looking it up.
+ *        then returns the predicted class name by taking argmax and looking it
+ * up.
  *
  * @param input         The preprocessed input tensor.
  * @param model_json    Path to the ONNX-to-JSON converted model file.
@@ -67,9 +69,9 @@ static std::shared_ptr<Tensor<float>> load_and_preprocess(
  * @return The predicted class name.
  * @throws std::runtime_error if the model JSON cannot be opened or parsed.
  */
-static std::string infer_and_get_class(const std::shared_ptr<Tensor<float>>& input,
-                                       const std::string& model_json,
-                                       const std::string& labels_json) {
+static std::string infer_and_get_class(
+    const std::shared_ptr<Tensor<float>>& input, const std::string& model_json,
+    const std::string& labels_json) {
   // load & parse JSON model (no skipping here!)
   std::ifstream mf(model_json);
   if (!mf.is_open()) {
@@ -92,7 +94,8 @@ static std::string infer_and_get_class(const std::shared_ptr<Tensor<float>>& inp
 
 TEST(AlexNet, Foxhound) {
   const std::string model_json = "../alexnet.json";
-  const std::string labels_json = "../tests/data/alexnet/alexnet_ImageNet_labels.json";
+  const std::string labels_json =
+      "../tests/data/alexnet/alexnet_ImageNet_labels.json";
 
   if (!std::filesystem::exists(model_json)) {
     GTEST_SKIP() << "Skipping because model JSON not found: " << model_json;
@@ -107,7 +110,8 @@ TEST(AlexNet, Foxhound) {
 
 TEST(AlexNet, Egret) {
   const std::string model_json = "../alexnet.json";
-  const std::string labels_json = "../tests/data/alexnet/alexnet_ImageNet_labels.json";
+  const std::string labels_json =
+      "../tests/data/alexnet/alexnet_ImageNet_labels.json";
 
   if (!std::filesystem::exists(model_json)) {
     GTEST_SKIP() << "Skipping because model JSON not found: " << model_json;
@@ -122,7 +126,8 @@ TEST(AlexNet, Egret) {
 
 TEST(ResNet18, Foxhound) {
   const std::string model_json = "../resnet18.json";
-  const std::string labels_json = "../tests/data/alexnet/alexnet_ImageNet_labels.json";
+  const std::string labels_json =
+      "../tests/data/alexnet/alexnet_ImageNet_labels.json";
 
   if (!std::filesystem::exists(model_json)) {
     GTEST_SKIP() << "Skipping because model JSON not found: " << model_json;

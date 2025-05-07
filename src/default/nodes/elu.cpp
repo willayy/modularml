@@ -1,7 +1,7 @@
 #include "nodes/elu.hpp"
 
 ELUNode::ELUNode(const std::string &X, const std::string &Y, float alpha)
-    : X(X), Y(Y), alpha(alpha) {};
+    : X(X), Y(Y), alpha(alpha){};
 
 ELUNode::ELUNode(const nlohmann::json &node) {
   if (node.contains("input") && node["input"].is_array()) {

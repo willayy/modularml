@@ -1,7 +1,7 @@
 #pragma once
 
-#include "nlohmann/json_fwd.hpp"
 #include "backend/model.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 /**
  * @class Parser_mml
@@ -9,7 +9,7 @@
  */
 class DataParser {
  public:
-  DataParser() = delete; // Prevent instantiation of this class
+  DataParser() = delete;  // Prevent instantiation of this class
 
   /**
    * @brief Parses JSON data of a model into a Model_mml object.

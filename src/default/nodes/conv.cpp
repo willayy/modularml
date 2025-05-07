@@ -1,8 +1,10 @@
 #include "nodes/conv.hpp"
 
-ConvNode::ConvNode(const std::string &X, const std::string &W, const std::string &Y,
-                   const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
-                   const array_mml<size_t> &kernel_shape, const array_mml<size_t> &stride,
+ConvNode::ConvNode(const std::string &X, const std::string &W,
+                   const std::string &Y, const array_mml<size_t> &dilations,
+                   const array_mml<size_t> &padding,
+                   const array_mml<size_t> &kernel_shape,
+                   const array_mml<size_t> &stride,
                    const std::optional<std::string> &B, size_t group)
     : X(X),
       W(W),
@@ -160,8 +162,7 @@ void ConvNode::forward(
           // Prepare the result tensor
           array_mml<size_t> result_shape(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
-          auto result_ptr =
-              std::make_shared<Tensor<ValueTypeX>>(result_shape);
+          auto result_ptr = std::make_shared<Tensor<ValueTypeX>>(result_shape);
 
           TensorOperations<ValueTypeX>::gemm(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],

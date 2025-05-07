@@ -1,12 +1,14 @@
 #include "nodes/max_pool.hpp"
+
 #include "nodes/node_utils.hpp"
 
-MaxPoolNode::MaxPoolNode(const std::string &X, const std::string &Y,
-                         const std::vector<int> &kernel_shape,
-                         const std::optional<std::string> &indices,
-                         const std::string &auto_pad, int ceil_mode,
-                         const std::vector<int> &dilations, const std::vector<int> &pads,
-                         int storage_order, const std::vector<int> &strides)
+MaxPoolNode::MaxPoolNode(const std::string& X, const std::string& Y,
+                         const std::vector<int>& kernel_shape,
+                         const std::optional<std::string>& indices,
+                         const std::string& auto_pad, int ceil_mode,
+                         const std::vector<int>& dilations,
+                         const std::vector<int>& pads, int storage_order,
+                         const std::vector<int>& strides)
     : X(X),
       Y(Y),
       indices(indices),

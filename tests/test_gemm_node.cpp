@@ -9,8 +9,10 @@ TEST(GemmNodeTest, ForwardMultiplication) {
   array_mml<size_t> shapeY({2, 2});  // Output shape is [M, N]
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = std::make_shared<Tensor<float>>(shapeA, array_mml<float>{1, 2, 3, 4, 5, 6});
-  auto B_ptr = std::make_shared<Tensor<float>>(shapeB, array_mml<float>{7, 8, 9, 10, 11, 12});
+  auto A_ptr = std::make_shared<Tensor<float>>(
+      shapeA, array_mml<float>{1, 2, 3, 4, 5, 6});
+  auto B_ptr = std::make_shared<Tensor<float>>(
+      shapeB, array_mml<float>{7, 8, 9, 10, 11, 12});
   auto Y_ptr = std::make_shared<Tensor<float>>(shapeY);
   Y_ptr->fill(0.0f);  // Initialize Y to zero
 

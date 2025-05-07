@@ -5,13 +5,14 @@
 
 TEST(test_lrn, test_lrn_node_float) {
   std::shared_ptr<Tensor<float>> X = std::make_shared<Tensor<float>>(
-      array_mml<size_t>{1, 4, 2, 2}, array_mml<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-  std::shared_ptr<Tensor<float>> exp_output =
-      std::make_shared<Tensor<float>>(
-        array_mml<size_t>{1, 4, 2, 2},
-        array_mml<float>{0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258, 4.7047,
-           5.2795, 5.8498, 6.4150, 6.9747, 7.6350, 8.2041, 8.7682, 9.3282});
+  std::shared_ptr<Tensor<float>> exp_output = std::make_shared<Tensor<float>>(
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<float>{0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258,
+                       4.7047, 5.2795, 5.8498, 6.4150, 6.9747, 7.6350, 8.2041,
+                       8.7682, 9.3282});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -32,13 +33,14 @@ TEST(test_lrn, test_lrn_node_float) {
 }
 TEST(test_lrn, test_lrn_node_double) {
   std::shared_ptr<Tensor<double>> X = std::make_shared<Tensor<double>>(
-      array_mml<size_t>{1, 4, 2, 2}, array_mml<double>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<double>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
 
-  std::shared_ptr<Tensor<double>> exp_output =
-      std::make_shared<Tensor<double>>(
-        array_mml<size_t>{1, 4, 2, 2},
-        array_mml<double>{0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258, 4.7047,
-           5.2795, 5.8498, 6.4150, 6.9747, 7.6350, 8.2041, 8.7682, 9.3282});
+  std::shared_ptr<Tensor<double>> exp_output = std::make_shared<Tensor<double>>(
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<double>{0.5939, 1.1869, 1.7787, 2.3692, 2.9575, 3.5432, 4.1258,
+                        4.7047, 5.2795, 5.8498, 6.4150, 6.9747, 7.6350, 8.2041,
+                        8.7682, 9.3282});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -59,31 +61,31 @@ TEST(test_lrn, test_lrn_node_double) {
 }
 
 TEST(test_lrn, test_lrn_node_square_sum_0) {
-  std::shared_ptr<Tensor<double>> X =
-      std::make_shared<Tensor<double>>(array_mml<size_t>{1, 4, 2, 2}, array_mml<double>{
-                                                             0,
-                                                             2,
-                                                             3,
-                                                             4,
-                                                             0,
-                                                             2,
-                                                             3,
-                                                             4,
-                                                             0,
-                                                             2,
-                                                             3,
-                                                             4,
-                                                             0,
-                                                             2,
-                                                             3,
-                                                             4,
-                                                         });
+  std::shared_ptr<Tensor<double>> X = std::make_shared<Tensor<double>>(
+      array_mml<size_t>{1, 4, 2, 2}, array_mml<double>{
+                                         0,
+                                         2,
+                                         3,
+                                         4,
+                                         0,
+                                         2,
+                                         3,
+                                         4,
+                                         0,
+                                         2,
+                                         3,
+                                         4,
+                                         0,
+                                         2,
+                                         3,
+                                         4,
+                                     });
 
-  std::shared_ptr<Tensor<double>> exp_output =
-      std::make_shared<Tensor<double>>(
-          array_mml<size_t>{1, 4, 2, 2},
-          array_mml<double>{0.0f, 1.9997f, 2.9987f, 3.9970f, 0.0f, 1.9994f, 2.9980f, 3.9952f,
-           0.0f, 1.9994f, 2.9980f, 3.9952f, 0.0f, 1.9997f, 2.9987f, 3.9970f});
+  std::shared_ptr<Tensor<double>> exp_output = std::make_shared<Tensor<double>>(
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<double>{0.0f, 1.9997f, 2.9987f, 3.9970f, 0.0f, 1.9994f, 2.9980f,
+                        3.9952f, 0.0f, 1.9994f, 2.9980f, 3.9952f, 0.0f, 1.9997f,
+                        2.9987f, 3.9970f});
 
   std::string x_string = "X";
   std::string y_string = "Y";
@@ -106,30 +108,29 @@ TEST(test_lrn, test_lrn_node_square_sum_0) {
 TEST(test_lrn, test_lrn_node_random_values) {
   std::shared_ptr<Tensor<double>> X = std::make_shared<Tensor<double>>(
       array_mml<size_t>{1, 4, 2, 2}, array_mml<double>{
-                        0.608746f,
-                        9.412452f,
-                        -5.879261f,
-                        5.789683f,
-                        -9.167872f,
-                        -8.310365000000001f,
-                        -2.689699f,
-                        5.539192f,
-                        9.300974f,
-                        -6.686403f,
-                        -0.36053500000000005f,
-                        3.802501f,
-                        -1.701825f,
-                        -1.942637f,
-                        7.586148f,
-                        -6.068864f,
-                    });
+                                         0.608746f,
+                                         9.412452f,
+                                         -5.879261f,
+                                         5.789683f,
+                                         -9.167872f,
+                                         -8.310365000000001f,
+                                         -2.689699f,
+                                         5.539192f,
+                                         9.300974f,
+                                         -6.686403f,
+                                         -0.36053500000000005f,
+                                         3.802501f,
+                                         -1.701825f,
+                                         -1.942637f,
+                                         7.586148f,
+                                         -6.068864f,
+                                     });
 
-  std::shared_ptr<Tensor<double>> exp_output =
-      std::make_shared<Tensor<double>>(
-          array_mml<size_t>{1, 4, 2, 2},
-          array_mml<double>{0.6075f, 9.3755f, -5.8731f, 5.7804f, -9.1289f, -8.2686f, -2.6869f,
-           5.5283f, 9.2608f, -6.6668f, -0.3600f, 3.7947f, -1.6980f, -1.9403f,
-           7.5752f, -6.0611f});
+  std::shared_ptr<Tensor<double>> exp_output = std::make_shared<Tensor<double>>(
+      array_mml<size_t>{1, 4, 2, 2},
+      array_mml<double>{0.6075f, 9.3755f, -5.8731f, 5.7804f, -9.1289f, -8.2686f,
+                        -2.6869f, 5.5283f, 9.2608f, -6.6668f, -0.3600f, 3.7947f,
+                        -1.6980f, -1.9403f, 7.5752f, -6.0611f});
 
   std::string x_string = "X";
   std::string y_string = "Y";

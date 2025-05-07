@@ -1,10 +1,10 @@
 #include "datastructures/tensor_operations.hpp"
 
 template <typename T>
-void TensorOperations<T>::elementwise(const std::shared_ptr<const Tensor<T>> a, 
-                 const std::function<T(T)> &f,
-                 const std::shared_ptr<Tensor<T>> c) {
-                  const auto shape = a->get_shape();
+void TensorOperations<T>::elementwise(const std::shared_ptr<const Tensor<T>> a,
+                                      const std::function<T(T)> &f,
+                                      const std::shared_ptr<Tensor<T>> c) {
+  const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
   array_mml<size_t> indices(num_dimensions);
@@ -29,9 +29,9 @@ void TensorOperations<T>::elementwise(const std::shared_ptr<const Tensor<T>> a,
 }
 
 template <typename T>
-void TensorOperations<T>::elementwise_in_place(const std::shared_ptr<Tensor<T>> a,
-                          const std::function<T(T)> &f) {
-                            const auto shape = a->get_shape();
+void TensorOperations<T>::elementwise_in_place(
+    const std::shared_ptr<Tensor<T>> a, const std::function<T(T)> &f) {
+  const auto shape = a->get_shape();
   const auto num_dimensions = shape.size();
 
   array_mml<size_t> indices(num_dimensions);

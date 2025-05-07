@@ -1,11 +1,13 @@
 #include "datastructures/tensor_operations.hpp"
 
 template <typename T>
-void TensorOperations<T>::sliding_window(const array_mml<size_t> &in_shape, const array_mml<size_t> &out_shape,
-                    const std::vector<int> &kernel_shape, const std::vector<int> &strides,
-                    const std::vector<int> &dilations, const std::vector<std::pair<int, int>> &pads,
-                    const std::function<void(const std::vector<std::vector<size_t>> &, 
-                    const std::vector<size_t> &)> &window_f) {
+void TensorOperations<T>::sliding_window(
+    const array_mml<size_t> &in_shape, const array_mml<size_t> &out_shape,
+    const std::vector<int> &kernel_shape, const std::vector<int> &strides,
+    const std::vector<int> &dilations,
+    const std::vector<std::pair<int, int>> &pads,
+    const std::function<void(const std::vector<std::vector<size_t>> &,
+                             const std::vector<size_t> &)> &window_f) {
   size_t total_rank = in_shape.size();
   size_t spatial_rank = kernel_shape.size();
 

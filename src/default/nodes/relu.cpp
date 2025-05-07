@@ -49,8 +49,8 @@ void ReLUNode::forward(
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
           TensorOperations<ValueType>::elementwise(
-                  x_ptr, [](ValueType x) -> ValueType { return x > 0 ? x : 0; },
-                  y_ptr);
+              x_ptr, [](ValueType x) -> ValueType { return x > 0 ? x : 0; },
+              y_ptr);
         }
       },
       x_tensor);

@@ -1,10 +1,10 @@
 #include "datastructures/tensor_operations.hpp"
 
 template <typename T>
-void TensorOperations<T>::add(const std::shared_ptr<const Tensor<T>> a, 
-         const std::shared_ptr<const Tensor<T>> b,
-         std::shared_ptr<Tensor<T>> c) {
-          const auto size = a->get_size();
+void TensorOperations<T>::add(const std::shared_ptr<const Tensor<T>> a,
+                              const std::shared_ptr<const Tensor<T>> b,
+                              std::shared_ptr<Tensor<T>> c) {
+  const auto size = a->get_size();
   for (size_t i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] + (*b)[i];
   }
@@ -12,8 +12,8 @@ void TensorOperations<T>::add(const std::shared_ptr<const Tensor<T>> a,
 
 template <typename T>
 void TensorOperations<T>::subtract(const std::shared_ptr<Tensor<T>> a,
-              const std::shared_ptr<Tensor<T>> b,
-              std::shared_ptr<Tensor<T>> c) {
+                                   const std::shared_ptr<Tensor<T>> b,
+                                   std::shared_ptr<Tensor<T>> c) {
   const auto size = a->get_size();
   for (size_t i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] - (*b)[i];
@@ -21,9 +21,8 @@ void TensorOperations<T>::subtract(const std::shared_ptr<Tensor<T>> a,
 }
 
 template <typename T>
-void TensorOperations<T>::multiply(const std::shared_ptr<Tensor<T>> a, 
-              const T b,
-              std::shared_ptr<Tensor<T>> c) {
+void TensorOperations<T>::multiply(const std::shared_ptr<Tensor<T>> a,
+                                   const T b, std::shared_ptr<Tensor<T>> c) {
   const auto size = a->get_size();
   for (size_t i = 0; i < size; i++) {
     (*c)[i] = (*a)[i] * b;
@@ -32,7 +31,7 @@ void TensorOperations<T>::multiply(const std::shared_ptr<Tensor<T>> a,
 
 template <typename T>
 bool TensorOperations<T>::equals(const std::shared_ptr<Tensor<T>> a,
-            const std::shared_ptr<Tensor<T>> b) {
+                                 const std::shared_ptr<Tensor<T>> b) {
   if (a->get_size() != b->get_size() || a->get_shape() != b->get_shape()) {
     return false;
   } else {

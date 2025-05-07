@@ -19,7 +19,8 @@
  *
  * @throws std::runtime_error If the JSON file cannot be opened.
  * @throws std::runtime_error If the image key is not found in the JSON file.
- * @throws std::runtime_error If no CAFFE label is found for the given image key.
+ * @throws std::runtime_error If no CAFFE label is found for the given image
+ * key.
  */
 int getCaffeLabel(const std::string& jsonPath, const std::string& imageKey) {
   std::ifstream file(jsonPath);
@@ -46,14 +47,18 @@ int getCaffeLabel(const std::string& jsonPath, const std::string& imageKey) {
 }
 
 /**
- * @brief Pads an integer with leading zeros to a specified width and returns it as a string.
+ * @brief Pads an integer with leading zeros to a specified width and returns it
+ * as a string.
  *
- * This function takes an integer and converts it to a string, ensuring that the resulting
- * string has a minimum width by padding it with leading zeros if necessary.
+ * This function takes an integer and converts it to a string, ensuring that the
+ * resulting string has a minimum width by padding it with leading zeros if
+ * necessary.
  *
  * @param num The integer to be padded.
- * @param width The minimum width of the resulting string. Defaults to 8 if not specified.
- * @return A string representation of the integer, padded with leading zeros to the specified width.
+ * @param width The minimum width of the resulting string. Defaults to 8 if not
+ * specified.
+ * @return A string representation of the integer, padded with leading zeros to
+ * the specified width.
  */
 std::string padNumber(int num, int width = 8) {
   std::ostringstream ss;
@@ -62,14 +67,17 @@ std::string padNumber(int num, int width = 8) {
 }
 
 /**
- * @brief Processes a range of ImageNet images, performs inference using a pre-trained model,
- *        and evaluates the predictions against ground truth labels.
+ * @brief Processes a range of ImageNet images, performs inference using a
+ * pre-trained model, and evaluates the predictions against ground truth labels.
  *
- * @param startingindex The starting index of the images to process (inclusive). Must be > 0 and <= 50000.
- * @param endingindex The ending index of the images to process (inclusive). Must be >= startingindex and <= 50000.
- * @param modelpath The path to the pre-trained model file (default: "../alexnet.json").
- * @return std::pair<size_t, size_t> A pair containing the number of successful predictions (first)
- *         and the number of failed predictions (second).
+ * @param startingindex The starting index of the images to process (inclusive).
+ * Must be > 0 and <= 50000.
+ * @param endingindex The ending index of the images to process (inclusive).
+ * Must be >= startingindex and <= 50000.
+ * @param modelpath The path to the pre-trained model file (default:
+ * "../alexnet.json").
+ * @return std::pair<size_t, size_t> A pair containing the number of successful
+ * predictions (first) and the number of failed predictions (second).
  *
  * @throws std::invalid_argument If:
  *         - endingindex < startingindex
@@ -78,25 +86,34 @@ std::string padNumber(int num, int width = 8) {
  *         - startingindex <= 0
  *         - endingindex < 0
  *
- * @details This function performs the following steps for each image in the specified range:
+ * @details This function performs the following steps for each image in the
+ * specified range:
  *          1. Loads the image from the file system.
  *          2. Resizes and crops the image to the required dimensions.
- *          3. Normalizes the image using predefined mean and standard deviation values.
+ *          3. Normalizes the image using predefined mean and standard deviation
+ * values.
  *          4. Loads the image into a tensor and sets it as input for the model.
  *          5. Runs inference using a pre-trained AlexNet model.
- *          6. Compares the model's prediction with the ground truth label from a JSON file.
+ *          6. Compares the model's prediction with the ground truth label from
+ * a JSON file.
  *          7. Tracks the number of successful and failed predictions.
  *
- * @note The function assumes the existence of specific file paths for images and labels:
+ * @note The function assumes the existence of specific file paths for images
+ * and labels:
  *       - Images are located in "../tests/data/imagenet/images/".
- *       - Ground truth labels are in "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json".
+ *       - Ground truth labels are in
+ * "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json".
  *       - The AlexNet model is loaded from "../alexnet.json".
  *
- * @warning Ensure that the file paths and required resources are correctly set up before calling this function.
+ * @warning Ensure that the file paths and required resources are correctly set
+ * up before calling this function.
  */
-std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endingindex, const std::string& modelpath = "../alexnet.json") {
+std::pair<size_t, size_t> imageNet(
+    const size_t startingindex, const size_t endingindex,
+    const std::string& modelpath = "../alexnet.json") {
   if (endingindex < startingindex) {
-    throw std::invalid_argument("Ending index must be larger than starting index");
+    throw std::invalid_argument(
+        "Ending index must be larger than starting index");
   } else if (startingindex > 50000) {
     throw std::invalid_argument("Starting index must be less than 50000");
   } else if (endingindex > 50000) {
@@ -110,7 +127,8 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
   size_t success = 0;
   size_t failure = 0;
   std::string imagePath = "../tests/data/imagenet/images/";
-  std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
+  std::string labelPath =
+      "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   std::shared_ptr<ImageLoader> loader = std::make_shared<ImageLoader>();
   imageResizeAndCropper resizer_and_cropper;
   Normalize normalizer;
@@ -136,24 +154,26 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     // resize and crop the image
     const ImageLoaderConfig config(imageFilePath);
     int out_width, out_height, out_channels;
-    std::shared_ptr<unsigned char> resized_image = resizer_and_cropper.resize(config, out_width, out_height, out_channels);
+    std::shared_ptr<unsigned char> resized_image =
+        resizer_and_cropper.resize(config, out_width, out_height, out_channels);
 
     const int crop_size = 224;
     std::shared_ptr<unsigned char> resized_cropped_image =
-        resizer_and_cropper.crop(resized_image, out_width, out_height, out_channels, crop_size);
+        resizer_and_cropper.crop(resized_image, out_width, out_height,
+                                 out_channels, crop_size);
 
     // Build the raw image buffer
     ImageLoader::RawImageBuffer raw_buffer = {
-        resized_cropped_image,
-        crop_size, crop_size,  // width, height
-        out_channels           // still 3
+        resized_cropped_image, crop_size, crop_size,  // width, height
+        out_channels                                  // still 3
     };
 
     // Load into a tensor directly from memory
     auto image_tensor = loader->load(raw_buffer);
 
     // Normalize the image (?)
-    auto normalized_tensor = normalizer.normalize(image_tensor, {0.485f, 0.456f, 0.406f}, {0.229f, 0.224f, 0.225f});
+    auto normalized_tensor = normalizer.normalize(
+        image_tensor, {0.485f, 0.456f, 0.406f}, {0.229f, 0.224f, 0.225f});
 
     // Set the input for the model
     inputs["input"] = normalized_tensor;
@@ -163,7 +183,8 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
 
     // Get the output tensor & run arg_max
     auto output_it = outputs.find("output");
-    auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
+    auto output_tensor =
+        std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
     int result = TensorOperations<float>::arg_max(output_tensor);
 
     // Get the class number from the JSON file
@@ -178,13 +199,15 @@ std::pair<size_t, size_t> imageNet(const size_t startingindex, const size_t endi
     }
 
     // Print the result for each image
-    std::cout << "Image: " << imageFile << ", Predicted: " << result << ", Expected: " << expected_result << std::endl;
+    std::cout << "Image: " << imageFile << ", Predicted: " << result
+              << ", Expected: " << expected_result << std::endl;
   }
   return {success, failure};
 }
 
 TEST(test_getCaffeLabel, getCaffeLabel) {
-  std::string labelPath = "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
+  std::string labelPath =
+      "../tests/data/imagenet/ILSVRC2012_validation_ground_truth.json";
   auto label1 = "ILSVRC2012_val_" + padNumber(1) + ".JPEG";
   auto label2 = "ILSVRC2012_val_" + padNumber(2) + ".JPEG";
 
@@ -201,9 +224,11 @@ TEST(test_imageNet, imageNet_alexnet) {
 
   auto result = imageNet(1, 60);
 
-  float success_rate = static_cast<float>(result.first) / (result.first + result.second);
+  float success_rate =
+      static_cast<float>(result.first) / (result.first + result.second);
 
-  std::cout << "Success: " << result.first << ", Failure: " << result.second << std::endl;
+  std::cout << "Success: " << result.first << ", Failure: " << result.second
+            << std::endl;
   std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
   GTEST_LOG_(INFO) << "Success Rate: " << success_rate * 100 << "%";
   EXPECT_GE(success_rate, 0.50f);
@@ -218,10 +243,12 @@ TEST(test_imageNet, imageNet_resnet18) {
 
   auto result = imageNet(1, 60, "../resnet18.json");
 
-  float success_rate = static_cast<float>(result.first) / (result.first + result.second);
+  float success_rate =
+      static_cast<float>(result.first) / (result.first + result.second);
 
-  std::cout << "Success: " << result.first << ", Failure: " << result.second << std::endl;
+  std::cout << "Success: " << result.first << ", Failure: " << result.second
+            << std::endl;
   std::cout << "Success Rate: " << success_rate * 100 << "%" << std::endl;
   GTEST_LOG_(INFO) << "Success Rate: " << success_rate * 100 << "%";
-  EXPECT_GE(success_rate, 0.60f); // allow for some margin below 69%
+  EXPECT_GE(success_rate, 0.60f);  // allow for some margin below 69%
 }

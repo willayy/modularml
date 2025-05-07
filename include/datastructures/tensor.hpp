@@ -23,9 +23,8 @@ class Tensor {
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
   explicit Tensor(const std::initializer_list<size_t> shape,
-                      const size_t jump_indexes = 0,
-                      const size_t jump_columns = 0, const size_t jump_rows = 0,
-                      const bool sliced = false);
+                  const size_t jump_indexes = 0, const size_t jump_columns = 0,
+                  const size_t jump_rows = 0, const bool sliced = false);
 
   /// @brief Constructor for Tensor class.
   /// @param shape The shape of the tensor.
@@ -37,10 +36,9 @@ class Tensor {
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
   explicit Tensor(const std::initializer_list<size_t> shape,
-                      const std::initializer_list<T> data,
-                      const size_t jump_indexes = 0,
-                      const size_t jump_columns = 0, const size_t jump_rows = 0,
-                      const bool sliced = false);
+                  const std::initializer_list<T> data,
+                  const size_t jump_indexes = 0, const size_t jump_columns = 0,
+                  const size_t jump_rows = 0, const bool sliced = false);
 
   /// @brief Constructor for Tensor class.
   /// @param shape The shape of the tensor.
@@ -50,10 +48,9 @@ class Tensor {
   /// @param jump_rows The number of elements to skip when moving to the next
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
-  explicit Tensor(const array_mml<size_t> &shape,
-                      const size_t jump_indexes = 0,
-                      const size_t jump_columns = 0, const size_t jump_rows = 0,
-                      const bool sliced = false);
+  explicit Tensor(const array_mml<size_t> &shape, const size_t jump_indexes = 0,
+                  const size_t jump_columns = 0, const size_t jump_rows = 0,
+                  const bool sliced = false);
 
   /// @brief Constructor for Tensor class.
   /// @param shape The shape of the tensor.
@@ -65,9 +62,8 @@ class Tensor {
   /// row.
   /// @param sliced Whether the tensor is sliced or not.
   explicit Tensor(const array_mml<size_t> &shape, const array_mml<T> &data,
-                      const size_t jump_indexes = 0,
-                      const size_t jump_columns = 0, const size_t jump_rows = 0,
-                      const bool sliced = false);
+                  const size_t jump_indexes = 0, const size_t jump_columns = 0,
+                  const size_t jump_rows = 0, const bool sliced = false);
 
   /// @brief Destructor for Tensor class.
   ~Tensor() = default;
@@ -90,8 +86,7 @@ class Tensor {
   std::string to_string() const;
   std::shared_ptr<Tensor<T>> copy() const;
   void reverse_buffer();
-  std::shared_ptr<Tensor<T>> slice(
-      std::initializer_list<size_t> slice_indices);
+  std::shared_ptr<Tensor<T>> slice(std::initializer_list<size_t> slice_indices);
   std::shared_ptr<Tensor<T>> slice(array_mml<size_t> &slice_indices);
   void reshape(const array_mml<size_t> &new_shape);
   void reshape(std::initializer_list<size_t> new_shape);
@@ -111,7 +106,7 @@ class Tensor {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const;
 
-  std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const;
+  std::shared_ptr<Tensor<T>> transpose(const std::vector<int> &perm) const;
 
   std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const;

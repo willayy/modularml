@@ -17,7 +17,7 @@ TEST(conv_node_test, test_forward_simple) {
   std::shared_ptr<Tensor<float>> X =
       std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-    std::make_shared<Tensor<float>>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Output tensor shape (after applying Conv)
   array_mml<size_t> shapeY({1, 1, 2, 2});
@@ -277,7 +277,7 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
 
   // Check output shape
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
-  
+
   // This time as we have 3 in_channels
   // The value after applying the filter should be -6 + -6 + -6 = -18
   for (int i = 0; i < result_ptr->get_size(); i++) {
@@ -362,41 +362,22 @@ TEST(conv_node_test,
   // Expected values (8 extracted feature maps each 4x4)
   // These were calculated using SciPy convolve2d std::function with the same
   // parameters as above
-  std::vector<float> expected_values({
-    -8.0f, -5.0f, -8.0f, -5.0f,
-    -5.0f, -8.0f, -5.0f, -8.0f,
-    -8.0f, -5.0f, -8.0f, -5.0f,
-    -5.0f, -8.0f, -5.0f, -8.0f,
-    9.0f, 11.0f, 11.0f, 13.0f,
-    16.0f, 16.0f, 18.0f, 18.0f,
-    21.0f, 23.0f, 23.0f, 25.0f,
-    28.0f, 28.0f, 30.0f, 30.0f,
-    -5.0f, -7.0f, -3.0f, -5.0f,
-    -4.0f, 0.0f, -2.0f, 2.0f,
-    3.0f, 1.0f, 5.0f, 3.0f,
-    4.0f, 8.0f, 6.0f, 10.0f,
-    10.0f, 14.0f, 12.0f, 16.0f,
-    17.0f, 15.0f, 19.0f, 17.0f,
-    18.0f, 22.0f, 20.0f, 24.0f,
-    25.0f, 23.0f, 27.0f, 25.0f,
-    2.0f, 0.0f, 4.0f, 2.0f,
-    3.0f, 7.0f, 5.0f, 9.0f,
-    10.0f, 8.0f, 12.0f, 10.0f,
-    11.0f, 15.0f, 13.0f, 17.0f,
-    -6.0f, -4.0f, -8.0f, -6.0f,
-    -7.0f, -11.0f, -9.0f, -13.0f,
-    -14.0f, -12.0f, -16.0f, -14.0f,
-    -15.0f, -19.0f, -17.0f, -21.0f,
-    7.0f, 5.0f, 9.0f, 7.0f,
-    10.0f, 14.0f, 12.0f, 16.0f,
-    19.0f, 17.0f, 21.0f, 19.0f,
-    22.0f, 26.0f, 24.0f, 28.0f,
-    2.0f, 2.0f, 4.0f, 4.0f,
-    5.0f, 7.0f, 7.0f, 9.0f,
-    10.0f, 10.0f, 12.0f, 12.0f,
-    13.0f, 15.0f, 15.0f, 17.0f
-  });
-
+  std::vector<float> expected_values(
+      {-8.0f,  -5.0f,  -8.0f,  -5.0f,  -5.0f,  -8.0f,  -5.0f,  -8.0f,  -8.0f,
+       -5.0f,  -8.0f,  -5.0f,  -5.0f,  -8.0f,  -5.0f,  -8.0f,  9.0f,   11.0f,
+       11.0f,  13.0f,  16.0f,  16.0f,  18.0f,  18.0f,  21.0f,  23.0f,  23.0f,
+       25.0f,  28.0f,  28.0f,  30.0f,  30.0f,  -5.0f,  -7.0f,  -3.0f,  -5.0f,
+       -4.0f,  0.0f,   -2.0f,  2.0f,   3.0f,   1.0f,   5.0f,   3.0f,   4.0f,
+       8.0f,   6.0f,   10.0f,  10.0f,  14.0f,  12.0f,  16.0f,  17.0f,  15.0f,
+       19.0f,  17.0f,  18.0f,  22.0f,  20.0f,  24.0f,  25.0f,  23.0f,  27.0f,
+       25.0f,  2.0f,   0.0f,   4.0f,   2.0f,   3.0f,   7.0f,   5.0f,   9.0f,
+       10.0f,  8.0f,   12.0f,  10.0f,  11.0f,  15.0f,  13.0f,  17.0f,  -6.0f,
+       -4.0f,  -8.0f,  -6.0f,  -7.0f,  -11.0f, -9.0f,  -13.0f, -14.0f, -12.0f,
+       -16.0f, -14.0f, -15.0f, -19.0f, -17.0f, -21.0f, 7.0f,   5.0f,   9.0f,
+       7.0f,   10.0f,  14.0f,  12.0f,  16.0f,  19.0f,  17.0f,  21.0f,  19.0f,
+       22.0f,  26.0f,  24.0f,  28.0f,  2.0f,   2.0f,   4.0f,   4.0f,   5.0f,
+       7.0f,   7.0f,   9.0f,   10.0f,  10.0f,  12.0f,  12.0f,  13.0f,  15.0f,
+       15.0f,  17.0f});
 
   for (int i = 0; i < result_ptr->get_size(); i++) {
     EXPECT_NEAR(result_ptr->get_data()[i], expected_values.at(i), 1e-5);

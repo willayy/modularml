@@ -1,6 +1,7 @@
 #include "nodes/leaky_relu.hpp"
 
-LeakyReLUNode::LeakyReLUNode(const std::string &X, const std::string &Y, float alpha)
+LeakyReLUNode::LeakyReLUNode(const std::string &X, const std::string &Y,
+                             float alpha)
     : X(X), Y(Y), alpha(alpha) {}
 
 LeakyReLUNode::LeakyReLUNode(const nlohmann::json &node) {

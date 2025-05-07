@@ -3,10 +3,9 @@
 // IWYU pragma: no_include <__ostream/basic_ostream.h>
 #include <ostream>  // IWYU pragma: keep
 
-
 #include "backend/dataloader/data_loader_config.hpp"
-#include "datastructures/tensor.hpp"
 #include "datastructures/mml_array.hpp"
+#include "datastructures/tensor.hpp"
 #include "stb_image.h"
 
 std::shared_ptr<Tensor<float>> ImageLoader::load(
@@ -25,7 +24,7 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(
     throw std::invalid_argument("Failed to load image: " +
                                 image_config.image_path);
   }
-  
+
   // Trust
   int output_channels = channels;
 
@@ -49,7 +48,7 @@ std::shared_ptr<Tensor<float>> ImageLoader::load(
        static_cast<unsigned long int>(width)});
   array_mml<float> output_data(data_size);  // Fills with 0:s
   auto output =
-    std::make_shared<Tensor<float>>(image_tensor_shape, output_data);
+      std::make_shared<Tensor<float>>(image_tensor_shape, output_data);
 
   // The data inside output_data is {R, G, B, R, G, B, ...}
   // So we iterate 3 steps each time and write the R G B for each pixel to the
