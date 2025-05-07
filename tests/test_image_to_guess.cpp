@@ -79,15 +79,14 @@ static std::string infer_and_get_class(const std::shared_ptr<Tensor<float>>& inp
   mf >> j;
   mf.close();
 
-  std::unique_ptr<Model> model_base;
-  ASSERT_NO_THROW({ model_base = DataParser::parse(onnx_model); }) << "Parser failed to parse the JSON file";
-  auto model = model_base.get();
+  auto mb = DataParser::parse(j);  // may throw or assert
+  auto model = mb.get();
 
   std::unordered_map<std::string, GeneralDataTypes> in{{"input", input}}, out;
   out = model->infer(in);
 
   auto tptr = std::get<std::shared_ptr<Tensor<float>>>(out.at("output"));
-  int idx = TensorOperations::arg_max<float>(tptr);
+  int idx = TensorOperations<float>::arg_max(tptr);
   return get_class_name(labels_json, std::to_string(idx));
 }
 

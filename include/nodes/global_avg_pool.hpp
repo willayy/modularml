@@ -1,11 +1,5 @@
 #pragma once
 
-#include <string>
-#include <variant>
-// IWYU pragma: no_include <__vector/vector.h>
-#include <vector>  // IWYU pragma: keep
-
-#include "nlohmann/json_fwd.hpp"
 #include "nodes/a_node.hpp"
 
 class GlobalAvgPoolNode : public Node {

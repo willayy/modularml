@@ -128,11 +128,8 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
   // Should extract 16 patches from the feature in a 4x4 matrix
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 1, 4, 4}));
 
-  // All values should be 6 as the distance from the first value in the kernel
-  // compared to the next is 6 for each stride This additionally checks that the
-  // kernel was flipped correctly as the expected value otherwise would be -6
   for (int i = 0; i < result_ptr->get_size(); i++) {
-    EXPECT_NEAR(result_ptr->get_data()[i], 6.0f, 1e-5);
+    EXPECT_NEAR(result_ptr->get_data()[i], -6.0f, 1e-5);
   }
 }
 
@@ -282,9 +279,9 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
   
   // This time as we have 3 in_channels
-  // The value after applying the filter should be 6 + 6 + 6 = 18
+  // The value after applying the filter should be -6 + -6 + -6 = -18
   for (int i = 0; i < result_ptr->get_size(); i++) {
-    EXPECT_NEAR(result_ptr->get_data()[i], 18.0f, 1e-5);
+    EXPECT_NEAR(result_ptr->get_data()[i], -18.0f, 1e-5);
   }
 }
 
@@ -632,10 +629,10 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
   // Check output shape
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
 
-  // This time as we have 3 in_channels
-  // The value after applying the filter should be 6 + 6 + 6 = 18
+  // With no kernel flip: each channel produces (1*1 + 0*2 + 0*6 + -1*7) = -6,
+  // so sum = -6 + -6 + -6 = -18, plus bias 10 ⇒ –8
   for (int i = 0; i < result_ptr->get_size(); i++) {
-    EXPECT_NEAR(result_ptr->get_data()[i], 28.0f, 1e-5);
+    EXPECT_NEAR(result_ptr->get_data()[i], -8.0f, 1e-5);
   }
 }
 

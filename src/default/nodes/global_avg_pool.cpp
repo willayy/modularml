@@ -1,21 +1,5 @@
 #include "nodes/global_avg_pool.hpp"
 
-#include <stddef.h>
-
-#include <algorithm>
-#include <initializer_list>
-#include <map>
-#include <memory>
-#include <stdexcept>
-#include <type_traits>
-#include <unordered_map>
-
-#include "datastructures/mml_array.hpp"
-#include "datastructures/tensor_factory.hpp"
-#include "datastructures/tensor_operations_module.hpp"
-#include "nlohmann/json.hpp"
-#include "nodes/node_utils.hpp"
-
 GlobalAvgPoolNode::GlobalAvgPoolNode(std::string X, std::string Y)
     : X(X), Y(Y) {}
 
@@ -71,7 +55,7 @@ void GlobalAvgPoolNode::forward(
             y_shape_vec.push_back(1);
           }
           array_mml<size_t> y_shape(y_shape_vec);
-          auto y_ptr = TensorFactory::create_tensor<ValueType>(y_shape);
+          auto y_ptr = std::make_shared<Tensor<ValueType>>(y_shape);
 
           // index buffers
           std::vector<size_t> idx(rank, 0);
