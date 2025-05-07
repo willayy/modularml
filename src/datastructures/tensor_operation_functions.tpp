@@ -444,7 +444,7 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
           b_s = _mm512_loadu_ps(b_data + k_col + j);
           c_vals = _mm512_fmadd_ps(a_s, b_s, c_vals);
         }
-        _mm512_mask_store_ps(c_data + i_col_out + j, mask, c_vals);
+        _mm512_mask_storeu_ps(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, double>::value) {
@@ -480,7 +480,7 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
           b_s = _mm512_loadu_pd(b_data + k_col + j);
           c_vals = _mm512_fmadd_pd(a_s, b_s, c_vals);
         }
-        _mm512_mask_store_pd(c_data + i_col_out + j, mask, c_vals);
+        _mm512_mask_storeu_pd(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else if constexpr (std::is_same<T, int>::value) {
@@ -523,11 +523,11 @@ static void mml_gemm_avx512(int TA, int TB, int M, int N, int K, T ALPHA,
           __m512i mul = _mm512_mullo_epi32(a_s, b_s);
           c_vals = _mm512_add_epi32(mul, c_vals);
         }
-        _mm512_mask_store_epi32(c_data + i_col_out + j, mask, c_vals);
+        _mm512_mask_storeu_epi32(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else {
-    throw std::runtime_error("AVX2 only suppports float, double and int");
+    throw std::runtime_error("AVX512 only suppports float, double and int");
   }
   return;
 }
