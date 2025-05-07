@@ -11,15 +11,18 @@
 #include <vector>  // IWYU pragma: keep
 
 #include "nlohmann/json.hpp"
+#include "utility/profiler.hpp"
 
 template <typename T>
 class Gemm_mml;
 template <typename T>
 class Tensor_mml;
 
-ConvNode::ConvNode(const std::string &X, const std::string &W, const std::string &Y,
-                   const array_mml<size_t> &dilations, const array_mml<size_t> &padding,
-                   const array_mml<size_t> &kernel_shape, const array_mml<size_t> &stride,
+ConvNode::ConvNode(const std::string &X, const std::string &W,
+                   const std::string &Y, const array_mml<size_t> &dilations,
+                   const array_mml<size_t> &padding,
+                   const array_mml<size_t> &kernel_shape,
+                   const array_mml<size_t> &stride,
                    const std::optional<std::string> &B, size_t group)
     : X(X),
       W(W),
@@ -179,12 +182,13 @@ void ConvNode::forward(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
-
+          result_ptr->fill(0);
           TensorOperations::gemm<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,
               result_ptr->get_shape()[1]);
+
 
           result_ptr->reshape({get_batch_size(), get_out_channels(),
                                get_out_height(), get_out_width()});
@@ -205,6 +209,10 @@ void ConvNode::forward(
 
           // Write over the content of the output with the result of the
           // convolution
+
+          // std::cout << "y_ptr address: " << y_ptr.get() << std::endl;
+          // std::cout << "result_ptr address: " << result_ptr.get() <<
+          // std::endl;
           *y_ptr = *result_ptr;
         }
       },

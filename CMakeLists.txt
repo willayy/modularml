@@ -34,6 +34,10 @@ if(NOT (UNIX))
     message(WARNING "WARNING: This project is intended for Linux or MacOS.")
 endif()
 
+message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER}")
+message(STATUS "C++ compiler version: ${CMAKE_CXX_COMPILER_VERSION}")
+
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -52,7 +56,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 # ==== Header-only library used to load images ==== #
-include(FetchContent)
 FetchContent_Declare(
     stb
     GIT_REPOSITORY https://github.com/nothings/stb.git
@@ -106,60 +109,6 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
-# ------------------- GEMM & Optimizations ----------------- #
-option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
-
-option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
-option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
-option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
-option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
-
-if (USE_BLOCKED_GEMM)
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_BLOCKED_GEMM)
-
-elseif (USE_AVX_GEMM)
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    add_definitions(-DUSE_AVX_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2 -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_AVX512_GEMM)
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    add_definitions(-DUSE_AVX512_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_OPENBLAS_GEMM)
-    message(STATUS "Using OpenBLAS GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-march=native)
-    endif()
-    add_definitions(-DUSE_OPENBLAS_GEMM)
-    find_library(OPENBLAS_LIB openblas REQUIRED)
-    if(OPENBLAS_LIB)
-        message(STATUS "Found OpenBLAS at ${OPENBLAS_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENBLAS_LIB})
-    else()
-        message(FATAL_ERROR "OpenBLAS not found!")
-    endif()
-
-else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_DEFAULT_GEMM)
-    endif()
 
 # ------------------- Testing ------------------------------ #
 
@@ -176,51 +125,25 @@ add_executable(
     ${TEST_SOURCES}
 )
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    # Compiler flags
-    target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+# Compiler flags
+target_compile_options(${PROJECT_NAME}_tests PRIVATE 
+    -funroll-loops
+    -O0
     -g 
-    -O0 
     -fPIC 
     --coverage 
     -fprofile-abs-path 
     -Wfatal-errors 
     -fmax-errors=1 
     -pedantic-errors
-    )
-    # Linker flags
-    target_link_options(${PROJECT_NAME}_tests PRIVATE 
-    -g 
-    -O0 
-    -fPIC 
-    --coverage 
-    -fprofile-abs-path
-    )
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
-    # Compiler flags
-    target_compile_options(${PROJECT_NAME}_tests PRIVATE
-    -g
-    -O0
-    -fPIC
-    -fprofile-arcs
-    -ftest-coverage
-    -ferror-limit=1
-    -pedantic-errors
-    -Wfatal-errors
-    )
-    # Linker flags
-    target_link_options(${PROJECT_NAME}_tests PRIVATE
-    -g
-    -O0
-    -fPIC
-    -fprofile-arcs
-    -ftest-coverage
-    )
-endif()
+)
+
+target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+
 
 # Link the test executable with the main project executable
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${PROJECT_NAME})
-# Link gtest
+# Link gtest 
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE GTest::gtest_main)
 # Link coverage
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
@@ -228,6 +151,100 @@ target_link_libraries(${PROJECT_NAME}_tests PRIVATE --coverage)
 # Add the test to gtest
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
+
+# ------------------- Executable --------------------- #
+
+set(EXECUTABLE_SRC ${SRC_DIR}/mnist_test.cpp)
+ 
+add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
+
+target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
+
+target_compile_options(${PROJECT_NAME}_exec PRIVATE 
+    -funroll-loops
+    -O0
+    -g 
+    -fPIC 
+    -fprofile-abs-path 
+    -Wfatal-errors 
+    -fmax-errors=1 
+    -pedantic-errors
+)
+
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+
+option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
+option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
+option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
+option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
+option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
+option(VERBOSE_INFERENCE "Verbose inference" OFF)
+
+if (ALIGN_TENSORS)
+    add_definitions(-DALIGN_TENSORS)
+    if (USE_BLOCKED_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=16)
+    elseif(USE_AVX_GEMM)
+        set(ALIGN_TENSORS ON)
+        add_definitions(-DMEMORY_ALIGNMENT=32)
+    elseif(USE_AVX512_GEMM)
+        set(ALIGN_TENSORS ON)
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    elseif(USE_OPENBLAS_GEMM)
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    else()
+        add_definitions(-DMEMORY_ALIGNMENT=16)
+    endif()
+endif()
+
+if (USE_BLOCKED_GEMM)
+    message(STATUS "Using blocked GEMM implementation")
+    add_definitions(-DUSE_BLOCKED_GEMM)
+
+elseif (USE_AVX_GEMM)
+    message(STATUS "Using AVX GEMM implementation")
+    add_definitions(-DUSE_AVX_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx2 -mfma)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx2 -mfma)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx2 -mfma)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        target_compile_options(${PROJECT_NAME} PRIVATE -/arch:AVX2)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -/arch:AVX2)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -/arch:AVX2)
+    endif()
+
+elseif (USE_AVX512_GEMM)
+    message(STATUS "Using AVX512 GEMM implementation")
+    add_definitions(-DUSE_AVX512_GEMM)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        add_compile_options(/arch:AVX2)
+    endif()
+
+elseif (USE_OPENBLAS_GEMM)
+    message(STATUS "Using OpenBLAS GEMM implementation")
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-march=native)
+    endif()
+    add_definitions(-DUSE_OPENBLAS_GEMM)
+    find_library(OPENBLAS_LIB openblas REQUIRED)
+    if(OPENBLAS_LIB)
+        message(STATUS "Found OpenBLAS at ${OPENBLAS_LIB}")
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENBLAS_LIB})
+    else()
+        message(FATAL_ERROR "OpenBLAS not found!")
+    endif()
+
+else()
+    message(STATUS "Using default GEMM implementation")
+    add_definitions(-DUSE_DEFAULT_GEMM)
+    endif()
+
 
 # ------------------- Coverage (gcovr) ---------------------- #
 
@@ -308,3 +325,5 @@ if(iwyu)
 else()
     message(WARNING "include-what-you-use not found. Skipping IWYU.")
 endif()
+
+

@@ -102,6 +102,10 @@ class Tensor_mml : public Tensor<T> {
   /// @return The data of the tensor.
   const array_mml<T> &get_data() const;
 
+  /// @brief Get the raw 1D data of the tensor.
+  /// @return The data of the tensor.
+  array_mml<T> &get_raw_data();
+
   /// Ovveridden methods from the base class
   Tensor<T> &operator=(const Tensor<T> &other) override;
   Tensor<T> &operator=(Tensor<T> &&other) noexcept override;
@@ -129,7 +133,8 @@ class Tensor_mml : public Tensor<T> {
       std::optional<size_t> dim0 = std::nullopt,
       std::optional<size_t> dim1 = std::nullopt) const override;
 
-  std::shared_ptr<Tensor<T>> transpose(const std::vector<int>& perm) const override;
+  std::shared_ptr<Tensor<T>> transpose(
+      const std::vector<int> &perm) const override;
 
   std::shared_ptr<Tensor<T>> broadcast_reshape(
       const array_mml<size_t> &target_shape) const override;
