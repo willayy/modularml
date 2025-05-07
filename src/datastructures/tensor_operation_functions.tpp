@@ -2,6 +2,7 @@
 
 #if defined(USE_AVX_GEMM) || defined(USE_AVX512_GEMM)
 #include <immintrin.h>
+#include "utility/avx_mask_helper.hpp"
 #endif
 
 #if defined(USE_OPENBLAS_GEMM)
@@ -197,20 +198,18 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
 
   int i, j, k;
   int i_col, k_col, i_col_out;
-  __m256 a_s, b_s, c_vals;
+  
 
   int simd = (256 / 8) / sizeof(T);
   int elem_left = N % simd;
 
-  __m256i mask =
-      _mm256_set_epi32(0, (7 > elem_left) ? 0 : -1, (6 > elem_left) ? 0 : -1,
-                       (5 > elem_left) ? 0 : -1, (4 > elem_left) ? 0 : -1,
-                       (3 > elem_left) ? 0 : -1, (2 > elem_left) ? 0 : -1,
-                       (1 > elem_left) ? 0 : -1);
-
   int N_s = elem_left ? N - simd : N;
   if constexpr (std::is_same<T, float>::value) {
+    __m256 a_s, b_s, c_vals;
+    
+    __m256i mask = make_avx2_mask<T>(elem_left);
     __m256 beta_s = _mm256_broadcast_ss(&BETA);
+
     for (int i = 0; i < M; i++) {
       i_col = i * lda;
       i_col_out = i * ldc;
@@ -228,21 +227,95 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
         }
         _mm256_storeu_ps(c_data + i * ldc + j, c_vals);
       }
-      // Naive for the elements remaining
       if (elem_left) {
-        for (int jj = 0; jj < elem_left; jj++) {
-          float c_val = BETA * c_data[i_col_out + j + jj];
-          for (int k = 0; k < K; k++) {
-            float a_val = ALPHA * a_data[i_col + k];
-            float b_val = b_data[k * ldb + j + jj];
-            c_val += a_val * b_val;
-          }
-          c_data[i_col_out + j + jj] = c_val;
+        c_vals = _mm256_loadu_ps(c_data + i_col_out + j);
+        c_vals = _mm256_mul_ps(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+            k_col = k * ldb;
+            float a = ALPHA * a_data[i_col + k];
+            a_s = _mm256_broadcast_ss(&a);
+            b_s = _mm256_loadu_ps(b_data + k_col + j);
+            c_vals = _mm256_fmadd_ps(a_s, b_s, c_vals);
         }
+        _mm256_maskstore_ps(c_data + i_col_out + j, mask, c_vals);
+      }
+    }
+  } else if constexpr (std::is_same<T, double>::value) {
+    __m256d a_s, b_s, c_vals;
+    
+    __m256i mask = make_avx2_mask<T>(elem_left);
+    __m256d beta_s = _mm256_broadcast_sd(&BETA);
+
+    for (int i = 0; i < M; i++) {
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm256_loadu_pd(c_data + i * ldc + j);
+        c_vals = _mm256_mul_pd(beta_s, c_vals);
+
+        for (int k = 0; k < K; k++) {
+          k_col = k * ldb;
+          double a = ALPHA * a_data[i_col + k];
+          __m256d a_vals = _mm256_broadcast_sd(&a);
+          __m256d b_vals = _mm256_loadu_pd(b_data + k_col + j);
+          c_vals = _mm256_fmadd_pd(a_vals, b_vals, c_vals);
+        }
+        _mm256_storeu_pd(c_data + i * ldc + j, c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm256_loadu_pd(c_data + i_col_out + j);
+        c_vals = _mm256_mul_pd(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+            k_col = k * ldb;
+            double a = ALPHA * a_data[i_col + k];
+            a_s = _mm256_broadcast_sd(&a);
+            b_s = _mm256_loadu_pd(b_data + k_col + j);
+            c_vals = _mm256_fmadd_pd(a_s, b_s, c_vals);
+        }
+        _mm256_maskstore_pd(c_data + i_col_out + j, mask, c_vals);
+      }
+    }
+  } else if constexpr (std::is_same<T, int>::value) {
+    __m256i a_s, b_s, c_vals;
+    
+    __m256i mask = make_avx2_mask<T>(elem_left);
+    __m256i beta_s = _mm256_set1_epi32(BETA);
+
+    for (int i = 0; i < M; i++) {
+      i_col = i * lda;
+      i_col_out = i * ldc;
+
+      for (j = 0; j < N_s; j += simd) {
+        c_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(c_data + i * ldc + j));
+        c_vals = _mm256_mullo_epi32(beta_s, c_vals);
+
+        for (int k = 0; k < K; k++) {
+          k_col = k * ldb;
+          int a = ALPHA * a_data[i_col + k];
+          a_s = _mm256_set1_epi32(a);
+          b_s = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(b_data + k_col + j));
+          __m256i mul = _mm256_mullo_epi32(a_s, b_s);
+          c_vals = _mm256_add_epi32(mul, c_vals);
+        }
+        _mm256_storeu_si256(reinterpret_cast<__m256i *>(c_data + i * ldc + j), c_vals);
+      }
+      if (elem_left) {
+        c_vals = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(c_data + i * ldc + j));
+        c_vals = _mm256_mul_epi32(beta_s, c_vals);
+        for (k = 0; k < K; k++) {
+            k_col = k * ldb;
+            int a = ALPHA * a_data[i_col + k];
+            a_s = _mm256_set1_epi32(a);
+            b_s = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(b_data + k_col + j));
+            __m256i mul = _mm256_mullo_epi32(a_s, b_s);
+            c_vals = _mm256_add_epi32(mul, c_vals);
+        }
+        _mm256_maskstore_epi32(c_data + i_col_out + j, mask, c_vals);
       }
     }
   } else {
-    throw std::runtime_error("AVX2 only suppports double, float or int");
+    throw std::runtime_error("AVX2 only suppports float, double and int");
   }
   return;
 }
