@@ -161,13 +161,13 @@ int main(int argc, char* argv[]) {
   int top_five_predictions = 0;
 
   // Dont go over 10000
-  int num_validations = 1;
+  int num_validations = 1000;
 
   Profiler::begin_timing("total inference");
   for (int i = 0; i < num_validations; i++) {
-    Profiler::begin_timing("Single mnist inference");
+    //Profiler::begin_timing("Single mnist inference");
     std::vector<int> prediction = run_lenet_inference(model, images[i]);
-    Profiler::end_timing("Single mnist inference");
+    //Profiler::end_timing("Single mnist inference");
 
     int correct_prediction = static_cast<int>(labels[i]);
 

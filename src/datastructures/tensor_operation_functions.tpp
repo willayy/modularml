@@ -209,14 +209,13 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
                        (1 > elem_left) ? 0 : -1);
 
   int N_s = elem_left ? N - simd : N;
-
   if constexpr (std::is_same<T, float>::value) {
     __m256 beta_s = _mm256_broadcast_ss(&BETA);
     for (int i = 0; i < M; i++) {
       i_col = i * lda;
       i_col_out = i * ldc;
 
-      for (int j = 0; j < N; j += simd) {
+      for (j = 0; j < N_s; j += simd) {
         c_vals = _mm256_loadu_ps(c_data + i * ldc + j);
         c_vals = _mm256_mul_ps(beta_s, c_vals);
 
@@ -229,7 +228,6 @@ static void mml_gemm_avx(int TA, int TB, int M, int N, int K, T ALPHA,
         }
         _mm256_storeu_ps(c_data + i * ldc + j, c_vals);
       }
-
       // Naive for the elements remaining
       if (elem_left) {
         for (int jj = 0; jj < elem_left; jj++) {

@@ -60,8 +60,6 @@ void ReLUNode::forward(
           auto y_ptr =
               std::get<std::shared_ptr<Tensor<ValueType>>>(y_it->second);
 
-          std::cout << "x_ptr->data()[0]: " << x_ptr->get_shape() << "\n";
-
           TensorOperations::elementwise<ValueType>(
               x_ptr, [](ValueType x) -> ValueType { return x > 0 ? x : 0; },
               y_ptr);

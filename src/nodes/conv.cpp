@@ -182,15 +182,13 @@ void ConvNode::forward(
               {w_ptr->get_shape()[0], im2col_output->get_shape()[1]});
           auto result_ptr =
               std::make_shared<Tensor_mml<ValueTypeX>>(result_shape);
-
-          // Profiler::begin_timing("conv gemm call");
+          result_ptr->fill(0);
           TensorOperations::gemm<ValueTypeX>(
               0, 0, w_ptr->get_shape()[0], im2col_output->get_shape()[1],
               w_ptr->get_shape()[1], 1.0f, w_ptr, w_ptr->get_shape()[1],
               im2col_output, im2col_output->get_shape()[1], 0.0f, result_ptr,
               result_ptr->get_shape()[1]);
 
-          // Profiler::end_timing("conv gemm call");
 
           result_ptr->reshape({get_batch_size(), get_out_channels(),
                                get_out_height(), get_out_width()});
