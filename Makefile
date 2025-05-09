@@ -15,6 +15,12 @@ ifeq ($(OS), Darwin) # MacOS
 	DEPENDENCIES := cmake g++ make graphviz gcovr doxygen include-what-you-use
 endif
 
+# Leaving this here to not break github actions
+all:
+	@echo "Configuring the project with default GEMM implementation..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
+	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
+
 install:
 	@echo "Detected OS: $(OS)"
 	@echo "Installing dependencies..."
@@ -25,7 +31,18 @@ install:
 run:
 	@echo "Running main program...\n"
 	@cd ./build/bin && ./modularml
-	
+
+# Leaving this here to not break github actions
+test:
+	@echo "Running tests...\n"
+	@if [ -n "$(TEST_NAME)" ]; then \
+		echo "Running test: $(TEST_NAME)"; \
+		cd ./build && ctest -R "$(TEST_NAME)" --output-on-failure; \
+	else \
+		echo "Running all tests..."; \
+		cd ./build && ctest --output-on-failure; \
+	fi
+
 coverage:
 	@echo "Generating coverage...\n"
 	@$(CMAKE) --build $(BUILD_DIR) --target coverage_report
@@ -48,7 +65,6 @@ check_backends:
 	else \
 		echo "AVX-512: Not available!"; \
 	fi
-
 
 
 clean:
