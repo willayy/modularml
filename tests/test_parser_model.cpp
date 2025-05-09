@@ -24,23 +24,18 @@ TEST(test_parser_model, test_parsing_and_running_model) {
   file >> onnx_model;
   file.close();
 
-  Parser_mml parser;
-
-  std::unique_ptr<Model> model_base;
-  ASSERT_NO_THROW({ model_base = parser.parse(onnx_model); })
+  std::unique_ptr<Model> model;
+  ASSERT_NO_THROW({ model = DataParser::parse(onnx_model); })
       << "Parser failed to parse the JSON file";
 
-  ASSERT_NE(model_base, nullptr) << "Model is null";
-
-  auto model = dynamic_cast<Model_mml *>(model_base.get());
-  ASSERT_NE(model, nullptr) << "Model is not of type Model_mml";
+  ASSERT_NE(model, nullptr) << "Model is null";
 
   std::unordered_map<std::string, GeneralDataTypes> inputs;
 
   array_mml<size_t> shape({1, 2});
   array_mml<float> values({0.5f, -0.5f});
 
-  auto input_tensor = TensorFactory::create_tensor<float>(shape, values);
+  auto input_tensor = std::make_shared<Tensor<float>>(shape, values);
   inputs["input"] = input_tensor;
 
   std::unordered_map<std::string, GeneralDataTypes> outputs;
@@ -61,17 +56,11 @@ TEST(test_parser_model, test_parsing_and_running_model) {
 
   EXPECT_EQ(output_tensor->get_shape(), array_mml<size_t>({1, 3}));
 
-  // Dynamic cast to Tensor_mml<float> to access the data
-  auto output_tensor_mml =
-      std::dynamic_pointer_cast<Tensor_mml<float>>(output_tensor);
-  ASSERT_NE(output_tensor_mml, nullptr)
-      << "Failed to cast to Tensor_mml<float>";
-
   auto expected_output =
       array_mml<float>({-0.46211716f, -0.46211716f, -0.46211716f});
 
-  for (size_t i = 0; i < output_tensor_mml->get_size(); i++) {
-    EXPECT_NEAR(output_tensor_mml->get_data()[i], expected_output[i], 1e-5);
+  for (size_t i = 0; i < output_tensor->get_size(); i++) {
+    EXPECT_NEAR(output_tensor->get_data()[i], expected_output[i], 1e-5);
   }
 }
 
@@ -83,20 +72,15 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
   file >> onnx_model;
   file.close();
 
-  Parser_mml parser;
-
-  std::unique_ptr<Model> model_base;
-  ASSERT_NO_THROW({ model_base = parser.parse(onnx_model); })
+  std::unique_ptr<Model> model;
+  ASSERT_NO_THROW({ model = DataParser::parse(onnx_model); })
       << "Parser failed to parse the JSON file";
 
-  ASSERT_NE(model_base, nullptr) << "Model is null";
-
-  auto model = dynamic_cast<Model_mml *>(model_base.get());
-  ASSERT_NE(model, nullptr) << "Model is not of type Model_mml";
+  ASSERT_NE(model, nullptr) << "Model is null";
 
   std::unordered_map<std::string, GeneralDataTypes> inputs;
     
-  auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE_LENET}, {INPUT_TENSOR_DATA_LENET});
+  auto input_tensor = std::make_shared<Tensor<float>>(array_mml<size_t>{INPUT_TENSOR_SHAPE_LENET}, array_mml<float>{INPUT_TENSOR_DATA_LENET});
   inputs["input"] = input_tensor;
 
   std::unordered_map<std::string, GeneralDataTypes> outputs;
@@ -114,10 +98,10 @@ TEST(test_parser_model, test_parsing_and_running_lenet) {
 
   auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
     
-  auto expected_output_tensor = TensorFactory::create_tensor<float>({OUTPUT_TENSOR_SHAPE_LENET}, {OUTPUT_TENSOR_DATA_LENET});
+  auto expected_output_tensor = std::make_shared<Tensor<float>>(array_mml<size_t>{OUTPUT_TENSOR_SHAPE_LENET}, array_mml<float>{OUTPUT_TENSOR_DATA_LENET});
 
-  ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
-  int max_index =  TensorOperations::arg_max<float>(output_tensor);
+  ASSERT_TRUE(TensorUtils::tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
+  int max_index =  TensorOperations<float>::arg_max(output_tensor);
   ASSERT_TRUE(max_index == PREDICTED_CLASS_LENET);
 }
 
@@ -131,21 +115,16 @@ TEST(test_parser_model, test_parsing_and_running_alexnet) {
     file >> onnx_model;
     file.close();
 
-    Parser_mml parser;
-
-    std::unique_ptr<Model> model_base;
+    std::unique_ptr<Model> model;
     ASSERT_NO_THROW({
-        model_base = parser.parse(onnx_model);
+        model = DataParser::parse(onnx_model);
     }) << "Parser failed to parse the JSON file";
 
-    ASSERT_NE(model_base, nullptr) << "Model is null";
-
-    auto model = dynamic_cast<Model_mml*>(model_base.get());
-    ASSERT_NE(model, nullptr) << "Model is not of type Model_mml";
+    ASSERT_NE(model, nullptr) << "Model is null";
 
     std::unordered_map<std::string, GeneralDataTypes> inputs;
     
-    auto input_tensor = TensorFactory::create_tensor<float>({INPUT_TENSOR_SHAPE_ALEX}, {INPUT_TENSOR_DATA_ALEX});
+    auto input_tensor = std::make_shared<Tensor<float>>(array_mml<size_t>{INPUT_TENSOR_SHAPE_ALEX}, array_mml<float>{INPUT_TENSOR_DATA_ALEX});
     inputs["input"] = input_tensor;
 
     std::unordered_map<std::string, GeneralDataTypes> outputs;
@@ -163,10 +142,10 @@ TEST(test_parser_model, test_parsing_and_running_alexnet) {
 
     auto output_tensor = std::get<std::shared_ptr<Tensor<float>>>(output_it->second);
 
-    auto expected_output_tensor = TensorFactory::create_tensor<float>({OUTPUT_TENSOR_SHAPE_ALEX}, {OUTPUT_TENSOR_DATA_ALEX});
+    auto expected_output_tensor = std::make_shared<Tensor<float>>(array_mml<size_t>{OUTPUT_TENSOR_SHAPE_ALEX}, array_mml<float>{OUTPUT_TENSOR_DATA_ALEX});
 
 
     //ASSERT_TRUE(tensors_are_close(*output_tensor, *expected_output_tensor, 0.0125f));
-    int max_index = TensorOperations::arg_max<float>(output_tensor);
+    int max_index = TensorOperations<float>::arg_max(output_tensor);
     ASSERT_TRUE(max_index == PREDICTED_CLASS_ALEX);
 }

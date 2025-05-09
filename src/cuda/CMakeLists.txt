@@ -1,0 +1,6 @@
+message(STATUS "Using CUDA GEMM configuration")
+SET(MEMORY_ALIGNMENT 256)
+enable_language(CUDA)
+find_package(CUDAToolkit REQUIRED)
+set(CMAKE_CUDA_STANDARD 20)
+set(CMAKE_CUDA_STANDARD_REQUIRED True)

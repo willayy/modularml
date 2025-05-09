@@ -1,0 +1,2 @@
+TYPE(float)
+TYPE(double)

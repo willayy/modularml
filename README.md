@@ -28,6 +28,8 @@ Current backend implementations include:
   Uses AVX2 SIMD intrinsics to faster computation on supported CPU:s.
 - **AVX512 GEMM Backend**
   Uses AVX512 SIMD intrinsics to even faster computation on supported CPU:s.
+- **CUDA GEMM Backend**
+  Uses CUDA for computation on supported GPU:s
 
 
 ### Requirements
@@ -37,7 +39,7 @@ Current backend implementations include:
   - Clang `>= 10`  
 - **Build Tools**  
   - Make  
-  - CMake `>= 3.20`  
+  - CMake `>= 3.30`  
 
 ### Install Dependencies
 This command installs the neccessary dependencies needed to build the framework.
@@ -46,13 +48,17 @@ make install
 ```
 
 ### Configure & Build The Framework
-This command will configure and build the framework using the default naive GEMM backend.
+These commands will configure and build the framework using the default naive GEMM backend.
 ```sh
-make all
+cd build
+cmake ..
+make -j[Number of cores]
 ```
-To compile the framework using the blocked GEMM backend for example:
+To build the framework using the blocked GEMM backend for example:
 ```sh
-make blocked_gemm
+cd build
+cmake -DBUILD==blocked ..
+make -j[Number of cores]
 ```
 To check which backends are available on your system:
 ```sh
@@ -60,13 +66,10 @@ make check_backends
 ```
 This will show you a list of available and/or unavailable backends.
 ### Run Tests
-This command will run all the unit and integration tests for the framework using the default naive GEMM backend.
+These commands will run all the unit and integration tests for the framework using the default naive GEMM backend.
 ```sh
-make test
-```
-To compile and run the tests using the blocked GEMM backend for example:
-```sh
-make test_blocked_gemm
+cd build
+ctest
 ```
 
 ### Contributing
