@@ -166,6 +166,10 @@ template <typename T>
 static int mml_arg_max(const std::shared_ptr<const Tensor<T>> a);
 
 template <typename T>
+static std::vector<int> mml_top_n_argmax(
+    const std::shared_ptr<const Tensor<T>> a, int n);
+
+template <typename T>
 static void mml_sliding_window(
     const array_mml<size_t>& in_shape, const array_mml<size_t>& out_shape,
     const std::vector<int>& kernel_shape, const std::vector<int>& strides,

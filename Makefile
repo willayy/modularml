@@ -22,7 +22,7 @@ all: default_gemm
 
 default_gemm:
 	@echo "Configuring the project with default GEMM implementation..."
-	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug -DUSE_DEFAULT_GEMM=ON -DUSE_BLOCKED_GEMM=OFF -DUSE_AVX_GEMM=OFF -DUSE_AVX512_GEMM=OFF -DUSE_OPENBLAS_GEMM=OFF
 	@$(CMAKE) --build $(BUILD_DIR) --parallel 8
 
 blocked_gemm:
