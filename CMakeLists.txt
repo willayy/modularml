@@ -72,6 +72,8 @@ set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
 find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
+find_package(OpenMP REQUIRED)
+
 # Binary output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -101,7 +103,7 @@ add_library(
     ${HEADERS}
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json OpenMP::OpenMP_CXX)
 
 target_include_directories(
     ${PROJECT_NAME}
@@ -128,6 +130,7 @@ add_executable(
 # Compiler flags
 target_compile_options(${PROJECT_NAME}_tests PRIVATE 
     -funroll-loops
+    -fopenmp
     -O3
     -g 
     -fPIC 
@@ -158,9 +161,10 @@ set(EXECUTABLE_SRC ${SRC_DIR}/mnist_test.cpp)
  
 add_executable(mnist ${EXECUTABLE_SRC})
 
-target_link_libraries(mnist PRIVATE ${PROJECT_NAME})
+target_link_libraries(mnist PRIVATE ${PROJECT_NAME} OpenMP::OpenMP_CXX)
 
 target_compile_options(mnist PRIVATE 
+    -fopenmp
     -funroll-loops
     -O3
     -g 
@@ -176,9 +180,10 @@ set(EXECUTABLE_SRC ${SRC_DIR}/imagenet_test.cpp)
  
 add_executable(image_net ${EXECUTABLE_SRC})
 
-target_link_libraries(image_net PRIVATE ${PROJECT_NAME})
+target_link_libraries(image_net PRIVATE ${PROJECT_NAME} OpenMP::OpenMP_CXX)
 
 target_compile_options(image_net PRIVATE 
+    -fopenmp
     -funroll-loops
     -O3
     -g 

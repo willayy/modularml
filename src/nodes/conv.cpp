@@ -12,7 +12,8 @@
 
 #include "nlohmann/json.hpp"
 #include "utility/profiler.hpp"
-
+#include <omp.h>
+  
 template <typename T>
 class Gemm_mml;
 template <typename T>
@@ -169,9 +170,10 @@ void ConvNode::forward(
 
           auto im2col_output =
               std::make_shared<Tensor_mml<ValueTypeX>>(im2col_output_shape);
-
+          
+          //Profiler::begin_timing("im2col");
           im2col(input_copy, im2col_output);
-
+          //Profiler::end_timing("im2col");
           // Flatten the weight tensor to prepare for GEMM
           size_t flattened_size =
               get_in_channels() * get_kernel_height() * get_kernel_width();
@@ -234,6 +236,7 @@ void ConvNode::im2col(const TensorT &input_variant,
   std::visit(
       [this](auto &input, auto &output) {
         // Iterate over each image in the batch
+        #pragma omp parallel for collapse(2)
         for (size_t n = 0; n < get_batch_size(); ++n) {
           for (size_t h = 0; h < get_out_height(); ++h) {
             for (size_t w = 0; w < get_out_width();
