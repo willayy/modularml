@@ -154,7 +154,7 @@ static void mml_gemm_blocked(int TA, int TB, int M, int N, int K, T ALPHA,
                              std::shared_ptr<Tensor<T>> A, int lda,
                              std::shared_ptr<Tensor<T>> B, int ldb, T BETA,
                              std::shared_ptr<Tensor<T>> C, int ldc) {
-  int block_size = 32;  // Can be tuned or made adaptive later
+  int block_size = 64;  // Can be tuned or made adaptive later
 
   if (!TA && !TB) {
     for (int ii = 0; ii < M; ii += block_size) {

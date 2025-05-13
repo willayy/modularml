@@ -128,7 +128,7 @@ add_executable(
 # Compiler flags
 target_compile_options(${PROJECT_NAME}_tests PRIVATE 
     -funroll-loops
-    -O0
+    -O3
     -g 
     -fPIC 
     --coverage 
@@ -138,7 +138,7 @@ target_compile_options(${PROJECT_NAME}_tests PRIVATE
     -pedantic-errors
 )
 
-target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O0 -fPIC --coverage -fprofile-abs-path)
+target_link_options(${PROJECT_NAME}_tests PRIVATE -g -O3 -fPIC --coverage -fprofile-abs-path)
 
 
 # Link the test executable with the main project executable
@@ -156,13 +156,31 @@ gtest_discover_tests(${PROJECT_NAME}_tests DISCOVERY_MODE POST_BUILD)
 
 set(EXECUTABLE_SRC ${SRC_DIR}/mnist_test.cpp)
  
-add_executable(${PROJECT_NAME}_exec ${EXECUTABLE_SRC})
+add_executable(mnist ${EXECUTABLE_SRC})
 
-target_link_libraries(${PROJECT_NAME}_exec PRIVATE ${PROJECT_NAME})
+target_link_libraries(mnist PRIVATE ${PROJECT_NAME})
 
-target_compile_options(${PROJECT_NAME}_exec PRIVATE 
+target_compile_options(mnist PRIVATE 
     -funroll-loops
-    -O0
+    -O3
+    -g 
+    -fPIC 
+    -fprofile-abs-path 
+    -Wfatal-errors 
+    -fmax-errors=1 
+    -pedantic-errors
+)
+
+
+set(EXECUTABLE_SRC ${SRC_DIR}/imagenet_test.cpp)
+ 
+add_executable(image_net ${EXECUTABLE_SRC})
+
+target_link_libraries(image_net PRIVATE ${PROJECT_NAME})
+
+target_compile_options(image_net PRIVATE 
+    -funroll-loops
+    -O3
     -g 
     -fPIC 
     -fprofile-abs-path 
@@ -184,7 +202,7 @@ option(VERBOSE_INFERENCE "Verbose inference" OFF)
 if (ALIGN_TENSORS)
     add_definitions(-DALIGN_TENSORS)
     if (USE_BLOCKED_GEMM)
-        add_definitions(-DMEMORY_ALIGNMENT=16)
+        add_definitions(-DMEMORY_ALIGNMENT=32)
     elseif(USE_AVX_GEMM)
         set(ALIGN_TENSORS ON)
         add_definitions(-DMEMORY_ALIGNMENT=32)
@@ -208,7 +226,8 @@ elseif (USE_AVX_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -mavx2 -mfma)
         target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx2 -mfma)
-        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx2 -mfma)
+        target_compile_options(mnist PRIVATE -mavx2 -mfma)
+        target_compile_options(image_net PRIVATE -mavx2 -mfma)
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         target_compile_options(${PROJECT_NAME} PRIVATE -/arch:AVX2)
         target_compile_options(${PROJECT_NAME}_tests PRIVATE -/arch:AVX2)
@@ -221,7 +240,8 @@ elseif (USE_AVX512_GEMM)
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
         target_compile_options(${PROJECT_NAME}_tests PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
-        target_compile_options(${PROJECT_NAME}_exec PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(mnist PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
+        target_compile_options(image_net PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw)
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         add_compile_options(/arch:AVX2)
     endif()
