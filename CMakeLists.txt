@@ -34,11 +34,38 @@ if(NOT (UNIX))
     message(WARNING "WARNING: This project is intended for Linux or MacOS.")
 endif()
 
-# ------------------- GEMM & Optimizations ----------------- #
+# ------------------- Tensor alignment ----------------- #
+
+# Beware, this assignment will be cached so clean build when changing!
 option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
 
-# default memory alignment
-Set(MEMORY_ALIGNMENT 16)
+# Force memory alignment for AVX2 and AVX512
+if (NOT ALIGN_TENSORS AND (BUILD STREQUAL "avx" OR BUILD STREQUAL "avx512"))
+    set(ALIGN_TENSORS ON)
+    message(STATUS "Forced memory alignment")   
+endif()
+
+# Globally set
+if (ALIGN_TENSORS)
+    add_definitions(-DALIGN_TENSORS)
+    if (BUILD STREQUAL "blocked")
+        add_definitions(-DMEMORY_ALIGNMENT=32)
+    elseif(BUILD STREQUAL "avx")
+        set(ALIGN_TENSORS ON)
+        add_definitions(-DMEMORY_ALIGNMENT=32)
+    elseif(BUILD STREQUAL "avx512")
+        set(ALIGN_TENSORS ON)
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    elseif(BUILD STREQUAL "openblas")
+        add_definitions(-DMEMORY_ALIGNMENT=64)
+    elseif(BUILD STREQUAL "cuda")
+        add_definitions(-DMEMORY_ALIGNMENT=256)
+    else()
+        # Default alignment
+        add_definitions(-DMEMORY_ALIGNMENT=16)
+    endif()
+endif()
+
 
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
