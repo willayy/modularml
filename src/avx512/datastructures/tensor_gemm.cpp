@@ -156,7 +156,7 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
       }
     }
   } else {
-    throw std::runtime_error("AVX512 only suppports float, double and int");
+    throw std::runtime_error("AVX512 only supports float, double and int");
   }
   return;
 }
