@@ -89,6 +89,11 @@ const array_mml<T> &Tensor<T>::get_data() const {
 }
 
 template <typename T>
+array_mml<T> &Tensor<T>::get_raw_data() {
+  return this->data;
+}
+
+template <typename T>
 Tensor<T> &Tensor<T>::operator=(const Tensor<T> &other) {
   if (this != &other) {
     auto other_cast = dynamic_cast<const Tensor<T> &>(other);

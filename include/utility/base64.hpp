@@ -37,7 +37,7 @@ static const std::string base64_chars =
  * doesn't align with T
  */
 template <typename T>
-inline array_mml<T> decode(const std::string &input) {
+inline array_mml<T> decode(const std::string& input) {
   std::vector<unsigned char> bytes;
   int val = 0;
   int val_bits = -8;
@@ -56,14 +56,36 @@ inline array_mml<T> decode(const std::string &input) {
   }
 
   if (bytes.size() % sizeof(T) != 0) {
-    throw std::runtime_error(
-        std::format("Decoded data size ({} bytes) is not aligned with sizeof({}) = {}", 
-                    bytes.size(), typeid(T).name(), sizeof(T)));
+    throw std::runtime_error(std::format(
+        "Decoded data size ({} bytes) is not aligned with sizeof({}) = {}",
+        bytes.size(), typeid(T).name(), sizeof(T)));
   }
 
   size_t element_count = bytes.size() / sizeof(T);
-  auto data_ptr = std::make_shared<T[]>(element_count);
-  std::memcpy(data_ptr.get(), bytes.data(), bytes.size());
+
+  T* typed_ptr = nullptr;
+
+#ifdef ALIGN_TENSORS
+  if (posix_memalign(reinterpret_cast<void**>(&typed_ptr), MEMORY_ALIGNMENT,
+                     element_count * sizeof(T)) != 0) {
+    throw std::bad_alloc();
+  }
+  std::memcpy(typed_ptr, bytes.data(), bytes.size());
+
+#else
+  typed_ptr = new T[element_count];
+  std::memcpy(typed_ptr, bytes.data(), bytes.size());
+#endif
+
+  std::shared_ptr<T[]> data_ptr(typed_ptr, [](T* ptr) {
+    if (ptr) {
+#ifdef ALIGN_TENSORS
+      free(ptr);
+#else
+      delete[] ptr;
+#endif
+    }
+  });
   return array_mml<T>(data_ptr, element_count);
 }
 }  // namespace Base64
