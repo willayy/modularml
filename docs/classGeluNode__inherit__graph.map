@@ -1,5 +1,0 @@
-<map id="GeluNode" name="GeluNode">
-<area shape="rect" id="Node000001" title="A class representing a Gelu (Gaussian Error Linear Units) node in a computational graph." alt="" coords="5,79,92,104"/>
-<area shape="rect" id="Node000002" href="$classNode.html" title="Abstract base class representing a node in a computational graph." alt="" coords="21,5,77,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="51,44,51,79,46,79,46,44"/>
-</map>
