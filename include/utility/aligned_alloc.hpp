@@ -4,8 +4,6 @@
 #include <memory>
 #include <stdexcept>
 
-using namespace std;
-
 /**
  * @brief Function responsible for allocating aligned memory.
  * Instead of allocating an exact amount of memory according to T and data_size
@@ -18,7 +16,7 @@ using namespace std;
  * @author Tim Carlsson (timca@chalmers.se)
  */
 template <typename T>
-shared_ptr<T[]> alloc_aligned_memory(size_t data_size) {
+std::shared_ptr<T[]> alloc_aligned_memory(size_t data_size) {
   size_t alignment = MEMORY_ALIGNMENT;
 
   size_t total_bytes = sizeof(T) * data_size;
@@ -27,8 +25,8 @@ shared_ptr<T[]> alloc_aligned_memory(size_t data_size) {
 
   void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, padded_bytes) != 0) {
-    throw bad_alloc();
+    throw std::bad_alloc();
   }
 
-  return shared_ptr<T[]>(static_cast<T *>(ptr), [](T *ptr) { free(ptr); });
+  return std::shared_ptr<T[]>(static_cast<T *>(ptr), [](T *ptr) { free(ptr); });
 }
