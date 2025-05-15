@@ -5,7 +5,7 @@ array_mml<T>::array_mml(size_t size) : d_size(size) {
 #ifdef ALIGN_TENSORS
   size_t alignment =
       MEMORY_ALIGNMENT;  // Gets set during compilation based on GEMM impl.
-
+  std::cout << "Trying to align memory" << std::endl;
   void *ptr = nullptr;
   if (posix_memalign(&ptr, alignment, size * sizeof(T)) != 0) {
     throw std::bad_alloc();

@@ -9,7 +9,6 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
                                std::shared_ptr<Tensor<T>> C, int ldc) {
   if (TA == 1) A = A->transpose();
   if (TB == 1) B = B->transpose();
-
   if constexpr (std::is_same<T, float>::value) {
     for (int i = 0; i < M; i++) {
       for (int j = 0; j < N; j += 8) {
