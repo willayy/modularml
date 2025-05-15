@@ -8,8 +8,9 @@ TEST(TransposeNode_test, test_forward) {
   array_mml<size_t> shapeY({3, 2});  // Output shape is [M, N]
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = TensorFactory::create_tensor<int>(shapeA, {1, 2, 3, 4, 5, 6});
-  auto Y_ptr = TensorFactory::create_tensor<int>(shapeY);
+  auto A_ptr =
+      std::make_shared<Tensor<int>>(shapeA, array_mml<int>{1, 2, 3, 4, 5, 6});
+  auto Y_ptr = std::make_shared<Tensor<int>>(shapeY);
   Y_ptr->fill(0.0f);  // Initialize Y to zero
 
   // Setup the iomap with tensor names
@@ -36,7 +37,8 @@ TEST(TransposeNode_test, test_forward) {
   // Extract the shared pointer to the output tensor
   auto result_ptr = std::get<std::shared_ptr<Tensor<int>>>(y_it->second);
 
-  auto expected = TensorFactory::create_tensor<int>(shapeY, {1, 4, 2, 5, 3, 6});
+  auto expected =
+      std::make_shared<Tensor<int>>(shapeY, array_mml<int>{1, 4, 2, 5, 3, 6});
 
   // Verify
   for (int i = 0; i < expected->get_size(); i++) {
@@ -53,12 +55,11 @@ TEST(TransposeNode_test, test_forward_3d) {
   array_mml<size_t> shapeY({3, 2, 4});  // Output shape after transpose
 
   // Wrap each tensor in a shared pointer.
-  auto A_ptr = TensorFactory::create_tensor<int>(
-      shapeA, {1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12,
+  auto A_ptr = std::make_shared<Tensor<int>>(
+      shapeA, array_mml<int>{1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12,
+                             13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24});
 
-               13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24});
-
-  auto Y_ptr = TensorFactory::create_tensor<int>(shapeY);
+  auto Y_ptr = std::make_shared<Tensor<int>>(shapeY);
   Y_ptr->fill(0);  // Initialize Y to zero
 
   // Setup the iomap with tensor names
@@ -85,7 +86,7 @@ TEST(TransposeNode_test, test_forward_3d) {
   // Extract the shared pointer to the output tensor
   auto result_ptr = std::get<std::shared_ptr<Tensor<int>>>(y_it->second);
 
-  auto expected = TensorFactory::create_tensor<int>(shapeY);
+  auto expected = std::make_shared<Tensor<int>>(shapeY);
 
   // Fill expected tensor by manually transposing A with perm {1, 0, 2}
   const auto& A = *A_ptr;

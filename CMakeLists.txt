@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.30)
 project(ModularML)
 
 set(PROJECT_NAME "modularml")
@@ -34,6 +34,12 @@ if(NOT (UNIX))
     message(WARNING "WARNING: This project is intended for Linux or MacOS.")
 endif()
 
+# ------------------- GEMM & Optimizations ----------------- #
+option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+
+# default memory alignment
+Set(MEMORY_ALIGNMENT 16)
+
 # ------------------- Libs --------------------------------- #
 include(FetchContent)
 
@@ -62,33 +68,77 @@ FetchContent_MakeAvailable(stb)
 
 
 # Dependency directory
-set(PROJECT_DEPS ${CMAKE_BINARY_DIR}/_deps)
+set(PROJECT_DEPS "${CMAKE_BINARY_DIR}/_deps")
 
 # ------------------- Binary ------------------------------- #
 # Use max 8 threads for building, improve build times
+
 find_package(Threads REQUIRED)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8) 
 
 # Binary output directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # Library output directory
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
-# The header file directory
-set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/include)
 
-# The source code directory
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+# ------------------- Source files ------------------------- #
+
+set(BUILD "default" CACHE STRING "Source variant to build")
+
+# Define source and include paths
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
+set(BASE_DIR "${SRC_DIR}/default")
+set(VAR_DIR "${SRC_DIR}/${BUILD}")
+set(MAIN_FILE "${SRC_DIR}/main.cpp")
 
 # include the headers
 include_directories(${INCLUDE_DIR})
 
 # Glob all source files
-file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp ${SRC_DIR}/*.tpp)
+file(GLOB_RECURSE DEFAULT_SOURCES RELATIVE "${BASE_DIR}" "${BASE_DIR}/*.cpp")
 
 # Glob all header files
-file(GLOB_RECURSE HEADERS ${INCLUDE_DIR}/*.hpp)
+file(GLOB_RECURSE HEADERS "${INCLUDE_DIR}/*.hpp")
+
+# Supported extensions
+set(SUPPORTED_EXTS ".cpp" ".cu" ".metal" ".cl")
+
+foreach(REL_PATH IN LISTS DEFAULT_SOURCES)
+    string(REGEX REPLACE "\\.cpp$" "" REL_BASE "${REL_PATH}")
+
+    unset(VARIANT_MATCHES)
+    set(VARIANT_MATCHES "")
+    foreach(EXT IN LISTS SUPPORTED_EXTS)
+        file(GLOB MATCH RELATIVE "${VAR_DIR}" "${VAR_DIR}/${REL_BASE}${EXT}")
+        list(APPEND VARIANT_MATCHES ${MATCH})
+    endforeach()
+
+    if(VARIANT_MATCHES)
+        list(LENGTH VARIANT_MATCHES N)
+        if(N EQUAL 1)
+            list(GET VARIANT_MATCHES 0 MATCHED_REL)
+            list(APPEND SOURCES "${VAR_DIR}/${MATCHED_REL}")
+        else()
+            message(FATAL_ERROR
+                "Found ${N} files matching ${VAR_DIR}/${REL_BASE}.*; "
+                "expected exactly one variant file.")
+        endif()
+
+    else()
+        list(APPEND SOURCES "${BASE_DIR}/${REL_PATH}")
+    endif()
+endforeach()
+
+# Show the final list of source files (for debugging)
+message(STATUS "Compiling with variant: ${BUILD}")
+foreach(SOURCE_FILE IN LISTS SOURCES)
+    message(STATUS "  -> ${SOURCE_FILE}")
+endforeach()
+
+# ------------------- Add/link Library ------------------------------ #
 
 # Add library
 add_library(
@@ -106,69 +156,23 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/_deps/stb-src
 )
 
-# ------------------- GEMM & Optimizations ----------------- #
-option(ALIGN_TENSORS "Enable alignment for tensor data for better performance" ON)
+# ------------------- Compiler configuration options ----------------------- #
 
-option(USE_DEFAULT_GEMM "Use default GEMM implementation" ON)
-option(USE_BLOCKED_GEMM "Use blocked GEMM implementation" OFF)
-option(USE_AVX_GEMM "Use AVX GEMM implementation" OFF)
-option(USE_AVX512_GEMM "Use AVX512 GEMM implementation" OFF)
-option(USE_OPENBLAS_GEMM "Use OPENBLAS GEMM implementation" OFF)
-
-if (USE_BLOCKED_GEMM)
-    message(STATUS "Using blocked GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_BLOCKED_GEMM)
-
-elseif (USE_AVX_GEMM)
-    message(STATUS "Using AVX GEMM implementation")
-    SET(MEMORY_ALIGNMENT 32)
-    add_definitions(-DUSE_AVX_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx2 -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_AVX512_GEMM)
-    message(STATUS "Using AVX512 GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    add_definitions(-DUSE_AVX512_GEMM)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
-    elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(/arch:AVX2)
-    endif()
-
-elseif (USE_OPENBLAS_GEMM)
-    message(STATUS "Using OpenBLAS GEMM implementation")
-    SET(MEMORY_ALIGNMENT 64)
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-march=native)
-    endif()
-    add_definitions(-DUSE_OPENBLAS_GEMM)
-    find_library(OPENBLAS_LIB openblas REQUIRED)
-    if(OPENBLAS_LIB)
-        message(STATUS "Found OpenBLAS at ${OPENBLAS_LIB}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENBLAS_LIB})
-    else()
-        message(FATAL_ERROR "OpenBLAS not found!")
-    endif()
-
+if(EXISTS "${VAR_DIR}/CMakeLists.txt")
+    message(STATUS "Found CMakeLists.txt in ${VAR_DIR}")
+    include("${VAR_DIR}/CMakeLists.txt")
 else()
-    message(STATUS "Using default GEMM implementation")
-    SET(MEMORY_ALIGNMENT 16)
-    add_definitions(-DUSE_DEFAULT_GEMM)
-    endif()
+    message(STATUS "No CMakeLists.txt found in ${VAR_DIR}")
+endif()
 
 # ------------------- Testing ------------------------------ #
 
 enable_testing()
 
-set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
+set(TESTS_DIR "${CMAKE_SOURCE_DIR}/tests")
 
 # Get all test source files
-file(GLOB TEST_SOURCES ${TESTS_DIR}/*.cpp)
+file(GLOB TEST_SOURCES "${TESTS_DIR}/*.cpp")
 
 # Add the test executable
 add_executable(

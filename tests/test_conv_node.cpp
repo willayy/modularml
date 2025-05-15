@@ -15,15 +15,15 @@ TEST(conv_node_test, test_forward_simple) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Output tensor shape (after applying Conv)
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
+  auto Y = std::make_shared<Tensor<float>>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -59,13 +59,10 @@ TEST(conv_node_test, test_forward_simple) {
   // that the size is correct
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 1, 2, 2}));
 
-  // dynamic cast to Tensor_mml<float> to access the data
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
-  EXPECT_FLOAT_EQ(result->get_data()[0], 12);
-  EXPECT_FLOAT_EQ(result->get_data()[1], 16);
-  EXPECT_FLOAT_EQ(result->get_data()[2], 24);
-  EXPECT_FLOAT_EQ(result->get_data()[3], 28);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[0], 12);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[1], 16);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[2], 24);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[3], 28);
 }
 
 TEST(conv_node_test, test_forward_5x5input_2x2filter) {
@@ -89,14 +86,14 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = TensorFactory::create_tensor<float>(y_shape);
+  auto Y = std::make_shared<Tensor<float>>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -131,11 +128,8 @@ TEST(conv_node_test, test_forward_5x5input_2x2filter) {
   // Should extract 16 patches from the feature in a 4x4 matrix
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 1, 4, 4}));
 
-  // dynamic cast to Tensor_mml<float> to access the data
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
-  for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], -6.0f, 1e-5);
+  for (int i = 0; i < result_ptr->get_size(); i++) {
+    EXPECT_NEAR(result_ptr->get_data()[i], -6.0f, 1e-5);
   }
 }
 
@@ -241,15 +235,15 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Set the size wrong intentionally to check that it gets reshapen correctly
   // within forward()
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = TensorFactory::create_tensor<float>(y_shape);
+  auto Y = std::make_shared<Tensor<float>>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -284,13 +278,10 @@ TEST(conv_node_test, test_forward_three_in_channels_eight_out_channels) {
   // Check output shape
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
 
-  // Dynamic cast to Tensor_mml<float> to access the data
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
   // This time as we have 3 in_channels
   // The value after applying the filter should be -6 + -6 + -6 = -18
-  for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], -18.0f, 1e-5);
+  for (int i = 0; i < result_ptr->get_size(); i++) {
+    EXPECT_NEAR(result_ptr->get_data()[i], -18.0f, 1e-5);
   }
 }
 
@@ -326,14 +317,14 @@ TEST(conv_node_test,
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Define output tensor shape (1 batch, 8 output channels, 4x4 spatial size)
   array_mml<size_t> y_shape({1, 8, 4, 4});
 
-  auto Y = TensorFactory::create_tensor<float>(y_shape);
+  auto Y = std::make_shared<Tensor<float>>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -368,50 +359,28 @@ TEST(conv_node_test,
   // Check output shape
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
 
-  // Dynamic cast to Tensor_mml to access the data
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
   // Expected values (8 extracted feature maps each 4x4)
   // These were calculated using SciPy convolve2d std::function with the same
   // parameters as above
-  std::vector<float> expected_values({
-    -8.0f, -5.0f, -8.0f, -5.0f,
-    -5.0f, -8.0f, -5.0f, -8.0f,
-    -8.0f, -5.0f, -8.0f, -5.0f,
-    -5.0f, -8.0f, -5.0f, -8.0f,
-    9.0f, 11.0f, 11.0f, 13.0f,
-    16.0f, 16.0f, 18.0f, 18.0f,
-    21.0f, 23.0f, 23.0f, 25.0f,
-    28.0f, 28.0f, 30.0f, 30.0f,
-    -5.0f, -7.0f, -3.0f, -5.0f,
-    -4.0f, 0.0f, -2.0f, 2.0f,
-    3.0f, 1.0f, 5.0f, 3.0f,
-    4.0f, 8.0f, 6.0f, 10.0f,
-    10.0f, 14.0f, 12.0f, 16.0f,
-    17.0f, 15.0f, 19.0f, 17.0f,
-    18.0f, 22.0f, 20.0f, 24.0f,
-    25.0f, 23.0f, 27.0f, 25.0f,
-    2.0f, 0.0f, 4.0f, 2.0f,
-    3.0f, 7.0f, 5.0f, 9.0f,
-    10.0f, 8.0f, 12.0f, 10.0f,
-    11.0f, 15.0f, 13.0f, 17.0f,
-    -6.0f, -4.0f, -8.0f, -6.0f,
-    -7.0f, -11.0f, -9.0f, -13.0f,
-    -14.0f, -12.0f, -16.0f, -14.0f,
-    -15.0f, -19.0f, -17.0f, -21.0f,
-    7.0f, 5.0f, 9.0f, 7.0f,
-    10.0f, 14.0f, 12.0f, 16.0f,
-    19.0f, 17.0f, 21.0f, 19.0f,
-    22.0f, 26.0f, 24.0f, 28.0f,
-    2.0f, 2.0f, 4.0f, 4.0f,
-    5.0f, 7.0f, 7.0f, 9.0f,
-    10.0f, 10.0f, 12.0f, 12.0f,
-    13.0f, 15.0f, 15.0f, 17.0f
-  });
+  std::vector<float> expected_values(
+      {-8.0f,  -5.0f,  -8.0f,  -5.0f,  -5.0f,  -8.0f,  -5.0f,  -8.0f,  -8.0f,
+       -5.0f,  -8.0f,  -5.0f,  -5.0f,  -8.0f,  -5.0f,  -8.0f,  9.0f,   11.0f,
+       11.0f,  13.0f,  16.0f,  16.0f,  18.0f,  18.0f,  21.0f,  23.0f,  23.0f,
+       25.0f,  28.0f,  28.0f,  30.0f,  30.0f,  -5.0f,  -7.0f,  -3.0f,  -5.0f,
+       -4.0f,  0.0f,   -2.0f,  2.0f,   3.0f,   1.0f,   5.0f,   3.0f,   4.0f,
+       8.0f,   6.0f,   10.0f,  10.0f,  14.0f,  12.0f,  16.0f,  17.0f,  15.0f,
+       19.0f,  17.0f,  18.0f,  22.0f,  20.0f,  24.0f,  25.0f,  23.0f,  27.0f,
+       25.0f,  2.0f,   0.0f,   4.0f,   2.0f,   3.0f,   7.0f,   5.0f,   9.0f,
+       10.0f,  8.0f,   12.0f,  10.0f,  11.0f,  15.0f,  13.0f,  17.0f,  -6.0f,
+       -4.0f,  -8.0f,  -6.0f,  -7.0f,  -11.0f, -9.0f,  -13.0f, -14.0f, -12.0f,
+       -16.0f, -14.0f, -15.0f, -19.0f, -17.0f, -21.0f, 7.0f,   5.0f,   9.0f,
+       7.0f,   10.0f,  14.0f,  12.0f,  16.0f,  19.0f,  17.0f,  21.0f,  19.0f,
+       22.0f,  26.0f,  24.0f,  28.0f,  2.0f,   2.0f,   4.0f,   4.0f,   5.0f,
+       7.0f,   7.0f,   9.0f,   10.0f,  10.0f,  12.0f,  12.0f,  13.0f,  15.0f,
+       15.0f,  17.0f});
 
-
-  for (int i = 0; i < result->get_size(); i++) {
-    EXPECT_NEAR(result->get_data()[i], expected_values.at(i), 1e-5);
+  for (int i = 0; i < result_ptr->get_size(); i++) {
+    EXPECT_NEAR(result_ptr->get_data()[i], expected_values.at(i), 1e-5);
   }
 }
 
@@ -428,15 +397,15 @@ TEST(conv_node_test, test_bias_add) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Output tensor shape (after applying Conv)
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
+  auto Y = std::make_shared<Tensor<float>>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -447,7 +416,7 @@ TEST(conv_node_test, test_bias_add) {
   array_mml<size_t> shape_bias({1});
   array_mml<float> bias_values({10.0f});
 
-  auto B = TensorFactory::create_tensor<float>(shape_bias, bias_values);
+  auto B = std::make_shared<Tensor<float>>(shape_bias, bias_values);
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -476,13 +445,10 @@ TEST(conv_node_test, test_bias_add) {
   // that the size is correct
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 1, 2, 2}));
 
-  // Dynamic cast to Tensor_mml<float> to access get_data()
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-
-  EXPECT_FLOAT_EQ(result->get_data()[0], 22);
-  EXPECT_FLOAT_EQ(result->get_data()[1], 26);
-  EXPECT_FLOAT_EQ(result->get_data()[2], 34);
-  EXPECT_FLOAT_EQ(result->get_data()[3], 38);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[0], 22);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[1], 26);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[2], 34);
+  EXPECT_FLOAT_EQ(result_ptr->get_data()[3], 38);
 }
 
 TEST(conv_node_test, test_bias_multiple_out_channels) {
@@ -587,15 +553,15 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Set the size wrong intentionally to check that it gets reshapen correctly
   // within forward()
   array_mml<size_t> y_shape({1, 2, 3, 3});
 
-  auto Y = TensorFactory::create_tensor<float>(y_shape);
+  auto Y = std::make_shared<Tensor<float>>(y_shape);
 
   // Define convolution parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
@@ -616,7 +582,7 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
       10.0f,
   });
 
-  auto B = TensorFactory::create_tensor<float>(shape_bias, bias_values);
+  auto B = std::make_shared<Tensor<float>>(shape_bias, bias_values);
 
   std::string x_string = "X";
   std::string w_string = "W";
@@ -644,14 +610,10 @@ TEST(conv_node_test, test_bias_multiple_out_channels) {
   // Check output shape
   EXPECT_EQ(result_ptr->get_shape(), array_mml<size_t>({1, 8, 4, 4}));
 
-  // dynamic cast to Tensor_mml<float> to access the data
-  auto result = std::dynamic_pointer_cast<Tensor_mml<float>>(result_ptr);
-  
-  // This time as we have 3 in_channels
   // With no kernel flip: each channel produces (1*1 + 0*2 + 0*6 + -1*7) = -6,
   // so sum = -6 + -6 + -6 = -18, plus bias 10 ⇒ –8
-  for (int i = 0; i < result->get_size(); i++) {
-      EXPECT_NEAR(result->get_data()[i], -8.0f, 1e-5);
+  for (int i = 0; i < result_ptr->get_size(); i++) {
+    EXPECT_NEAR(result_ptr->get_data()[i], -8.0f, 1e-5);
   }
 }
 
@@ -668,15 +630,15 @@ TEST(conv_node_test, TestPadding) {
 
   // Create input and weight tensors
   std::shared_ptr<Tensor<float>> X =
-      TensorFactory::create_tensor<float>(shapeX, X_values);
+      std::make_shared<Tensor<float>>(shapeX, X_values);
   std::shared_ptr<Tensor<float>> W =
-      TensorFactory::create_tensor<float>(shapeW, W_values);
+      std::make_shared<Tensor<float>>(shapeW, W_values);
 
   // Not correct, this gets reshaped in the call to forward
   array_mml<size_t> shapeY({1, 1, 2, 2});
   array_mml<float> Y_values({0.0f, 0.0f, 0.0f, 0.0f});
 
-  auto Y = TensorFactory::create_tensor<float>(shapeY, Y_values);
+  auto Y = std::make_shared<Tensor<float>>(shapeY, Y_values);
 
   // Setup other ConvNode parameters
   array_mml<size_t> dilations = array_mml<size_t>({1, 1});
