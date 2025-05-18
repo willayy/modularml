@@ -71,6 +71,21 @@ These commands will run all the unit and integration tests for the framework usi
 cd build
 ctest
 ```
+### Install using CMake Fetchcontent
+A library version of ModularML where you can change operation implementations dynamically can be installed by putting
+```cmake
+# ----------------------- MODULARML -------------------------- #
+include(FetchContent)
+FetchContent_Declare(
+    modularml
+    GIT_REPOSITORY https://github.com/willayy/modularml-lib
+    GIT_TAG        <use latest release tag>
+)
+FetchContent_MakeAvailable(modularml)
+target_link_libraries(MyProject PRIVATE modularml)
+# ------------------------------------------------------------ #
+```
+In your CMakeLists.txt file, for information about its specific usage check https://github.com/willayy/modularml-lib
 
 ### Contributing
 We welcome contributions!  
