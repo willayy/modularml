@@ -20,6 +20,8 @@
 #include <variant>
 #include <vector>  // IWYU pragma: keep
 
+#include "utility/aligned_alloc.hpp"
+
 /// @brief Array class mimicking the std::array class but without the size being
 /// a template parameter.
 /// @tparam T the type of the array.

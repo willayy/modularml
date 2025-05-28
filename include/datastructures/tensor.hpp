@@ -80,6 +80,10 @@ class Tensor {
   /// @return The data of the tensor.
   const array_mml<T> &get_data() const;
 
+  /// @brief Get the raw 1D data of the tensor.
+  /// @return The data of the tensor.
+  array_mml<T> &get_raw_data();
+
   /// Ovveridden methods from the base class
   Tensor<T> &operator=(const Tensor<T> &other);
   Tensor<T> &operator=(Tensor<T> &&other) noexcept;

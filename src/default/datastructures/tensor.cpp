@@ -89,6 +89,11 @@ const array_mml<T> &Tensor<T>::get_data() const {
 }
 
 template <typename T>
+array_mml<T> &Tensor<T>::get_raw_data() {
+  return this->data;
+}
+
+template <typename T>
 Tensor<T> &Tensor<T>::operator=(const Tensor<T> &other) {
   if (this != &other) {
     auto other_cast = dynamic_cast<const Tensor<T> &>(other);
@@ -332,10 +337,18 @@ std::shared_ptr<Tensor<T>> Tensor<T>::transpose(
   auto transposed = std::make_shared<Tensor<T>>(new_shape);
 
   if (rank == 2 && d0 == 0 && d1 == 1) {
-    // Optimize the common 2D matrix transpose case
-    for (size_t i = 0; i < this->shape[0]; i++) {
-      for (size_t j = 0; j < this->shape[1]; j++) {
-        (*transposed)[{j, i}] = (*this)[{i, j}];
+    // Optimize the common 2D matrix transpose case using blocking
+    const size_t block_size = 128;
+    size_t i, j, bi, bj;
+    auto rows = this->shape[0];
+    auto cols = this->shape[1];
+    for (i = 0; i < rows; i += block_size) {
+      for (j = 0; j < cols; j += block_size) {
+        for (bi = i; bi < std::min(i + block_size, rows); bi++) {
+          for (bj = j; bj < std::min(j + block_size, cols); bj++) {
+            (*transposed)[bj * rows + bi] = (*this)[bi * cols + bj];
+          }
+        }
       }
     }
   } else {

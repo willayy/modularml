@@ -1,7 +1,7 @@
 message(STATUS "Using AVX512 GEMM configuration")
-SET(MEMORY_ALIGNMENT 64)
+
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    add_compile_options(-mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
+    target_compile_options(${PROJECT_NAME} PRIVATE -mavx512f -mavx512vl -mavx512dq -mavx512bw -march=native)
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_compile_options(/arch:AVX2)
+    target_compile_options(${PROJECT_NAME} PRIVATE -/arch:AVX512)
 endif()
