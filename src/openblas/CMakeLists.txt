@@ -1,5 +1,4 @@
 message(STATUS "Using OpenBLAS GEMM configuration")
-SET(MEMORY_ALIGNMENT 64)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-march=native)
 endif()

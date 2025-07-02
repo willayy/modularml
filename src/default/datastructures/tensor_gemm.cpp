@@ -7,7 +7,6 @@ void TensorOperations<T>::gemm(int TA, int TB, int M, int N, int K, T ALPHA,
                                std::shared_ptr<Tensor<T>> C, int ldc) {
   int k_col;
   int i_col_out;
-
   if (TA == 1) A = A->transpose();
   if (TB == 1) B = B->transpose();
 
